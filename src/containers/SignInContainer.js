@@ -1,36 +1,57 @@
 import React, { useState } from 'react'
-import  { Link as RouterLink } from 'wouter'
 import SignIn from '../components/SignIn'
+import { Auth } from 'aws-amplify';
 
-function SignInContainer () {
+function SignInContainer ({
+    authorized=console.log,
+    setAuthorized = console.log
+}) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [fetching, setFetching] = useState(false)
     const [error, setError] = useState(undefined)
-    const [auntheticated, setAuthenticated] = useState(false)
     //const cognito = useCognito() (?)
 
-    const noPermissionError = `Your account ${auntheticated} doees not have permission to use this app. Try signing in with another account.`
+    const noPermissionError = `Your account ${authorized} doees not have permission to use this app. Try signing in with another account.`
 
     /* 
     To Do:
     SingIn functionality using AWS amplify
     */
+   async function signing(){
+       try {
+           const user = await Auth.signIn(email, password);
+       } catch(error) {
+           console.log("error signing in", error)
+           setError('Wrong credentials')
+       }
+   }
    function handleLogIn (event) {
-       let x = 5
+       console.log(event)
+       if (email ==='') {
+           setError('Enter your email')
+       } else if (password==='') {
+           setError('Enter your password')
+       } else {
+           setError(undefined)
+           setFetching(true)
+           console.log(email)
+           console.log(password)
+           signing()
+       }
    }
    return (
        <SignIn 
        handleLogIn={handleLogIn}
        email={email}
        password={password}
-       error={auntheticated ? noPermissionError : error}
+       error={authorized? noPermissionError : error}
        fetching={fetching}
        setEmail={setEmail}
        setPassword={setPassword}
-       RouterLink={RouterLink}
+    //    RouterLink={RouterLink}
        />
    )
 }
 
-export default SignInContainer
+export default SignInContainer;
