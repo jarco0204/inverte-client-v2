@@ -5,6 +5,8 @@ import { Auth } from "aws-amplify";
 function SignInContainer({
     authorized = console.log,
     setAuthorized = console.log,
+    username = console.log,
+    setUsername = console.log,
 }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -21,7 +23,8 @@ function SignInContainer({
     async function signing() {
         try {
             const user = await Auth.signIn(email, password);
-            console.log(user);
+            console.log(user.username);
+            setUsername(user.username);
         } catch (error) {
             console.log("error signing in", error);
             setError("Wrong credentials");
