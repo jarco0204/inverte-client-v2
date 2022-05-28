@@ -1,6 +1,16 @@
 import React, { useState } from "react";
 import SignIn from "../components/SignIn";
 import { Auth } from "aws-amplify";
+import Header from "../components/Header";
+import { makeStyles } from "@material-ui/core/styles";
+import theme from "../theme";
+
+const useStyles = makeStyles((theme) => ({
+    signContainer: {
+        display: "flex",
+        height: "22 px",
+    },
+}));
 
 function SignInContainer({
     authorized = console.log,
@@ -44,17 +54,23 @@ function SignInContainer({
             signing();
         }
     }
+    const classes = useStyles();
     return (
-        <SignIn
-            handleLogIn={handleLogIn}
-            email={email}
-            password={password}
-            error={authorized ? noPermissionError : error}
-            fetching={fetching}
-            setEmail={setEmail}
-            setPassword={setPassword}
-            //    RouterLink={RouterLink}
-        />
+        <>
+            <Header />
+            <div className={classes.signContainer}>
+                <SignIn
+                    handleLogIn={handleLogIn}
+                    email={email}
+                    password={password}
+                    error={authorized ? noPermissionError : error}
+                    fetching={fetching}
+                    setEmail={setEmail}
+                    setPassword={setPassword}
+                    //    RouterLink={RouterLink}
+                />
+            </div>
+        </>
     );
 }
 

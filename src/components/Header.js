@@ -1,10 +1,10 @@
-import { Button } from "@mui/material";
+import { Box } from "@mui/material";
 
 function Header() {
     return (
-        <Button>
-            <h2>Hello</h2>
-        </Button>
-    )
-};
+        <Box>
+            <img source="./public/INVERTE-Logo-black.png" alt="Ups" />
+        </Box>
+    );
+}
 export default Header;
