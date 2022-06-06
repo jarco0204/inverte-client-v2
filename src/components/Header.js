@@ -1,9 +1,11 @@
-import { Box } from "@mui/material";
-
+import { Avatar, Box } from "@mui/material";
 function Header() {
     return (
         <Box>
-            <img source="./public/INVERTE-Logo-black.png" alt="Ups" />
+            <Avatar
+                alt="Inverte Logo"
+                src="../../public/INVERTE-Logo-black.png"
+            />
         </Box>
     );
 }
