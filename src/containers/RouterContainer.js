@@ -1,48 +1,55 @@
 import React, { useState } from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
-import OptionsContainer from "./OptionsContainer";
+import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
+
+// User-made containers
 import SignInContainer from "./SignInContainer";
+import HomeContainer from "./HomeContainer";
+// Shared Components at the Router Level
+import MenuAppBar from "../components/Nav";
 
 function RouterContainer({
     authorized = console.log,
     setAuthorized = console.log,
 }) {
     const [username, setUsername] = useState("");
+    const navigate = useNavigate();
+    const [openSideBar, setOpenSideBar] = useState(false);
+
     return (
         <>
+            <MenuAppBar auth={authorized} setOpenSideBar={setOpenSideBar} />
             {!authorized && (
                 <Routes>
                     <Route
-                        exact
-                        path="/"
+                        path="*"
                         element={
                             <SignInContainer
                                 authorized={authorized}
                                 setAuthorized={setAuthorized}
                                 username={username}
                                 setUsername={setUsername}
+                                navigate={navigate}
                             />
                         }
                     />
-                    <Route exact path="/home" />
-                    {/* <NavbarComponent /> */}
-                    {/* <SidebarComponent curLocation={curLocation} /> */}
-                    {/* <HomePage /> */}
-                    <Route path="/opts" element={<OptionsContainer />} />
                 </Routes>
             )}
             {authorized && (
                 <Routes>
+                    <Route path="/" element={<Navigate replace to="/home" />} />
+                    <Route path="*" element={<Navigate replace to="/home" />} />
+
+                    <Route
+                        path="/home"
+                        element={
+                            <HomeContainer
+                                auth={authorized}
+                                openSideBar={openSideBar}
+                            />
+                        }
+                    />
                     <Route path="/scales" />
-                    {/* <NavbarComponent /> */}
-                    {/* <SidebarComponent curLocation={curLocation} /> */}
-                    {/* <ScalesPage /> */}
                     <Route path="/analytics" />
-                    {/* <NavbarComponent /> */}
-                    {/* <SidebarComponent curLocation={curLocation} /> */}
-                    {/* <AnalyticsPage /> */}
-                    <Route path="/" element={<Navigate replace to="/" />} />
-                    <Route path="/opts" element={<OptionsContainer />} />
                 </Routes>
             )}
         </>

@@ -1,16 +1,17 @@
-import "./App.css";
-import RouterContainer from "./containers/RouterContainer";
-//import Header from "./components/Header";
-//import Footer from "./components/Footer";
 import { BrowserRouter as Router } from "react-router-dom";
 import { useState } from "react";
+
+// Containers
+import RouterContainer from "./containers/RouterContainer";
+
+// Theme & CSS
 import ProviderWrapper from "./Provider";
+import "./App.css";
 import theme from "./theme";
 
 function App() {
     const [authorized, setAuthorized] = useState(false);
     return (
-        // <Header />
         <ProviderWrapper theme={theme}>
             <Router>
                 <RouterContainer
@@ -19,7 +20,6 @@ function App() {
                 />
             </Router>
         </ProviderWrapper>
-        // <Footer />
     );
 }
 export default App;

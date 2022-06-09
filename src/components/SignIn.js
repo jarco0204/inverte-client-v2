@@ -1,6 +1,5 @@
 import React from "react";
 import {
-    Avatar,
     Button,
     Checkbox,
     Container,
@@ -8,50 +7,19 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import { makeStyles } from "@material-ui/core/styles";
-import theme from "../theme";
 
-const useStyles = makeStyles((theme) => ({
-    "@global": {
-        body: {
-            backgroundColor: theme.palette.background,
-        },
-    },
-    form: {
-        backgroundColor: theme.palette.accent,
-    },
-    button: {
-        color: theme.palette.secondary,
-    },
-}));
-
-function SignIn(
-    {
-        handleLogIn = console.log,
-        RouterLink,
-        email,
-        setEmail = console.log,
-        password,
-        setPassword = console.log,
-        error,
-        fetching,
-    } /*: {
-    handleLogIn?:Function,
-    RouterLink?:mixed,
-    email?:string,
-    password?:string,
-    error?:string,
-    fetching?:boolean,
-    setEmail?:Function,
-    setPasswword?:Function
-}*/,
-) {
-    const classes = useStyles(theme);
-
+function SignIn({
+    handleLogIn = console.log,
+    email,
+    setEmail = console.log,
+    password,
+    setPassword = console.log,
+    error,
+    fetching,
+}) {
     return (
         <Container component="main" maxWidth="xs">
-            <div className={classes.form}>
-                <Avatar />
+            <div style={{ paddingTop: "50px" }}>
                 <Typography component="h1" variant="h5">
                     Sign In
                 </Typography>
@@ -94,7 +62,6 @@ function SignIn(
                         fullWidth
                         id="sign-in-button"
                         variant="contained"
-                        className={classes.button}
                         onClick={handleLogIn}
                     >
                         Sign In
