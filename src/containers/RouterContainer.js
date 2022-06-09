@@ -1,23 +1,21 @@
 import React, { useState } from "react";
-import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 
 // User-made containers
 import SignInContainer from "./SignInContainer";
 import HomeContainer from "./HomeContainer";
-// Shared Components at the Router Level
-import MenuAppBar from "../components/Nav";
+import ScalesContainer from "./ScalesContainers";
+import AnalyticsContainer from "./AnalyticsContainer";
 
 function RouterContainer({
     authorized = console.log,
     setAuthorized = console.log,
+    navigate = console.log,
 }) {
     const [username, setUsername] = useState("");
-    const navigate = useNavigate();
-    const [openSideBar, setOpenSideBar] = useState(false);
 
     return (
         <>
-            <MenuAppBar auth={authorized} setOpenSideBar={setOpenSideBar} />
             {!authorized && (
                 <Routes>
                     <Route
@@ -41,15 +39,11 @@ function RouterContainer({
 
                     <Route
                         path="/home"
-                        element={
-                            <HomeContainer
-                                auth={authorized}
-                                openSideBar={openSideBar}
-                            />
-                        }
+                        element={<HomeContainer auth={authorized} />}
                     />
-                    <Route path="/scales" />
-                    <Route path="/analytics" />
+                    <Route path="/scales" element={<ScalesContainer />} />
+                    <Route path="/analytics" element={<AnalyticsContainer />} />
+                    <Route path="/recipes" element={<AnalyticsContainer />} />
                 </Routes>
             )}
         </>
