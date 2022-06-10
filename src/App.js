@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Material UI Imports
-import { styled, useTheme } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -17,7 +17,6 @@ import MenuItem from "@mui/material/MenuItem";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import Menu from "@mui/material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -80,8 +79,9 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 export default function App() {
     const navigate = useNavigate(); // To move to other routes
-    const theme = useTheme();
+    // Core state
     const [authorized, setAuthorized] = useState(false);
+    const [username, setUsername] = useState("");
 
     // Icon  sidebar
     const [open, setOpen] = useState(false);
@@ -94,7 +94,7 @@ export default function App() {
         setOpen(false);
     };
 
-    // User
+    // User Pop Up
     const [anchorEl, setAnchorEl] = useState(null);
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
@@ -106,11 +106,7 @@ export default function App() {
     return (
         <Box sx={{ display: "flex" }}>
             <CssBaseline />
-            <AppBar
-                position="fixed"
-                open={open}
-                style={{ background: "#02182e" }}
-            >
+            <AppBar open={open} style={{ background: "#02182e" }}>
                 <Toolbar>
                     <IconButton
                         color="inherit"
@@ -187,17 +183,15 @@ export default function App() {
             >
                 <DrawerHeader>
                     <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === "ltr" ? (
-                            <ChevronLeftIcon />
-                        ) : (
-                            <ChevronRightIcon />
-                        )}
+                        <ChevronLeftIcon />
                     </IconButton>
                 </DrawerHeader>
                 <Divider />
                 <List>
                     <ListItem key={"Home"} disablePadding>
-                        <ListItemButton onClick={() => navigate("/home")}>
+                        <ListItemButton
+                            onClick={() => navigate(`${username}/home`)}
+                        >
                             <ListItemIcon>
                                 <HomeIcon />
                             </ListItemIcon>
@@ -205,7 +199,9 @@ export default function App() {
                         </ListItemButton>
                     </ListItem>
                     <ListItem key={"Scales"} disablePadding>
-                        <ListItemButton onClick={() => navigate("/scales")}>
+                        <ListItemButton
+                            onClick={() => navigate(`${username}/scales`)}
+                        >
                             <ListItemIcon>
                                 <ScaleOutlinedIcon />
                             </ListItemIcon>
@@ -216,7 +212,9 @@ export default function App() {
                 <Divider />
                 <List>
                     <ListItem key={"Recipes"} disablePadding>
-                        <ListItemButton onClick={() => navigate("/recipes")}>
+                        <ListItemButton
+                            onClick={() => navigate(`${username}/recipes`)}
+                        >
                             <ListItemIcon>
                                 <LocalDiningIcon />
                             </ListItemIcon>
@@ -224,7 +222,9 @@ export default function App() {
                         </ListItemButton>
                     </ListItem>
                     <ListItem key={"Analytics"} disablePadding>
-                        <ListItemButton onClick={() => navigate("/analytics")}>
+                        <ListItemButton
+                            onClick={() => navigate(`${username}/analytics`)}
+                        >
                             <ListItemIcon>
                                 <AutoGraphIcon />
                             </ListItemIcon>
@@ -240,6 +240,8 @@ export default function App() {
                     authorized={authorized}
                     setAuthorized={setAuthorized}
                     navigate={navigate}
+                    username={username}
+                    setUsername={setUsername}
                 />
             </Main>
         </Box>

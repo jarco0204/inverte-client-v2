@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
+import React from "react";
+import { Route, Routes } from "react-router-dom";
 
 // User-made containers
 import SignInContainer from "./SignInContainer";
@@ -11,9 +11,9 @@ function RouterContainer({
     authorized = console.log,
     setAuthorized = console.log,
     navigate = console.log,
+    username = console.log,
+    setUsername = console.log,
 }) {
-    const [username, setUsername] = useState("");
-
     return (
         <>
             {!authorized && (
@@ -34,16 +34,22 @@ function RouterContainer({
             )}
             {authorized && (
                 <Routes>
-                    <Route path="/" element={<Navigate replace to="/home" />} />
-                    <Route path="*" element={<Navigate replace to="/home" />} />
-
                     <Route
-                        path="/home"
+                        path={`${username}/home`}
                         element={<HomeContainer auth={authorized} />}
                     />
-                    <Route path="/scales" element={<ScalesContainer />} />
-                    <Route path="/analytics" element={<AnalyticsContainer />} />
-                    <Route path="/recipes" element={<AnalyticsContainer />} />
+                    <Route
+                        path={`${username}/scales`}
+                        element={<ScalesContainer auth={authorized} />}
+                    />
+                    <Route
+                        path={`${username}/analytics`}
+                        element={<AnalyticsContainer auth={authorized} />}
+                    />
+                    <Route
+                        path={`${username}/recipes`}
+                        element={<AnalyticsContainer auth={authorized} />}
+                    />
                 </Routes>
             )}
         </>

@@ -22,14 +22,13 @@ function SignInContainer({
     async function signing() {
         try {
             const user = await Auth.signIn(email, password);
-            console.log(user.username);
 
             // State dependent Fields
             setUsername(user.username);
             setAuthorized(true);
 
             // Welcome the user
-            navigate("/home");
+            navigate(user.username + "/home");
         } catch (error) {
             console.log("error signing in", error);
             setError("Wrong credentials");

@@ -3,10 +3,10 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import Amplify from "aws-amplify";
-import config from "./config";
+import config from "./awsConfig";
 
 import App from "./App";
-import "./index.css";
+import "./assets/css/index.css";
 
 Amplify.configure({
     Auth: {

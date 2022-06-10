@@ -58,7 +58,7 @@ function SignIn({
                         label="Remember me"
                     />
                     <Button
-                        color="secondary"
+                        color="primary"
                         fullWidth
                         id="sign-in-button"
                         variant="contained"
