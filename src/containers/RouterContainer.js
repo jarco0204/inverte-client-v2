@@ -22,18 +22,22 @@ function RouterContainer({
                         path="*"
                         element={
                             <SignInContainer
-                                authorized={authorized}
-                                setAuthorized={setAuthorized}
-                                username={username}
-                                setUsername={setUsername}
-                                navigate={navigate}
+                            authorized={authorized}
+                            setAuthorized={setAuthorized}
+                            username={username}
+                            setUsername={setUsername}
+                            navigate={navigate}
                             />
                         }
-                    />
+                        />
                 </Routes>
             )}
             {authorized && (
                 <Routes>
+                    <Route
+                        path='*'
+                        element={<HomeContainer auth={authorized} />}
+                    />
                     <Route
                         path={`${username}/home`}
                         element={<HomeContainer auth={authorized} />}

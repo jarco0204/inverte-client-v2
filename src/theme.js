@@ -3,13 +3,13 @@ import { createTheme } from "@material-ui/core";
 const theme = createTheme({
     palette: {
         primary: {
-            main: "#264653",
+            main: "#02182E",
         },
         secondary: {
-            main: "#2a9d8f",
+            main: "#e3dac9",
         },
         accent: {
-            main: "#e9c46a",
+            main: "#6AC259",
         },
         background: {
             main: "ffffff",

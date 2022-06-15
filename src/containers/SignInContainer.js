@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import SignIn from "../components/SignIn";
 import { Auth } from "aws-amplify";
+import Box from "@mui/material/Box";
+import SidesContainer from "./SidesContainer";
 
 function SignInContainer({
     authorized = console.log,
@@ -54,15 +56,17 @@ function SignInContainer({
 
     return (
         <>
-            <SignIn
-                handleLogIn={handleLogIn}
-                email={email}
-                password={password}
-                error={authorized ? noPermissionError : error}
-                fetching={fetching}
-                setEmail={setEmail}
-                setPassword={setPassword}
-            />
+            <Box>
+                <SignIn
+                    handleLogIn={handleLogIn}
+                    email={email}
+                    password={password}
+                    error={authorized ? noPermissionError : error}
+                    fetching={fetching}
+                    setEmail={setEmail}
+                    setPassword={setPassword}
+                    />
+            </Box>
         </>
     );
 }
