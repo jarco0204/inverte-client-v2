@@ -1,8 +1,13 @@
 import React, { useState } from "react";
-import SignIn from "../components/SignIn";
+// AWS imports
 import { Auth } from "aws-amplify";
+import awsConfig from "../aws-exports";
+
+//User Imports
+import SignIn from "../components/SignIn";
 import Box from "@mui/material/Box";
-import SidesContainer from "./SidesContainer";
+
+Auth.configure(awsConfig);
 
 function SignInContainer({
     authorized = console.log,
@@ -65,7 +70,7 @@ function SignInContainer({
                     fetching={fetching}
                     setEmail={setEmail}
                     setPassword={setPassword}
-                    />
+                />
             </Box>
         </>
     );

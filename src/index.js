@@ -2,20 +2,15 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
 
+// Backend (Amplify)
 import Amplify from "aws-amplify";
-import config from "./awsConfig";
+import awsConfig from "./aws-exports";
 
+// App and root csss
 import App from "./App";
 import "./assets/css/index.css";
 
-Amplify.configure({
-    Auth: {
-        mandatorySignId: true,
-        region: config.cognito.REGION,
-        userPoolId: config.cognito.USER_POOL_ID,
-        userPoolWebClientId: config.cognito.APP_CLIENT_ID,
-    },
-});
+Amplify.configure(awsConfig);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

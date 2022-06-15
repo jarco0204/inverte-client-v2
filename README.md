@@ -20,6 +20,22 @@ Christian & Johan
 
 1. yarn start
 
+### Back-End
+
+This app has a backe-end with AWS Amplify. The appId is dw3m3x2i8gouy and it's under the name of inverteClientV2
+
+#### Cognito Authentication
+
+Resource name is 'inverteclientv2377057d3' and serviceName is 'auth' \
+
+• In AWS, the name of the Cognito user pool & Federated Identity is 'inverteclientv2377057d3_identitypool_377057d3\_\_dev'
+
+#### How to continue working on backend
+
+• Install Amplify CLI \
+• Run this command from root: "amplify pull --appId dw3m3x2i8gouy --envName dev" \
+• Run amplify update "serviceName" \
+
 ### Special Notes
 
 • Husky had to be turned off as of branch of #046f8b4
