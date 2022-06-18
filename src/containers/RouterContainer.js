@@ -1,4 +1,3 @@
-import React from "react";
 import { Route, Routes } from "react-router-dom";
 
 // User-made containers
@@ -22,20 +21,20 @@ function RouterContainer({
                         path="*"
                         element={
                             <SignInContainer
-                            authorized={authorized}
-                            setAuthorized={setAuthorized}
-                            username={username}
-                            setUsername={setUsername}
-                            navigate={navigate}
+                                authorized={authorized}
+                                setAuthorized={setAuthorized}
+                                username={username}
+                                setUsername={setUsername}
+                                navigate={navigate}
                             />
                         }
-                        />
+                    />
                 </Routes>
             )}
             {authorized && (
                 <Routes>
                     <Route
-                        path='*'
+                        path="*"
                         element={<HomeContainer auth={authorized} />}
                     />
                     <Route

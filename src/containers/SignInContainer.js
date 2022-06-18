@@ -1,11 +1,13 @@
 import React, { useState } from "react";
+import Box from "@mui/material/Box";
+
 // AWS imports
 import { Auth } from "aws-amplify";
 import awsConfig from "../aws-exports";
 
 //User Imports
-import SignIn from "../components/SignIn";
-import Box from "@mui/material/Box";
+import SignIn from "../components/SignInForm";
+import ResponsiveAppBar from "../components/SignInHeader";
 
 Auth.configure(awsConfig);
 
@@ -28,14 +30,17 @@ function SignInContainer({
     */
     async function signing() {
         try {
-            const user = await Auth.signIn(email, password);
+            // const user = await Auth.signIn(email, password);
 
             // State dependent Fields
-            setUsername(user.username);
+            // setUsername(user.username);
+            setUsername("test");
+
             setAuthorized(true);
 
             // Welcome the user
-            navigate(user.username + "/home");
+            // navigate(user.username + "/home");
+            navigate("test/home");
         } catch (error) {
             console.log("error signing in", error);
             setError("Wrong credentials");
@@ -61,6 +66,7 @@ function SignInContainer({
 
     return (
         <Box>
+            <ResponsiveAppBar />
             <SignIn
                 handleLogIn={handleLogIn}
                 email={email}
