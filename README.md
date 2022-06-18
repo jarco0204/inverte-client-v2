@@ -34,7 +34,7 @@ Resource name is 'inverteclientv2377057d3' and serviceName is 'auth' \
 #### How to continue working on backend
 
 • Install Amplify CLI (App tested with V8.5.1) \
-• Run this command from root: "amplify pull --appId d33722c7tgxo6u --envName staging" \
+• Run this command from root: "amplify pull --appId dann226afna7j --envName staging" \
 • Run amplify update "serviceName" \
 
 ### Special Notes

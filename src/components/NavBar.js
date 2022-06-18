@@ -1,8 +1,6 @@
 import { useState } from "react";
-import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
@@ -21,6 +19,9 @@ const drawerWidth = 240;
 
 function ResponsiveDrawer(props) {
     const { window } = props;
+    const container =
+        window !== undefined ? () => window().document.body : undefined;
+
     const [mobileOpen, setMobileOpen] = useState(false);
 
     const handleDrawerToggle = () => {
@@ -65,9 +66,6 @@ function ResponsiveDrawer(props) {
         </div>
     );
 
-    const container =
-        window !== undefined ? () => window().document.body : undefined;
-
     return (
         <Box sx={{ display: "flex" }}>
             <AppBar
@@ -87,8 +85,8 @@ function ResponsiveDrawer(props) {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" noWrap component="div">
-                        Responsive drawer
+                    <Typography variant="h4" noWrap component="div">
+                        InVerte
                     </Typography>
                 </Toolbar>
             </AppBar>
