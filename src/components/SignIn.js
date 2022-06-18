@@ -19,12 +19,12 @@ function SignIn({
     fetching,
 }) {
     return (
-        <Container sx={{ padding: 30 }} disableGutters={true}>
+        <Container sx={{ padding: 10 }} disableGutters={true}>
             <div
                 style={{
                     paddingTop: "50px",
                     margin: "auto",
-                    width: "300px",
+                    maxWidth: "300px",
                 }}
             >
                 <Typography component="h1" variant="h5">

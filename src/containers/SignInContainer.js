@@ -60,19 +60,17 @@ function SignInContainer({
     }
 
     return (
-        <>
-            <Box>
-                <SignIn
-                    handleLogIn={handleLogIn}
-                    email={email}
-                    password={password}
-                    error={authorized ? noPermissionError : error}
-                    fetching={fetching}
-                    setEmail={setEmail}
-                    setPassword={setPassword}
-                />
-            </Box>
-        </>
+        <Box>
+            <SignIn
+                handleLogIn={handleLogIn}
+                email={email}
+                password={password}
+                error={authorized ? noPermissionError : error}
+                fetching={fetching}
+                setEmail={setEmail}
+                setPassword={setPassword}
+            />
+        </Box>
     );
 }
 

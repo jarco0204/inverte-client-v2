@@ -1,61 +1,75 @@
-import { IconButton, Toolbar, Typography } from "@mui/material";
-// import logo from "./assets/img/inverte_green_logo.png";
 import logo from "../assets/img/inverte_green_logo.png";
-import { styled } from "@mui/material/styles";
-import MuiAppBar from "@mui/material/AppBar";
 
-const drawerWidth = 240;
+import AppBar from "@mui/material/AppBar";
 
-const AppBar = styled(MuiAppBar, {
-    shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-    transition: theme.transitions.create(["margin", "width"], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-    }),
-    ...(open && {
-        width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft: `${drawerWidth}px`,
-        transition: theme.transitions.create(["margin", "width"], {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-    }),
-}));
-const Typographys = styled(Typography)(
-    ({ theme }) => `
-    color: ${theme.palette.secondary.main};
-    `,
-);
+import { IconButton, Toolbar, Typography } from "@mui/material";
 
-function Header({ open, setOpen = console.log }) {
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
+import Container from "@mui/material/Container";
 
+const ResponsiveAppBar = () => {
     return (
-        <AppBar open={open}>
-            <Toolbar>
-                <IconButton
-                    color="inherit"
-                    aria-label="open drawer"
-                    onClick={handleDrawerOpen}
-                    edge="start"
-                    sx={{ mr: 2, ...(open && { display: "none" }) }}
-                >
-                    <img src={logo} alt="logo" style={{ maxWidth: "100px" }} />
-                </IconButton>
-                <Typographys
-                    variant="h4"
-                    noWrap
-                    component="div"
-                    sx={{ flexGrow: 1 }}
-                >
-                    INVERTE
-                </Typographys>
-            </Toolbar>
+        <AppBar position="static">
+            <Container maxWidth="xl">
+                <Toolbar disableGutters>
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        edge="start"
+                        sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
+                    >
+                        <img
+                            src={logo}
+                            alt="logo"
+                            style={{ maxWidth: "100px" }}
+                        />
+                        <Typography
+                            variant="h4"
+                            noWrap
+                            component="a"
+                            sx={{
+                                mr: 2,
+                                display: { xs: "none", md: "flex" },
+                                fontWeight: 700,
+                                letterSpacing: ".3rem",
+                                color: "inherit",
+                                textDecoration: "none",
+                            }}
+                        >
+                            INVERTE
+                        </Typography>
+                    </IconButton>
+
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        edge="start"
+                        sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
+                    >
+                        <img
+                            src={logo}
+                            alt="logo"
+                            style={{ maxWidth: "100px" }}
+                        />
+                        <Typography
+                            variant="h5"
+                            noWrap
+                            component="a"
+                            sx={{
+                                mr: 2,
+                                display: { xs: "flex", md: "none" },
+                                flexGrow: 2,
+                                fontWeight: 900,
+                                letterSpacing: ".3rem",
+                                color: "inherit",
+                                textDecoration: "none",
+                            }}
+                        >
+                            INVERTE
+                        </Typography>
+                    </IconButton>
+                </Toolbar>
+            </Container>
         </AppBar>
     );
-}
-
-export default Header;
+};
+export default ResponsiveAppBar;
