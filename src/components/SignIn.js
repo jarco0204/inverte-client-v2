@@ -19,8 +19,14 @@ function SignIn({
     fetching,
 }) {
     return (
-        <Container maxWidth="xs" sx={{ padding: 140 }}>
-            <div style={{ paddingTop: "50px" }}>
+        <Container sx={{ padding: 30 }} disableGutters={true}>
+            <div
+                style={{
+                    paddingTop: "50px",
+                    margin: "auto",
+                    width: "300px",
+                }}
+            >
                 <Typography component="h1" variant="h5">
                     Sign In
                 </Typography>
@@ -36,7 +42,7 @@ function SignIn({
                         required
                         fullWidth
                         id="email"
-                        label="Email Address"
+                        label="User Name"
                         name="email"
                         autoFocus
                         onChange={(event) => setEmail(event.target.value)}

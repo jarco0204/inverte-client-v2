@@ -18,11 +18,12 @@ Christian & Johan
 
 ### How to Run?
 
-1. yarn start
+1. yarn install \
+2. yarn start
 
 ### Back-End
 
-This app has a backe-end with AWS Amplify. The appId is dw3m3x2i8gouy and it's under the name of inverteClientV2
+This app has a backend with AWS Amplify. The appId is dw3m3x2i8gouy and it's under the name of inverteClientV2
 
 #### Cognito Authentication
 
@@ -32,8 +33,8 @@ Resource name is 'inverteclientv2377057d3' and serviceName is 'auth' \
 
 #### How to continue working on backend
 
-• Install Amplify CLI \
-• Run this command from root: "amplify pull --appId dw3m3x2i8gouy --envName dev" \
+• Install Amplify CLI (App tested with V8.5.1) \
+• Run this command from root: "amplify pull --appId d33722c7tgxo6u --envName staging" \
 • Run amplify update "serviceName" \
 
 ### Special Notes

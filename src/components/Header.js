@@ -26,15 +26,12 @@ const Typographys = styled(Typography)(
     ({ theme }) => `
     color: ${theme.palette.secondary.main};
     `,
-)
+);
 
-function Header({
-    open,
-    setOpen = console.log,
-}) {
+function Header({ open, setOpen = console.log }) {
     const handleDrawerOpen = () => {
         setOpen(true);
-    }
+    };
 
     return (
         <AppBar open={open}>
@@ -46,23 +43,19 @@ function Header({
                     edge="start"
                     sx={{ mr: 2, ...(open && { display: "none" }) }}
                 >
-                    <img
-                        src={logo}
-                        alt="logo"
-                        style={{ maxWidth: "100px" }}
-                    />
+                    <img src={logo} alt="logo" style={{ maxWidth: "100px" }} />
                 </IconButton>
                 <Typographys
                     variant="h4"
                     noWrap
                     component="div"
-                    sx= {{ flexGrow: 1 }}
+                    sx={{ flexGrow: 1 }}
                 >
                     INVERTE
                 </Typographys>
             </Toolbar>
         </AppBar>
-    )
+    );
 }
 
 export default Header;
