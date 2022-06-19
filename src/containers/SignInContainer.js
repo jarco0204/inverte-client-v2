@@ -30,17 +30,17 @@ function SignInContainer({
     */
     async function signing() {
         try {
-            // const user = await Auth.signIn(email, password);
+            const user = await Auth.signIn(email, password);
 
             // State dependent Fields
-            // setUsername(user.username);
-            setUsername("test");
+            setUsername(user.username);
+            // setUsername("test");
 
             setAuthorized(true);
 
             // Welcome the user
-            // navigate(user.username + "/home");
-            navigate("test/home");
+            navigate(user.username + "/home");
+            // navigate("test/home");
         } catch (error) {
             console.log("error signing in", error);
             setError("Wrong credentials");

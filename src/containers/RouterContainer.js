@@ -32,28 +32,30 @@ function RouterContainer({
                 </Routes>
             )}
             {authorized && (
-                <Routes>
-                    <Route
-                        path="*"
-                        element={<HomeContainer auth={authorized} />}
-                    />
-                    <Route
-                        path={`${username}/home`}
-                        element={<HomeContainer auth={authorized} />}
-                    />
-                    <Route
-                        path={`${username}/scales`}
-                        element={<ScalesContainer auth={authorized} />}
-                    />
-                    <Route
-                        path={`${username}/analytics`}
-                        element={<AnalyticsContainer auth={authorized} />}
-                    />
-                    <Route
-                        path={`${username}/recipes`}
-                        element={<AnalyticsContainer auth={authorized} />}
-                    />
-                </Routes>
+                <>
+                    <Routes>
+                        <Route
+                            path="*"
+                            element={<HomeContainer auth={authorized} />}
+                        />
+                        <Route
+                            path={`${username}/home`}
+                            element={<HomeContainer auth={authorized} />}
+                        />
+                        <Route
+                            path={`${username}/scales`}
+                            element={<ScalesContainer auth={authorized} />}
+                        />
+                        <Route
+                            path={`${username}/analytics`}
+                            element={<AnalyticsContainer auth={authorized} />}
+                        />
+                        <Route
+                            path={`${username}/recipes`}
+                            element={<AnalyticsContainer auth={authorized} />}
+                        />
+                    </Routes>
+                </>
             )}
         </>
     );
