@@ -1,7 +1,7 @@
 export default function HomeContainer() {
     return (
         <>
-            <h1>Hola vkjnfkjnbkjdnfkj</h1>
+            <h1>Welcome to your Virtual Kitchen</h1>
         </>
     );
 }

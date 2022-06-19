@@ -8,6 +8,7 @@ import ScalesContainer from "./ScalesContainers";
 import AnalyticsContainer from "./AnalyticsContainer";
 
 import Navbar from "../components/Navbar";
+import RecipesContainer from "./RecipesContainer";
 
 function RouterContainer({
     authorized = console.log,
@@ -39,15 +40,7 @@ function RouterContainer({
                         path="*"
                         element={
                             <Navbar username={username}>
-                                <HomeContainer auth={authorized} />
-                            </Navbar>
-                        }
-                    />
-                    <Route
-                        path="/home"
-                        element={
-                            <Navbar username={username}>
-                                <HomeContainer auth={authorized} />
+                                <ScalesContainer auth={authorized} />
                             </Navbar>
                         }
                     />
@@ -56,6 +49,14 @@ function RouterContainer({
                         element={
                             <Navbar username={username}>
                                 <ScalesContainer auth={authorized} />
+                            </Navbar>
+                        }
+                    />
+                    <Route
+                        path="/recipes"
+                        element={
+                            <Navbar username={username}>
+                                <RecipesContainer auth={authorized} />
                             </Navbar>
                         }
                     />

@@ -41,7 +41,7 @@ function SignInContainer({
             setAuthorized(true);
 
             // Welcome the user
-            navigate(user.username + "/home");
+            navigate("/scales");
             // navigate("test/home");
         } catch (error) {
             console.log("error signing in", error);

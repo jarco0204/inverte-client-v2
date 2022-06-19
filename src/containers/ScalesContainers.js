@@ -3,6 +3,9 @@ import Scale from "../components/Scale";
 import Amplify from "aws-amplify";
 import { AWSIoTProvider } from "@aws-amplify/pubsub/lib/Providers";
 
+// CSS
+import "../assets/css/scale.css";
+
 Amplify.configure({
     Auth: {
         identityPoolId: process.env.REACT_APP_IDENTITY_POOL_ID,
@@ -28,19 +31,19 @@ Amplify.PubSub.subscribe("ESM/1/ESM-1-F0-7/Pub").subscribe({
 /*
     Main Container Function
   */
-function ScalesContainer() {
+export default function ScalesContainer() {
     return (
         <div
             style={{
+                position: "relative",
+                top: "150px",
+                left: "150px",
                 display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "60vh",
+                flexDirection: "row",
+                gap: "25px",
             }}
         >
             <Scale />
         </div>
     );
 }
-export default ScalesContainer;

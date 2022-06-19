@@ -1,8 +1,7 @@
-function AnalyticsContainer() {
+export default function RecipesContainer() {
     return (
         <h1 style={{ position: "relative", top: "100px", left: "100px" }}>
-            Coming Soon
+            Tracked Recipes
         </h1>
     );
 }
-export default AnalyticsContainer;
