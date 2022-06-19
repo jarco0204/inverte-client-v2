@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
+import { useNavigate } from "react-router-dom";
 
 // AWS imports
 import { Auth } from "aws-amplify";
@@ -16,12 +17,13 @@ function SignInContainer({
     setAuthorized = console.log,
     username = console.log,
     setUsername = console.log,
-    navigate = console.log,
 }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [fetching, setFetching] = useState(false);
     const [error, setError] = useState(undefined);
+
+    const navigate = useNavigate();
 
     const noPermissionError = `Your account ${authorized} doees not have permission to use this app. Try signing in with another account.`;
 

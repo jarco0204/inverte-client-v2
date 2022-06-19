@@ -2,14 +2,16 @@ import { Route, Routes } from "react-router-dom";
 
 // User-made containers
 import SignInContainer from "./SignInContainer";
+
 import HomeContainer from "./HomeContainer";
 import ScalesContainer from "./ScalesContainers";
 import AnalyticsContainer from "./AnalyticsContainer";
 
+import Navbar from "../components/Navbar";
+
 function RouterContainer({
     authorized = console.log,
     setAuthorized = console.log,
-    navigate = console.log,
     username = console.log,
     setUsername = console.log,
 }) {
@@ -25,37 +27,47 @@ function RouterContainer({
                                 setAuthorized={setAuthorized}
                                 username={username}
                                 setUsername={setUsername}
-                                navigate={navigate}
                             />
                         }
                     />
                 </Routes>
             )}
+
             {authorized && (
-                <>
-                    <Routes>
-                        <Route
-                            path="*"
-                            element={<HomeContainer auth={authorized} />}
-                        />
-                        <Route
-                            path={`${username}/home`}
-                            element={<HomeContainer auth={authorized} />}
-                        />
-                        <Route
-                            path={`${username}/scales`}
-                            element={<ScalesContainer auth={authorized} />}
-                        />
-                        <Route
-                            path={`${username}/analytics`}
-                            element={<AnalyticsContainer auth={authorized} />}
-                        />
-                        <Route
-                            path={`${username}/recipes`}
-                            element={<AnalyticsContainer auth={authorized} />}
-                        />
-                    </Routes>
-                </>
+                <Routes>
+                    <Route
+                        path="*"
+                        element={
+                            <Navbar username={username}>
+                                <HomeContainer auth={authorized} />
+                            </Navbar>
+                        }
+                    />
+                    <Route
+                        path="/home"
+                        element={
+                            <Navbar username={username}>
+                                <HomeContainer auth={authorized} />
+                            </Navbar>
+                        }
+                    />
+                    <Route
+                        path="/scales"
+                        element={
+                            <Navbar username={username}>
+                                <ScalesContainer auth={authorized} />
+                            </Navbar>
+                        }
+                    />
+                    <Route
+                        path="/analytics"
+                        element={
+                            <Navbar username={username}>
+                                <AnalyticsContainer auth={authorized} />
+                            </Navbar>
+                        }
+                    />
+                </Routes>
             )}
         </>
     );

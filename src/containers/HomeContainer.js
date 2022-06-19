@@ -1,3 +1,7 @@
 export default function HomeContainer() {
-    return <></>;
+    return (
+        <>
+            <h1>Hola vkjnfkjnbkjdnfkj</h1>
+        </>
+    );
 }

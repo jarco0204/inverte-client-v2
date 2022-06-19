@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -14,30 +13,62 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
+import { useNavigate } from "react-router-dom";
+
+import HomeIcon from "@mui/icons-material/Home";
+import ScaleIcon from "@mui/icons-material/Scale";
+import InsightsIcon from "@mui/icons-material/Insights";
+
 const drawerWidth = 240;
 
-function ResponsiveDrawer() {
+export default function Navbar({ children }) {
+    const navigate = useNavigate(); // To move to other routes
+
     const [mobileOpen, setMobileOpen] = useState(false);
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
 
+    const handleClick = (e) => {
+        let address = e.target.textContent.toLowerCase();
+        navigate("/" + address);
+    };
+    // console.log(username);
+
     const drawer = (
         <div>
             <Toolbar />
             <Divider />
             <List>
-                <ListItem key={"hola"} disablePadding>
-                    <ListItemButton>
+                <ListItem key={"home"} disablePadding>
+                    <ListItemButton onClick={handleClick}>
                         <ListItemIcon>
-                            <InboxIcon />
+                            <HomeIcon />
                         </ListItemIcon>
-                        <ListItemText primary={"hola"} />
+                        <ListItemText primary={"Home"} />
+                    </ListItemButton>
+                </ListItem>
+                <ListItem key={"scales"} disablePadding>
+                    <ListItemButton onClick={handleClick}>
+                        <ListItemIcon>
+                            <ScaleIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={"Scales"} />
                     </ListItemButton>
                 </ListItem>
             </List>
             <Divider />
+            <List>
+                <ListItem key={"analytics"} disablePadding>
+                    <ListItemButton onClick={handleClick}>
+                        <ListItemIcon>
+                            <InsightsIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={"Analytics"} />
+                    </ListItemButton>
+                </ListItem>
+            </List>
         </div>
     );
 
@@ -68,7 +99,7 @@ function ResponsiveDrawer() {
             <Box
                 component="nav"
                 sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-                aria-label="mailbox folders"
+                aria-label="Options"
             >
                 {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
                 <Drawer
@@ -109,9 +140,9 @@ function ResponsiveDrawer() {
                     p: 3,
                     width: { sm: `calc(100% - ${drawerWidth}px)` },
                 }}
-            ></Box>
+            >
+                {children}
+            </Box>
         </Box>
     );
 }
-
-export default ResponsiveDrawer;
