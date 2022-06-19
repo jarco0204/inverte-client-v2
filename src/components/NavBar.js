@@ -9,7 +9,8 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import MenuIcon from "@mui/icons-material/Menu";
+
+import ElectricBoltTwoToneIcon from "@mui/icons-material/ElectricBoltTwoTone";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
@@ -68,6 +69,16 @@ export default function Navbar({ children }) {
                             <InsightsIcon />
                         </ListItemIcon>
                         <ListItemText primary={"Analytics"} />
+                    </ListItemButton>
+                </ListItem>
+            </List>
+            <List>
+                <ListItem key={"Real-Time"} disablePadding>
+                    <ListItemButton onClick={handleClick}>
+                        <ListItemIcon>
+                            <ElectricBoltTwoToneIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={"Real-Time"} />
                     </ListItemButton>
                 </ListItem>
             </List>

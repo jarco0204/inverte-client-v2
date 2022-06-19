@@ -1,5 +1,5 @@
 import Scale from "../components/Scale";
-// Aws Imports
+
 import Amplify from "aws-amplify";
 import { AWSIoTProvider } from "@aws-amplify/pubsub/lib/Providers";
 
@@ -22,16 +22,13 @@ Amplify.addPluggable(
         )}.iot.${String(process.env.REACT_APP_REGION)}.amazonaws.com/mqtt`,
     }),
 );
-Amplify.PubSub.subscribe("ESM/1/ESM-1-F0-7/Pub").subscribe({
-    next: (data) => console.log("Message received", data),
-    error: (error) => console.error(error),
-    close: () => console.log("Done"),
-});
 
 /*
     Main Container Function
   */
 export default function ScalesContainer() {
+    // const [weightIngredient, setWeightIngredient] = useState(0);
+
     return (
         <div
             style={{

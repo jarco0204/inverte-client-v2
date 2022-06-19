@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 // User-made containers
 import SignInContainer from "./SignInContainer";
 
-import HomeContainer from "./HomeContainer";
+// import HomeContainer from "./HomeContainer";
 import ScalesContainer from "./ScalesContainers";
 import AnalyticsContainer from "./AnalyticsContainer";
 

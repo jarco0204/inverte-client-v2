@@ -9,11 +9,17 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import { red } from "@mui/material/colors";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
+
+import ScaleMenuOptions from "../components/ScaleMenuOptions";
+
+import InputAdornments from "../components/InputAdornments";
 
 // User imports
 import "../assets/css/scale.css";
+
+// Aws Imports
+import { PubSub } from "aws-amplify";
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -26,17 +32,16 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
-export default function RecipeReviewCard() {
-    const [expanded, setExpanded] = useState(false);
-
-    //V1 State
+export default function Scale() {
+    // Core Data State of a Scale Card
     const [nameIngredient, setNameIngredient] = useState("Cheese");
-    const [weightReading, setWeightReading] = useState(0);
-    const [correctPortionWeight, setCorrectPortionWeight] = useState(86);
-    const [inputLowerWeight, setInputLowerWeight] = useState(1);
-    const [inputUpperWeight, setInputUpperWeight] = useState(1);
 
-    const [unitOfMass, setUnitOfMass] = useState("Ounzes");
+    const [correctWeight, setCorrectWeight] = useState("1.5");
+    const [minOffset, setMinOffset] = useState(0);
+    const [maxOffset, setMaxOffset] = useState(0);
+    const [unitOfMassCode, setUnitOfMassCode] = useState("Oz");
+
+    const [expanded, setExpanded] = useState(false);
 
     /*
         Material UI function component
@@ -49,46 +54,53 @@ export default function RecipeReviewCard() {
     */
     const submitCorrectPortionParams = () => {
         console.log("send to scale");
-        let msg = {
-            msg: "Hello from Client V2",
-            nameIngredient: nameIngredient,
-            correctWeight: correctPortionWeight,
-            lowerErrorLimit: inputLowerWeight,
-            upperErrorLimit: inputUpperWeight,
-            unitOfMass: unitOfMass,
-        };
-        console.log(msg);
+        // let msg = {
+        //     msg: "Hello from Client V2",
+        //     nameIngredient: nameIngredient,
+        //     correctWeight: correctPortionWeight,
+        //     lowerErrorLimit: inputLowerWeight,
+        //     upperErrorLimit: inputUpperWeight,
+        //     unitOfMass: unitOfMass,
+        // };
+        // console.log(msg);
     };
+    PubSub.subscribe("esm/1").subscribe({
+        next: (data) => {
+            console.log("Message received", data);
+            // setRealTimeWeight(data.value.inventoryWeight);
+        },
+        error: (error) => console.error(error),
+        close: () => console.log("Done"),
+    });
 
     return (
         <Card sx={{ maxWidth: 340 }}>
             <CardHeader
                 avatar={
                     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                        C
+                        {nameIngredient[0]}
                     </Avatar>
                 }
                 action={
-                    <IconButton aria-label="settings">
-                        <MoreVertIcon />
-                    </IconButton>
+                    <ScaleMenuOptions
+                        setUnitOfMassCode={setUnitOfMassCode}
+                        setNameIngredient={setNameIngredient}
+                        submitCorrectPortionParams={submitCorrectPortionParams}
+                    />
                 }
                 title={nameIngredient}
-                subheader="Chicken Parmigiana"
+                subheader="100% full"
             />
-
             <CardContent>
-                <input
-                    style={{
-                        textAlign: "center",
-                        padding: "10px",
-                        border: "2px solid #d3d3d3",
-                        backgroundColor: "beige",
-                    }}
-                    type="text"
-                    value={weightReading + " " + unitOfMass}
-                    readOnly
-                />
+                <div className="centerContent">
+                    <InputAdornments
+                        label={"Correct Portion Weight"}
+                        unitOfMassCode={unitOfMassCode}
+                        correctPortionWeight={correctWeight}
+                        setCorrectWeight={setCorrectWeight}
+                        submitCorrectPortionParams={submitCorrectPortionParams}
+                    />
+                </div>
             </CardContent>
             <CardActions disableSpacing>
                 <IconButton aria-label="Power On">
@@ -107,52 +119,29 @@ export default function RecipeReviewCard() {
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
                     <div className="centerContent">
-                        <h5>Correct Portion Weight: ({unitOfMass}) </h5>
-                        <input
-                            id="correctPortionInput"
-                            type="number"
-                            value={correctPortionWeight}
-                            onChange={(event) =>
-                                setCorrectPortionWeight(
-                                    parseInt(event.target.value),
-                                )
-                            }
-                            onBlur={submitCorrectPortionParams}
-                        />
-                    </div>
-
-                    <div className="centerContent">
-                        <h5>Accepted Portion Offset: ({unitOfMass}) </h5>
+                        <h5>Accepted Portion Range: </h5>
                         <div className="errorRangeComponent">
                             <div className="errorRangeBlock">
-                                <label htmlFor="test">Under</label>
-                                <input
-                                    type="number"
-                                    id="underRangeInput"
-                                    name="inputUnderRange"
-                                    value={inputLowerWeight}
-                                    onChange={(event) =>
-                                        setInputLowerWeight(
-                                            parseInt(event.target.value),
-                                        )
+                                <InputAdornments
+                                    label={"Under"}
+                                    unitOfMassCode={unitOfMassCode}
+                                    correctPortionWeight={minOffset}
+                                    setCorrectWeight={setMinOffset}
+                                    submitCorrectPortionParams={
+                                        submitCorrectPortionParams
                                     }
-                                    onBlur={submitCorrectPortionParams}
                                 />
                             </div>
 
                             <div className="errorRangeBlock">
-                                <label htmlFor="test">Over</label>
-                                <input
-                                    type="number"
-                                    id="overRangeInput"
-                                    name="overRangeInput"
-                                    value={inputUpperWeight}
-                                    onChange={(event) =>
-                                        setInputUpperWeight(
-                                            parseInt(event.target.value),
-                                        )
+                                <InputAdornments
+                                    label={"Over"}
+                                    unitOfMassCode={unitOfMassCode}
+                                    correctPortionWeight={maxOffset}
+                                    setCorrectWeight={setMaxOffset}
+                                    submitCorrectPortionParams={
+                                        submitCorrectPortionParams
                                     }
-                                    onBlur={submitCorrectPortionParams}
                                 />
                             </div>
                         </div>
