@@ -19,7 +19,8 @@ Christian & Johan
 ### How to Run?
 
 1. yarn install \
-2. yarn start
+2. yarn start \
+3. Add .env.local file to root of project \
 
 ### Back-End
 

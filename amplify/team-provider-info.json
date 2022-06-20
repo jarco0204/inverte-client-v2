@@ -10,6 +10,11 @@
       "StackName": "amplify-inverteclientv2-staging-233501",
       "StackId": "arn:aws:cloudformation:ca-central-1:084619430748:stack/amplify-inverteclientv2-staging-233501/46443710-ef5f-11ec-9642-0efd14d6dfda",
       "AmplifyAppId": "dann226afna7j"
+    },
+    "categories": {
+      "auth": {
+        "inverteclientv2": {}
+      }
     }
   }
 }
