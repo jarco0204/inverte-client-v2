@@ -41,7 +41,7 @@ function SignIn({
                         required
                         fullWidth
                         id="email"
-                        label="User Name"
+                        label="Email"
                         name="email"
                         autoFocus
                         onChange={(event) => setEmail(event.target.value)}

@@ -49,29 +49,38 @@ export default function Scale() {
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
+
     /*
-        Send updated params to scale whenever focus is moved
+        Helper function to convert unit of mass
     */
-    const submitCorrectPortionParams = () => {
-        console.log("send to scale");
-        // let msg = {
-        //     msg: "Hello from Client V2",
-        //     nameIngredient: nameIngredient,
-        //     correctWeight: correctPortionWeight,
-        //     lowerErrorLimit: inputLowerWeight,
-        //     upperErrorLimit: inputUpperWeight,
-        //     unitOfMass: unitOfMass,
-        // };
-        // console.log(msg);
+    const convertUnitOfMass = (outputForm) => {
+        if (outputForm === "Oz" && unitOfMassCode !== "Oz") {
+            setCorrectWeight((correctWeight / 28.35).toFixed(1));
+            setMinOffset((minOffset / 28.35).toFixed(1));
+            setMaxOffset((maxOffset / 28.35).toFixed(1));
+        } else if (outputForm === "G" && unitOfMassCode !== "G") {
+            setCorrectWeight((correctWeight * 28.35).toFixed(1));
+            setMinOffset((minOffset * 28.35).toFixed(1));
+            setMaxOffset((maxOffset * 28.35).toFixed(1));
+        }
+        submitCorrectPortionParams();
     };
-    PubSub.subscribe("esm/1").subscribe({
-        next: (data) => {
-            console.log("Message received", data);
-            // setRealTimeWeight(data.value.inventoryWeight);
-        },
-        error: (error) => console.error(error),
-        close: () => console.log("Done"),
-    });
+    /*
+        Send updated params to APPROPRIATE scale channel
+        whenever a change is detected in the inputs or focus is removed
+    */
+    const submitCorrectPortionParams = async () => {
+        console.log("Sending updated params to scale");
+        let msg = {
+            msg: "Hello from Client V2",
+            nameIngredient: nameIngredient,
+            correctWeight: correctWeight,
+            lowerErrorLimit: minOffset,
+            upperErrorLimit: maxOffset,
+            unitOfMass: unitOfMassCode,
+        };
+        await PubSub.publish("esm/1/f0$1", msg);
+    };
 
     return (
         <Card sx={{ maxWidth: 340 }}>
@@ -86,6 +95,7 @@ export default function Scale() {
                         setUnitOfMassCode={setUnitOfMassCode}
                         setNameIngredient={setNameIngredient}
                         submitCorrectPortionParams={submitCorrectPortionParams}
+                        convertUnitOfMass={convertUnitOfMass}
                     />
                 }
                 title={nameIngredient}

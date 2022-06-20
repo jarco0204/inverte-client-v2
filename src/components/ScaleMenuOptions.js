@@ -20,32 +20,43 @@ export default function ScaleMenuOptions({
     setUnitOfMassCode,
     setNameIngredient,
     submitCorrectPortionParams,
+    convertUnitOfMass,
 }) {
+    //MUI State
     const [anchorEl, setAnchorEl] = useState(null);
-
     const open = Boolean(anchorEl);
 
+    // User State
     const [changeIngredientName, setChangeIngredientName] = useState(false);
     const [newIngredientName, setNewIngredientName] = useState("");
 
+    /*
+        Material UI function to show menu or not
+     */
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
-    // Handle close for Menu
+    /*
+        Function to handle subsequent function calls after interaction with menu
+    */
     const handleClose = (e) => {
         console.log(e.target.textContent);
         if (e.target.textContent === options[1]) {
             setUnitOfMassCode("Oz");
+            convertUnitOfMass("Oz");
             submitCorrectPortionParams();
         } else if (e.target.textContent === options[0]) {
             setUnitOfMassCode("G");
+            convertUnitOfMass("G");
             submitCorrectPortionParams();
         } else if (e.target.textContent === options[2]) {
             setChangeIngredientName(true);
         }
         setAnchorEl(null);
     };
-    // Handle close for change ingredient name
+    /*
+        Function to handle subsequent behaviour after ingredient name is changed
+    */
     const handleCloseName = (e) => {
         console.log(e);
         if (e.target.textContent === "Change") {
