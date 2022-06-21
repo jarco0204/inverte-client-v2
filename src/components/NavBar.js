@@ -24,7 +24,7 @@ import logo from "../assets/img/inverte_green_logo.png";
 
 const drawerWidth = 240;
 
-export default function Navbar({ children }) {
+export default function NavBar({ children }) {
     const navigate = useNavigate(); // To move to other routes
 
     const [mobileOpen, setMobileOpen] = useState(false);

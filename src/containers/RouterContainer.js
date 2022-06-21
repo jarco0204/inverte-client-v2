@@ -7,7 +7,7 @@ import SignInContainer from "./SignInContainer";
 import ScalesContainer from "./ScalesContainers";
 import AnalyticsContainer from "./AnalyticsContainer";
 
-import Navbar from "../components/Navbar";
+import Navbar from "../components/NavBar";
 import RecipesContainer from "./RecipesContainer";
 
 function RouterContainer({

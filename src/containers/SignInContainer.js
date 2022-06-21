@@ -7,8 +7,7 @@ import { Auth } from "aws-amplify";
 import awsConfig from "../aws-exports";
 
 //User Imports
-import SignIn from "../components/SignInForm";
-import ResponsiveAppBar from "../components/SignInHeader";
+import SignIn from "../components/SignIn";
 
 Auth.configure(awsConfig);
 
@@ -68,7 +67,6 @@ function SignInContainer({
 
     return (
         <Box>
-            <ResponsiveAppBar />
             <SignIn
                 handleLogIn={handleLogIn}
                 email={email}

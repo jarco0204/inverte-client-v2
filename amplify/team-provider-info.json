@@ -16,5 +16,23 @@
         "inverteclientv2": {}
       }
     }
+  },
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-inverteclientv2-dev-202641-authRole",
+      "UnauthRoleArn": "arn:aws:iam::084619430748:role/amplify-inverteclientv2-dev-202641-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::084619430748:role/amplify-inverteclientv2-dev-202641-authRole",
+      "Region": "ca-central-1",
+      "DeploymentBucketName": "amplify-inverteclientv2-dev-202641-deployment",
+      "UnauthRoleName": "amplify-inverteclientv2-dev-202641-unauthRole",
+      "StackName": "amplify-inverteclientv2-dev-202641",
+      "StackId": "arn:aws:cloudformation:ca-central-1:084619430748:stack/amplify-inverteclientv2-dev-202641/40e39ed0-f0ec-11ec-a8d3-06faf0191234",
+      "AmplifyAppId": "dann226afna7j"
+    },
+    "categories": {
+      "auth": {
+        "inverteclientv2": {}
+      }
+    }
   }
 }

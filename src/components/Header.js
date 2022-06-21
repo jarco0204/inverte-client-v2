@@ -1,12 +1,9 @@
 import logo from "../assets/img/inverte_green_logo.png";
-
 import AppBar from "@mui/material/AppBar";
-
 import { IconButton, Toolbar, Typography } from "@mui/material";
-
 import Container from "@mui/material/Container";
 
-const ResponsiveAppBar = () => {
+const Header = () => {
     return (
         <AppBar position="static">
             <Container maxWidth="xl">
@@ -72,4 +69,4 @@ const ResponsiveAppBar = () => {
         </AppBar>
     );
 };
-export default ResponsiveAppBar;
+export default Header;
