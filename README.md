@@ -32,6 +32,15 @@ Resource name is 'inverteclientv2377057d3' and serviceName is 'auth' \
 
 • In AWS, the name of the Cognito user pool & Federated Identity is 'inverteclientv2377057d3_identitypool_377057d3\_\_dev'
 
+#### REST API
+
+The endpoint of our API is: \
+
+https://xescx8j4xl.execute-api.ca-central-1.amazonaws.com/staging \
+
+It supports these routes: \
+• restaurant/{restaurantID} \
+
 #### How to continue working on backend
 
 • Install Amplify CLI (App tested with V8.5.1) \

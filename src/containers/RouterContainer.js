@@ -40,7 +40,10 @@ function RouterContainer({
                         path="*"
                         element={
                             <Navbar username={username}>
-                                <ScalesContainer auth={authorized} />
+                                <ScalesContainer
+                                    auth={authorized}
+                                    username={username}
+                                />
                             </Navbar>
                         }
                     />
@@ -48,7 +51,10 @@ function RouterContainer({
                         path="/scales"
                         element={
                             <Navbar username={username}>
-                                <ScalesContainer auth={authorized} />
+                                <ScalesContainer
+                                    auth={authorized}
+                                    username={username}
+                                />
                             </Navbar>
                         }
                     />

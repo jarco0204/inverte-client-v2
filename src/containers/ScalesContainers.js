@@ -1,10 +1,13 @@
-import Scale from "../components/Scale";
-
-import Amplify from "aws-amplify";
+import { useEffect } from "react";
+import Amplify, { API } from "aws-amplify";
 import { AWSIoTProvider } from "@aws-amplify/pubsub/lib/Providers";
+
+import Scale from "../components/Scale";
 
 // CSS
 import "../assets/css/scale.css";
+
+// MQTT Client
 
 Amplify.configure({
     Auth: {
@@ -23,11 +26,28 @@ Amplify.addPluggable(
     }),
 );
 
+// API
+const myAPI = "inverteAPIV2";
+const path = "/restaurant";
+
 /*
     Main Container Function
   */
-export default function ScalesContainer() {
-    // const [weightIngredient, setWeightIngredient] = useState(0);
+export default function ScalesContainer({ auth, username }) {
+    // console.log(username);
+    // Calling the API
+    useEffect(() => {
+        // console.log({ username });
+        let customerID = username;
+        console.log(customerID);
+        API.get(myAPI, path, "/", "1")
+            .then((response) => {
+                console.log("el pepe", JSON.stringify(response));
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, [username]);
 
     return (
         <div

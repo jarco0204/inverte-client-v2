@@ -32,5 +32,28 @@
         ]
       }
     }
+  },
+  "function": {
+    "inverteAPIV2LoadEssentialInfo": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "api": {
+    "inverteAPIV2": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "inverteAPIV2LoadEssentialInfo",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ]
+    }
   }
 }

@@ -14,6 +14,12 @@
     "categories": {
       "auth": {
         "inverteclientv2": {}
+      },
+      "function": {
+        "inverteAPIV2LoadEssentialInfo": {
+          "deploymentBucketName": "amplify-inverteclientv2-staging-233501-deployment",
+          "s3Key": "amplify-builds/inverteAPIV2LoadEssentialInfo-414f55523547616e6266-build.zip"
+        }
       }
     }
   },
