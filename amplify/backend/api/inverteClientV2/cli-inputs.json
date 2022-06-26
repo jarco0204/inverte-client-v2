@@ -3,7 +3,7 @@
   "paths": {
     "/restaurant/{restaurantID}": {
       "name": "/restaurant/{restaurantID}",
-      "lambdaFunction": "inverteAPIV2LoadEssentialInfo",
+      "lambdaFunction": "inverteClientV2LoadEssentialInfo",
       "permissions": {
         "setting": "open"
       }

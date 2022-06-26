@@ -36,7 +36,7 @@ Resource name is 'inverteclientv2377057d3' and serviceName is 'auth' \
 
 The endpoint of our API is: \
 
-https://xescx8j4xl.execute-api.ca-central-1.amazonaws.com/staging \
+https://ywm4hy967c.execute-api.ca-central-1.amazonaws.com/staging \
 
 It supports these routes: \
 • restaurant/{restaurantID} \

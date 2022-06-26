@@ -1,12 +1,12 @@
 {
   "resourceName": "inverteClientV2",
-  "tableName": "inverteClientV2",
+  "tableName": "inverteClientV2ResturantInfo",
   "partitionKey": {
     "fieldName": "restaurantID",
     "fieldType": "string"
   },
   "sortKey": {
-    "fieldName": "restaurantCode",
+    "fieldName": "restaurantName",
     "fieldType": "string"
   },
   "gsi": [],

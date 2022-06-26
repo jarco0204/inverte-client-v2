@@ -11,7 +11,7 @@ export type AmplifyDependentResourcesAttributes = {
         }
     },
     "function": {
-        "inverteAPIV2LoadEssentialInfo": {
+        "inverteClientV2LoadEssentialInfo": {
             "Name": "string",
             "Arn": "string",
             "Region": "string",
@@ -19,7 +19,7 @@ export type AmplifyDependentResourcesAttributes = {
         }
     },
     "api": {
-        "inverteAPIV2": {
+        "inverteClientV2": {
             "RootUrl": "string",
             "ApiName": "string",
             "ApiId": "string"

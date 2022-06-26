@@ -27,7 +27,7 @@ Amplify.addPluggable(
 );
 
 // API
-const myAPI = "inverteAPIV2";
+const myAPI = "inverteClientV2";
 const path = "/restaurant/";
 
 /*

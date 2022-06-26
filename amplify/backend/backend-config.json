@@ -34,7 +34,7 @@
     }
   },
   "function": {
-    "inverteAPIV2LoadEssentialInfo": {
+    "inverteClientV2LoadEssentialInfo": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda",
@@ -52,13 +52,13 @@
     }
   },
   "api": {
-    "inverteAPIV2": {
+    "inverteClientV2": {
       "service": "API Gateway",
       "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
           "category": "function",
-          "resourceName": "inverteAPIV2LoadEssentialInfo",
+          "resourceName": "inverteClientV2LoadEssentialInfo",
           "attributes": [
             "Name",
             "Arn"
