@@ -4,7 +4,7 @@
 	STORAGE_INVERTECLIENTV2_ARN
 	STORAGE_INVERTECLIENTV2_NAME
 	STORAGE_INVERTECLIENTV2_STREAMARN
-Amplify Params - DO NOT EDIT *//* Amplify Params - DO NOT EDIT
+Amplify Params - DO NOT EDIT */ /* Amplify Params - DO NOT EDIT
     ENV
     REGION
     STORAGE_INVERTECLIENTV2_ARN
@@ -31,15 +31,14 @@ exports.handler = async (event) => {
     const restaurantID = event.pathParameters.restaurantID;
     // This is where you make the call to your Database
     const params = {
-        TableName: "inverteClientV2",
-        Key: {
-            restaurantID: restaurantID,
-        },
+        TableName: "inverteClientV2ResturantInfo-staging",
     };
+    let key = { restaurantID: restaurantID };
+    params.Key = key;
     try {
         const data = await getItem(params);
         const restaurant = {
-            message: "olaKAC",
+            message: "Hello I work ",
             restaurantID: restaurantID,
             version: AWS.VERSION,
             data: data,
