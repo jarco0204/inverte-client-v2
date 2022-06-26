@@ -15,6 +15,18 @@
     },
     "s3Key": {
       "Type": "String"
+    },
+    "storageinverteClientV2Name": {
+      "Type": "String",
+      "Default": "storageinverteClientV2Name"
+    },
+    "storageinverteClientV2Arn": {
+      "Type": "String",
+      "Default": "storageinverteClientV2Arn"
+    },
+    "storageinverteClientV2StreamArn": {
+      "Type": "String",
+      "Default": "storageinverteClientV2StreamArn"
     }
   },
   "Conditions": {
@@ -69,6 +81,15 @@
             },
             "REGION": {
               "Ref": "AWS::Region"
+            },
+            "STORAGE_INVERTECLIENTV2_NAME": {
+              "Ref": "storageinverteClientV2Name"
+            },
+            "STORAGE_INVERTECLIENTV2_ARN": {
+              "Ref": "storageinverteClientV2Arn"
+            },
+            "STORAGE_INVERTECLIENTV2_STREAMARN": {
+              "Ref": "storageinverteClientV2StreamArn"
             }
           }
         },
@@ -160,6 +181,58 @@
                   }
                 ]
               }
+            }
+          ]
+        }
+      }
+    },
+    "AmplifyResourcesPolicy": {
+      "DependsOn": [
+        "LambdaExecutionRole"
+      ],
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyName": "amplify-lambda-execution-policy",
+        "Roles": [
+          {
+            "Ref": "LambdaExecutionRole"
+          }
+        ],
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:Put*",
+                "dynamodb:Create*",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:Get*",
+                "dynamodb:BatchGetItem",
+                "dynamodb:List*",
+                "dynamodb:Describe*",
+                "dynamodb:Scan",
+                "dynamodb:Query",
+                "dynamodb:Update*",
+                "dynamodb:RestoreTable*",
+                "dynamodb:Delete*"
+              ],
+              "Resource": [
+                {
+                  "Ref": "storageinverteClientV2Arn"
+                },
+                {
+                  "Fn::Join": [
+                    "/",
+                    [
+                      {
+                        "Ref": "storageinverteClientV2Arn"
+                      },
+                      "index/*"
+                    ]
+                  ]
+                }
+              ]
             }
           ]
         }

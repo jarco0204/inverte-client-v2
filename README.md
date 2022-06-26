@@ -41,7 +41,13 @@ https://xescx8j4xl.execute-api.ca-central-1.amazonaws.com/staging \
 It supports these routes: \
 • restaurant/{restaurantID} \
 
-#### How to continue working on backend
+#### Storage
+
+• This app currently uses a NoSQL database (DynamoDB) where it fetches the essential information. \
+• The name of the app is inverteClientV2 \
+• The Columns are: restaurantID, restaurantCode
+
+### How to continue working on backend
 
 • Install Amplify CLI (App tested with V8.5.1) \
 • Run this command from root: "amplify pull --appId dann226afna7j --envName staging" \

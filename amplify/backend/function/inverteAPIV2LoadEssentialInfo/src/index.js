@@ -1,4 +1,10 @@
-/**
+/* Amplify Params - DO NOT EDIT
+	ENV
+	REGION
+	STORAGE_INVERTECLIENTV2_ARN
+	STORAGE_INVERTECLIENTV2_NAME
+	STORAGE_INVERTECLIENTV2_STREAMARN
+Amplify Params - DO NOT EDIT *//**
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 exports.handler = async (event) => {
@@ -14,7 +20,6 @@ exports.handler = async (event) => {
         headers: {
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Headers": "*",
-            "Access-Control-Allow-Methods": "POST, GET",
         },
         body: JSON.stringify(restaurant),
     };

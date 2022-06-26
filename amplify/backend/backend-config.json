@@ -37,7 +37,18 @@
     "inverteAPIV2LoadEssentialInfo": {
       "build": true,
       "providerPlugin": "awscloudformation",
-      "service": "Lambda"
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "storage",
+          "resourceName": "inverteClientV2",
+          "attributes": [
+            "Name",
+            "Arn",
+            "StreamArn"
+          ]
+        }
+      ]
     }
   },
   "api": {
@@ -54,6 +65,12 @@
           ]
         }
       ]
+    }
+  },
+  "storage": {
+    "inverteClientV2": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation"
     }
   }
 }
