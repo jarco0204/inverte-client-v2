@@ -3,7 +3,7 @@
   "paths": {
     "/restaurant/{restaurantID}": {
       "name": "/restaurant/{restaurantID}",
-      "lambdaFunction": "inverteClientV2LoadEssentialInfo",
+      "lambdaFunction": "inverteClientV2LoadScaleData",
       "permissions": {
         "setting": "open"
       }

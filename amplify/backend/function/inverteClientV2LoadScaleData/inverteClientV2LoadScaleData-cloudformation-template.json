@@ -16,17 +16,17 @@
     "s3Key": {
       "Type": "String"
     },
-    "storageinverteClientV2Name": {
+    "storageinverteClientV2UsersName": {
       "Type": "String",
-      "Default": "storageinverteClientV2Name"
+      "Default": "storageinverteClientV2UsersName"
     },
-    "storageinverteClientV2Arn": {
+    "storageinverteClientV2UsersArn": {
       "Type": "String",
-      "Default": "storageinverteClientV2Arn"
+      "Default": "storageinverteClientV2UsersArn"
     },
-    "storageinverteClientV2StreamArn": {
+    "storageinverteClientV2UsersStreamArn": {
       "Type": "String",
-      "Default": "storageinverteClientV2StreamArn"
+      "Default": "storageinverteClientV2UsersStreamArn"
     }
   },
   "Conditions": {
@@ -59,12 +59,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "inverteClientV2LoadEssentialInfo",
+            "inverteClientV2LoadScaleData",
             {
               "Fn::Join": [
                 "",
                 [
-                  "inverteClientV2LoadEssentialInfo",
+                  "inverteClientV2LoadScaleData",
                   "-",
                   {
                     "Ref": "env"
@@ -82,14 +82,14 @@
             "REGION": {
               "Ref": "AWS::Region"
             },
-            "STORAGE_INVERTECLIENTV2_NAME": {
-              "Ref": "storageinverteClientV2Name"
+            "STORAGE_INVERTECLIENTV2USERS_NAME": {
+              "Ref": "storageinverteClientV2UsersName"
             },
-            "STORAGE_INVERTECLIENTV2_ARN": {
-              "Ref": "storageinverteClientV2Arn"
+            "STORAGE_INVERTECLIENTV2USERS_ARN": {
+              "Ref": "storageinverteClientV2UsersArn"
             },
-            "STORAGE_INVERTECLIENTV2_STREAMARN": {
-              "Ref": "storageinverteClientV2StreamArn"
+            "STORAGE_INVERTECLIENTV2USERS_STREAMARN": {
+              "Ref": "storageinverteClientV2UsersStreamArn"
             }
           }
         },
@@ -110,12 +110,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "inverteclientv2LambdaRole1bed7700",
+            "inverteclientv2LambdaRolef4f0ea9c",
             {
               "Fn::Join": [
                 "",
                 [
-                  "inverteclientv2LambdaRole1bed7700",
+                  "inverteclientv2LambdaRolef4f0ea9c",
                   "-",
                   {
                     "Ref": "env"
@@ -214,19 +214,18 @@
                 "dynamodb:Scan",
                 "dynamodb:Query",
                 "dynamodb:Update*",
-                "dynamodb:RestoreTable*",
-                "dynamodb:Delete*"
+                "dynamodb:RestoreTable*"
               ],
               "Resource": [
                 {
-                  "Ref": "storageinverteClientV2Arn"
+                  "Ref": "storageinverteClientV2UsersArn"
                 },
                 {
                   "Fn::Join": [
                     "/",
                     [
                       {
-                        "Ref": "storageinverteClientV2Arn"
+                        "Ref": "storageinverteClientV2UsersArn"
                       },
                       "index/*"
                     ]

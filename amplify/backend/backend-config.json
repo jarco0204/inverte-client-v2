@@ -34,14 +34,14 @@
     }
   },
   "function": {
-    "inverteClientV2LoadEssentialInfo": {
+    "inverteClientV2LoadScaleData": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda",
       "dependsOn": [
         {
           "category": "storage",
-          "resourceName": "inverteClientV2",
+          "resourceName": "inverteClientV2Users",
           "attributes": [
             "Name",
             "Arn",
@@ -52,13 +52,13 @@
     }
   },
   "api": {
-    "inverteClientV2": {
+    "inverteAPIClientV2": {
       "service": "API Gateway",
       "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
           "category": "function",
-          "resourceName": "inverteClientV2LoadEssentialInfo",
+          "resourceName": "inverteClientV2LoadScaleData",
           "attributes": [
             "Name",
             "Arn"
@@ -68,7 +68,7 @@
     }
   },
   "storage": {
-    "inverteClientV2": {
+    "inverteClientV2Users": {
       "service": "DynamoDB",
       "providerPlugin": "awscloudformation"
     }

@@ -2,11 +2,10 @@
   "lambdaLayers": [],
   "permissions": {
     "storage": {
-      "inverteClientV2": [
+      "inverteClientV2Users": [
         "create",
         "read",
-        "update",
-        "delete"
+        "update"
       ]
     }
   }

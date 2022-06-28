@@ -27,14 +27,14 @@ Amplify.addPluggable(
 );
 
 // API
-const myAPI = "inverteClientV2";
+const myAPI = "inverteAPIClientV2";
 const path = "/restaurant/";
 
 /*
     Main Container Function
   */
 export default function ScalesContainer({ auth, username }) {
-    // console.log(username);
+    console.log("i fire");
     // Calling the API
     useEffect(() => {
         let finalAPIRoute = path + username;

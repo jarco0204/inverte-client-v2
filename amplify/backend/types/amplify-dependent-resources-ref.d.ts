@@ -11,7 +11,7 @@ export type AmplifyDependentResourcesAttributes = {
         }
     },
     "function": {
-        "inverteClientV2LoadEssentialInfo": {
+        "inverteClientV2LoadScaleData": {
             "Name": "string",
             "Arn": "string",
             "Region": "string",
@@ -19,21 +19,19 @@ export type AmplifyDependentResourcesAttributes = {
         }
     },
     "api": {
-        "inverteClientV2": {
+        "inverteAPIClientV2": {
             "RootUrl": "string",
             "ApiName": "string",
             "ApiId": "string"
         }
     },
     "storage": {
-        "inverteClientV2": {
+        "inverteClientV2Users": {
             "Name": "string",
             "Arn": "string",
             "StreamArn": "string",
             "PartitionKeyName": "string",
             "PartitionKeyType": "string",
-            "SortKeyName": "string",
-            "SortKeyType": "string",
             "Region": "string"
         }
     }

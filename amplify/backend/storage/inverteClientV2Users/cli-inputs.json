@@ -1,0 +1,10 @@
+{
+  "resourceName": "inverteClientV2Users",
+  "tableName": "inverteClientV2Users",
+  "partitionKey": {
+    "fieldName": "restaurantID",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": []
+}

@@ -1,19 +1,14 @@
 /* Amplify Params - DO NOT EDIT
 	ENV
 	REGION
-	STORAGE_INVERTECLIENTV2_ARN
-	STORAGE_INVERTECLIENTV2_NAME
-	STORAGE_INVERTECLIENTV2_STREAMARN
-Amplify Params - DO NOT EDIT */ /* Amplify Params - DO NOT EDIT
-    ENV
-    REGION
-    STORAGE_INVERTECLIENTV2_ARN
-    STORAGE_INVERTECLIENTV2_NAME
-    STORAGE_INVERTECLIENTV2_STREAMARN
-Amplify Params - DO NOT EDIT */ /**
+	STORAGE_INVERTECLIENTV2USERS_ARN
+	STORAGE_INVERTECLIENTV2USERS_NAME
+	STORAGE_INVERTECLIENTV2USERS_STREAMARN
+Amplify Params - DO NOT EDIT */
+
+/**
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
-
 const AWS = require("aws-sdk");
 const docClient = new AWS.DynamoDB.DocumentClient();
 
@@ -27,11 +22,11 @@ async function getItem(params) {
 }
 
 exports.handler = async (event) => {
-    // console.log(`EVENT: ${JSON.stringify(event)}`);
+    console.log(`EVENT: ${JSON.stringify(event)}`);
     const restaurantID = event.pathParameters.restaurantID;
     // This is where you make the call to your Database
     const params = {
-        TableName: "inverteClientV2ResturantInfo-staging",
+        TableName: "inverteClientV2Users-staging",
     };
     let key = { restaurantID: restaurantID };
     params.Key = key;
