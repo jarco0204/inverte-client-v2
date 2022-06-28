@@ -32,7 +32,9 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
-export default function Scale() {
+export default function Scale({ pub }) {
+    // console.log("I get my pub", pub);
+
     // Core Data State of a Scale Card
     const [nameIngredient, setNameIngredient] = useState("Cheese");
 
@@ -63,7 +65,6 @@ export default function Scale() {
             setMinOffset((minOffset * 28.35).toFixed(1));
             setMaxOffset((maxOffset * 28.35).toFixed(1));
         }
-        submitCorrectPortionParams();
     };
     /*
         Send updated params to APPROPRIATE scale channel
@@ -79,7 +80,8 @@ export default function Scale() {
             upperErrorLimit: maxOffset,
             unitOfMass: unitOfMassCode,
         };
-        await PubSub.publish("esm/1/f0$1", msg);
+        console.log("sending data to ", pub);
+        await PubSub.publish(pub, msg);
     };
 
     return (

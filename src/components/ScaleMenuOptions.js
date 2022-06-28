@@ -39,15 +39,15 @@ export default function ScaleMenuOptions({
     /*
         Function to handle subsequent function calls after interaction with menu
     */
-    const handleClose = (e) => {
-        console.log(e.target.textContent);
+    const handleClose = async (e) => {
         if (e.target.textContent === options[1]) {
-            setUnitOfMassCode("Oz");
-            convertUnitOfMass("Oz");
+            await setUnitOfMassCode("Oz");
+            await convertUnitOfMass("Oz");
             submitCorrectPortionParams();
         } else if (e.target.textContent === options[0]) {
-            setUnitOfMassCode("G");
-            convertUnitOfMass("G");
+            await setUnitOfMassCode("G");
+            await convertUnitOfMass("G");
+            console.log("I change to grams");
             submitCorrectPortionParams();
         } else if (e.target.textContent === options[2]) {
             setChangeIngredientName(true);
@@ -57,10 +57,11 @@ export default function ScaleMenuOptions({
     /*
         Function to handle subsequent behaviour after ingredient name is changed
     */
-    const handleCloseName = (e) => {
-        console.log(e);
+    const handleCloseName = async (e) => {
         if (e.target.textContent === "Change") {
-            setNameIngredient(newIngredientName);
+            console.log("Changing Name");
+
+            await setNameIngredient(newIngredientName);
             submitCorrectPortionParams(); // This function sends data to AWS
         }
         setChangeIngredientName(false);
@@ -94,11 +95,7 @@ export default function ScaleMenuOptions({
                 }}
             >
                 {options.map((option) => (
-                    <MenuItem
-                        key={option}
-                        selected={option === "Pyxis"}
-                        onClick={handleClose}
-                    >
+                    <MenuItem key={option} onClick={handleClose}>
                         {option}
                     </MenuItem>
                 ))}

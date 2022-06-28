@@ -18,7 +18,7 @@
       "function": {
         "inverteClientV2LoadScaleData": {
           "deploymentBucketName": "amplify-inverteclientv2-staging-233501-deployment",
-          "s3Key": "amplify-builds/inverteClientV2LoadScaleData-4c6c5a7942515769302b-build.zip"
+          "s3Key": "amplify-builds/inverteClientV2LoadScaleData-58346a66534a7a477a61-build.zip"
         }
       }
     }

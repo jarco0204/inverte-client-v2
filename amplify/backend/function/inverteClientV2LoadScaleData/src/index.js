@@ -24,19 +24,21 @@ async function getItem(params) {
 exports.handler = async (event) => {
     console.log(`EVENT: ${JSON.stringify(event)}`);
     const restaurantID = event.pathParameters.restaurantID;
-    // This is where you make the call to your Database
+
+    // Params object to retrieve the essential information about restaurant
     const params = {
         TableName: "inverteClientV2Users-staging",
+        Key: { restaurantID: restaurantID },
     };
-    let key = { restaurantID: restaurantID };
-    params.Key = key;
+
+    // Call to your Database
     try {
         const data = await getItem(params);
         const restaurant = {
-            message: "Hello I work ",
-            restaurantID: restaurantID,
-            version: AWS.VERSION,
-            data: data,
+            message:
+                "Information correctly retrieved from Dynamo using Lambda + API Gateway",
+            sdkVersion: AWS.VERSION,
+            scaleData: data,
         };
         return {
             statusCode: 200,

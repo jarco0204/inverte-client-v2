@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Amplify, { API } from "aws-amplify";
 import { AWSIoTProvider } from "@aws-amplify/pubsub/lib/Providers";
 
@@ -34,18 +34,35 @@ const path = "/restaurant/";
     Main Container Function
   */
 export default function ScalesContainer({ auth, username }) {
-    console.log("i fire");
-    // Calling the API
+    const [publishRoutes, setPublishRoutes] = useState([]);
+
     useEffect(() => {
-        let finalAPIRoute = path + username;
-        API.get(myAPI, finalAPIRoute)
-            .then((response) => {
-                console.log("el pepe", JSON.stringify(response));
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }, [username]);
+        async function callAPI(scalesData) {
+            // Calling the API
+            console.log("I fire API call once");
+            let finalAPIRoute = path + username;
+            await API.get(myAPI, finalAPIRoute)
+                .then((response) => {
+                    // Show the message received
+                    console.log(
+                        "Message correctly received from API",
+                        JSON.stringify(response),
+                    );
+                    scalesData = response["scaleData"]["Item"];
+
+                    // Publish
+                    setPublishRoutes(scalesData["mqttPubTopic"]);
+                    // console.log(publishRoutes);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
+        let scalesData;
+        callAPI(scalesData);
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <div
@@ -58,7 +75,9 @@ export default function ScalesContainer({ auth, username }) {
                 gap: "25px",
             }}
         >
-            <Scale />
+            {publishRoutes.map((publishRoute, i) => (
+                <Scale key={i} pub={publishRoute} />
+            ))}
         </div>
     );
 }
