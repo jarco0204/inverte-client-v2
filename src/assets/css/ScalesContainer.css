@@ -1,0 +1,13 @@
+
+.scalesContainer{
+    padding: 75px;
+    display: inline-grid;
+    column-gap: 50px;
+    row-gap: 50px;  
+}
+
+.centerContent {
+    text-align: center;
+}
+
+

@@ -1,4 +1,4 @@
-## InVerte Client App V2
+# InVerte Client App V2
 
 Copyright ©2022, InVerte FoodTech Inc. - All rights reserved.
 
@@ -11,20 +11,31 @@ It is writtent in Javascript, which leads to cleaner & lighter architecture to p
 
 Christian & Johan
 
-#### Libraries
-
-• React. \
-• Material UI. \
-
 ### How to Run?
 
 1. yarn install \
 2. yarn start \
 3. Add .env.local file to root of project \
 
-### Back-End
+## Front-End
+
+## Conventions
+
+• CSS filenames should be named after the container to which the style is being applied.
+
+#### Libraries
+
+• React. \
+• Material UI. \
+
+## Back-End
 
 This app has a backend with AWS Amplify. The appId is dw3m3x2i8gouy and it's under the name of inverteClientV2
+
+#### Libraries
+
+• AWS-Amplify
+• Lambda
 
 #### Cognito Authentication
 

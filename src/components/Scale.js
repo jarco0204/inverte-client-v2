@@ -16,7 +16,7 @@ import ScaleMenuOptions from "../components/ScaleMenuOptions";
 import InputAdornments from "../components/InputAdornments";
 
 // User imports
-import "../assets/css/scale.css";
+import "../assets/css/ScalesContainer.css";
 
 // Aws Imports
 import { PubSub } from "aws-amplify";
@@ -31,16 +31,21 @@ const ExpandMore = styled((props) => {
         duration: theme.transitions.duration.shortest,
     }),
 }));
-
-export default function Scale({ pub }) {
-    // console.log("I get my pub", pub);
+/*
+    scaleArr is an array that is passed from ScalesContainer after an API call.
+    
+        • The first scaleArr[0] is the Publish MQTT topic of the scale
+        • The second scaleArr[1] is the type of scale (Flat or Pan)
+*/
+export default function Scale({ scaleArr }) {
+    // console.log("I get my scaleArr", scaleArr);
 
     // Core Data State of a Scale Card
     const [nameIngredient, setNameIngredient] = useState("Cheese");
 
-    const [correctWeight, setCorrectWeight] = useState("1.5");
-    const [minOffset, setMinOffset] = useState(0);
-    const [maxOffset, setMaxOffset] = useState(0);
+    const [correctWeight, setCorrectWeight] = useState(1.5);
+    const [minOffset, setMinOffset] = useState(0.1);
+    const [maxOffset, setMaxOffset] = useState(0.1);
     const [unitOfMassCode, setUnitOfMassCode] = useState("Oz");
 
     const [expanded, setExpanded] = useState(false);
@@ -72,6 +77,8 @@ export default function Scale({ pub }) {
     */
     const submitCorrectPortionParams = async () => {
         console.log("Sending updated params to scale");
+
+        // TODO: Validate/convert the correct type of the parameters scale accepts
         let msg = {
             msg: "Hello from Client V2",
             nameIngredient: nameIngredient,
@@ -80,8 +87,10 @@ export default function Scale({ pub }) {
             upperErrorLimit: maxOffset,
             unitOfMass: unitOfMassCode,
         };
-        console.log("sending data to ", pub);
-        await PubSub.publish(pub, msg);
+        console.log("sending data to ", scaleArr[0]);
+
+        await PubSub.publish(scaleArr[0], msg);
+        // await PubSub.publish("johan/1/P0$8", msg);
     };
 
     return (
@@ -101,7 +110,7 @@ export default function Scale({ pub }) {
                     />
                 }
                 title={nameIngredient}
-                subheader="100% full"
+                subheader={scaleArr[1] + " Scale"}
             />
             <CardContent>
                 <div className="centerContent">
@@ -132,8 +141,8 @@ export default function Scale({ pub }) {
                 <CardContent>
                     <div className="centerContent">
                         <h5>Accepted Portion Range: </h5>
-                        <div className="errorRangeComponent">
-                            <div className="errorRangeBlock">
+                        <div>
+                            <div>
                                 <InputAdornments
                                     label={"Under"}
                                     unitOfMassCode={unitOfMassCode}
@@ -145,7 +154,7 @@ export default function Scale({ pub }) {
                                 />
                             </div>
 
-                            <div className="errorRangeBlock">
+                            <div>
                                 <InputAdornments
                                     label={"Over"}
                                     unitOfMassCode={unitOfMassCode}

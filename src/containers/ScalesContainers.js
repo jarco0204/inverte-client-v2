@@ -5,7 +5,7 @@ import { AWSIoTProvider } from "@aws-amplify/pubsub/lib/Providers";
 import Scale from "../components/Scale";
 
 // CSS
-import "../assets/css/scale.css";
+import "../assets/css/ScalesContainer.css";
 
 // MQTT Client
 
@@ -34,10 +34,10 @@ const path = "/restaurant/";
     Main Container Function
   */
 export default function ScalesContainer({ auth, username }) {
-    const [publishRoutes, setPublishRoutes] = useState([]);
+    const [scalesData, setScalesData] = useState([]);
 
     useEffect(() => {
-        async function callAPI(scalesData) {
+        async function callAPI() {
             // Calling the API
             console.log("I fire API call once");
             let finalAPIRoute = path + username;
@@ -48,35 +48,37 @@ export default function ScalesContainer({ auth, username }) {
                         "Message correctly received from API",
                         JSON.stringify(response),
                     );
-                    scalesData = response["scaleData"]["Item"];
+                    let scalesData = response["scaleData"]["Item"];
 
-                    // Publish
-                    setPublishRoutes(scalesData["mqttPubTopic"]);
-                    // console.log(publishRoutes);
+                    // Create Combined Dataset to generate ScaleCard Components
+                    let tempAr = [];
+                    for (
+                        let i = 0;
+                        i < scalesData["mqttPubTopic"].length;
+                        i++
+                    ) {
+                        tempAr.push([
+                            scalesData["mqttPubTopic"][i],
+                            scalesData["scalesType"][i],
+                        ]);
+                    }
+
+                    // Set state
+                    setScalesData(tempAr);
                 })
                 .catch((error) => {
                     console.log(error);
                 });
         }
-        let scalesData;
-        callAPI(scalesData);
+        callAPI();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
-        <div
-            style={{
-                position: "relative",
-                top: "150px",
-                left: "150px",
-                display: "flex",
-                flexDirection: "row",
-                gap: "25px",
-            }}
-        >
-            {publishRoutes.map((publishRoute, i) => (
-                <Scale key={i} pub={publishRoute} />
+        <div className="scalesContainer">
+            {scalesData.map((scaleArr, i) => (
+                <Scale key={i} scaleArr={scaleArr} />
             ))}
         </div>
     );
