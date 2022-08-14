@@ -74,23 +74,34 @@ export default function Scale({ scaleArr }) {
     /*
         Send updated params to APPROPRIATE scale channel
         whenever a change is detected in the inputs or focus is removed
+
+        Function takes parameter to set data to update state or control
     */
-    const submitCorrectPortionParams = async () => {
+    const sendDataAWS = async (control = false, action = null) => {
         console.log("Sending updated params to scale");
 
-        // TODO: Validate/convert the correct type of the parameters scale accepts
-        let msg = {
-            msg: "Hello from Client V2",
-            nameIngredient: nameIngredient,
-            correctWeight: correctWeight,
-            lowerErrorLimit: minOffset,
-            upperErrorLimit: maxOffset,
-            unitOfMass: unitOfMassCode,
-        };
-        console.log("sending data to ", scaleArr[0]);
+        if (control) {
+            let msg = {
+                msg: "Virtual control of scale",
+                action: action,
+            };
+            console.log(msg);
+            let topic = scaleArr[0] + "/Control";
+            await PubSub.publish(topic, msg);
+        } else {
+            // TODO: Validate/convert the correct type of the parameters scale accepts
+            let msg = {
+                msg: "Hello from Client V2",
+                nameIngredient: nameIngredient,
+                correctWeight: correctWeight,
+                lowerErrorLimit: minOffset,
+                upperErrorLimit: maxOffset,
+                unitOfMass: unitOfMassCode,
+            };
+            console.log("sending data to ", scaleArr[0]);
 
-        await PubSub.publish(scaleArr[0], msg);
-        // await PubSub.publish("johan/1/P0$8", msg);
+            await PubSub.publish(scaleArr[0], msg);
+        }
     };
 
     return (
@@ -105,7 +116,7 @@ export default function Scale({ scaleArr }) {
                     <ScaleMenuOptions
                         setUnitOfMassCode={setUnitOfMassCode}
                         setNameIngredient={setNameIngredient}
-                        submitCorrectPortionParams={submitCorrectPortionParams}
+                        sendDataAWS={sendDataAWS}
                         convertUnitOfMass={convertUnitOfMass}
                     />
                 }
@@ -119,7 +130,7 @@ export default function Scale({ scaleArr }) {
                         unitOfMassCode={unitOfMassCode}
                         correctPortionWeight={correctWeight}
                         setCorrectWeight={setCorrectWeight}
-                        submitCorrectPortionParams={submitCorrectPortionParams}
+                        submitCorrectPortionParams={sendDataAWS}
                     />
                 </div>
             </CardContent>
@@ -148,9 +159,7 @@ export default function Scale({ scaleArr }) {
                                     unitOfMassCode={unitOfMassCode}
                                     correctPortionWeight={minOffset}
                                     setCorrectWeight={setMinOffset}
-                                    submitCorrectPortionParams={
-                                        submitCorrectPortionParams
-                                    }
+                                    submitCorrectPortionParams={sendDataAWS}
                                 />
                             </div>
 
@@ -160,9 +169,7 @@ export default function Scale({ scaleArr }) {
                                     unitOfMassCode={unitOfMassCode}
                                     correctPortionWeight={maxOffset}
                                     setCorrectWeight={setMaxOffset}
-                                    submitCorrectPortionParams={
-                                        submitCorrectPortionParams
-                                    }
+                                    submitCorrectPortionParams={sendDataAWS}
                                 />
                             </div>
                         </div>

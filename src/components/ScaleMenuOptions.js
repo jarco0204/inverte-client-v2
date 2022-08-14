@@ -12,14 +12,14 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-const options = ["Change Grams", "Change Ounzes", "Rename Ingredient"];
+const options = ["Tare", "Change Mode", "Change Unit", "Rename Ingredient"];
 
 const ITEM_HEIGHT = 48;
 
 export default function ScaleMenuOptions({
     setUnitOfMassCode,
     setNameIngredient,
-    submitCorrectPortionParams,
+    sendDataAWS,
     convertUnitOfMass,
 }) {
     //MUI State
@@ -40,16 +40,20 @@ export default function ScaleMenuOptions({
         Function to handle subsequent function calls after interaction with menu
     */
     const handleClose = async (e) => {
-        if (e.target.textContent === options[1]) {
-            await setUnitOfMassCode("Oz");
-            await convertUnitOfMass("Oz");
-            submitCorrectPortionParams();
-        } else if (e.target.textContent === options[0]) {
-            await setUnitOfMassCode("G");
-            await convertUnitOfMass("G");
-            console.log("I change to grams");
-            submitCorrectPortionParams();
-        } else if (e.target.textContent === options[2]) {
+        // Tare
+        if (e.target.textContent === options[0]) {
+            sendDataAWS(true, 0);
+        }
+        // Change Mode
+        else if (e.target.textContent === options[1]) {
+            sendDataAWS(true, 1);
+        }
+        // Change Unit
+        else if (e.target.textContent === options[2]) {
+            sendDataAWS(true, 2);
+        }
+        // Rename Ingredient
+        else if (e.target.textContent === options[3]) {
             setChangeIngredientName(true);
         }
         setAnchorEl(null);
@@ -62,7 +66,7 @@ export default function ScaleMenuOptions({
             console.log("Changing Name");
 
             await setNameIngredient(newIngredientName);
-            submitCorrectPortionParams(); // This function sends data to AWS
+            sendDataAWS(); // This function sends data to AWS
         }
         setChangeIngredientName(false);
     };
