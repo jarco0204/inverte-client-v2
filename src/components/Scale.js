@@ -86,7 +86,7 @@ export default function Scale({ scaleArr }) {
         if (control) {
             let msg = {
                 msg: "Virtual control of scale",
-                action: action,
+                control: action,
             };
             console.log(msg);
             let topic = scaleArr[0] + "/control";
