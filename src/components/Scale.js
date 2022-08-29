@@ -7,9 +7,9 @@ import CardActions from "@mui/material/CardActions";
 import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
-import { red } from "@mui/material/colors";
+import { blue, green } from "@mui/material/colors";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
+import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 
 import ScaleMenuOptions from "../components/ScaleMenuOptions";
 
@@ -43,10 +43,10 @@ export default function Scale({ scaleArr }) {
     // Core Data State of a Scale Card
     const [nameIngredient, setNameIngredient] = useState("Cheese");
 
-    const [correctWeight, setCorrectWeight] = useState(1.5);
-    const [minOffset, setMinOffset] = useState(0.1);
-    const [maxOffset, setMaxOffset] = useState(0.1);
-    const [unitOfMassCode, setUnitOfMassCode] = useState("Oz");
+    const [correctWeight, setCorrectWeight] = useState(10);
+    const [minOffset, setMinOffset] = useState(1);
+    const [maxOffset, setMaxOffset] = useState(1);
+    const [unitOfMassCode, setUnitOfMassCode] = useState("G");
 
     const [expanded, setExpanded] = useState(false);
 
@@ -76,6 +76,9 @@ export default function Scale({ scaleArr }) {
         whenever a change is detected in the inputs or focus is removed
 
         Function takes parameter to set data to update state or control
+
+        When action = 3, the scale begins. 
+        Consequently, we determine the weight of the inventory. 
     */
     const sendDataAWS = async (control = false, action = null) => {
         console.log("Sending updated params to scale");
@@ -86,7 +89,7 @@ export default function Scale({ scaleArr }) {
                 action: action,
             };
             console.log(msg);
-            let topic = scaleArr[0] + "/Control";
+            let topic = scaleArr[0] + "/control";
             await PubSub.publish(topic, msg);
         } else {
             // TODO: Validate/convert the correct type of the parameters scale accepts
@@ -98,9 +101,9 @@ export default function Scale({ scaleArr }) {
                 upperErrorLimit: maxOffset,
                 unitOfMass: unitOfMassCode,
             };
-            console.log("sending data to ", scaleArr[0]);
-
-            await PubSub.publish(scaleArr[0], msg);
+            let topic = scaleArr[0] + "/params";
+            console.log("sending data to ", topic);
+            await PubSub.publish(topic, msg);
         }
     };
 
@@ -108,7 +111,7 @@ export default function Scale({ scaleArr }) {
         <Card sx={{ maxWidth: 340 }}>
             <CardHeader
                 avatar={
-                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                    <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
                         {nameIngredient[0]}
                     </Avatar>
                 }
@@ -135,8 +138,13 @@ export default function Scale({ scaleArr }) {
                 </div>
             </CardContent>
             <CardActions disableSpacing>
-                <IconButton aria-label="Power On">
-                    <PowerSettingsNewIcon />
+                <IconButton
+                    aria-label="Start Scale"
+                    onClick={(e) => {
+                        sendDataAWS(true, 3);
+                    }}
+                >
+                    <PlayCircleOutlineIcon style={{ color: "limegreen" }} />
                 </IconButton>
 
                 <ExpandMore
