@@ -102,7 +102,7 @@ export default function Scale({ scaleArr }) {
             unitOfMass: unitOfMassCode,
         };
         console.log("sending data to ", scaleArr[0]);
-
+        console.log(msg)
         await PubSub.publish(scaleArr[0], msg);
         // await PubSub.publish("johan/1/P0$8", msg);
     };
@@ -139,7 +139,11 @@ export default function Scale({ scaleArr }) {
             </CardContent>
             <CardActions disableSpacing>
                 <IconButton aria-label="Power On">
-                    <PowerSettingsNewIcon />
+                    <PowerSettingsNewIcon 
+                        sx={{
+                            color: 'lime'
+                        }}
+                    />
                 </IconButton>
 
                 <ExpandMore

@@ -6,7 +6,9 @@ function SideContainer ({
 }) {
     return (
         <>
-        <Header />
+        { !authorized && (
+            <Header />
+        )}
         { authorized && (
             <NavBar />
             )}
