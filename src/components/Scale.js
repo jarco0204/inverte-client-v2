@@ -10,6 +10,8 @@ import IconButton from "@mui/material/IconButton";
 import { blue, green } from "@mui/material/colors";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
+import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
+import { Button } from "@mui/material";
 
 import ScaleMenuOptions from "../components/ScaleMenuOptions";
 
@@ -31,6 +33,11 @@ const ExpandMore = styled((props) => {
         duration: theme.transitions.duration.shortest,
     }),
 }));
+const SubmitButton = styled(Button)(({ theme }) => ({
+    color: theme.palette.secondary.main,
+    backgroundColor: theme.palette.primary.main,
+    
+}))
 /*
     scaleArr is an array that is passed from ScalesContainer after an API call.
     
@@ -55,6 +62,15 @@ export default function Scale({ scaleArr }) {
     */
     const handleExpandClick = () => {
         setExpanded(!expanded);
+    };
+
+    const handleButtonClick = async () => {
+        console.log("Sending params to popsub")
+        let msg = {
+            'char':[1]
+        }
+
+        await PubSub.publish('esm-1-F0-9', msg);
     };
 
     /*
@@ -138,13 +154,13 @@ export default function Scale({ scaleArr }) {
                 </div>
             </CardContent>
             <CardActions disableSpacing>
-                <IconButton
-                    aria-label="Start Scale"
-                    onClick={(e) => {
-                        sendDataAWS(true, 3);
-                    }}
-                >
-                    <PlayCircleOutlineIcon style={{ color: "limegreen" }} />
+                <IconButton aria-label="Power On">
+                    <PowerSettingsNewIcon 
+                        sx={{
+                            color: 'lime'
+                        }}
+                    />
+
                 </IconButton>
 
                 <ExpandMore
@@ -181,6 +197,11 @@ export default function Scale({ scaleArr }) {
                                 />
                             </div>
                         </div>
+                        <SubmitButton
+                            onClick={handleButtonClick}
+                        >
+                            Submit
+                        </SubmitButton>
                     </div>
                 </CardContent>
             </Collapse>

@@ -41,7 +41,7 @@ export default function NavBar({ children }) {
 
     const drawer = (
         <div>
-            <Toolbar />
+            <Toolbar /> 
             <Divider />
             <List>
                 <ListItem key={"scales"} disablePadding>
@@ -130,6 +130,7 @@ export default function NavBar({ children }) {
                 sx={{
                     width: { sm: drawerWidth },
                     flexShrink: { sm: 0 },
+                    height: { sm: 100 },
                 }}
                 aria-label="Options"
             >
