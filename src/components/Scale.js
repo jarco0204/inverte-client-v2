@@ -7,10 +7,12 @@ import CardActions from "@mui/material/CardActions";
 import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
-import { red } from "@mui/material/colors";
+import { blue, green } from "@mui/material/colors";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import { Button } from "@mui/material";
+
 import ScaleMenuOptions from "../components/ScaleMenuOptions";
 
 import InputAdornments from "../components/InputAdornments";
@@ -48,10 +50,10 @@ export default function Scale({ scaleArr }) {
     // Core Data State of a Scale Card
     const [nameIngredient, setNameIngredient] = useState("Cheese");
 
-    const [correctWeight, setCorrectWeight] = useState(1.5);
-    const [minOffset, setMinOffset] = useState(0.1);
-    const [maxOffset, setMaxOffset] = useState(0.1);
-    const [unitOfMassCode, setUnitOfMassCode] = useState("Oz");
+    const [correctWeight, setCorrectWeight] = useState(10);
+    const [minOffset, setMinOffset] = useState(1);
+    const [maxOffset, setMaxOffset] = useState(1);
+    const [unitOfMassCode, setUnitOfMassCode] = useState("G");
 
     const [expanded, setExpanded] = useState(false);
 
@@ -88,30 +90,44 @@ export default function Scale({ scaleArr }) {
     /*
         Send updated params to APPROPRIATE scale channel
         whenever a change is detected in the inputs or focus is removed
+
+        Function takes parameter to set data to update state or control
+
+        When action = 3, the scale begins. 
+        Consequently, we determine the weight of the inventory. 
     */
-    const submitCorrectPortionParams = async () => {
+    const sendDataAWS = async (control = false, action = null) => {
         console.log("Sending updated params to scale");
 
-        // TODO: Validate/convert the correct type of the parameters scale accepts
-        let msg = {
-            msg: "Hello from Client V2",
-            nameIngredient: nameIngredient,
-            correctWeight: correctWeight,
-            lowerErrorLimit: minOffset,
-            upperErrorLimit: maxOffset,
-            unitOfMass: unitOfMassCode,
-        };
-        console.log("sending data to ", scaleArr[0]);
-        console.log(msg)
-        await PubSub.publish(scaleArr[0], msg);
-        // await PubSub.publish("johan/1/P0$8", msg);
+        if (control) {
+            let msg = {
+                msg: "Virtual control of scale",
+                control: action,
+            };
+            console.log(msg);
+            let topic = scaleArr[0] + "/control";
+            await PubSub.publish(topic, msg);
+        } else {
+            // TODO: Validate/convert the correct type of the parameters scale accepts
+            let msg = {
+                msg: "Hello from Client V2",
+                nameIngredient: nameIngredient,
+                correctWeight: correctWeight,
+                lowerErrorLimit: minOffset,
+                upperErrorLimit: maxOffset,
+                unitOfMass: unitOfMassCode,
+            };
+            let topic = scaleArr[0] + "/params";
+            console.log("sending data to ", topic);
+            await PubSub.publish(topic, msg);
+        }
     };
 
     return (
         <Card sx={{ maxWidth: 340 }}>
             <CardHeader
                 avatar={
-                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                    <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
                         {nameIngredient[0]}
                     </Avatar>
                 }
@@ -119,7 +135,7 @@ export default function Scale({ scaleArr }) {
                     <ScaleMenuOptions
                         setUnitOfMassCode={setUnitOfMassCode}
                         setNameIngredient={setNameIngredient}
-                        submitCorrectPortionParams={submitCorrectPortionParams}
+                        sendDataAWS={sendDataAWS}
                         convertUnitOfMass={convertUnitOfMass}
                     />
                 }
@@ -133,7 +149,7 @@ export default function Scale({ scaleArr }) {
                         unitOfMassCode={unitOfMassCode}
                         correctPortionWeight={correctWeight}
                         setCorrectWeight={setCorrectWeight}
-                        submitCorrectPortionParams={submitCorrectPortionParams}
+                        submitCorrectPortionParams={sendDataAWS}
                     />
                 </div>
             </CardContent>
@@ -144,6 +160,7 @@ export default function Scale({ scaleArr }) {
                             color: 'lime'
                         }}
                     />
+
                 </IconButton>
 
                 <ExpandMore
@@ -166,9 +183,7 @@ export default function Scale({ scaleArr }) {
                                     unitOfMassCode={unitOfMassCode}
                                     correctPortionWeight={minOffset}
                                     setCorrectWeight={setMinOffset}
-                                    submitCorrectPortionParams={
-                                        submitCorrectPortionParams
-                                    }
+                                    submitCorrectPortionParams={sendDataAWS}
                                 />
                             </div>
 
@@ -178,9 +193,7 @@ export default function Scale({ scaleArr }) {
                                     unitOfMassCode={unitOfMassCode}
                                     correctPortionWeight={maxOffset}
                                     setCorrectWeight={setMaxOffset}
-                                    submitCorrectPortionParams={
-                                        submitCorrectPortionParams
-                                    }
+                                    submitCorrectPortionParams={sendDataAWS}
                                 />
                             </div>
                         </div>
