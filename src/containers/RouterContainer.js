@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 // User-made containers
 import SignInContainer from "./SignInContainer";
 
-// import HomeContainer from "./HomeContainer";
+import RealTimeContainer from "./RealTimeContainer";
 import ScalesContainer from "./ScalesContainers";
 import AnalyticsContainer from "./AnalyticsContainer";
 
@@ -71,6 +71,14 @@ function RouterContainer({
                         element={
                             <Navbar username={username}>
                                 <AnalyticsContainer auth={authorized} />
+                            </Navbar>
+                        }
+                    />
+                    <Route
+                        path="/real-time"
+                        element={
+                            <Navbar username={username}>
+                                <RealTimeContainer auth={authorized} />
                             </Navbar>
                         }
                     />
