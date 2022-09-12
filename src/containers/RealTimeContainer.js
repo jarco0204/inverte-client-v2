@@ -17,21 +17,34 @@ import CustomToolTipGraph from "../components/CustomToolTipGraph";
     @Output: Graph UI Web Socket
 
     @Coder: El Puma
+
+     //
+        Sample Schema
+        {
+            "deviceID": 189561373270212,
+            "timestamp": 1662990223819,
+            "readingID": 88,
+            "temperature": 206,
+            "humidity": 521,
+            "airPressure": 991,
+            "loadCellStateStr": "steady",
+            "ingredientName": "Cheese",
+            "correctPortionWeight": 10,
+            "portionWeight": 3,
+            "inventoryWeight": 1
+        }
+    //
 */
 function RealTimeContainer(props) {
     // console.log("users is authorized: ", props.auth);
 
     const [data, setData] = useState([]);
 
-    // Do you need this inside UseEffect?
-    /*
-        This is format to send data from cloud to app
-        {
-    "timestamp": 6,
-    "inventoryWeight": 20
-        }
-    */
-    PubSub.subscribe("johan/1/P0$8").subscribe({
+    // Learned that next() function repeats based on the number of messages in queue
+    // Will using UseEffect solve this issue?
+    // Note that Subscribe param needs to be dynamic; this information is already called
+    // from API in ScaleContainer => copy it or move it to parent component
+    PubSub.subscribe("johan/1").subscribe({
         next: (dataCloud) => {
             console.log("Message received", dataCloud);
             // Change Unix Timesetamp to Local Time
@@ -41,7 +54,7 @@ function RealTimeContainer(props) {
             let graphEle = {
                 inventoryWeight: dataCloud.value.inventoryWeight,
                 timestamp: d,
-                inventoryName: dataCloud.value.inventoryName,
+                inventoryName: dataCloud.value.ingredientName,
             };
             const updatedDataAr = [...data, graphEle];
             setData(updatedDataAr);
