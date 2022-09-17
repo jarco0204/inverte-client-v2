@@ -1,6 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit";
 
-export const getAuth = state
+export const getProfile = state.Auth.session
 
 export const isAuthenticated = createSelector([getProfile], profile => {
     const authenticated = profile?.email

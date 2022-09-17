@@ -7,10 +7,8 @@ import CardActions from "@mui/material/CardActions";
 import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
-import { blue, green } from "@mui/material/colors";
+import { blue } from "@mui/material/colors";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
-import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import { Button } from "@mui/material";
 
 import ScaleMenuOptions from "../components/ScaleMenuOptions";
@@ -23,6 +21,7 @@ import "../assets/css/ScalesContainer.css";
 // Aws Imports
 import { PubSub } from "aws-amplify";
 
+// CSS Elements
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
     return <IconButton {...other} />;
@@ -33,11 +32,7 @@ const ExpandMore = styled((props) => {
         duration: theme.transitions.duration.shortest,
     }),
 }));
-const SubmitButton = styled(Button)(({ theme }) => ({
-    color: theme.palette.secondary.main,
-    backgroundColor: theme.palette.primary.main,
-    
-}))
+
 /*
     scaleArr is an array that is passed from ScalesContainer after an API call.
     
@@ -57,6 +52,16 @@ export default function Scale({ scaleArr }) {
 
     const [expanded, setExpanded] = useState(false);
 
+    const [buttonStateStr, setButtonStateStr] = useState("Start");
+    const [buttonStateColor, setButtonStateColor] = useState("#02182E");
+
+    const StartButton = styled(Button)(({ theme }) => ({
+        color: theme.palette.secondary.main,
+        backgroundColor: buttonStateColor,
+        marginLeft: "20px",
+        fontSize: 13,
+    }));
+
     /*
         Material UI function component
     */
@@ -64,13 +69,14 @@ export default function Scale({ scaleArr }) {
         setExpanded(!expanded);
     };
 
-    const handleButtonClick = async () => {
-        console.log("Sending params to popsub")
-        let msg = {
-            'char':[1]
-        }
-
-        await PubSub.publish('esm-1-F0-9', msg);
+    /*
+        Special Tare Button Logic
+    */
+    const handleSpecialButton = () => {
+        console.log("hello");
+        setButtonStateColor(blue[500]);
+        sendDataAWS(true, 3);
+        setButtonStateStr("Online");
     };
 
     /*
@@ -97,11 +103,9 @@ export default function Scale({ scaleArr }) {
         Consequently, we determine the weight of the inventory. 
     */
     const sendDataAWS = async (control = false, action = null) => {
-        console.log("Sending updated params to scale");
-
         if (control) {
             let msg = {
-                msg: "Virtual control of scale",
+                msg: "Sending Scale action from Client to AWS",
                 control: action,
             };
             console.log(msg);
@@ -110,7 +114,7 @@ export default function Scale({ scaleArr }) {
         } else {
             // TODO: Validate/convert the correct type of the parameters scale accepts
             let msg = {
-                msg: "Hello from Client V2",
+                msg: "Sending portion parameters from Client to AWS",
                 nameIngredient: nameIngredient,
                 correctWeight: correctWeight,
                 lowerErrorLimit: minOffset,
@@ -154,14 +158,9 @@ export default function Scale({ scaleArr }) {
                 </div>
             </CardContent>
             <CardActions disableSpacing>
-                <IconButton aria-label="Power On">
-                    <PowerSettingsNewIcon 
-                        sx={{
-                            color: 'lime'
-                        }}
-                    />
-
-                </IconButton>
+                <StartButton onClick={handleSpecialButton}>
+                    {buttonStateStr}
+                </StartButton>
 
                 <ExpandMore
                     expand={expanded}
@@ -197,11 +196,6 @@ export default function Scale({ scaleArr }) {
                                 />
                             </div>
                         </div>
-                        <SubmitButton
-                            onClick={handleButtonClick}
-                        >
-                            Submit
-                        </SubmitButton>
                     </div>
                 </CardContent>
             </Collapse>

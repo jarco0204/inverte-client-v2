@@ -37,7 +37,7 @@ function SignInContainer({
             setUsername(user.username);
 
             setAuthorized(true);
-
+            console.log(user)
             // Welcome the user
             navigate("/scales");
             // navigate("test/home");

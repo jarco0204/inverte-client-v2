@@ -41,7 +41,7 @@ export default function NavBar({ children }) {
 
     const drawer = (
         <div>
-            <Toolbar /> 
+            <Toolbar />
             <Divider />
             <List>
                 <ListItem key={"scales"} disablePadding>
@@ -52,12 +52,12 @@ export default function NavBar({ children }) {
                         <ListItemText primary={"Scales"} />
                     </ListItemButton>
                 </ListItem>
-                <ListItem key={"recipes"} disablePadding>
+                <ListItem key={"Real-Time"} disablePadding>
                     <ListItemButton onClick={handleClick}>
                         <ListItemIcon>
-                            <FoodBankIcon />
+                            <ElectricBoltTwoToneIcon />
                         </ListItemIcon>
-                        <ListItemText primary={"Recipes"} />
+                        <ListItemText primary={"Real-Time"} />
                     </ListItemButton>
                 </ListItem>
             </List>
@@ -71,14 +71,12 @@ export default function NavBar({ children }) {
                         <ListItemText primary={"Analytics"} />
                     </ListItemButton>
                 </ListItem>
-            </List>
-            <List>
-                <ListItem key={"Real-Time"} disablePadding>
+                <ListItem key={"recipes"} disablePadding>
                     <ListItemButton onClick={handleClick}>
                         <ListItemIcon>
-                            <ElectricBoltTwoToneIcon />
+                            <FoodBankIcon />
                         </ListItemIcon>
-                        <ListItemText primary={"Real-Time"} />
+                        <ListItemText primary={"Recipes"} />
                     </ListItemButton>
                 </ListItem>
             </List>
