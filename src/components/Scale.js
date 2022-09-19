@@ -152,7 +152,6 @@ export default function Scale({ scaleArr }) {
                 action={
                     <ScaleMenuOptions
                         setUnitOfMassCode={setUnitOfMassCode}
-                        setNameIngredient={setNameIngredient}
                         sendDataAWS={sendDataAWS}
                         convertUnitOfMass={convertUnitOfMass}
                     />
