@@ -12,23 +12,18 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-const options = ["Tare", "Change Mode", "Change Unit", "Rename Ingredient"];
+const options = ["Tare", "Change Mode", "Change Unit"];
 
 const ITEM_HEIGHT = 48;
 
 export default function ScaleMenuOptions({
     setUnitOfMassCode,
-    setNameIngredient,
     sendDataAWS,
     convertUnitOfMass,
 }) {
     //MUI State
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
-
-    // User State
-    const [changeIngredientName, setChangeIngredientName] = useState(false);
-    const [newIngredientName, setNewIngredientName] = useState("");
 
     /*
         Material UI function to show menu or not
@@ -50,25 +45,10 @@ export default function ScaleMenuOptions({
         }
         // Change Unit
         else if (e.target.textContent === options[2]) {
-            sendDataAWS(true, 2);
+            convertUnitOfMass(); // This function send data to AWS with params = {true, 2}
         }
-        // Rename Ingredient
-        else if (e.target.textContent === options[3]) {
-            setChangeIngredientName(true);
-        }
-        setAnchorEl(null);
-    };
-    /*
-        Function to handle subsequent behaviour after ingredient name is changed
-    */
-    const handleCloseName = async (e) => {
-        if (e.target.textContent === "Change") {
-            console.log("Changing Name");
 
-            await setNameIngredient(newIngredientName);
-            sendDataAWS(); // This function sends data to AWS
-        }
-        setChangeIngredientName(false);
+        setAnchorEl(null);
     };
 
     return (
@@ -104,7 +84,7 @@ export default function ScaleMenuOptions({
                     </MenuItem>
                 ))}
             </Menu>
-            <Dialog open={changeIngredientName} onClose={handleCloseName}>
+            {/* <Dialog open={changeIngredientName} onClose={handleCloseName}>
                 <DialogTitle>Change Ingredient Name</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
@@ -127,7 +107,7 @@ export default function ScaleMenuOptions({
                     <Button onClick={handleCloseName}>Cancel</Button>
                     <Button onClick={handleCloseName}>Change</Button>
                 </DialogActions>
-            </Dialog>
+            </Dialog> */}
         </div>
     );
 }

@@ -14,6 +14,7 @@ import { Button } from "@mui/material";
 import ScaleMenuOptions from "../components/ScaleMenuOptions";
 
 import InputAdornments from "../components/InputAdornments";
+import EditableCardNameParam from "../components/EditableCardNameParam";
 
 // User imports
 import "../assets/css/ScalesContainer.css";
@@ -68,6 +69,19 @@ export default function Scale({ scaleArr }) {
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
+    /*
+        Material UI function component
+    */
+    const editableNameComponent = (ingredientName, scaleType) => {
+        return (
+            <EditableCardNameParam
+                ingredientName={ingredientName}
+                scaleType={scaleType}
+                setNameIngredient={setNameIngredient}
+                sendDataAWS={sendDataAWS}
+            />
+        );
+    };
 
     /*
         Special Tare Button Logic
@@ -82,16 +96,20 @@ export default function Scale({ scaleArr }) {
     /*
         Helper function to convert unit of mass
     */
-    const convertUnitOfMass = (outputForm) => {
-        if (outputForm === "Oz" && unitOfMassCode !== "Oz") {
+    const convertUnitOfMass = () => {
+        if (unitOfMassCode === "G") {
             setCorrectWeight((correctWeight / 28.35).toFixed(1));
             setMinOffset((minOffset / 28.35).toFixed(1));
             setMaxOffset((maxOffset / 28.35).toFixed(1));
-        } else if (outputForm === "G" && unitOfMassCode !== "G") {
+            setUnitOfMassCode("Oz");
+        } else {
             setCorrectWeight((correctWeight * 28.35).toFixed(1));
             setMinOffset((minOffset * 28.35).toFixed(1));
             setMaxOffset((maxOffset * 28.35).toFixed(1));
+            setUnitOfMassCode("G");
         }
+        sendDataAWS(); // Data NOTE: It seems this is not executing
+        sendDataAWS(true, 2); // Action
     };
     /*
         Send updated params to APPROPRIATE scale channel
@@ -138,13 +156,14 @@ export default function Scale({ scaleArr }) {
                 action={
                     <ScaleMenuOptions
                         setUnitOfMassCode={setUnitOfMassCode}
-                        setNameIngredient={setNameIngredient}
                         sendDataAWS={sendDataAWS}
                         convertUnitOfMass={convertUnitOfMass}
                     />
                 }
-                title={nameIngredient}
-                subheader={scaleArr[1] + " Scale"}
+                title={editableNameComponent(
+                    nameIngredient,
+                    scaleArr[1] + " Scale",
+                )}
             />
             <CardContent>
                 <div className="centerContent">
