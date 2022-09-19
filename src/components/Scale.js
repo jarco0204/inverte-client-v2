@@ -14,6 +14,7 @@ import { Button } from "@mui/material";
 import ScaleMenuOptions from "../components/ScaleMenuOptions";
 
 import InputAdornments from "../components/InputAdornments";
+import EditableCardNameParam from "../components/EditableCardNameParam";
 
 // User imports
 import "../assets/css/ScalesContainer.css";
@@ -67,6 +68,19 @@ export default function Scale({ scaleArr }) {
     */
     const handleExpandClick = () => {
         setExpanded(!expanded);
+    };
+    /*
+        Material UI function component
+    */
+    const editableNameComponent = (ingredientName, scaleType) => {
+        return (
+            <EditableCardNameParam
+                ingredientName={ingredientName}
+                scaleType={scaleType}
+                setNameIngredient={setNameIngredient}
+                sendDataAWS={sendDataAWS}
+            />
+        );
     };
 
     /*
@@ -143,8 +157,10 @@ export default function Scale({ scaleArr }) {
                         convertUnitOfMass={convertUnitOfMass}
                     />
                 }
-                title={nameIngredient}
-                subheader={scaleArr[1] + " Scale"}
+                title={editableNameComponent(
+                    nameIngredient,
+                    scaleArr[1] + " Scale",
+                )}
             />
             <CardContent>
                 <div className="centerContent">
