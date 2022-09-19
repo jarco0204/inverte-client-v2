@@ -96,16 +96,20 @@ export default function Scale({ scaleArr }) {
     /*
         Helper function to convert unit of mass
     */
-    const convertUnitOfMass = (outputForm) => {
-        if (outputForm === "Oz" && unitOfMassCode !== "Oz") {
+    const convertUnitOfMass = () => {
+        if (unitOfMassCode === "G") {
             setCorrectWeight((correctWeight / 28.35).toFixed(1));
             setMinOffset((minOffset / 28.35).toFixed(1));
             setMaxOffset((maxOffset / 28.35).toFixed(1));
-        } else if (outputForm === "G" && unitOfMassCode !== "G") {
+            setUnitOfMassCode("Oz");
+        } else {
             setCorrectWeight((correctWeight * 28.35).toFixed(1));
             setMinOffset((minOffset * 28.35).toFixed(1));
             setMaxOffset((maxOffset * 28.35).toFixed(1));
+            setUnitOfMassCode("G");
         }
+        sendDataAWS(); // Data NOTE: It seems this is not executing
+        sendDataAWS(true, 2); // Action
     };
     /*
         Send updated params to APPROPRIATE scale channel

@@ -25,10 +25,6 @@ export default function ScaleMenuOptions({
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
-    // User State
-    const [changeIngredientName, setChangeIngredientName] = useState(false);
-    const [newIngredientName, setNewIngredientName] = useState("");
-
     /*
         Material UI function to show menu or not
      */
@@ -49,19 +45,10 @@ export default function ScaleMenuOptions({
         }
         // Change Unit
         else if (e.target.textContent === options[2]) {
-            sendDataAWS(true, 2);
+            convertUnitOfMass(); // This function send data to AWS with params = {true, 2}
         }
-        // Rename Ingredient
-        else if (e.target.textContent === options[3]) {
-            setChangeIngredientName(true);
-        }
+
         setAnchorEl(null);
-    };
-    /*
-        Function to handle subsequent behaviour after ingredient name is changed
-    */
-    const handleCloseName = async (e) => {
-        setChangeIngredientName(false);
     };
 
     return (
