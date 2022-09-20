@@ -9,6 +9,8 @@ import awsConfig from "../aws-exports";
 //User Imports
 import SignIn from "../components/SignIn";
 
+import { useDispatch } from "react-redux";
+
 Auth.configure(awsConfig);
 
 function SignInContainer({

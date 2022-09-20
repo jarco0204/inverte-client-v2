@@ -5,7 +5,7 @@ import Auth from './Auth'
 
 const reducer = combineReducers({
     scales: counterReducer,
-    Auth,
+    Auth: Auth,
 })
 
 const store = configureStore({
