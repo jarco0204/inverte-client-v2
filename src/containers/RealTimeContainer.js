@@ -40,28 +40,29 @@ function RealTimeContainer(props) {
 
     const [data, setData] = useState([]);
 
-    // Learned that next() function repeats based on the number of messages in queue
-    // Will using UseEffect solve this issue?
     // Note that Subscribe param needs to be dynamic; this information is already called
     // from API in ScaleContainer => copy it or move it to parent component
-    PubSub.subscribe("johan/1").subscribe({
-        next: (dataCloud) => {
-            console.log("Message received", dataCloud);
-            // Change Unix Timesetamp to Local Time
-            let d = new Date(0); // The 0 there is the key, which sets the date to the epoch
-            d.setUTCMilliseconds(dataCloud.value.timestamp);
-            // console.log(d);
-            let graphEle = {
-                inventoryWeight: dataCloud.value.inventoryWeight,
-                timestamp: d,
-                inventoryName: dataCloud.value.ingredientName,
-            };
-            const updatedDataAr = [...data, graphEle];
-            setData(updatedDataAr);
-        },
-        error: (error) => console.error(error),
-        complete: () => console.log("Web Socket Done"),
-    });
+    useEffect(() => {
+        PubSub.subscribe("johan/1/steady").subscribe({
+            next: (dataCloud) => {
+                console.log("Message received by el Puma", dataCloud);
+                // Change Unix Timesetamp to Local Time
+                let d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+                d.setUTCMilliseconds(dataCloud.value.timestamp);
+                // console.log(d);
+                let graphEle = {
+                    inventoryWeight: dataCloud.value.inventoryWeight,
+                    timestamp: d,
+                    inventoryName: dataCloud.value.ingredientName,
+                };
+                // const updatedDataAr = [...data, graphEle];
+                // let newKey = dataCloud.readingID;
+                setData((data) => [...data, graphEle]);
+            },
+            error: (error) => console.error(error),
+            complete: () => console.log("Web Socket Done"),
+        });
+    }, []);
 
     return (
         <div>
