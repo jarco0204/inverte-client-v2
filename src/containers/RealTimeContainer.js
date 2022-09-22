@@ -65,12 +65,19 @@ function RealTimeContainer(props) {
     }, []);
 
     return (
-        <div>
-            <h1 style={{ position: "relative", top: "20px", left: "100px" }}>
+        <div
+            style={{
+                display: "flex",
+                flexDirection: "column",
+                paddingTop: "100px",
+                textAlign: "center",
+            }}
+        >
+            <h3 style={{ top: "0px", left: "10px" }}>
                 Real-Time Inventory Usage
-            </h1>
+            </h3>
             <br />
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer width={300} height={310}>
                 <LineChart data={data}>
                     <XAxis
                         dataKey="timestamp"
