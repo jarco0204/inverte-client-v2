@@ -1,9 +1,9 @@
 import { createSelector } from "@reduxjs/toolkit";
 
-export const getProfile = state.Auth.session
+export const getProfile = state => state.user
 
 export const isAuthenticated = createSelector([getProfile], profile => {
-    const authenticated = profile?.email
+    const authenticated = profile?.authenticated
 
     return authenticated
 })
@@ -20,7 +20,7 @@ export const isLoading = createSelector([getProfile], profile => {
     return loading
 })
 
-export const getAccessToken = createSelector([getAuth], auth => {
+export const getAccessToken = createSelector([getProfile], auth => {
     const accessToken = auth?.stsTokenManager?.accessToken
 
     return accessToken
