@@ -6,16 +6,13 @@ import SideContainer from "./containers/SideContainer";
 
 export default function App() {
     // Core state
-    const [authorized, setAuthorized] = useState(false);
     const [username, setUsername] = useState("");
 
     return (
         <>
             <ProviderWrapper theme={theme}>
-                <SideContainer authorized={authorized} />
+                <SideContainer />
                 <RouterContainer
-                    authorized={authorized}
-                    setAuthorized={setAuthorized}
                     username={username}
                     setUsername={setUsername}
                     />

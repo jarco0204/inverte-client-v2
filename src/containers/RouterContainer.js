@@ -10,12 +10,15 @@ import AnalyticsContainer from "./AnalyticsContainer";
 import Navbar from "../components/NavBar";
 import RecipesContainer from "./RecipesContainer";
 
+import { useSelector } from "react-redux";
+import { isAuthenticated } from "../redux/authSelector"
+
 function RouterContainer({
-    authorized = console.log,
-    setAuthorized = console.log,
     username = console.log,
     setUsername = console.log,
 }) {
+
+    const authorized = useSelector(isAuthenticated)
     return (
         <>
             {!authorized && (
@@ -25,7 +28,6 @@ function RouterContainer({
                         element={
                             <SignInContainer
                                 authorized={authorized}
-                                setAuthorized={setAuthorized}
                                 username={username}
                                 setUsername={setUsername}
                             />
@@ -52,7 +54,6 @@ function RouterContainer({
                         element={
                             <Navbar username={username}>
                                 <ScalesContainer
-                                    auth={authorized}
                                     username={username}
                                 />
                             </Navbar>

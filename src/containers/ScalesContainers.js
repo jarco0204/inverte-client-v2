@@ -16,7 +16,8 @@ const path = "/restaurant/";
 /*
     Main Container Function
   */
-export default function ScalesContainer({ auth, username }) {
+export default function ScalesContainer({ username }) {
+    console.log('eh?')
     const [scalesData, setScalesData] = useState([]);
     const dispatch = useDispatch();
     useEffect(() => {

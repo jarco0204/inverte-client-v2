@@ -9,13 +9,13 @@ import awsConfig from "../aws-exports";
 //User Imports
 import SignIn from "../components/SignIn";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { isAuthenticated } from "../redux/authSelector";
+import { setAuthetication } from "../redux/Auth";
 
 Auth.configure(awsConfig);
 
 function SignInContainer({
-    authorized = console.log,
-    setAuthorized = console.log,
     username = console.log,
     setUsername = console.log,
 }) {
@@ -26,26 +26,29 @@ function SignInContainer({
 
     const navigate = useNavigate();
 
+    const authorized = useSelector(isAuthenticated)
     const noPermissionError = `Your account ${authorized} doees not have permission to use this app. Try signing in with another account.`;
-
+    const dispatch = useDispatch()
     /* 
     Sign In functionality using AWS amplify
     */
     async function signing() {
         try {
             const user = await Auth.signIn(email, password);
-
             // State dependent Fields
             setUsername(user.username);
-
-            setAuthorized(true);
             console.log(user)
+            // dispatch(setUserInfo(userInfo))
+            // dispatch(setAuthetication(true))
+            // console.log('huh')
             // Welcome the user
-            navigate("/scales");
+            // navigate("/scales");
+            return user
             // navigate("test/home");
         } catch (error) {
             console.log("error signing in", error);
             setError("Wrong credentials");
+            return null
         }
     }
     /*
@@ -62,7 +65,15 @@ function SignInContainer({
             setFetching(true);
             console.log(email);
             console.log(password);
-            signing();
+            const userInf = signing();
+            if (userInf === null){
+                console.log('ups')
+            } else {
+                dispatch(setAuthetication(true))
+                console.log('huuumm')
+                navigate("/scales");
+
+            }
         }
     }
 
