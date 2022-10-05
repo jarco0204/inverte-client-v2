@@ -17,6 +17,7 @@ function RouterContainer() {
     // This is the primary state of the App
     const [username, setUsername] = useState("");
     const [authorized, setAuthorized] = useState(false);
+    const [scalesData, setScalesData] = useState([]);
 
     return (
         <>
@@ -31,6 +32,7 @@ function RouterContainer() {
                                 setAuthorized={setAuthorized}
                                 username={username}
                                 setUsername={setUsername}
+                                setScalesData={setScalesData}
                             />
                         }
                     />
@@ -46,6 +48,7 @@ function RouterContainer() {
                                 <ScalesContainer
                                     auth={authorized}
                                     username={username}
+                                    scalesData={scalesData}
                                 />
                             </Navbar>
                         }
@@ -57,6 +60,7 @@ function RouterContainer() {
                                 <ScalesContainer
                                     auth={authorized}
                                     username={username}
+                                    scalesData={scalesData}
                                 />
                             </Navbar>
                         }
