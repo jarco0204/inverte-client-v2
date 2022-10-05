@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 
 // User-made containers
@@ -10,14 +11,16 @@ import AnalyticsContainer from "./AnalyticsContainer";
 import Navbar from "../components/NavBar";
 import RecipesContainer from "./RecipesContainer";
 
-function RouterContainer({
-    authorized = console.log,
-    setAuthorized = console.log,
-    username = console.log,
-    setUsername = console.log,
-}) {
+import SideContainer from "./SideContainer";
+
+function RouterContainer() {
+    // This is the primary state of the App
+    const [username, setUsername] = useState("");
+    const [authorized, setAuthorized] = useState(false);
+
     return (
         <>
+            <SideContainer authorized={authorized} />
             {!authorized && (
                 <Routes>
                     <Route
