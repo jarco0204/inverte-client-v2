@@ -17,6 +17,7 @@ function SignInContainer({
     username = console.log,
     setUsername = console.log,
     setScalesData = console.log,
+    setSubTopic = console.log,
 }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -92,9 +93,10 @@ function SignInContainer({
                         scalesData["scalesType"][i],
                     ]);
                 }
-
+                let subTopic = scalesData["mqttSubTopic"];
                 // Set state
                 setScalesData(tempAr);
+                setSubTopic(subTopic);
             })
             .catch((error) => {
                 console.log("Failed to retrieve from API", error);

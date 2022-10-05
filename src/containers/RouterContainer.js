@@ -18,6 +18,7 @@ function RouterContainer() {
     const [username, setUsername] = useState("");
     const [authorized, setAuthorized] = useState(false);
     const [scalesData, setScalesData] = useState([]);
+    const [subTopic, setSubTopic] = useState("");
 
     return (
         <>
@@ -33,6 +34,7 @@ function RouterContainer() {
                                 username={username}
                                 setUsername={setUsername}
                                 setScalesData={setScalesData}
+                                setSubTopic={setSubTopic}
                             />
                         }
                     />
@@ -85,7 +87,10 @@ function RouterContainer() {
                         path="/real-time"
                         element={
                             <Navbar username={username}>
-                                <RealTimeContainer auth={authorized} />
+                                <RealTimeContainer
+                                    auth={authorized}
+                                    subTopic={subTopic}
+                                />
                             </Navbar>
                         }
                     />
