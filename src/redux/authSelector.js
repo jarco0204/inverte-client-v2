@@ -8,6 +8,7 @@ export const isAuthenticated = createSelector([getProfile], profile => {
     return authenticated
 })
 
+
 export const isAuthorized = createSelector([getProfile], profile => {
     const authorized = profile?.token?.claims?.superuser
 

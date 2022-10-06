@@ -17,7 +17,6 @@ const path = "/restaurant/";
     Main Container Function
   */
 export default function ScalesContainer({ username }) {
-    console.log('eh?')
     const [scalesData, setScalesData] = useState([]);
     const dispatch = useDispatch();
     useEffect(() => {
@@ -50,7 +49,7 @@ export default function ScalesContainer({ username }) {
                     // Set state
                     setScalesData(tempAr);
                     // console.log(tempAr)
-                    dispatch(setByAmount(tempAr.length));
+                    // dispatch(setByAmount(tempAr.length));
                     tempAr.forEach((e) => {
                         dispatch(addScale(e));
                     });

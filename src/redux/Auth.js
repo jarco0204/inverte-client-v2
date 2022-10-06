@@ -9,8 +9,6 @@ export const user = createSlice({
     initialState: {
         authenticated: false,
         name: null,
-        scales: {},
-        counter:0,
         info: {},
         Auth,
     },
@@ -21,14 +19,8 @@ export const user = createSlice({
         setByAmounts: (state, action) => {
             state.user = action.payload
         },
-        addScales: (state, action) => {
-            state.scales[action.payload[0]] = action.payload[1]
-        },
         setAuthetication: (state, action) => {
-            console.log(state.authenticated)
-            console.log(action.payload)
             state.authenticated = action.payload
-            console.log(state.authenticated)
 
         },
     },

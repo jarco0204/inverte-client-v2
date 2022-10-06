@@ -37,14 +37,7 @@ function SignInContainer({
             const user = await Auth.signIn(email, password);
             // State dependent Fields
             setUsername(user.username);
-            console.log(user)
-            // dispatch(setUserInfo(userInfo))
-            // dispatch(setAuthetication(true))
-            // console.log('huh')
-            // Welcome the user
-            // navigate("/scales");
             return user
-            // navigate("test/home");
         } catch (error) {
             console.log("error signing in", error);
             setError("Wrong credentials");
@@ -55,7 +48,6 @@ function SignInContainer({
         Event handler for when user clicks on Log-in
     */
     function handleLogIn(event) {
-        console.log(event);
         if (email === "") {
             setError("Enter your email");
         } else if (password === "") {
@@ -63,16 +55,12 @@ function SignInContainer({
         } else {
             setError(undefined);
             setFetching(true);
-            console.log(email);
-            console.log(password);
             const userInf = signing();
             if (userInf === null){
                 console.log('ups')
             } else {
                 dispatch(setAuthetication(true))
-                console.log('huuumm')
                 navigate("/scales");
-
             }
         }
     }
