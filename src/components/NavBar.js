@@ -165,7 +165,7 @@ export default function NavBar({ children }) {
                 </Drawer>
             </Box>
 
-            <Box style={{}}>{children}</Box>
+            <Box style={{ margin: "auto", width: "300px" }}>{children}</Box>
         </Box>
     );
 }

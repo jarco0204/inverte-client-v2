@@ -1,9 +1,12 @@
 
 .scalesContainer{
-    padding: 75px;
-    display: inline-grid;
-    column-gap: 50px;
-    row-gap: 50px;  
+    display: flex;
+    flex-direction: column;
+    column-gap: 40px;
+    row-gap: 40px;
+    padding-top: 120px;
+
+
 }
 
 .centerContent {

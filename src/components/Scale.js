@@ -146,7 +146,7 @@ export default function Scale({ scaleArr }) {
     };
 
     return (
-        <Card sx={{ maxWidth: 340 }}>
+        <Card sx={{ maxWidth: 310, margin: "auto" }}>
             <CardHeader
                 avatar={
                     <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">

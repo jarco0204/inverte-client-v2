@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 
 // User-made containers
@@ -10,17 +11,22 @@ import AnalyticsContainer from "./AnalyticsContainer";
 import Navbar from "../components/NavBar";
 import RecipesContainer from "./RecipesContainer";
 
+
 import { useSelector } from "react-redux";
 import { isAuthenticated } from "../redux/authSelector"
 
-function RouterContainer({
-    username = console.log,
-    setUsername = console.log,
-}) {
+import SideContainer from "./SideContainer";
 
+function RouterContainer() {
+    // This is the primary state of the App
+    const [username, setUsername] = useState("");
     const authorized = useSelector(isAuthenticated)
+    const [scalesData, setScalesData] = useState([]);
+    const [subTopic, setSubTopic] = useState("");
+
     return (
         <>
+            <SideContainer authorized={authorized} />
             {!authorized && (
                 <Routes>
                     <Route
@@ -30,6 +36,8 @@ function RouterContainer({
                                 authorized={authorized}
                                 username={username}
                                 setUsername={setUsername}
+                                setScalesData={setScalesData}
+                                setSubTopic={setSubTopic}
                             />
                         }
                     />
@@ -45,6 +53,7 @@ function RouterContainer({
                                 <ScalesContainer
                                     auth={authorized}
                                     username={username}
+                                    scalesData={scalesData}
                                 />
                             </Navbar>
                         }
@@ -55,6 +64,7 @@ function RouterContainer({
                             <Navbar username={username}>
                                 <ScalesContainer
                                     username={username}
+                                    scalesData={scalesData}
                                 />
                             </Navbar>
                         }
@@ -79,7 +89,10 @@ function RouterContainer({
                         path="/real-time"
                         element={
                             <Navbar username={username}>
-                                <RealTimeContainer auth={authorized} />
+                                <RealTimeContainer
+                                    auth={authorized}
+                                    subTopic={subTopic}
+                                />
                             </Navbar>
                         }
                     />

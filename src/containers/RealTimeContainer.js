@@ -35,7 +35,7 @@ import CustomToolTipGraph from "../components/CustomToolTipGraph";
         }
     //
 */
-function RealTimeContainer(props) {
+function RealTimeContainer({ auth = console.log, subTopic = console.log }) {
     // console.log("users is authorized: ", props.auth);
 
     const [data, setData] = useState([]);
@@ -43,7 +43,7 @@ function RealTimeContainer(props) {
     // Note that Subscribe param needs to be dynamic; this information is already called
     // from API in ScaleContainer => copy it or move it to parent component
     useEffect(() => {
-        PubSub.subscribe("johan/1/steady").subscribe({
+        PubSub.subscribe(subTopic).subscribe({
             next: (dataCloud) => {
                 console.log("Message received by el Puma", dataCloud);
                 // Change Unix Timesetamp to Local Time
@@ -65,12 +65,19 @@ function RealTimeContainer(props) {
     }, []);
 
     return (
-        <div>
-            <h1 style={{ position: "relative", top: "20px", left: "100px" }}>
+        <div
+            style={{
+                display: "flex",
+                flexDirection: "column",
+                paddingTop: "100px",
+                textAlign: "center",
+            }}
+        >
+            <h3 style={{ top: "0px", left: "10px" }}>
                 Real-Time Inventory Usage
-            </h1>
+            </h3>
             <br />
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer width={300} height={310}>
                 <LineChart data={data}>
                     <XAxis
                         dataKey="timestamp"

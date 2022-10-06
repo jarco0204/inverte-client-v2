@@ -2,7 +2,8 @@ import { Auth } from "aws-amplify";
 import awsConfig from '../aws-exports'
 import { createSlice } from '@reduxjs/toolkit' 
 
-Auth.configure(awsConfig);
+Auth.configure(awsConfig); // This is already being done in Index
+
 
 export const user = createSlice({
     name: 'user',
