@@ -5,11 +5,14 @@ import Auth from './Auth'
 
 const reducer = combineReducers({
     scales: counterReducer,
-    Auth,
+    user: Auth,
 })
 
 const store = configureStore({
     reducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+        serializableCheck: false,
+    })
 })
 
 window.store = store

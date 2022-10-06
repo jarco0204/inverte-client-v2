@@ -11,12 +11,16 @@ import AnalyticsContainer from "./AnalyticsContainer";
 import Navbar from "../components/NavBar";
 import RecipesContainer from "./RecipesContainer";
 
+
+import { useSelector } from "react-redux";
+import { isAuthenticated } from "../redux/authSelector"
+
 import SideContainer from "./SideContainer";
 
 function RouterContainer() {
     // This is the primary state of the App
     const [username, setUsername] = useState("");
-    const [authorized, setAuthorized] = useState(false);
+    const authorized = useSelector(isAuthenticated)
     const [scalesData, setScalesData] = useState([]);
     const [subTopic, setSubTopic] = useState("");
 
@@ -30,7 +34,6 @@ function RouterContainer() {
                         element={
                             <SignInContainer
                                 authorized={authorized}
-                                setAuthorized={setAuthorized}
                                 username={username}
                                 setUsername={setUsername}
                                 setScalesData={setScalesData}
@@ -60,7 +63,6 @@ function RouterContainer() {
                         element={
                             <Navbar username={username}>
                                 <ScalesContainer
-                                    auth={authorized}
                                     username={username}
                                     scalesData={scalesData}
                                 />

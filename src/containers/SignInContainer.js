@@ -9,11 +9,13 @@ import awsConfig from "../aws-exports";
 //User Imports
 import SignIn from "../components/SignIn";
 
+import { useDispatch, useSelector } from "react-redux";
+import { isAuthenticated } from "../redux/authSelector";
+import { setAuthetication } from "../redux/Auth";
+
 Auth.configure(awsConfig);
 
 function SignInContainer({
-    authorized = console.log,
-    setAuthorized = console.log,
     username = console.log,
     setUsername = console.log,
     setScalesData = console.log,
@@ -26,7 +28,9 @@ function SignInContainer({
 
     const navigate = useNavigate();
 
+    const authorized = useSelector(isAuthenticated)
     const noPermissionError = `Your account ${authorized} doees not have permission to use this app. Try signing in with another account.`;
+    const dispatch = useDispatch()
 
     /*
         Event handler for when user clicks on Log-in
@@ -52,25 +56,26 @@ function SignInContainer({
     async function signing() {
         try {
             const user = await Auth.signIn(email, password);
-
             // State dependent Fields
             setUsername(user.username);
-
             setAuthorized(true);
 
             // Welcome the user
+            dispatch(setAuthentication(true));
             getEssentialInfoAPI(user.username);
 
             navigate("/scales");
         } catch (error) {
             console.log("error signing in", error);
             setError("Wrong credentials");
+            return null
         }
     }
 
     /*
         Function to retrieve essential info from API
     */
+
     async function getEssentialInfoAPI(username) {
         const myAPI = "inverteAPIClientV2";
         const path = "/restaurant/";
