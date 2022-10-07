@@ -10,6 +10,7 @@ export default function InputAdornments({
     correctPortionWeight,
     setCorrectWeight,
     submitCorrectPortionParams,
+    width,
 }) {
     // Handle the change of the correct portion weight
     const handleChange = (e) => {
@@ -19,7 +20,7 @@ export default function InputAdornments({
     return (
         <Box sx={{ display: "flex", flexWrap: "wrap" }}>
             <div>
-                <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
+                <FormControl sx={{ m: 1, width: width }} variant="outlined">
                     <OutlinedInput
                         id="outlined-adornment-weight"
                         style={{
