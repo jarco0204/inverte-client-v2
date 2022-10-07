@@ -4,15 +4,15 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+// import Button from "@mui/material/Button";
+// import TextField from "@mui/material/TextField";
+// import Dialog from "@mui/material/Dialog";
+// import DialogActions from "@mui/material/DialogActions";
+// import DialogContent from "@mui/material/DialogContent";
+// import DialogContentText from "@mui/material/DialogContentText";
+// import DialogTitle from "@mui/material/DialogTitle";
 
-const options = ["Tare", "Change Mode", "Change Unit"];
+const options = ["Change Mode", "Change Unit"];
 
 const ITEM_HEIGHT = 48;
 
@@ -35,16 +35,16 @@ export default function ScaleMenuOptions({
         Function to handle subsequent function calls after interaction with menu
     */
     const handleClose = async (e) => {
-        // Tare
-        if (e.target.textContent === options[0]) {
-            sendDataAWS(true, 0);
-        }
+        // // Tare
+        // if (e.target.textContent === options[0]) {
+        //     sendDataAWS(true, 0);
+        // }
         // Change Mode
-        else if (e.target.textContent === options[1]) {
+        if (e.target.textContent === options[0]) {
             sendDataAWS(true, 1);
         }
         // Change Unit
-        else if (e.target.textContent === options[2]) {
+        else if (e.target.textContent === options[1]) {
             convertUnitOfMass(); // This function send data to AWS with params = {true, 2}
         }
 
