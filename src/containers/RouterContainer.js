@@ -26,8 +26,9 @@ function RouterContainer() {
 
     return (
         <>
-            <SideContainer authorized={authorized} />
             {!authorized && (
+                <>
+                <SideContainer authorized={authorized} />
                 <Routes>
                     <Route
                         path="*"
@@ -38,10 +39,11 @@ function RouterContainer() {
                                 setUsername={setUsername}
                                 setScalesData={setScalesData}
                                 setSubTopic={setSubTopic}
+                                />
+                            }
                             />
-                        }
-                    />
                 </Routes>
+                </>
             )}
 
             {authorized && (
