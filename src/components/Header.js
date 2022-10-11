@@ -2,8 +2,13 @@ import logo from "../assets/img/inverte_green_logo.png";
 import AppBar from "@mui/material/AppBar";
 import { IconButton, Toolbar, Typography } from "@mui/material";
 import Container from "@mui/material/Container";
+import { useSelector } from "react-redux";
+import { isAuthenticated } from "../redux/authSelector";
+import { ExitToApp } from "@material-ui/icons";
+
 
 const Header = () => {
+    const authorized = useSelector(isAuthenticated)
     return (
         <AppBar position="static">
             <Container maxWidth="xl">
@@ -63,6 +68,9 @@ const Header = () => {
                         >
                             INVERTE
                         </Typography>
+                        {authorized && (
+                            <ExitToApp />
+                        )}
                     </IconButton>
                 </Toolbar>
             </Container>

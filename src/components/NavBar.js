@@ -21,6 +21,7 @@ import ScaleIcon from "@mui/icons-material/Scale";
 import InsightsIcon from "@mui/icons-material/Insights";
 
 import logo from "../assets/img/inverte_green_logo.png";
+import { ExitToApp } from "@material-ui/icons";
 
 const drawerWidth = 240;
 
@@ -38,6 +39,12 @@ export default function NavBar({ children }) {
         navigate("/" + address);
     };
     // console.log(username);
+
+    function handleSignOut(event) {
+        console.log(event)
+        navigate("/")
+        window.location.reload(false)
+    }
 
     const drawer = (
         <div>
@@ -121,6 +128,10 @@ export default function NavBar({ children }) {
                     >
                         INVERTE
                     </Typography>
+                    <ExitToApp 
+                    style={{marginLeft:"auto"}} 
+                    onClick={handleSignOut}
+                    />
                 </Toolbar>
             </AppBar>
             <Box
