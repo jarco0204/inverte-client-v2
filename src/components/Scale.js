@@ -5,7 +5,7 @@ import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Avatar from "@mui/material/Avatar";
-import { blue } from "@mui/material/colors";
+import { blue, green } from "@mui/material/colors";
 import { Button } from "@mui/material";
 
 import ScaleMenuOptions from "../components/ScaleMenuOptions";
@@ -54,12 +54,12 @@ export default function Scale({ scaleArr }) {
     // const [expanded, setExpanded] = useState(false);
 
     const [buttonStateStr, setButtonStateStr] = useState("Start");
-    // const [buttonStateColor, setButtonStateColor] = useState("#02182E");
+    const [buttonStateColor, setButtonStateColor] = useState("#02182E");
 
     const StartButton = styled(Button)(({ theme }) => ({
-        // color: theme.palette.secondary.main,
+        // color: theme.palette.primary.main,
         color: "whitesmoke",
-        backgroundColor: blue[500],
+        backgroundColor: buttonStateColor,
         marginLeft: "20px",
         fontSize: 13,
     }));
@@ -67,7 +67,7 @@ export default function Scale({ scaleArr }) {
     // Customer would like to tare button directly accesible
     const TareButton = styled(Button)(({ theme }) => ({
         color: "whitesmoke",
-        backgroundColor: blue[500],
+        backgroundColor: "#02182E",
         marginLeft: "20px",
         fontSize: 13,
     }));
@@ -100,20 +100,25 @@ export default function Scale({ scaleArr }) {
         Special Tare Button Logic
     */
     const handleSpecialButton = () => {
-        console.log("Special Start/Guide");
-        // setButtonStateColor(blue[500]);
-        sendDataAWS(true, 3);
-        setButtonStateStr("Start");
+        console.log("Special Start/Guide or Stop to fill food pan");
+        if (buttonStateStr === "Start") {
+            setButtonStateStr("Stop");
+            setButtonStateColor("#f58a1f");
+            sendDataAWS(true, 3);
+        } else {
+            setButtonStateColor("#02182E");
+            setButtonStateStr("Start");
+            sendDataAWS(true, 4);
+        }
     };
 
     /*
-        Special Tare Button Logic
+        Tare Button Logic
     */
     const handleTareButton = () => {
         console.log("Tare");
         // setButtonStateColor(blue[500]);
         sendDataAWS(true, 0);
-        setButtonStateStr("Online");
     };
 
     /*
@@ -141,6 +146,7 @@ export default function Scale({ scaleArr }) {
         Function takes parameter to set data to update state or control
 
         When action = 3, the scale begins. 
+        When action = 4, the scale stops and takes you to refill screen
         Consequently, we determine the weight of the inventory. 
     */
     const sendDataAWS = async (control = false, action = null) => {
@@ -172,7 +178,7 @@ export default function Scale({ scaleArr }) {
         <Card sx={{ maxWidth: 310, margin: "auto" }}>
             <CardHeader
                 avatar={
-                    <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
+                    <Avatar sx={{ bgcolor: "#02182E" }} aria-label="recipe">
                         {nameIngredient[0]}
                     </Avatar>
                 }
