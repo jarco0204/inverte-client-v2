@@ -189,10 +189,7 @@ export default function Scale({ scaleArr }) {
                         convertUnitOfMass={convertUnitOfMass}
                     />
                 }
-                title={editableNameComponent(
-                    nameIngredient,
-                    scaleArr[1] + " Scale",
-                )}
+                title={editableNameComponent(nameIngredient, "Scale")}
             />
             <CardContent>
                 <div className="centerContent">
