@@ -93,10 +93,7 @@ function SignInContainer({
                 // Create Combined Dataset to generate ScaleCard Components
                 let tempAr = [];
                 for (let i = 0; i < scalesData["mqttPubTopic"].length; i++) {
-                    tempAr.push([
-                        scalesData["mqttPubTopic"][i],
-                        scalesData["scalesType"][i],
-                    ]);
+                    tempAr.push([scalesData["mqttPubTopic"][i]]);
                 }
                 let subTopic = scalesData["mqttSubTopic"];
                 // Set state
