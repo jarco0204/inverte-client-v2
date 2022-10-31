@@ -18,22 +18,22 @@ import CustomToolTipGraph from "../components/CustomToolTipGraph";
 
     @Coder: El Puma
 
-     //
         Sample Schema
         {
-            "deviceID": 189561373270212,
-            "timestamp": 1662990223819,
-            "readingID": 88,
-            "temperature": 206,
-            "humidity": 521,
-            "airPressure": 991,
-            "loadCellStateStr": "steady",
+            "deviceID": 189561373198832,
+            "timestamp": 1667221600343,
+            "readingID": 14,
+            "temperature": 256,
+            "humidity": 302,
+            "airPressure": 1008,
             "ingredientName": "Cheese",
             "correctPortionWeight": 10,
-            "portionWeight": 3,
-            "inventoryWeight": 1
+            "portionWeight": 0,
+            "upperLimit": 1,
+            "lowerLimit": 1,
+            "inventoryWeight": 59,
+            "portionStatus": "Idle"
         }
-    //
 */
 function RealTimeContainer({ auth = console.log, subTopic = console.log }) {
     // console.log("users is authorized: ", props.auth);
@@ -51,7 +51,9 @@ function RealTimeContainer({ auth = console.log, subTopic = console.log }) {
                 d.setUTCMilliseconds(dataCloud.value.timestamp);
                 // console.log(d);
                 let graphEle = {
-                    inventoryWeight: dataCloud.value.inventoryWeight,
+                    inventoryWeight:
+                        dataCloud.value.inventoryWeight -
+                        dataCloud.value.portionWeight,
                     timestamp: d,
                     inventoryName: dataCloud.value.ingredientName,
                 };
