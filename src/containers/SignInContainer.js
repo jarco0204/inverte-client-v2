@@ -59,6 +59,7 @@ function SignInContainer({
             // State dependent Fields
             setUsername(user.username);
             // setAuthorized(true);
+            console.log(user);
 
             // Welcome the user
             dispatch(setAuthentication(true));
@@ -77,8 +78,8 @@ function SignInContainer({
     */
 
     async function getEssentialInfoAPI(username) {
-        const myAPI = "inverteAmplifyRESTAPIv1";
-        const path = "/restaurant/";
+        const myAPI = "inverteAmplifyRESTapiV1";
+        const path = "/restaurants/";
         console.log("Calling API from SignIn");
         let finalAPIRoute = path + username;
         console.log("My API route is ", finalAPIRoute);

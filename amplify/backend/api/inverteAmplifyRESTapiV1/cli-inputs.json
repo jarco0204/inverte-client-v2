@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/restaurants/{restaurantID}": {
+      "name": "/restaurants/{restaurantID}",
+      "lambdaFunction": "inverteClientV2restAPIV1",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}
