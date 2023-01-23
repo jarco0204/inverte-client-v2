@@ -1,43 +1,19 @@
 {
-  "staging": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-inverteclientv2-staging-233501-authRole",
-      "UnauthRoleArn": "arn:aws:iam::084619430748:role/amplify-inverteclientv2-staging-233501-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::084619430748:role/amplify-inverteclientv2-staging-233501-authRole",
-      "Region": "ca-central-1",
-      "DeploymentBucketName": "amplify-inverteclientv2-staging-233501-deployment",
-      "UnauthRoleName": "amplify-inverteclientv2-staging-233501-unauthRole",
-      "StackName": "amplify-inverteclientv2-staging-233501",
-      "StackId": "arn:aws:cloudformation:ca-central-1:084619430748:stack/amplify-inverteclientv2-staging-233501/46443710-ef5f-11ec-9642-0efd14d6dfda",
-      "AmplifyAppId": "dann226afna7j"
-    },
-    "categories": {
-      "auth": {
-        "inverteclientv2": {}
-      },
-      "function": {
-        "inverteClientV2LoadScaleData": {
-          "deploymentBucketName": "amplify-inverteclientv2-staging-233501-deployment",
-          "s3Key": "amplify-builds/inverteClientV2LoadScaleData-58346a66534a7a477a61-build.zip"
-        }
-      }
-    }
-  },
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-inverteclientv2-dev-202641-authRole",
-      "UnauthRoleArn": "arn:aws:iam::084619430748:role/amplify-inverteclientv2-dev-202641-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::084619430748:role/amplify-inverteclientv2-dev-202641-authRole",
+      "AuthRoleName": "amplify-inverteclientv2-dev-144225-authRole",
+      "UnauthRoleArn": "arn:aws:iam::084619430748:role/amplify-inverteclientv2-dev-144225-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::084619430748:role/amplify-inverteclientv2-dev-144225-authRole",
       "Region": "ca-central-1",
-      "DeploymentBucketName": "amplify-inverteclientv2-dev-202641-deployment",
-      "UnauthRoleName": "amplify-inverteclientv2-dev-202641-unauthRole",
-      "StackName": "amplify-inverteclientv2-dev-202641",
-      "StackId": "arn:aws:cloudformation:ca-central-1:084619430748:stack/amplify-inverteclientv2-dev-202641/40e39ed0-f0ec-11ec-a8d3-06faf0191234",
-      "AmplifyAppId": "dann226afna7j"
+      "DeploymentBucketName": "amplify-inverteclientv2-dev-144225-deployment",
+      "UnauthRoleName": "amplify-inverteclientv2-dev-144225-unauthRole",
+      "StackName": "amplify-inverteclientv2-dev-144225",
+      "StackId": "arn:aws:cloudformation:ca-central-1:084619430748:stack/amplify-inverteclientv2-dev-144225/572b2e80-9112-11ed-a47c-06afe06c1106",
+      "AmplifyAppId": "d29owc0kof5y7t"
     },
     "categories": {
       "auth": {
-        "inverteclientv2": {}
+        "inverteclientv26cffa9b3": {}
       }
     }
   }
