@@ -11,16 +11,15 @@ import AnalyticsContainer from "./AnalyticsContainer";
 import Navbar from "../components/NavBar";
 import RecipesContainer from "./RecipesContainer";
 
-
 import { useSelector } from "react-redux";
-import { isAuthenticated } from "../redux/authSelector"
+import { isAuthenticated } from "../redux/authSelector";
 
 import SideContainer from "./SideContainer";
 
 function RouterContainer() {
     // This is the primary state of the App
     const [username, setUsername] = useState("");
-    const authorized = useSelector(isAuthenticated)
+    const authorized = useSelector(isAuthenticated);
     const [scalesData, setScalesData] = useState([]);
     const [subTopic, setSubTopic] = useState("");
 
@@ -28,21 +27,21 @@ function RouterContainer() {
         <>
             {!authorized && (
                 <>
-                <SideContainer authorized={authorized} />
-                <Routes>
-                    <Route
-                        path="*"
-                        element={
-                            <SignInContainer
-                                authorized={authorized}
-                                username={username}
-                                setUsername={setUsername}
-                                setScalesData={setScalesData}
-                                setSubTopic={setSubTopic}
+                    <SideContainer authorized={authorized} />
+                    <Routes>
+                        <Route
+                            path="*"
+                            element={
+                                <SignInContainer
+                                    authorized={authorized}
+                                    username={username}
+                                    setUsername={setUsername}
+                                    setScalesData={setScalesData}
+                                    setSubTopic={setSubTopic}
                                 />
                             }
-                            />
-                </Routes>
+                        />
+                    </Routes>
                 </>
             )}
 

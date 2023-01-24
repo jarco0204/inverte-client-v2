@@ -4,7 +4,6 @@ import ProviderWrapper from "./Provider";
 import theme from "./theme";
 
 export default function App() {
-
     return (
         <>
             <ProviderWrapper theme={theme}>

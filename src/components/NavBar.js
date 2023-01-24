@@ -41,9 +41,9 @@ export default function NavBar({ children }) {
     // console.log(username);
 
     function handleSignOut(event) {
-        console.log(event)
-        navigate("/")
-        window.location.reload(false)
+        console.log(event);
+        navigate("/");
+        window.location.reload(false);
     }
 
     const drawer = (
@@ -128,9 +128,9 @@ export default function NavBar({ children }) {
                     >
                         INVERTE
                     </Typography>
-                    <ExitToApp 
-                    style={{marginLeft:"auto"}} 
-                    onClick={handleSignOut}
+                    <ExitToApp
+                        style={{ marginLeft: "auto" }}
+                        onClick={handleSignOut}
                     />
                 </Toolbar>
             </AppBar>

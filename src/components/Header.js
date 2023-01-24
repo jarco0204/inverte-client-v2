@@ -6,9 +6,8 @@ import { useSelector } from "react-redux";
 import { isAuthenticated } from "../redux/authSelector";
 import { ExitToApp } from "@material-ui/icons";
 
-
 const Header = () => {
-    const authorized = useSelector(isAuthenticated)
+    const authorized = useSelector(isAuthenticated);
     return (
         <AppBar position="static">
             <Container maxWidth="xl">
@@ -68,9 +67,7 @@ const Header = () => {
                         >
                             INVERTE
                         </Typography>
-                        {authorized && (
-                            <ExitToApp />
-                        )}
+                        {authorized && <ExitToApp />}
                     </IconButton>
                 </Toolbar>
             </Container>

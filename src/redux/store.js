@@ -1,20 +1,21 @@
-import { configureStore } from '@reduxjs/toolkit'
-import { combineReducers } from 'redux'
-import counterReducer from  './counterScales'
-import Auth from './Auth'
+import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers } from "redux";
+import counterReducer from "./counterScales";
+import Auth from "./Auth";
 
 const reducer = combineReducers({
     scales: counterReducer,
     user: Auth,
-})
+});
 
 const store = configureStore({
     reducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
-        serializableCheck: false,
-    })
-})
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            serializableCheck: false,
+        }),
+});
 
-window.store = store
+window.store = store;
 
-export default store
+export default store;

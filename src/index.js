@@ -26,14 +26,14 @@ Amplify.addPluggable(
     new AWSIoTProvider({
         aws_pubsub_region: process.env.REACT_APP_REGION,
         aws_pubsub_endpoint: `wss://${String(
-            process.env.REACT_APP_MQTT_ID,
+            process.env.REACT_APP_MQTT_ID
         )}.iot.${String(process.env.REACT_APP_REGION)}.amazonaws.com/mqtt`,
-    }),
+    })
 );
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <Router>
         <App />
-    </Router>,
+    </Router>
 );

@@ -17,7 +17,7 @@ const CustomToolTipGraph = (props) => {
                     {currData
                         ? format(
                               new Date(currData.timestamp),
-                              "yy-MM-dd / hh:mm:ss",
+                              "yy-MM-dd / hh:mm:ss"
                           )
                         : " -- "}
                 </p>

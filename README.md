@@ -69,3 +69,4 @@ It supports these routes: \
 • Husky had to be turned off as of branch of #046f8b4
 • The main content container entry is nested in Navbar component. Latest Changes (mobileSupport branch) that modify the positioning of the content container were done inside Navbar.js
 • Amplify API access is not restricted
+• Used https://medium.com/how-to-react/config-eslint-and-prettier-in-visual-studio-code-for-react-js-development-97bb2236b31a to set up ESLint

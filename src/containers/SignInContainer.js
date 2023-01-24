@@ -87,7 +87,7 @@ function SignInContainer({
             .then((response) => {
                 console.log(
                     "Message correctly received from API V2",
-                    JSON.stringify(response),
+                    JSON.stringify(response)
                 );
                 // let scalesData = response["scaleData"]["Item"];
 
