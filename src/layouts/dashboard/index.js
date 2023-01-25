@@ -27,7 +27,7 @@ import DashboardNavbar from "../../examples/Navbars/DashboardNavbar";
 // import Footer from "examples/Footer";
 // import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
 // import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
-// import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
+import ComplexStatisticsCard from "../../examples/Cards/StatisticsCards/ComplexStatisticsCard";
 
 // Data
 // import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
@@ -38,7 +38,7 @@ import DashboardNavbar from "../../examples/Navbars/DashboardNavbar";
 // import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 
 function Dashboard() {
-    const { sales, tasks } = reportsLineChartData;
+    // const { sales, tasks } = reportsLineChartData;
 
     return (
         <DashboardLayout>
@@ -105,7 +105,7 @@ function Dashboard() {
                         </MDBox>
                     </Grid>
                 </Grid>
-                <MDBox mt={4.5}>
+                {/* <MDBox mt={4.5}>
                     <Grid container spacing={3}>
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
@@ -133,8 +133,8 @@ function Dashboard() {
                             </MDBox>
                         </Grid>
                     </Grid>
-                </MDBox>
-                <MDBox>
+                </MDBox> */}
+                {/* <MDBox>
                     <Grid container spacing={3}>
                         <Grid item xs={12} md={6} lg={8}>
                             <Projects />
@@ -143,9 +143,9 @@ function Dashboard() {
                             <OrdersOverview />
                         </Grid>
                     </Grid>
-                </MDBox>
+                </MDBox> */}
             </MDBox>
-            <Footer />
+            {/* <Footer /> */}
         </DashboardLayout>
     );
 }
