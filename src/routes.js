@@ -21,7 +21,7 @@
 */
 
 // Material Dashboard 2 React layouts
-import Dashboard from "./dashboard";
+import Dashboard from "./pages/dashboard";
 
 // import Tables from "layouts/tables";
 // import Billing from "layouts/billing";

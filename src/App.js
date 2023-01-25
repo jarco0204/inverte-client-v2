@@ -14,7 +14,7 @@ import Configurator from "./components/Configurator";
 
 // Pages Containers
 import SignIn from "./pages/signin";
-import routes from "./pages/routes";
+import routes from "./routes";
 
 // Context to keep track of state
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "./context";
