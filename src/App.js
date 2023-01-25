@@ -26,18 +26,32 @@ import theme from "./assets/theme";
 import inverteLogo from "./assets/img/inverte_green_logo.png";
 
 export default function App() {
-    // Following line should be asked to GGP
+    // Following lines should be looked into further
     const [controller, dispatch] = useMaterialUIController();
-
     const { miniSidenav, direction, layout, openConfigurator, sidenavColor, transparentSidenav, whiteSidenav, darkMode } = controller;
 
+    // Component State
     const [onMouseEnter, setOnMouseEnter] = useState(false);
-    const [authenticated, setAuthenticated] = useState(true);
+    const [authenticated, setAuthenticated] = useState(false);
+    const [userSession, setUserSession] = useState(null);
 
-    // For route traversal
+    // Hook for For route traversal
     const { pathname } = useLocation();
 
-    // Open sidenav when mouse enter on mini sidenav
+    // Setting the dir attribute for the body element
+    useEffect(() => {
+        document.body.setAttribute("dir", direction);
+    }, [direction]);
+
+    // Setting page scroll to 0 when changing the route
+    useEffect(() => {
+        document.documentElement.scrollTop = 0;
+        document.scrollingElement.scrollTop = 0;
+    }, [pathname]);
+
+    /*
+        Function to open sidenav when mouse enter on mini sidenav
+    */
     const handleOnMouseEnter = () => {
         if (miniSidenav && !onMouseEnter) {
             setMiniSidenav(dispatch, false);
@@ -45,7 +59,9 @@ export default function App() {
         }
     };
 
-    // Close sidenav when mouse leave mini sidenav
+    /*
+        Function to close sidenav when mouse leave mini sidenav
+    */
     const handleOnMouseLeave = () => {
         if (onMouseEnter) {
             setMiniSidenav(dispatch, true);
@@ -53,21 +69,12 @@ export default function App() {
         }
     };
 
-    // Change the openConfigurator state
+    /*
+        Function to change the openConfigurator state
+    */
     const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
 
-    const getRoutes = (allRoutes) =>
-        allRoutes.map((route) => {
-            if (route.collapse) {
-                return getRoutes(route.collapse);
-            }
-
-            if (route.route) {
-                return <Route exact path={route.route} element={route.component} key={route.key} />;
-            }
-
-            return null;
-        });
+    // Config Button Component
     const configsButton = (
         <MDBox
             display="flex"
@@ -92,20 +99,25 @@ export default function App() {
         </MDBox>
     );
 
-    // Setting the dir attribute for the body element
-    useEffect(() => {
-        document.body.setAttribute("dir", direction);
-    }, [direction]);
+    /*
+        Function to control the route traversal
+    */
+    const getRoutes = (allRoutes) =>
+        allRoutes.map((route) => {
+            if (route.collapse) {
+                return getRoutes(route.collapse);
+            }
 
-    // Setting page scroll to 0 when changing the route
-    useEffect(() => {
-        document.documentElement.scrollTop = 0;
-        document.scrollingElement.scrollTop = 0;
-    }, [pathname]);
+            if (route.route) {
+                return <Route exact path={route.route} element={route.component} key={route.key} />;
+            }
+
+            return null;
+        });
 
     return (
         <>
-            {!authenticated && <SignIn />}
+            {!authenticated && <SignIn setAuthenticated={setAuthenticated} setUserSession={setUserSession} />}
             {authenticated && (
                 // TODO: Add Dark theme
                 <ThemeProvider theme={darkMode ? null : theme}>
