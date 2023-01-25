@@ -10,7 +10,7 @@ import MDTypographyRoot from "./MDTypographyRoot";
 import { useMaterialUIController } from "../../context";
 
 // eslint-disable-next-line react/display-name
-const MDTypography = forwardRef(({ color, fontWeight, textTransform, verticalAlign, textGradient, opacity, children, ...rest }, ref) => {
+const MDTypography = forwardRef(({ color, fontWeight, textTransform, verticalAlign, textGradient, opacity, children, fontSize, ...rest }, ref) => {
     const [controller] = useMaterialUIController();
     const { darkMode } = controller;
 
@@ -27,6 +27,7 @@ const MDTypography = forwardRef(({ color, fontWeight, textTransform, verticalAli
                 textGradient,
                 darkMode,
             }}
+            fontSize={fontSize}
         >
             {children}
         </MDTypographyRoot>
