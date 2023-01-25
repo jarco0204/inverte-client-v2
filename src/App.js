@@ -2,19 +2,32 @@ import { useState, useEffect, useMemo } from "react";
 import RouterContainer from "./containers/RouterContainer";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
-// import ProviderWrapper from "./Provider";
-// import theme from "./theme";
+// @mui material components
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import Icon from "@mui/material/Icon";
 
-// Material Dashboard 2 React contexts
+// React example components
+import Sidenav from "./examples/Sidenav";
+import Configurator from "./examples/Configurator";
+
+// React components
+import MDBox from "./components/MDBox";
+
+//React contexts
 import {
     useMaterialUIController,
     setMiniSidenav,
     setOpenConfigurator,
 } from "./context";
 
+// Material Dashboard Theme
+import theme from "./assets/theme";
+
 export default function App() {
     // Following line should be asked to GGP
     const [controller, dispatch] = useMaterialUIController();
+
     const {
         miniSidenav,
         direction,
@@ -26,7 +39,8 @@ export default function App() {
         darkMode,
     } = controller;
     const [onMouseEnter, setOnMouseEnter] = useState(false);
-    // const [rtlCache, setRtlCache] = useState(null);
+
+    // For route traversal
     const { pathname } = useLocation();
 
     // Open sidenav when mouse enter on mini sidenav
@@ -36,6 +50,7 @@ export default function App() {
             setOnMouseEnter(true);
         }
     };
+
     // Close sidenav when mouse leave mini sidenav
     const handleOnMouseLeave = () => {
         if (onMouseEnter) {
@@ -43,20 +58,10 @@ export default function App() {
             setOnMouseEnter(false);
         }
     };
+
     // Change the openConfigurator state
     const handleConfiguratorOpen = () =>
         setOpenConfigurator(dispatch, !openConfigurator);
-
-    // Setting the dir attribute for the body element
-    useEffect(() => {
-        document.body.setAttribute("dir", direction);
-    }, [direction]);
-
-    // Setting page scroll to 0 when changing the route
-    useEffect(() => {
-        document.documentElement.scrollTop = 0;
-        document.scrollingElement.scrollTop = 0;
-    }, [pathname]);
 
     const getRoutes = (allRoutes) =>
         allRoutes.map((route) => {
@@ -77,6 +82,67 @@ export default function App() {
 
             return null;
         });
+    const configsButton = (
+        <MDBox
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            width="3.25rem"
+            height="3.25rem"
+            bgColor="white"
+            shadow="sm"
+            borderRadius="50%"
+            position="fixed"
+            right="2rem"
+            bottom="2rem"
+            zIndex={99}
+            color="dark"
+            sx={{ cursor: "pointer" }}
+            onClick={handleConfiguratorOpen}
+        >
+            <Icon fontSize="small" color="inherit">
+                settings
+            </Icon>
+        </MDBox>
+    );
 
-    return <RouterContainer />;
+    // Setting the dir attribute for the body element
+    useEffect(() => {
+        document.body.setAttribute("dir", direction);
+    }, [direction]);
+
+    // Setting page scroll to 0 when changing the route
+    useEffect(() => {
+        document.documentElement.scrollTop = 0;
+        document.scrollingElement.scrollTop = 0;
+    }, [pathname]);
+
+    return (
+        <ThemeProvider theme={darkMode ? themeDark : theme}>
+            <CssBaseline />
+            {layout === "dashboard" && (
+                <>
+                    <Sidenav
+                        color={sidenavColor}
+                        brand={
+                            (transparentSidenav && !darkMode) || whiteSidenav
+                                ? brandDark
+                                : brandWhite
+                        }
+                        brandName="Material Dashboard 2"
+                        routes={routes}
+                        onMouseEnter={handleOnMouseEnter}
+                        onMouseLeave={handleOnMouseLeave}
+                    />
+                    <Configurator />
+                    {configsButton}
+                </>
+            )}
+            {layout === "vr" && <Configurator />}
+            <Routes>
+                {getRoutes(routes)}
+                <Route path="*" element={<Navigate to="/dashboard" />} />
+            </Routes>
+        </ThemeProvider>
+    );
 }
