@@ -19,6 +19,10 @@ import MDInput from "../../../components/MDInput";
 
 // Material Dashboard 2 React example components
 import Breadcrumbs from "../../Breadcrumbs";
+import HomeIcon from "@mui/icons-material/Home";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import SettingsIcon from "@mui/icons-material/Settings";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 // import NotificationItem from "examples/Items/NotificationItem";
 
 // Custom styles for DashboardNavbar
@@ -101,7 +105,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
         <AppBar position={absolute ? "absolute" : navbarType} color="inherit" sx={(theme) => navbar(theme, { transparentNavbar, absolute, light, darkMode })}>
             <Toolbar sx={(theme) => navbarContainer(theme)}>
                 <MDBox color="inherit" mb={{ xs: 1, md: 0 }} sx={(theme) => navbarRow(theme, { isMini })}>
-                    <Breadcrumbs icon="home" title={route[route.length - 1]} route={route} light={light} />
+                    <Breadcrumbs icon={<HomeIcon />} title={route[route.length - 1]} route={route} light={light} />
                 </MDBox>
                 {isMini ? null : (
                     <MDBox sx={(theme) => navbarRow(theme, { isMini })}>
@@ -111,7 +115,9 @@ function DashboardNavbar({ absolute, light, isMini }) {
                         <MDBox color={light ? "white" : "inherit"}>
                             <Link to="/authentication/sign-in/basic">
                                 <IconButton sx={navbarIconButton} size="small" disableRipple>
-                                    <Icon sx={iconsStyle}>account_circle</Icon>
+                                    <Icon sx={iconsStyle}>
+                                        <AccountCircleIcon />
+                                    </Icon>
                                 </IconButton>
                             </Link>
                             <IconButton size="small" disableRipple color="inherit" sx={navbarMobileMenu} onClick={handleMiniSidenav}>
@@ -120,7 +126,9 @@ function DashboardNavbar({ absolute, light, isMini }) {
                                 </Icon>
                             </IconButton>
                             <IconButton size="small" disableRipple color="inherit" sx={navbarIconButton} onClick={handleConfiguratorOpen}>
-                                <Icon sx={iconsStyle}>settings</Icon>
+                                <Icon sx={iconsStyle}>
+                                    <SettingsIcon />
+                                </Icon>
                             </IconButton>
                             <IconButton
                                 size="small"
@@ -132,7 +140,9 @@ function DashboardNavbar({ absolute, light, isMini }) {
                                 variant="contained"
                                 onClick={handleOpenMenu}
                             >
-                                <Icon sx={iconsStyle}>notifications</Icon>
+                                <Icon sx={iconsStyle}>
+                                    <NotificationsIcon />
+                                </Icon>
                             </IconButton>
                             {renderMenu()}
                         </MDBox>

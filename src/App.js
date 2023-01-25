@@ -5,6 +5,7 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Icon from "@mui/material/Icon";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 // Fundamental components
 import MDBox from "./components/MDBox";
@@ -32,7 +33,7 @@ export default function App() {
 
     // Component State
     const [onMouseEnter, setOnMouseEnter] = useState(false);
-    const [authenticated, setAuthenticated] = useState(false);
+    const [authenticated, setAuthenticated] = useState(true);
     const [userSession, setUserSession] = useState(null);
 
     // Hook for For route traversal
@@ -94,7 +95,7 @@ export default function App() {
             onClick={handleConfiguratorOpen}
         >
             <Icon fontSize="small" color="inherit">
-                settings
+                <SettingsIcon />
             </Icon>
         </MDBox>
     );
