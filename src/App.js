@@ -1,5 +1,4 @@
 import { useState, useEffect, useMemo } from "react";
-// import RouterContainer from "./containers/RouterContainer";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
 // @mui material components
@@ -7,14 +6,18 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Icon from "@mui/material/Icon";
 
+// Fundamental components
+import MDBox from "./components/MDBox";
+
 // React example components
 import Sidenav from "./examples/Sidenav";
 import Configurator from "./examples/Configurator";
 
-// React components
-import MDBox from "./components/MDBox";
+// Pages Containers
+import SignIn from "./pages/signin";
+import routes from "./pages/routes";
 
-//React contexts
+// Context to keep track of state
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "./context";
 
 // Material Dashboard Theme
@@ -24,14 +27,14 @@ import theme from "./assets/theme";
 // Images
 import inverteLogo from "./assets/img/inverte_green_logo.png";
 
-import routes from "./routes";
-
 export default function App() {
     // Following line should be asked to GGP
     const [controller, dispatch] = useMaterialUIController();
 
     const { miniSidenav, direction, layout, openConfigurator, sidenavColor, transparentSidenav, whiteSidenav, darkMode } = controller;
+
     const [onMouseEnter, setOnMouseEnter] = useState(false);
+    const [authenticated, setAuthenticated] = useState(true);
 
     // For route traversal
     const { pathname } = useLocation();
@@ -103,28 +106,33 @@ export default function App() {
     }, [pathname]);
 
     return (
-        // Dark theme is added below
-        <ThemeProvider theme={darkMode ? null : theme}>
-            <CssBaseline />
-            {layout === "dashboard" && (
-                <>
-                    <Sidenav
-                        color={sidenavColor}
-                        brand={(transparentSidenav && !darkMode) || whiteSidenav ? null : inverteLogo}
-                        brandName="InVerte"
-                        routes={routes}
-                        onMouseEnter={handleOnMouseEnter}
-                        onMouseLeave={handleOnMouseLeave}
-                    />
-                    <Configurator />
-                    {configsButton}
-                </>
+        <>
+            {!authenticated && <SignIn />}
+            {authenticated && (
+                // TODO: Add Dark theme
+                <ThemeProvider theme={darkMode ? null : theme}>
+                    <CssBaseline />
+                    {layout === "dashboard" && (
+                        <>
+                            <Sidenav
+                                color={sidenavColor}
+                                brand={(transparentSidenav && !darkMode) || whiteSidenav ? null : inverteLogo}
+                                brandName="InVerte"
+                                routes={routes}
+                                onMouseEnter={handleOnMouseEnter}
+                                onMouseLeave={handleOnMouseLeave}
+                            />
+                            <Configurator />
+                            {configsButton}
+                        </>
+                    )}
+                    {layout === "vr" && <Configurator />}
+                    <Routes>
+                        {getRoutes(routes)}
+                        <Route path="*" element={<Navigate to="/dashboard" />} />
+                    </Routes>
+                </ThemeProvider>
             )}
-            {layout === "vr" && <Configurator />}
-            <Routes>
-                {getRoutes(routes)}
-                <Route path="*" element={<Navigate to="/dashboard" />} />
-            </Routes>
-        </ThemeProvider>
+        </>
     );
 }
