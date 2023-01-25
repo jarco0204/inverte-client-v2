@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Box, Button, Checkbox, Container, FormControlLabel, TextField, Typography } from "@mui/material";
+// External UI Components
+import { Box, Button, Checkbox, Container, FormControlLabel, TextField, Typography, ThemeProvider } from "@mui/material";
+import { createTheme } from "@mui/material/styles";
 
+// Internal UI Components
+import Header from "./components/Header";
 // AWS imports
 // import { Auth, API } from "aws-amplify";
 // import awsConfig from "../aws-exports";
@@ -16,11 +20,26 @@ import { Box, Button, Checkbox, Container, FormControlLabel, TextField, Typograp
 
 // Auth.configure(awsConfig);
 
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: "#02182E",
+        },
+        secondary: {
+            main: "#e3dac9",
+        },
+        accent: {
+            main: "#6AC259",
+        },
+    },
+});
+
 function SignInContainer({ username = console.log, setUsername = console.log, setScalesData = console.log, setSubTopic = console.log }) {
-    // const [email, setEmail] = useState("");
-    // const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState(undefined);
+
     // const [fetching, setFetching] = useState(false);
-    // const [error, setError] = useState(undefined);
 
     // const navigate = useNavigate();
 
@@ -31,20 +50,20 @@ function SignInContainer({ username = console.log, setUsername = console.log, se
     /*
         Event handler for when user clicks on Log-in
     */
-    // function handleLogIn(event) {
-    //     console.log(event);
-    //     if (email === "") {
-    //         setError("Enter your email");
-    //     } else if (password === "") {
-    //         setError("Enter your password");
-    //     } else {
-    //         setError(undefined);
-    //         setFetching(true);
-    //         console.log(email);
-    //         console.log(password);
-    //         signing();
-    //     }
-    // }
+    function handleLogIn(event) {
+        console.log(event);
+        if (email === "") {
+            setError("Enter your email");
+        } else if (password === "") {
+            setError("Enter your password");
+        } else {
+            setError(undefined);
+            // setFetching(true);
+            console.log(email);
+            console.log(password);
+            // signing();
+        }
+    }
 
     /* 
     Sign In functionality using AWS amplify
@@ -101,43 +120,57 @@ function SignInContainer({ username = console.log, setUsername = console.log, se
     //     console.log("API Call Completes");
     // }
     return (
-        <Container sx={{ padding: 10 }} disableGutters={true}>
-            <div
-                style={{
-                    paddingTop: "50px",
-                    margin: "auto",
-                    maxWidth: "300px",
-                }}
-            >
-                <Typography component="h1" variant="h5">
-                    Sign In
-                </Typography>
-                {/* {error && (
-                    <Typography component="h1" variant="subtitle1">
-                        {error}
-                    </Typography>
-                )} */}
-                <form className="form" noValidate>
-                    {/* <TextField variant="outlined" margin="normal" required fullWidth id="email" label="Email" name="email" autoFocus onChange={(event) => setEmail(event.target.value)} value={email} /> */}
-                    <TextField
-                        variant="outlined"
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="Password"
-                        type="password"
-                        id="password"
-                        // onChange={(event) => setPassword(event.target.value)}
-                        value={undefined}
-                    />
-                    <FormControlLabel control={<Checkbox value="remember" />} label="Remember me" />
-                    {/* <Button color="primary" fullWidth id="sign-in-button" variant="contained" onClick={handleLogIn}>
+        <ThemeProvider theme={theme}>
+            <Header />
+            <Container sx={{ padding: 10 }} disableGutters={true}>
+                <div
+                    style={{
+                        paddingTop: "50px",
+                        margin: "auto",
+                        maxWidth: "300px",
+                    }}
+                >
+                    <Typography component="h1" variant="h5">
                         Sign In
-                    </Button> */}
-                </form>
-            </div>
-        </Container>
+                    </Typography>
+                    {error && (
+                        <Typography component="h1" variant="subtitle1">
+                            {error}
+                        </Typography>
+                    )}
+                    <form className="form" noValidate>
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="email"
+                            label="Email"
+                            name="email"
+                            autoFocus
+                            onChange={(event) => setEmail(event.target.value)}
+                            value={email}
+                        />
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="password"
+                            label="Password"
+                            type="password"
+                            id="password"
+                            onChange={(event) => setPassword(event.target.value)}
+                            value={undefined}
+                        />
+                        <FormControlLabel control={<Checkbox value="remember" />} label="Remember me" />
+                        <Button color="primary" fullWidth id="sign-in-button" variant="contained" onClick={handleLogIn}>
+                            Sign In
+                        </Button>
+                    </form>
+                </div>
+            </Container>
+        </ThemeProvider>
     );
 }
 

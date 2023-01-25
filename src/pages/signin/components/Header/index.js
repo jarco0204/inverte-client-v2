@@ -1,28 +1,21 @@
-import logo from "../assets/img/inverte_green_logo.png";
+import logo from "../../../../assets/img/inverte_green_logo.png";
 import AppBar from "@mui/material/AppBar";
 import { IconButton, Toolbar, Typography } from "@mui/material";
 import Container from "@mui/material/Container";
-import { useSelector } from "react-redux";
-import { isAuthenticated } from "../redux/authSelector";
 import { ExitToApp } from "@material-ui/icons";
 
+// import { useSelector } from "react-redux";
+// import { isAuthenticated } from "../redux/authSelector";
+
 const Header = () => {
-    const authorized = useSelector(isAuthenticated);
+    // const authorized = useSelector(isAuthenticated);
+
     return (
-        <AppBar position="static">
+        <AppBar color="primary">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        edge="start"
-                        sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
-                    >
-                        <img
-                            src={logo}
-                            alt="logo"
-                            style={{ maxWidth: "100px" }}
-                        />
+                    <IconButton color="inherit" aria-label="open drawer" edge="start" sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}>
+                        <img src={logo} alt="logo" style={{ maxWidth: "100px" }} />
                         <Typography
                             variant="h4"
                             noWrap
@@ -40,17 +33,8 @@ const Header = () => {
                         </Typography>
                     </IconButton>
 
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        edge="start"
-                        sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}
-                    >
-                        <img
-                            src={logo}
-                            alt="logo"
-                            style={{ maxWidth: "100px" }}
-                        />
+                    <IconButton color="inherit" aria-label="open drawer" edge="start" sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}>
+                        <img src={logo} alt="logo" style={{ maxWidth: "75px" }} />
                         <Typography
                             variant="h5"
                             noWrap
@@ -67,7 +51,6 @@ const Header = () => {
                         >
                             INVERTE
                         </Typography>
-                        {authorized && <ExitToApp />}
                     </IconButton>
                 </Toolbar>
             </Container>
