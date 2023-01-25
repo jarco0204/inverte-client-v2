@@ -8,10 +8,8 @@ import Icon from "@mui/material/Icon";
 
 // Fundamental components
 import MDBox from "./components/MDBox";
-
-// React example components
-import Sidenav from "./examples/Sidenav";
-import Configurator from "./examples/Configurator";
+import Sidenav from "./components/Sidenav";
+import Configurator from "./components/Configurator";
 
 // Pages Containers
 import SignIn from "./pages/signin";
@@ -21,8 +19,8 @@ import routes from "./pages/routes";
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "./context";
 
 // Material Dashboard Theme
-import theme from "./assets/theme";
 // import themeDark from "assets/theme-dark"; // TODO
+import theme from "./assets/theme";
 
 // Images
 import inverteLogo from "./assets/img/inverte_green_logo.png";
