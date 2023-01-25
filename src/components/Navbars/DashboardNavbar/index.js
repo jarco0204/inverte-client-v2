@@ -23,6 +23,8 @@ import HomeIcon from "@mui/icons-material/Home";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import ViewSidebarIcon from "@mui/icons-material/ViewSidebar";
+import ViewSidebarOutlinedIcon from "@mui/icons-material/ViewSidebarOutlined";
 // import NotificationItem from "examples/Items/NotificationItem";
 
 // Custom styles for DashboardNavbar
@@ -113,6 +115,11 @@ function DashboardNavbar({ absolute, light, isMini }) {
                             <MDInput label="Search here" />
                         </MDBox>
                         <MDBox color={light ? "white" : "inherit"}>
+                            <IconButton size="small" disableRipple color="inherit" sx={navbarMobileMenu} onClick={handleMiniSidenav}>
+                                <Icon sx={iconsStyle} fontSize="medium">
+                                    {miniSidenav ? <ViewSidebarIcon /> : <ViewSidebarOutlinedIcon />}
+                                </Icon>
+                            </IconButton>
                             <Link to="/authentication/sign-in/basic">
                                 <IconButton sx={navbarIconButton} size="small" disableRipple>
                                     <Icon sx={iconsStyle}>
@@ -120,11 +127,6 @@ function DashboardNavbar({ absolute, light, isMini }) {
                                     </Icon>
                                 </IconButton>
                             </Link>
-                            <IconButton size="small" disableRipple color="inherit" sx={navbarMobileMenu} onClick={handleMiniSidenav}>
-                                <Icon sx={iconsStyle} fontSize="medium">
-                                    {miniSidenav ? "menu_open" : "menu"}
-                                </Icon>
-                            </IconButton>
                             <IconButton size="small" disableRipple color="inherit" sx={navbarIconButton} onClick={handleConfiguratorOpen}>
                                 <Icon sx={iconsStyle}>
                                     <SettingsIcon />

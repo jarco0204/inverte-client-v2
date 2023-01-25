@@ -43,7 +43,7 @@ function Footer({ company, links }) {
                         &nbsp;{name}&nbsp;
                     </MDTypography>
                 </Link>
-                for a better portioning.
+                for better portioning.
             </MDBox>
             <MDBox
                 component="ul"

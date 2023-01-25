@@ -38,7 +38,7 @@ import HomeIcon from "@mui/icons-material/Home";
 const routes = [
     {
         type: "collapse",
-        name: "Main Dashboard",
+        name: "Dashboard",
         key: "dashboard",
         icon: (
             <Icon fontSize="small">

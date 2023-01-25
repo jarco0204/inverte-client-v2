@@ -11,6 +11,7 @@ import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import Link from "@mui/material/Link";
 import Icon from "@mui/material/Icon";
+import CloseIcon from "@mui/icons-material/Close";
 
 // Material Dashboard 2 React components
 import MDBox from "../../components/MDBox";
@@ -104,7 +105,9 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
             <MDBox pt={3} pb={1} px={4} textAlign="center">
                 <MDBox display={{ xs: "block", xl: "none" }} position="absolute" top={0} right={0} p={1.625} onClick={closeSidenav} sx={{ cursor: "pointer" }}>
                     <MDTypography variant="h6" color="secondary">
-                        <Icon sx={{ fontWeight: "bold" }}>close</Icon>
+                        <Icon sx={{ fontWeight: "bold" }}>
+                            <CloseIcon />
+                        </Icon>
                     </MDTypography>
                 </MDBox>
                 <MDBox component={NavLink} to="/" display="flex" alignItems="center">
@@ -119,8 +122,8 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
             <Divider light={(!darkMode && !whiteSidenav && !transparentSidenav) || (darkMode && !transparentSidenav && whiteSidenav)} />
             <List>{renderRoutes}</List>
             <MDBox p={2} mt="auto">
-                <MDButton component="a" href="https://www.creative-tim.com/product/material-dashboard-pro-react" target="_blank" rel="noreferrer" variant="gradient" color={sidenavColor} fullWidth>
-                    upgrade to premium
+                <MDButton component="a" href="https://inverte.ca/" target="_blank" rel="noreferrer" variant="gradient" color={sidenavColor} fullWidth>
+                    upgrade to pro (v2)
                 </MDButton>
             </MDBox>
         </SidenavRoot>
