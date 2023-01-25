@@ -32,13 +32,18 @@ import Dashboard from "./layouts/dashboard";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
+import HomeIcon from "@mui/icons-material/Home";
 
 const routes = [
     {
         type: "collapse",
-        name: "Dashboard",
+        name: "Main Dashboard",
         key: "dashboard",
-        icon: <Icon fontSize="small">dashboard</Icon>,
+        icon: (
+            <Icon fontSize="small">
+                <HomeIcon />
+            </Icon>
+        ),
         route: "/dashboard",
         component: <Dashboard />,
     },
