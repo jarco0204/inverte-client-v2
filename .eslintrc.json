@@ -9,8 +9,14 @@
         "plugin:react/recommended"
         // "plugin:prettier/recommended"
     ],
+    "settings": {
+        "react": {
+          "version": "detect" // detect react version
+        }
+    },
     "overrides": [
     ],
+    "parser": "babel-eslint",
     "parserOptions": {
         "ecmaVersion": "latest",
         "sourceType": "module"
