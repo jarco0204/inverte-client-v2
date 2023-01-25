@@ -70,3 +70,5 @@ It supports these routes: \
 • The main content container entry is nested in Navbar component. Latest Changes (mobileSupport branch) that modify the positioning of the content container were done inside Navbar.js
 • Amplify API access is not restricted
 • Used https://medium.com/how-to-react/config-eslint-and-prettier-in-visual-studio-code-for-react-js-development-97bb2236b31a to set up ESLint
+//Eslint-disable next-line
+https://stackoverflow.com/questions/67992894/component-definition-is-missing-display-name-for-forwardref

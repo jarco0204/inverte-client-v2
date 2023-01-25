@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import RouterContainer from "./containers/RouterContainer";
+// import RouterContainer from "./containers/RouterContainer";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
 // @mui material components
@@ -15,29 +15,22 @@ import Configurator from "./examples/Configurator";
 import MDBox from "./components/MDBox";
 
 //React contexts
-import {
-    useMaterialUIController,
-    setMiniSidenav,
-    setOpenConfigurator,
-} from "./context";
+import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "./context";
 
 // Material Dashboard Theme
 import theme from "./assets/theme";
+// import themeDark from "assets/theme-dark"; // TODO
+
+// Images
+import inverteLogo from "./assets/img/inverte_green_logo.png";
+
+import routes from "./routes";
 
 export default function App() {
     // Following line should be asked to GGP
     const [controller, dispatch] = useMaterialUIController();
 
-    const {
-        miniSidenav,
-        direction,
-        layout,
-        openConfigurator,
-        sidenavColor,
-        transparentSidenav,
-        whiteSidenav,
-        darkMode,
-    } = controller;
+    const { miniSidenav, direction, layout, openConfigurator, sidenavColor, transparentSidenav, whiteSidenav, darkMode } = controller;
     const [onMouseEnter, setOnMouseEnter] = useState(false);
 
     // For route traversal
@@ -60,8 +53,7 @@ export default function App() {
     };
 
     // Change the openConfigurator state
-    const handleConfiguratorOpen = () =>
-        setOpenConfigurator(dispatch, !openConfigurator);
+    const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
 
     const getRoutes = (allRoutes) =>
         allRoutes.map((route) => {
@@ -70,14 +62,7 @@ export default function App() {
             }
 
             if (route.route) {
-                return (
-                    <Route
-                        exact
-                        path={route.route}
-                        element={route.component}
-                        key={route.key}
-                    />
-                );
+                return <Route exact path={route.route} element={route.component} key={route.key} />;
             }
 
             return null;
@@ -118,17 +103,14 @@ export default function App() {
     }, [pathname]);
 
     return (
-        <ThemeProvider theme={darkMode ? themeDark : theme}>
+        // Dark theme is added below
+        <ThemeProvider theme={darkMode ? null : theme}>
             <CssBaseline />
             {layout === "dashboard" && (
                 <>
                     <Sidenav
                         color={sidenavColor}
-                        brand={
-                            (transparentSidenav && !darkMode) || whiteSidenav
-                                ? brandDark
-                                : brandWhite
-                        }
+                        brand={(transparentSidenav && !darkMode) || whiteSidenav ? null : inverteLogo}
                         brandName="Material Dashboard 2"
                         routes={routes}
                         onMouseEnter={handleOnMouseEnter}
