@@ -22,6 +22,7 @@
 
 // Material Dashboard 2 React layouts
 import Dashboard from "./pages/dashboard";
+import Scales from "./pages/scales";
 
 // import Tables from "layouts/tables";
 // import Billing from "layouts/billing";
@@ -34,6 +35,7 @@ import Dashboard from "./pages/dashboard";
 // @mui icons
 import Icon from "@mui/material/Icon";
 import HomeIcon from "@mui/icons-material/Home";
+import ScaleIcon from "@mui/icons-material/Scale";
 
 const routes = [
     {
@@ -48,14 +50,18 @@ const routes = [
         route: "/dashboard",
         component: <Dashboard />,
     },
-    // {
-    //   type: "collapse",
-    //   name: "Tables",
-    //   key: "tables",
-    //   icon: <Icon fontSize="small">table_view</Icon>,
-    //   route: "/tables",
-    //   component: <Tables />,
-    // },
+    {
+        type: "collapse",
+        name: "Scales",
+        key: "scales",
+        icon: (
+            <Icon fontSize="small">
+                <ScaleIcon />
+            </Icon>
+        ),
+        route: "/scales",
+        component: <Scales />,
+    },
     // {
     //   type: "collapse",
     //   name: "Billing",
