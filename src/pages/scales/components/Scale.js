@@ -28,19 +28,19 @@ import EditableCardNameParam from "../components/EditableCardNameParam";
 import { PubSub } from "aws-amplify";
 
 // Expand Functionality
-// import IconButton from "@mui/material/IconButton";
-// import Collapse from "@mui/material/Collapse";
-// import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-// const ExpandMore = styled((props) => {
-//     const { expand, ...other } = props;
-//     return <IconButton {...other} />;
-// })(({ theme, expand }) => ({
-//     transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-//     marginLeft: "auto",
-//     transition: theme.transitions.create("transform", {
-//         duration: theme.transitions.duration.shortest,
-//     }),
-// }));
+import IconButton from "@mui/material/IconButton";
+import Collapse from "@mui/material/Collapse";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+const ExpandMore = styled((props) => {
+    const { expand, ...other } = props;
+    return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+    transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+    marginLeft: "auto",
+    transition: theme.transitions.create("transform", {
+        duration: theme.transitions.duration.shortest,
+    }),
+}));
 
 /*
     scaleArr is an array that is passed from ScalesContainer after an API call.
@@ -59,7 +59,7 @@ export default function Scale({ scaleArr }) {
     const [maxOffset, setMaxOffset] = useState(1);
     const [unitOfMassCode, setUnitOfMassCode] = useState("g");
 
-    // const [expanded, setExpanded] = useState(false);
+    const [expanded, setExpanded] = useState(false);
 
     const [buttonStateStr, setButtonStateStr] = useState("Start");
     const [buttonStateColor, setButtonStateColor] = useState("#02182E");
@@ -85,16 +85,16 @@ export default function Scale({ scaleArr }) {
 
         This function allowed the component to be expanded, but as determined by customer 
         feedback, the UI should be even simpler 
-    
+    */
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
-    */
+
     /*
         Material UI function component
     */
-    const editableNameComponent = (ingredientName, scaleType) => {
-        return <EditableCardNameParam ingredientName={ingredientName} scaleType={scaleType} setNameIngredient={setNameIngredient} sendDataAWS={sendDataAWS} />;
+    const editableNameComponent = (ingredientName) => {
+        return <EditableCardNameParam ingredientName={ingredientName} setNameIngredient={setNameIngredient} sendDataAWS={sendDataAWS} />;
     };
 
     /*
@@ -178,6 +178,15 @@ export default function Scale({ scaleArr }) {
     return (
         <Card style={{ maxWidth: "300px" }}>
             <MDBox display="flex" justifyContent="space-between" pt={1} px={2}>
+                {/* <CardHeader
+                    avatar={
+                        <Avatar sx={{ bgcolor: "#02182E" }} aria-label="recipe">
+                            {nameIngredient[0]}
+                        </Avatar>
+                    }
+                    action={<ScaleMenuOptions setUnitOfMassCode={setUnitOfMassCode} sendDataAWS={sendDataAWS} convertUnitOfMass={convertUnitOfMass} />}
+                    sx={{ maxWidth: 100 }}
+                /> */}
                 <MDBox
                     variant="gradient"
                     // bgColor={color}
@@ -203,66 +212,38 @@ export default function Scale({ scaleArr }) {
                     {/* <CardHeader title={editableNameComponent(nameIngredient, "Scale")} /> */}
                 </MDBox>
             </MDBox>
+            <div style={{ margin: "auto" }}>
+                <InputAdornments
+                    label={"Correct Portion Weight"}
+                    unitOfMassCode={unitOfMassCode}
+                    correctPortionWeight={correctWeight}
+                    setCorrectWeight={setCorrectWeight}
+                    submitCorrectPortionParams={sendDataAWS}
+                    width={"15ch"}
+                />
+            </div>
+            <CardActions disableSpacing>
+                <TareButton onClick={handleTareButton}>Tare</TareButton>
+                <StartButton onClick={handleSpecialButton}>{buttonStateStr}</StartButton>
+                <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
+                    <ExpandMoreIcon />
+                </ExpandMore>
+            </CardActions>
+            <Collapse in={expanded} timeout="auto" unmountOnExit>
+                <h5 style={{ margin: "auto" }}>Accepted Portion Range: </h5>
+                <div style={{ display: "flex", marginTop: "-10px" }}>
+                    <InputAdornments label={"Under"} unitOfMassCode={unitOfMassCode} correctPortionWeight={minOffset} setCorrectWeight={setMinOffset} submitCorrectPortionParams={sendDataAWS} />
+                    <InputAdornments label={"Over"} unitOfMassCode={unitOfMassCode} correctPortionWeight={maxOffset} setCorrectWeight={setMaxOffset} submitCorrectPortionParams={sendDataAWS} />
+                </div>
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        gap: "50px",
+                        margin: "10px 0",
+                    }}
+                ></div>
+            </Collapse>
         </Card>
     );
-}
-
-// <CardHeader
-//                 avatar={
-//                     <Avatar sx={{ bgcolor: "#02182E" }} aria-label="recipe">
-//                         {nameIngredient[0]}
-//                     </Avatar>
-//                 }
-//                 action={<ScaleMenuOptions setUnitOfMassCode={setUnitOfMassCode} sendDataAWS={sendDataAWS} convertUnitOfMass={convertUnitOfMass} />}
-//
-//                 sx={{ maxWidth: 100 }}
-//             />
-
-//             <CardContent>
-//                 <div className="centerContent">
-//                     <InputAdornments
-//                         label={"Correct Portion Weight"}
-//                         unitOfMassCode={unitOfMassCode}
-//                         correctPortionWeight={correctWeight}
-//                         setCorrectWeight={setCorrectWeight}
-//                         submitCorrectPortionParams={sendDataAWS}
-//                         width={"15ch"}
-//                     />
-//                 </div>
-//             </CardContent>
-//             <CardContent>
-//                 <div className="centerContent" style={{ marginTop: "-25px" }}>
-//                     <h5>Accepted Portion Range: </h5>
-//                     <div style={{ display: "flex", marginTop: "-10px" }}>
-//                         <InputAdornments label={"Under"} unitOfMassCode={unitOfMassCode} correctPortionWeight={minOffset} setCorrectWeight={setMinOffset} submitCorrectPortionParams={sendDataAWS} />
-//                         <InputAdornments label={"Over"} unitOfMassCode={unitOfMassCode} correctPortionWeight={maxOffset} setCorrectWeight={setMaxOffset} submitCorrectPortionParams={sendDataAWS} />
-//                     </div>
-//                 </div>
-//             </CardContent>
-//             <CardActions disableSpacing>
-//                 <div
-//                     style={{
-//                         display: "flex",
-//                         justifyContent: "center",
-//                         gap: "97px",
-//                     }}
-//                 >
-//                     <TareButton onClick={handleTareButton}>Tare</TareButton>
-//                     <StartButton onClick={handleSpecialButton}>{buttonStateStr}</StartButton>
-//                 </div>
-
-//                 <ExpandMore
-//                     expand={expanded}
-//                     onClick={handleExpandClick}
-//                     aria-expanded={expanded}
-//                     aria-label="show more"
-//                 >
-//                     <ExpandMoreIcon />
-//                 </ExpandMore>
-//             </CardActions>
-{
-    /* <Collapse in={expanded} timeout="auto" unmountOnExit>
-                // Here is where the Expand portion range menu was found.
-                This hasn't been deleted since it might be reusable for some other area
-            </Collapse> */
 }
