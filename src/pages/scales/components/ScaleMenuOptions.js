@@ -16,11 +16,7 @@ const options = ["Change Mode", "Change Unit"];
 
 const ITEM_HEIGHT = 48;
 
-export default function ScaleMenuOptions({
-    setUnitOfMassCode,
-    sendDataAWS,
-    convertUnitOfMass,
-}) {
+export default function ScaleMenuOptions({ setUnitOfMassCode, sendDataAWS, convertUnitOfMass }) {
     //MUI State
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -52,15 +48,8 @@ export default function ScaleMenuOptions({
     };
 
     return (
-        <div>
-            <IconButton
-                aria-label="more"
-                id="long-button"
-                aria-controls={open ? "long-menu" : undefined}
-                aria-expanded={open ? "true" : undefined}
-                aria-haspopup="true"
-                onClick={handleClick}
-            >
+        <>
+            <IconButton aria-label="more" id="long-button" aria-controls={open ? "long-menu" : undefined} aria-expanded={open ? "true" : undefined} aria-haspopup="true" onClick={handleClick}>
                 <MoreVertIcon />
             </IconButton>
             <Menu
@@ -108,6 +97,6 @@ export default function ScaleMenuOptions({
                     <Button onClick={handleCloseName}>Change</Button>
                 </DialogActions>
             </Dialog> */}
-        </div>
+        </>
     );
 }

@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
+// import FormHelperText from "@mui/material/FormHelperText";
 
 const EditableCardNameParam = (props) => {
     // Handle the change of the correct portion weight
@@ -11,11 +11,11 @@ const EditableCardNameParam = (props) => {
     return (
         <Box sx={{ display: "flex", flexWrap: "wrap" }}>
             <div>
-                <FormControl sx={{ width: "20ch" }} variant="outlined">
+                <FormControl sx={{ width: "10ch" }} variant="outlined">
                     <OutlinedInput
                         id="outlined-adornment-weight"
                         style={{
-                            backgroundColor: "beige",
+                            backgroundColor: "grey",
                             height: "35px",
                         }}
                         value={props.ingredientName}
@@ -26,9 +26,7 @@ const EditableCardNameParam = (props) => {
                         }}
                         onBlur={() => props.sendDataAWS()}
                     />
-                    <FormHelperText id="outlined-weight-helper-text">
-                        {props.scaleType}
-                    </FormHelperText>
+                    {/* <FormHelperText id="outlined-weight-helper-text">{props.scaleType}</FormHelperText> */}
                 </FormControl>
             </div>
         </Box>

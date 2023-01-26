@@ -1,11 +1,19 @@
 import { useState } from "react";
+// MUI Components
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
+import Icon from "@mui/material/Icon";
+import FastfoodIcon from "@mui/icons-material/Fastfood";
+
+// User Components
+import MDBox from "../../../components/MDBox";
+import MDTypography from "../../../components/MDTypography";
+
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Avatar from "@mui/material/Avatar";
-import { blue, green } from "@mui/material/colors";
+// import { blue, green } from "@mui/material/colors";
 import { Button } from "@mui/material";
 
 import ScaleMenuOptions from "../components/ScaleMenuOptions";
@@ -14,7 +22,7 @@ import InputAdornments from "../components/InputAdornments";
 import EditableCardNameParam from "../components/EditableCardNameParam";
 
 // User imports
-import "../assets/css/ScalesContainer.css";
+// import "../assets/css/ScalesContainer.css";
 
 // Aws Imports
 import { PubSub } from "aws-amplify";
@@ -49,7 +57,7 @@ export default function Scale({ scaleArr }) {
     const [correctWeight, setCorrectWeight] = useState(10);
     const [minOffset, setMinOffset] = useState(1);
     const [maxOffset, setMaxOffset] = useState(1);
-    const [unitOfMassCode, setUnitOfMassCode] = useState("G");
+    const [unitOfMassCode, setUnitOfMassCode] = useState("g");
 
     // const [expanded, setExpanded] = useState(false);
 
@@ -86,14 +94,7 @@ export default function Scale({ scaleArr }) {
         Material UI function component
     */
     const editableNameComponent = (ingredientName, scaleType) => {
-        return (
-            <EditableCardNameParam
-                ingredientName={ingredientName}
-                scaleType={scaleType}
-                setNameIngredient={setNameIngredient}
-                sendDataAWS={sendDataAWS}
-            />
-        );
+        return <EditableCardNameParam ingredientName={ingredientName} scaleType={scaleType} setNameIngredient={setNameIngredient} sendDataAWS={sendDataAWS} />;
     };
 
     /*
@@ -175,82 +176,93 @@ export default function Scale({ scaleArr }) {
     };
 
     return (
-        <Card sx={{ maxWidth: 310, margin: "auto" }}>
-            <CardHeader
-                avatar={
-                    <Avatar sx={{ bgcolor: "#02182E" }} aria-label="recipe">
-                        {nameIngredient[0]}
-                    </Avatar>
-                }
-                action={
-                    <ScaleMenuOptions
-                        setUnitOfMassCode={setUnitOfMassCode}
-                        sendDataAWS={sendDataAWS}
-                        convertUnitOfMass={convertUnitOfMass}
-                    />
-                }
-                title={editableNameComponent(nameIngredient, "Scale")}
-            />
-            <CardContent>
-                <div className="centerContent">
-                    <InputAdornments
-                        label={"Correct Portion Weight"}
-                        unitOfMassCode={unitOfMassCode}
-                        correctPortionWeight={correctWeight}
-                        setCorrectWeight={setCorrectWeight}
-                        submitCorrectPortionParams={sendDataAWS}
-                        width={"28ch"}
-                    />
-                </div>
-            </CardContent>
-            <CardContent>
-                <div className="centerContent" style={{ marginTop: "-25px" }}>
-                    <h5>Accepted Portion Range: </h5>
-                    <div style={{ display: "flex", marginTop: "-10px" }}>
-                        <InputAdornments
-                            label={"Under"}
-                            unitOfMassCode={unitOfMassCode}
-                            correctPortionWeight={minOffset}
-                            setCorrectWeight={setMinOffset}
-                            submitCorrectPortionParams={sendDataAWS}
-                        />
-                        <InputAdornments
-                            label={"Over"}
-                            unitOfMassCode={unitOfMassCode}
-                            correctPortionWeight={maxOffset}
-                            setCorrectWeight={setMaxOffset}
-                            submitCorrectPortionParams={sendDataAWS}
-                        />
-                    </div>
-                </div>
-            </CardContent>
-            <CardActions disableSpacing>
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        gap: "97px",
-                    }}
+        <Card style={{ maxWidth: "300px" }}>
+            <MDBox display="flex" justifyContent="space-between" pt={1} px={2}>
+                <MDBox
+                    variant="gradient"
+                    // bgColor={color}
+                    // color={color === "light" ? "dark" : "white"}
+                    // coloredShadow={color}
+                    borderRadius="xl"
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    width="4rem"
+                    height="4rem"
+                    mt={-3}
                 >
-                    <TareButton onClick={handleTareButton}>Tare</TareButton>
-                    <StartButton onClick={handleSpecialButton}>
-                        {buttonStateStr}
-                    </StartButton>
-                </div>
-
-                {/* <ExpandMore
-                    expand={expanded}
-                    onClick={handleExpandClick}
-                    aria-expanded={expanded}
-                    aria-label="show more"
-                >
-                    <ExpandMoreIcon />
-                </ExpandMore> */}
-            </CardActions>
-            {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
-                // Here is where the Expand portion range menu was found.
-                This hasn't been deleted since it might be reusable for some other area
-            </Collapse> */}
+                    <Icon fontSize="medium" color="inherit">
+                        <FastfoodIcon />
+                    </Icon>
+                </MDBox>
+                <MDBox textAlign="right" lineHeight={1.25}>
+                    <MDTypography variant="button" fontWeight="light" color="text">
+                        Scale #1
+                    </MDTypography>
+                    <MDTypography variant="h4">{editableNameComponent(nameIngredient, "Scale")}</MDTypography>
+                    {/* <CardHeader title={editableNameComponent(nameIngredient, "Scale")} /> */}
+                </MDBox>
+            </MDBox>
         </Card>
     );
+}
+
+// <CardHeader
+//                 avatar={
+//                     <Avatar sx={{ bgcolor: "#02182E" }} aria-label="recipe">
+//                         {nameIngredient[0]}
+//                     </Avatar>
+//                 }
+//                 action={<ScaleMenuOptions setUnitOfMassCode={setUnitOfMassCode} sendDataAWS={sendDataAWS} convertUnitOfMass={convertUnitOfMass} />}
+//
+//                 sx={{ maxWidth: 100 }}
+//             />
+
+//             <CardContent>
+//                 <div className="centerContent">
+//                     <InputAdornments
+//                         label={"Correct Portion Weight"}
+//                         unitOfMassCode={unitOfMassCode}
+//                         correctPortionWeight={correctWeight}
+//                         setCorrectWeight={setCorrectWeight}
+//                         submitCorrectPortionParams={sendDataAWS}
+//                         width={"15ch"}
+//                     />
+//                 </div>
+//             </CardContent>
+//             <CardContent>
+//                 <div className="centerContent" style={{ marginTop: "-25px" }}>
+//                     <h5>Accepted Portion Range: </h5>
+//                     <div style={{ display: "flex", marginTop: "-10px" }}>
+//                         <InputAdornments label={"Under"} unitOfMassCode={unitOfMassCode} correctPortionWeight={minOffset} setCorrectWeight={setMinOffset} submitCorrectPortionParams={sendDataAWS} />
+//                         <InputAdornments label={"Over"} unitOfMassCode={unitOfMassCode} correctPortionWeight={maxOffset} setCorrectWeight={setMaxOffset} submitCorrectPortionParams={sendDataAWS} />
+//                     </div>
+//                 </div>
+//             </CardContent>
+//             <CardActions disableSpacing>
+//                 <div
+//                     style={{
+//                         display: "flex",
+//                         justifyContent: "center",
+//                         gap: "97px",
+//                     }}
+//                 >
+//                     <TareButton onClick={handleTareButton}>Tare</TareButton>
+//                     <StartButton onClick={handleSpecialButton}>{buttonStateStr}</StartButton>
+//                 </div>
+
+//                 <ExpandMore
+//                     expand={expanded}
+//                     onClick={handleExpandClick}
+//                     aria-expanded={expanded}
+//                     aria-label="show more"
+//                 >
+//                     <ExpandMoreIcon />
+//                 </ExpandMore>
+//             </CardActions>
+{
+    /* <Collapse in={expanded} timeout="auto" unmountOnExit>
+                // Here is where the Expand portion range menu was found.
+                This hasn't been deleted since it might be reusable for some other area
+            </Collapse> */
 }
