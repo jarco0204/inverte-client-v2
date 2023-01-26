@@ -3,6 +3,7 @@ import Grid from "@mui/material/Grid";
 
 // Material Dashboard 2 React components
 import MDBox from "../../components/MDBox";
+import Chart from "chart.js/auto";
 
 // Material Dashboard 2 React example components
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
@@ -96,17 +97,17 @@ function Dashboard() {
                     <Grid container spacing={3}>
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
-                                <ReportsBarChart color="info" title="website views" description="Last Campaign Performance" date="campaign sent 2 days ago" chart={reportsBarChartData} />
+                                <ReportsBarChart color="info" title="Inventory Consumption" description="Last Week Performance" date="Updated 5 minutes ago" chart={reportsBarChartData} />
                             </MDBox>
                         </Grid>
-                        {/* <Grid item xs={12} md={6} lg={4}>
+                        <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
                                 <ReportsLineChart
                                     color="success"
-                                    title="daily sales"
+                                    title="daily Portioning Accuracy"
                                     description={
                                         <>
-                                            (<strong>+15%</strong>) increase in today sales.
+                                            (<strong>+15%</strong>) increase in weekly sales.
                                         </>
                                     }
                                     date="updated 4 min ago"
@@ -116,9 +117,9 @@ function Dashboard() {
                         </Grid>
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
-                                <ReportsLineChart color="dark" title="completed tasks" description="Last Campaign Performance" date="just updated" chart={tasks} />
+                                <ReportsLineChart color="dark" title="completed portions" description="Last Quarter Performance" date="just updated" chart={tasks} />
                             </MDBox>
-                        </Grid> */}
+                        </Grid>
                     </Grid>
                 </MDBox>
                 {/* <MDBox>
