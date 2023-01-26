@@ -6,9 +6,12 @@ import PropTypes from "prop-types";
 // Custom styles for MDBox
 import MDBoxRoot from "./MDBoxRoot";
 
-const MDBox = forwardRef(
-    (
-        {
+// eslint-disable-next-line react/display-name
+const MDBox = forwardRef(({ variant, bgColor, color, opacity, borderRadius, shadow, coloredShadow, ...rest }, ref) => (
+    <MDBoxRoot
+        {...rest}
+        ref={ref}
+        ownerState={{
             variant,
             bgColor,
             color,
@@ -16,25 +19,9 @@ const MDBox = forwardRef(
             borderRadius,
             shadow,
             coloredShadow,
-            ...rest
-        },
-        ref
-    ) => (
-        <MDBoxRoot
-            {...rest}
-            ref={ref}
-            ownerState={{
-                variant,
-                bgColor,
-                color,
-                opacity,
-                borderRadius,
-                shadow,
-                coloredShadow,
-            }}
-        />
-    )
-);
+        }}
+    />
+));
 
 // Setting default values for the props of MDBox
 MDBox.defaultProps = {
@@ -55,17 +42,7 @@ MDBox.propTypes = {
     opacity: PropTypes.number,
     borderRadius: PropTypes.string,
     shadow: PropTypes.string,
-    coloredShadow: PropTypes.oneOf([
-        "primary",
-        "secondary",
-        "info",
-        "success",
-        "warning",
-        "error",
-        "light",
-        "dark",
-        "none",
-    ]),
+    coloredShadow: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error", "light", "dark", "none"]),
 };
 
 export default MDBox;

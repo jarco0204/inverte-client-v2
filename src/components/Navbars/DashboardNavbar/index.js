@@ -112,7 +112,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
                 {isMini ? null : (
                     <MDBox sx={(theme) => navbarRow(theme, { isMini })}>
                         <MDBox pr={1}>
-                            <MDInput label="Search here" />
+                            <MDInput label="Search here (v2)" />
                         </MDBox>
                         <MDBox color={light ? "white" : "inherit"}>
                             <IconButton size="small" disableRipple color="inherit" sx={navbarMobileMenu} onClick={handleMiniSidenav}>
