@@ -38,8 +38,8 @@ function Dashboard() {
                             <ComplexStatisticsCard
                                 color="dark"
                                 icon={<PanToolIcon />}
-                                title="Successful Portions"
-                                count={281}
+                                title="Weekly Savings"
+                                count={"$39.4"}
                                 percentage={{
                                     color: "success",
                                     amount: "+56%",
@@ -52,12 +52,12 @@ function Dashboard() {
                         <MDBox mb={1.5}>
                             <ComplexStatisticsCard
                                 icon={<PrecisionManufacturingRoundedIcon />}
-                                title="Today's Accuracy"
+                                title="Weekly Accuracy"
                                 count="99%"
                                 percentage={{
                                     color: "success",
                                     amount: "+3%",
-                                    label: "than yesterday",
+                                    label: "than last week",
                                 }}
                             />
                         </MDBox>
@@ -86,8 +86,8 @@ function Dashboard() {
                                 count="+91"
                                 percentage={{
                                     color: "success",
-                                    amount: "",
-                                    label: "Since Inception",
+                                    amount: "+10%",
+                                    label: "thank yesterday",
                                 }}
                             />
                         </MDBox>
@@ -97,14 +97,19 @@ function Dashboard() {
                     <Grid container spacing={3}>
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
-                                <ReportsBarChart color="info" title="Inventory Consumption" description="Last Week Performance" date="Updated 5 minutes ago" chart={reportsBarChartData} />
+                                <ReportsLineChart color="dark" title="completed portions" description="Last Week Performance" date="just updated" chart={tasks} />
+                            </MDBox>
+                        </Grid>
+                        <Grid item xs={12} md={6} lg={4}>
+                            <MDBox mb={3}>
+                                <ReportsBarChart color="info" title="Accuracy Levels" description="Last Week Performance" date="Updated 5 minutes ago" chart={reportsBarChartData} />
                             </MDBox>
                         </Grid>
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
                                 <ReportsLineChart
                                     color="success"
-                                    title="daily Portioning Accuracy"
+                                    title="Inventory consumed"
                                     description={
                                         <>
                                             (<strong>+15%</strong>) increase in weekly sales.
@@ -113,11 +118,6 @@ function Dashboard() {
                                     date="updated 4 min ago"
                                     chart={sales}
                                 />
-                            </MDBox>
-                        </Grid>
-                        <Grid item xs={12} md={6} lg={4}>
-                            <MDBox mb={3}>
-                                <ReportsLineChart color="dark" title="completed portions" description="Last Quarter Performance" date="just updated" chart={tasks} />
                             </MDBox>
                         </Grid>
                     </Grid>
