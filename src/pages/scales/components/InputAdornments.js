@@ -4,14 +4,14 @@ import InputAdornment from "@mui/material/InputAdornment";
 import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
 
-export default function InputAdornments({ label, unitOfMassCode, correctPortionWeight, setCorrectWeight, submitCorrectPortionParams, width }) {
+export default function InputAdornments({ label, unitOfMassCode, correctPortionWeight, setCorrectWeight, submitCorrectPortionParams, width, style = {} }) {
     // Handle the change of the correct portion weight
     const handleChange = (e) => {
         setCorrectWeight(e.target.value);
     };
 
     return (
-        <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+        <Box sx={{ display: "flex", flexWrap: "wrap", ...style }}>
             <>
                 <FormControl sx={{ m: 1, width: width }} variant="outlined">
                     <FormHelperText id="outlined-weight-helper-text">{label}</FormHelperText>

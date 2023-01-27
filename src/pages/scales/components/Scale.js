@@ -4,25 +4,15 @@ import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import Icon from "@mui/material/Icon";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
+import CardActions from "@mui/material/CardActions";
+import { Button } from "@mui/material";
 
 // User Components
 import MDBox from "../../../components/MDBox";
 import MDTypography from "../../../components/MDTypography";
 
-import CardHeader from "@mui/material/CardHeader";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Avatar from "@mui/material/Avatar";
-// import { blue, green } from "@mui/material/colors";
-import { Button } from "@mui/material";
-
-import ScaleMenuOptions from "../components/ScaleMenuOptions";
-
 import InputAdornments from "../components/InputAdornments";
 import EditableCardNameParam from "../components/EditableCardNameParam";
-
-// User imports
-// import "../assets/css/ScalesContainer.css";
 
 // Aws Imports
 import { PubSub } from "aws-amplify";
@@ -31,16 +21,6 @@ import { PubSub } from "aws-amplify";
 import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-const ExpandMore = styled((props) => {
-    const { expand, ...other } = props;
-    return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-    transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-    marginLeft: "auto",
-    transition: theme.transitions.create("transform", {
-        duration: theme.transitions.duration.shortest,
-    }),
-}));
 
 /*
     scaleArr is an array that is passed from ScalesContainer after an API call.
@@ -49,8 +29,6 @@ const ExpandMore = styled((props) => {
         • The second scaleArr[1] is the type of scale (Flat or Pan)
 */
 export default function Scale({ scaleArr }) {
-    // console.log("I get my scaleArr", scaleArr);
-
     // Core Data State of a Scale Card
     const [nameIngredient, setNameIngredient] = useState("Cheese");
 
@@ -80,28 +58,33 @@ export default function Scale({ scaleArr }) {
         fontSize: 13,
     }));
 
-    /*
-        Material UI function component
+    // Special Expand More Button
+    const ExpandMore = styled((props) => {
+        const { expand, ...other } = props;
+        return <IconButton {...other} />;
+    })(({ theme, expand }) => ({
+        transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+        marginLeft: "auto",
+        transition: theme.transitions.create("transform", {
+            duration: theme.transitions.duration.shortest,
+        }),
+    }));
 
-        This function allowed the component to be expanded, but as determined by customer 
-        feedback, the UI should be even simpler 
-    */
+    // Behaviour for expand more button
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
 
     /*
-        Material UI function component
-    */
-    const editableNameComponent = (ingredientName) => {
-        return <EditableCardNameParam ingredientName={ingredientName} setNameIngredient={setNameIngredient} sendDataAWS={sendDataAWS} />;
-    };
+        Logic to handle the possible actions with the 4 buttons (controls available with a scale)
+        • (tare)
+        • (start)
+        • change unit of mass (unit)
+        • change mode (mode)
 
-    /*
-        Special Tare Button Logic
     */
-    const handleSpecialButton = () => {
-        console.log("Special Start/Guide or Stop to fill food pan");
+    const handleSpecialButton = (event) => {
+        console.log(event.target.name);
         if (buttonStateStr === "Start") {
             setButtonStateStr("Stop");
             setButtonStateColor("#f58a1f");
@@ -111,35 +94,20 @@ export default function Scale({ scaleArr }) {
             setButtonStateStr("Start");
             sendDataAWS(true, 4);
         }
+
+        // if (unitOfMassCode === "G") {
+        //     setCorrectWeight((correctWeight / 28.35).toFixed(1));
+        //     setMinOffset((minOffset / 28.35).toFixed(1));
+        //     setMaxOffset((maxOffset / 28.35).toFixed(1));
+        //     setUnitOfMassCode("Oz");
+        // } else {
+        //     setCorrectWeight((correctWeight * 28.35).toFixed(1));
+        //     setMinOffset((minOffset * 28.35).toFixed(1));
+        //     setMaxOffset((maxOffset * 28.35).toFixed(1));
+        //     setUnitOfMassCode("G");
+        // }
     };
 
-    /*
-        Tare Button Logic
-    */
-    const handleTareButton = () => {
-        console.log("Tare");
-        // setButtonStateColor(blue[500]);
-        sendDataAWS(true, 0);
-    };
-
-    /*
-        Helper function to convert unit of mass
-    */
-    const convertUnitOfMass = () => {
-        if (unitOfMassCode === "G") {
-            setCorrectWeight((correctWeight / 28.35).toFixed(1));
-            setMinOffset((minOffset / 28.35).toFixed(1));
-            setMaxOffset((maxOffset / 28.35).toFixed(1));
-            setUnitOfMassCode("Oz");
-        } else {
-            setCorrectWeight((correctWeight * 28.35).toFixed(1));
-            setMinOffset((minOffset * 28.35).toFixed(1));
-            setMaxOffset((maxOffset * 28.35).toFixed(1));
-            setUnitOfMassCode("G");
-        }
-        // sendDataAWS(); // Data NOTE: It seems this is not executing
-        sendDataAWS(true, 2); // Action
-    };
     /*
         Send updated params to APPROPRIATE scale channel
         whenever a change is detected in the inputs or focus is removed
@@ -157,8 +125,8 @@ export default function Scale({ scaleArr }) {
                 control: action,
             };
             console.log(msg);
-            let topic = scaleArr[0] + "/control";
-            await PubSub.publish(topic, msg);
+            // let topic = scaleArr[0] + "/control";
+            // await PubSub.publish(topic, msg);
         } else {
             // TODO: Validate/convert the correct type of the parameters scale accepts
             let msg = {
@@ -169,27 +137,18 @@ export default function Scale({ scaleArr }) {
                 upperErrorLimit: maxOffset,
                 unitOfMass: unitOfMassCode,
             };
-            let topic = scaleArr[0] + "/params";
-            console.log("sending data to ", topic);
-            await PubSub.publish(topic, msg);
+            // let topic = scaleArr[0] + "/params";
+            // console.log("sending data to ", topic);
+            // await PubSub.publish(topic, msg);
         }
     };
 
     return (
         <Card style={{ maxWidth: "300px" }}>
             <MDBox display="flex" justifyContent="space-between" pt={1} px={2}>
-                {/* <CardHeader
-                    avatar={
-                        <Avatar sx={{ bgcolor: "#02182E" }} aria-label="recipe">
-                            {nameIngredient[0]}
-                        </Avatar>
-                    }
-                    action={<ScaleMenuOptions setUnitOfMassCode={setUnitOfMassCode} sendDataAWS={sendDataAWS} convertUnitOfMass={convertUnitOfMass} />}
-                    sx={{ maxWidth: 100 }}
-                /> */}
                 <MDBox
                     variant="gradient"
-                    // bgColor={color}
+                    bgColor="light"
                     // color={color === "light" ? "dark" : "white"}
                     // coloredShadow={color}
                     borderRadius="xl"
@@ -204,12 +163,12 @@ export default function Scale({ scaleArr }) {
                         <FastfoodIcon />
                     </Icon>
                 </MDBox>
-                <MDBox textAlign="right" lineHeight={1.25}>
-                    <MDTypography variant="button" fontWeight="light" color="text">
-                        Scale #1
+
+                <MDBox textAlign="center" lineHeight={1.2}>
+                    <MDTypography fontWeight="bold" color="dark" marginRight={"20px"}>
+                        Scale #P0-08
                     </MDTypography>
-                    <MDTypography variant="h4">{editableNameComponent(nameIngredient, "Scale")}</MDTypography>
-                    {/* <CardHeader title={editableNameComponent(nameIngredient, "Scale")} /> */}
+                    <InputAdornments style={{ margin: "10px 0", paddingRight: "50px" }} ingredientName="cheese" setNameIngredient={setNameIngredient} sendDataAWS={sendDataAWS} />
                 </MDBox>
             </MDBox>
             <div style={{ margin: "auto" }}>
@@ -223,26 +182,31 @@ export default function Scale({ scaleArr }) {
                 />
             </div>
             <CardActions disableSpacing>
-                <TareButton onClick={handleTareButton}>Tare</TareButton>
-                <StartButton onClick={handleSpecialButton}>{buttonStateStr}</StartButton>
+                <TareButton name="tare" onClick={handleSpecialButton}>
+                    Tare
+                </TareButton>
+                <StartButton name="start" onClick={handleSpecialButton}>
+                    {buttonStateStr}
+                </StartButton>
                 <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
                     <ExpandMoreIcon />
                 </ExpandMore>
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <h5 style={{ margin: "auto" }}>Accepted Portion Range: </h5>
+                <h6 style={{ margin: "10px 45px" }}>Accepted Portion Range: </h6>
                 <div style={{ display: "flex", marginTop: "-10px" }}>
                     <InputAdornments label={"Under"} unitOfMassCode={unitOfMassCode} correctPortionWeight={minOffset} setCorrectWeight={setMinOffset} submitCorrectPortionParams={sendDataAWS} />
                     <InputAdornments label={"Over"} unitOfMassCode={unitOfMassCode} correctPortionWeight={maxOffset} setCorrectWeight={setMaxOffset} submitCorrectPortionParams={sendDataAWS} />
                 </div>
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        gap: "50px",
-                        margin: "10px 0",
-                    }}
-                ></div>
+                <CardActions disableSpacing>
+                    {/* TODO Create Specific buttons (radio) for these actions */}
+                    <TareButton name="unit" onClick={handleSpecialButton}>
+                        g/oz
+                    </TareButton>
+                    <StartButton name="mode" onClick={handleSpecialButton}>
+                        normal/portion
+                    </StartButton>
+                </CardActions>
             </Collapse>
         </Card>
     );
