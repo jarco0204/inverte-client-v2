@@ -53,6 +53,7 @@ MDTypography.propTypes = {
     textGradient: PropTypes.bool,
     children: PropTypes.node.isRequired,
     opacity: PropTypes.number,
+    fontSize: PropTypes.string,
 };
 
 export default MDTypography;
