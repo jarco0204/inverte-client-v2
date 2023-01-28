@@ -36,6 +36,8 @@ import Scales from "./pages/scales";
 import Icon from "@mui/material/Icon";
 import HomeIcon from "@mui/icons-material/Home";
 import ScaleIcon from "@mui/icons-material/Scale";
+import AnalyticsIcon from '@mui/icons-material/Analytics';
+import AnalyticsDashboard from "./pages/analytics";
 
 const routes = [
     {
@@ -62,14 +64,16 @@ const routes = [
         route: "/scales",
         component: <Scales />,
     },
-    // {
-    //   type: "collapse",
-    //   name: "Billing",
-    //   key: "billing",
-    //   icon: <Icon fontSize="small">receipt_long</Icon>,
-    //   route: "/billing",
-    //   component: <Billing />,
-    // },
+    {
+      type: "collapse",
+      name: "Analytics",
+      key: "analytics",
+      icon: <Icon fontSize="small">
+                <AnalyticsIcon />
+            </Icon>,
+      route: "/analytics",
+      component: <AnalyticsDashboard />,
+    },
     // {
     //   type: "collapse",
     //   name: "RTL",
