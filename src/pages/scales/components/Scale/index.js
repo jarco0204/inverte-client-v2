@@ -8,11 +8,11 @@ import CardActions from "@mui/material/CardActions";
 import { Button } from "@mui/material";
 
 // User Components
-import MDBox from "../../../components/MDBox";
-import MDTypography from "../../../components/MDTypography";
+import MDBox from "../../../../components/MDBox";
+import MDTypography from "../../../../components/MDTypography";
 
-import InputAdornments from "../components/InputAdornments";
-import EditableCardNameParam from "../components/EditableCardNameParam";
+import InputAdornments from "./InputAdornments";
+import RowRadioButtonsGroup from "./RadioActions";
 
 // Aws Imports
 import { PubSub } from "aws-amplify";
@@ -193,20 +193,15 @@ export default function Scale({ scaleArr }) {
                 </ExpandMore>
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <h6 style={{ margin: "10px 45px" }}>Accepted Portion Range: </h6>
+                <h6 style={{ margin: "10px 45px" }}>Accepted Portion Range </h6>
                 <div style={{ display: "flex", marginTop: "-10px" }}>
                     <InputAdornments label={"Under"} unitOfMassCode={unitOfMassCode} correctPortionWeight={minOffset} setCorrectWeight={setMinOffset} submitCorrectPortionParams={sendDataAWS} />
                     <InputAdornments label={"Over"} unitOfMassCode={unitOfMassCode} correctPortionWeight={maxOffset} setCorrectWeight={setMaxOffset} submitCorrectPortionParams={sendDataAWS} />
                 </div>
-                <CardActions disableSpacing>
-                    {/* TODO Create Specific buttons (radio) for these actions */}
-                    <TareButton name="unit" onClick={handleSpecialButton}>
-                        g/oz
-                    </TareButton>
-                    <StartButton name="mode" onClick={handleSpecialButton}>
-                        normal/portion
-                    </StartButton>
-                </CardActions>
+
+                <h6 style={{ margin: "10px 45px" }}>Extra Scale Controls </h6>
+                <RowRadioButtonsGroup title="Unit of Mass" label1="Oz" label2="g" />
+                <RowRadioButtonsGroup title="Scale Mode" label1="normal" label2="portion" />
             </Collapse>
         </Card>
     );
