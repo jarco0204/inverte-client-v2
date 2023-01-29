@@ -11,14 +11,14 @@ import PropTypes from "prop-types";
 InputAdornments.propTypes = {
     label: PropTypes.string,
     unitOfMassCode: PropTypes.string,
-    correctPortionWeight: PropTypes.number,
+    valuePlaceholder: PropTypes.string,
     setCorrectWeight: PropTypes.func,
     submitCorrectPortionParams: PropTypes.func,
     width: PropTypes.string,
     style: PropTypes.object,
 };
 
-export default function InputAdornments({ label, unitOfMassCode, correctPortionWeight, setCorrectWeight, submitCorrectPortionParams, width, style = {} }) {
+export default function InputAdornments({ label, unitOfMassCode, valuePlaceholder, setCorrectWeight, submitCorrectPortionParams, width, style = {} }) {
     // Handle the change of the correct portion weight
     const handleChange = (e) => {
         setCorrectWeight(e.target.value);
@@ -34,7 +34,7 @@ export default function InputAdornments({ label, unitOfMassCode, correctPortionW
                         style={{
                             backgroundColor: "beige",
                         }}
-                        value={correctPortionWeight}
+                        value={valuePlaceholder}
                         onChange={handleChange}
                         endAdornment={<InputAdornment position="end">{unitOfMassCode}</InputAdornment>}
                         aria-describedby="outlined-weight-helper-text"

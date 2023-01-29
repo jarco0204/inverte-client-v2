@@ -5,7 +5,7 @@ function AnalyticsDashboard() {
     return (
         <DashboardLayout>
             <DashboardNavbar />
-            <div>Holiwis</div>
+            <div>Coming soon (v2)</div>
         </DashboardLayout>
     );
 }

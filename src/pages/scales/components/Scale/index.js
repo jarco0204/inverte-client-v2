@@ -180,17 +180,23 @@ export default function Scale({ scaleArr }) {
                 </MDBox>
 
                 <MDBox textAlign="center" lineHeight={1.2}>
-                    <MDTypography fontWeight="bold" color="dark" marginRight={"40px"} fontSize="18px">
+                    {/* <MDTypography fontWeight="bold" color="dark" marginRight={"40px"} fontSize="18px">
                         Scale #P0-08
-                    </MDTypography>
-                    <InputAdornments style={{ margin: "10px 0", paddingRight: "50px" }} ingredientName="cheese" setNameIngredient={setNameIngredient} sendDataAWS={sendDataAWS} />
+                    </MDTypography> */}
+                    <InputAdornments
+                        style={{ margin: "10px 0", paddingRight: "50px" }}
+                        valuePlaceholder={nameIngredient}
+                        label={"Ingredient"}
+                        setNameIngredient={setNameIngredient}
+                        sendDataAWS={sendDataAWS}
+                    />
                 </MDBox>
             </MDBox>
             <div style={{ margin: "auto" }}>
                 <InputAdornments
                     label={"Correct Portion Weight"}
                     unitOfMassCode={unitOfMassCode}
-                    correctPortionWeight={correctWeight}
+                    valuePlaceholder={correctWeight}
                     setCorrectWeight={setCorrectWeight}
                     submitCorrectPortionParams={sendDataAWS}
                     width={"15ch"}
@@ -216,8 +222,8 @@ export default function Scale({ scaleArr }) {
                     </MDBox>
 
                     <div style={{ display: "flex" }}>
-                        <InputAdornments label={"Under"} unitOfMassCode={unitOfMassCode} correctPortionWeight={minOffset} setCorrectWeight={setMinOffset} submitCorrectPortionParams={sendDataAWS} />
-                        <InputAdornments label={"Over"} unitOfMassCode={unitOfMassCode} correctPortionWeight={maxOffset} setCorrectWeight={setMaxOffset} submitCorrectPortionParams={sendDataAWS} />
+                        <InputAdornments label={"Under"} unitOfMassCode={unitOfMassCode} valuePlaceholder={minOffset} setCorrectWeight={setMinOffset} submitCorrectPortionParams={sendDataAWS} />
+                        <InputAdornments label={"Over"} unitOfMassCode={unitOfMassCode} valuePlaceholder={maxOffset} setCorrectWeight={setMaxOffset} submitCorrectPortionParams={sendDataAWS} />
                     </div>
 
                     <div style={{ margingTop: "10px" }}>
