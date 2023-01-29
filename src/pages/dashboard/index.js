@@ -3,6 +3,7 @@ import Grid from "@mui/material/Grid";
 
 // Material Dashboard 2 React components
 import MDBox from "../../components/MDBox";
+//eslint-disable-next-line
 import Chart from "chart.js/auto";
 
 // Material Dashboard 2 React example components

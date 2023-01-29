@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 // External UI Components
-import { Box, Button, Checkbox, Container, FormControlLabel, TextField, Typography, ThemeProvider } from "@mui/material";
+import { Button, Checkbox, Container, FormControlLabel, TextField, Typography, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 
 // Internal UI Components
@@ -25,26 +25,26 @@ const theme = createTheme({
         },
     },
 });
-
+// eslint-disable-next-line
 function SignIn({ setAuthenticated = console.log, setUserSession = console.log }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
-    const [fetching, setFetching] = useState(false);
+    // const [fetching, setFetching] = useState(false);
 
     /*
         Event handler for when user clicks on Log-in
         
         TODO: Improve criteria for validating email and password
     */
-    async function handleLogIn(event) {
+    async function handleLogIn() {
         // console.log(event);
         if (email === "") {
             setError("Enter your email");
         } else if (password === "") {
             setError("Enter your password");
         } else {
-            setFetching(true);
+            // setFetching(true);
             console.log(email);
             console.log(password);
 

@@ -4,6 +4,20 @@ import InputAdornment from "@mui/material/InputAdornment";
 import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
 
+// prop-types is a library for typechecking of props
+import PropTypes from "prop-types";
+
+// Typechecking props for the InputAdornments
+InputAdornments.propTypes = {
+    label: PropTypes.string,
+    unitOfMassCode: PropTypes.string,
+    correctPortionWeight: PropTypes.number,
+    setCorrectWeight: PropTypes.func,
+    submitCorrectPortionParams: PropTypes.func,
+    width: PropTypes.string,
+    style: PropTypes.object,
+};
+
 export default function InputAdornments({ label, unitOfMassCode, correctPortionWeight, setCorrectWeight, submitCorrectPortionParams, width, style = {} }) {
     // Handle the change of the correct portion weight
     const handleChange = (e) => {

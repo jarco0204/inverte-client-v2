@@ -15,14 +15,12 @@ import InputAdornments from "./InputAdornments";
 import RadioActions from "./RadioActions";
 
 // Aws Imports
-import { PubSub } from "aws-amplify";
+// import { PubSub } from "aws-amplify";
 
 // Expand Functionality
 import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
-import FormHelperText from "@mui/material/FormHelperText";
 
 // prop-types is a library for typechecking of props.
 import PropTypes from "prop-types";
@@ -43,6 +41,7 @@ Scale.propTypes = {
         • The second scaleArr[1] is the type of scale (Flat or Pan)
 */
 export default function Scale({ scaleArr }) {
+    console.log(scaleArr);
     // Core Data State of a Scale Card
     const [nameIngredient, setNameIngredient] = useState("Cheese");
 
@@ -56,7 +55,7 @@ export default function Scale({ scaleArr }) {
     const [buttonStateStr, setButtonStateStr] = useState("Start");
     const [buttonStateColor, setButtonStateColor] = useState("#02182E");
 
-    const StartButton = styled(Button)(({ theme }) => ({
+    const StartButton = styled(Button)(() => ({
         // color: theme.palette.primary.main,
         color: "whitesmoke",
         backgroundColor: buttonStateColor,
@@ -65,7 +64,7 @@ export default function Scale({ scaleArr }) {
     }));
 
     // Customer would like to tare button directly accesible
-    const TareButton = styled(Button)(({ theme }) => ({
+    const TareButton = styled(Button)(() => ({
         color: "whitesmoke",
         backgroundColor: "#02182E",
         marginLeft: "20px",
@@ -152,6 +151,7 @@ export default function Scale({ scaleArr }) {
                 upperErrorLimit: maxOffset,
                 unitOfMass: unitOfMassCode,
             };
+            console.log(msg);
             // let topic = scaleArr[0] + "/params";
             // console.log("sending data to ", topic);
             // await PubSub.publish(topic, msg);
@@ -228,7 +228,7 @@ export default function Scale({ scaleArr }) {
                         </MDBox>
                     </div>
 
-                    <RadioActions />
+                    <RadioActions setUnitOfMassCode={setUnitOfMassCode} />
                 </div>
             </Collapse>
         </Card>
