@@ -14,26 +14,27 @@ import MDTypography from "../../../../components/MDTypography";
 import InputAdornments from "./InputAdornments";
 import RadioActions from "./RadioActions";
 
-// Aws Imports
-// import { Amplify, PubSub } from "aws-amplify";
-// import { AWSIoTProvider } from "@aws-amplify/pubsub";
-
-// Amplify.configure({
-//     Auth: {
-//         identityPoolId: process.env.REACT_APP_IDENTITY_POOL_ID,
-//         region: process.env.REACT_APP_REGION,
-//         userPoolId: process.env.REACT_APP_USER_POOL_ID,
-//         userPoolWebClientId: process.env.REACT_APP_USER_POOL_WEB_CLIENT_ID,
-//     },
+import Amplify, { PubSub } from "aws-amplify";
+import { AWSIoTProvider } from "@aws-amplify/pubsub/lib/Providers";
+Amplify.configure({
+    Auth: {
+        identityPoolId: process.env.REACT_APP_IDENTITY_POOL_ID,
+        region: process.env.REACT_APP_REGION,
+        userPoolId: process.env.REACT_APP_USER_POOL_ID,
+        userPoolWebClientId: process.env.REACT_APP_USER_POOL_WEB_CLIENT_ID,
+    },
+});
+Amplify.addPluggable(
+    new AWSIoTProvider({
+        aws_pubsub_region: process.env.REACT_APP_REGION,
+        aws_pubsub_endpoint: `wss://${process.env.REACT_APP_MQTT_ID}.iot.${process.env.REACT_APP_REGION}.amazonaws.com/mqtt`,
+    })
+);
+// Amplify.PubSub.subscribe("real-time-weather").subscribe({
+//     next: (data) => console.log("Message received", data),
+//     error: (error) => console.error(error),
+//     close: () => console.log("Done"),
 // });
-// Amplify.addPluggable(
-//     new AWSIoTProvider({
-//         // eslint-disable-next-line no-undef
-//         aws_pubsub_region: String(process.env.REACT_APP_REGION),
-//         // eslint-disable-next-line no-undef
-//         aws_pubsub_endpoint: `wss://${String(process.env.REACT_APP_MQTT_ID)}.iot.${String(process.env.REACT_APP_REGION)}.amazonaws.com/mqtt`,
-//     })
-// );
 
 // Expand Functionality
 import IconButton from "@mui/material/IconButton";
@@ -135,7 +136,7 @@ export default function Scale({ scaleArr }) {
         When action = 4, the scale changes the mode of operation
     */
     const sendDataAWS = async (control = false, action = null, value = null) => {
-        let channel = "johan/test";
+        let channel = "johan/1/P0-08";
         if (control) {
             let msg = {
                 msg: "Sending Scale action from Client to AWS",
@@ -145,7 +146,10 @@ export default function Scale({ scaleArr }) {
             console.log(msg);
             // let topic = scaleArr[0] + "/control";
             try {
-                await PubSub.publish(channel, msg);
+                console.log("1");
+                let finalTopic = channel + "/control";
+                await PubSub.publish(finalTopic, msg);
+                return;
             } catch (err) {
                 console.log(err);
             }
@@ -159,9 +163,13 @@ export default function Scale({ scaleArr }) {
                 upperErrorLimit: maxOffset,
             };
             console.log(msg);
-            // let topic = scaleArr[0] + "/params";
-            // console.log("sending data to ", topic);
-            // await PubSub.publish(topic, msg);
+            try {
+                let finalTopic = channel + "/params";
+                await PubSub.publish(finalTopic, msg);
+                return;
+            } catch (err) {
+                console.log(err);
+            }
         }
     };
 
@@ -205,7 +213,7 @@ export default function Scale({ scaleArr }) {
                     unitOfMassCode={unitOfMassCode}
                     valuePlaceholder={correctWeight.toString()}
                     setCorrectWeight={setCorrectWeight}
-                    submitCorrectPortionParams={sendDataAWS}
+                    sendDataAWS={sendDataAWS}
                     width={"15ch"}
                 />
             </div>
@@ -229,20 +237,8 @@ export default function Scale({ scaleArr }) {
                     </MDBox>
 
                     <div style={{ display: "flex" }}>
-                        <InputAdornments
-                            label={"Under"}
-                            unitOfMassCode={unitOfMassCode}
-                            valuePlaceholder={minOffset.toString()}
-                            setCorrectWeight={setMinOffset}
-                            submitCorrectPortionParams={sendDataAWS}
-                        />
-                        <InputAdornments
-                            label={"Over"}
-                            unitOfMassCode={unitOfMassCode}
-                            valuePlaceholder={maxOffset.toString()}
-                            setCorrectWeight={setMaxOffset}
-                            submitCorrectPortionParams={sendDataAWS}
-                        />
+                        <InputAdornments label={"Under"} unitOfMassCode={unitOfMassCode} valuePlaceholder={minOffset.toString()} setCorrectWeight={setMinOffset} sendDataAWS={sendDataAWS} />
+                        <InputAdornments label={"Over"} unitOfMassCode={unitOfMassCode} valuePlaceholder={maxOffset.toString()} setCorrectWeight={setMaxOffset} sendDataAWS={sendDataAWS} />
                     </div>
 
                     <div style={{ margingTop: "10px" }}>

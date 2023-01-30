@@ -13,12 +13,12 @@ InputAdornments.propTypes = {
     unitOfMassCode: PropTypes.string,
     valuePlaceholder: PropTypes.string,
     setCorrectWeight: PropTypes.func,
-    submitCorrectPortionParams: PropTypes.func,
+    sendDataAWS: PropTypes.func,
     width: PropTypes.string,
     style: PropTypes.object,
 };
 
-export default function InputAdornments({ label, unitOfMassCode, valuePlaceholder, setCorrectWeight, submitCorrectPortionParams, width, style = {} }) {
+export default function InputAdornments({ label, unitOfMassCode, valuePlaceholder, setCorrectWeight, sendDataAWS, width, style = {} }) {
     // Handle the change of the correct portion weight
     const handleChange = (e) => {
         setCorrectWeight(e.target.value);
@@ -41,7 +41,7 @@ export default function InputAdornments({ label, unitOfMassCode, valuePlaceholde
                         inputProps={{
                             "aria-label": "weight",
                         }}
-                        onBlur={() => submitCorrectPortionParams()}
+                        onBlur={() => sendDataAWS()}
                     />
                 </FormControl>
             </>
