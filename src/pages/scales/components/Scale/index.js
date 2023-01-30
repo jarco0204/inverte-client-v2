@@ -93,33 +93,16 @@ export default function Scale({ scaleArr }) {
         Logic to handle the possible actions with the 4 buttons (controls available with a scale)
         • (tare)
         • (start)
-        • change unit of mass (unit)
-        • change mode (mode)
 
     */
     const handleSpecialButton = (event) => {
         console.log(event.target.name);
-        if (buttonStateStr === "Start") {
-            setButtonStateStr("Stop");
-            setButtonStateColor("#f58a1f");
-            sendDataAWS(true, 3);
+        if (event.target.name === "tare") {
+            sendDataAWS(true, 1);
         } else {
-            setButtonStateColor("#02182E");
-            setButtonStateStr("Start");
-            sendDataAWS(true, 4);
+            // Other option is Start
+            sendDataAWS(true, 2);
         }
-
-        // if (unitOfMassCode === "G") {
-        //     setCorrectWeight((correctWeight / 28.35).toFixed(1));
-        //     setMinOffset((minOffset / 28.35).toFixed(1));
-        //     setMaxOffset((maxOffset / 28.35).toFixed(1));
-        //     setUnitOfMassCode("Oz");
-        // } else {
-        //     setCorrectWeight((correctWeight * 28.35).toFixed(1));
-        //     setMinOffset((minOffset * 28.35).toFixed(1));
-        //     setMaxOffset((maxOffset * 28.35).toFixed(1));
-        //     setUnitOfMassCode("G");
-        // }
     };
 
     /*
@@ -128,15 +111,17 @@ export default function Scale({ scaleArr }) {
 
         Function takes parameter to set data to update state or control
 
-        When action = 3, the scale begins. 
-        When action = 4, the scale stops and takes you to refill screen
-        Consequently, we determine the weight of the inventory. 
+        When action = 1, the scale tares. 
+        When action = 2, the scale starts. 
+        When action = 3, the scale changes unit of mass. 
+        When action = 4, the scale changes the mode of operation
     */
-    const sendDataAWS = async (control = false, action = null) => {
+    const sendDataAWS = async (control = false, action = null, value = null) => {
         if (control) {
             let msg = {
                 msg: "Sending Scale action from Client to AWS",
                 control: action,
+                val: value,
             };
             console.log(msg);
             // let topic = scaleArr[0] + "/control";
@@ -149,7 +134,6 @@ export default function Scale({ scaleArr }) {
                 correctWeight: correctWeight,
                 lowerErrorLimit: minOffset,
                 upperErrorLimit: maxOffset,
-                unitOfMass: unitOfMassCode,
             };
             console.log(msg);
             // let topic = scaleArr[0] + "/params";
