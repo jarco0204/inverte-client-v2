@@ -2,7 +2,7 @@ import logo from "../../../../assets/img/inverte_green_logo.png";
 import AppBar from "@mui/material/AppBar";
 import { IconButton, Toolbar, Typography } from "@mui/material";
 import Container from "@mui/material/Container";
-import { ExitToApp } from "@material-ui/icons";
+// import { ExitToApp } from "@material-ui/icons";
 
 // import { useSelector } from "react-redux";
 // import { isAuthenticated } from "../redux/authSelector";

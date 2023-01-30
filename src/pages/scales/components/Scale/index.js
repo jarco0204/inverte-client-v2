@@ -15,14 +15,30 @@ import InputAdornments from "./InputAdornments";
 import RadioActions from "./RadioActions";
 
 // Aws Imports
-import { PubSub } from "aws-amplify";
+// import { Amplify, PubSub } from "aws-amplify";
+// import { AWSIoTProvider } from "@aws-amplify/pubsub";
+
+// Amplify.configure({
+//     Auth: {
+//         identityPoolId: process.env.REACT_APP_IDENTITY_POOL_ID,
+//         region: process.env.REACT_APP_REGION,
+//         userPoolId: process.env.REACT_APP_USER_POOL_ID,
+//         userPoolWebClientId: process.env.REACT_APP_USER_POOL_WEB_CLIENT_ID,
+//     },
+// });
+// Amplify.addPluggable(
+//     new AWSIoTProvider({
+//         // eslint-disable-next-line no-undef
+//         aws_pubsub_region: String(process.env.REACT_APP_REGION),
+//         // eslint-disable-next-line no-undef
+//         aws_pubsub_endpoint: `wss://${String(process.env.REACT_APP_MQTT_ID)}.iot.${String(process.env.REACT_APP_REGION)}.amazonaws.com/mqtt`,
+//     })
+// );
 
 // Expand Functionality
 import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
-import FormHelperText from "@mui/material/FormHelperText";
 
 // prop-types is a library for typechecking of props.
 import PropTypes from "prop-types";
@@ -43,20 +59,21 @@ Scale.propTypes = {
         • The second scaleArr[1] is the type of scale (Flat or Pan)
 */
 export default function Scale({ scaleArr }) {
+    console.log(scaleArr);
     // Core Data State of a Scale Card
     const [nameIngredient, setNameIngredient] = useState("Cheese");
 
     const [correctWeight, setCorrectWeight] = useState(10);
     const [minOffset, setMinOffset] = useState(1);
     const [maxOffset, setMaxOffset] = useState(1);
-    const [unitOfMassCode, setUnitOfMassCode] = useState("g");
+    const [unitOfMassCode, setUnitOfMassCode] = useState("g"); // Options are oz/g
 
     const [expanded, setExpanded] = useState(false);
 
     const [buttonStateStr, setButtonStateStr] = useState("Start");
     const [buttonStateColor, setButtonStateColor] = useState("#02182E");
 
-    const StartButton = styled(Button)(({ theme }) => ({
+    const StartButton = styled(Button)(() => ({
         // color: theme.palette.primary.main,
         color: "whitesmoke",
         backgroundColor: buttonStateColor,
@@ -65,7 +82,7 @@ export default function Scale({ scaleArr }) {
     }));
 
     // Customer would like to tare button directly accesible
-    const TareButton = styled(Button)(({ theme }) => ({
+    const TareButton = styled(Button)(() => ({
         color: "whitesmoke",
         backgroundColor: "#02182E",
         marginLeft: "20px",
@@ -94,33 +111,16 @@ export default function Scale({ scaleArr }) {
         Logic to handle the possible actions with the 4 buttons (controls available with a scale)
         • (tare)
         • (start)
-        • change unit of mass (unit)
-        • change mode (mode)
 
     */
     const handleSpecialButton = (event) => {
         console.log(event.target.name);
-        if (buttonStateStr === "Start") {
-            setButtonStateStr("Stop");
-            setButtonStateColor("#f58a1f");
-            sendDataAWS(true, 3);
+        if (event.target.name === "tare") {
+            sendDataAWS(true, 1);
         } else {
-            setButtonStateColor("#02182E");
-            setButtonStateStr("Start");
-            sendDataAWS(true, 4);
+            // Other option is Start
+            sendDataAWS(true, 2);
         }
-
-        // if (unitOfMassCode === "G") {
-        //     setCorrectWeight((correctWeight / 28.35).toFixed(1));
-        //     setMinOffset((minOffset / 28.35).toFixed(1));
-        //     setMaxOffset((maxOffset / 28.35).toFixed(1));
-        //     setUnitOfMassCode("Oz");
-        // } else {
-        //     setCorrectWeight((correctWeight * 28.35).toFixed(1));
-        //     setMinOffset((minOffset * 28.35).toFixed(1));
-        //     setMaxOffset((maxOffset * 28.35).toFixed(1));
-        //     setUnitOfMassCode("G");
-        // }
     };
 
     /*
@@ -129,19 +129,26 @@ export default function Scale({ scaleArr }) {
 
         Function takes parameter to set data to update state or control
 
-        When action = 3, the scale begins. 
-        When action = 4, the scale stops and takes you to refill screen
-        Consequently, we determine the weight of the inventory. 
+        When action = 1, the scale tares. 
+        When action = 2, the scale starts. 
+        When action = 3, the scale changes unit of mass. 
+        When action = 4, the scale changes the mode of operation
     */
-    const sendDataAWS = async (control = false, action = null) => {
+    const sendDataAWS = async (control = false, action = null, value = null) => {
+        let channel = "johan/test";
         if (control) {
             let msg = {
                 msg: "Sending Scale action from Client to AWS",
                 control: action,
+                val: value,
             };
             console.log(msg);
             // let topic = scaleArr[0] + "/control";
-            // await PubSub.publish(topic, msg);
+            try {
+                await PubSub.publish(channel, msg);
+            } catch (err) {
+                console.log(err);
+            }
         } else {
             // TODO: Validate/convert the correct type of the parameters scale accepts
             let msg = {
@@ -150,8 +157,8 @@ export default function Scale({ scaleArr }) {
                 correctWeight: correctWeight,
                 lowerErrorLimit: minOffset,
                 upperErrorLimit: maxOffset,
-                unitOfMass: unitOfMassCode,
             };
+            console.log(msg);
             // let topic = scaleArr[0] + "/params";
             // console.log("sending data to ", topic);
             // await PubSub.publish(topic, msg);
@@ -180,17 +187,23 @@ export default function Scale({ scaleArr }) {
                 </MDBox>
 
                 <MDBox textAlign="center" lineHeight={1.2}>
-                    <MDTypography fontWeight="bold" color="dark" marginRight={"40px"} fontSize="18px">
+                    {/* <MDTypography fontWeight="bold" color="dark" marginRight={"40px"} fontSize="18px">
                         Scale #P0-08
-                    </MDTypography>
-                    <InputAdornments style={{ margin: "10px 0", paddingRight: "50px" }} ingredientName="cheese" setNameIngredient={setNameIngredient} sendDataAWS={sendDataAWS} />
+                    </MDTypography> */}
+                    <InputAdornments
+                        style={{ margin: "10px 0", paddingRight: "50px" }}
+                        valuePlaceholder={nameIngredient}
+                        label={"Ingredient"}
+                        setNameIngredient={setNameIngredient}
+                        sendDataAWS={sendDataAWS}
+                    />
                 </MDBox>
             </MDBox>
             <div style={{ margin: "auto" }}>
                 <InputAdornments
                     label={"Correct Portion Weight"}
                     unitOfMassCode={unitOfMassCode}
-                    correctPortionWeight={correctWeight}
+                    valuePlaceholder={correctWeight.toString()}
                     setCorrectWeight={setCorrectWeight}
                     submitCorrectPortionParams={sendDataAWS}
                     width={"15ch"}
@@ -216,8 +229,20 @@ export default function Scale({ scaleArr }) {
                     </MDBox>
 
                     <div style={{ display: "flex" }}>
-                        <InputAdornments label={"Under"} unitOfMassCode={unitOfMassCode} correctPortionWeight={minOffset} setCorrectWeight={setMinOffset} submitCorrectPortionParams={sendDataAWS} />
-                        <InputAdornments label={"Over"} unitOfMassCode={unitOfMassCode} correctPortionWeight={maxOffset} setCorrectWeight={setMaxOffset} submitCorrectPortionParams={sendDataAWS} />
+                        <InputAdornments
+                            label={"Under"}
+                            unitOfMassCode={unitOfMassCode}
+                            valuePlaceholder={minOffset.toString()}
+                            setCorrectWeight={setMinOffset}
+                            submitCorrectPortionParams={sendDataAWS}
+                        />
+                        <InputAdornments
+                            label={"Over"}
+                            unitOfMassCode={unitOfMassCode}
+                            valuePlaceholder={maxOffset.toString()}
+                            setCorrectWeight={setMaxOffset}
+                            submitCorrectPortionParams={sendDataAWS}
+                        />
                     </div>
 
                     <div style={{ margingTop: "10px" }}>
@@ -228,7 +253,7 @@ export default function Scale({ scaleArr }) {
                         </MDBox>
                     </div>
 
-                    <RadioActions />
+                    <RadioActions setUnitOfMassCode={setUnitOfMassCode} unitOfMassCode={unitOfMassCode} sendDataAWS={sendDataAWS} />
                 </div>
             </Collapse>
         </Card>

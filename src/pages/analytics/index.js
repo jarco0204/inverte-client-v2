@@ -1,5 +1,3 @@
-import Grid from "@mui/material/Grid"
-
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "../../components/Navbars/DashboardNavbar";
 
@@ -7,7 +5,7 @@ function AnalyticsDashboard() {
     return (
         <DashboardLayout>
             <DashboardNavbar />
-            <div>Holiwis</div>
+            <div>Coming soon (v2)</div>
         </DashboardLayout>
     );
 }

@@ -16,7 +16,6 @@ import CloseIcon from "@mui/icons-material/Close";
 // Material Dashboard 2 React components
 import MDBox from "../../components/MDBox";
 import MDTypography from "../../components/MDTypography";
-import MDButton from "../../components/MDButton";
 
 // Material Dashboard 2 React example components
 import SidenavCollapse from "./SidenavCollapse";
@@ -28,9 +27,11 @@ import sidenavLogoLabel from "./styles/sidenav";
 // Material Dashboard 2 React context
 import { useMaterialUIController, setMiniSidenav, setTransparentSidenav, setWhiteSidenav } from "../../context";
 
-function Sidenav({ color, brand, brandName, routes, ...rest }) {
+// Removed the color parameter
+function Sidenav({ brand, brandName, routes, ...rest }) {
     const [controller, dispatch] = useMaterialUIController();
-    const { miniSidenav, transparentSidenav, whiteSidenav, darkMode, sidenavColor } = controller;
+    // Removed the sidenav parameter
+    const { miniSidenav, transparentSidenav, whiteSidenav, darkMode } = controller;
     const location = useLocation();
     const collapseName = location.pathname.replace("/", "");
 

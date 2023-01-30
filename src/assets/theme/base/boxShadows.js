@@ -8,7 +8,6 @@
 import colors from "./colors";
 
 // Material Dashboard 2 React Helper Functions
-import pxToRem from "../functions/boxShadow";
 import boxShadow from "../functions/boxShadow";
 
 const { black, white, tabs, coloredShadows } = colors;

@@ -13,7 +13,6 @@
     "dependencies": {
         "@aws-amplify/cli": "^8.5.1",
         "@aws-amplify/ui-react": "^2.17.1",
-        "@babel/eslint-parser": "^7.19.1",
         "@emotion/react": "^11.9.0",
         "@emotion/styled": "^11.8.1",
         "@material-ui/core": "^4.12.4",
@@ -69,6 +68,8 @@
         "eslint-config-prettier": "^8.6.0",
         "eslint-plugin-prettier": "^4.2.1",
         "eslint-plugin-react": "^7.32.1",
-        "prettier": "^2.8.3"
+        "prettier": "^2.8.3",
+        "@babel/eslint-parser": "^7.19.1",
+        "@babel/preset-react": "^7.18.6"
     }
 }
