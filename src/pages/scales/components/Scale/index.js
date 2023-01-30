@@ -64,10 +64,10 @@ export default function Scale({ scaleArr }) {
     // Core Data State of a Scale Card
     const [nameIngredient, setNameIngredient] = useState("Cheese");
 
-    const [correctWeight, setCorrectWeight] = useState(10);
-    const [minOffset, setMinOffset] = useState(1);
-    const [maxOffset, setMaxOffset] = useState(1);
-    const [unitOfMassCode, setUnitOfMassCode] = useState("g"); // Options are oz/g
+    const [correctWeight, setCorrectWeight] = useState(1);
+    const [minOffset, setMinOffset] = useState(0.1);
+    const [maxOffset, setMaxOffset] = useState(0.1);
+    const [unitOfMassCode, setUnitOfMassCode] = useState("oz"); // Options are oz/g
 
     const [expanded, setExpanded] = useState(false);
 
@@ -125,6 +125,21 @@ export default function Scale({ scaleArr }) {
     };
 
     /*
+        Function to convert the values to either grams or ounces
+    */
+    const convertValues2UnitOfMass = () => {
+        if (unitOfMassCode === "oz") {
+            setCorrectWeight(correctWeight * 28.35);
+            setMinOffset(minOffset * 28.35);
+            setMaxOffset(maxOffset * 28.35);
+        } else {
+            setCorrectWeight(correctWeight / 28.35);
+            setMinOffset(minOffset / 28.35);
+            setMaxOffset(maxOffset / 28.35);
+        }
+    };
+
+    /*
         Send updated params to APPROPRIATE scale channel
         whenever a change is detected in the inputs or focus is removed
 
@@ -144,7 +159,10 @@ export default function Scale({ scaleArr }) {
                 val: value,
             };
             console.log(msg);
-            // let topic = scaleArr[0] + "/control";
+            if (action == 3) {
+                // Unit of mass Change
+                convertValues2UnitOfMass();
+            }
             try {
                 console.log("1");
                 let finalTopic = channel + "/control";
