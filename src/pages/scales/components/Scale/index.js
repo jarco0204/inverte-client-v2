@@ -202,7 +202,7 @@ export default function Scale({ scaleArr }) {
                         style={{ margin: "10px 0", paddingRight: "50px" }}
                         valuePlaceholder={nameIngredient}
                         label={"Ingredient"}
-                        setNameIngredient={setNameIngredient}
+                        setCorrectWeight={setNameIngredient}
                         sendDataAWS={sendDataAWS}
                     />
                 </MDBox>
