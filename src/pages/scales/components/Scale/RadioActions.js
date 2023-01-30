@@ -11,20 +11,29 @@ import PropTypes from "prop-types";
 // Setting default values for the props of Scale
 RadioActions.defaultProps = {
     setUnitOfMassCode: null,
+    unitOfMassCode: "oz",
+    sendDataAWS: null,
 };
 
 // Typechecking props for the Scale
 RadioActions.propTypes = {
     setUnitOfMassCode: PropTypes.func,
+    unitOfMassCode: PropTypes.string,
+    sendDataAWS: PropTypes.func,
 };
 
-export default function RadioActions({ setUnitOfMassCode }) {
+export default function RadioActions({ setUnitOfMassCode, unitOfMassCode, sendDataAWS }) {
     /*
         Function to handle the change of unit of mass
     */
-    const unitOfMassChange = (event) => {
-        console.log(event.target.value);
-        setUnitOfMassCode();
+    const unitOfMassChange = () => {
+        // console.log(event.target.value);
+        if (unitOfMassCode === "oz") {
+            setUnitOfMassCode("g");
+        } else {
+            setUnitOfMassCode("oz");
+        }
+        sendDataAWS(true, 3);
     };
     return (
         <div style={{ display: "flex", gap: "20px", margin: "20px 0", marginLeft: "40px" }}>

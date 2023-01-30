@@ -48,7 +48,7 @@ export default function Scale({ scaleArr }) {
     const [correctWeight, setCorrectWeight] = useState(10);
     const [minOffset, setMinOffset] = useState(1);
     const [maxOffset, setMaxOffset] = useState(1);
-    const [unitOfMassCode, setUnitOfMassCode] = useState("g");
+    const [unitOfMassCode, setUnitOfMassCode] = useState("g"); // Options are oz/g
 
     const [expanded, setExpanded] = useState(false);
 
@@ -196,7 +196,7 @@ export default function Scale({ scaleArr }) {
                 <InputAdornments
                     label={"Correct Portion Weight"}
                     unitOfMassCode={unitOfMassCode}
-                    valuePlaceholder={correctWeight}
+                    valuePlaceholder={correctWeight.toString()}
                     setCorrectWeight={setCorrectWeight}
                     submitCorrectPortionParams={sendDataAWS}
                     width={"15ch"}
@@ -222,8 +222,20 @@ export default function Scale({ scaleArr }) {
                     </MDBox>
 
                     <div style={{ display: "flex" }}>
-                        <InputAdornments label={"Under"} unitOfMassCode={unitOfMassCode} valuePlaceholder={minOffset} setCorrectWeight={setMinOffset} submitCorrectPortionParams={sendDataAWS} />
-                        <InputAdornments label={"Over"} unitOfMassCode={unitOfMassCode} valuePlaceholder={maxOffset} setCorrectWeight={setMaxOffset} submitCorrectPortionParams={sendDataAWS} />
+                        <InputAdornments
+                            label={"Under"}
+                            unitOfMassCode={unitOfMassCode}
+                            valuePlaceholder={minOffset.toString()}
+                            setCorrectWeight={setMinOffset}
+                            submitCorrectPortionParams={sendDataAWS}
+                        />
+                        <InputAdornments
+                            label={"Over"}
+                            unitOfMassCode={unitOfMassCode}
+                            valuePlaceholder={maxOffset.toString()}
+                            setCorrectWeight={setMaxOffset}
+                            submitCorrectPortionParams={sendDataAWS}
+                        />
                     </div>
 
                     <div style={{ margingTop: "10px" }}>
@@ -234,7 +246,7 @@ export default function Scale({ scaleArr }) {
                         </MDBox>
                     </div>
 
-                    <RadioActions setUnitOfMassCode={setUnitOfMassCode} />
+                    <RadioActions setUnitOfMassCode={setUnitOfMassCode} unitOfMassCode={unitOfMassCode} sendDataAWS={sendDataAWS} />
                 </div>
             </Collapse>
         </Card>
