@@ -15,7 +15,25 @@ import InputAdornments from "./InputAdornments";
 import RadioActions from "./RadioActions";
 
 // Aws Imports
-// import { PubSub } from "aws-amplify";
+// import { Amplify, PubSub } from "aws-amplify";
+// import { AWSIoTProvider } from "@aws-amplify/pubsub";
+
+// Amplify.configure({
+//     Auth: {
+//         identityPoolId: process.env.REACT_APP_IDENTITY_POOL_ID,
+//         region: process.env.REACT_APP_REGION,
+//         userPoolId: process.env.REACT_APP_USER_POOL_ID,
+//         userPoolWebClientId: process.env.REACT_APP_USER_POOL_WEB_CLIENT_ID,
+//     },
+// });
+// Amplify.addPluggable(
+//     new AWSIoTProvider({
+//         // eslint-disable-next-line no-undef
+//         aws_pubsub_region: String(process.env.REACT_APP_REGION),
+//         // eslint-disable-next-line no-undef
+//         aws_pubsub_endpoint: `wss://${String(process.env.REACT_APP_MQTT_ID)}.iot.${String(process.env.REACT_APP_REGION)}.amazonaws.com/mqtt`,
+//     })
+// );
 
 // Expand Functionality
 import IconButton from "@mui/material/IconButton";
@@ -117,6 +135,7 @@ export default function Scale({ scaleArr }) {
         When action = 4, the scale changes the mode of operation
     */
     const sendDataAWS = async (control = false, action = null, value = null) => {
+        let channel = "johan/test";
         if (control) {
             let msg = {
                 msg: "Sending Scale action from Client to AWS",
@@ -125,7 +144,11 @@ export default function Scale({ scaleArr }) {
             };
             console.log(msg);
             // let topic = scaleArr[0] + "/control";
-            // await PubSub.publish(topic, msg);
+            try {
+                await PubSub.publish(channel, msg);
+            } catch (err) {
+                console.log(err);
+            }
         } else {
             // TODO: Validate/convert the correct type of the parameters scale accepts
             let msg = {

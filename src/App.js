@@ -33,7 +33,7 @@ export default function App() {
 
     // Component State
     const [onMouseEnter, setOnMouseEnter] = useState(false);
-    const [authenticated, setAuthenticated] = useState(true);
+    const [authenticated, setAuthenticated] = useState(false);
     // const [userSession, setUserSession] = useState(null);
 
     // Hook for For route traversal
