@@ -9,13 +9,9 @@
       "UnauthRoleName": "amplify-inverteclientv2-dev-144225-unauthRole",
       "StackName": "amplify-inverteclientv2-dev-144225",
       "StackId": "arn:aws:cloudformation:ca-central-1:084619430748:stack/amplify-inverteclientv2-dev-144225/572b2e80-9112-11ed-a47c-06afe06c1106",
-      "AmplifyAppId": "d29owc0kof5y7t",
-      "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-inverteclientv2-dev-144225-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
+      "AmplifyAppId": "d29owc0kof5y7t"
     },
     "categories": {
-      "auth": {
-        "inverteclientv26cffa9b3": {}
-      },
       "function": {
         "inverteClientV2restAPIV1": {
           "deploymentBucketName": "amplify-inverteclientv2-dev-144225-deployment",

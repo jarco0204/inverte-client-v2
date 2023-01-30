@@ -8,8 +8,10 @@
     "amplify/backend/amplify-meta.json": true,
     "amplify/backend/awscloudformation": true
   },
-  "editor.codeActionsOnSave": { "source.fixAll.eslint": true }, 
-  "editor.formatOnSave": true, 
-  "eslint.alwaysShowStatus": true, 
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.formatOnSave": true,
+  "eslint.alwaysShowStatus": true,
   "files.autoSave": "onFocusChange"
 }

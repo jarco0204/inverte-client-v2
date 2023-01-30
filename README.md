@@ -79,3 +79,5 @@ https://www.creative-tim.com/learning-lab/react/quick-start/material-dashboard/
 
 Must attach policy:
 aws iot attach-principal-policy --policy-name 'inverte-iotCore-v1' --principal 'ca-central-1:d0edb403-5c9d-45d9-bad8-9605c7d7dee7' --region ca-central-1
+
+Amplify CLI version 10.6.2!
