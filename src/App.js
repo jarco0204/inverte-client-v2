@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
 // @mui material components
@@ -33,8 +33,8 @@ export default function App() {
 
     // Component State
     const [onMouseEnter, setOnMouseEnter] = useState(false);
-    const [authenticated, setAuthenticated] = useState(true);
-    const [userSession, setUserSession] = useState(null);
+    const [authenticated, setAuthenticated] = useState(false);
+    // const [userSession, setUserSession] = useState(null);
 
     // Hook for For route traversal
     const { pathname } = useLocation();
@@ -118,7 +118,7 @@ export default function App() {
 
     return (
         <>
-            {!authenticated && <SignIn setAuthenticated={setAuthenticated} setUserSession={setUserSession} />}
+            {!authenticated && <SignIn setAuthenticated={setAuthenticated} />}
             {authenticated && (
                 // TODO: Add Dark theme
                 <ThemeProvider theme={darkMode ? null : theme}>

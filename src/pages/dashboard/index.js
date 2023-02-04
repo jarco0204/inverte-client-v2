@@ -3,6 +3,7 @@ import Grid from "@mui/material/Grid";
 
 // Material Dashboard 2 React components
 import MDBox from "../../components/MDBox";
+//eslint-disable-next-line
 import Chart from "chart.js/auto";
 
 // Material Dashboard 2 React example components
@@ -38,12 +39,12 @@ function Dashboard() {
                             <ComplexStatisticsCard
                                 color="dark"
                                 icon={<PanToolIcon />}
-                                title="Weekly Savings"
+                                title="Daily Savings"
                                 count={"$39.4"}
                                 percentage={{
                                     color: "success",
                                     amount: "+56%",
-                                    label: "than lask week",
+                                    label: "than yesterday",
                                 }}
                             />
                         </MDBox>
@@ -52,12 +53,12 @@ function Dashboard() {
                         <MDBox mb={1.5}>
                             <ComplexStatisticsCard
                                 icon={<PrecisionManufacturingRoundedIcon />}
-                                title="Weekly Accuracy"
-                                count="99%"
+                                title="Today's Accuracy"
+                                count="98%"
                                 percentage={{
                                     color: "success",
                                     amount: "+3%",
-                                    label: "than last week",
+                                    label: "than yesterday",
                                 }}
                             />
                         </MDBox>

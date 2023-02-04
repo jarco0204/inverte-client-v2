@@ -1,16 +1,26 @@
 import React, { useState } from "react";
 
 // External UI Components
-import { Box, Button, Checkbox, Container, FormControlLabel, TextField, Typography, ThemeProvider } from "@mui/material";
+import { Button, Checkbox, Container, FormControlLabel, TextField, Typography, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 
 // Internal UI Components
 import Header from "./components/Header";
 
 // AWS imports
-import { Auth } from "aws-amplify";
-import awsConfig from "../../aws-exports";
-Auth.configure(awsConfig);
+// import { Auth } from "aws-amplify";
+// import awsConfig from "../../aws-exports";
+// Auth.configure(awsConfig);
+
+import { Amplify, Auth } from "aws-amplify";
+Amplify.configure({
+    Auth: {
+        identityPoolId: process.env.REACT_APP_IDENTITY_POOL_ID,
+        region: process.env.REACT_APP_REGION,
+        userPoolId: process.env.REACT_APP_USER_POOL_ID,
+        userPoolWebClientId: process.env.REACT_APP_USER_POOL_WEB_CLIENT_ID,
+    },
+});
 
 const theme = createTheme({
     palette: {
@@ -25,26 +35,26 @@ const theme = createTheme({
         },
     },
 });
-
+// eslint-disable-next-line
 function SignIn({ setAuthenticated = console.log, setUserSession = console.log }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
-    const [fetching, setFetching] = useState(false);
+    // const [fetching, setFetching] = useState(false);
 
     /*
         Event handler for when user clicks on Log-in
         
         TODO: Improve criteria for validating email and password
     */
-    async function handleLogIn(event) {
+    async function handleLogIn() {
         // console.log(event);
         if (email === "") {
             setError("Enter your email");
         } else if (password === "") {
             setError("Enter your password");
         } else {
-            setFetching(true);
+            // setFetching(true);
             console.log(email);
             console.log(password);
 
