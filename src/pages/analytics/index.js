@@ -7,12 +7,13 @@ import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import MDBox from "../../components/MDBox";
 import DashboardNavbar from "../../components/Navbars/DashboardNavbar";
 import ReportsBarChart from "../../components/Charts/BarCharts/ReportsBarChart";
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { useState } from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers";
+import Footer from "../../components/Footer";
 
 function AnalyticsDashboard() {
-    const [requestedDate, setRequestedDate] = useState(dayjs('2022-10-02'))
+    const [requestedDate, setRequestedDate] = useState(dayjs())
     const [requestedEndDate, setRequestedEndDate] = useState(requestedDate)
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -20,12 +21,12 @@ function AnalyticsDashboard() {
                 <DashboardNavbar />
                 <MDBox mt={6}>
                     <Grid container justifyContent="center" spacing={5}>
-                        <Grid item >
-                            <DatePicker 
+                        <Grid item>
+                            <DateTimePicker 
                                 disableFuture
                                 label="Start Date"
                                 openTo="day"
-                                views={['month','day']}
+                                views={['year','month','day','hours']}
                                 value={requestedDate}
                                 onChange={(newDate) => {
                                     setRequestedDate(newDate);
@@ -34,12 +35,12 @@ function AnalyticsDashboard() {
                                 />
                         </Grid>
                         <Grid item>
-                            <DatePicker 
+                            <DateTimePicker 
                                 disableFuture
                                 label="End Date"
                                 openTo="day"
                                 minDate={requestedDate}
-                                views={['month','day']}
+                                views={['year','month','day','hours']}
                                 value={requestedDate}
                                 onChange={(newValue) => {
                                     setRequestedEndDate(newValue);
@@ -55,10 +56,10 @@ function AnalyticsDashboard() {
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
                                     <ReportsBarChart 
-                                        color="info" 
-                                        title="Placeholder" 
+                                        color="success" 
+                                        title="Graph 1" 
                                         description="Describing" 
-                                        date="Date" 
+                                        date={requestedDate.toString()}
                                         chart={{
                                             labels: ["M", "T", "W", "TR", "F", "S", "S"],
                                             datasets: { label: "Mobile apps", data: [500, 800, 1200, 1500, 2500, 2400, 1250, 230, 500] }
@@ -70,10 +71,10 @@ function AnalyticsDashboard() {
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
                                     <ReportsBarChart 
-                                        color="info" 
+                                        color="secondary" 
                                         title="Placeholder" 
                                         description="Describing" 
-                                        date="Date" 
+                                        date={requestedDate.toString()}
                                         chart={{
                                             labels: ["M", "T", "W", "TR", "F", "S", "S"],
                                             datasets: { label: "Mobile apps", data: [500, 800, 1200, 1500, 2500, 2400, 1250, 230, 500] }
@@ -89,10 +90,10 @@ function AnalyticsDashboard() {
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
                                 <ReportsBarChart 
-                                    color="info" 
+                                    color="primary" 
                                     title="Placeholder" 
                                     description="Describing" 
-                                    date="Date" 
+                                    date={requestedDate.toString()}
                                     chart={{
                                         labels: ["M", "T", "W", "TR", "F", "S", "S"],
                                         datasets: { label: "Mobile apps", data: [500, 800, 1200, 1500, 2500, 2400, 1250, 230, 500] }
@@ -104,10 +105,10 @@ function AnalyticsDashboard() {
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
                                 <ReportsBarChart 
-                                    color="success" 
+                                    color="info" 
                                     title="Placeholder" 
                                     description="Describing" 
-                                    date="Date" 
+                                    date={requestedDate.toString()}
                                     chart={{
                                         labels: ["M", "T", "W", "TR", "F", "S", "S"],
                                         datasets: { label: "Mobile apps", data: [500, 800, 1200, 1500, 2500, 2400, 1250, 230, 500] }
@@ -119,10 +120,10 @@ function AnalyticsDashboard() {
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
                                 <ReportsBarChart 
-                                    color="info" 
+                                    color="warning" 
                                     title="Placeholder" 
                                     description="Describing" 
-                                    date="Date" 
+                                    date={requestedDate.toString()}
                                     chart={{
                                         labels: ["M", "T", "W", "TR", "F", "S", "S"],
                                         datasets: { label: "Mobile apps", data: [500, 800, 1200, 1500, 2500, 2400, 1250, 230, 500] }
@@ -138,10 +139,10 @@ function AnalyticsDashboard() {
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
                                 <ReportsBarChart 
-                                    color="info" 
+                                    color="error" 
                                     title="Placeholder" 
                                     description="Describing" 
-                                    date="Date" 
+                                    date={requestedDate.toString()}
                                     chart={{
                                         labels: ["M", "T", "W", "TR", "F", "S", "S"],
                                         datasets: { label: "Mobile apps", data: [500, 800, 1200, 1500, 2500, 2400, 1250, 230, 500] }
@@ -153,10 +154,10 @@ function AnalyticsDashboard() {
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
                                 <ReportsBarChart 
-                                    color="success" 
+                                    color="dark" 
                                     title="Placeholder" 
                                     description="Describing" 
-                                    date="Date" 
+                                    date={requestedDate.toString()}
                                     chart={{
                                         labels: ["M", "T", "W", "TR", "F", "S", "S"],
                                         datasets: { label: "Mobile apps", data: [500, 800, 1200, 1500, 2500, 2400, 1250, 230, 500] }
@@ -168,10 +169,10 @@ function AnalyticsDashboard() {
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
                                 <ReportsBarChart 
-                                    color="info" 
+                                    color="light" 
                                     title="Placeholder" 
                                     description="Describing" 
-                                    date="Date" 
+                                    date={requestedDate.toString()}
                                     chart={{
                                         labels: ["M", "T", "W", "TR", "F", "S", "S"],
                                         datasets: { label: "Mobile apps", data: [500, 800, 1200, 1500, 2500, 2400, 1250, 230, 500] }
@@ -182,6 +183,7 @@ function AnalyticsDashboard() {
                         </Grid>
                     </Grid>
                 </MDBox>
+                <Footer />
             </DashboardLayout>
         </LocalizationProvider>
     );
