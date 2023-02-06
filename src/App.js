@@ -23,6 +23,8 @@ import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "./
 // import themeDark from "assets/theme-dark"; // TODO
 import theme from "./assets/theme";
 
+import { Auth } from "aws-amplify";
+
 // Images
 import inverteLogo from "./assets/img/inverte_green_logo.png";
 
@@ -34,10 +36,30 @@ export default function App() {
     // Component State
     const [onMouseEnter, setOnMouseEnter] = useState(false);
     const [authenticated, setAuthenticated] = useState(false);
-    // const [userSession, setUserSession] = useState(null);
+    const [user, setUserSession] = useState(null);
 
     // Hook for For route traversal
     const { pathname } = useLocation();
+
+    // Hook to test Authentication
+    useEffect(() => {
+        async function authSession() {
+            try {
+                const session = await Auth.currentSession();
+                console.log("My session is:", session);
+
+                const user = await Auth.currentAuthenticatedUser();
+                setUserSession(user);
+                console.log("My user is:", user);
+
+                setAuthenticated(true);
+            } catch (err) {
+                console.log("You are not signed in");
+                console.log(err);
+            }
+        }
+        authSession();
+    }, []);
 
     // Setting the dir attribute for the body element
     useEffect(() => {
@@ -127,7 +149,7 @@ export default function App() {
                         <>
                             <Sidenav
                                 color={sidenavColor}
-                                brand={(transparentSidenav && !darkMode) || whiteSidenav ? null : inverteLogo}
+                                brand={(transparentSidenav && !darkMode) || whiteSidenav ? inverteLogo : inverteLogo}
                                 brandName="InVerte"
                                 routes={routes}
                                 onMouseEnter={handleOnMouseEnter}

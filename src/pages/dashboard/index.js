@@ -68,7 +68,7 @@ function Dashboard() {
                             <ComplexStatisticsCard
                                 color="success"
                                 icon={<ScaleRoundedIcon />}
-                                title="Inventory Consumed"
+                                title="Inventory Used"
                                 count="34kg"
                                 percentage={{
                                     color: "success",
@@ -88,7 +88,7 @@ function Dashboard() {
                                 percentage={{
                                     color: "success",
                                     amount: "+10%",
-                                    label: "thank yesterday",
+                                    label: "than yesterday",
                                 }}
                             />
                         </MDBox>
