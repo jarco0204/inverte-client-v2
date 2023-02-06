@@ -36,7 +36,7 @@ const theme = createTheme({
     },
 });
 // eslint-disable-next-line
-function SignIn({ setAuthenticated = console.log, setUserSession = console.log }) {
+function SignIn({ setAuthenticated = console.log }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
@@ -59,9 +59,8 @@ function SignIn({ setAuthenticated = console.log, setUserSession = console.log }
             console.log(password);
 
             try {
-                const user = await Auth.signIn(email, password);
+                await Auth.signIn(email, password);
                 setAuthenticated(true);
-                setUserSession(user);
             } catch (error) {
                 console.log("error signing in", error);
                 setError("Wrong credentials");
