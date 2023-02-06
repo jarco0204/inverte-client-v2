@@ -54,7 +54,7 @@ export default function App() {
 
                 setAuthenticated(true);
             } catch (err) {
-                console.log("eeelo");
+                console.log("You are not signed in");
                 console.log(err);
             }
         }
