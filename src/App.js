@@ -52,6 +52,14 @@ export default function App() {
                 setUserSession(user);
                 console.log("My user is:", user);
 
+                /* This Code block allows you to determine the CognitoIdentityID that allows
+                to attach the IoT Policy
+                Auth.currentCredentials().then((info) => {
+                    const cognitoIdentityId = info.identityId;
+                    console.log("pp read this : ", cognitoIdentityId);
+                });
+                */
+
                 setAuthenticated(true);
             } catch (err) {
                 console.log("You are not signed in");
