@@ -43,6 +43,6 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
-./yarn
+.yarn
 .yarnrc.yml
 amplify
