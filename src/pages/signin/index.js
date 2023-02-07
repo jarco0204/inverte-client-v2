@@ -8,19 +8,7 @@ import { createTheme } from "@mui/material/styles";
 import Header from "./components/Header";
 
 // AWS imports
-// import { Auth } from "aws-amplify";
-// import awsConfig from "../../aws-exports";
-// Auth.configure(awsConfig);
-
-import { Amplify, Auth } from "aws-amplify";
-Amplify.configure({
-    Auth: {
-        identityPoolId: process.env.REACT_APP_IDENTITY_POOL_ID,
-        region: process.env.REACT_APP_REGION,
-        userPoolId: process.env.REACT_APP_USER_POOL_ID,
-        userPoolWebClientId: process.env.REACT_APP_USER_POOL_WEB_CLIENT_ID,
-    },
-});
+import { Auth } from "aws-amplify";
 
 const theme = createTheme({
     palette: {

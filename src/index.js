@@ -9,6 +9,10 @@ import App from "./App";
 // Material Dashboard 2 React Context Provider
 import { MaterialUIControllerProvider } from "./context";
 
+import { Auth } from "aws-amplify";
+import awsConfig from "./aws-exports";
+Auth.configure(awsConfig);
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <Router>
