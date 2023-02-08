@@ -39,11 +39,11 @@ function Dashboard() {
                             <ComplexStatisticsCard
                                 color="dark"
                                 icon={<PanToolIcon />}
-                                title="Daily Savings"
-                                count={"$39.4"}
+                                title="Portions Completed"
+                                count={"56"}
                                 percentage={{
                                     color: "success",
-                                    amount: "+56%",
+                                    amount: "+24%",
                                     label: "than yesterday",
                                 }}
                             />
@@ -53,8 +53,8 @@ function Dashboard() {
                         <MDBox mb={1.5}>
                             <ComplexStatisticsCard
                                 icon={<PrecisionManufacturingRoundedIcon />}
-                                title="Today's Accuracy"
-                                count="98%"
+                                title="Accuracy"
+                                count="93%"
                                 percentage={{
                                     color: "success",
                                     amount: "+3%",
@@ -69,10 +69,10 @@ function Dashboard() {
                                 color="success"
                                 icon={<ScaleRoundedIcon />}
                                 title="Inventory Used"
-                                count="34kg"
+                                count="9kg"
                                 percentage={{
                                     color: "success",
-                                    amount: "+1%",
+                                    amount: "+10%",
                                     label: "than yesterday",
                                 }}
                             />
@@ -84,7 +84,7 @@ function Dashboard() {
                                 color="primary"
                                 icon={<AccessTimeFilledRoundedIcon />}
                                 title="Minutes Saved"
-                                count="+91"
+                                count="+65"
                                 percentage={{
                                     color: "success",
                                     amount: "+10%",
@@ -98,22 +98,22 @@ function Dashboard() {
                     <Grid container spacing={3}>
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
-                                <ReportsLineChart color="dark" title="completed portions" description="Last Week Performance" date="just updated" chart={tasks} />
+                                <ReportsLineChart color="dark" title="Inventory Depletion" description="Hourly Performance" date="just updated" chart={tasks} />
                             </MDBox>
                         </Grid>
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
-                                <ReportsBarChart color="info" title="Accuracy Levels" description="Last Week Performance" date="Updated 5 minutes ago" chart={reportsBarChartData} />
+                                <ReportsBarChart color="info" title="Accuracy Levels" description="Hourly Performance" date="Updated 5 minutes ago" chart={reportsBarChartData} />
                             </MDBox>
                         </Grid>
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
                                 <ReportsLineChart
                                     color="success"
-                                    title="Inventory consumed"
+                                    title="Line Temperature"
                                     description={
                                         <>
-                                            (<strong>+15%</strong>) increase in weekly sales.
+                                            (<strong>+15%</strong>) increase in last 10 minutes.
                                         </>
                                     }
                                     date="updated 4 min ago"

@@ -1,4 +1,4 @@
 export default {
-    labels: ["M", "T", "W", "T", "F", "S", "S"],
-    datasets: { label: "Sales", data: [69, 70, 90, 92, 87, 93, 94] },
+    labels: ["12", "1", "2", "3", "4", "5", "6", "7"],
+    datasets: { label: "Sales", data: [90, 93, 94, 88, 79, 85, 89, 87] },
 };
