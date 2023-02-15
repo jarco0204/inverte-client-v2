@@ -12,22 +12,22 @@ import Footer from "../../components/Footer";
 import Scale from "./components/Scale";
 
 // AWS Imports
-import { API, graphqlOperation } from "aws-amplify";
+// import { API, graphqlOperation } from "aws-amplify";
 import { useEffect } from "react";
 
 // GQL Queries
-import { listRestaurants } from "../../graphql/queries";
+// import { listRestaurants } from "../../graphql/queries";
 
 function Dashboard() {
     // Function
-    const getRestaurantList = async () => {
-        try {
-            const restaurants = await API.graphql(graphqlOperation(listRestaurants));
-            console.log("your res ", restaurants);
-        } catch (err) {
-            console.log(err);
-        }
-    };
+    // const getRestaurantList = async () => {
+    //     try {
+    //         const restaurants = await API.graphql(graphqlOperation(listRestaurants));
+    //         console.log("your res ", restaurants);
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // };
 
     // Hook
     useEffect(() => {
