@@ -30,9 +30,9 @@ function Dashboard() {
     // };
 
     // Hook
-    useEffect(() => {
-        getRestaurantList();
-    }, []);
+    // useEffect(() => {
+    //     getRestaurantList();
+    // }, []);
     return (
         <DashboardLayout>
             <DashboardNavbar />
