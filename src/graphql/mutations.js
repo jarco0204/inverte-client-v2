@@ -1,57 +1,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createRestaurant = /* GraphQL */ `
-  mutation CreateRestaurant(
-    $input: CreateRestaurantInput!
-    $condition: ModelRestaurantConditionInput
-  ) {
-    createRestaurant(input: $input, condition: $condition) {
-      id
-      name
-      location
-      locationNum
-      numberOfScales
-      phoneNumber
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateRestaurant = /* GraphQL */ `
-  mutation UpdateRestaurant(
-    $input: UpdateRestaurantInput!
-    $condition: ModelRestaurantConditionInput
-  ) {
-    updateRestaurant(input: $input, condition: $condition) {
-      id
-      name
-      location
-      locationNum
-      numberOfScales
-      phoneNumber
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteRestaurant = /* GraphQL */ `
-  mutation DeleteRestaurant(
-    $input: DeleteRestaurantInput!
-    $condition: ModelRestaurantConditionInput
-  ) {
-    deleteRestaurant(input: $input, condition: $condition) {
-      id
-      name
-      location
-      locationNum
-      numberOfScales
-      phoneNumber
-      createdAt
-      updatedAt
-    }
-  }
-`;
 export const createScale = /* GraphQL */ `
   mutation CreateScale(
     $input: CreateScaleInput!
@@ -59,9 +8,41 @@ export const createScale = /* GraphQL */ `
   ) {
     createScale(input: $input, condition: $condition) {
       id
-      iotName
-      pubChannel
-      subChannel
+      deviceID
+      restaurantID
+      ingredientName
+      correctWeight
+      upperLimit
+      lowerLimit
+      tsReadings {
+        items {
+          deviceID
+          timestamp
+          readingID
+          temp
+          humidity
+          inventoryWeight
+          id
+          createdAt
+          updatedAt
+          scaleTsReadingsId
+        }
+        nextToken
+      }
+      peReadings {
+        items {
+          deviceID
+          timestamp
+          readingID
+          portionWeight
+          inventoryWeight
+          id
+          createdAt
+          updatedAt
+          scalePeReadingsId
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -74,9 +55,41 @@ export const updateScale = /* GraphQL */ `
   ) {
     updateScale(input: $input, condition: $condition) {
       id
-      iotName
-      pubChannel
-      subChannel
+      deviceID
+      restaurantID
+      ingredientName
+      correctWeight
+      upperLimit
+      lowerLimit
+      tsReadings {
+        items {
+          deviceID
+          timestamp
+          readingID
+          temp
+          humidity
+          inventoryWeight
+          id
+          createdAt
+          updatedAt
+          scaleTsReadingsId
+        }
+        nextToken
+      }
+      peReadings {
+        items {
+          deviceID
+          timestamp
+          readingID
+          portionWeight
+          inventoryWeight
+          id
+          createdAt
+          updatedAt
+          scalePeReadingsId
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -89,101 +102,154 @@ export const deleteScale = /* GraphQL */ `
   ) {
     deleteScale(input: $input, condition: $condition) {
       id
-      iotName
-      pubChannel
-      subChannel
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const createInventory = /* GraphQL */ `
-  mutation CreateInventory(
-    $input: CreateInventoryInput!
-    $condition: ModelInventoryConditionInput
-  ) {
-    createInventory(input: $input, condition: $condition) {
-      name
-      weight
-      id
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateInventory = /* GraphQL */ `
-  mutation UpdateInventory(
-    $input: UpdateInventoryInput!
-    $condition: ModelInventoryConditionInput
-  ) {
-    updateInventory(input: $input, condition: $condition) {
-      name
-      weight
-      id
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteInventory = /* GraphQL */ `
-  mutation DeleteInventory(
-    $input: DeleteInventoryInput!
-    $condition: ModelInventoryConditionInput
-  ) {
-    deleteInventory(input: $input, condition: $condition) {
-      name
-      weight
-      id
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const createPortion = /* GraphQL */ `
-  mutation CreatePortion(
-    $input: CreatePortionInput!
-    $condition: ModelPortionConditionInput
-  ) {
-    createPortion(input: $input, condition: $condition) {
+      deviceID
+      restaurantID
+      ingredientName
       correctWeight
       upperLimit
       lowerLimit
-      weightPortion
-      id
+      tsReadings {
+        items {
+          deviceID
+          timestamp
+          readingID
+          temp
+          humidity
+          inventoryWeight
+          id
+          createdAt
+          updatedAt
+          scaleTsReadingsId
+        }
+        nextToken
+      }
+      peReadings {
+        items {
+          deviceID
+          timestamp
+          readingID
+          portionWeight
+          inventoryWeight
+          id
+          createdAt
+          updatedAt
+          scalePeReadingsId
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
   }
 `;
-export const updatePortion = /* GraphQL */ `
-  mutation UpdatePortion(
-    $input: UpdatePortionInput!
-    $condition: ModelPortionConditionInput
+export const createReadingTS = /* GraphQL */ `
+  mutation CreateReadingTS(
+    $input: CreateReadingTSInput!
+    $condition: ModelReadingTSConditionInput
   ) {
-    updatePortion(input: $input, condition: $condition) {
-      correctWeight
-      upperLimit
-      lowerLimit
-      weightPortion
+    createReadingTS(input: $input, condition: $condition) {
+      deviceID
+      timestamp
+      readingID
+      temp
+      humidity
+      inventoryWeight
       id
       createdAt
       updatedAt
+      scaleTsReadingsId
     }
   }
 `;
-export const deletePortion = /* GraphQL */ `
-  mutation DeletePortion(
-    $input: DeletePortionInput!
-    $condition: ModelPortionConditionInput
+export const updateReadingTS = /* GraphQL */ `
+  mutation UpdateReadingTS(
+    $input: UpdateReadingTSInput!
+    $condition: ModelReadingTSConditionInput
   ) {
-    deletePortion(input: $input, condition: $condition) {
-      correctWeight
-      upperLimit
-      lowerLimit
-      weightPortion
+    updateReadingTS(input: $input, condition: $condition) {
+      deviceID
+      timestamp
+      readingID
+      temp
+      humidity
+      inventoryWeight
       id
       createdAt
       updatedAt
+      scaleTsReadingsId
+    }
+  }
+`;
+export const deleteReadingTS = /* GraphQL */ `
+  mutation DeleteReadingTS(
+    $input: DeleteReadingTSInput!
+    $condition: ModelReadingTSConditionInput
+  ) {
+    deleteReadingTS(input: $input, condition: $condition) {
+      deviceID
+      timestamp
+      readingID
+      temp
+      humidity
+      inventoryWeight
+      id
+      createdAt
+      updatedAt
+      scaleTsReadingsId
+    }
+  }
+`;
+export const createReadingPE = /* GraphQL */ `
+  mutation CreateReadingPE(
+    $input: CreateReadingPEInput!
+    $condition: ModelReadingPEConditionInput
+  ) {
+    createReadingPE(input: $input, condition: $condition) {
+      deviceID
+      timestamp
+      readingID
+      portionWeight
+      inventoryWeight
+      id
+      createdAt
+      updatedAt
+      scalePeReadingsId
+    }
+  }
+`;
+export const updateReadingPE = /* GraphQL */ `
+  mutation UpdateReadingPE(
+    $input: UpdateReadingPEInput!
+    $condition: ModelReadingPEConditionInput
+  ) {
+    updateReadingPE(input: $input, condition: $condition) {
+      deviceID
+      timestamp
+      readingID
+      portionWeight
+      inventoryWeight
+      id
+      createdAt
+      updatedAt
+      scalePeReadingsId
+    }
+  }
+`;
+export const deleteReadingPE = /* GraphQL */ `
+  mutation DeleteReadingPE(
+    $input: DeleteReadingPEInput!
+    $condition: ModelReadingPEConditionInput
+  ) {
+    deleteReadingPE(input: $input, condition: $condition) {
+      deviceID
+      timestamp
+      readingID
+      portionWeight
+      inventoryWeight
+      id
+      createdAt
+      updatedAt
+      scalePeReadingsId
     }
   }
 `;

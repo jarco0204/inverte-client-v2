@@ -1,48 +1,45 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getRestaurant = /* GraphQL */ `
-  query GetRestaurant($id: ID!) {
-    getRestaurant(id: $id) {
-      id
-      name
-      location
-      locationNum
-      numberOfScales
-      phoneNumber
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listRestaurants = /* GraphQL */ `
-  query ListRestaurants(
-    $filter: ModelRestaurantFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listRestaurants(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        name
-        location
-        locationNum
-        numberOfScales
-        phoneNumber
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
 export const getScale = /* GraphQL */ `
   query GetScale($id: ID!) {
     getScale(id: $id) {
       id
-      iotName
-      pubChannel
-      subChannel
+      deviceID
+      restaurantID
+      ingredientName
+      correctWeight
+      upperLimit
+      lowerLimit
+      tsReadings {
+        items {
+          deviceID
+          timestamp
+          readingID
+          temp
+          humidity
+          inventoryWeight
+          id
+          createdAt
+          updatedAt
+          scaleTsReadingsId
+        }
+        nextToken
+      }
+      peReadings {
+        items {
+          deviceID
+          timestamp
+          readingID
+          portionWeight
+          inventoryWeight
+          id
+          createdAt
+          updatedAt
+          scalePeReadingsId
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -57,73 +54,96 @@ export const listScales = /* GraphQL */ `
     listScales(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        iotName
-        pubChannel
-        subChannel
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const getInventory = /* GraphQL */ `
-  query GetInventory($id: ID!) {
-    getInventory(id: $id) {
-      name
-      weight
-      id
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listInventories = /* GraphQL */ `
-  query ListInventories(
-    $filter: ModelInventoryFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listInventories(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        name
-        weight
-        id
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const getPortion = /* GraphQL */ `
-  query GetPortion($id: ID!) {
-    getPortion(id: $id) {
-      correctWeight
-      upperLimit
-      lowerLimit
-      weightPortion
-      id
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listPortions = /* GraphQL */ `
-  query ListPortions(
-    $filter: ModelPortionFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listPortions(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
+        deviceID
+        restaurantID
+        ingredientName
         correctWeight
         upperLimit
         lowerLimit
-        weightPortion
+        tsReadings {
+          nextToken
+        }
+        peReadings {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getReadingTS = /* GraphQL */ `
+  query GetReadingTS($id: ID!) {
+    getReadingTS(id: $id) {
+      deviceID
+      timestamp
+      readingID
+      temp
+      humidity
+      inventoryWeight
+      id
+      createdAt
+      updatedAt
+      scaleTsReadingsId
+    }
+  }
+`;
+export const listReadingTS = /* GraphQL */ `
+  query ListReadingTS(
+    $filter: ModelReadingTSFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listReadingTS(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        deviceID
+        timestamp
+        readingID
+        temp
+        humidity
+        inventoryWeight
         id
         createdAt
         updatedAt
+        scaleTsReadingsId
+      }
+      nextToken
+    }
+  }
+`;
+export const getReadingPE = /* GraphQL */ `
+  query GetReadingPE($id: ID!) {
+    getReadingPE(id: $id) {
+      deviceID
+      timestamp
+      readingID
+      portionWeight
+      inventoryWeight
+      id
+      createdAt
+      updatedAt
+      scalePeReadingsId
+    }
+  }
+`;
+export const listReadingPES = /* GraphQL */ `
+  query ListReadingPES(
+    $filter: ModelReadingPEFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listReadingPES(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        deviceID
+        timestamp
+        readingID
+        portionWeight
+        inventoryWeight
+        id
+        createdAt
+        updatedAt
+        scalePeReadingsId
       }
       nextToken
     }
