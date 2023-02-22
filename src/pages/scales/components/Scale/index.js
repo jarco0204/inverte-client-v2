@@ -33,12 +33,12 @@ import PropTypes from "prop-types";
 
 // Setting default values for the props of Scale
 Scale.defaultProps = {
-    scaleArr: { test: "erorr" },
+    mainPublishTopic: "johan/1/P0-08420",
 };
 
 // Typechecking props for the Scale
 Scale.propTypes = {
-    scaleArr: PropTypes.array,
+    mainPublishTopic: PropTypes.string,
 };
 
 /*
@@ -47,8 +47,8 @@ Scale.propTypes = {
         • The first scaleArr[0] is the Publish MQTT topic of the scale
         • The second scaleArr[1] is the type of scale (Flat or Pan)
 */
-export default function Scale({ scaleArr }) {
-    // console.log(scaleArr);
+export default function Scale({ mainPublishTopic }) {
+    console.log("Your channel good sir, ", mainPublishTopic);
     // Core Data State of a Scale Card
     const [nameIngredient, setNameIngredient] = useState("Cheese");
 
@@ -139,7 +139,6 @@ export default function Scale({ scaleArr }) {
         When action = 4, the scale changes the mode of operation
     */
     const sendDataAWS = async (control = false, action = null, value = null) => {
-        let channel = "johan/1/P0-08";
         if (control) {
             let msg = {
                 msg: "Sending Scale action from Client to AWS",
@@ -153,7 +152,7 @@ export default function Scale({ scaleArr }) {
             }
             try {
                 console.log("1");
-                let finalTopic = channel + "/control";
+                let finalTopic = mainPublishTopic + "control";
                 PubSub.publish(finalTopic, msg);
                 return;
             } catch (err) {
@@ -170,7 +169,7 @@ export default function Scale({ scaleArr }) {
             };
             console.log(msg);
             try {
-                let finalTopic = channel + "/params";
+                let finalTopic = mainPublishTopic + "params";
                 await PubSub.publish(finalTopic, msg);
                 return;
             } catch (err) {
