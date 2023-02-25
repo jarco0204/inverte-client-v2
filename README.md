@@ -9,13 +9,19 @@ It is writtent in Javascript, which leads to cleaner & lighter architecture to p
 
 #### Coders
 
-Christian & Johan
+Christian, Johan & Rohan
 
 ### How to Run?
 
 1. yarn install \
 2. yarn start \
-3. Add .env.local file to root of project \
+3. amplify configure (assuming that you have your amplify cli configured)
+4. There are two alternatives to this
+   4.1. amplify env add
+   4.2. directly: amplify pull --appId xxxx --envName yyyy.
+   Note: To get --appId xxxx --envName yyyy Log in to the AWS console. Choose AWS Amplify. Click your app. Go to Backend environments. Find the backend environment you wish to pull. Click Edit backend. See top right then click 'Local setup instructions ' ( amplify pull --appId YOUR_APP_ID --envName YOUR_ENV_NAME )
+5. amplify pull
+6. Add .env.local file to root of project \
 
 ## Front-End
 
