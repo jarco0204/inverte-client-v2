@@ -17,10 +17,15 @@
 .env.development.local
 .env.test.local
 .env.production.local
+.vscode
 
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+.yarn
+.yarnrc.yml
+amplify
 
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
@@ -43,6 +48,3 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
-.yarn
-.yarnrc.yml
-amplify
