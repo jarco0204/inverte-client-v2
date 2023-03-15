@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "paths": {
+    "/daily/{restaurantID}": {
+      "name": "/daily/{restaurantID}",
+      "lambdaFunction": "getDailySummaryClientV1",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    }
+  }
+}

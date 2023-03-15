@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 // @mui material components
 import Grid from "@mui/material/Grid";
 
@@ -22,12 +23,40 @@ import AccessTimeFilledRoundedIcon from "@mui/icons-material/AccessTimeFilledRou
 import reportsBarChartData from "./data/reportsBarChartData";
 import reportsLineChartData from "./data/reportsLineChartData";
 
+import { API } from "aws-amplify";
+
 // Dashboard components
 // import Projects from "layouts/dashboard/components/Projects";
 // import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 
 function Dashboard() {
     const { sales, tasks } = reportsLineChartData;
+    const [items, setItems] = useState([]);
+
+    useEffect(() => {
+        const getDailyItems = async () => {
+            try {
+                const myAPI = "inverteClientAmplifyAPIv1";
+                const path = "/daily/";
+                let finalAPIRoute = path + "420"; // DeviceID instead of 420
+                await API.get(myAPI, finalAPIRoute)
+                    .then((response) => {
+                        let accuracy = response.daily.accuracy + "%";
+                        let inventoryWeight = response.daily.inventoryUsed + "g";
+                        let timeSaved = "+" + response.daily.minutesSaved;
+
+                        setItems([response.daily.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
+                    })
+                    .catch((error) => {
+                        console.log("Failed to retrieve from API", error);
+                    });
+            } catch (err) {
+                console.log(err);
+            }
+        };
+
+        getDailyItems();
+    }, []);
 
     return (
         <DashboardLayout>
@@ -40,7 +69,7 @@ function Dashboard() {
                                 color="dark"
                                 icon={<PanToolIcon />}
                                 title="Portions Completed"
-                                count={"56"}
+                                count={items[0]}
                                 percentage={{
                                     color: "success",
                                     amount: "+24%",
@@ -54,7 +83,7 @@ function Dashboard() {
                             <ComplexStatisticsCard
                                 icon={<PrecisionManufacturingRoundedIcon />}
                                 title="Accuracy"
-                                count="93%"
+                                count={items[1]}
                                 percentage={{
                                     color: "success",
                                     amount: "+3%",
@@ -69,7 +98,7 @@ function Dashboard() {
                                 color="success"
                                 icon={<ScaleRoundedIcon />}
                                 title="Inventory Used"
-                                count="9kg"
+                                count={items[2]}
                                 percentage={{
                                     color: "success",
                                     amount: "+10%",
@@ -84,7 +113,7 @@ function Dashboard() {
                                 color="primary"
                                 icon={<AccessTimeFilledRoundedIcon />}
                                 title="Minutes Saved"
-                                count="+65"
+                                count={items[3]}
                                 percentage={{
                                     color: "success",
                                     amount: "+10%",
