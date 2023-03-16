@@ -38,6 +38,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import ScaleIcon from "@mui/icons-material/Scale";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
 import AnalyticsDashboard from "./pages/analytics";
+import TestDashboard from "./pages/test/";
 
 const routes = (userSession) => {
     return [
@@ -76,6 +77,16 @@ const routes = (userSession) => {
             ),
             route: "/analytics",
             component: <AnalyticsDashboard />,
+        },
+        {
+            type: "collapse",
+            name: "Test",
+            key: "test",
+            icon: <Icon fontSize="small">
+                      <AnalyticsIcon />
+                  </Icon>,
+            route: "/test",
+            component: <TestDashboard />,
         },
         // {
         //   type: "collapse",
