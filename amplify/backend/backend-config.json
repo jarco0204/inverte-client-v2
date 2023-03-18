@@ -9,6 +9,14 @@
           ],
           "category": "function",
           "resourceName": "getDailySummaryClientV1"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "inverteAmplifyAPIv1GETrestaurant"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -48,6 +56,11 @@
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+    },
+    "inverteAmplifyAPIv1GETrestaurant": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   },
   "parameters": {
@@ -64,6 +77,22 @@
         {
           "category": "function",
           "resourceName": "getDailySummaryClientV1"
+        }
+      ]
+    },
+    "AMPLIFY_function_inverteAmplifyAPIv1GETrestaurant_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "inverteAmplifyAPIv1GETrestaurant"
+        }
+      ]
+    },
+    "AMPLIFY_function_inverteAmplifyAPIv1GETrestaurant_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "inverteAmplifyAPIv1GETrestaurant"
         }
       ]
     }

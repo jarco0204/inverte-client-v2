@@ -23,7 +23,7 @@ import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "./
 // import themeDark from "assets/theme-dark"; // TODO
 import theme from "./assets/theme";
 
-import { Auth } from "aws-amplify";
+import { Auth, API } from "aws-amplify";
 
 // Images
 import inverteLogo from "./assets/img/inverte_green_logo.png";
@@ -61,6 +61,22 @@ export default function App() {
                 */
 
                 setAuthenticated(true);
+
+                // Fetch Essential data
+                try {
+                    const myAPI = "inverteClientAmplifyAPIv1";
+                    const path = "/restaurants/";
+                    const finalAPIRoute = path + user.username;
+                    await API.get(myAPI, finalAPIRoute)
+                        .then((response) => {
+                            console.log("Response from API: ", response);
+                        })
+                        .catch((error) => {
+                            console.log("Failed to retrieve from inverteClientAmplifyAPIv1", error);
+                        });
+                } catch (err) {
+                    console.log(err);
+                }
             } catch (err) {
                 console.log("You are not signed in");
                 console.log(err);

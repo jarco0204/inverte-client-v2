@@ -13,6 +13,18 @@
           "delete"
         ]
       }
+    },
+    "/restaurants/{restaurantID}": {
+      "name": "/restaurants/{restaurantID}",
+      "lambdaFunction": "inverteAmplifyAPIv1GETrestaurant",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update"
+        ]
+      }
     }
   }
 }

@@ -22,9 +22,11 @@ async function getItem(params) {
 exports.handler = async (event) => {
     console.log(`EVENT: ${JSON.stringify(event)}`);
 
+    // console.log(event.queryStringParameters);
+
     // Params object to retrieve the essential information about restaurant
     const params = {
-        TableName: "inverte_dailyInsights_v1",
+        TableName: "inverte_portionEvents_v4",
         Key: { dayOfYear: 74, deviceID: "83638829467200" }, // This parameters should come from scale
     };
 
