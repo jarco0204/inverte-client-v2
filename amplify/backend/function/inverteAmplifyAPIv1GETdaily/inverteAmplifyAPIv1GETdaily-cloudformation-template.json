@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "{\"createdOn\":\"Mac\",\"createdBy\":\"Amplify\",\"createdWith\":\"11.0.0\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
+  "Description": "{\"createdOn\":\"Mac\",\"createdBy\":\"Amplify\",\"createdWith\":\"11.0.1\",\"stackType\":\"function-Lambda\",\"metadata\":{}}",
   "Parameters": {
     "CloudWatchRule": {
       "Type": "String",
@@ -47,12 +47,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "getDailySummaryClientV1",
+            "inverteAmplifyAPIv1GETdaily",
             {
               "Fn::Join": [
                 "",
                 [
-                  "getDailySummaryClientV1",
+                  "inverteAmplifyAPIv1GETdaily",
                   "-",
                   {
                     "Ref": "env"
@@ -89,12 +89,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "inverteclientv2LambdaRoleffbf88ba",
+            "inverteclientv2LambdaRole2c4d13d0",
             {
               "Fn::Join": [
                 "",
                 [
-                  "inverteclientv2LambdaRoleffbf88ba",
+                  "inverteclientv2LambdaRole2c4d13d0",
                   "-",
                   {
                     "Ref": "env"

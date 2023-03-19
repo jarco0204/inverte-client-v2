@@ -1,22 +1,21 @@
 {
   "version": 1,
   "paths": {
-    "/daily/{restaurantID}": {
-      "name": "/daily/{restaurantID}",
-      "lambdaFunction": "getDailySummaryClientV1",
+    "/restaurants/{restaurantID}": {
+      "name": "/restaurants/{restaurantID}",
+      "lambdaFunction": "inverteAmplifyAPIv1GETrestaurant",
       "permissions": {
         "setting": "private",
         "auth": [
           "create",
           "read",
-          "update",
-          "delete"
+          "update"
         ]
       }
     },
-    "/restaurants/{restaurantID}": {
-      "name": "/restaurants/{restaurantID}",
-      "lambdaFunction": "inverteAmplifyAPIv1GETrestaurant",
+    "/daily/{scaleID}": {
+      "name": "/daily/{scaleID}",
+      "lambdaFunction": "inverteAmplifyAPIv1GETdaily",
       "permissions": {
         "setting": "private",
         "auth": [

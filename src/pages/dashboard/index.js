@@ -46,7 +46,7 @@ function Dashboard(userSession = console.log) {
                 const finalAPIRoute = path + userSession.userSession.username;
                 // console.log(finalAPIRoute);
                 await API.get(myAPI, finalAPIRoute)
-                    .then((response) => {
+                    .then(async (response) => {
                         console.log("Response from API: ", response.item.Item.scaleID);
                         // setScalesArray([response.item.Item.scaleID]);
                         try {
@@ -54,21 +54,22 @@ function Dashboard(userSession = console.log) {
                             const path = "/daily/";
                             const finalAPIRoute = path + response.item.Item.scaleID;
                             console.log(finalAPIRoute);
-                            // await API.get(myAPI, finalAPIRoute, {
-                            //     queryStringParameters: {
-                            //         dayOfYear: "76",
-                            //         hourOfDay: "16",
-                            //     },
-                            // })
-                            //     .then((response) => {
-                            //         let accuracy = response.daily.accuracy + "%";
-                            //         let inventoryWeight = response.daily.inventoryUsed + "g";
-                            //         let timeSaved = "+" + response.daily.minutesSaved;
-                            //         setItems([response.daily.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
-                            //     })
-                            //     .catch((error) => {
-                            //         console.log("Failed to retrieve from API", error);
-                            //     });
+                            await API.get(myAPI, finalAPIRoute, {
+                                queryStringParameters: {
+                                    dayOfYear: "76",
+                                    hourOfDay: "15",
+                                },
+                            })
+                                .then((response) => {
+                                    console.log(response);
+                                    // let accuracy = response.daily.accuracy + "%";
+                                    // let inventoryWeight = response.daily.inventoryUsed + "g";
+                                    // let timeSaved = "+" + response.daily.minutesSaved;
+                                    // setItems([response.daily.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
+                                })
+                                .catch((error) => {
+                                    console.log("Failed to retrieve from API", error);
+                                });
                         } catch (err) {
                             console.log(err);
                         }

@@ -17,13 +17,13 @@
         "inverteclientv228c7d778": {}
       },
       "function": {
-        "getDailySummaryClientV1": {
-          "deploymentBucketName": "amplify-amplifyf2eff42530204-staging-171303-deployment",
-          "s3Key": "amplify-builds/getDailySummaryClientV1-4e693733456f37553434-build.zip"
-        },
         "inverteAmplifyAPIv1GETrestaurant": {
           "deploymentBucketName": "amplify-amplifyf2eff42530204-staging-171303-deployment",
           "s3Key": "amplify-builds/inverteAmplifyAPIv1GETrestaurant-78584276376f34396c74-build.zip"
+        },
+        "inverteAmplifyAPIv1GETdaily": {
+          "deploymentBucketName": "amplify-amplifyf2eff42530204-staging-171303-deployment",
+          "s3Key": "amplify-builds/inverteAmplifyAPIv1GETdaily-33647431674662325a6e-build.zip"
         }
       },
       "api": {

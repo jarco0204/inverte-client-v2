@@ -8,7 +8,7 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "getDailySummaryClientV1"
+          "resourceName": "inverteAmplifyAPIv1GETrestaurant"
         },
         {
           "attributes": [
@@ -16,7 +16,7 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "inverteAmplifyAPIv1GETrestaurant"
+          "resourceName": "inverteAmplifyAPIv1GETdaily"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -52,7 +52,7 @@
     }
   },
   "function": {
-    "getDailySummaryClientV1": {
+    "inverteAmplifyAPIv1GETdaily": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
@@ -64,19 +64,19 @@
     }
   },
   "parameters": {
-    "AMPLIFY_function_getDailySummaryClientV1_deploymentBucketName": {
+    "AMPLIFY_function_inverteAmplifyAPIv1GETdaily_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "getDailySummaryClientV1"
+          "resourceName": "inverteAmplifyAPIv1GETdaily"
         }
       ]
     },
-    "AMPLIFY_function_getDailySummaryClientV1_s3Key": {
+    "AMPLIFY_function_inverteAmplifyAPIv1GETdaily_s3Key": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "getDailySummaryClientV1"
+          "resourceName": "inverteAmplifyAPIv1GETdaily"
         }
       ]
     },
