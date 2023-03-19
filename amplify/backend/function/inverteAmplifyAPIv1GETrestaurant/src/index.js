@@ -17,38 +17,30 @@ async function getItem(params) {
 exports.handler = async (event) => {
     console.log(`EVENT: ${JSON.stringify(event)}`);
     // Params object to retrieve the essential information about restaurant
-    const params = {
+    const dynamoInputParams = {
         TableName: "inverte_users_v1",
-        Key: { restaurantID: 74 }, // This parameters should come from scale
-    };
-    return {
-        statusCode: 200,
-        //  Uncomment below to enable CORS requests
-        headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Headers": "*",
-        },
-        // body: JSON.stringify(restaurant),
+        Key: { restaurantID: event.pathParameters.restaurantID }, // This parameters should come from scale
     };
 
     // Call to your Database
-    // try {
-    //     // const data = await getItem(params);
-    //     // const restaurant = {
-    //     //     message: "Information correctly retrieved from Dynamo using Lambda420",
-    //     //     sdkVersion: AWS.VERSION,
-    //     //     daily: data.Item,
-    //     // };
-    //     return {
-    //         statusCode: 200,
-    //         //  Uncomment below to enable CORS requests
-    //         headers: {
-    //             "Access-Control-Allow-Origin": "*",
-    //             "Access-Control-Allow-Headers": "*",
-    //         },
-    //         // body: JSON.stringify(restaurant),
-    //     };
-    // } catch (err) {
-    //     return { error: err, statusCode: 404 };
-    // }
+    try {
+        const data = await getItem(dynamoInputParams);
+        console.log(data);
+        const restaurant = {
+            message: "Information correctly retrieved from Dynamo using Lambda420",
+            sdkVersion: AWS.VERSION,
+            item: data,
+        };
+        return {
+            statusCode: 200,
+            //  Uncomment below to enable CORS requests
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "*",
+            },
+            body: JSON.stringify(restaurant),
+        };
+    } catch (err) {
+        return { error: err, statusCode: 404 };
+    }
 };

@@ -29,37 +29,65 @@ import { API } from "aws-amplify";
 // import Projects from "layouts/dashboard/components/Projects";
 // import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 
-function Dashboard() {
+function Dashboard(userSession = console.log) {
     const { sales, tasks } = reportsLineChartData;
     const [items, setItems] = useState([]);
+    // const [scaleIDs, setScalesArray] = useState([]);
+
+    console.log(userSession);
+
+    useEffect(() => {
+        const getScaleIDs = async () => {
+            // Fetch Essential data
+            try {
+                const myAPI = "inverteClientAmplifyAPIv1";
+                const path = "/restaurants/";
+                // console.log(userSession)
+                const finalAPIRoute = path + userSession.userSession.username;
+                // console.log(finalAPIRoute);
+                await API.get(myAPI, finalAPIRoute)
+                    .then((response) => {
+                        console.log("Response from API: ", response.item.Item.scaleID);
+                        // setScalesArray([response.item.Item.scaleID]);
+                        try {
+                            const myAPI = "inverteClientAmplifyAPIv1";
+                            const path = "/daily/";
+                            const finalAPIRoute = path + response.item.Item.scaleID;
+                            console.log(finalAPIRoute);
+                            // await API.get(myAPI, finalAPIRoute, {
+                            //     queryStringParameters: {
+                            //         dayOfYear: "76",
+                            //         hourOfDay: "16",
+                            //     },
+                            // })
+                            //     .then((response) => {
+                            //         let accuracy = response.daily.accuracy + "%";
+                            //         let inventoryWeight = response.daily.inventoryUsed + "g";
+                            //         let timeSaved = "+" + response.daily.minutesSaved;
+                            //         setItems([response.daily.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
+                            //     })
+                            //     .catch((error) => {
+                            //         console.log("Failed to retrieve from API", error);
+                            //     });
+                        } catch (err) {
+                            console.log(err);
+                        }
+                    })
+                    .catch((error) => {
+                        console.log("Failed to retrieve from inverteClientAmplifyAPIv1", error);
+                    });
+            } catch (err) {
+                console.log(err);
+            }
+        };
+
+        getScaleIDs();
+    }, []);
 
     // useEffect(() => {
     //     const getDailyItems = async () => {
-    //         try {
-    //             const myAPI = "inverteClientAmplifyAPIv1";
-    //             const path = "/daily/";
-    //             const finalAPIRoute = path + "420"; // DeviceID instead of 420
-    //             await API.get(myAPI, finalAPIRoute, {
-    //                 queryStringParameters: {
-    //                     dayOfYear: "76",
-    //                     hourOfDay: "16",
-    //                 },
-    //             })
-    //                 .then((response) => {
-    //                     let accuracy = response.daily.accuracy + "%";
-    //                     let inventoryWeight = response.daily.inventoryUsed + "g";
-    //                     let timeSaved = "+" + response.daily.minutesSaved;
 
-    //                     setItems([response.daily.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
-    //                 })
-    //                 .catch((error) => {
-    //                     console.log("Failed to retrieve from API", error);
-    //                 });
-    //         } catch (err) {
-    //             console.log(err);
-    //         }
     //     };
-
     //     getDailyItems();
     // }, []);
 

@@ -36,84 +36,88 @@ import Scales from "./pages/scales";
 import Icon from "@mui/material/Icon";
 import HomeIcon from "@mui/icons-material/Home";
 import ScaleIcon from "@mui/icons-material/Scale";
-import AnalyticsIcon from '@mui/icons-material/Analytics';
+import AnalyticsIcon from "@mui/icons-material/Analytics";
 import AnalyticsDashboard from "./pages/analytics";
 
-const routes = [
-    {
-        type: "collapse",
-        name: "Dashboard",
-        key: "dashboard",
-        icon: (
-            <Icon fontSize="small">
-                <HomeIcon />
-            </Icon>
-        ),
-        route: "/dashboard",
-        component: <Dashboard />,
-    },
-    {
-        type: "collapse",
-        name: "Scales",
-        key: "scales",
-        icon: (
-            <Icon fontSize="small">
-                <ScaleIcon />
-            </Icon>
-        ),
-        route: "/scales",
-        component: <Scales />,
-    },
-    {
-      type: "collapse",
-      name: "Analytics",
-      key: "analytics",
-      icon: <Icon fontSize="small">
-                <AnalyticsIcon />
-            </Icon>,
-      route: "/analytics",
-      component: <AnalyticsDashboard />,
-    },
-    // {
-    //   type: "collapse",
-    //   name: "RTL",
-    //   key: "rtl",
-    //   icon: <Icon fontSize="small">format_textdirection_r_to_l</Icon>,
-    //   route: "/rtl",
-    //   component: <RTL />,
-    // },
-    // {
-    //   type: "collapse",
-    //   name: "Notifications",
-    //   key: "notifications",
-    //   icon: <Icon fontSize="small">notifications</Icon>,
-    //   route: "/notifications",
-    //   component: <Notifications />,
-    // },
-    // {
-    //   type: "collapse",
-    //   name: "Profile",
-    //   key: "profile",
-    //   icon: <Icon fontSize="small">person</Icon>,
-    //   route: "/profile",
-    //   component: <Profile />,
-    // },
-    // {
-    //   type: "collapse",
-    //   name: "Sign In",
-    //   key: "sign-in",
-    //   icon: <Icon fontSize="small">login</Icon>,
-    //   route: "/authentication/sign-in",
-    //   component: <SignIn />,
-    // },
-    // {
-    //   type: "collapse",
-    //   name: "Sign Up",
-    //   key: "sign-up",
-    //   icon: <Icon fontSize="small">assignment</Icon>,
-    //   route: "/authentication/sign-up",
-    //   component: <SignUp />,
-    // },
-];
+const routes = (userSession) => {
+    return [
+        {
+            type: "collapse",
+            name: "Dashboard",
+            key: "dashboard",
+            icon: (
+                <Icon fontSize="small">
+                    <HomeIcon />
+                </Icon>
+            ),
+            route: "/dashboard",
+            component: <Dashboard userSession={userSession} />,
+        },
+        {
+            type: "collapse",
+            name: "Scales",
+            key: "scales",
+            icon: (
+                <Icon fontSize="small">
+                    <ScaleIcon />
+                </Icon>
+            ),
+            route: "/scales",
+            component: <Scales />,
+        },
+        {
+            type: "collapse",
+            name: "Analytics",
+            key: "analytics",
+            icon: (
+                <Icon fontSize="small">
+                    <AnalyticsIcon />
+                </Icon>
+            ),
+            route: "/analytics",
+            component: <AnalyticsDashboard />,
+        },
+        // {
+        //   type: "collapse",
+        //   name: "RTL",
+        //   key: "rtl",
+        //   icon: <Icon fontSize="small">format_textdirection_r_to_l</Icon>,
+        //   route: "/rtl",
+        //   component: <RTL />,
+        // },
+        // {
+        //   type: "collapse",
+        //   name: "Notifications",
+        //   key: "notifications",
+        //   icon: <Icon fontSize="small">notifications</Icon>,
+        //   route: "/notifications",
+        //   component: <Notifications />,
+        // },
+        // {
+        //   type: "collapse",
+        //   name: "Profile",
+        //   key: "profile",
+        //   icon: <Icon fontSize="small">person</Icon>,
+        //   route: "/profile",
+        //   component: <Profile />,
+        // },
+        // {
+        //   type: "collapse",
+        //   name: "Sign In",
+        //   key: "sign-in",
+        //   icon: <Icon fontSize="small">login</Icon>,
+        //   route: "/authentication/sign-in",
+        //   component: <SignIn />,
+        // },
+        // {
+        //   type: "collapse",
+        //   name: "Sign Up",
+        //   key: "sign-up",
+        //   icon: <Icon fontSize="small">assignment</Icon>,
+        //   route: "/authentication/sign-up",
+        //   component: <SignUp />,
+        // },
+    ];
+};
 
 export default routes;

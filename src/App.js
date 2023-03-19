@@ -36,7 +36,7 @@ export default function App() {
     // Component State
     const [onMouseEnter, setOnMouseEnter] = useState(false);
     const [authenticated, setAuthenticated] = useState(false);
-    const [user, setUserSession] = useState(null);
+    const [userSession, setUserSession] = useState(null);
 
     // Hook for For route traversal
     const { pathname } = useLocation();
@@ -61,22 +61,6 @@ export default function App() {
                 */
 
                 setAuthenticated(true);
-
-                // Fetch Essential data
-                try {
-                    const myAPI = "inverteClientAmplifyAPIv1";
-                    const path = "/restaurants/";
-                    const finalAPIRoute = path + user.username;
-                    await API.get(myAPI, finalAPIRoute)
-                        .then((response) => {
-                            console.log("Response from API: ", response);
-                        })
-                        .catch((error) => {
-                            console.log("Failed to retrieve from inverteClientAmplifyAPIv1", error);
-                        });
-                } catch (err) {
-                    console.log(err);
-                }
             } catch (err) {
                 console.log("You are not signed in");
                 console.log(err);
@@ -148,6 +132,9 @@ export default function App() {
 
     /*
         Function to control the route traversal
+
+        Specifically, the function first checks if the current route object has a collapse property. 
+        If it does, the function recursively calls itself with the collapse property as the new input, effectively flattening nested route structures.
     */
     const getRoutes = (allRoutes) =>
         allRoutes.map((route) => {
@@ -175,7 +162,7 @@ export default function App() {
                                 color={sidenavColor}
                                 brand={(transparentSidenav && !darkMode) || whiteSidenav ? inverteLogo : inverteLogo}
                                 brandName="InVerte"
-                                routes={routes}
+                                routes={routes()}
                                 onMouseEnter={handleOnMouseEnter}
                                 onMouseLeave={handleOnMouseLeave}
                             />
@@ -185,7 +172,7 @@ export default function App() {
                     )}
                     {layout === "vr" && <Configurator />}
                     <Routes>
-                        {getRoutes(routes)}
+                        {getRoutes(routes(userSession))}
                         <Route path="*" element={<Navigate to="/dashboard" />} />
                     </Routes>
                 </ThemeProvider>
