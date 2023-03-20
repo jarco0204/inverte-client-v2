@@ -25,6 +25,10 @@ import reportsLineChartData from "./data/reportsLineChartData";
 
 import { API } from "aws-amplify";
 
+import dayjs from "dayjs";
+import dayOfYear from "dayjs/plugin/dayOfYear.js";
+dayjs.extend(dayOfYear);
+
 // Dashboard components
 // import Projects from "layouts/dashboard/components/Projects";
 // import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
@@ -32,57 +36,59 @@ import { API } from "aws-amplify";
 function Dashboard(userSession = console.log) {
     const { sales, tasks } = reportsLineChartData;
     const [items, setItems] = useState([]);
-    // const [scaleIDs, setScalesArray] = useState([]);
+    const [scaleIDs, setScalesArray] = useState([]);
 
-    console.log(userSession);
-
+    // console.log(userSession); // Debug Statement
     useEffect(() => {
-        const getScaleIDs = async () => {
+        const getScaleIDAndDailySummary = async () => {
             // Fetch Essential data
             try {
                 const myAPI = "inverteClientAmplifyAPIv1";
                 const path = "/restaurants/";
-                // console.log(userSession)
                 const finalAPIRoute = path + userSession.userSession.username;
-                // console.log(finalAPIRoute);
+
+                // Get Essential Restaurant Meta Data (ScaleID)
                 await API.get(myAPI, finalAPIRoute)
                     .then(async (response) => {
-                        console.log("Response from API: ", response.item.Item.scaleID);
-                        // setScalesArray([response.item.Item.scaleID]);
+                        // console.log("Response from API: ", response.item.Item.scaleID); // Debug Statement
+                        setScalesArray([response.item.Item.scaleID]);
                         try {
                             const myAPI = "inverteClientAmplifyAPIv1";
                             const path = "/daily/";
                             const finalAPIRoute = path + response.item.Item.scaleID;
-                            console.log(finalAPIRoute);
+                            // console.log(finalAPIRoute); // debug statement
+                            let tempDate = dayjs(); // Automatically in local time
+
+                            // Get daily-hourly summary
                             await API.get(myAPI, finalAPIRoute, {
                                 queryStringParameters: {
-                                    dayOfYear: "76",
-                                    hourOfDay: "15",
+                                    dayOfYear: tempDate.dayOfYear().toString(),
+                                    hourOfDay: tempDate.hour().toString(),
                                 },
                             })
                                 .then((response) => {
-                                    console.log(response);
-                                    // let accuracy = response.daily.accuracy + "%";
-                                    // let inventoryWeight = response.daily.inventoryUsed + "g";
-                                    // let timeSaved = "+" + response.daily.minutesSaved;
-                                    // setItems([response.daily.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
+                                    // console.log("Your api response: ", response); // Debug Statement
+                                    let accuracy = response.daily.hourlySummary.accuracy + "%";
+                                    let inventoryWeight = response.daily.hourlySummary.inventoryConsumed + "g";
+                                    let timeSaved = "+" + response.daily.hourlySummary.minutesSaved;
+                                    setItems([response.daily.hourlySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
                                 })
                                 .catch((error) => {
-                                    console.log("Failed to retrieve from API", error);
+                                    console.log("Failed to retrieve from API (daily)", error);
                                 });
                         } catch (err) {
                             console.log(err);
                         }
                     })
                     .catch((error) => {
-                        console.log("Failed to retrieve from inverteClientAmplifyAPIv1", error);
+                        console.log("Failed to retrieve from inverteClientAmplifyAPIv1 (restaurant): ", error);
                     });
             } catch (err) {
                 console.log(err);
             }
         };
 
-        getScaleIDs();
+        getScaleIDAndDailySummary();
     }, []);
 
     // useEffect(() => {
