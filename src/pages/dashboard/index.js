@@ -20,7 +20,7 @@ import ScaleRoundedIcon from "@mui/icons-material/ScaleRounded";
 import AccessTimeFilledRoundedIcon from "@mui/icons-material/AccessTimeFilledRounded";
 
 // Data
-import reportsBarChartData from "./data/reportsBarChartData";
+// import reportsBarChartData from "./data/reportsBarChartData";
 import reportsLineChartData from "./data/reportsLineChartData";
 
 import { API } from "aws-amplify";
@@ -34,18 +34,22 @@ dayjs.extend(dayOfYear);
 // import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 
 function Dashboard(userSession = console.log) {
-    const { sales, tasks } = reportsLineChartData;
-    const [items, setItems] = useState([]);
     const [scaleIDs, setScalesArray] = useState([]);
+    const [cardSummaryItems, setCardSummaryItems] = useState([]);
 
-    // console.log(userSession); // Debug Statement
+    // const [realTimeMinuteLabels, setRealTimeMinuteLabels] = useState([]);
+    const [realTimeWeight, setRealTimeWeight] = useState([]);
+    const [realTimeAccuracy, setRealTimeAccuracy] = useState([]);
+    const [realTimeTemperature, setRealTimeTemperature] = useState([]);
+
+    const { weightGraph, temperatureGraph, accuracyGraph } = reportsLineChartData;
     useEffect(() => {
         const getScaleIDAndDailySummary = async () => {
             // Fetch Essential data
             try {
                 const myAPI = "inverteClientAmplifyAPIv1";
                 const path = "/restaurants/";
-                const finalAPIRoute = path + userSession.userSession.username;
+                const finalAPIRoute = path + userSession.userSession.username; //TODO: Cases where userSession is empty
 
                 // Get Essential Restaurant Meta Data (ScaleID)
                 await API.get(myAPI, finalAPIRoute)
@@ -72,10 +76,40 @@ function Dashboard(userSession = console.log) {
                                         let accuracy = response.daily.hourlySummary.accuracy + "%";
                                         let inventoryWeight = response.daily.hourlySummary.inventoryConsumed + "g";
                                         let timeSaved = "+" + response.daily.hourlySummary.minutesSaved;
-                                        setItems([response.daily.hourlySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
+                                        setCardSummaryItems([response.daily.hourlySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
+
+                                        // Second part of the algorithm involves setting the data arrays for graphs
+                                        console.log("Your returned real-time object: ", response.daily.realTime);
+                                        // console.log(response.daily.realTime);
+
+                                        let tempKeys = Object.keys(response.daily.realTime).sort();
+                                        // setRealTimeMinuteLabels(tempKeys); // Gets the keys in ascending order
+
+                                        let [tempWeightAr, tempTemperatureAr, tempAccuracyAr] = [[], [], []];
+
+                                        for (let i = 0; i < tempKeys.length; i++) {
+                                            tempWeightAr.push(response.daily.realTime[tempKeys[i]].weight);
+                                            tempTemperatureAr.push(response.daily.realTime[tempKeys[i]].temperature);
+                                            tempAccuracyAr.push(response.daily.realTime[tempKeys[i]].accuracy);
+                                        }
+
+                                        weightGraph.labels = tempKeys;
+                                        weightGraph.datasets.data = tempWeightAr;
+
+                                        accuracyGraph.labels = tempKeys;
+                                        accuracyGraph.datasets.data = tempAccuracyAr;
+
+                                        temperatureGraph.labels = tempKeys;
+                                        temperatureGraph.datasets.data = tempTemperatureAr;
+
+                                        // console.log(weightGraph);
+                                        setRealTimeWeight(weightGraph);
+                                        setRealTimeAccuracy(accuracyGraph);
+                                        setRealTimeTemperature(temperatureGraph);
                                     } else {
                                         //API Failed so we need placeholder values
-                                        setItems(["0", "NA", "0", "NA"]);
+                                        setCardSummaryItems(["0", "NA", "0", "NA"]);
+                                        // Line graphs are set to empty
                                     }
                                 })
                                 .catch((error) => {
@@ -96,13 +130,6 @@ function Dashboard(userSession = console.log) {
         getScaleIDAndDailySummary();
     }, []);
 
-    // useEffect(() => {
-    //     const getDailyItems = async () => {
-
-    //     };
-    //     getDailyItems();
-    // }, []);
-
     return (
         <DashboardLayout>
             <DashboardNavbar />
@@ -114,7 +141,7 @@ function Dashboard(userSession = console.log) {
                                 color="dark"
                                 icon={<PanToolIcon />}
                                 title="Portions Completed"
-                                count={items[0]}
+                                count={cardSummaryItems[0]}
                                 percentage={{
                                     color: "success",
                                     amount: "+24%",
@@ -128,7 +155,7 @@ function Dashboard(userSession = console.log) {
                             <ComplexStatisticsCard
                                 icon={<PrecisionManufacturingRoundedIcon />}
                                 title="Accuracy"
-                                count={items[1]}
+                                count={cardSummaryItems[1]}
                                 percentage={{
                                     color: "success",
                                     amount: "+3%",
@@ -143,7 +170,7 @@ function Dashboard(userSession = console.log) {
                                 color="success"
                                 icon={<ScaleRoundedIcon />}
                                 title="Inventory Used"
-                                count={items[2]}
+                                count={cardSummaryItems[2]}
                                 percentage={{
                                     color: "success",
                                     amount: "+10%",
@@ -158,7 +185,7 @@ function Dashboard(userSession = console.log) {
                                 color="primary"
                                 icon={<AccessTimeFilledRoundedIcon />}
                                 title="Minutes Saved"
-                                count={items[3]}
+                                count={cardSummaryItems[3]}
                                 percentage={{
                                     color: "success",
                                     amount: "+10%",
@@ -172,12 +199,12 @@ function Dashboard(userSession = console.log) {
                     <Grid container spacing={3}>
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
-                                <ReportsLineChart color="dark" title="Inventory Depletion" description="Hourly Performance" date="just updated" chart={tasks} />
+                                <ReportsLineChart color="dark" title="Inventory Consumption" description="Hourly Performance" date="just updated" chart={realTimeWeight} />
                             </MDBox>
                         </Grid>
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
-                                <ReportsBarChart color="info" title="Accuracy Levels" description="Hourly Performance" date="Updated 5 minutes ago" chart={reportsBarChartData} />
+                                <ReportsLineChart color="info" title="Accuracy Levels" description="Hourly Performance" date="Updated 5 minutes ago" chart={realTimeAccuracy} />
                             </MDBox>
                         </Grid>
                         <Grid item xs={12} md={6} lg={4}>
@@ -191,7 +218,7 @@ function Dashboard(userSession = console.log) {
                                         </>
                                     }
                                     date="updated 4 min ago"
-                                    chart={sales}
+                                    chart={realTimeTemperature}
                                 />
                             </MDBox>
                         </Grid>
