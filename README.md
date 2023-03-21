@@ -1,74 +1,60 @@
 # InVerte Client App V2
 
-Copyright ©2022, InVerte FoodTech Inc. - All rights reserved.
-
-### Summary
-
-This is the second version of the client app that is used in production for Q2 2022.
-It is writtent in Javascript, which leads to cleaner & lighter architecture to permit scalability.
+Copyright ©2023, InVerte FoodTech Inc. - All rights reserved.
 
 #### Coders
 
 Christian, Johan & Rohan
 
-### How to Run?
+#### Summary
 
-1. yarn install \
-2. yarn start \
-3. amplify configure (assuming that you have your amplify cli configured)
-4. There are two alternatives to this
-   4.1. amplify env add
-   4.2. directly: amplify pull --appId xxxx --envName yyyy.
-   Note: To get --appId xxxx --envName yyyy Log in to the AWS console. Choose AWS Amplify. Click your app. Go to Backend environments. Find the backend environment you wish to pull. Click Edit backend. See top right then click 'Local setup instructions ' ( amplify pull --appId YOUR_APP_ID --envName YOUR_ENV_NAME )
-5. amplify pull
-6. Add .env.local file to root of project \
+This is the second version of the client app that is used in production for Q1 2023.
 
-## Front-End
-
-## Conventions
+#### Conventions
 
 • CSS filenames should be named after the container to which the style is being applied.
 
-#### Libraries
+• Console log statements should have '// Debug Statement' next to it
 
-• React. \
-• Material UI. \
-
-## Back-End
-
-This app has a backend with AWS Amplify. The appId is dw3m3x2i8gouy and it's under the name of inverteClientV2
+• All Methods should follow the method signature defined in Tech (Notion)
 
 #### Libraries
 
+• React
+• Material UI
 • AWS-Amplify
-• Lambda
+• TODO: Add other librarie
+
+## How to Run Front-End?
+
+1. yarn install
+2. yarn start
+
+## How to Run Back-End?
+
+#### Amplify CLI version 11.0.2
+
+This app has a backend with AWS Amplify. It's name is staging:
+
+• amplify pull --appId dlz2p74nl9u8 --envName staging
 
 #### Cognito Authentication
 
-Resource name is 'inverteclientv2377057d3' and serviceName is 'auth' \
+Resource name is inverteclientv228c7d778_userpool_28c7d778-staging
 
-• In AWS, the name of the Cognito user pool & Federated Identity is 'inverteclientv2377057d3_identitypool_377057d3\_\_dev'
+#### REST API in Device Gateway
 
-#### REST API
-
-The endpoint of our API is: \
-
-https://ywm4hy967c.execute-api.ca-central-1.amazonaws.com/staging \
+The name of our API is: inverteClientAmplifyAPIv1 \
 
 It supports these routes: \
-• restaurant/{restaurantID} \
+• restaurant/{restaurantID} : Pulls essential restaurant meta data
+• daily/{scaleID} : Pulls the daily real-time data associated with scale
 
 #### Storage
 
-• This app currently uses a NoSQL database (DynamoDB) where it fetches the essential information. \
+• This app currently uses a NoSQL database (DynamoDB) where it fetches the essential information.
 • The name of the app is inverteClientV2 \
 • The Columns are: restaurantID, restaurantCode
-
-### How to continue working on backend
-
-• Install Amplify CLI (App tested with V8.5.1) \
-• Run this command from root: "amplify pull --appId dann226afna7j --envName staging" \
-• Run amplify update "serviceName" \
 
 ### Special Notes
 
@@ -80,10 +66,3 @@ It supports these routes: \
 https://stackoverflow.com/questions/67992894/component-definition-is-missing-display-name-for-forwardref
 
 https://www.creative-tim.com/learning-lab/react/quick-start/material-dashboard/
-
-### Backend Setup
-
-Must attach policy:
-aws iot attach-principal-policy --policy-name 'inverte-iotCore-v1' --principal 'ca-central-1:d0edb403-5c9d-45d9-bad8-9605c7d7dee7' --region ca-central-1
-
-Amplify CLI version 10.7.1!
