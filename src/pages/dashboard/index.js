@@ -68,10 +68,15 @@ function Dashboard(userSession = console.log) {
                             })
                                 .then((response) => {
                                     // console.log("Your api response: ", response); // Debug Statement
-                                    let accuracy = response.daily.hourlySummary.accuracy + "%";
-                                    let inventoryWeight = response.daily.hourlySummary.inventoryConsumed + "g";
-                                    let timeSaved = "+" + response.daily.hourlySummary.minutesSaved;
-                                    setItems([response.daily.hourlySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
+                                    if (response.daily) {
+                                        let accuracy = response.daily.hourlySummary.accuracy + "%";
+                                        let inventoryWeight = response.daily.hourlySummary.inventoryConsumed + "g";
+                                        let timeSaved = "+" + response.daily.hourlySummary.minutesSaved;
+                                        setItems([response.daily.hourlySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
+                                    } else {
+                                        //API Failed so we need placeholder values
+                                        setItems(["0", "NA", "0", "NA"]);
+                                    }
                                 })
                                 .catch((error) => {
                                     console.log("Failed to retrieve from API (daily)", error);
