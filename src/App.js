@@ -23,7 +23,7 @@ import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "./
 // import themeDark from "assets/theme-dark"; // TODO
 import theme from "./assets/theme";
 
-import { Auth } from "aws-amplify";
+import { Auth, API } from "aws-amplify";
 
 // Images
 import inverteLogo from "./assets/img/inverte_green_logo.png";
@@ -36,7 +36,7 @@ export default function App() {
     // Component State
     const [onMouseEnter, setOnMouseEnter] = useState(false);
     const [authenticated, setAuthenticated] = useState(false);
-    const [user, setUserSession] = useState(null);
+    const [userSession, setUserSession] = useState(null);
 
     // Hook for For route traversal
     const { pathname } = useLocation();
@@ -132,6 +132,9 @@ export default function App() {
 
     /*
         Function to control the route traversal
+
+        Specifically, the function first checks if the current route object has a collapse property. 
+        If it does, the function recursively calls itself with the collapse property as the new input, effectively flattening nested route structures.
     */
     const getRoutes = (allRoutes) =>
         allRoutes.map((route) => {
@@ -159,7 +162,7 @@ export default function App() {
                                 color={sidenavColor}
                                 brand={(transparentSidenav && !darkMode) || whiteSidenav ? inverteLogo : inverteLogo}
                                 brandName="InVerte"
-                                routes={routes}
+                                routes={routes()}
                                 onMouseEnter={handleOnMouseEnter}
                                 onMouseLeave={handleOnMouseLeave}
                             />
@@ -169,7 +172,7 @@ export default function App() {
                     )}
                     {layout === "vr" && <Configurator />}
                     <Routes>
-                        {getRoutes(routes)}
+                        {getRoutes(routes(userSession))}
                         <Route path="*" element={<Navigate to="/dashboard" />} />
                     </Routes>
                 </ThemeProvider>

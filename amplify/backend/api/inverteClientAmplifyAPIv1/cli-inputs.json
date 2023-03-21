@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "paths": {
+    "/restaurants/{restaurantID}": {
+      "name": "/restaurants/{restaurantID}",
+      "lambdaFunction": "inverteAmplifyAPIv1GETrestaurant",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update"
+        ]
+      }
+    },
+    "/daily/{scaleID}": {
+      "name": "/daily/{scaleID}",
+      "lambdaFunction": "inverteAmplifyAPIv1GETdaily",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update"
+        ]
+      }
+    }
+  }
+}
