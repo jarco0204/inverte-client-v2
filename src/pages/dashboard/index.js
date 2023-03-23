@@ -11,7 +11,7 @@ import Chart from "chart.js/auto";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "../../components/Navbars/DashboardNavbar";
 import Footer from "../../components/Footer";
-import ReportsBarChart from "../../components/Charts/BarCharts/ReportsBarChart";
+// import ReportsBarChart from "../../components/Charts/BarCharts/ReportsBarChart";
 import ReportsLineChart from "../../components/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
 import PanToolIcon from "@mui/icons-material/PanTool";
@@ -34,7 +34,7 @@ dayjs.extend(dayOfYear);
 // import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 
 function Dashboard(userSession = console.log) {
-    const [scaleIDs, setScalesArray] = useState([]);
+    // const [scaleIDs, setScalesArray] = useState([]);
     const [cardSummaryItems, setCardSummaryItems] = useState([]);
 
     // const [realTimeMinuteLabels, setRealTimeMinuteLabels] = useState([]);
@@ -55,7 +55,7 @@ function Dashboard(userSession = console.log) {
                 await API.get(myAPI, finalAPIRoute)
                     .then(async (response) => {
                         // console.log("Response from API: ", response.item.Item.scaleID); // Debug Statement
-                        setScalesArray([response.item.Item.scaleID]);
+                        // setScalesArray([response.item.Item.scaleID]);
                         try {
                             const myAPI = "inverteClientAmplifyAPIv1";
                             const path = "/daily/";
