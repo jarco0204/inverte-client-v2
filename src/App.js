@@ -151,12 +151,13 @@ export default function App() {
 
     return (
         <>
-            {!authenticated && <SignIn setAuthenticated={setAuthenticated} />}
-            {authenticated && (
+            {!authenticated ? (
+                <SignIn setAuthenticated={setAuthenticated} />
+            ) : (
                 // TODO: Add Dark theme
                 <ThemeProvider theme={darkMode ? null : theme}>
                     <CssBaseline />
-                    {layout === "dashboard" && (
+                    {layout === "dashboard" ? (
                         <>
                             <Sidenav
                                 color={sidenavColor}
@@ -169,8 +170,8 @@ export default function App() {
                             <Configurator />
                             {configsButton}
                         </>
-                    )}
-                    {layout === "vr" && <Configurator />}
+                    ) : null}
+                    {layout === "vr" ? <Configurator /> : null}
                     <Routes>
                         {getRoutes(routes(userSession))}
                         <Route path="*" element={<Navigate to="/dashboard" />} />

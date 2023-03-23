@@ -14,8 +14,8 @@ import MDTypography from "../../../../components/MDTypography";
 import InputAdornments from "./InputAdornments";
 import RadioActions from "./RadioActions";
 
-import { Amplify } from "aws-amplify";
-import { PubSub, AWSIoTProvider } from "@aws-amplify/pubsub";
+import { Amplify, PubSub } from "aws-amplify";
+import { AWSIoTProvider } from "@aws-amplify/pubsub";
 
 Amplify.addPluggable(
     new AWSIoTProvider({
