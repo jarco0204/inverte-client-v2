@@ -23,7 +23,7 @@ import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "./
 // import themeDark from "assets/theme-dark"; // TODO
 import theme from "./assets/theme";
 
-import { Auth, API } from "aws-amplify";
+import { Auth } from "aws-amplify";
 
 // Images
 import inverteLogo from "./assets/img/inverte_green_logo.png";

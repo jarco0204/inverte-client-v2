@@ -19,21 +19,22 @@ import { useEffect } from "react";
 // GQL Queries
 // import { listRestaurants } from "../../graphql/queries";
 
-function Dashboard() {
+function ScalesContainer(userSession = console.log) {
     const [mainPublishTopic, setMainPublishTopic] = useState(null);
 
     // Function
     const getRestaurantList = async () => {
         try {
-            const myAPI = "inverteScalesAPI";
+            const myAPI = "inverteClientAmplifyAPIv1";
             const path = "/restaurants/";
-            let finalAPIRoute = path + "testID";
+            const finalAPIRoute = path + userSession.userSession.username; //TODO: Cases where userSession is empty
             await API.get(myAPI, finalAPIRoute)
                 .then((response) => {
-                    // console.log("Message correctly received from API V2", JSON.stringify(response));
-                    let scalesData = response["scaleData"]["Item"];
+                    // console.log("Message correctly received from API V2", response.item.Item.mqttTopic);
+                    setMainPublishTopic(response.item.Item.mqttTopic);
+                    // let scalesData = response["scaleData"]["Item"];
                     // console.log(scalesData);
-                    setMainPublishTopic(scalesData.mqttPublishTopicRoot);
+                    // setMainPublishTopic(scalesData.mqttPublishTopicRoot);
 
                     // // Create Combined Dataset to generate ScaleCard Components
                     // let tempAr = [];
@@ -75,4 +76,4 @@ function Dashboard() {
     );
 }
 
-export default Dashboard;
+export default ScalesContainer;

@@ -14,13 +14,13 @@ import MDTypography from "../../../../components/MDTypography";
 import InputAdornments from "./InputAdornments";
 import RadioActions from "./RadioActions";
 
-import { Amplify, PubSub } from "aws-amplify";
-import { AWSIoTProvider } from "@aws-amplify/pubsub";
+import { Amplify } from "aws-amplify";
+import { PubSub, AWSIoTProvider } from "@aws-amplify/pubsub";
 
 Amplify.addPluggable(
     new AWSIoTProvider({
-        aws_pubsub_region: process.env.REACT_APP_REGION,
-        aws_pubsub_endpoint: `wss://${process.env.REACT_APP_MQTT_ID}.iot.${process.env.REACT_APP_REGION}.amazonaws.com/mqtt`,
+        aws_pubsub_region: "ca-central-1",
+        aws_pubsub_endpoint: `wss://a33ho10nah991e-ats.iot.ca-central-1.amazonaws.com/mqtt`,
     })
 );
 // Expand Functionality
@@ -33,7 +33,7 @@ import PropTypes from "prop-types";
 
 // Setting default values for the props of Scale
 Scale.defaultProps = {
-    mainPublishTopic: "johan/1/P0-08420",
+    mainPublishTopic: "johan/1/P0-08/",
 };
 
 // Typechecking props for the Scale
@@ -142,8 +142,8 @@ export default function Scale({ mainPublishTopic }) {
         if (control) {
             let msg = {
                 msg: "Sending Scale action from Client to AWS",
-                control: action,
-                val: value,
+                control: "2",
+                val: "3",
             };
             console.log(msg);
             if (action == 3) {
@@ -153,10 +153,12 @@ export default function Scale({ mainPublishTopic }) {
             try {
                 console.log("1");
                 let finalTopic = mainPublishTopic + "control";
-                PubSub.publish(finalTopic, msg);
+                console.log(finalTopic);
+                await PubSub.publish(finalTopic, msg);
+                console.log("PP");
                 return;
             } catch (err) {
-                console.log(err);
+                console.log("Your message to scale failed: ", err);
             }
         } else {
             // TODO: Validate/convert the correct type of the parameters scale accepts

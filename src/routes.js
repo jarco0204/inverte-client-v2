@@ -22,7 +22,7 @@
 
 // Material Dashboard 2 React layouts
 import Dashboard from "./pages/dashboard";
-import Scales from "./pages/scales";
+import ScalesContainer from "./pages/scales";
 
 // import Tables from "layouts/tables";
 // import Billing from "layouts/billing";
@@ -63,7 +63,7 @@ const routes = (userSession) => {
                 </Icon>
             ),
             route: "/scales",
-            component: <Scales />,
+            component: <ScalesContainer userSession={userSession} />,
         },
         {
             type: "collapse",
