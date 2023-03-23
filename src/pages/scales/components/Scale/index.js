@@ -59,13 +59,13 @@ export default function Scale({ mainPublishTopic }) {
 
     const [expanded, setExpanded] = useState(false);
 
-    const [buttonStateStr, setButtonStateStr] = useState("Start");
-    const [buttonStateColor, setButtonStateColor] = useState("#02182E");
+    // const [buttonStateStr, setButtonStateStr] = useState("Start");
+    // const [buttonStateColor, setButtonStateColor] = useState("#02182E");
 
     const StartButton = styled(Button)(() => ({
         // color: theme.palette.primary.main,
         color: "whitesmoke",
-        backgroundColor: buttonStateColor,
+        backgroundColor: "#02182E",
         marginLeft: "20px",
         fontSize: 13,
     }));
@@ -142,8 +142,8 @@ export default function Scale({ mainPublishTopic }) {
         if (control) {
             let msg = {
                 msg: "Sending Scale action from Client to AWS",
-                control: "2",
-                val: "3",
+                control: action,
+                val: value,
             };
             console.log(msg);
             if (action == 3) {
@@ -229,7 +229,7 @@ export default function Scale({ mainPublishTopic }) {
                     Tare
                 </TareButton>
                 <StartButton name="start" onClick={handleSpecialButton}>
-                    {buttonStateStr}
+                    Start
                 </StartButton>
                 <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
                     <ExpandMoreIcon />
