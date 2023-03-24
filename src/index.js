@@ -13,7 +13,7 @@ import { Amplify } from "aws-amplify";
 import awsmobile from "./aws-exports";
 
 Amplify.configure(awsmobile);
-Amplify.Logger.LOG_LEVEL = "DEBUG";
+// Amplify.Logger.LOG_LEVEL = "DEBUG";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

@@ -69,7 +69,8 @@ ReportsLineChart.propTypes = {
     title: PropTypes.string.isRequired,
     description: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     date: PropTypes.string.isRequired,
-    chart: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.array, PropTypes.object])).isRequired,
+    // chart: PropTypes.objectOf(PropTypes.oneOfType(PropTypes.array)).isRequired,
+    chart: PropTypes.array.isRequired,
 };
 
 export default ReportsLineChart;

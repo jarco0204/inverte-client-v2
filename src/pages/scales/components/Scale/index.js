@@ -14,15 +14,8 @@ import MDTypography from "../../../../components/MDTypography";
 import InputAdornments from "./InputAdornments";
 import RadioActions from "./RadioActions";
 
-import { Amplify, PubSub } from "aws-amplify";
-import { AWSIoTProvider } from "@aws-amplify/pubsub";
+import { PubSub } from "aws-amplify";
 
-Amplify.addPluggable(
-    new AWSIoTProvider({
-        aws_pubsub_region: "ca-central-1",
-        aws_pubsub_endpoint: `wss://a33ho10nah991e-ats.iot.ca-central-1.amazonaws.com/mqtt`,
-    })
-);
 // Expand Functionality
 import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
@@ -154,7 +147,9 @@ export default function Scale({ mainPublishTopic }) {
                 console.log("1");
                 let finalTopic = mainPublishTopic + "control";
                 console.log(finalTopic);
-                await PubSub.publish(finalTopic, msg);
+                await PubSub.publish(finalTopic, msg)
+                    .then((response) => console.log("publish", response))
+                    .catch((err) => console.log("Publish Pub err:", err));
                 console.log("PP");
                 return;
             } catch (err) {

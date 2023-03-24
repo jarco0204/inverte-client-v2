@@ -13,11 +13,19 @@ import Footer from "../../components/Footer";
 import Scale from "./components/Scale";
 
 // AWS Imports
-import { API } from "aws-amplify";
+import { Amplify, API } from "aws-amplify";
+import { AWSIoTProvider } from "@aws-amplify/pubsub";
 import { useEffect } from "react";
 
 // GQL Queries
 // import { listRestaurants } from "../../graphql/queries";
+
+Amplify.addPluggable(
+    new AWSIoTProvider({
+        aws_pubsub_region: "ca-central-1",
+        aws_pubsub_endpoint: "wss://a33ho10nah991e-ats.iot.ca-central-1.amazonaws.com/mqtt",
+    })
+);
 
 function ScalesContainer(userSession = console.log) {
     const [mainPublishTopic, setMainPublishTopic] = useState(null);

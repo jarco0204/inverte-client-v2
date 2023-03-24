@@ -51,7 +51,7 @@ MDTypography.propTypes = {
     textTransform: PropTypes.oneOf(["none", "capitalize", "uppercase", "lowercase"]),
     verticalAlign: PropTypes.oneOf(["unset", "baseline", "sub", "super", "text-top", "text-bottom", "middle", "top", "bottom"]),
     textGradient: PropTypes.bool,
-    children: PropTypes.node.isRequired,
+    children: PropTypes.node,
     opacity: PropTypes.number,
     fontSize: PropTypes.string,
 };
