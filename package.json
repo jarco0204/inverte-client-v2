@@ -12,6 +12,7 @@
     },
     "dependencies": {
         "@aws-amplify/ui-react": "^2.17.1",
+        "@aws-sdk/client-iot-data-plane": "^3.298.0",
         "@emotion/react": "^11.9.0",
         "@emotion/styled": "^11.8.1",
         "@material-ui/core": "^4.12.4",

@@ -14,7 +14,7 @@ import MDTypography from "../../../../components/MDTypography";
 import InputAdornments from "./InputAdornments";
 import RadioActions from "./RadioActions";
 
-import { PubSub } from "aws-amplify";
+// import { PubSub } from "aws-amplify";
 
 // Expand Functionality
 import IconButton from "@mui/material/IconButton";
@@ -23,6 +23,16 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 // prop-types is a library for typechecking of props.
 import PropTypes from "prop-types";
+
+import { IoTDataPlaneClient, PublishCommand } from "@aws-sdk/client-iot-data-plane";
+
+const iotClient = new IoTDataPlaneClient({
+    region: "ca-central-1",
+    credentials: {
+        accessKeyId: "AKIARHM5WBNOIW7X3JJD",
+        secretAccessKey: "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",
+    },
+});
 
 // Setting default values for the props of Scale
 Scale.defaultProps = {
@@ -132,47 +142,44 @@ export default function Scale({ mainPublishTopic }) {
         When action = 4, the scale changes the mode of operation
     */
     const sendDataAWS = async (control = false, action = null, value = null) => {
+        let msg, finalTopic;
         if (control) {
-            let msg = {
+            msg = {
                 msg: "Sending Scale action from Client to AWS",
                 control: action,
                 val: value,
             };
-            console.log(msg);
+            // console.log(msg);
             if (action == 3) {
                 // Unit of mass Change
                 convertValues2UnitOfMass();
             }
-            try {
-                console.log("1");
-                let finalTopic = mainPublishTopic + "control";
-                console.log(finalTopic);
-                await PubSub.publish(finalTopic, msg)
-                    .then((response) => console.log("publish", response))
-                    .catch((err) => console.log("Publish Pub err:", err));
-                console.log("PP");
-                return;
-            } catch (err) {
-                console.log("Your message to scale failed: ", err);
-            }
+            finalTopic = mainPublishTopic + "control";
         } else {
             // TODO: Validate/convert the correct type of the parameters scale accepts
-            let msg = {
+            msg = {
                 msg: "Sending portion parameters from Client to AWS",
                 nameIngredient: nameIngredient,
                 correctWeight: correctWeight,
                 lowerErrorLimit: minOffset,
                 upperErrorLimit: maxOffset,
             };
+            finalTopic = mainPublishTopic + "params";
+
             console.log(msg);
-            try {
-                let finalTopic = mainPublishTopic + "params";
-                await PubSub.publish(finalTopic, msg);
-                return;
-            } catch (err) {
-                console.log(err);
-            }
         }
+        const publishCommand = new PublishCommand({
+            topic: finalTopic,
+            payload: JSON.stringify(msg),
+        });
+        iotClient
+            .send(publishCommand)
+            .then((data) => {
+                console.log("Message published:", data);
+            })
+            .catch((error) => {
+                console.error("Error publishing message:", error);
+            });
     };
 
     return (
