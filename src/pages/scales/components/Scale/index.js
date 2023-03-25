@@ -14,15 +14,8 @@ import MDTypography from "../../../../components/MDTypography";
 import InputAdornments from "./InputAdornments";
 import RadioActions from "./RadioActions";
 
-import { Amplify, PubSub } from "aws-amplify";
-import { AWSIoTProvider } from "@aws-amplify/pubsub";
+// import { PubSub } from "aws-amplify";
 
-Amplify.addPluggable(
-    new AWSIoTProvider({
-        aws_pubsub_region: process.env.REACT_APP_REGION,
-        aws_pubsub_endpoint: `wss://${process.env.REACT_APP_MQTT_ID}.iot.${process.env.REACT_APP_REGION}.amazonaws.com/mqtt`,
-    })
-);
 // Expand Functionality
 import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
@@ -31,9 +24,19 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 // prop-types is a library for typechecking of props.
 import PropTypes from "prop-types";
 
+import { IoTDataPlaneClient, PublishCommand } from "@aws-sdk/client-iot-data-plane";
+
+const iotClient = new IoTDataPlaneClient({
+    region: "ca-central-1",
+    credentials: {
+        accessKeyId: "AKIARHM5WBNOIW7X3JJD",
+        secretAccessKey: "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",
+    },
+});
+
 // Setting default values for the props of Scale
 Scale.defaultProps = {
-    mainPublishTopic: "johan/1/P0-08420",
+    mainPublishTopic: "johan/1/P0-08/",
 };
 
 // Typechecking props for the Scale
@@ -59,13 +62,13 @@ export default function Scale({ mainPublishTopic }) {
 
     const [expanded, setExpanded] = useState(false);
 
-    const [buttonStateStr, setButtonStateStr] = useState("Start");
-    const [buttonStateColor, setButtonStateColor] = useState("#02182E");
+    // const [buttonStateStr, setButtonStateStr] = useState("Start");
+    // const [buttonStateColor, setButtonStateColor] = useState("#02182E");
 
     const StartButton = styled(Button)(() => ({
         // color: theme.palette.primary.main,
         color: "whitesmoke",
-        backgroundColor: buttonStateColor,
+        backgroundColor: "#02182E",
         marginLeft: "20px",
         fontSize: 13,
     }));
@@ -139,43 +142,44 @@ export default function Scale({ mainPublishTopic }) {
         When action = 4, the scale changes the mode of operation
     */
     const sendDataAWS = async (control = false, action = null, value = null) => {
+        let msg, finalTopic;
         if (control) {
-            let msg = {
+            msg = {
                 msg: "Sending Scale action from Client to AWS",
                 control: action,
                 val: value,
             };
-            console.log(msg);
+            // console.log(msg);
             if (action == 3) {
                 // Unit of mass Change
                 convertValues2UnitOfMass();
             }
-            try {
-                console.log("1");
-                let finalTopic = mainPublishTopic + "control";
-                PubSub.publish(finalTopic, msg);
-                return;
-            } catch (err) {
-                console.log(err);
-            }
+            finalTopic = mainPublishTopic + "control";
         } else {
             // TODO: Validate/convert the correct type of the parameters scale accepts
-            let msg = {
+            msg = {
                 msg: "Sending portion parameters from Client to AWS",
                 nameIngredient: nameIngredient,
                 correctWeight: correctWeight,
                 lowerErrorLimit: minOffset,
                 upperErrorLimit: maxOffset,
             };
+            finalTopic = mainPublishTopic + "params";
+
             console.log(msg);
-            try {
-                let finalTopic = mainPublishTopic + "params";
-                await PubSub.publish(finalTopic, msg);
-                return;
-            } catch (err) {
-                console.log(err);
-            }
         }
+        const publishCommand = new PublishCommand({
+            topic: finalTopic,
+            payload: JSON.stringify(msg),
+        });
+        iotClient
+            .send(publishCommand)
+            .then((data) => {
+                console.log("Message published:", data);
+            })
+            .catch((error) => {
+                console.error("Error publishing message:", error);
+            });
     };
 
     return (
@@ -227,7 +231,7 @@ export default function Scale({ mainPublishTopic }) {
                     Tare
                 </TareButton>
                 <StartButton name="start" onClick={handleSpecialButton}>
-                    {buttonStateStr}
+                    Start
                 </StartButton>
                 <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
                     <ExpandMoreIcon />

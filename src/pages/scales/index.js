@@ -1,6 +1,6 @@
+import { useState, useEffect } from "react";
 // @mui material components
 import Grid from "@mui/material/Grid";
-import { useState } from "react";
 
 // Material Dashboard 2 React components
 import MDBox from "../../components/MDBox";
@@ -14,26 +14,34 @@ import Scale from "./components/Scale";
 
 // AWS Imports
 import { API } from "aws-amplify";
-import { useEffect } from "react";
+// import { AWSIoTProvider } from "@aws-amplify/pubsub";
 
 // GQL Queries
 // import { listRestaurants } from "../../graphql/queries";
 
-function Dashboard() {
+// Amplify.addPluggable(
+//     new AWSIoTProvider({
+//         aws_pubsub_region: "ca-central-1",
+//         aws_pubsub_endpoint: "wss://a33ho10nah991e-ats.iot.ca-central-1.amazonaws.com/mqtt",
+//     })
+// );
+
+function ScalesContainer(userSession = console.log) {
     const [mainPublishTopic, setMainPublishTopic] = useState(null);
 
     // Function
     const getRestaurantList = async () => {
         try {
-            const myAPI = "inverteScalesAPI";
+            const myAPI = "inverteClientAmplifyAPIv1";
             const path = "/restaurants/";
-            let finalAPIRoute = path + "testID";
+            const finalAPIRoute = path + userSession.userSession.username; //TODO: Cases where userSession is empty
             await API.get(myAPI, finalAPIRoute)
                 .then((response) => {
-                    // console.log("Message correctly received from API V2", JSON.stringify(response));
-                    let scalesData = response["scaleData"]["Item"];
+                    // console.log("Message correctly received from API V2", response.item.Item.mqttTopic);
+                    setMainPublishTopic(response.item.Item.mqttTopic);
+                    // let scalesData = response["scaleData"]["Item"];
                     // console.log(scalesData);
-                    setMainPublishTopic(scalesData.mqttPublishTopicRoot);
+                    // setMainPublishTopic(scalesData.mqttPublishTopicRoot);
 
                     // // Create Combined Dataset to generate ScaleCard Components
                     // let tempAr = [];
@@ -75,4 +83,4 @@ function Dashboard() {
     );
 }
 
-export default Dashboard;
+export default ScalesContainer;

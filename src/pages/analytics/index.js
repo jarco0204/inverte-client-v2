@@ -1,6 +1,6 @@
 import Grid from "@mui/material/Grid";
-import dayjs, { Dayjs } from "dayjs";
-import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
+import dayjs from "dayjs";
+// import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
 import { TextField } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
@@ -17,8 +17,8 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 
-import MDTypography from "../../components/MDTypography";
-import { scale } from "chroma-js";
+// import MDTypography from "../../components/MDTypography";
+// import { scale } from "chroma-js";
 
 function AnalyticsDashboard() {
     const [requestedDate, setRequestedDate] = useState(dayjs());
@@ -69,6 +69,7 @@ function AnalyticsDashboard() {
                                     value={requestedDate}
                                     onChange={(newValue) => {
                                         setRequestedEndDate(newValue);
+                                        console.log(requestedEndDate);
                                     }}
                                     renderInput={(params) => <TextField {...params} />}
                                 />
