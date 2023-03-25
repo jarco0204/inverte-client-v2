@@ -23,6 +23,7 @@
 // Material Dashboard 2 React layouts
 import Dashboard from "./pages/dashboard";
 import ScalesContainer from "./pages/scales";
+import TestDashboard from "./pages/test/";
 
 // import Tables from "layouts/tables";
 // import Billing from "layouts/billing";
@@ -76,6 +77,18 @@ const routes = (userSession) => {
             ),
             route: "/analytics",
             component: <AnalyticsDashboard />,
+        },
+        {
+            type: "collapse",
+            name: "Test",
+            key: "test",
+            icon: (
+                <Icon fontSize="small">
+                    <AnalyticsIcon />
+                </Icon>
+            ),
+            route: "/test",
+            component: <TestDashboard />,
         },
         // {
         //   type: "collapse",
