@@ -1,5 +1,7 @@
 import React, { lazy, useEffect, useState } from "react";
 import { Grid } from "@mui/material";
+import Plot from "./Plot";
+import { CircularProgress } from "@mui/material";
 
 const importPlot = () =>
     lazy(() =>
@@ -7,21 +9,30 @@ const importPlot = () =>
             import("./NullView");
         })
     );
+/*
+    @description: This component renders the plots that are being passed into the row. It follows the same
+    pattern as its parent
+    @params: 
+        data: the data for each of the plots to be rendered
+        requestedDate: date that is being requested
+        plotToShow: the data being passed to the component by itself ot display the plots
+    @return:
+        component <Row> that displays <Plots> based on the data passed by the parent component
 
-function Row({ data, number_of_plots, requestedDate, plotToShow }) {
+    @Comments:
+        The data here is processed using the same patterns as by the parent component 
+*/
+function Row({ data, requestedDate, plotToShow }) {
     const [plots, setPlots] = useState([]);
     const extract_data = (response) => response.data.children.map(({ data }) => data);
-    // console.log(data)
-    const datum = async (query) => ({
+    const datum = async () => ({
         data: {
             children: data,
         },
     });
-    // console.log(datum())
     useEffect(() => {
         async function loadPlots() {
             const plotToShow = await datum("plots data").then(extract_data);
-            // console.log('',plotToShow)
             let unique_keys = [];
             const componentPromises = plotToShow.map(async (data) => {
                 let new_unique_key = Math.floor(Math.random() * 100);
@@ -29,7 +40,7 @@ function Row({ data, number_of_plots, requestedDate, plotToShow }) {
                     new_unique_key = Math.floor(Math.random() * 100);
                 }
                 unique_keys.push(new_unique_key);
-                const Plot = await importPlot();
+                // const Plot = await importPlot();
                 return <Plot {...data} color="dark" description="Test" key={new_unique_key} requestedDate={requestedDate} />;
             });
             Promise.all(componentPromises).then(setPlots);
@@ -37,11 +48,11 @@ function Row({ data, number_of_plots, requestedDate, plotToShow }) {
         loadPlots();
     }, [plotToShow]);
     return (
-        <div>
-            <Grid container spacing={3}>
-                {plots}
+            <Grid container item spacing={5} justifyContent="center">
+                <React.Suspense fallback={<CircularProgress />}>
+                    {plots}
+                </React.Suspense >
             </Grid>
-        </div>
     );
 }
 export default Row;
