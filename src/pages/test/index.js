@@ -18,7 +18,7 @@ const importView = () =>
         })
     );
 
-function TestDashboard({ rows_to_display = 3, number_of_plots = 3, rowToShow }) {
+function AnalyticsDashboard({ rows_to_display = 3, number_of_plots = 3, rowToShow }) {
     /*
     @description: This component creates the rows that display the plots
     @params: rows_to_display: specifies how many rows of plots you want to display
@@ -116,4 +116,4 @@ function TestDashboard({ rows_to_display = 3, number_of_plots = 3, rowToShow }) 
     );
 }
 
-export default TestDashboard;
+export default AnalyticsDashboard;
