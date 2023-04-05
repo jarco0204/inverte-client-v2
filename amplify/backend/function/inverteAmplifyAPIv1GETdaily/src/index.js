@@ -27,8 +27,8 @@ exports.handler = async (event) => {
     // Params object to retrieve the essential information about restaurant
     let key = event.queryStringParameters.dayOfYear + "_" + event.queryStringParameters.hourOfDay + "_" + event.pathParameters.scaleID;
     const params = {
-        TableName: "inverte_portionEvents_v4",
-        Key: { dayOfYear_hourOfDay_deviceID: key, minuteOfHour_batchID: "60_60" }, // This parameters should come from scale
+        TableName: "inverte_portionEvents_v5",
+        Key: { dayOfYear_hourOfDay_deviceID: key, minuteOfHour_secondOfMinute: "60_60" }, // This parameters should come from scale
     };
 
     // Call to your Database
