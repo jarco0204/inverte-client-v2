@@ -23,7 +23,7 @@
 // Material Dashboard 2 React layouts
 import Dashboard from "./pages/dashboard";
 import ScalesContainer from "./pages/scales";
-import AnalyticsDashboard from "./pages/test/";
+import AnalyticsDashboard from "./pages/analytics/";
 
 // import Tables from "layouts/tables";
 // import Billing from "layouts/billing";
