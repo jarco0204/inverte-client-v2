@@ -1,4 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+// prop-types is a library for typechecking of props.
+import PropTypes from "prop-types";
+
+import { Amplify, PubSub } from "aws-amplify";
+import { AWSIoTProvider } from "@aws-amplify/pubsub";
+
 // MUI Components
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
@@ -7,6 +14,11 @@ import FastfoodIcon from "@mui/icons-material/Fastfood";
 import CardActions from "@mui/material/CardActions";
 import { Button } from "@mui/material";
 
+// Expand Functionality
+import IconButton from "@mui/material/IconButton";
+import Collapse from "@mui/material/Collapse";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
 // User Components
 import MDBox from "../../../../components/MDBox";
 import MDTypography from "../../../../components/MDTypography";
@@ -14,25 +26,13 @@ import MDTypography from "../../../../components/MDTypography";
 import InputAdornments from "./InputAdornments";
 import RadioActions from "./RadioActions";
 
-// import { PubSub } from "aws-amplify";
-
-// Expand Functionality
-import IconButton from "@mui/material/IconButton";
-import Collapse from "@mui/material/Collapse";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
-// prop-types is a library for typechecking of props.
-import PropTypes from "prop-types";
-
-import { IoTDataPlaneClient, PublishCommand } from "@aws-sdk/client-iot-data-plane";
-
-const iotClient = new IoTDataPlaneClient({
-    region: "ca-central-1",
-    credentials: {
-        accessKeyId: "AKIARHM5WBNOIW7X3JJD",
-        secretAccessKey: "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",
-    },
-});
+// Apply plugin with configuration
+Amplify.addPluggable(
+    new AWSIoTProvider({
+        aws_pubsub_region: "ca-central-1",
+        aws_pubsub_endpoint: "wss://a33ho10nah991e-ats.iot.ca-central-1.amazonaws.com/mqtt",
+    })
+);
 
 // Setting default values for the props of Scale
 Scale.defaultProps = {
@@ -51,7 +51,8 @@ Scale.propTypes = {
         • The second scaleArr[1] is the type of scale (Flat or Pan)
 */
 export default function Scale({ mainPublishTopic }) {
-    console.log("Your channel good sir, ", mainPublishTopic);
+    console.log("Your channel good sir, ", mainPublishTopic); // TODO: Statement Executes thrice
+
     // Core Data State of a Scale Card
     const [nameIngredient, setNameIngredient] = useState("Cheese");
 
@@ -165,22 +166,34 @@ export default function Scale({ mainPublishTopic }) {
                 upperErrorLimit: maxOffset,
             };
             finalTopic = mainPublishTopic + "params";
-
             console.log(msg);
         }
-        const publishCommand = new PublishCommand({
-            topic: finalTopic,
-            payload: JSON.stringify(msg),
-        });
-        iotClient
-            .send(publishCommand)
-            .then((data) => {
-                console.log("Message published:", data);
-            })
-            .catch((error) => {
-                console.error("Error publishing message:", error);
-            });
+        await PubSub.publish(finalTopic, msg);
     };
+
+    // Note that Subscribe param needs to be dynamic; this information is already called
+    // from API in ScaleContainer => copy it or move it to parent component
+    useEffect(() => {
+        PubSub.subscribe("test/1/ts").subscribe({
+            next: (dataCloud) => {
+                console.log("Message received by el Puma", dataCloud);
+                //         // Change Unix Timesetamp to Local Time
+                //         let d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+                //         d.setUTCMilliseconds(dataCloud.value.timestamp);
+                //         // console.log(d);
+                //         let graphEle = {
+                //             inventoryWeight: dataCloud.value.inventoryWeight - dataCloud.value.portionWeight,
+                //             timestamp: d,
+                //             inventoryName: dataCloud.value.ingredientName,
+                //         };
+                //         // const updatedDataAr = [...data, graphEle];
+                //         // let newKey = dataCloud.readingID;
+                //         setData((data) => [...data, graphEle]);
+            },
+            error: (error) => console.error(error),
+            complete: () => console.log("Web Socket Done"),
+        });
+    }, []);
 
     return (
         <Card style={{ maxWidth: "300px" }}>

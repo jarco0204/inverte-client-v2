@@ -1,15 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-import { PubSub } from "aws-amplify";
-
-import {
-    Line,
-    LineChart,
-    XAxis,
-    YAxis,
-    ResponsiveContainer,
-    Tooltip,
-} from "recharts";
+import { Line, LineChart, XAxis, YAxis, ResponsiveContainer, Tooltip } from "recharts";
 
 import CustomToolTipGraph from "../components/CustomToolTipGraph";
 /*
@@ -40,32 +31,6 @@ function RealTimeContainer({ auth = console.log, subTopic = console.log }) {
 
     const [data, setData] = useState([]);
 
-    // Note that Subscribe param needs to be dynamic; this information is already called
-    // from API in ScaleContainer => copy it or move it to parent component
-    useEffect(() => {
-        PubSub.subscribe(subTopic).subscribe({
-            next: (dataCloud) => {
-                console.log("Message received by el Puma", dataCloud);
-                // Change Unix Timesetamp to Local Time
-                let d = new Date(0); // The 0 there is the key, which sets the date to the epoch
-                d.setUTCMilliseconds(dataCloud.value.timestamp);
-                // console.log(d);
-                let graphEle = {
-                    inventoryWeight:
-                        dataCloud.value.inventoryWeight -
-                        dataCloud.value.portionWeight,
-                    timestamp: d,
-                    inventoryName: dataCloud.value.ingredientName,
-                };
-                // const updatedDataAr = [...data, graphEle];
-                // let newKey = dataCloud.readingID;
-                setData((data) => [...data, graphEle]);
-            },
-            error: (error) => console.error(error),
-            complete: () => console.log("Web Socket Done"),
-        });
-    }, []);
-
     return (
         <div
             style={{
@@ -75,9 +40,7 @@ function RealTimeContainer({ auth = console.log, subTopic = console.log }) {
                 textAlign: "center",
             }}
         >
-            <h3 style={{ top: "0px", left: "10px" }}>
-                Real-Time Inventory Usage
-            </h3>
+            <h3 style={{ top: "0px", left: "10px" }}>Real-Time Inventory Usage</h3>
             <br />
             <ResponsiveContainer width={300} height={310}>
                 <LineChart data={data}>
