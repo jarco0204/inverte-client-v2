@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 // prop-types is a library for typechecking of props.
 import PropTypes from "prop-types";
 
+// AWS Imports
 import { Amplify, PubSub } from "aws-amplify";
 import { AWSIoTProvider } from "@aws-amplify/pubsub";
 
@@ -26,7 +27,7 @@ import MDTypography from "../../../../components/MDTypography";
 import InputAdornments from "./InputAdornments";
 import RadioActions from "./RadioActions";
 
-// Apply plugin with configuration
+// MQTT Client to Receive Messages
 Amplify.addPluggable(
     new AWSIoTProvider({
         aws_pubsub_region: "ca-central-1",
@@ -36,12 +37,12 @@ Amplify.addPluggable(
 
 // Setting default values for the props of Scale
 Scale.defaultProps = {
-    mainPublishTopic: "johan/1/P0-08/",
+    mainPublishTopic: {},
 };
 
 // Typechecking props for the Scale
 Scale.propTypes = {
-    mainPublishTopic: PropTypes.string,
+    mainScaleData: PropTypes.object,
 };
 
 /*
@@ -50,15 +51,16 @@ Scale.propTypes = {
         • The first scaleArr[0] is the Publish MQTT topic of the scale
         • The second scaleArr[1] is the type of scale (Flat or Pan)
 */
-export default function Scale({ mainPublishTopic }) {
-    console.log("Your channel good sir, ", mainPublishTopic); // TODO: Statement Executes thrice
+export default function Scale({ mainScaleData }) {
+    console.log("Your channel good sir, ", mainScaleData);
 
     // Core Data State of a Scale Card
-    const [nameIngredient, setNameIngredient] = useState("Cheese");
+    const [nameIngredient, setNameIngredient] = useState(mainScaleData.state.nameIngredient);
 
-    const [correctWeight, setCorrectWeight] = useState(1);
-    const [minOffset, setMinOffset] = useState(0.1);
-    const [maxOffset, setMaxOffset] = useState(0.1);
+    const [correctWeight, setCorrectWeight] = useState(mainScaleData.state.correctWeight);
+    const [minOffset, setMinOffset] = useState(mainScaleData.state.lowerErrorLimit);
+    const [maxOffset, setMaxOffset] = useState(mainScaleData.state.upperErrorLimit);
+
     const [unitOfMassCode, setUnitOfMassCode] = useState("oz"); // Options are oz/g
 
     const [expanded, setExpanded] = useState(false);
@@ -155,7 +157,7 @@ export default function Scale({ mainPublishTopic }) {
                 // Unit of mass Change
                 convertValues2UnitOfMass();
             }
-            finalTopic = mainPublishTopic + "control";
+            finalTopic = mainScaleData.topic + "control";
         } else {
             // TODO: Validate/convert the correct type of the parameters scale accepts
             msg = {
@@ -165,7 +167,7 @@ export default function Scale({ mainPublishTopic }) {
                 lowerErrorLimit: minOffset,
                 upperErrorLimit: maxOffset,
             };
-            finalTopic = mainPublishTopic + "params";
+            finalTopic = mainScaleData.topic + "params";
             console.log(msg);
         }
         await PubSub.publish(finalTopic, msg);
@@ -174,7 +176,7 @@ export default function Scale({ mainPublishTopic }) {
     // Note that Subscribe param needs to be dynamic; this information is already called
     // from API in ScaleContainer => copy it or move it to parent component
     useEffect(() => {
-        PubSub.subscribe("test/1/ts").subscribe({
+        const subscribe = PubSub.subscribe("test/1/ts").subscribe({
             next: (dataCloud) => {
                 console.log("Message received by el Puma", dataCloud);
                 //         // Change Unix Timesetamp to Local Time
@@ -193,6 +195,7 @@ export default function Scale({ mainPublishTopic }) {
             error: (error) => console.error(error),
             complete: () => console.log("Web Socket Done"),
         });
+        // subscribe.unsubscribe();
     }, []);
 
     return (

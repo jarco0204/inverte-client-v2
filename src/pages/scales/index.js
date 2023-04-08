@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 
+import { Buffer } from "buffer";
+
 // @mui material components
 import Grid from "@mui/material/Grid";
 
@@ -14,6 +16,17 @@ import Footer from "../../components/Footer";
 // AWS Imports
 import { API } from "aws-amplify";
 
+// MQTT Client to Publish Messages and Fetch Shadows
+import { IoTDataPlaneClient, GetThingShadowCommand } from "@aws-sdk/client-iot-data-plane";
+
+const iotClient = new IoTDataPlaneClient({
+    region: "ca-central-1",
+    credentials: {
+        accessKeyId: "AKIARHM5WBNOIW7X3JJD",
+        secretAccessKey: "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",
+    },
+});
+
 // User-level Imports
 import Scale from "./components/Scale";
 
@@ -27,9 +40,21 @@ function ScalesContainer(userSession = console.log) {
             const path = "/restaurants/";
             const finalAPIRoute = path + userSession.userSession.username; //TODO: Cases where userSession is empty
             await API.get(myAPI, finalAPIRoute)
-                .then((response) => {
+                .then(async (response) => {
                     console.log("Message correctly received from API V2", response.item.Item.mqttTopic);
-                    const tempAr = [response.item.Item.mqttTopic]; // NOTE: This should be already an array
+
+                    const input = {
+                        // GetThingShadowRequest
+                        thingName: "P0-08-v2", // required
+                        // shadowName: "",
+                    };
+                    const command = new GetThingShadowCommand(input);
+                    const response1 = await iotClient.send(command);
+                    let payload = JSON.parse(Buffer.from(response1.payload).toString("utf8")); // encoded form of JSON Response
+
+                    console.log(payload.state.reported);
+                    const tempAr = [{ topic: response.item.Item.mqttTopic, state: payload.state.reported }]; // NOTE: This should be already an array
+
                     setScaleArr(tempAr);
                 })
                 .catch((error) => {
@@ -52,8 +77,8 @@ function ScalesContainer(userSession = console.log) {
                 <Grid container spacing={3}>
                     <Grid item xs={12} md={6} lg={3}>
                         <MDBox mb={1.5}>
-                            {scaleArr.map((mainPublishTopic, i) => (
-                                <Scale key={i} mainPublishTopic={mainPublishTopic} />
+                            {scaleArr.map((mainScaleData, i) => (
+                                <Scale key={i} mainScaleData={mainScaleData} />
                             ))}
                         </MDBox>
                     </Grid>
