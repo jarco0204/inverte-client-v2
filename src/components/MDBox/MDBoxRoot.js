@@ -4,15 +4,7 @@ import { styled } from "@mui/material/styles";
 
 export default styled(Box)(({ theme, ownerState }) => {
     const { palette, functions, borders, boxShadows } = theme;
-    const {
-        variant,
-        bgColor,
-        color,
-        opacity,
-        borderRadius,
-        shadow,
-        coloredShadow,
-    } = ownerState;
+    const { variant, bgColor, color, opacity, borderRadius, shadow, coloredShadow } = ownerState;
 
     const { gradients, grey, white } = palette;
     const { linearGradient } = functions;
@@ -31,16 +23,7 @@ export default styled(Box)(({ theme, ownerState }) => {
         "grey-900": grey[900],
     };
 
-    const validGradients = [
-        "primary",
-        "secondary",
-        "info",
-        "success",
-        "warning",
-        "error",
-        "dark",
-        "light",
-    ];
+    const validGradients = ["primary", "secondary", "info", "success", "warning", "error", "dark", "light"];
 
     const validColors = [
         "transparent",
@@ -64,6 +47,7 @@ export default styled(Box)(({ theme, ownerState }) => {
         "grey-700",
         "grey-800",
         "grey-900",
+        "#e76f51",
     ];
 
     const validBorderRadius = ["xs", "sm", "md", "lg", "xl", "xxl", "section"];
@@ -73,13 +57,9 @@ export default styled(Box)(({ theme, ownerState }) => {
     let backgroundValue = bgColor;
 
     if (variant === "gradient") {
-        backgroundValue = validGradients.find((el) => el === bgColor)
-            ? linearGradient(gradients[bgColor].main, gradients[bgColor].state)
-            : white.main;
+        backgroundValue = validGradients.find((el) => el === bgColor) ? linearGradient(gradients[bgColor].main, gradients[bgColor].state) : white.main;
     } else if (validColors.find((el) => el === bgColor)) {
-        backgroundValue = palette[bgColor]
-            ? palette[bgColor].main
-            : greyColors[bgColor];
+        backgroundValue = palette[bgColor] ? palette[bgColor].main : greyColors[bgColor];
     } else {
         backgroundValue = bgColor;
     }
@@ -104,9 +84,7 @@ export default styled(Box)(({ theme, ownerState }) => {
     if (validBoxShadows.find((el) => el === shadow)) {
         boxShadowValue = boxShadows[shadow];
     } else if (coloredShadow) {
-        boxShadowValue = colored[coloredShadow]
-            ? colored[coloredShadow]
-            : "none";
+        boxShadowValue = colored[coloredShadow] ? colored[coloredShadow] : "none";
     }
 
     return {

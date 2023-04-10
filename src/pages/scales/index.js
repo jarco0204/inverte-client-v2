@@ -46,7 +46,7 @@ function ScalesContainer(userSession = console.log) {
                     const input = {
                         // GetThingShadowRequest
                         thingName: "P0-08-v2", // required
-                        // shadowName: "",
+                        // shadowName: "", // Querying Classic Shadow
                     };
                     const command = new GetThingShadowCommand(input);
                     const response1 = await iotClient.send(command);

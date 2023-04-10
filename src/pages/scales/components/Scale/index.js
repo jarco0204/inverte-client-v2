@@ -52,21 +52,16 @@ Scale.propTypes = {
         • The second scaleArr[1] is the type of scale (Flat or Pan)
 */
 export default function Scale({ mainScaleData }) {
+    //UI State
+    const [expanded, setExpanded] = useState(false);
+
+    // Core IoT State
     console.log("Your channel good sir, ", mainScaleData);
-
-    // Core Data State of a Scale Card
     const [nameIngredient, setNameIngredient] = useState(mainScaleData.state.nameIngredient);
-
     const [correctWeight, setCorrectWeight] = useState(mainScaleData.state.correctWeight);
     const [minOffset, setMinOffset] = useState(mainScaleData.state.lowerErrorLimit);
     const [maxOffset, setMaxOffset] = useState(mainScaleData.state.upperErrorLimit);
-
-    const [unitOfMassCode, setUnitOfMassCode] = useState("oz"); // Options are oz/g
-
-    const [expanded, setExpanded] = useState(false);
-
-    // const [buttonStateStr, setButtonStateStr] = useState("Start");
-    // const [buttonStateColor, setButtonStateColor] = useState("#02182E");
+    const [unitOfMassCode, setUnitOfMassCode] = useState(mainScaleData.state.unitOfMass);
 
     const StartButton = styled(Button)(() => ({
         // color: theme.palette.primary.main,
@@ -106,7 +101,6 @@ export default function Scale({ mainScaleData }) {
         Logic to handle the possible actions with the 4 buttons (controls available with a scale)
         • (tare)
         • (start)
-
     */
     const handleSpecialButton = (event) => {
         console.log(event.target.name);
@@ -123,13 +117,13 @@ export default function Scale({ mainScaleData }) {
     */
     const convertValues2UnitOfMass = () => {
         if (unitOfMassCode === "oz") {
-            setCorrectWeight(correctWeight * 28.35);
-            setMinOffset(minOffset * 28.35);
-            setMaxOffset(maxOffset * 28.35);
+            setCorrectWeight(Math.round(correctWeight * 28.35));
+            setMinOffset(Math.round(minOffset * 28.35));
+            setMaxOffset(Math.round(maxOffset * 28.35));
         } else {
-            setCorrectWeight(correctWeight / 28.35);
-            setMinOffset(minOffset / 28.35);
-            setMaxOffset(maxOffset / 28.35);
+            setCorrectWeight((correctWeight / 28.35).toFixed(1));
+            setMinOffset((minOffset / 28.35).toFixed(1));
+            setMaxOffset((maxOffset / 28.35).toFixed(1));
         }
     };
 
@@ -175,8 +169,25 @@ export default function Scale({ mainScaleData }) {
 
     // Note that Subscribe param needs to be dynamic; this information is already called
     // from API in ScaleContainer => copy it or move it to parent component
+
+    const [stateButtonStr, setStateButtonStr] = useState("Offline");
+    const [stateCardColor, setStateCardColor] = useState("warning");
+    // if (mainScaleData.state.scalePortionState === 0) {
+    //     setStateCardColor("warning");
+    //     setStateButtonStr("Turn On Scale");
+    // } else if (mainScaleData.state.scalePortionState === 1) {
+    //     setStateCardColor("info");
+    //     setStateButtonStr("Start");
+    // } else if (mainScaleData.state.scalePortionState === 2) {
+    //     setStateCardColor("success");
+    //     setStateButtonStr("Online");
+    // } else {
+    //     setStateCardColor("warning");
+    //     setStateButtonStr("Error");
+    // }
+
     useEffect(() => {
-        const subscribe = PubSub.subscribe("test/1/ts").subscribe({
+        PubSub.subscribe("test/1/ts").subscribe({
             next: (dataCloud) => {
                 console.log("Message received by el Puma", dataCloud);
                 //         // Change Unix Timesetamp to Local Time
@@ -195,26 +206,13 @@ export default function Scale({ mainScaleData }) {
             error: (error) => console.error(error),
             complete: () => console.log("Web Socket Done"),
         });
-        // subscribe.unsubscribe();
     }, []);
 
     return (
         <Card style={{ maxWidth: "300px" }}>
             <MDBox display="flex" justifyContent="space-between" pt={1} px={3}>
-                <MDBox
-                    variant="gradient"
-                    bgColor="light"
-                    // color={color === "light" ? "dark" : "white"}
-                    // coloredShadow={color}
-                    borderRadius="xl"
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                    width="4rem"
-                    height="4rem"
-                    mt={-3}
-                >
-                    <Icon fontSize="medium" color="inherit">
+                <MDBox variant="gradient" bgColor={stateCardColor} borderRadius="xl" display="flex" justifyContent="center" alignItems="center" width="4rem" height="4rem" mt={-3}>
+                    <Icon fontSize="medium">
                         <FastfoodIcon />
                     </Icon>
                 </MDBox>
@@ -224,7 +222,7 @@ export default function Scale({ mainScaleData }) {
                         Scale #P0-08
                     </MDTypography> */}
                     <InputAdornments
-                        style={{ margin: "10px 0", paddingRight: "50px" }}
+                        style={{ margin: "10px 0", paddingRight: "40px" }}
                         valuePlaceholder={nameIngredient}
                         label={"Ingredient"}
                         setCorrectWeight={setNameIngredient}
@@ -247,7 +245,7 @@ export default function Scale({ mainScaleData }) {
                     Tare
                 </TareButton>
                 <StartButton name="start" onClick={handleSpecialButton}>
-                    Start
+                    {stateButtonStr}
                 </StartButton>
                 <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
                     <ExpandMoreIcon />
@@ -269,7 +267,7 @@ export default function Scale({ mainScaleData }) {
                     <div style={{ margingTop: "10px" }}>
                         <MDBox textAlign="center">
                             <MDTypography fontWeight="medium" color="dark" fontSize="15px">
-                                Extra Controls:
+                                Unit of Mass:
                             </MDTypography>
                         </MDBox>
                     </div>

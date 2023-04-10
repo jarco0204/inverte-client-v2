@@ -39,22 +39,18 @@ export default function RadioActions({ setUnitOfMassCode, unitOfMassCode, sendDa
     /*
         Function to handle a change in the scale mode
     */
-    const scaleModeChange = (event) => {
-        sendDataAWS(true, 4, event.target.value);
-    };
+    // const scaleModeChange = (event) => {
+    //     sendDataAWS(true, 4, event.target.value);
+    // };
     return (
         <div style={{ display: "flex", gap: "20px", margin: "20px 0", marginLeft: "40px" }}>
             <FormControl>
-                <MDTypography fontWeight="bold" fontSize="14px">
-                    Unit
-                </MDTypography>
-
-                <RadioGroup row aria-labelledby="demo-radio-buttons-group-label" defaultValue="oz" onChange={unitOfMassChange}>
+                <RadioGroup row aria-labelledby="demo-radio-buttons-group-label" onChange={unitOfMassChange} defaultValue={unitOfMassCode}>
                     <FormControlLabel value="oz" control={<Radio />} label="oz" />
                     <FormControlLabel value="g" control={<Radio />} label="g" />
                 </RadioGroup>
             </FormControl>
-            <FormControl>
+            {/* <FormControl>
                 <MDTypography fontSize="14px" fontWeight="bold">
                     Mode
                 </MDTypography>
@@ -63,7 +59,7 @@ export default function RadioActions({ setUnitOfMassCode, unitOfMassCode, sendDa
                     <FormControlLabel value="portion" control={<Radio />} label="portion" />
                     <FormControlLabel value="normal" control={<Radio />} label="normal" />
                 </RadioGroup>
-            </FormControl>
+            </FormControl> */}
         </div>
     );
 }
