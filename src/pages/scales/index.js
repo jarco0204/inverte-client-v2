@@ -41,24 +41,25 @@ function ScalesContainer(userSession = console.log) {
             const finalAPIRoute = path + userSession.userSession.username; //TODO: Cases where userSession is empty
             await API.get(myAPI, finalAPIRoute)
                 .then(async (response) => {
-                    console.log("Message correctly received from API V2", response.item.Item.mqttTopic);
+                    console.log("Message correctly received from API V2", response.item.Item); // Debug Statement
 
-                    const input = {
-                        // GetThingShadowRequest
-                        thingName: "P0-08-v2", // required
+                    // Fetch Shadow State Using SDK V3 Library
+                    const getThingShadowRequestInput = {
+                        thingName: "P0-08-v2",
                         // shadowName: "", // Querying Classic Shadow
                     };
-                    const command = new GetThingShadowCommand(input);
+                    const command = new GetThingShadowCommand(getThingShadowRequestInput);
                     const response1 = await iotClient.send(command);
                     let payload = JSON.parse(Buffer.from(response1.payload).toString("utf8")); // encoded form of JSON Response
 
-                    console.log(payload.state.reported);
+                    // console.log(payload.state.reported);
                     const tempAr = [{ topic: response.item.Item.mqttTopic, state: payload.state.reported }]; // NOTE: This should be already an array
 
                     setScaleArr(tempAr);
                 })
                 .catch((error) => {
                     console.log("Failed to retrieve from API", error);
+                    //TODO: Handle What to show when this happens
                 });
         } catch (err) {
             console.log(err);

@@ -7,22 +7,20 @@ import PropTypes from "prop-types";
 import { Amplify, PubSub } from "aws-amplify";
 import { AWSIoTProvider } from "@aws-amplify/pubsub";
 
-// MUI Components
-import { styled } from "@mui/material/styles";
+//MUI Components
 import Card from "@mui/material/Card";
 import Icon from "@mui/material/Icon";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
 import CardActions from "@mui/material/CardActions";
-import { Button } from "@mui/material";
 
 // Expand Functionality
-import IconButton from "@mui/material/IconButton";
 import Collapse from "@mui/material/Collapse";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 // User Components
 import MDBox from "../../../../components/MDBox";
 import MDTypography from "../../../../components/MDTypography";
+import { TareButton, StartButton, ExpandMore } from "./ScaleButtons";
 
 import InputAdornments from "./InputAdornments";
 import RadioActions from "./RadioActions";
@@ -35,67 +33,19 @@ Amplify.addPluggable(
     })
 );
 
-// Setting default values for the props of Scale
-Scale.defaultProps = {
-    mainPublishTopic: {},
-};
-
-// Typechecking props for the Scale
-Scale.propTypes = {
-    mainScaleData: PropTypes.object,
-};
-
 /*
-    scaleArr is an array that is passed from ScalesContainer after an API call.
-    
-        • The first scaleArr[0] is the Publish MQTT topic of the scale
-        • The second scaleArr[1] is the type of scale (Flat or Pan)
+    Main Function Component
 */
-export default function Scale({ mainScaleData }) {
-    //UI State
-    const [expanded, setExpanded] = useState(false);
-
-    // Core IoT State
-    console.log("Your channel good sir, ", mainScaleData);
+function Scale({ mainScaleData }) {
+    /*
+        Core Scale State is fetched from IoT Shadow
+    */
+    console.log("Your channel good sir, ", mainScaleData); // Debug statement
     const [nameIngredient, setNameIngredient] = useState(mainScaleData.state.nameIngredient);
     const [correctWeight, setCorrectWeight] = useState(mainScaleData.state.correctWeight);
     const [minOffset, setMinOffset] = useState(mainScaleData.state.lowerErrorLimit);
     const [maxOffset, setMaxOffset] = useState(mainScaleData.state.upperErrorLimit);
     const [unitOfMassCode, setUnitOfMassCode] = useState(mainScaleData.state.unitOfMass);
-
-    const StartButton = styled(Button)(() => ({
-        // color: theme.palette.primary.main,
-        color: "whitesmoke",
-        backgroundColor: "#02182E",
-        marginLeft: "20px",
-        fontSize: 13,
-    }));
-
-    // Customer would like to tare button directly accesible
-    const TareButton = styled(Button)(() => ({
-        color: "whitesmoke",
-        backgroundColor: "#02182E",
-        marginLeft: "20px",
-        fontSize: 13,
-    }));
-
-    // Special Expand More Button
-    const ExpandMore = styled((props) => {
-        // eslint-disable-next-line
-        const { expand, ...other } = props;
-        return <IconButton {...other} />;
-    })(({ theme, expand }) => ({
-        transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-        marginLeft: "auto",
-        transition: theme.transitions.create("transform", {
-            duration: theme.transitions.duration.shortest,
-        }),
-    }));
-
-    // Behaviour for expand more button
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
 
     /*
         Logic to handle the possible actions with the 4 buttons (controls available with a scale)
@@ -167,9 +117,6 @@ export default function Scale({ mainScaleData }) {
         await PubSub.publish(finalTopic, msg);
     };
 
-    // Note that Subscribe param needs to be dynamic; this information is already called
-    // from API in ScaleContainer => copy it or move it to parent component
-
     const [stateButtonStr, setStateButtonStr] = useState("Offline");
     const [stateCardColor, setStateCardColor] = useState("warning");
     // if (mainScaleData.state.scalePortionState === 0) {
@@ -187,6 +134,7 @@ export default function Scale({ mainScaleData }) {
     // }
 
     useEffect(() => {
+        // Open Web Socket to update data
         PubSub.subscribe("test/1/ts").subscribe({
             next: (dataCloud) => {
                 console.log("Message received by el Puma", dataCloud);
@@ -207,6 +155,14 @@ export default function Scale({ mainScaleData }) {
             complete: () => console.log("Web Socket Done"),
         });
     }, []);
+
+    /*
+        Function to expand scale card when arrow is button is clicked
+    */
+    const [expanded, setExpanded] = useState(false);
+    const handleExpandClick = () => {
+        setExpanded(!expanded);
+    };
 
     return (
         <Card style={{ maxWidth: "300px" }}>
@@ -278,3 +234,22 @@ export default function Scale({ mainScaleData }) {
         </Card>
     );
 }
+
+// Setting default values for the props of Scale and typechecking props for the Scale
+Scale.defaultProps = {
+    mainScaleData: {
+        state: {
+            nameIngredient: "Default",
+            correctWeight: 28,
+            lowerErrorLimit: 3,
+            upperErrorLimit: 3,
+            unitOfMass: "g",
+        },
+        topic: "test/1",
+    },
+};
+Scale.propTypes = {
+    mainScaleData: PropTypes.object,
+};
+
+export default Scale;
