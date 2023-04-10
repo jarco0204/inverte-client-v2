@@ -4,8 +4,7 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 // AWS Imports
-import { Amplify, PubSub } from "aws-amplify";
-import { AWSIoTProvider } from "@aws-amplify/pubsub";
+import { PubSub } from "aws-amplify";
 
 //MUI Components
 import Card from "@mui/material/Card";
@@ -13,30 +12,29 @@ import Icon from "@mui/material/Icon";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
 import CardActions from "@mui/material/CardActions";
 
+// import Box from "@mui/material/Box";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputAdornment from "@mui/material/InputAdornment";
+import FormHelperText from "@mui/material/FormHelperText";
+import FormControl from "@mui/material/FormControl";
+
 // Expand Functionality
 import Collapse from "@mui/material/Collapse";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 // User Components
+import InputAdornments from "./InputAdornments";
+import RadioActions from "./RadioActions";
 import MDBox from "../../../../components/MDBox";
 import MDTypography from "../../../../components/MDTypography";
 import { TareButton, StartButton, ExpandMore } from "./ScaleButtons";
 
-import InputAdornments from "./InputAdornments";
-import RadioActions from "./RadioActions";
-
-// MQTT Client to Receive Messages
-Amplify.addPluggable(
-    new AWSIoTProvider({
-        aws_pubsub_region: "ca-central-1",
-        aws_pubsub_endpoint: "wss://a33ho10nah991e-ats.iot.ca-central-1.amazonaws.com/mqtt",
-    })
-);
+import { IoTDataPlaneClient, UpdateThingShadowCommand } from "@aws-sdk/client-iot-data-plane";
 
 /*
     Main Function Component
 */
-function Scale({ mainScaleData }) {
+function Scale({ mainScaleData, iotShadowClient }) {
     /*
         Core Scale State is fetched from IoT Shadow
     */
@@ -47,33 +45,36 @@ function Scale({ mainScaleData }) {
     const [maxOffset, setMaxOffset] = useState(mainScaleData.state.upperErrorLimit);
     const [unitOfMassCode, setUnitOfMassCode] = useState(mainScaleData.state.unitOfMass);
 
-    /*
-        Logic to handle the possible actions with the 4 buttons (controls available with a scale)
-        • (tare)
-        • (start)
-    */
-    const handleSpecialButton = (event) => {
-        console.log(event.target.name);
-        if (event.target.name === "tare") {
-            sendDataAWS(true, 1);
-        } else {
-            // Other option is Start
-            sendDataAWS(true, 2);
-        }
-    };
+    const [stateButtonStr, setStateButtonStr] = useState("Offline");
+    const [stateCardColor, setStateCardColor] = useState("warning");
+    // if (mainScaleData.state.scalePortionState === 0) {
+    //     setStateCardColor("warning");
+    //     setStateButtonStr("Turn On Scale");
+    // } else if (mainScaleData.state.scalePortionState === 1) {
+    //     setStateCardColor("info");
+    //     setStateButtonStr("Start");
+    // } else if (mainScaleData.state.scalePortionState === 2) {
+    //     setStateCardColor("success");
+    //     setStateButtonStr("Online");
+    // } else {
+    //     setStateCardColor("warning");
+    //     setStateButtonStr("Error");
+    // }
 
     /*
-        Function to convert the values to either grams or ounces
+        Shadow Client
     */
-    const convertValues2UnitOfMass = () => {
-        if (unitOfMassCode === "oz") {
-            setCorrectWeight(Math.round(correctWeight * 28.35));
-            setMinOffset(Math.round(minOffset * 28.35));
-            setMaxOffset(Math.round(maxOffset * 28.35));
-        } else {
-            setCorrectWeight((correctWeight / 28.35).toFixed(1));
-            setMinOffset((minOffset / 28.35).toFixed(1));
-            setMaxOffset((maxOffset / 28.35).toFixed(1));
+    const updateShadow = async (event) => {
+        if (event.target.name === "ingredientNameField") {
+            const getThingShadowRequestInput = {
+                state: {
+                    desired: {
+                        nameIngredient: nameIngredient,
+                    },
+                },
+            };
+            PubSub.publish("$aws/things/P0-08-v2/shadow/update", getThingShadowRequestInput);
+            console.log("update shadow");
         }
     };
 
@@ -92,14 +93,21 @@ function Scale({ mainScaleData }) {
         let msg, finalTopic;
         if (control) {
             msg = {
-                msg: "Sending Scale action from Client to AWS",
                 control: action,
                 val: value,
             };
-            // console.log(msg);
+
             if (action == 3) {
                 // Unit of mass Change
-                convertValues2UnitOfMass();
+                if (unitOfMassCode === "oz") {
+                    setCorrectWeight(Math.round(correctWeight * 28.35));
+                    setMinOffset(Math.round(minOffset * 28.35));
+                    setMaxOffset(Math.round(maxOffset * 28.35));
+                } else {
+                    setCorrectWeight((correctWeight / 28.35).toFixed(1));
+                    setMinOffset((minOffset / 28.35).toFixed(1));
+                    setMaxOffset((maxOffset / 28.35).toFixed(1));
+                }
             }
             finalTopic = mainScaleData.topic + "control";
         } else {
@@ -116,22 +124,6 @@ function Scale({ mainScaleData }) {
         }
         await PubSub.publish(finalTopic, msg);
     };
-
-    const [stateButtonStr, setStateButtonStr] = useState("Offline");
-    const [stateCardColor, setStateCardColor] = useState("warning");
-    // if (mainScaleData.state.scalePortionState === 0) {
-    //     setStateCardColor("warning");
-    //     setStateButtonStr("Turn On Scale");
-    // } else if (mainScaleData.state.scalePortionState === 1) {
-    //     setStateCardColor("info");
-    //     setStateButtonStr("Start");
-    // } else if (mainScaleData.state.scalePortionState === 2) {
-    //     setStateCardColor("success");
-    //     setStateButtonStr("Online");
-    // } else {
-    //     setStateCardColor("warning");
-    //     setStateButtonStr("Error");
-    // }
 
     useEffect(() => {
         // Open Web Socket to update data
@@ -165,7 +157,7 @@ function Scale({ mainScaleData }) {
     };
 
     return (
-        <Card style={{ maxWidth: "300px" }}>
+        <Card style={{ width: "300px" }}>
             <MDBox display="flex" justifyContent="space-between" pt={1} px={3}>
                 <MDBox variant="gradient" bgColor={stateCardColor} borderRadius="xl" display="flex" justifyContent="center" alignItems="center" width="4rem" height="4rem" mt={-3}>
                     <Icon fontSize="medium">
@@ -173,17 +165,39 @@ function Scale({ mainScaleData }) {
                     </Icon>
                 </MDBox>
 
-                <MDBox textAlign="center" lineHeight={1.2}>
+                <MDBox textAlign="center" lineHeight={1.2} style={{ margin: "10px 0", paddingRight: "40px" }}>
                     {/* <MDTypography fontWeight="bold" color="dark" marginRight={"40px"} fontSize="18px">
                         Scale #P0-08
                     </MDTypography> */}
-                    <InputAdornments
+                    {/* <InputAdornments
                         style={{ margin: "10px 0", paddingRight: "40px" }}
                         valuePlaceholder={nameIngredient}
                         label={"Ingredient"}
                         setCorrectWeight={setNameIngredient}
-                        sendDataAWS={sendDataAWS}
-                    />
+                        updateShadow={updateShadow}
+                    /> */}
+                    {/* <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+                        <> */}
+                    <FormControl sx={{ m: 1, width: 125 }} variant="outlined">
+                        <FormHelperText id="outlined-weight-helper-text">Ingredient</FormHelperText>
+                        <OutlinedInput
+                            id="outlined-adornment-weight"
+                            name="ingredientNameField"
+                            style={{
+                                backgroundColor: "beige",
+                            }}
+                            value={nameIngredient}
+                            endAdornment={<InputAdornment position="end">{unitOfMassCode}</InputAdornment>}
+                            aria-describedby="outlined-weight-helper-text"
+                            inputProps={{
+                                "aria-label": "weight",
+                            }}
+                            onChange={(e) => setNameIngredient(e.target.value)}
+                            onBlur={(e) => updateShadow(e)}
+                        />
+                    </FormControl>
+                    {/* </>
+                    </Box> */}
                 </MDBox>
             </MDBox>
             <div style={{ margin: "auto" }}>
@@ -192,15 +206,15 @@ function Scale({ mainScaleData }) {
                     unitOfMassCode={unitOfMassCode}
                     valuePlaceholder={correctWeight.toString()}
                     setCorrectWeight={setCorrectWeight}
-                    sendDataAWS={sendDataAWS}
+                    updateShadow={updateShadow}
                     width={"15ch"}
                 />
             </div>
             <CardActions disableSpacing>
-                <TareButton name="tare" onClick={handleSpecialButton}>
+                <TareButton name="tare" onClick={() => sendDataAWS(true, 1)}>
                     Tare
                 </TareButton>
-                <StartButton name="start" onClick={handleSpecialButton}>
+                <StartButton name="start" onClick={() => sendDataAWS(true, 2)}>
                     {stateButtonStr}
                 </StartButton>
                 <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
@@ -236,6 +250,10 @@ function Scale({ mainScaleData }) {
 }
 
 // Setting default values for the props of Scale and typechecking props for the Scale
+Scale.propTypes = {
+    mainScaleData: PropTypes.object,
+    iotShadowClient: PropTypes.object,
+};
 Scale.defaultProps = {
     mainScaleData: {
         state: {
@@ -247,9 +265,6 @@ Scale.defaultProps = {
         },
         topic: "test/1",
     },
-};
-Scale.propTypes = {
-    mainScaleData: PropTypes.object,
 };
 
 export default Scale;
