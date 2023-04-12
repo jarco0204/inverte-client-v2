@@ -9,6 +9,10 @@ import Switch from "@mui/material/Switch";
 import IconButton from "@mui/material/IconButton";
 import Link from "@mui/material/Link";
 import Icon from "@mui/material/Icon";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
 
 // @mui icons
 import TwitterIcon from "@mui/icons-material/Twitter";
@@ -218,6 +222,29 @@ function Configurator() {
 
                     <Switch disabled checked={darkMode} onChange={handleDarkMode} />
                 </MDBox>
+
+                <MDBox textAlign="center" style={{ margin: "10px 0" }}>
+                    <MDTypography fontWeight="medium" color="dark" fontSize="15px">
+                        Unit of Mass:
+                    </MDTypography>
+                </MDBox>
+                <div style={{ display: "flex", gap: "10px", marginLeft: "70px" }}>
+                    <FormControl>
+                        <RadioGroup
+                            row
+                            aria-labelledby="demo-radio-buttons-group-label"
+                            name="unitOfMassField"
+                            onChange={() => {
+                                console.log("Jump");
+                            }}
+                            defaultValue={"og"}
+                        >
+                            <FormControlLabel value="oz" control={<Radio />} label="oz" />
+                            <FormControlLabel value="g" control={<Radio />} label="g" />
+                        </RadioGroup>
+                    </FormControl>
+                </div>
+
                 <Divider />
                 {/* <MDBox mt={3} mb={2}>
                     <MDButton

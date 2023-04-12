@@ -15,9 +15,7 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
+
 import Collapse from "@mui/material/Collapse";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
@@ -293,20 +291,6 @@ function Scale({ mainScaleData }) {
                                 onChange={(e) => setMaxOffset(e.target.value)}
                                 onBlur={(e) => updateShadow(e)}
                             />
-                        </FormControl>
-                    </div>
-
-                    <MDBox textAlign="center" style={{ margin: "10px 0" }}>
-                        <MDTypography fontWeight="medium" color="dark" fontSize="15px">
-                            Unit of Mass:
-                        </MDTypography>
-                    </MDBox>
-                    <div style={{ display: "flex", gap: "10px", marginLeft: "70px" }}>
-                        <FormControl>
-                            <RadioGroup row aria-labelledby="demo-radio-buttons-group-label" name="unitOfMassField" onChange={unitOfMassChange} defaultValue={unitOfMassCode}>
-                                <FormControlLabel value="oz" control={<Radio />} label="oz" />
-                                <FormControlLabel value="g" control={<Radio />} label="g" />
-                            </RadioGroup>
                         </FormControl>
                     </div>
                 </div>
