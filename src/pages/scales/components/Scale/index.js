@@ -31,7 +31,7 @@ import { TareButton, StartButton, ExpandMore } from "./ScaleButtons";
 */
 function Scale({ mainScaleData }) {
     //  Core Scale State is fetched from IoT Shadow
-    console.log("Your channel good sir, ", mainScaleData); // Debug statement
+    // console.log("Your channel good sir, ", mainScaleData); // Debug statement //NOTE: Changes to Input Fields trigger the re-render
     const [nameIngredient, setNameIngredient] = useState(mainScaleData.state.nameIngredient);
     const [correctWeight, setCorrectWeight] = useState(mainScaleData.state.correctWeight);
     const [minOffset, setMinOffset] = useState(mainScaleData.state.lowerErrorLimit);
@@ -40,19 +40,6 @@ function Scale({ mainScaleData }) {
 
     const [stateButtonStr, setStateButtonStr] = useState("Offline");
     const [stateCardColor, setStateCardColor] = useState("warning");
-    // if (mainScaleData.state.scalePortionState === 0) {
-    //     setStateCardColor("warning");
-    //     setStateButtonStr("Turn On Scale");
-    // } else if (mainScaleData.state.scalePortionState === 1) {
-    //     setStateCardColor("info");
-    //     setStateButtonStr("Start");
-    // } else if (mainScaleData.state.scalePortionState === 2) {
-    //     setStateCardColor("success");
-    //     setStateButtonStr("Online");
-    // } else {
-    //     setStateCardColor("warning");
-    //     setStateButtonStr("Error");
-    // }
 
     /*
         Function to expand scale card when arrow is button is clicked
@@ -130,8 +117,23 @@ function Scale({ mainScaleData }) {
         Hook to enable real-time communication from scale to client to display IoT Shadows
     */
     useEffect(() => {
+        // mainScaleData.state.scalePortionState = mainScaleData.state.scalePortionState;
+        if (mainScaleData.state.scalePortionState === 0) {
+            setStateCardColor("warning");
+            setStateButtonStr("Offline");
+        } else if (mainScaleData.state.scalePortionState === 1) {
+            setStateCardColor("info");
+            setStateButtonStr("Start");
+        } else if (mainScaleData.state.scalePortionState === 2) {
+            setStateCardColor("success");
+            setStateButtonStr("Online");
+        } else {
+            setStateCardColor("warning");
+            setStateButtonStr("Error");
+        }
+
         // Open Web Socket to update data
-        PubSub.subscribe("test/1/ts").subscribe({
+        PubSub.subscribe("test/1/ts/delta").subscribe({
             next: (dataCloud) => {
                 console.log("Message received by el Puma", dataCloud);
                 //         // Change Unix Timesetamp to Local Time

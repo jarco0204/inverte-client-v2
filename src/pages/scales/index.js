@@ -44,7 +44,7 @@ function ScalesContainer({ userSession }) {
     const [scalesMetaArr, setScalesMetaArr] = useState([]); // Array of objects
 
     /*
-        Fetch the scale(s) metadata and shadows associated with the restaurantID (CognitoID)
+        Fetch the scale(s) metadata and shadows associated with the restaurantID (CognitoID)1
     */
     const getRestaurantList = async () => {
         try {
@@ -56,19 +56,21 @@ function ScalesContainer({ userSession }) {
                     console.log("Message correctly received from API V2", response); // Debug Statement
                     response = response.item.Item; // Simplify payload
 
+                    const tempScalesMetaArr = [];
                     for (let i = 0; i < response.iotThingNames.length; i++) {
                         // Fetch Shadow State Using SDK V3 Library
 
                         const getThingShadowRequestInput = {
-                            thingName: response.iotThingNames[i],
+                            thingName: response.iotThingNames[i], // Requesting Classic Shadow as opposed to timeseries one
                         };
                         const command = new GetThingShadowCommand(getThingShadowRequestInput);
 
                         const tempShadow = await iotClient.send(command);
                         const tempPayload = JSON.parse(Buffer.from(tempShadow.payload).toString("utf8")); // encoded form of JSON Response
 
-                        setScalesMetaArr([...scalesMetaArr, { topic: response.mqttTopics, state: tempPayload.state.reported }]);
+                        tempScalesMetaArr.push({ topic: response.mqttTopics, state: tempPayload.state.reported });
                     }
+                    setScalesMetaArr(tempScalesMetaArr);
                 })
                 .catch((error) => {
                     console.log("Failed to retrieve from API or get shadow", error);
@@ -81,8 +83,10 @@ function ScalesContainer({ userSession }) {
 
     // UseEffect Hook to fetch essential metadata
     useEffect(() => {
-        setScalesMetaArr([]); // BUG: When modifying this file, react keeps adding arrays
+        console.log("Hello 1");
+        // setScalesMetaArr([]); // BUG: When modifying this file, react keeps adding arrays mmhh
         getRestaurantList();
+        console.log("Hello 2");
     }, []);
 
     return (
@@ -93,7 +97,7 @@ function ScalesContainer({ userSession }) {
                     <Grid item xs={12} md={6} lg={3}>
                         <MDBox mb={1.5}>
                             {scalesMetaArr.map((mainScaleData, i) => (
-                                <Scale key={i} mainScaleData={mainScaleData} iotClient={iotClient} />
+                                <Scale key={i} mainScaleData={mainScaleData} />
                             ))}
                         </MDBox>
                     </Grid>
