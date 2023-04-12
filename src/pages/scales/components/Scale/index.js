@@ -24,10 +24,22 @@ import MDBox from "../../../../components/MDBox";
 import MDTypography from "../../../../components/MDTypography";
 import { TareButton, StartButton, ExpandMore } from "./ScaleButtons";
 
+import TextField from "@mui/material/TextField";
+import Divider from "@mui/material/Divider";
+
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+    centered: {
+        textAlign: "center",
+    },
+}));
+
 /*
     Main Function Component
 */
 function Scale({ mainScaleData }) {
+    const classes = useStyles();
     //  Core Scale State is fetched from IoT Shadow
     // console.log("Your channel good sir, ", mainScaleData); // Debug statement //NOTE: Changes to Input Fields trigger the re-render
     const [nameIngredient, setNameIngredient] = useState(mainScaleData.state.nameIngredient);
@@ -153,66 +165,83 @@ function Scale({ mainScaleData }) {
     }, []);
 
     return (
-        <Card style={{ maxWidth: "300px" }}>
+        <Card style={{ maxWidth: "300px", paddingBottom: "10px" }}>
             <MDBox display="flex" justifyContent="space-between" pt={1} px={1}>
-                <MDBox variant="gradient" bgColor={stateCardColor} borderRadius="xl" display="flex" justifyContent="center" alignItems="center" width="4.5rem" height="3.5rem" mt={-4}>
-                    <Icon fontSize="medium">
-                        <FastfoodIcon />
+                <MDBox variant="gradient" bgColor="light" borderRadius="xl" display="flex" justifyContent="center" width="3.5rem" height="3rem" mt={-4.5}>
+                    <Icon fontSize="large">
+                        <FastfoodIcon style={{ color: "green" }} />
                     </Icon>
                 </MDBox>
-
-                <MDBox display="flex" style={{ margin: "auto", paddingRight: "40px", paddingTop: "10px" }}>
-                    {/* <MDTypography fontWeight="bold" color="dark" marginRight={"40px"} fontSize="18px">
-                        Scale #P0-08
-                    </MDTypography> */}
-                    <FormControl sx={{ m: 1, width: 145 }} variant="outlined">
-                        <FormHelperText style={{ margin: "auto" }} id="outlined-weight-helper-text">
-                            Ingredient Name
-                        </FormHelperText>
-                        <OutlinedInput
-                            id="outlined-adornment-weight"
-                            name="ingredientNameField"
-                            style={{
-                                backgroundColor: "beige",
-                                textAlign: "center",
-                                margin: "5px 0",
-                            }}
-                            value={nameIngredient}
-                            aria-describedby="outlined-weight-helper-text"
-                            inputProps={{
-                                "aria-label": "weight",
-                            }}
-                            onChange={(e) => setNameIngredient(e.target.value)}
-                            onBlur={(e) => updateShadow(e)}
-                        />
-                    </FormControl>
+                <MDBox
+                    variant="gradient"
+                    bgColor="light"
+                    style={{ color: "#3a86ff", fontSize: "18px" }}
+                    borderRadius="xl"
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    width="3.5rem"
+                    height="3rem"
+                    mt={-4.5}
+                >
+                    6℃
                 </MDBox>
             </MDBox>
-            <FormControl sx={{ m: 1, width: "22ch", display: "flex", flexDirection: "row", gap: "10px" }} variant="outlined">
-                <div>
+            <MDBox style={{ margin: "auto", paddingTop: "5px" }}>
+                {/* <MDTypography fontWeight="bold" color="dark" marginRight={"40px"} fontSize="18px">
+                        Scale #P0-08
+                    </MDTypography> */}
+                <FormControl sx={{ m: 1, width: 145 }} variant="outlined">
+                    <FormHelperText style={{ margin: "auto" }} id="outlined-weight-helper-text">
+                        Ingredient Name
+                    </FormHelperText>
                     <OutlinedInput
                         id="outlined-adornment-weight"
-                        endAdornment={<InputAdornment position="end">{unitOfMassCode}</InputAdornment>}
+                        name="ingredientNameField"
+                        classes={{ input: classes.centered }}
+                        style={{
+                            backgroundColor: "beige",
+                            textAlign: "center",
+                            margin: "2px 0",
+                        }}
+                        value={nameIngredient}
                         aria-describedby="outlined-weight-helper-text"
                         inputProps={{
                             "aria-label": "weight",
-                            readOnly: true,
                         }}
+                        onChange={(e) => setNameIngredient(e.target.value)}
+                        onBlur={(e) => updateShadow(e)}
                     />
-                    <FormHelperText id="outlined-weight-helper-text">Weight</FormHelperText>
-                </div>
-                <div>
-                    <OutlinedInput
-                        id="outlined-adornment-weight"
-                        endAdornment={<InputAdornment position="end">℃</InputAdornment>}
-                        aria-describedby="outlined-weight-helper-text"
-                        inputProps={{
-                            "aria-label": "weight",
-                            readOnly: true,
-                        }}
-                    />
-                    <FormHelperText id="outlined-weight-helper-text">Temperature</FormHelperText>
-                </div>
+                </FormControl>
+            </MDBox>
+            <FormControl sx={{ m: 1, width: "18ch" }} style={{ margin: "10px auto" }} variant="outlined">
+                <FormHelperText style={{ margin: "2px auto" }} id="outlined-weight-helper-text">
+                    Real-Time Weight
+                </FormHelperText>
+                <TextField
+                    // label="Real-Time Weight"
+                    id="standard-start-adornment"
+                    InputProps={{
+                        endAdornment: <InputAdornment position="end">g</InputAdornment>,
+                        readOnly: true,
+                        classes: { input: classes.centered },
+                        style: { fontSize: "18px" },
+                    }}
+                    variant="standard"
+                    value="69"
+                    focused
+                />
+
+                {/* <TextField
+                    label="Temperature"
+                    id="standard-start-adornment"
+                    sx={{ m: 1, width: "25ch" }}
+                    InputProps={{
+                        startAdornment: <InputAdornment position="start">C</InputAdornment>,
+                        readOnly: true,
+                    }}
+                    variant="standard"
+                /> */}
             </FormControl>
 
             <CardActions disableSpacing>
@@ -226,16 +255,18 @@ function Scale({ mainScaleData }) {
                     <ExpandMoreIcon />
                 </ExpandMore>
             </CardActions>
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
+            <Collapse in={expanded} timeout="auto" unmountOnExit style={{ margin: "10px 0" }}>
+                <Divider />
+
                 <MDBox textAlign="center" style={{ margin: "10px 0" }}>
                     <MDTypography fontWeight="medium" color="dark" fontSize="15px">
-                        Portion Control:
+                        Accuracy Settings: (grams)
                     </MDTypography>
                 </MDBox>
                 <MDBox textAlign="center" lineHeight={1.2}>
                     <FormControl sx={{ m: 1, width: 155 }} variant="outlined">
                         <FormHelperText style={{ margin: "auto" }} id="outlined-weight-helper-text">
-                            Correct Portion Weight
+                            Correct Weight
                         </FormHelperText>
                         <OutlinedInput
                             id="outlined-adornment-weight"
@@ -243,6 +274,7 @@ function Scale({ mainScaleData }) {
                             style={{
                                 backgroundColor: "beige",
                             }}
+                            classes={{ input: classes.centered }}
                             value={correctWeight}
                             endAdornment={<InputAdornment position="end">{unitOfMassCode}</InputAdornment>}
                             aria-describedby="outlined-weight-helper-text"
@@ -257,13 +289,14 @@ function Scale({ mainScaleData }) {
                 <div style={{ margin: "0 10px" }}>
                     <div style={{ display: "flex" }}>
                         <FormControl sx={{ m: 1, width: 125 }} variant="outlined">
-                            <FormHelperText id="outlined-weight-helper-text">Lower Threshold </FormHelperText>
+                            <FormHelperText id="outlined-weight-helper-text">Min Limit </FormHelperText>
                             <OutlinedInput
                                 id="outlined-adornment-weight"
                                 name="minOffsetField"
                                 style={{
                                     backgroundColor: "beige",
                                 }}
+                                classes={{ input: classes.centered }}
                                 value={minOffset}
                                 endAdornment={<InputAdornment position="end">{unitOfMassCode}</InputAdornment>}
                                 aria-describedby="outlined-weight-helper-text"
@@ -275,13 +308,14 @@ function Scale({ mainScaleData }) {
                             />
                         </FormControl>
                         <FormControl sx={{ m: 1, width: 125 }} variant="outlined">
-                            <FormHelperText id="outlined-weight-helper-text">Upper Threshold </FormHelperText>
+                            <FormHelperText id="outlined-weight-helper-text">Max Limit </FormHelperText>
                             <OutlinedInput
                                 id="outlined-adornment-weight"
                                 name="maxOffsetField"
                                 style={{
                                     backgroundColor: "beige",
                                 }}
+                                classes={{ input: classes.centered }}
                                 value={maxOffset}
                                 endAdornment={<InputAdornment position="end">{unitOfMassCode}</InputAdornment>}
                                 aria-describedby="outlined-weight-helper-text"
