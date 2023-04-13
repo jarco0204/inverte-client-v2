@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 
 // External UI Components
-import { Button, Checkbox, Container, FormControlLabel, TextField, Typography, ThemeProvider } from "@mui/material";
+import { Button, Checkbox, Container, FormControlLabel, TextField, Typography, ThemeProvider, IconButton, Toolbar } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
-
-// Internal UI Components
-import Header from "./components/Header";
+import AppBar from "@mui/material/AppBar";
 
 // AWS imports
 import { Auth } from "aws-amplify";
+
+import logo from "../../assets/img/inverte_green_logo.png";
 
 const theme = createTheme({
     palette: {
@@ -23,8 +23,9 @@ const theme = createTheme({
         },
     },
 });
+
 // eslint-disable-next-line
-function SignIn({ setAuthenticated = console.log }) {
+function SignInContainer({ setAuthenticated = console.log }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
@@ -64,37 +65,55 @@ function SignIn({ setAuthenticated = console.log }) {
     /*
         Function to retrieve essential info from API
     */
-
     // async function getEssentialInfoAPI(username) {
-    //     const myAPI = "inverteAmplifyRESTapiV1";
-    //     const path = "/restaurants/";
-    //     console.log("Calling API from SignIn");
-    //     let finalAPIRoute = path + username;
-    //     console.log("My API route is ", finalAPIRoute);
-    //     await API.get(myAPI, finalAPIRoute)
-    //         .then((response) => {
-    //             console.log("Message correctly received from API V2", JSON.stringify(response));
-    //             // let scalesData = response["scaleData"]["Item"];
-
-    //             // // Create Combined Dataset to generate ScaleCard Components
-    //             // let tempAr = [];
-    //             // for (let i = 0; i < scalesData["mqttPubTopic"].length; i++) {
-    //             //     tempAr.push([scalesData["mqttPubTopic"][i]]);
-    //             // }
-    //             // let subTopic = scalesData["mqttSubTopic"];
-    //             // // Set state
-    //             // setScalesData(tempAr);
-    //             // setSubTopic(subTopic);
-    //         })
-    //         .catch((error) => {
-    //             console.log("Failed to retrieve from API", error);
-    //         });
-
-    //     console.log("API Call Completes");
     // }
+
     return (
         <ThemeProvider theme={theme}>
-            <Header />
+            <AppBar color="primary">
+                <Container maxWidth="xl">
+                    <Toolbar disableGutters>
+                        <IconButton color="inherit" aria-label="open drawer" edge="start" sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}>
+                            <img src={logo} alt="logo" style={{ maxWidth: "100px" }} />
+                            <Typography
+                                variant="h4"
+                                noWrap
+                                component="a"
+                                sx={{
+                                    mr: 2,
+                                    display: { xs: "none", md: "flex" },
+                                    fontWeight: 700,
+                                    letterSpacing: ".3rem",
+                                    color: "inherit",
+                                    textDecoration: "none",
+                                }}
+                            >
+                                INVERTE
+                            </Typography>
+                        </IconButton>
+
+                        <IconButton color="inherit" aria-label="open drawer" edge="start" sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}>
+                            <img src={logo} alt="logo" style={{ maxWidth: "75px" }} />
+                            <Typography
+                                variant="h5"
+                                noWrap
+                                component="a"
+                                sx={{
+                                    mr: 2,
+                                    display: { xs: "flex", md: "none" },
+                                    flexGrow: 2,
+                                    fontWeight: 900,
+                                    letterSpacing: ".3rem",
+                                    color: "inherit",
+                                    textDecoration: "none",
+                                }}
+                            >
+                                INVERTE
+                            </Typography>
+                        </IconButton>
+                    </Toolbar>
+                </Container>
+            </AppBar>
             <Container sx={{ padding: 10 }} disableGutters={true}>
                 <div
                     style={{
@@ -147,4 +166,4 @@ function SignIn({ setAuthenticated = console.log }) {
     );
 }
 
-export default SignIn;
+export default SignInContainer;

@@ -33,7 +33,7 @@ dayjs.extend(dayOfYear);
 // import Projects from "layouts/dashboard/components/Projects";
 // import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 
-function Dashboard(userSession = console.log) {
+function DashboardContainer(userSession = console.log) {
     // const [scaleIDs, setScalesArray] = useState([]);
     const [cardSummaryItems, setCardSummaryItems] = useState([]);
 
@@ -47,24 +47,22 @@ function Dashboard(userSession = console.log) {
         const getScaleIDAndDailySummary = async () => {
             // Fetch Essential data
             try {
-                const myAPI = "inverteClientAmplifyAPIv1";
+                const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
                 const path = "/restaurants/";
                 const finalAPIRoute = path + userSession.userSession.username; //TODO: Cases where userSession is empty
 
                 // Get Essential Restaurant Meta Data (ScaleID)
-                await API.get(myAPI, finalAPIRoute)
+                await API.get(AMPLIFY_API, finalAPIRoute)
                     .then(async (response) => {
-                        // console.log("Response from API: ", response.item.Item.scaleID); // Debug Statement
-                        // setScalesArray([response.item.Item.scaleID]);
                         try {
-                            const myAPI = "inverteClientAmplifyAPIv1";
+                            console.log(Response.item.Item);
                             const path = "/daily/";
                             const finalAPIRoute = path + response.item.Item.scaleID;
                             // console.log(finalAPIRoute); // debug statement
                             let tempDate = dayjs(); // Automatically in local time
 
                             // Get daily-hourly summary
-                            await API.get(myAPI, finalAPIRoute, {
+                            await API.get(AMPLIFY_API, finalAPIRoute, {
                                 queryStringParameters: {
                                     dayOfYear: tempDate.dayOfYear().toString(),
                                     hourOfDay: tempDate.hour().toString(),
@@ -240,4 +238,4 @@ function Dashboard(userSession = console.log) {
     );
 }
 
-export default Dashboard;
+export default DashboardContainer;
