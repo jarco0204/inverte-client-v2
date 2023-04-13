@@ -13,17 +13,8 @@ import Footer from "../../components/Footer";
 import Scale from "./components/Scale";
 
 //AWS Imports
-import { Amplify, API } from "aws-amplify";
-import { AWSIoTProvider } from "@aws-amplify/pubsub"; // MQTT Client to Receive Messages
+import { API } from "aws-amplify";
 import { IoTDataPlaneClient, GetThingShadowCommand } from "@aws-sdk/client-iot-data-plane";
-
-// Amplify Pub/Sub MQTT Client
-Amplify.addPluggable(
-    new AWSIoTProvider({
-        aws_pubsub_region: process.env.REACT_APP_AWS_REGION,
-        aws_pubsub_endpoint: "wss://" + process.env.REACT_APP_MQTT_ENDPOINT + ".iot.ca-central-1.amazonaws.com/mqtt",
-    })
-);
 
 // AWS SDK V3 Library HTTP Client to fetch Classic Shadow State
 const iotClient = new IoTDataPlaneClient({
