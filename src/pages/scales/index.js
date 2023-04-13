@@ -1,10 +1,6 @@
 import { useState, useEffect } from "react";
-
 import { Buffer } from "buffer";
 import PropTypes from "prop-types";
-
-import { Amplify, API } from "aws-amplify";
-import { IoTDataPlaneClient, GetThingShadowCommand } from "@aws-sdk/client-iot-data-plane";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
@@ -14,41 +10,44 @@ import MDBox from "../../components/MDBox";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "../../components/Navbars/DashboardNavbar";
 import Footer from "../../components/Footer";
-
-// User-level Imports
 import Scale from "./components/Scale";
 
-// MQTT Client to Receive Messages
-import { AWSIoTProvider } from "@aws-amplify/pubsub";
+//AWS Imports
+import { Amplify, API } from "aws-amplify";
+import { AWSIoTProvider } from "@aws-amplify/pubsub"; // MQTT Client to Receive Messages
+import { IoTDataPlaneClient, GetThingShadowCommand } from "@aws-sdk/client-iot-data-plane";
+
+// Amplify Pub/Sub MQTT Client
 Amplify.addPluggable(
     new AWSIoTProvider({
-        aws_pubsub_region: "ca-central-1",
-        aws_pubsub_endpoint: "wss://a33ho10nah991e-ats.iot.ca-central-1.amazonaws.com/mqtt",
+        aws_pubsub_region: process.env.REACT_APP_AWS_REGION,
+        aws_pubsub_endpoint: "wss://" + process.env.REACT_APP_MQTT_ENDPOINT + ".iot.ca-central-1.amazonaws.com/mqtt",
     })
 );
 
-// Fetch Shadow State Using SDK V3 Library (no shadowName)
+// AWS SDK V3 Library HTTP Client to fetch Classic Shadow State
 const iotClient = new IoTDataPlaneClient({
     //TODO: Add credentials as environment variables
-    region: "ca-central-1",
+    region: process.env.REACT_APP_AWS_REGION,
     credentials: {
-        accessKeyId: "AKIARHM5WBNOIW7X3JJD",
-        secretAccessKey: "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",
+        accessKeyId: process.env.REACT_APP_IAM_ACCESS_KEY,
+        secretAccessKey: process.env.REACT_APP_IAM_SECRET_KEY,
     },
+    //shadowName: classic: null ? namedShadow
 });
 
 /*
-    Main Function Component to hold Scale Cards
+    Main Route Container that hold array of Scale Components (Scale Card)
 */
 function ScalesContainer({ userSession }) {
-    const [scalesMetaArr, setScalesMetaArr] = useState([]); // Array of objects
+    const [scalesMetaArr, setScalesMetaArr] = useState([]); // Array of Scales
 
     /*
         Fetch the scale(s) metadata and shadows associated with the restaurantID (CognitoID)1
     */
     const getRestaurantList = async () => {
         try {
-            const myAPI = "inverteClientAmplifyAPIv1";
+            const myAPI = process.env.REACT_APP_AMPLIFY_API_NAME;
             const path = "/restaurants/";
             const finalAPIRoute = path + userSession.username; //TODO: Cases where userSession is empty
             await API.get(myAPI, finalAPIRoute)
@@ -59,7 +58,6 @@ function ScalesContainer({ userSession }) {
                     const tempScalesMetaArr = [];
                     for (let i = 0; i < response.iotThingNames.length; i++) {
                         // Fetch Shadow State Using SDK V3 Library
-
                         const getThingShadowRequestInput = {
                             thingName: response.iotThingNames[i], // Requesting Classic Shadow as opposed to timeseries one
                         };
@@ -68,7 +66,9 @@ function ScalesContainer({ userSession }) {
                         const tempShadow = await iotClient.send(command);
                         const tempPayload = JSON.parse(Buffer.from(tempShadow.payload).toString("utf8")); // encoded form of JSON Response
 
-                        tempScalesMetaArr.push({ topic: response.mqttTopics, state: tempPayload.state.reported });
+                        // Construct root scale topic
+                        let scaleRootTopic = response.restaurantName + "/" + response.restaurantLocationNum;
+                        tempScalesMetaArr.push({ topic: scaleRootTopic, state: tempPayload.state.reported, iotNameThing: response.iotThingNames[i] });
                     }
                     setScalesMetaArr(tempScalesMetaArr);
                 })
@@ -81,12 +81,11 @@ function ScalesContainer({ userSession }) {
         }
     };
 
-    // UseEffect Hook to fetch essential metadata
+    /*
+        React Hook to fetch essential metadata from Dynamo using Amplify API Call and then from Classic Shadow.
+    */
     useEffect(() => {
-        console.log("Hello 1");
-        // setScalesMetaArr([]); // BUG: When modifying this file, react keeps adding arrays mmhh
         getRestaurantList();
-        console.log("Hello 2");
     }, []);
 
     return (
@@ -108,6 +107,7 @@ function ScalesContainer({ userSession }) {
     );
 }
 
+// Default props to start making JS into TS
 ScalesContainer.propTypes = {
     userSession: PropTypes.object,
 };

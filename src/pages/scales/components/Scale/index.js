@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
-
-// prop-types is a library for typechecking of props.
-import PropTypes from "prop-types";
+import PropTypes from "prop-types"; // prop-types is a library for typechecking of props.
 
 // AWS Imports
 import { PubSub } from "aws-amplify";
+
+// User Components
+import MDBox from "../../../../components/MDBox";
+import MDTypography from "../../../../components/MDTypography";
+import { TareButton, StartButton, ExpandMore } from "./ScaleButtons";
 
 //MUI Components
 import Card from "@mui/material/Card";
@@ -15,69 +18,65 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
-
-import Collapse from "@mui/material/Collapse";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-
-// User Components
-import MDBox from "../../../../components/MDBox";
-import MDTypography from "../../../../components/MDTypography";
-import { TareButton, StartButton, ExpandMore } from "./ScaleButtons";
-
 import TextField from "@mui/material/TextField";
 import Divider from "@mui/material/Divider";
-
+import Collapse from "@mui/material/Collapse";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { makeStyles } from "@material-ui/core/styles";
-
-const useStyles = makeStyles((theme) => ({
-    centered: {
-        textAlign: "center",
-    },
-}));
 
 /*
     Main Function Component
+
+    TODO
+        
+    //  Function to handle the change of unit of mass
+    // const unitOfMassChange = (event) => {
+    //     // Unit of mass Change
+    //     if (unitOfMassCode === "g") {
+    //         setCorrectWeight((correctWeight / 28.35).toFixed(1));
+    //         setMinOffset((minOffset / 28.35).toFixed(1));
+    //         setMaxOffset((maxOffset / 28.35).toFixed(1));
+
+    //         setUnitOfMassCode("oz");
+    //     } else {
+    //         setCorrectWeight(Math.round(correctWeight * 28.35));
+    //         setMinOffset(Math.round(minOffset * 28.35));
+    //         setMaxOffset(Math.round(maxOffset * 28.35));
+    //         setUnitOfMassCode("g");
+    //     }
+
+    //     updateShadow(event);
+    // };
 */
 function Scale({ mainScaleData }) {
-    const classes = useStyles();
     //  Core Scale State is fetched from IoT Shadow
     // console.log("Your channel good sir, ", mainScaleData); // Debug statement //NOTE: Changes to Input Fields trigger the re-render
     const [nameIngredient, setNameIngredient] = useState(mainScaleData.state.nameIngredient);
     const [correctWeight, setCorrectWeight] = useState(mainScaleData.state.correctWeight);
     const [minOffset, setMinOffset] = useState(mainScaleData.state.lowerErrorLimit);
     const [maxOffset, setMaxOffset] = useState(mainScaleData.state.upperErrorLimit);
-    const [unitOfMassCode, setUnitOfMassCode] = useState(mainScaleData.state.unitOfMass);
 
-    const [stateButtonStr, setStateButtonStr] = useState("Offline");
-    const [stateCardColor, setStateCardColor] = useState("warning");
+    const [unitOfMassCode, setUnitOfMassCode] = useState("oz"); // Global variable
+
+    // Time series signal
+    const [realTimeWeight, setRealTimeWeight] = useState(0);
+    const [realTimeTemperature, setRealTimeTemperature] = useState("Off");
+
+    const [scaleStateReported, setScaleStateReported] = useState(1); // 1 = Unloaded & 2 = Busy/On
+    // const [stateCardColor, setStateCardColor] = useState("warning");
 
     /*
-        Function to expand scale card when arrow is button is clicked
+        UI and UX state variable and handlers
     */
+    const useStyles = makeStyles((theme) => ({
+        centered: {
+            textAlign: "center",
+        },
+    }));
+    const classes = useStyles();
     const [expanded, setExpanded] = useState(false);
     const handleExpandClick = () => {
         setExpanded(!expanded);
-    };
-
-    /*
-        Function to handle the change of unit of mass
-    */
-    const unitOfMassChange = (event) => {
-        // Unit of mass Change
-        if (unitOfMassCode === "g") {
-            setCorrectWeight((correctWeight / 28.35).toFixed(1));
-            setMinOffset((minOffset / 28.35).toFixed(1));
-            setMaxOffset((maxOffset / 28.35).toFixed(1));
-
-            setUnitOfMassCode("oz");
-        } else {
-            setCorrectWeight(Math.round(correctWeight * 28.35));
-            setMinOffset(Math.round(minOffset * 28.35));
-            setMaxOffset(Math.round(maxOffset * 28.35));
-            setUnitOfMassCode("g");
-        }
-
-        updateShadow(event);
     };
 
     /*
@@ -102,7 +101,7 @@ function Scale({ mainScaleData }) {
         }
 
         // Update Shadow
-        PubSub.publish("$aws/things/P0-08-v2/shadow/update", getThingShadowRequestInput);
+        PubSub.publish("$aws/things/" + mainScaleData.iotNameThing + " /shadow/update", getThingShadowRequestInput);
         console.log("Shadow Update..."); // Debug Statement
     };
 
@@ -110,54 +109,30 @@ function Scale({ mainScaleData }) {
         Function to send desired action to scale (Tare or Start Guidance)
         Possible Actions are {1: "tare", 2: "start"}
     */
-    const sendDataAWS = async (action) => {
+    const sendDataAWS = (action) => {
         let msg, finalTopic;
         msg = {
             control: action,
             msg: "Message sent by el PumaV56",
         };
-        finalTopic = mainScaleData.topic[0] + "control";
-
-        // Perform action on scale
+        finalTopic = mainScaleData.topic + "/" + mainScaleData.iotNameThing + "/control";
         PubSub.publish(finalTopic, msg); // Await it not needed
-        console.log("Action Published to Scale..."); // Debug Statement
+        // console.log("Action Published to Scale...", finalTopic); // Debug Statement
     };
 
     /*
         Hook to enable real-time communication from scale to client to display IoT Shadows
     */
     useEffect(() => {
-        // mainScaleData.state.scalePortionState = mainScaleData.state.scalePortionState;
-        if (mainScaleData.state.scalePortionState === 0) {
-            setStateCardColor("warning");
-            setStateButtonStr("Offline");
-        } else if (mainScaleData.state.scalePortionState === 1) {
-            setStateCardColor("info");
-            setStateButtonStr("Start");
-        } else if (mainScaleData.state.scalePortionState === 2) {
-            setStateCardColor("success");
-            setStateButtonStr("Online");
-        } else {
-            setStateCardColor("warning");
-            setStateButtonStr("Error");
-        }
-
         // Open Web Socket to update data
-        PubSub.subscribe("test/1/ts/delta").subscribe({
+        PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing + "/shadow/name/timeseries/update/accepted").subscribe({
             next: (dataCloud) => {
                 console.log("Message received by el Puma", dataCloud);
-                //         // Change Unix Timesetamp to Local Time
-                //         let d = new Date(0); // The 0 there is the key, which sets the date to the epoch
-                //         d.setUTCMilliseconds(dataCloud.value.timestamp);
-                //         // console.log(d);
-                //         let graphEle = {
-                //             inventoryWeight: dataCloud.value.inventoryWeight - dataCloud.value.portionWeight,
-                //             timestamp: d,
-                //             inventoryName: dataCloud.value.ingredientName,
-                //         };
-                //         // const updatedDataAr = [...data, graphEle];
-                //         // let newKey = dataCloud.readingID;
-                //         setData((data) => [...data, graphEle]);
+                dataCloud = dataCloud.value;
+
+                setRealTimeWeight(dataCloud.state.reported.inventoryWeight);
+                setRealTimeTemperature(dataCloud.state.reported.temperature + "℃");
+                setScaleStateReported(dataCloud.state.reported.scalePortionState);
             },
             error: (error) => console.error(error),
             complete: () => console.log("Web Socket Done"),
@@ -169,13 +144,13 @@ function Scale({ mainScaleData }) {
             <MDBox display="flex" justifyContent="space-between" pt={1} px={1}>
                 <MDBox variant="gradient" bgColor="light" borderRadius="xl" display="flex" justifyContent="center" width="3.5rem" height="3rem" mt={-4.5}>
                     <Icon fontSize="large">
-                        <FastfoodIcon style={{ color: "green" }} />
+                        <FastfoodIcon style={{ color: scaleStateReported == 1 ? "#02182E" : "green" }} />
                     </Icon>
                 </MDBox>
                 <MDBox
                     variant="gradient"
                     bgColor="light"
-                    style={{ color: "#3a86ff", fontSize: "18px" }}
+                    style={{ color: scaleStateReported == 1 ? "#02182E" : "green", fontSize: "18px" }}
                     borderRadius="xl"
                     display="flex"
                     justifyContent="center"
@@ -184,13 +159,10 @@ function Scale({ mainScaleData }) {
                     height="3rem"
                     mt={-4.5}
                 >
-                    6℃
+                    {realTimeTemperature}
                 </MDBox>
             </MDBox>
             <MDBox style={{ margin: "auto", paddingTop: "5px" }}>
-                {/* <MDTypography fontWeight="bold" color="dark" marginRight={"40px"} fontSize="18px">
-                        Scale #P0-08
-                    </MDTypography> */}
                 <FormControl sx={{ m: 1, width: 145 }} variant="outlined">
                     <FormHelperText style={{ margin: "auto" }} id="outlined-weight-helper-text">
                         Ingredient Name
@@ -219,37 +191,24 @@ function Scale({ mainScaleData }) {
                     Real-Time Weight
                 </FormHelperText>
                 <TextField
-                    // label="Real-Time Weight"
                     id="standard-start-adornment"
                     InputProps={{
-                        endAdornment: <InputAdornment position="end">g</InputAdornment>,
+                        endAdornment: <InputAdornment position="end">{unitOfMassCode}</InputAdornment>,
                         readOnly: true,
                         classes: { input: classes.centered },
                         style: { fontSize: "18px" },
                     }}
                     variant="standard"
-                    value="69"
-                    focused
+                    value={realTimeWeight}
+                    focused={scaleStateReported == 1 ? false : true}
                 />
-
-                {/* <TextField
-                    label="Temperature"
-                    id="standard-start-adornment"
-                    sx={{ m: 1, width: "25ch" }}
-                    InputProps={{
-                        startAdornment: <InputAdornment position="start">C</InputAdornment>,
-                        readOnly: true,
-                    }}
-                    variant="standard"
-                /> */}
             </FormControl>
-
             <CardActions disableSpacing>
                 <TareButton name="tare" onClick={() => sendDataAWS(1)}>
                     Tare
                 </TareButton>
                 <StartButton name="start" onClick={() => sendDataAWS(2)}>
-                    {stateButtonStr}
+                    {scaleStateReported == 1 ? "Guide" : "Stop"}
                 </StartButton>
                 <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
                     <ExpandMoreIcon />
@@ -257,10 +216,9 @@ function Scale({ mainScaleData }) {
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit style={{ margin: "10px 0" }}>
                 <Divider />
-
                 <MDBox textAlign="center" style={{ margin: "10px 0" }}>
                     <MDTypography fontWeight="medium" color="dark" fontSize="15px">
-                        Accuracy Settings: (grams)
+                        Accuracy Settings: ({unitOfMassCode == "g" ? "Grams" : "Ounces"})
                     </MDTypography>
                 </MDBox>
                 <MDBox textAlign="center" lineHeight={1.2}>
@@ -276,7 +234,7 @@ function Scale({ mainScaleData }) {
                             }}
                             classes={{ input: classes.centered }}
                             value={correctWeight}
-                            endAdornment={<InputAdornment position="end">{unitOfMassCode}</InputAdornment>}
+                            // endAdornment={<InputAdornment position="end">{unitOfMassCode}</InputAdornment>} // Removed after feedback from the team
                             aria-describedby="outlined-weight-helper-text"
                             inputProps={{
                                 "aria-label": "weight",
@@ -298,7 +256,6 @@ function Scale({ mainScaleData }) {
                                 }}
                                 classes={{ input: classes.centered }}
                                 value={minOffset}
-                                endAdornment={<InputAdornment position="end">{unitOfMassCode}</InputAdornment>}
                                 aria-describedby="outlined-weight-helper-text"
                                 inputProps={{
                                     "aria-label": "weight",
@@ -317,7 +274,6 @@ function Scale({ mainScaleData }) {
                                 }}
                                 classes={{ input: classes.centered }}
                                 value={maxOffset}
-                                endAdornment={<InputAdornment position="end">{unitOfMassCode}</InputAdornment>}
                                 aria-describedby="outlined-weight-helper-text"
                                 inputProps={{
                                     "aria-label": "weight",
@@ -347,6 +303,7 @@ Scale.defaultProps = {
             unitOfMass: "g",
         },
         topic: "test/1",
+        iotNameThing: "PP",
     },
 };
 
