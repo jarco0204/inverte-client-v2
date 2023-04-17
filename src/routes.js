@@ -21,9 +21,9 @@
 */
 
 // Material Dashboard 2 React layouts
-import Dashboard from "./pages/dashboard";
+import DashboardContainer from "./pages/dashboard";
 import ScalesContainer from "./pages/scales";
-import AnalyticsDashboard from "./pages/analytics/";
+import AnalyticsContainer from "./pages/analytics/";
 
 // import Tables from "layouts/tables";
 // import Billing from "layouts/billing";
@@ -39,7 +39,9 @@ import HomeIcon from "@mui/icons-material/Home";
 import ScaleIcon from "@mui/icons-material/Scale";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
 
-const routes = (userSession) => {
+const routes = (metaInformation) => {
+    console.log("ypour meta", metaInformation);
+    // const [restaurantName, restaurantLocationNum] = [metaInformation.restaurantName, metaInformation.restaurantLocation];
     return [
         {
             type: "collapse",
@@ -51,7 +53,7 @@ const routes = (userSession) => {
                 </Icon>
             ),
             route: "/dashboard",
-            component: <Dashboard userSession={userSession} />,
+            component: <DashboardContainer userScaleID={metaInformation.userScaleID} />,
         },
         {
             type: "collapse",
@@ -63,7 +65,7 @@ const routes = (userSession) => {
                 </Icon>
             ),
             route: "/scales",
-            component: <ScalesContainer userSession={userSession} />,
+            component: <ScalesContainer iotThingNames={metaInformation.iotThingNames} restaurantName={metaInformation.restaurantName} restaurantLocationNum={metaInformation.restaurantLocationNum} />,
         },
         {
             type: "collapse",
@@ -75,7 +77,7 @@ const routes = (userSession) => {
                 </Icon>
             ),
             route: "/analytics",
-            component: <AnalyticsDashboard />,
+            component: <AnalyticsContainer />,
         },
         // {
         //   type: "collapse",

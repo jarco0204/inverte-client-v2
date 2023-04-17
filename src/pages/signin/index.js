@@ -62,12 +62,6 @@ function SignInContainer({ setAuthenticated = console.log }) {
         }
     }
 
-    /*
-        Function to retrieve essential info from API
-    */
-    // async function getEssentialInfoAPI(username) {
-    // }
-
     return (
         <ThemeProvider theme={theme}>
             <AppBar color="primary">

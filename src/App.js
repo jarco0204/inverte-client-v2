@@ -20,10 +20,11 @@ import routes from "./routes";
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "./context";
 
 // Material Dashboard Theme
-// import themeDark from "assets/theme-dark"; // TODO
 import theme from "./assets/theme";
+// import themeDark from "assets/theme-dark"; // TODO
 
-import { Auth } from "aws-amplify";
+//AWS Imports
+import { Auth, API } from "aws-amplify";
 
 // Images
 import inverteLogo from "./assets/img/inverte_green_logo.png";
@@ -36,7 +37,8 @@ export default function App() {
     // Component State
     const [onMouseEnter, setOnMouseEnter] = useState(false);
     const [authenticated, setAuthenticated] = useState(false);
-    const [userSession, setUserSession] = useState(null);
+
+    const [metaInformation, setMetaInformation] = useState({ iotThingNames: ["test"], restaurantName: "pp", restaurantLocation: "pp2" }); //TODO: Support different scale IDs
 
     // Hook for For route traversal
     const { pathname } = useLocation();
@@ -46,12 +48,9 @@ export default function App() {
         async function authSession() {
             try {
                 const session = await Auth.currentSession();
-                console.log("My session is:", session);
-
                 const user = await Auth.currentAuthenticatedUser();
-                setUserSession(user);
+                console.log("My session is:", session);
                 console.log("My user is:", user);
-
                 /* This Code block allows you to determine the CognitoIdentityID that allows
                 to attach the IoT Policy
                 Auth.currentCredentials().then((info) => {
@@ -59,6 +58,8 @@ export default function App() {
                     console.log("pp read this : ", cognitoIdentityId);
                 });
                 */
+                // setUserSession(user);
+                await getEssentialInfoAPI(user.username);
 
                 setAuthenticated(true);
             } catch (err) {
@@ -104,6 +105,26 @@ export default function App() {
         Function to change the openConfigurator state
     */
     const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
+
+    /*
+        Function to retrieve essential info from API
+    */
+    async function getEssentialInfoAPI(username) {
+        try {
+            const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
+            const path = "/restaurants/";
+            const finalAPIRoute = path + username; //TODO: Cases where userSession is empty
+
+            // Get Essential Restaurant Meta Data (ScaleID)
+            // console.log(Response.item.Item);
+            await API.get(AMPLIFY_API, finalAPIRoute).then(async (response) => {
+                console.log(response.item.Item);
+                setMetaInformation(response.item.Item);
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    }
 
     // Config Button Component
     const configsButton = (
@@ -163,7 +184,7 @@ export default function App() {
                                 color={sidenavColor}
                                 brand={(transparentSidenav && !darkMode) || whiteSidenav ? inverteLogo : inverteLogo}
                                 brandName="InVerte"
-                                routes={routes()}
+                                routes={routes(metaInformation)}
                                 onMouseEnter={handleOnMouseEnter}
                                 onMouseLeave={handleOnMouseLeave}
                             />
@@ -173,7 +194,7 @@ export default function App() {
                     ) : null}
                     {layout === "vr" ? <Configurator /> : null}
                     <Routes>
-                        {getRoutes(routes(userSession))}
+                        {getRoutes(routes(metaInformation))}
                         <Route path="*" element={<Navigate to="/dashboard" />} />
                     </Routes>
                 </ThemeProvider>

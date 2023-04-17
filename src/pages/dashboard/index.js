@@ -33,7 +33,7 @@ dayjs.extend(dayOfYear);
 // import Projects from "layouts/dashboard/components/Projects";
 // import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 
-function DashboardContainer(userSession = console.log) {
+function DashboardContainer({ userScaleID }) {
     // const [scaleIDs, setScalesArray] = useState([]);
     const [cardSummaryItems, setCardSummaryItems] = useState([]);
 
@@ -47,79 +47,79 @@ function DashboardContainer(userSession = console.log) {
         const getScaleIDAndDailySummary = async () => {
             // Fetch Essential data
             try {
-                const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
-                const path = "/restaurants/";
-                const finalAPIRoute = path + userSession.userSession.username; //TODO: Cases where userSession is empty
+                // const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
+                // const path = "/restaurants/";
+                // const finalAPIRoute = path + userSession.userSession.username; //TODO: Cases where userSession is empty
 
-                // Get Essential Restaurant Meta Data (ScaleID)
-                await API.get(AMPLIFY_API, finalAPIRoute)
-                    .then(async (response) => {
-                        try {
-                            console.log(Response.item.Item);
-                            const path = "/daily/";
-                            const finalAPIRoute = path + response.item.Item.scaleID;
-                            // console.log(finalAPIRoute); // debug statement
-                            let tempDate = dayjs(); // Automatically in local time
+                // // Get Essential Restaurant Meta Data (ScaleID)
+                // await API.get(AMPLIFY_API, finalAPIRoute)
+                //     .then(async (response) => {
+                //         try {
+                // console.log(Response.item.Item);
+                const path = "/daily/";
+                const finalAPIRoute = path + userScaleID;
+                // console.log(finalAPIRoute); // debug statement
+                let tempDate = dayjs(); // Automatically in local time
 
-                            // Get daily-hourly summary
-                            await API.get(AMPLIFY_API, finalAPIRoute, {
-                                queryStringParameters: {
-                                    dayOfYear: tempDate.dayOfYear().toString(),
-                                    hourOfDay: tempDate.hour().toString(),
-                                },
-                            })
-                                .then((response) => {
-                                    // console.log("Your api response: ", response); // Debug Statement
-                                    if (response.daily) {
-                                        let accuracy = response.daily.hourlySummary.accuracy + "%";
-                                        let inventoryWeight = response.daily.hourlySummary.inventoryConsumed + "g";
-                                        let timeSaved = "+" + response.daily.hourlySummary.minutesSaved;
-                                        setCardSummaryItems([response.daily.hourlySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
+                // Get daily-hourly summary
+                await API.get(process.env.REACT_APP_AMPLIFY_API_NAME, finalAPIRoute, {
+                    queryStringParameters: {
+                        dayOfYear: tempDate.dayOfYear().toString(),
+                        hourOfDay: tempDate.hour().toString(),
+                    },
+                })
+                    .then((response) => {
+                        // console.log("Your api response: ", response); // Debug Statement
+                        if (response.daily) {
+                            let accuracy = response.daily.hourlySummary.accuracy + "%";
+                            let inventoryWeight = response.daily.hourlySummary.inventoryConsumed + "g";
+                            let timeSaved = "+" + response.daily.hourlySummary.minutesSaved;
+                            setCardSummaryItems([response.daily.hourlySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
 
-                                        // Second part of the algorithm involves setting the data arrays for graphs
-                                        console.log("Your returned real-time object: ", response.daily.realTime);
-                                        // console.log(response.daily.realTime);
+                            // Second part of the algorithm involves setting the data arrays for graphs
+                            console.log("Your returned real-time object: ", response.daily.realTime);
+                            // console.log(response.daily.realTime);
 
-                                        let tempKeys = Object.keys(response.daily.realTime).sort();
-                                        // setRealTimeMinuteLabels(tempKeys); // Gets the keys in ascending order
+                            let tempKeys = Object.keys(response.daily.realTime).sort();
+                            // setRealTimeMinuteLabels(tempKeys); // Gets the keys in ascending order
 
-                                        let [tempWeightAr, tempTemperatureAr, tempAccuracyAr] = [[], [], []];
+                            let [tempWeightAr, tempTemperatureAr, tempAccuracyAr] = [[], [], []];
 
-                                        for (let i = 0; i < tempKeys.length; i++) {
-                                            tempWeightAr.push(response.daily.realTime[tempKeys[i]].weight);
-                                            tempTemperatureAr.push(response.daily.realTime[tempKeys[i]].temperature);
-                                            tempAccuracyAr.push(response.daily.realTime[tempKeys[i]].accuracy);
-                                        }
+                            for (let i = 0; i < tempKeys.length; i++) {
+                                tempWeightAr.push(response.daily.realTime[tempKeys[i]].weight);
+                                tempTemperatureAr.push(response.daily.realTime[tempKeys[i]].temperature);
+                                tempAccuracyAr.push(response.daily.realTime[tempKeys[i]].accuracy);
+                            }
 
-                                        weightGraph.labels = tempKeys;
-                                        weightGraph.datasets.data = tempWeightAr;
+                            weightGraph.labels = tempKeys;
+                            weightGraph.datasets.data = tempWeightAr;
 
-                                        accuracyGraph.labels = tempKeys;
-                                        accuracyGraph.datasets.data = tempAccuracyAr;
+                            accuracyGraph.labels = tempKeys;
+                            accuracyGraph.datasets.data = tempAccuracyAr;
 
-                                        temperatureGraph.labels = tempKeys;
-                                        temperatureGraph.datasets.data = tempTemperatureAr;
+                            temperatureGraph.labels = tempKeys;
+                            temperatureGraph.datasets.data = tempTemperatureAr;
 
-                                        // console.log(weightGraph);
-                                        setRealTimeWeight(weightGraph);
-                                        setRealTimeAccuracy(accuracyGraph);
-                                        setRealTimeTemperature(temperatureGraph);
-                                    } else {
-                                        //API Failed so we need placeholder values
-                                        setCardSummaryItems(["0", "NA", "0", "NA"]);
-                                        // Line graphs are set to empty
-                                    }
-                                })
-                                .catch((error) => {
-                                    console.log("Failed to retrieve from API (daily)", error);
-                                });
-                        } catch (err) {
-                            console.log(err);
+                            // console.log(weightGraph);
+                            setRealTimeWeight(weightGraph);
+                            setRealTimeAccuracy(accuracyGraph);
+                            setRealTimeTemperature(temperatureGraph);
+                        } else {
+                            //API Failed so we need placeholder values
+                            setCardSummaryItems(["0", "NA", "0", "NA"]);
+                            // Line graphs are set to empty
                         }
                     })
                     .catch((error) => {
-                        console.log("Failed to retrieve from inverteClientAmplifyAPIv1 (restaurant): ", error);
+                        console.log("Failed to retrieve from API (daily)", error);
                     });
+                // } catch (err) {
+                //     console.log(err);
+                // }
+                // })
+                // .catch((error) => {
+                //     console.log("Failed to retrieve from inverteClientAmplifyAPIv1 (restaurant): ", error);
+                // });
             } catch (err) {
                 console.log(err);
             }
