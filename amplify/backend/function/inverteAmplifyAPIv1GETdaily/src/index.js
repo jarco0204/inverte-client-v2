@@ -25,10 +25,10 @@ exports.handler = async (event) => {
     // console.log(event.queryStringParameters);
 
     // Params object to retrieve the essential information about restaurant
-    let key = event.queryStringParameters.dayOfYear + "_" + event.queryStringParameters.hourOfDay + "_" + event.pathParameters.scaleID;
+    let key = event.queryStringParameters.dayOfYear + "_" + event.queryStringParameters.hourOfDay + "_" + event.pathParameters.iotNameThing;
     const params = {
-        TableName: "inverte_portionEvents_v5",
-        Key: { dayOfYear_hourOfDay_deviceID: key, minuteOfHour_secondOfMinute: "60_60" }, // This parameters should come from scale
+        TableName: "inverte_portionEvents_v6",
+        Key: { dayOfYear_hourOfDay_iotNameThing: key, minuteOfHour_secondOfMinute: "60_60" }, // This parameters should come from scale
     };
 
     // Call to your Database

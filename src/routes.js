@@ -53,7 +53,7 @@ const routes = (metaInformation) => {
                 </Icon>
             ),
             route: "/dashboard",
-            component: <DashboardContainer userScaleID={metaInformation.userScaleID} />,
+            component: <DashboardContainer iotThingNames={metaInformation.iotThingNames} />,
         },
         {
             type: "collapse",
