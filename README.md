@@ -8,7 +8,7 @@ Christian, Johan & Rohan
 
 #### Summary
 
-This is the second version of the client app that is used in production for Q1 2023.
+This is the second version of the client app that is used in production for Q2 2023.
 
 #### Conventions
 
