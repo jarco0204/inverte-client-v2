@@ -9,10 +9,8 @@ import App from "./App";
 import { MaterialUIControllerProvider } from "./context";
 
 import { Amplify } from "aws-amplify";
-import { AWSIoTProvider } from "@aws-amplify/pubsub"; // MQTT Client to Receive Messages
 import awsmobile from "./aws-exports";
-
-Amplify.configure(awsmobile);
+import { AWSIoTProvider } from "@aws-amplify/pubsub"; // MQTT Client to Receive Messages
 Amplify.addPluggable(
     // Amplify Pub/Sub MQTT Client for Scale Container
     new AWSIoTProvider({
@@ -20,6 +18,8 @@ Amplify.addPluggable(
         aws_pubsub_endpoint: "wss://" + process.env.REACT_APP_MQTT_ENDPOINT + ".iot.ca-central-1.amazonaws.com/mqtt",
     })
 );
+Amplify.configure(awsmobile);
+
 // Amplify.Logger.LOG_LEVEL = "DEBUG";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

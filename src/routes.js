@@ -40,7 +40,7 @@ import ScaleIcon from "@mui/icons-material/Scale";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
 
 const routes = (metaInformation) => {
-    console.log("ypour meta", metaInformation);
+    // console.log("ypour meta", metaInformation); // TODO: Statement executes 4 times whenever reloading the component
     // const [restaurantName, restaurantLocationNum] = [metaInformation.restaurantName, metaInformation.restaurantLocation];
     return [
         {

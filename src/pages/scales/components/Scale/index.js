@@ -56,13 +56,12 @@ function Scale({ mainScaleData }) {
     const [minOffset, setMinOffset] = useState(mainScaleData.state.lowerErrorLimit);
     const [maxOffset, setMaxOffset] = useState(mainScaleData.state.upperErrorLimit);
 
-    const [unitOfMassCode, setUnitOfMassCode] = useState("oz"); // Global variable
+    const [unitOfMassCode, setUnitOfMassCode] = useState("g"); // Global variable
 
     // Time series signal
     const [realTimeWeight, setRealTimeWeight] = useState(0);
     const [realTimeTemperature, setRealTimeTemperature] = useState("Off");
-
-    const [scaleStateReported, setScaleStateReported] = useState(1); // 1 = Unloaded & 2 = Busy/On
+    const [scaleStateReported, setScaleStateReported] = useState(0); // 0 = off & 1 = Unloaded & 2 = Busy/On
     // const [stateCardColor, setStateCardColor] = useState("warning");
 
     /*
@@ -83,26 +82,29 @@ function Scale({ mainScaleData }) {
         Function to update the IoT Device Shadow by using PubSub Amplify MQTT Client
     */
     const updateShadow = async (event) => {
-        const getThingShadowRequestInput = { state: { desired: {} } };
+        const updateThingShadowRequestInput = { state: { desired: {} } };
 
         // Determine which property of shadow to update
         if (event.target.name === "ingredientNameField") {
-            getThingShadowRequestInput.state.desired["nameIngredient"] = nameIngredient;
+            updateThingShadowRequestInput.state.desired["nameIngredient"] = nameIngredient;
         } else if (event.target.name === "correctWeightField") {
-            getThingShadowRequestInput.state.desired["correctWeight"] = correctWeight;
+            updateThingShadowRequestInput.state.desired["correctWeight"] = correctWeight;
         } else if (event.target.name === "minOffsetField") {
-            getThingShadowRequestInput.state.desired["lowerErrorLimit"] = minOffset;
+            updateThingShadowRequestInput.state.desired["lowerErrorLimit"] = minOffset;
         } else if (event.target.name === "maxOffsetField") {
-            getThingShadowRequestInput.state.desired["upperErrorLimit"] = maxOffset;
+            updateThingShadowRequestInput.state.desired["upperErrorLimit"] = maxOffset;
         } else if (event.target.name === "unitOfMassField") {
-            getThingShadowRequestInput.state.desired["unitOfMass"] = unitOfMassCode;
+            updateThingShadowRequestInput.state.desired["unitOfMass"] = unitOfMassCode;
         } else {
             console.log("error while trying to change the scale state");
         }
 
+        let shadowTopic = "$aws/things/" + mainScaleData.iotNameThing + "/shadow/update";
+        // console.log(shadowTopic);// Debug Statement
+
         // Update Shadow
-        PubSub.publish("$aws/things/" + mainScaleData.iotNameThing + " /shadow/update", getThingShadowRequestInput);
-        console.log("Shadow Update..."); // Debug Statement
+        PubSub.publish(shadowTopic, updateThingShadowRequestInput);
+        console.log("Shadow Update...", updateThingShadowRequestInput); // Debug Statement
     };
 
     /*
@@ -117,7 +119,7 @@ function Scale({ mainScaleData }) {
         };
         finalTopic = mainScaleData.topic + "/" + mainScaleData.iotNameThing + "/control";
         PubSub.publish(finalTopic, msg); // Await it not needed
-        // console.log("Action Published to Scale...", finalTopic); // Debug Statement
+        console.log("Action Published to Scale...", finalTopic); // Debug Statement
     };
 
     /*
@@ -131,8 +133,24 @@ function Scale({ mainScaleData }) {
                 dataCloud = dataCloud.value;
 
                 setRealTimeWeight(dataCloud.state.reported.inventoryWeight);
-                setRealTimeTemperature(dataCloud.state.reported.temperature + "℃");
+                if (dataCloud.state.reported.temperature) {
+                    setRealTimeTemperature(dataCloud.state.reported.temperature + "℃");
+                } else {
+                    setRealTimeTemperature("On");
+                }
                 setScaleStateReported(dataCloud.state.reported.scalePortionState);
+            },
+            error: (error) => console.error(error),
+            complete: () => console.log("Web Socket Done"),
+        });
+
+        // Subsribe to Event Topic
+        PubSub.subscribe("$aws/events/presence/disconnected/" + mainScaleData.iotNameThing).subscribe({
+            next: () => {
+                console.log("Client" + mainScaleData.iotNameThing + " Disconnected");
+                setRealTimeWeight(0);
+                setRealTimeTemperature("Off");
+                setScaleStateReported(0);
             },
             error: (error) => console.error(error),
             complete: () => console.log("Web Socket Done"),
@@ -144,13 +162,13 @@ function Scale({ mainScaleData }) {
             <MDBox display="flex" justifyContent="space-between" pt={1} px={1}>
                 <MDBox variant="gradient" bgColor="light" borderRadius="xl" display="flex" justifyContent="center" width="3.5rem" height="3rem" mt={-4.5}>
                     <Icon fontSize="large">
-                        <FastfoodIcon style={{ color: scaleStateReported == 1 ? "#02182E" : "green" }} />
+                        <FastfoodIcon style={{ color: scaleStateReported == 0 ? "grey" : scaleStateReported == 1 ? "#02182E" : "green" }} />
                     </Icon>
                 </MDBox>
                 <MDBox
                     variant="gradient"
                     bgColor="light"
-                    style={{ color: scaleStateReported == 1 ? "#02182E" : "green", fontSize: "18px" }}
+                    style={{ color: scaleStateReported == 0 ? "red" : scaleStateReported == 1 ? "#02182E" : "green", fontSize: "18px" }}
                     borderRadius="xl"
                     display="flex"
                     justifyContent="center"
@@ -208,7 +226,7 @@ function Scale({ mainScaleData }) {
                     Tare
                 </TareButton>
                 <StartButton name="start" onClick={() => sendDataAWS(2)}>
-                    {scaleStateReported == 1 ? "Guide" : "Stop"}
+                    {scaleStateReported == 2 ? "Stop" : scaleStateReported == 1 ? "Guide" : "Stop"}
                 </StartButton>
                 <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
                     <ExpandMoreIcon />

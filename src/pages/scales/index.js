@@ -13,7 +13,6 @@ import Footer from "../../components/Footer";
 import Scale from "./components/Scale";
 
 //AWS Imports
-import { API } from "aws-amplify";
 import { IoTDataPlaneClient, GetThingShadowCommand } from "@aws-sdk/client-iot-data-plane";
 
 // AWS SDK V3 Library HTTP Client to fetch Classic Shadow State
@@ -39,6 +38,7 @@ function ScalesContainer({ iotThingNames, restaurantName, restaurantLocationNum 
     const getRestaurantList = async () => {
         try {
             const tempScalesMetaArr = [];
+            console.log(iotThingNames);
             for (let i = 0; i < iotThingNames.length; i++) {
                 // Fetch Shadow State Using SDK V3 Library
                 const getThingShadowRequestInput = {
@@ -55,7 +55,7 @@ function ScalesContainer({ iotThingNames, restaurantName, restaurantLocationNum 
             }
             setScalesMetaArr(tempScalesMetaArr);
         } catch (err) {
-            console.log(err);
+            console.log("Error when fetching your IoT Shadow...", err);
         }
     };
 
