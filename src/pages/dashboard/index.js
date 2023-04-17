@@ -43,13 +43,17 @@ function DashboardContainer({ iotThingNames }) {
     const [realTimeTemperature, setRealTimeTemperature] = useState([]);
 
     const { weightGraph, temperatureGraph, accuracyGraph } = reportsLineChartData;
+
+    /*
+        Hook to pull information from Client
+    */
     useEffect(() => {
         const getScaleIDAndDailySummary = async () => {
             // Fetch Essential data
             try {
                 const path = "/daily/";
                 const finalAPIRoute = path + iotThingNames[0];
-                // console.log(finalAPIRoute); // debug statement
+                console.log("Your API Route :", finalAPIRoute); // debug statement
                 let tempDate = dayjs(); // Automatically in local time
 
                 // Get daily-hourly summary
@@ -57,10 +61,11 @@ function DashboardContainer({ iotThingNames }) {
                     queryStringParameters: {
                         dayOfYear: tempDate.dayOfYear().toString(),
                         hourOfDay: tempDate.hour().toString(),
+                        iotNameThing: iotThingNames[0],
                     },
                 })
                     .then((response) => {
-                        // console.log("Your api response: ", response); // Debug Statement
+                        console.log("Your api response: ", response); // Debug Statement
                         if (response.daily) {
                             let accuracy = response.daily.hourlySummary.accuracy + "%";
                             let inventoryWeight = response.daily.hourlySummary.inventoryConsumed + "g";
@@ -104,13 +109,6 @@ function DashboardContainer({ iotThingNames }) {
                     .catch((error) => {
                         console.log("Failed to retrieve from API (daily)", error);
                     });
-                // } catch (err) {
-                //     console.log(err);
-                // }
-                // })
-                // .catch((error) => {
-                //     console.log("Failed to retrieve from inverteClientAmplifyAPIv1 (restaurant): ", error);
-                // });
             } catch (err) {
                 console.log(err);
             }
