@@ -6,6 +6,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Icon from "@mui/material/Icon";
 import SettingsIcon from "@mui/icons-material/Settings";
+import CircularProgress from "@mui/material/CircularProgress";
 
 // Fundamental components
 import MDBox from "./components/MDBox";
@@ -40,6 +41,8 @@ export default function App() {
 
     const [metaInformation, setMetaInformation] = useState({ iotThingNames: ["test"], restaurantName: "pp", restaurantLocation: "pp2" }); //TODO: Support different scale IDs
 
+    const [spinnerLoader, setSpinnerLoader] = useState(false);
+
     // Hook for For route traversal
     const { pathname } = useLocation();
 
@@ -47,6 +50,7 @@ export default function App() {
     useEffect(() => {
         async function authSession() {
             try {
+                setSpinnerLoader(true);
                 const session = await Auth.currentSession();
                 const user = await Auth.currentAuthenticatedUser();
                 console.log("My session is:", session);
@@ -62,6 +66,7 @@ export default function App() {
                 await getEssentialInfoAPI(user.username);
 
                 setAuthenticated(true);
+                setSpinnerLoader(false);
             } catch (err) {
                 console.log("You are not signed in");
                 console.log(err);
@@ -170,10 +175,21 @@ export default function App() {
             return null;
         });
 
+    /*
+        TODO: Make Spinner Loader look Decent
+    */
+    const SpinnerLoaderScreen = () => {
+        return (
+            <div style={{ backgroundColor: "lightblue", width: "2000px", height: "2000px" }}>
+                <CircularProgress color="success" />
+            </div>
+        );
+    };
+
     return (
         <>
             {!authenticated ? (
-                <SignIn setAuthenticated={setAuthenticated} />
+                <>{spinnerLoader ? SpinnerLoaderScreen() : <SignIn setAuthenticated={setAuthenticated} />}</>
             ) : (
                 // TODO: Add Dark theme
                 <ThemeProvider theme={darkMode ? null : theme}>
