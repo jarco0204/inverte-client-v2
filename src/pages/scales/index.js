@@ -15,6 +15,12 @@ import Scale from "./components/Scale";
 //AWS Imports
 import { IoTDataPlaneClient, GetThingShadowCommand } from "@aws-sdk/client-iot-data-plane";
 
+const customFetch = async (url, options) => {
+    const response = window.fetch(url, options);
+    response.headers.set("Access-Control-Allow-Origin", "*");
+    return response;
+};
+
 // AWS SDK V3 Library HTTP Client to fetch Classic Shadow State
 const iotClient = new IoTDataPlaneClient({
     //TODO: Add credentials as environment variables
@@ -23,6 +29,7 @@ const iotClient = new IoTDataPlaneClient({
         accessKeyId: process.env.REACT_APP_IAM_ACCESS_KEY,
         secretAccessKey: process.env.REACT_APP_IAM_SECRET_KEY,
     },
+    fetchApi: customFetch,
     //shadowName: classic: null ? namedShadow
 });
 
@@ -38,8 +45,11 @@ function ScalesContainer({ iotThingNames, restaurantName, restaurantLocationNum 
     const getRestaurantList = async () => {
         try {
             const tempScalesMetaArr = [];
-            console.log(iotThingNames);
+            console.log("Your IoT Names fetched from API: ", iotThingNames);
+
             for (let i = 0; i < iotThingNames.length; i++) {
+                console.log("I try to create your scale card components...");
+
                 // Fetch Shadow State Using SDK V3 Library
                 const getThingShadowRequestInput = {
                     thingName: iotThingNames[i], // Requesting Classic Shadow as opposed to timeseries one
