@@ -194,7 +194,7 @@ function DashboardContainer({ iotThingNames }) {
                                 <ReportsLineChart color="info" title="Accuracy Levels" description="Hourly Performance" date="Updated 5 minutes ago" chart={realTimeAccuracy} />
                             </MDBox>
                         </Grid>
-                        <Grid item xs={12} md={6} lg={4}>
+                        {/* <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
                                 <ReportsLineChart
                                     color="success"
@@ -208,7 +208,7 @@ function DashboardContainer({ iotThingNames }) {
                                     chart={realTimeTemperature}
                                 />
                             </MDBox>
-                        </Grid>
+                        </Grid> */}
                     </Grid>
                 </MDBox>
                 {/* <MDBox>
