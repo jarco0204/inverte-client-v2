@@ -68,6 +68,7 @@ export default function App() {
                 setAuthenticated(true);
                 setSpinnerLoader(false);
             } catch (err) {
+                setSpinnerLoader(false);
                 console.log("You are not signed in");
                 console.log(err);
             }
