@@ -50,10 +50,10 @@ function SignInContainer({ setAuthenticated = console.log }) {
             try {
                 await Auth.signIn(email, password);
                 setAuthenticated(true);
-                // Auth.currentCredentials().then((info) => {
-                //     const cognitoIdentityId = info.identityId;
-                //     console.log(cognitoIdentityId);
-                // });
+                Auth.currentCredentials().then((info) => {
+                    const cognitoIdentityId = info.identityId;
+                    console.log("Your cognito identityID is: ", cognitoIdentityId);
+                });
             } catch (error) {
                 console.log("error signing in", error);
                 setError("Wrong credentials");
