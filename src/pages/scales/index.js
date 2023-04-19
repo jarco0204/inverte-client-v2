@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Buffer } from "buffer";
 import PropTypes from "prop-types";
 
 // @mui material components
@@ -12,68 +11,32 @@ import DashboardNavbar from "../../components/Navbars/DashboardNavbar";
 import Footer from "../../components/Footer";
 import Scale from "./components/Scale";
 
-//AWS Imports
-import { IoTDataPlaneClient, GetThingShadowCommand } from "@aws-sdk/client-iot-data-plane";
-
-const customFetch = async (url, options) => {
-    const response = window.fetch(url, options);
-    response.headers.set("Access-Control-Allow-Origin", "*");
-    return response;
-};
-
-// AWS SDK V3 Library HTTP Client to fetch Classic Shadow State
-const iotClient = new IoTDataPlaneClient({
-    //TODO: Add credentials as environment variables
-    region: process.env.REACT_APP_AWS_REGION,
-    credentials: {
-        accessKeyId: process.env.REACT_APP_IAM_ACCESS_KEY,
-        secretAccessKey: process.env.REACT_APP_IAM_SECRET_KEY,
-    },
-    fetchApi: customFetch,
-    //shadowName: classic: null ? namedShadow
-});
-
 /*
-    Main Route Container that hold array of Scale Components (Scale Card)
+    Main Route Container that hold array of Scale Components (Scale Cards)
 */
 function ScalesContainer({ iotThingNames, restaurantName, restaurantLocationNum }) {
     const [scalesMetaArr, setScalesMetaArr] = useState([]); // Array of Scales
+    const [scaleCardsReady, setScaleCardsReady] = useState(false);
 
     /*
-        Fetch the scale(s) metadata and shadows associated with the restaurantID (CognitoID)1
-    */
-    const getRestaurantList = async () => {
-        try {
-            const tempScalesMetaArr = [];
-            console.log("Your IoT Names fetched from API: ", iotThingNames);
-
-            for (let i = 0; i < iotThingNames.length; i++) {
-                console.log("I try to create your scale card components...");
-
-                // Fetch Shadow State Using SDK V3 Library
-                const getThingShadowRequestInput = {
-                    thingName: iotThingNames[i], // Requesting Classic Shadow as opposed to timeseries one
-                };
-                const command = new GetThingShadowCommand(getThingShadowRequestInput);
-
-                const tempShadow = await iotClient.send(command);
-                const tempPayload = JSON.parse(Buffer.from(tempShadow.payload).toString("utf8")); // encoded form of JSON Response
-
-                // Construct root scale topic
-                let scaleRootTopic = restaurantName + "/" + restaurantLocationNum;
-                tempScalesMetaArr.push({ topic: scaleRootTopic, state: tempPayload.state.reported, iotNameThing: iotThingNames[i] });
-            }
-            setScalesMetaArr(tempScalesMetaArr);
-        } catch (err) {
-            console.log("Error when fetching your IoT Shadow...", err);
-        }
-    };
-
-    /*
-        React Hook to fetch essential metadata from Dynamo using Amplify API Call and then from Classic Shadow.
+        React Hook to generate array of scale card components
     */
     useEffect(() => {
-        getRestaurantList();
+        /*
+            Create the Scale Card Components based on the number of IoT Things are associated with RestaurantID
+        */
+        const createScaleCardList = () => {
+            // console.log("Your IoT Names fetched from API: ", iotThingNames); // Debug Statement
+            const tempScalesMetaArr = [];
+            for (let i = 0; i < iotThingNames.length; i++) {
+                // Construct root scale topic
+                let scaleRootTopic = restaurantName + "/" + restaurantLocationNum;
+                tempScalesMetaArr.push({ topic: scaleRootTopic, iotNameThing: iotThingNames[i] });
+            }
+            setScalesMetaArr(tempScalesMetaArr);
+            setScaleCardsReady(true);
+        };
+        createScaleCardList();
     }, []);
 
     return (
@@ -82,11 +45,13 @@ function ScalesContainer({ iotThingNames, restaurantName, restaurantLocationNum 
             <MDBox py={3}>
                 <Grid container spacing={3}>
                     <Grid item xs={12} md={6} lg={3}>
-                        <MDBox mb={1.5}>
-                            {scalesMetaArr.map((mainScaleData, i) => (
-                                <Scale key={i} mainScaleData={mainScaleData} />
-                            ))}
-                        </MDBox>
+                        {!scaleCardsReady ? null : (
+                            <MDBox mb={1.5}>
+                                {scalesMetaArr.map((mainScaleData, i) => (
+                                    <Scale key={i} mainScaleData={mainScaleData} />
+                                ))}
+                            </MDBox>
+                        )}
                     </Grid>
                 </Grid>
             </MDBox>
@@ -97,12 +62,9 @@ function ScalesContainer({ iotThingNames, restaurantName, restaurantLocationNum 
 
 // Default props to start making JS into TS
 ScalesContainer.propTypes = {
-    userSession: PropTypes.object,
-};
-ScalesContainer.defaultProps = {
-    userSession: {
-        username: "test",
-    },
+    iotThingNames: PropTypes.array,
+    restaurantName: PropTypes.string,
+    restaurantLocationNum: PropTypes.number,
 };
 
 export default ScalesContainer;
