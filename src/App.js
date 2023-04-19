@@ -48,6 +48,28 @@ export default function App() {
 
     // Hook to test Authentication
     useEffect(() => {
+        /*
+        Function to retrieve essential info from API
+        */
+        async function getEssentialInfoAPI(username) {
+            try {
+                const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
+                const path = "/restaurants/";
+                const finalAPIRoute = path + username; //TODO: Cases where userSession is empty
+
+                // Get Essential Restaurant Meta Data (ScaleID)
+                // console.log(Response.item.Item);
+                await API.get(AMPLIFY_API, finalAPIRoute).then((response) => {
+                    console.log(response.item.Item);
+                    setMetaInformation(response.item.Item);
+                });
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        /*
+        Function to handle authentication
+        */
         async function authSession() {
             try {
                 setSpinnerLoader(true);
@@ -111,26 +133,6 @@ export default function App() {
         Function to change the openConfigurator state
     */
     const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
-
-    /*
-        Function to retrieve essential info from API
-    */
-    async function getEssentialInfoAPI(username) {
-        try {
-            const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
-            const path = "/restaurants/";
-            const finalAPIRoute = path + username; //TODO: Cases where userSession is empty
-
-            // Get Essential Restaurant Meta Data (ScaleID)
-            // console.log(Response.item.Item);
-            await API.get(AMPLIFY_API, finalAPIRoute).then(async (response) => {
-                console.log(response.item.Item);
-                setMetaInformation(response.item.Item);
-            });
-        } catch (err) {
-            console.log(err);
-        }
-    }
 
     // Config Button Component
     const configsButton = (
