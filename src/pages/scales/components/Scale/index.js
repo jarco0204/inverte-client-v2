@@ -49,16 +49,17 @@ import { makeStyles } from "@material-ui/core/styles";
     // };
 */
 function Scale({ mainScaleData }) {
-    //  Core Scale State is fetched from IoT Shadow
-    // console.log("Your channel good sir, ", mainScaleData); // Debug statement //NOTE: Changes to Input Fields trigger the re-render
-    const [nameIngredient, setNameIngredient] = useState(mainScaleData.state.nameIngredient);
-    const [correctWeight, setCorrectWeight] = useState(mainScaleData.state.correctWeight);
-    const [minOffset, setMinOffset] = useState(mainScaleData.state.lowerErrorLimit);
-    const [maxOffset, setMaxOffset] = useState(mainScaleData.state.upperErrorLimit);
+    console.log("Your channel good sir, ", mainScaleData); // Debug statement //NOTE: Changes to Input Fields trigger the re-render
 
-    const [unitOfMassCode, setUnitOfMassCode] = useState("g"); // Global variable
+    // Classic Shadow Parameters
+    const [nameIngredient, setNameIngredient] = useState("");
+    const [correctWeight, setCorrectWeight] = useState(24);
+    const [minOffset, setMinOffset] = useState(3);
+    const [maxOffset, setMaxOffset] = useState(3);
+    // const [unitOfMassCode, setUnitOfMassCode] = useState("g"); // Global variable
+    const unitOfMassCode = "g";
 
-    // Time series signal
+    // Timeseries Shadow Parameters
     const [realTimeWeight, setRealTimeWeight] = useState(0);
     const [realTimeTemperature, setRealTimeTemperature] = useState("Off");
     const [scaleStateReported, setScaleStateReported] = useState(0); // 0 = off & 1 = Unloaded & 2 = Busy/On
@@ -67,7 +68,7 @@ function Scale({ mainScaleData }) {
     /*
         UI and UX state variable and handlers
     */
-    const useStyles = makeStyles((theme) => ({
+    const useStyles = makeStyles(() => ({
         centered: {
             textAlign: "center",
         },
@@ -93,16 +94,15 @@ function Scale({ mainScaleData }) {
             updateThingShadowRequestInput.state.desired["lowerErrorLimit"] = minOffset;
         } else if (event.target.name === "maxOffsetField") {
             updateThingShadowRequestInput.state.desired["upperErrorLimit"] = maxOffset;
-        } else if (event.target.name === "unitOfMassField") {
-            updateThingShadowRequestInput.state.desired["unitOfMass"] = unitOfMassCode;
         } else {
             console.log("error while trying to change the scale state");
         }
-
-        let shadowTopic = "$aws/things/" + mainScaleData.iotNameThing + "/shadow/update";
-        // console.log(shadowTopic);// Debug Statement
+        // else if (event.target.name === "unitOfMassField") {
+        //     updateThingShadowRequestInput.state.desired["unitOfMass"] = unitOfMassCode;
+        // }
 
         // Update Shadow
+        let shadowTopic = "$aws/things/" + mainScaleData.iotNameThing + "/shadow/update";
         PubSub.publish(shadowTopic, updateThingShadowRequestInput);
         console.log("Shadow Update...", updateThingShadowRequestInput); // Debug Statement
     };
@@ -123,13 +123,46 @@ function Scale({ mainScaleData }) {
     };
 
     /*
+        Hook to get Thing's Shadow by publishing to get topic and then listening after request is accepted.
+    */
+    useEffect(() => {
+        /*
+            Get Shadow by publishing empty message to GET topic of Classic Shadow
+        */
+        const getShadow = () => {
+            setTimeout(async () => {
+                await PubSub.publish("$aws/things/" + mainScaleData.iotNameThing + "/shadow/get", {});
+            }, 690);
+        };
+        getShadow();
+
+        // Get Shadow state
+        const subscription = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing + "/shadow/get/accepted").subscribe({
+            next: (dataCloud) => {
+                dataCloud = dataCloud.value.state;
+                console.log("Message received by el Puma from shadow get", dataCloud); // Debug Statement
+
+                // Update Scale State Parameters
+                setNameIngredient(dataCloud.reported.nameIngredient);
+                setCorrectWeight(dataCloud.reported.correctWeight);
+                setMinOffset(dataCloud.reported.lowerErrorLimit);
+                setMaxOffset(dataCloud.reported.upperErrorLimit);
+
+                //Unsubcribe to topic after fething and updating parameters
+                subscription.unsubscribe();
+            },
+            error: (error) => console.error(error),
+            complete: () => console.log("Web Socket Done"),
+        });
+    }, []);
+
+    /*
         Hook to enable real-time communication from scale to client to display IoT Shadows
     */
     useEffect(() => {
-        // Open Web Socket to update data
         PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing + "/shadow/name/timeseries/update/accepted").subscribe({
             next: (dataCloud) => {
-                console.log("Message received by el Puma", dataCloud);
+                console.log("Message received by el Puma Scale 313", dataCloud);
                 dataCloud = dataCloud.value;
 
                 setRealTimeWeight(dataCloud.state.reported.inventoryWeight);
@@ -144,17 +177,23 @@ function Scale({ mainScaleData }) {
             complete: () => console.log("Web Socket Done"),
         });
 
-        // Subsribe to Event Topic
-        PubSub.subscribe("$aws/events/presence/disconnected/" + mainScaleData.iotNameThing).subscribe({
-            next: () => {
-                console.log("Client" + mainScaleData.iotNameThing + " Disconnected");
-                setRealTimeWeight(0);
-                setRealTimeTemperature("Off");
-                setScaleStateReported(0);
-            },
-            error: (error) => console.error(error),
-            complete: () => console.log("Web Socket Done"),
-        });
+        //     const handleDisconnected = useCallback(() => {
+        //         console.log("Client" + mainScaleData.iotNameThing + " Disconnected");
+        //         setRealTimeWeight(0);
+        //         setRealTimeTemperature("Off");
+        //         setScaleStateReported(0);
+        //     }, []);
+
+        //     const disconnectSubscription = PubSub.subscribe("$aws/events/presence/disconnected/" + mainScaleData.iotNameThing).subscribe({
+        //         next: handleDisconnected,
+        //         error: (error) => console.error(error),
+        //         complete: () => console.log("Web Socket Done"),
+        //     });
+
+        // return () => {
+        //     updateSubscription.unsubscribe();
+        //     disconnectSubscription.unsubscribe();
+        // };
     }, []);
 
     return (

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import PropTypes from "prop-types"; // prop-types is a library for typechecking of props.
 // @mui material components
 import Grid from "@mui/material/Grid";
 
@@ -40,7 +41,7 @@ function DashboardContainer({ iotThingNames }) {
     // const [realTimeMinuteLabels, setRealTimeMinuteLabels] = useState([]);
     const [realTimeWeight, setRealTimeWeight] = useState([]);
     const [realTimeAccuracy, setRealTimeAccuracy] = useState([]);
-    const [realTimeTemperature, setRealTimeTemperature] = useState([]);
+    // const [realTimeTemperature, setRealTimeTemperature] = useState([]);
 
     const { weightGraph, temperatureGraph, accuracyGraph } = reportsLineChartData;
 
@@ -99,7 +100,7 @@ function DashboardContainer({ iotThingNames }) {
                             // console.log(weightGraph);
                             setRealTimeWeight(weightGraph);
                             setRealTimeAccuracy(accuracyGraph);
-                            setRealTimeTemperature(temperatureGraph);
+                            // setRealTimeTemperature(temperatureGraph);
                         } else {
                             //API Failed so we need placeholder values
                             setCardSummaryItems(["0", "NA", "0", "NA"]);
@@ -226,5 +227,9 @@ function DashboardContainer({ iotThingNames }) {
         </DashboardLayout>
     );
 }
+
+DashboardContainer.propTypes = {
+    iotThingNames: PropTypes.array,
+};
 
 export default DashboardContainer;
