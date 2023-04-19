@@ -131,7 +131,11 @@ function Scale({ mainScaleData }) {
         */
         const getShadow = () => {
             setTimeout(async () => {
-                await PubSub.publish("$aws/things/" + mainScaleData.iotNameThing + "/shadow/get", {});
+                try {
+                    await PubSub.publish("$aws/things/" + mainScaleData.iotNameThing + "/shadow/get", {});
+                } catch (error) {
+                    console.log("Failed to publish to your GET Classic Shadow...", error);
+                }
             }, 690);
         };
         getShadow();
