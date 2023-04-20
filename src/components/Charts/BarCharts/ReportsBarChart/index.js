@@ -4,11 +4,9 @@ import PropTypes from "prop-types";
 
 // react-chartjs-2 components
 import { Bar } from "react-chartjs-2";
+
 // @mui material components
 import Card from "@mui/material/Card";
-// import Divider from "@mui/material/Divider";
-// import Icon from "@mui/material/Icon";
-// import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 
 // Material Dashboard 2 React components
 import MDBox from "../../../../components/MDBox";
@@ -16,8 +14,8 @@ import MDTypography from "../../../../components/MDTypography";
 
 // ReportsBarChart configurations
 import configs from "./configs";
-// eslint-disable-next-line no-unused-vars
-function ReportsBarChart({ color, title, description, date, chart }) {
+
+function ReportsBarChart({ color, title, chart }) {
     const { data, options } = configs(chart.labels || [], chart.datasets || {});
 
     return (
@@ -50,8 +48,8 @@ ReportsBarChart.defaultProps = {
 ReportsBarChart.propTypes = {
     color: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error", "dark"]),
     title: PropTypes.string.isRequired,
-    description: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    date: PropTypes.string.isRequired,
+    // description: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    // date: PropTypes.string.isRequired,
     chart: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.array, PropTypes.object])).isRequired,
 };
 

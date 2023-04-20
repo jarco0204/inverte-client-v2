@@ -1,63 +1,62 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types"; // prop-types is a library for typechecking of props.
+
 // @mui material components
 import Grid from "@mui/material/Grid";
+import PanToolIcon from "@mui/icons-material/PanTool";
+import PrecisionManufacturingRoundedIcon from "@mui/icons-material/PrecisionManufacturingRounded";
+import ScaleRoundedIcon from "@mui/icons-material/ScaleRounded";
+import AccessTimeFilledRoundedIcon from "@mui/icons-material/AccessTimeFilledRounded";
 
 // Material Dashboard 2 React components
 import MDBox from "../../components/MDBox";
 //eslint-disable-next-line
 import Chart from "chart.js/auto";
 
-// Material Dashboard 2 React example components
+// Material Dashboard
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "../../components/Navbars/DashboardNavbar";
 import Footer from "../../components/Footer";
-// import ReportsBarChart from "../../components/Charts/BarCharts/ReportsBarChart";
+import ReportsBarChart from "../../components/Charts/BarCharts/ReportsBarChart";
 import ReportsLineChart from "../../components/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
-import PanToolIcon from "@mui/icons-material/PanTool";
-import PrecisionManufacturingRoundedIcon from "@mui/icons-material/PrecisionManufacturingRounded";
-import ScaleRoundedIcon from "@mui/icons-material/ScaleRounded";
-import AccessTimeFilledRoundedIcon from "@mui/icons-material/AccessTimeFilledRounded";
 
 // Data
-// import reportsBarChartData from "./data/reportsBarChartData";
+import reportsBarChartData from "./data/reportsBarChartData";
 import reportsLineChartData from "./data/reportsLineChartData";
 
+// AWS & other libraries
 import { API } from "aws-amplify";
-
 import dayjs from "dayjs";
 import dayOfYear from "dayjs/plugin/dayOfYear.js";
 dayjs.extend(dayOfYear);
 
-// Dashboard components
-// import Projects from "./components/Projects";
-// import OrdersOverview from "./components/OrdersOverview";
+/*
+    Main Dashboard container that displays portion event information to user. 
 
+    @params: Array of the IoT Thing Devices associated with RestaurantID
+*/
 function DashboardContainer({ iotThingNames }) {
-    // const [scaleIDs, setScalesArray] = useState([]);
+    // Component State
     const [cardSummaryItems, setCardSummaryItems] = useState([]);
-
-    // const [realTimeMinuteLabels, setRealTimeMinuteLabels] = useState([]);
     const [realTimeWeight, setRealTimeWeight] = useState([]);
     const [realTimeAccuracy, setRealTimeAccuracy] = useState([]);
-    // const [realTimeTemperature, setRealTimeTemperature] = useState([]);
 
-    const { weightGraph, temperatureGraph, accuracyGraph } = reportsLineChartData;
+    // Line Chart UI element
+    const { weightGraph, accuracyGraph } = reportsLineChartData;
 
     /*
-        Hook to pull information from Client
+        Hook to Fetch Daily information from Dynamo using Amplify Backend 
     */
     useEffect(() => {
         const getScaleIDAndDailySummary = async () => {
-            // Fetch Essential data
             try {
                 const path = "/daily/";
                 const finalAPIRoute = path + iotThingNames[0];
-                console.log("Your API Route :", finalAPIRoute); // debug statement
-                let tempDate = dayjs(); // Automatically in local time
+                // console.log("Your API Route :", finalAPIRoute); // debug statement
 
                 // Get daily-hourly summary
+                let tempDate = dayjs(); // Local time of Client
                 await API.get(process.env.REACT_APP_AMPLIFY_API_NAME, finalAPIRoute, {
                     queryStringParameters: {
                         dayOfYear: tempDate.dayOfYear().toString(),
@@ -66,7 +65,7 @@ function DashboardContainer({ iotThingNames }) {
                     },
                 })
                     .then((response) => {
-                        console.log("Your api response: ", response); // Debug Statement
+                        console.log("Your response from Daily Hour API Call: ", response); // Debug Statement
                         if (response.daily) {
                             let accuracy = response.daily.hourlySummary.accuracy + "%";
                             let inventoryWeight = response.daily.hourlySummary.inventoryConsumed + "g";
@@ -74,12 +73,8 @@ function DashboardContainer({ iotThingNames }) {
                             setCardSummaryItems([response.daily.hourlySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
 
                             // Second part of the algorithm involves setting the data arrays for graphs
-                            console.log("Your returned real-time object: ", response.daily.realTime);
-                            // console.log(response.daily.realTime);
-
+                            // console.log("Your returned real-time object: ", response.daily.realTime); // Debug Statement
                             let tempKeys = Object.keys(response.daily.realTime).sort();
-                            // setRealTimeMinuteLabels(tempKeys); // Gets the keys in ascending order
-
                             let [tempWeightAr, tempTemperatureAr, tempAccuracyAr] = [[], [], []];
 
                             for (let i = 0; i < tempKeys.length; i++) {
@@ -90,21 +85,14 @@ function DashboardContainer({ iotThingNames }) {
 
                             weightGraph.labels = tempKeys;
                             weightGraph.datasets.data = tempWeightAr;
-
                             accuracyGraph.labels = tempKeys;
                             accuracyGraph.datasets.data = tempAccuracyAr;
 
-                            temperatureGraph.labels = tempKeys;
-                            temperatureGraph.datasets.data = tempTemperatureAr;
-
-                            // console.log(weightGraph);
                             setRealTimeWeight(weightGraph);
                             setRealTimeAccuracy(accuracyGraph);
-                            // setRealTimeTemperature(temperatureGraph);
                         } else {
-                            //API Failed so we need placeholder values
+                            //  Scale has been inactive
                             setCardSummaryItems(["0", "NA", "0", "NA"]);
-                            // Line graphs are set to empty
                         }
                     })
                     .catch((error) => {
@@ -114,7 +102,6 @@ function DashboardContainer({ iotThingNames }) {
                 console.log(err);
             }
         };
-
         getScaleIDAndDailySummary();
     }, []);
 
@@ -123,21 +110,6 @@ function DashboardContainer({ iotThingNames }) {
             <DashboardNavbar />
             <MDBox py={3}>
                 <Grid container spacing={3}>
-                    <Grid item xs={12} md={6} lg={3}>
-                        <MDBox mb={1.5}>
-                            <ComplexStatisticsCard
-                                color="dark"
-                                icon={<PanToolIcon />}
-                                title="Portions Completed"
-                                count={cardSummaryItems[0]}
-                                percentage={{
-                                    color: "success",
-                                    amount: "+24%",
-                                    label: "than yesterday",
-                                }}
-                            />
-                        </MDBox>
-                    </Grid>
                     <Grid item xs={12} md={6} lg={3}>
                         <MDBox mb={1.5}>
                             <ComplexStatisticsCard
@@ -182,47 +154,42 @@ function DashboardContainer({ iotThingNames }) {
                             />
                         </MDBox>
                     </Grid>
+                    <Grid item xs={12} md={6} lg={3}>
+                        <MDBox mb={1.5}>
+                            <ComplexStatisticsCard
+                                color="secondary"
+                                icon={<PanToolIcon />}
+                                title="Portions Completed"
+                                count={cardSummaryItems[0]}
+                                percentage={{
+                                    color: "success",
+                                    amount: "+24%",
+                                    label: "than yesterday",
+                                }}
+                            />
+                        </MDBox>
+                    </Grid>
                 </Grid>
                 <MDBox mt={4.5}>
                     <Grid container spacing={3}>
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
-                                <ReportsLineChart color="success" title="Inventory Used" description="" chart={realTimeWeight} />
-                                {/* <ReportsLineChart color="success" title="Inventory Used" description="" date="" chart={realTimeWeight} /> */}
+                                <ReportsLineChart color="success" title="Inventory Used" chart={realTimeWeight} />
+                                {/* <ReportsLineChart color="success" title="Inventory Used" description="" date=""  chart={realTimeWeight} /> Note you can also pass an object {<></> to description} */}
                             </MDBox>
                         </Grid>
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
-                                <ReportsLineChart color="info" title="Accuracy Levels" description="" chart={realTimeAccuracy} />
+                                <ReportsLineChart color="info" title="Accuracy Levels" chart={realTimeAccuracy} />
                             </MDBox>
                         </Grid>
-                        {/* <Grid item xs={12} md={6} lg={4}>
+                        <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
-                                <ReportsLineChart
-                                    color="success"
-                                    title="Line Temperature"
-                                    description={
-                                        <>
-                                            (<strong>+15%</strong>) increase in last 10 minutes.
-                                        </>
-                                    }
-                                    date="updated 4 min ago"
-                                    chart={realTimeTemperature}
-                                />
+                                <ReportsBarChart color="secondary" title="Portioning Time" chart={reportsBarChartData} />
                             </MDBox>
-                        </Grid> */}
+                        </Grid>
                     </Grid>
                 </MDBox>
-                {/* <MDBox>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12} md={6} lg={8}>
-                            <Projects />
-                        </Grid>
-                        <Grid item xs={12} md={6} lg={4}>
-                            <OrdersOverview />
-                        </Grid>
-                    </Grid>
-                </MDBox> */}
             </MDBox>
             <Footer />
         </DashboardLayout>
