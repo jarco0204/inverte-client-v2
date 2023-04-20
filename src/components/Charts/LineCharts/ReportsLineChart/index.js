@@ -8,9 +8,9 @@ import { Line } from "react-chartjs-2";
 
 // @mui material components
 import Card from "@mui/material/Card";
-import Divider from "@mui/material/Divider";
-import Icon from "@mui/material/Icon";
-import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
+// import Divider from "@mui/material/Divider";
+// import Icon from "@mui/material/Icon";
+// import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 
 // Material Dashboard 2 React components
 import MDBox from "../../../../components/MDBox";
@@ -19,7 +19,7 @@ import MDTypography from "../../../../components/MDTypography";
 // ReportsLineChart configurations
 import configs from "./configs";
 
-function ReportsLineChart({ color, title, description, date, chart }) {
+function ReportsLineChart({ color, title, description, chart }) {
     const { data, options } = configs(chart.labels || [], chart.datasets || {});
 
     return (
@@ -40,8 +40,8 @@ function ReportsLineChart({ color, title, description, date, chart }) {
                     <MDTypography component="div" variant="button" color="text" fontWeight="light">
                         {description}
                     </MDTypography>
-                    <Divider />
-                    <MDBox display="flex" alignItems="center">
+                    {/* <Divider /> */}
+                    {/* <MDBox display="flex" alignItems="center">
                         <MDTypography variant="button" color="text" lineHeight={1} sx={{ mt: 0.15, mr: 0.5 }}>
                             <Icon>
                                 <AccessTimeRoundedIcon />
@@ -50,7 +50,7 @@ function ReportsLineChart({ color, title, description, date, chart }) {
                         <MDTypography variant="button" color="text" fontWeight="light">
                             {date}
                         </MDTypography>
-                    </MDBox>
+                    </MDBox> */}
                 </MDBox>
             </MDBox>
         </Card>
@@ -68,7 +68,7 @@ ReportsLineChart.propTypes = {
     color: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error", "dark"]),
     title: PropTypes.string.isRequired,
     description: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    date: PropTypes.string.isRequired,
+    // date: PropTypes.string.isRequired,
     // chart: PropTypes.objectOf(PropTypes.oneOfType(PropTypes.array)).isRequired,
     chart: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 };

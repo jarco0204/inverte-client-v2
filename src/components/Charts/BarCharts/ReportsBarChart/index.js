@@ -1,16 +1,14 @@
 import { useMemo } from "react";
-
 // porp-types is a library for typechecking of props
 import PropTypes from "prop-types";
 
 // react-chartjs-2 components
 import { Bar } from "react-chartjs-2";
-
 // @mui material components
 import Card from "@mui/material/Card";
-import Divider from "@mui/material/Divider";
-import Icon from "@mui/material/Icon";
-import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
+// import Divider from "@mui/material/Divider";
+// import Icon from "@mui/material/Icon";
+// import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 
 // Material Dashboard 2 React components
 import MDBox from "../../../../components/MDBox";
@@ -18,7 +16,7 @@ import MDTypography from "../../../../components/MDTypography";
 
 // ReportsBarChart configurations
 import configs from "./configs";
-
+// eslint-disable-next-line no-unused-vars
 function ReportsBarChart({ color, title, description, date, chart }) {
     const { data, options } = configs(chart.labels || [], chart.datasets || {});
 
@@ -37,26 +35,11 @@ function ReportsBarChart({ color, title, description, date, chart }) {
                     <MDTypography variant="h6" textTransform="capitalize">
                         {title}
                     </MDTypography>
-                    <MDTypography component="div" variant="button" color="text" fontWeight="light">
-                        {description}
-                    </MDTypography>
-                    <Divider />
-                    <MDBox display="flex" alignItems="center">
-                        <MDTypography variant="button" color="text" lineHeight={1} sx={{ mt: 0.15, mr: 0.5 }}>
-                            <Icon>
-                                <AccessTimeRoundedIcon />
-                            </Icon>
-                        </MDTypography>
-                        <MDTypography variant="button" color="text" fontWeight="light">
-                            {date}
-                        </MDTypography>
-                    </MDBox>
                 </MDBox>
             </MDBox>
         </Card>
     );
 }
-
 // Setting default values for the props of ReportsBarChart
 ReportsBarChart.defaultProps = {
     color: "dark",

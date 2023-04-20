@@ -1,4 +1,4 @@
-import React, { lazy, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "../../components/Navbars/DashboardNavbar";
@@ -10,13 +10,14 @@ import Row from "./components/Row";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { TextField } from "@mui/material";
+import PropTypes from "prop-types";
 
-const importView = () =>
-    lazy(() =>
-        import(`./components/Row`).catch(() => {
-            import(`./components/NullView`);
-        })
-    );
+// const importView = () =>
+//     lazy(() =>
+//         import(`./components/Row`).catch(() => {
+//             import(`./components/NullView`);
+//         })
+//     );
 
 function AnalyticsDashboard({ rows_to_display = 3, number_of_plots = 3, rowToShow }) {
     /*
@@ -50,7 +51,7 @@ function AnalyticsDashboard({ rows_to_display = 3, number_of_plots = 3, rowToSho
             }
         );
     const midle_man = refined_data();
-    const modified_subtopic = async (query) => ({
+    const modified_subtopic = async () => ({
         data: {
             children: [...midle_man],
         },
@@ -74,11 +75,10 @@ function AnalyticsDashboard({ rows_to_display = 3, number_of_plots = 3, rowToSho
     }, [rowToShow]);
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-
             <DashboardLayout>
                 <DashboardNavbar />
                 <MDBox mt={4.5}>
-                    <Grid container justifyContent='center'>
+                    <Grid container justifyContent="center">
                         <DateTimePicker
                             disableFuture
                             label="Start Date"
@@ -89,7 +89,7 @@ function AnalyticsDashboard({ rows_to_display = 3, number_of_plots = 3, rowToSho
                                 setRequestedDate(newDate);
                             }}
                             renderInput={(params) => <TextField {...params} />}
-                            />
+                        />
                         <DateTimePicker
                             disableFuture
                             label="End Date"
@@ -102,11 +102,11 @@ function AnalyticsDashboard({ rows_to_display = 3, number_of_plots = 3, rowToSho
                                 console.log(requestedEndDate);
                             }}
                             renderInput={(params) => <TextField {...params} />}
-                            />
+                        />
                     </Grid>
                     <MDBox mt={6} mb={3}>
-                        <Grid container spacing={number_of_plots} direction='column' justifyContent='space-between'>
-                                {rows}
+                        <Grid container spacing={number_of_plots} direction="column" justifyContent="space-between">
+                            {rows}
                         </Grid>
                     </MDBox>
                 </MDBox>
@@ -115,5 +115,11 @@ function AnalyticsDashboard({ rows_to_display = 3, number_of_plots = 3, rowToSho
         </LocalizationProvider>
     );
 }
+
+AnalyticsDashboard.propTypes = {
+    rows_to_display: PropTypes.number,
+    number_of_plots: PropTypes.number,
+    rowToShow: PropTypes.array,
+};
 
 export default AnalyticsDashboard;

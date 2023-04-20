@@ -31,8 +31,8 @@ import dayOfYear from "dayjs/plugin/dayOfYear.js";
 dayjs.extend(dayOfYear);
 
 // Dashboard components
-// import Projects from "layouts/dashboard/components/Projects";
-// import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
+// import Projects from "./components/Projects";
+// import OrdersOverview from "./components/OrdersOverview";
 
 function DashboardContainer({ iotThingNames }) {
     // const [scaleIDs, setScalesArray] = useState([]);
@@ -141,12 +141,13 @@ function DashboardContainer({ iotThingNames }) {
                     <Grid item xs={12} md={6} lg={3}>
                         <MDBox mb={1.5}>
                             <ComplexStatisticsCard
-                                icon={<PrecisionManufacturingRoundedIcon />}
-                                title="Accuracy"
-                                count={cardSummaryItems[1]}
+                                color="success"
+                                icon={<ScaleRoundedIcon />}
+                                title="Inventory Used"
+                                count={cardSummaryItems[2]}
                                 percentage={{
                                     color: "success",
-                                    amount: "+3%",
+                                    amount: "+10%",
                                     label: "than yesterday",
                                 }}
                             />
@@ -155,13 +156,12 @@ function DashboardContainer({ iotThingNames }) {
                     <Grid item xs={12} md={6} lg={3}>
                         <MDBox mb={1.5}>
                             <ComplexStatisticsCard
-                                color="success"
-                                icon={<ScaleRoundedIcon />}
-                                title="Inventory Used"
-                                count={cardSummaryItems[2]}
+                                icon={<PrecisionManufacturingRoundedIcon />}
+                                title="Accuracy"
+                                count={cardSummaryItems[1]}
                                 percentage={{
                                     color: "success",
-                                    amount: "+10%",
+                                    amount: "+3%",
                                     label: "than yesterday",
                                 }}
                             />
@@ -187,12 +187,13 @@ function DashboardContainer({ iotThingNames }) {
                     <Grid container spacing={3}>
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
-                                <ReportsLineChart color="dark" title="Inventory Consumption" description="Hourly Performance" date="just updated" chart={realTimeWeight} />
+                                <ReportsLineChart color="success" title="Inventory Used" description="" chart={realTimeWeight} />
+                                {/* <ReportsLineChart color="success" title="Inventory Used" description="" date="" chart={realTimeWeight} /> */}
                             </MDBox>
                         </Grid>
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
-                                <ReportsLineChart color="info" title="Accuracy Levels" description="Hourly Performance" date="Updated 5 minutes ago" chart={realTimeAccuracy} />
+                                <ReportsLineChart color="info" title="Accuracy Levels" description="" chart={realTimeAccuracy} />
                             </MDBox>
                         </Grid>
                         {/* <Grid item xs={12} md={6} lg={4}>

@@ -1,14 +1,15 @@
-import React, { lazy, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Grid } from "@mui/material";
 import Plot from "./Plot";
 import { CircularProgress } from "@mui/material";
+import PropTypes from "prop-types";
 
-const importPlot = () =>
-    lazy(() =>
-        import("./Plot").catch(() => {
-            import("./NullView");
-        })
-    );
+// const importPlot = () =>
+//     lazy(() =>
+//         import("./Plot").catch(() => {
+//             import("./NullView");
+//         })
+//     );
 /*
     @description: This component renders the plots that are being passed into the row. It follows the same
     pattern as its parent
@@ -18,7 +19,6 @@ const importPlot = () =>
         plotToShow: the data being passed to the component by itself ot display the plots
     @return:
         component <Row> that displays <Plots> based on the data passed by the parent component
-
     @Comments:
         The data here is processed using the same patterns as by the parent component 
 */
@@ -41,18 +41,23 @@ function Row({ data, requestedDate, plotToShow }) {
                 }
                 unique_keys.push(new_unique_key);
                 // const Plot = await importPlot();
-                return <Plot {...data} color="dark" description="Test" key={new_unique_key} requestedDate={requestedDate} />;
+                return <Plot {...data} color="info" description="Test" key={new_unique_key} requestedDate={requestedDate} />;
             });
             Promise.all(componentPromises).then(setPlots);
         }
         loadPlots();
     }, [plotToShow]);
     return (
-            <Grid container item spacing={5} justifyContent="center">
-                <React.Suspense fallback={<CircularProgress />}>
-                    {plots}
-                </React.Suspense >
-            </Grid>
+        <Grid container item spacing={5} justifyContent="center">
+            <React.Suspense fallback={<CircularProgress />}>{plots}</React.Suspense>
+        </Grid>
     );
 }
+
+Row.propTypes = {
+    data: PropTypes.array,
+    requestedDate: PropTypes.string,
+    plotToShow: PropTypes.array,
+};
+
 export default Row;
