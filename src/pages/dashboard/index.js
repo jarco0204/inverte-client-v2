@@ -17,12 +17,10 @@ import Chart from "chart.js/auto";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "../../components/Navbars/DashboardNavbar";
 import Footer from "../../components/Footer";
-import ReportsBarChart from "../../components/Charts/BarCharts/ReportsBarChart";
 import ReportsLineChart from "../../components/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
 
 // Data
-import reportsBarChartData from "./data/reportsBarChartData";
 import reportsLineChartData from "./data/reportsLineChartData";
 
 // AWS & other libraries
@@ -41,9 +39,10 @@ function DashboardContainer({ iotThingNames }) {
     const [cardSummaryItems, setCardSummaryItems] = useState([]);
     const [realTimeWeight, setRealTimeWeight] = useState([]);
     const [realTimeAccuracy, setRealTimeAccuracy] = useState([]);
+    const [realTimePortionTime, setRealTimePortionTime] = useState([]);
 
     // Line Chart UI element
-    const { weightGraph, accuracyGraph } = reportsLineChartData;
+    const { weightGraph, accuracyGraph, portionTimeGraph } = reportsLineChartData;
 
     /*
         Hook to Fetch Daily information from Dynamo using Amplify Backend 
@@ -75,21 +74,24 @@ function DashboardContainer({ iotThingNames }) {
                             // Second part of the algorithm involves setting the data arrays for graphs
                             // console.log("Your returned real-time object: ", response.daily.realTime); // Debug Statement
                             let tempKeys = Object.keys(response.daily.realTime).sort();
-                            let [tempWeightAr, tempTemperatureAr, tempAccuracyAr] = [[], [], []];
+                            let [tempWeightAr, tempAccuracyAr, tempTimeAr] = [[], [], []];
 
                             for (let i = 0; i < tempKeys.length; i++) {
-                                tempWeightAr.push(response.daily.realTime[tempKeys[i]].weight);
-                                tempTemperatureAr.push(response.daily.realTime[tempKeys[i]].temperature);
+                                tempWeightAr.push(response.daily.realTime[tempKeys[i]].portionWeight);
                                 tempAccuracyAr.push(response.daily.realTime[tempKeys[i]].accuracy);
+                                tempTimeAr.push(response.daily.realTime[tempKeys[i]].portionTime);
                             }
 
                             weightGraph.labels = tempKeys;
                             weightGraph.datasets.data = tempWeightAr;
                             accuracyGraph.labels = tempKeys;
                             accuracyGraph.datasets.data = tempAccuracyAr;
+                            portionTimeGraph.labels = tempKeys;
+                            portionTimeGraph.datasets.data = tempTimeAr;
 
                             setRealTimeWeight(weightGraph);
                             setRealTimeAccuracy(accuracyGraph);
+                            setRealTimePortionTime(portionTimeGraph);
                         } else {
                             //  Scale has been inactive
                             setCardSummaryItems(["0", "NA", "0", "NA"]);
@@ -185,7 +187,7 @@ function DashboardContainer({ iotThingNames }) {
                         </Grid>
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
-                                <ReportsBarChart color="secondary" title="Portioning Time" chart={reportsBarChartData} />
+                                <ReportsLineChart color="secondary" title="Portioning Time" chart={realTimePortionTime} />
                             </MDBox>
                         </Grid>
                     </Grid>
