@@ -61,7 +61,7 @@ function Scale({ mainScaleData }) {
 
     // Timeseries Shadow Parameters
     const [realTimeWeight, setRealTimeWeight] = useState(0);
-    const [realTimeTemperature, setRealTimeTemperature] = useState("Off");
+    const [realTimeTemperature, setRealTimeTemperature] = useState("");
     const [scaleStateReported, setScaleStateReported] = useState(0); // 0 = off & 1 = Unloaded & 2 = Busy/On
     // const [stateCardColor, setStateCardColor] = useState("warning");
 
@@ -205,13 +205,13 @@ function Scale({ mainScaleData }) {
             <MDBox display="flex" justifyContent="space-between" pt={1} px={1}>
                 <MDBox variant="gradient" bgColor="light" borderRadius="xl" display="flex" justifyContent="center" width="3.5rem" height="3rem" mt={-4.5}>
                     <Icon fontSize="large">
-                        <FastfoodIcon style={{ color: scaleStateReported == 0 ? "grey" : scaleStateReported == 1 ? "#02182E" : "green" }} />
+                        <FastfoodIcon style={{ color: scaleStateReported == 0 ? "grey" : scaleStateReported == 1 ? "#02182E" : "#71990D" }} />
                     </Icon>
                 </MDBox>
                 <MDBox
                     variant="gradient"
                     bgColor="light"
-                    style={{ color: scaleStateReported == 0 ? "red" : scaleStateReported == 1 ? "#02182E" : "green", fontSize: "18px" }}
+                    style={{ color: scaleStateReported == 0 ? "red" : scaleStateReported == 1 ? "#02182E" : "#02182E", fontSize: "18px" }}
                     borderRadius="xl"
                     display="flex"
                     justifyContent="center"
@@ -269,7 +269,7 @@ function Scale({ mainScaleData }) {
                     Tare
                 </TareButton>
                 <StartButton name="start" onClick={() => sendDataAWS(2)}>
-                    {scaleStateReported == 2 ? "Stop" : scaleStateReported == 1 ? "Guide" : "Stop"}
+                    {scaleStateReported == 2 ? "Guide" : scaleStateReported == 1 ? "Guide" : "Guide"}
                 </StartButton>
                 <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
                     <ExpandMoreIcon />

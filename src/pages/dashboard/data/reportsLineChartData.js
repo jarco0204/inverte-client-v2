@@ -1,14 +1,17 @@
 export default {
     weightGraph: {
         labels: [],
-        datasets: { label: "Inventory Weight", data: [] },
+        datasets: { label: "Portion Weight", data: [] },
+        pointBackgroundColorAr: [],
     },
     accuracyGraph: {
         labels: [],
-        datasets: { label: "Portioning Accuracy", data: [] },
+        datasets: { label: "Portion Accuracy", data: [] },
+        pointBackgroundColorAr: [],
     },
     portionTimeGraph: {
         labels: [],
-        datasets: { label: "Portioning Time", data: [] },
+        datasets: { label: "Portion Time", data: [] },
+        pointBackgroundColorAr: [],
     },
 };

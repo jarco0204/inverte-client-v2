@@ -67,7 +67,12 @@ function DashboardContainer({ iotThingNames }) {
                         console.log("Your response from Daily Hour API Call: ", response); // Debug Statement
                         if (response.daily) {
                             let accuracy = response.daily.hourlySummary.accuracy + "%";
-                            let inventoryWeight = response.daily.hourlySummary.inventoryConsumed + "g";
+                            let inventoryWeight;
+                            if (response.daily.hourlySummary.inventoryConsumed < 0) {
+                                inventoryWeight = "0g";
+                            } else {
+                                inventoryWeight = response.daily.hourlySummary.inventoryConsumed + "g";
+                            }
                             let timeSaved = "+" + response.daily.hourlySummary.minutesSaved;
                             setCardSummaryItems([response.daily.hourlySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
 
@@ -75,19 +80,38 @@ function DashboardContainer({ iotThingNames }) {
                             // console.log("Your returned real-time object: ", response.daily.realTime); // Debug Statement
                             let tempKeys = Object.keys(response.daily.realTime).sort();
                             let [tempWeightAr, tempAccuracyAr, tempTimeAr] = [[], [], []];
+                            let pointBackgroundColorAr = [];
 
                             for (let i = 0; i < tempKeys.length; i++) {
-                                tempWeightAr.push(response.daily.realTime[tempKeys[i]].portionWeight);
+                                if (response.daily.realTime[tempKeys[i]].portionWeight < 0) {
+                                    // tempWeightAr.push(0);
+                                    tempWeightAr.push(response.daily.realTime[tempKeys[i]].portionWeight);
+                                    pointBackgroundColorAr.push("rgba(55, 55, 55, .8)");
+
+                                    // refillIndexPosition.push(i);
+                                } else {
+                                    tempWeightAr.push(response.daily.realTime[tempKeys[i]].portionWeight);
+                                    pointBackgroundColorAr.push("rgba(255, 255, 255, .8)");
+                                }
+
                                 tempAccuracyAr.push(response.daily.realTime[tempKeys[i]].accuracy);
                                 tempTimeAr.push(response.daily.realTime[tempKeys[i]].portionTime);
                             }
 
                             weightGraph.labels = tempKeys;
                             weightGraph.datasets.data = tempWeightAr;
+                            // console.log("Your point color ar: ", weightGraph.datasets.pointBackgroundColorAr);
+                            weightGraph.pointBackgroundColorAr = pointBackgroundColorAr;
+                            // weightGraph.datasets.label = pointLabelAr;
+                            // weightGraph.indexPosition.data = refillIndexPosition;
+
                             accuracyGraph.labels = tempKeys;
                             accuracyGraph.datasets.data = tempAccuracyAr;
+                            accuracyGraph.pointBackgroundColorAr = pointBackgroundColorAr;
+
                             portionTimeGraph.labels = tempKeys;
                             portionTimeGraph.datasets.data = tempTimeAr;
+                            portionTimeGraph.pointBackgroundColorAr = pointBackgroundColorAr;
 
                             setRealTimeWeight(weightGraph);
                             setRealTimeAccuracy(accuracyGraph);
@@ -176,7 +200,7 @@ function DashboardContainer({ iotThingNames }) {
                     <Grid container spacing={3}>
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
-                                <ReportsLineChart color="success" title="Inventory Used" chart={realTimeWeight} />
+                                <ReportsLineChart color="success" title="Portion Weight Levels" chart={realTimeWeight} />
                                 {/* <ReportsLineChart color="success" title="Inventory Used" description="" date=""  chart={realTimeWeight} /> Note you can also pass an object {<></> to description} */}
                             </MDBox>
                         </Grid>

@@ -20,14 +20,14 @@ import MDTypography from "../../../../components/MDTypography";
 import configs from "./configs";
 
 function ReportsLineChart({ color, title, description, chart }) {
-    const { data, options } = configs(chart.labels || [], chart.datasets || {});
+    const { data, options } = configs(chart.labels || [], chart.datasets || {}, chart.pointBackgroundColorAr || []);
 
     return (
         <Card sx={{ height: "100%" }}>
             <MDBox padding="1rem">
                 {useMemo(
                     () => (
-                        <MDBox variant="gradient" bgColor={color} borderRadius="lg" coloredShadow={color} py={2} pr={0.5} mt={-5} height="12.5rem">
+                        <MDBox variant="gradient" bgColor={color} borderRadius="lg" coloredShadow={color} py={2} pr={0.5} mt={-5} height="14rem">
                             <Line data={data} options={options} />
                         </MDBox>
                     ),
