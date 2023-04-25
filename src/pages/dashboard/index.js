@@ -84,13 +84,8 @@ function DashboardContainer({ iotThingNames }) {
 
                             for (let i = 0; i < tempKeys.length; i++) {
                                 if (response.daily.realTime[tempKeys[i]].portionWeight < 0) {
-                                    // tempWeightAr.push(0);
                                     tempWeightAr.push(response.daily.realTime[tempKeys[i]].portionWeight);
-                                    tempWeightAr.push(response.daily.realTime[tempKeys[i]].portionWeight);
-
                                     pointBackgroundColorAr.push("rgba(55, 55, 55, .8)");
-
-                                    // refillIndexPosition.push(i);
                                 } else {
                                     tempWeightAr.push(response.daily.realTime[tempKeys[i]].portionWeight);
                                     pointBackgroundColorAr.push("rgba(255, 255, 255, .8)");
@@ -102,10 +97,7 @@ function DashboardContainer({ iotThingNames }) {
 
                             weightGraph.labels = tempKeys;
                             weightGraph.datasets.data = tempWeightAr;
-                            // console.log("Your point color ar: ", weightGraph.datasets.pointBackgroundColorAr);
                             weightGraph.pointBackgroundColorAr = pointBackgroundColorAr;
-                            // weightGraph.datasets.label = pointLabelAr;
-                            // weightGraph.indexPosition.data = refillIndexPosition;
 
                             accuracyGraph.labels = tempKeys;
                             accuracyGraph.datasets.data = tempAccuracyAr;
