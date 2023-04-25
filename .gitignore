@@ -48,5 +48,4 @@ amplifytools.xcconfig
 .secret-*
 **.sample
 #amplify-do-not-edit-end
-amplify/
-yarn.lock
+amplify

@@ -49,25 +49,6 @@ export default function App() {
     // Hook to test Authentication
     useEffect(() => {
         /*
-        Function to retrieve essential info from API
-        */
-        async function getEssentialInfoAPI(username) {
-            try {
-                const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
-                const path = "/restaurants/";
-                const finalAPIRoute = path + username; //TODO: Cases where userSession is empty
-
-                // Get Essential Restaurant Meta Data (ScaleID)
-                // console.log(Response.item.Item);
-                await API.get(AMPLIFY_API, finalAPIRoute).then((response) => {
-                    console.log(response.item.Item);
-                    setMetaInformation(response.item.Item);
-                });
-            } catch (err) {
-                console.log(err);
-            }
-        }
-        /*
         Function to handle authentication
         */
         async function authSession() {
@@ -85,7 +66,20 @@ export default function App() {
                 });
                 */
                 // setUserSession(user);
-                await getEssentialInfoAPI(user.username);
+                try {
+                    const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
+                    const path = "/restaurants/";
+                    const finalAPIRoute = path + user.username; //TODO: Cases where userSession is empty
+
+                    // Get Essential Restaurant Meta Data (ScaleID)
+                    // console.log(Response.item.Item);
+                    await API.get(AMPLIFY_API, finalAPIRoute).then((response) => {
+                        console.log("The meta that we pull from App.js: ", response.item.Item);
+                        setMetaInformation(response.item.Item);
+                    });
+                } catch (err) {
+                    console.log(err);
+                }
 
                 setAuthenticated(true);
                 setSpinnerLoader(false);
