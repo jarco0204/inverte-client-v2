@@ -86,6 +86,8 @@ function DashboardContainer({ iotThingNames }) {
                                 if (response.daily.realTime[tempKeys[i]].portionWeight < 0) {
                                     // tempWeightAr.push(0);
                                     tempWeightAr.push(response.daily.realTime[tempKeys[i]].portionWeight);
+                                    tempWeightAr.push(response.daily.realTime[tempKeys[i]].portionWeight);
+
                                     pointBackgroundColorAr.push("rgba(55, 55, 55, .8)");
 
                                     // refillIndexPosition.push(i);
@@ -95,7 +97,7 @@ function DashboardContainer({ iotThingNames }) {
                                 }
 
                                 tempAccuracyAr.push(response.daily.realTime[tempKeys[i]].accuracy);
-                                tempTimeAr.push(response.daily.realTime[tempKeys[i]].portionTime);
+                                tempTimeAr.push(response.daily.realTime[tempKeys[i]].portionTime.toFixed(1));
                             }
 
                             weightGraph.labels = tempKeys;
@@ -200,7 +202,7 @@ function DashboardContainer({ iotThingNames }) {
                     <Grid container spacing={3}>
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
-                                <ReportsLineChart color="success" title="Portion Weight Levels" chart={realTimeWeight} />
+                                <ReportsLineChart color="success" title="Portion Weight" chart={realTimeWeight} />
                                 {/* <ReportsLineChart color="success" title="Inventory Used" description="" date=""  chart={realTimeWeight} /> Note you can also pass an object {<></> to description} */}
                             </MDBox>
                         </Grid>

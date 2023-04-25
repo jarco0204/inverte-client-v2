@@ -10,8 +10,6 @@ function configs(labels, datasets, pointColorsAR) {
                     pointBorderColor: "transparent",
                     // pointBackgroundColor: "rgba(255, 255, 255, .8)",
                     pointBackgroundColor: pointColorsAR,
-                    // pointBackgroundColor: ["rgba(255, 255, 255, .8)", "rgba(55, 255, 255, .8)"],
-
                     borderColor: "rgba(255, 255, 255, .8)",
                     borderWidth: 4,
                     backgroundColor: "transparent",
@@ -53,6 +51,19 @@ function configs(labels, datasets, pointColorsAR) {
                             family: "Roboto",
                             style: "normal",
                             lineHeight: 2,
+                        },
+                    },
+                    title: {
+                        display: true,
+                        text: datasets.yAxisLabel,
+                        color: "#f8f9fa",
+                        padding: 10,
+                        font: {
+                            size: 16,
+                            weight: 300,
+                            family: "Roboto",
+                            style: "normal",
+                            lineHeight: 0.25,
                         },
                     },
                 },
