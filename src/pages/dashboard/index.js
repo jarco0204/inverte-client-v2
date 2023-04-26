@@ -27,7 +27,9 @@ import reportsLineChartData from "./data/reportsLineChartData";
 import { API } from "aws-amplify";
 import dayjs from "dayjs";
 import dayOfYear from "dayjs/plugin/dayOfYear.js";
+import toObject from "dayjs/plugin/toObject.js";
 dayjs.extend(dayOfYear);
+dayjs.extend(toObject);
 
 /*
     Main Dashboard container that displays portion event information to user. 
@@ -50,7 +52,7 @@ function DashboardContainer({ iotThingNames }) {
     useEffect(() => {
         const getScaleIDAndDailySummary = async () => {
             try {
-                const path = "/daily/";
+                let path = "/daily/";
                 const finalAPIRoute = path + iotThingNames[0];
                 // console.log("Your API Route :", finalAPIRoute); // debug statement
 
@@ -63,7 +65,7 @@ function DashboardContainer({ iotThingNames }) {
                         iotNameThing: iotThingNames[0],
                     },
                 })
-                    .then((response) => {
+                    .then(async (response) => {
                         console.log("Your response from Daily Hour API Call: ", response); // Debug Statement
                         if (response.daily) {
                             let accuracy = response.daily.hourlySummary.accuracy + "%";
@@ -113,6 +115,21 @@ function DashboardContainer({ iotThingNames }) {
                         } else {
                             //  Scale has been inactive
                             setCardSummaryItems(["0", "NA", "0", "NA"]);
+
+                            // Our Step 3
+
+                            // Update Hourly Meta Record
+                            path = "/hourlyMeta/";
+                            let finalAPIRoute = path + iotThingNames[0];
+                            let tempDate = dayjs().format(); // Local time of Client
+                            console.log("Your temp date is: ", tempDate);
+                            await API.get(process.env.REACT_APP_AMPLIFY_API_NAME, finalAPIRoute, {
+                                queryStringParameters: {
+                                    tempDate: tempDate,
+                                },
+                            }).then((response) => {
+                                console.log("Success calling your amplify lambda that will call Serverless Lamda...", response);
+                            });
                         }
                     })
                     .catch((error) => {
