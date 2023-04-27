@@ -127,9 +127,13 @@ function DashboardContainer({ iotThingNames }) {
                                 queryStringParameters: {
                                     tempDate: tempDate,
                                 },
-                            }).then((response) => {
-                                console.log("Success calling your amplify lambda that will call Serverless Lamda...", response);
-                            });
+                            })
+                                .then((response) => {
+                                    console.log("Success calling your amplify lambda that will call Serverless Lamda...", response);
+                                })
+                                .catch((error) => {
+                                    console.log("Failed to retrieve from API (hourlyMeta)", error);
+                                });
                         }
                     })
                     .catch((error) => {
