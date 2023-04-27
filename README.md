@@ -2,10 +2,6 @@
 
 Copyright ©2023, InVerte FoodTech Inc. - All rights reserved.
 
-#### Coders
-
-Christian, Johan & Rohan
-
 #### Summary
 
 This is the second version of the client app that is used in production for Q2 2023.
@@ -66,3 +62,7 @@ It supports these routes: \
 https://stackoverflow.com/questions/67992894/component-definition-is-missing-display-name-for-forwardref
 
 https://www.creative-tim.com/learning-lab/react/quick-start/material-dashboard/
+
+#### Special Notes
+
+• If you update your local environment variables file, you have to also update them in Amplify.
