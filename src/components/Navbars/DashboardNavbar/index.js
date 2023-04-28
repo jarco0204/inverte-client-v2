@@ -23,18 +23,15 @@ import HomeIcon from "@mui/icons-material/Home";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
 // import NotificationsIcon from "@mui/icons-material/Notifications";
-import LogoutIcon from "@mui/icons-material/Logout";
+
 import ViewSidebarIcon from "@mui/icons-material/ViewSidebar";
 import ViewSidebarOutlinedIcon from "@mui/icons-material/ViewSidebarOutlined";
-import NotificationItem from "./components/NotificationItem";
 
 // Custom styles for DashboardNavbar
 import { navbar, navbarContainer, navbarRow, navbarIconButton, navbarMobileMenu } from "./styles";
 
 // Material Dashboard 2 React context
 import { useMaterialUIController, setTransparentNavbar, setMiniSidenav, setOpenConfigurator } from "../../../context";
-
-import { Auth } from "aws-amplify";
 
 function DashboardNavbar({ absolute, light, isMini }) {
     const [navbarType, setNavbarType] = useState();
@@ -74,17 +71,6 @@ function DashboardNavbar({ absolute, light, isMini }) {
     const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
     const handleCloseMenu = () => setOpenMenu(false);
 
-    // Function to handle log out
-    const handleLogOut = async () => {
-        try {
-            console.log("PP");
-            await Auth.signOut();
-            window.location.reload();
-        } catch (err) {
-            console.log(err);
-        }
-    };
-
     // Render the notifications menu
     const renderMenu = () => (
         <Menu
@@ -98,7 +84,6 @@ function DashboardNavbar({ absolute, light, isMini }) {
             onClose={handleCloseMenu}
             sx={{ mt: 2 }}
         >
-            <NotificationItem onClick={handleLogOut} icon={<LogoutIcon />} title="Log Out" />
             {/* <NotificationItem icon={<Icon>podcasts</Icon>} title="Manage Podcast sessions" />
             <NotificationItem icon={<Icon>shopping_cart</Icon>} title="Payment successfully completed" /> */}
         </Menu>
@@ -148,11 +133,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
                                 aria-haspopup="true"
                                 variant="contained"
                                 onClick={handleOpenMenu}
-                            >
-                                <Icon sx={iconsStyle}>
-                                    <AccountCircleIcon />
-                                </Icon>
-                            </IconButton>
+                            ></IconButton>
 
                             <IconButton size="small" disableRipple color="inherit" sx={navbarIconButton} onClick={handleConfiguratorOpen}>
                                 <Icon sx={iconsStyle}>
