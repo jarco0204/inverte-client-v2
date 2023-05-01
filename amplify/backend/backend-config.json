@@ -1,0 +1,130 @@
+{
+  "api": {
+    "inverteClientAmplifyAPIV2": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "inverteAmplifyAPIv1GETrestaurant"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "inverteAmplifyAPIv1GETdaily"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "inverteAmplifyAPIv1UPDATEmeta"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
+  "auth": {
+    "inverteclientv228c7d778": {
+      "customAuth": false,
+      "dependsOn": [],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyCharacters": [],
+          "passwordPolicyMinLength": 8
+        },
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "socialProviders": [],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito"
+    }
+  },
+  "function": {
+    "inverteAmplifyAPIv1GETdaily": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "inverteAmplifyAPIv1GETrestaurant": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "inverteAmplifyAPIv1UPDATEmeta": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_inverteAmplifyAPIv1GETdaily_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "inverteAmplifyAPIv1GETdaily"
+        }
+      ]
+    },
+    "AMPLIFY_function_inverteAmplifyAPIv1GETdaily_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "inverteAmplifyAPIv1GETdaily"
+        }
+      ]
+    },
+    "AMPLIFY_function_inverteAmplifyAPIv1GETrestaurant_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "inverteAmplifyAPIv1GETrestaurant"
+        }
+      ]
+    },
+    "AMPLIFY_function_inverteAmplifyAPIv1GETrestaurant_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "inverteAmplifyAPIv1GETrestaurant"
+        }
+      ]
+    },
+    "AMPLIFY_function_inverteAmplifyAPIv1UPDATEmeta_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "inverteAmplifyAPIv1UPDATEmeta"
+        }
+      ]
+    },
+    "AMPLIFY_function_inverteAmplifyAPIv1UPDATEmeta_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "inverteAmplifyAPIv1UPDATEmeta"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "paths": {
+    "/restaurants/{restaurantID}": {
+      "name": "/restaurants/{restaurantID}",
+      "lambdaFunction": "inverteAmplifyAPIv1GETrestaurant",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/daily/{iotThingName}": {
+      "name": "/daily/{iotThingName}",
+      "lambdaFunction": "inverteAmplifyAPIv1GETdaily",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    },
+    "/hourlyMeta/{iotNameThing}": {
+      "name": "/hourlyMeta/{iotNameThing}",
+      "lambdaFunction": "inverteAmplifyAPIv1UPDATEmeta",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
+    }
+  }
+}
