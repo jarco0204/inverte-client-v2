@@ -28,7 +28,7 @@ exports.handler = async (event) => {
     let key = event.queryStringParameters.dayOfYear + "_" + event.queryStringParameters.hourOfDay + "_" + event.queryStringParameters.iotNameThing;
     console.log(key);
     const params = {
-        TableName: "inverte_portionEvents_prod",
+        TableName: "inverte_portionEvents_dev11",
         Key: { dayOfYear_hourOfDay_iotNameThing: key, minuteOfHour_secondOfMinute: "60_60" }, // This parameters should come from scale
     };
 
