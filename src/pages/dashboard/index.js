@@ -7,6 +7,11 @@ import PanToolIcon from "@mui/icons-material/PanTool";
 import PrecisionManufacturingRoundedIcon from "@mui/icons-material/PrecisionManufacturingRounded";
 import ScaleRoundedIcon from "@mui/icons-material/ScaleRounded";
 import AccessTimeFilledRoundedIcon from "@mui/icons-material/AccessTimeFilledRounded";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
 
 // Material Dashboard 2 React components
 import MDBox from "../../components/MDBox";
@@ -37,12 +42,29 @@ dayjs.extend(toObject);
     @params: Array of the IoT Thing Devices associated with RestaurantID
 */
 function DashboardContainer({ iotThingNames }) {
+    console.log("The things are:", iotThingNames);
     // Component State
     const [cardSummaryItems, setCardSummaryItems] = useState([]);
     const [realTimeWeight, setRealTimeWeight] = useState([]);
     const [realTimeAccuracy, setRealTimeAccuracy] = useState([]);
     const [realTimePortionTime, setRealTimePortionTime] = useState([]);
+    //Adding dropdown menu for scales
+    const options = iotThingNames;
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [selectedIndex, setSelectedIndex] = useState(1);
+    const open = Boolean(anchorEl);
+    const handleClickListItem = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
 
+    const handleMenuItemClick = (event, index) => {
+        setSelectedIndex(index);
+        setAnchorEl(null);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
     // Line Chart UI element
     const { weightGraph, accuracyGraph, portionTimeGraph } = reportsLineChartData;
 
@@ -149,6 +171,37 @@ function DashboardContainer({ iotThingNames }) {
     return (
         <DashboardLayout>
             <DashboardNavbar />
+            <div>
+                <List component="nav" aria-label="Device settings" sx={{ bgcolor: "background.paper" }}>
+                    <ListItem
+                        button
+                        id="lock-button"
+                        aria-haspopup="listbox"
+                        aria-controls="lock-menu"
+                        aria-label="when device is locked"
+                        aria-expanded={open ? "true" : undefined}
+                        onClick={handleClickListItem}
+                    >
+                        <ListItemText secondary={options[selectedIndex]} />
+                    </ListItem>
+                </List>
+                <Menu
+                    id="lock-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                        "aria-labelledby": "lock-button",
+                        role: "listbox",
+                    }}
+                >
+                    {options.map((option, index) => (
+                        <MenuItem key={option} selected={index === selectedIndex} onClick={(event) => handleMenuItemClick(event, index)}>
+                            {option}
+                        </MenuItem>
+                    ))}
+                </Menu>
+            </div>
             <MDBox py={3}>
                 <Grid container spacing={3}>
                     <Grid item xs={12} md={6} lg={3}>
