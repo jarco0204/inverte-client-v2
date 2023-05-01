@@ -72,9 +72,12 @@ export default function App() {
                     const finalAPIRoute = path + user.username; //TODO: Cases where userSession is empty
 
                     // Get Essential Restaurant Meta Data (ScaleID)
-                    // console.log(Response.item.Item);
+                    console.log("Your Version of Deployment is: ", process.env.REACT_APP_DEPLOYMENT_VERSION);
                     await API.get(AMPLIFY_API, finalAPIRoute).then((response) => {
                         console.log("The meta that we pull from App.js: ", response.item.Item);
+                        if (response.item.Item == undefined) {
+                            throw new Error("No Response from API");
+                        }
                         setMetaInformation(response.item.Item);
                     });
                 } catch (err) {
