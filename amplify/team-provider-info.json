@@ -29,29 +29,9 @@
           "deploymentBucketName": "amplify-amplifyf2eff42530204-staging-171303-deployment",
           "s3Key": "amplify-builds/inverteAmplifyAPIv1UPDATEmeta-2b51306c596949575a64-build.zip"
         }
-      }
-    }
-  },
-  "prod": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-inverteclientv2-prod-144400-authRole",
-      "UnauthRoleArn": "arn:aws:iam::084619430748:role/amplify-inverteclientv2-prod-144400-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::084619430748:role/amplify-inverteclientv2-prod-144400-authRole",
-      "Region": "ca-central-1",
-      "DeploymentBucketName": "amplify-inverteclientv2-prod-144400-deployment",
-      "UnauthRoleName": "amplify-inverteclientv2-prod-144400-unauthRole",
-      "StackName": "amplify-inverteclientv2-prod-144400",
-      "StackId": "arn:aws:cloudformation:ca-central-1:084619430748:stack/amplify-inverteclientv2-prod-144400/92a5ddb0-e843-11ed-a677-06f58d34fa24",
-      "AmplifyAppId": "dlz2p74nl9u8"
-    },
-    "categories": {
-      "auth": {
-        "inverteclientv228c7d778": {}
       },
-      "function": {
-        "inverteAmplifyAPIv1GETdaily": {},
-        "inverteAmplifyAPIv1GETrestaurant": {},
-        "inverteAmplifyAPIv1UPDATEmeta": {}
+      "api": {
+        "inverteClientAmplifyAPIV2": {}
       }
     }
   }
