@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
-
 // @mui material components
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Icon from "@mui/material/Icon";
 import SettingsIcon from "@mui/icons-material/Settings";
 import CircularProgress from "@mui/material/CircularProgress";
-
+import { Typography } from "@material-ui/core";
 // Fundamental components
 import MDBox from "./components/MDBox";
 import Sidenav from "./components/Sidenav";
@@ -30,6 +29,8 @@ import { Auth, API } from "aws-amplify";
 // Images
 import inverteLogo from "./assets/img/inverte_green_logo.png";
 
+//Css
+import SpinnerLoaderScreen from "./assets/css/SpinnerLoaderScreen.css";
 export default function App() {
     // Following lines should be looked into further
     const [controller, dispatch] = useMaterialUIController();
@@ -180,8 +181,13 @@ export default function App() {
     */
     const SpinnerLoaderScreen = () => {
         return (
-            <div style={{ backgroundColor: "lightblue", width: "2000px", height: "2000px" }}>
-                <CircularProgress color="success" />
+            <div className="spinner-container">
+                <div className="spinner-logo">
+                    <img src={inverteLogo} alt="Logo" />
+                </div>
+                <Typography variant="h5" className="spinner-text">
+                    Make Every Gram Count
+                </Typography>
             </div>
         );
     };

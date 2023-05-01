@@ -1,0 +1,38 @@
+.spinner-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color:#001d3d;
+    width: 100vw;
+    height: 100vh;
+  }
+  .background{
+    
+  }
+  
+  .spinner-logo {
+    animation: spin 2s linear infinite;
+  }
+  
+  .spinner-logo img {
+    width: 400px;
+    height:400px;
+  }
+  
+  .spinner-text {
+    margin-top: 10px;
+    color: white;
+    
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  

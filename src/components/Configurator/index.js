@@ -15,8 +15,8 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 
 // @mui icons
-import TwitterIcon from "@mui/icons-material/Twitter";
-import FacebookIcon from "@mui/icons-material/Facebook";
+import LogoutIcon from "@mui/icons-material/Logout";
+
 import CloseIcon from "@mui/icons-material/Close";
 
 // Material Dashboard 2 React components
@@ -27,9 +27,21 @@ import MDButton from "../../components/MDButton";
 // Custom styles for the Configurator
 import ConfiguratorRoot from "./ConfiguratorRoot";
 
+import { Auth } from "aws-amplify";
+
 // Material Dashboard 2 React context
 import { useMaterialUIController, setOpenConfigurator, setTransparentSidenav, setWhiteSidenav, setFixedNavbar, setSidenavColor, setDarkMode } from "../../context";
 
+// Function to handle log out
+const handleLogOut = async () => {
+    try {
+        console.log("PP");
+        await Auth.signOut();
+        window.location.reload();
+    } catch (err) {
+        console.log(err);
+    }
+};
 function Configurator() {
     const [controller, dispatch] = useMaterialUIController();
     const { openConfigurator, fixedNavbar, sidenavColor, transparentSidenav, whiteSidenav, darkMode } = controller;
@@ -99,7 +111,7 @@ function Configurator() {
         <ConfiguratorRoot variant="permanent" ownerState={{ openConfigurator }}>
             <MDBox display="flex" justifyContent="space-between" alignItems="baseline" pt={4} pb={0.5} px={3}>
                 <MDBox>
-                    <MDTypography variant="h5">Configurator 🦾</MDTypography>
+                    <MDTypography variant="h5">Welcome to your Dashboard</MDTypography>
                     <MDTypography variant="body2" color="text">
                         Personalize your Dashboard.
                     </MDTypography>
@@ -277,15 +289,11 @@ function Configurator() {
 
                     <MDBox display="flex" justifyContent="center">
                         <MDBox mr={1.5}>
-                            <MDButton component={Link} target="_blank" rel="noreferrer" color="dark">
-                                <TwitterIcon />
-                                &nbsp; Tweet
+                            <MDButton onClick={handleLogOut} title="Log Out">
+                                <LogoutIcon />
+                                &nbsp; Log Out
                             </MDButton>
                         </MDBox>
-                        <MDButton component={Link} rel="noreferrer" color="dark">
-                            <FacebookIcon />
-                            &nbsp; Share
-                        </MDButton>
                     </MDBox>
                 </MDBox>
             </MDBox>
