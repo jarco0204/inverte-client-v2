@@ -21,7 +21,7 @@ exports.handler = async (event) => {
 
     // Define the parameters for the Lambda function
     const params = {
-        FunctionName: "inverte-serverless-v1-dev-v11-createHourlyMetaRecord",
+        FunctionName: "inverte-serverless-v1-dev11-createHourlyMetaRecord",
         Payload: JSON.stringify(tempPayload),
     };
 
