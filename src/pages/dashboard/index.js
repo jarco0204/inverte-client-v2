@@ -51,7 +51,7 @@ function DashboardContainer({ iotThingNames }) {
     //Adding dropdown menu for scales
     const options = iotThingNames;
     const [anchorEl, setAnchorEl] = useState(null);
-    const [selectedIndex, setSelectedIndex] = useState(1);
+    const [selectedIndex, setSelectedIndex] = useState(0);
 
     const open = Boolean(anchorEl);
     const handleClickListItem = (event) => {
