@@ -199,7 +199,7 @@ function Scale({ mainScaleData }) {
         //     disconnectSubscription.unsubscribe();
         // };
     }, []);
-
+    console.log("Temperature: ", realTimeTemperature);
     return (
         <Card style={{ maxWidth: "300px", paddingBottom: "10px" }}>
             <MDBox display="flex" justifyContent="space-between" pt={1} px={1}>
@@ -211,12 +211,12 @@ function Scale({ mainScaleData }) {
                 <MDBox
                     variant="gradient"
                     bgColor="light"
-                    style={{ color: scaleStateReported == 0 ? "red" : scaleStateReported == 1 ? "#02182E" : "#02182E", fontSize: "18px" }}
+                    style={{ color: realTimeTemperature == null ? "red" : realTimeTemperature < 24 ? "#63e22a" : "orange", fontSize: "21px" }}
                     borderRadius="xl"
                     display="flex"
                     justifyContent="center"
                     alignItems="center"
-                    width="3.5rem"
+                    width="4.5rem"
                     height="3rem"
                     mt={-4.5}
                 >

@@ -52,6 +52,7 @@ function DashboardContainer({ iotThingNames }) {
     const options = iotThingNames;
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(1);
+
     const open = Boolean(anchorEl);
     const handleClickListItem = (event) => {
         setAnchorEl(event.currentTarget);
@@ -142,7 +143,7 @@ function DashboardContainer({ iotThingNames }) {
 
                             // Update Hourly Meta Record
                             path = "/hourlyMeta/";
-                            let finalAPIRoute = path + iotThingNames[0];
+                            let finalAPIRoute = path + iotThingNames[1];
                             let tempDate = dayjs().format(); // Local time of Client
                             console.log("Your temp date is: ", tempDate);
                             await API.get(process.env.REACT_APP_AMPLIFY_API_NAME, finalAPIRoute, {
