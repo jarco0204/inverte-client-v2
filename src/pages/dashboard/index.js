@@ -143,7 +143,7 @@ function DashboardContainer({ iotThingNames }) {
 
                             // Update Hourly Meta Record
                             path = "/hourlyMeta/";
-                            let finalAPIRoute = path + iotThingNames[1];
+                            let finalAPIRoute = path + iotThingNames[selectedIndex];
                             let tempDate = dayjs().format(); // Local time of Client
                             console.log("Your temp date is: ", tempDate);
                             await API.get(process.env.REACT_APP_AMPLIFY_API_NAME, finalAPIRoute, {
@@ -229,7 +229,7 @@ function DashboardContainer({ iotThingNames }) {
                                 percentage={{
                                     color: "success",
                                     amount: "+3%",
-                                    label: "than yesterday",
+                                    label: "than yesterdays",
                                 }}
                             />
                         </MDBox>
