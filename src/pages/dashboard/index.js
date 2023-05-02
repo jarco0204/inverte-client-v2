@@ -75,7 +75,7 @@ function DashboardContainer({ iotThingNames }) {
         const getScaleIDAndDailySummary = async () => {
             try {
                 let path = "/daily/";
-                const finalAPIRoute = path + iotThingNames[0];
+                const finalAPIRoute = path + iotThingNames[selectedIndex];
                 // console.log("Your API Route :", finalAPIRoute); // debug statement
 
                 // Get daily-hourly summary
@@ -84,7 +84,7 @@ function DashboardContainer({ iotThingNames }) {
                     queryStringParameters: {
                         dayOfYear: tempDate.dayOfYear().toString(),
                         hourOfDay: tempDate.hour().toString(),
-                        iotNameThing: iotThingNames[0],
+                        iotNameThing: iotThingNames[selectedIndex],
                     },
                 })
                     .then(async (response) => {
