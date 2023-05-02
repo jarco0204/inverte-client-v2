@@ -47,9 +47,13 @@ function ScalesContainer({ iotThingNames, restaurantName, restaurantLocationNum 
                     <Grid item xs={12} md={6} lg={3}>
                         {!scaleCardsReady ? null : (
                             <MDBox mb={1.5}>
-                                {scalesMetaArr.map((mainScaleData, i) => (
-                                    <Scale key={i} mainScaleData={mainScaleData} />
-                                ))}
+                                <div style={{ display: "flex" }}>
+                                    {scalesMetaArr.map((mainScaleData, i) => (
+                                        <div key={i} style={{ marginRight: "10px" }}>
+                                            <Scale mainScaleData={mainScaleData} />
+                                        </div>
+                                    ))}
+                                </div>
                             </MDBox>
                         )}
                     </Grid>
