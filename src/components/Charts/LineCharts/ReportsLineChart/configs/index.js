@@ -20,6 +20,7 @@ function configs(labels, datasets, pointColorsAR) {
             ],
         },
         options: {
+            animation: false,
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
