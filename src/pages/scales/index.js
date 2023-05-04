@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
-
+//card css
+import "./components/Scale/card.css";
 // General components
 import MDBox from "../../components/MDBox";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
@@ -42,23 +43,27 @@ function ScalesContainer({ iotThingNames, restaurantName, restaurantLocationNum 
     return (
         <DashboardLayout>
             <DashboardNavbar />
+
             <MDBox py={3}>
-                <Grid container spacing={3}>
-                    <Grid item xs={12} md={6} lg={3}>
-                        {!scaleCardsReady ? null : (
-                            <MDBox mb={1.5}>
-                                <div style={{ display: "flex" }}>
-                                    {scalesMetaArr.map((mainScaleData, i) => (
-                                        <div key={i} style={{ marginRight: "10px" }}>
-                                            <Scale mainScaleData={mainScaleData} />
-                                        </div>
-                                    ))}
-                                </div>
-                            </MDBox>
-                        )}
+                <div className="card-container">
+                    <Grid container spacing={3}>
+                        <Grid item xs={12} md={6} lg={3}>
+                            {!scaleCardsReady ? null : (
+                                <MDBox mb={1.5}>
+                                    <div className="scales-container">
+                                        {scalesMetaArr.map((mainScaleData, i) => (
+                                            <div key={i} style={{ marginRight: "10px", width: "100%", maxWidth: "400px" }}>
+                                                <Scale mainScaleData={mainScaleData} />
+                                            </div>
+                                        ))}
+                                    </div>
+                                </MDBox>
+                            )}
+                        </Grid>
                     </Grid>
-                </Grid>
+                </div>
             </MDBox>
+
             <Footer />
         </DashboardLayout>
     );

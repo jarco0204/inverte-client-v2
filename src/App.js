@@ -5,7 +5,6 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Icon from "@mui/material/Icon";
 import SettingsIcon from "@mui/icons-material/Settings";
-import CircularProgress from "@mui/material/CircularProgress";
 import { Typography } from "@material-ui/core";
 // Fundamental components
 import MDBox from "./components/MDBox";
@@ -30,7 +29,7 @@ import { Auth, API } from "aws-amplify";
 import inverteLogo from "./assets/img/inverte_green_logo.png";
 
 //Css
-import SpinnerLoaderScreen from "./assets/css/SpinnerLoaderScreen.css";
+import "./assets/css/SpinnerLoaderScreen.css";
 export default function App() {
     // Following lines should be looked into further
     const [controller, dispatch] = useMaterialUIController();

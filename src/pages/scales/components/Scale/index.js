@@ -199,9 +199,8 @@ function Scale({ mainScaleData }) {
         //     disconnectSubscription.unsubscribe();
         // };
     }, []);
-    console.log("Temperature: ", realTimeTemperature);
     return (
-        <Card style={{ maxWidth: "300px", paddingBottom: "10px" }}>
+        <Card styling={{ width: "400px" }}>
             <MDBox display="flex" justifyContent="space-between" pt={1} px={1}>
                 <MDBox variant="gradient" bgColor="light" borderRadius="xl" display="flex" justifyContent="center" width="3.5rem" height="3rem" mt={-4.5}>
                     <Icon fontSize="large">
@@ -211,7 +210,7 @@ function Scale({ mainScaleData }) {
                 <MDBox
                     variant="gradient"
                     bgColor="light"
-                    style={{ color: realTimeTemperature == null ? "red" : realTimeTemperature < 24 ? "#63e22a" : "orange", fontSize: "21px" }}
+                    style={{ color: realTimeTemperature == null ? "red" : realTimeTemperature > 0 ? "#63e22a" : "#63e22a", fontSize: "21px", fontFamily: "Little Micro Sans" }}
                     borderRadius="xl"
                     display="flex"
                     justifyContent="center"
@@ -271,11 +270,12 @@ function Scale({ mainScaleData }) {
                 <StartButton name="start" onClick={() => sendDataAWS(2)}>
                     {scaleStateReported == 2 ? "Guide" : scaleStateReported == 1 ? "Guide" : "Guide"}
                 </StartButton>
+
                 <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
                     <ExpandMoreIcon />
                 </ExpandMore>
             </CardActions>
-            <Collapse in={expanded} timeout="auto" unmountOnExit style={{ margin: "10px 0" }}>
+            <Collapse in={expanded} timeout="auto" unmountOnExit style={{ width: "100%", boxSizing: "border-box" }}>
                 <Divider />
                 <MDBox textAlign="center" style={{ margin: "10px 0" }}>
                     <MDTypography fontWeight="medium" color="dark" fontSize="15px">

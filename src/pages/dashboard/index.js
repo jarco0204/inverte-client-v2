@@ -24,7 +24,7 @@ import DashboardNavbar from "../../components/Navbars/DashboardNavbar";
 import Footer from "../../components/Footer";
 import ReportsLineChart from "../../components/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
-
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 // Data
 import reportsLineChartData from "./data/reportsLineChartData";
 
@@ -33,6 +33,7 @@ import { API } from "aws-amplify";
 import dayjs from "dayjs";
 import dayOfYear from "dayjs/plugin/dayOfYear.js";
 import toObject from "dayjs/plugin/toObject.js";
+import { ListItemIcon } from "@mui/material";
 dayjs.extend(dayOfYear);
 dayjs.extend(toObject);
 
@@ -172,8 +173,8 @@ function DashboardContainer({ iotThingNames }) {
     return (
         <DashboardLayout>
             <DashboardNavbar />
-            <div>
-                <List component="nav" aria-label="Device settings" sx={{ bgcolor: "background.paper" }}>
+            <div style={{ margin: "auto ", marginTop: "20px", width: "fit-content", border: "1px solid #49a3f1 ", borderRadius: "5px", padding: "5px" }}>
+                <List component="nav" aria-label="Device settings">
                     <ListItem
                         button
                         id="lock-button"
@@ -184,10 +185,18 @@ function DashboardContainer({ iotThingNames }) {
                         onClick={handleClickListItem}
                     >
                         <ListItemText secondary={options[selectedIndex]} />
+                        <ListItemIcon style={{ marginRight: "-35px" }}>
+                            <ArrowDropDownIcon />
+                        </ListItemIcon>
                     </ListItem>
                 </List>
                 <Menu
+                    style={{ display: "inline-block" }}
                     id="lock-menu"
+                    anchorOrigin={{
+                        vertical: "bottom",
+                        horizontal: "right",
+                    }}
                     anchorEl={anchorEl}
                     open={open}
                     onClose={handleClose}
