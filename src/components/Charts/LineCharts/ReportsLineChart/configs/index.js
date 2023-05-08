@@ -20,6 +20,7 @@ function configs(labels, datasets, pointColorsAR) {
             ],
         },
         options: {
+            animation: false,
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
@@ -77,6 +78,7 @@ function configs(labels, datasets, pointColorsAR) {
                     },
                     ticks: {
                         display: false,
+                        maxTicksLimit: 7,
                         color: "#f8f9fa",
                         padding: 12,
                         font: {

@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types"; // prop-types is a library for typechecking of props.
-
+import { PubSub } from "aws-amplify";
 // @mui material components
 import Grid from "@mui/material/Grid";
 import PanToolIcon from "@mui/icons-material/PanTool";
@@ -52,15 +52,15 @@ function DashboardContainer({ iotThingNames }) {
     //Adding dropdown menu for scales
     const options = iotThingNames;
     const [anchorEl, setAnchorEl] = useState(null);
-    const [selectedIndex, setSelectedIndex] = useState(0);
-
+    const selectedIndex = useRef(0);
+    console.log(selectedIndex);
     const open = Boolean(anchorEl);
     const handleClickListItem = (event) => {
         setAnchorEl(event.currentTarget);
     };
 
     const handleMenuItemClick = (event, index) => {
-        setSelectedIndex(index);
+        selectedIndex.current = index;
         setAnchorEl(null);
     };
 
@@ -69,105 +69,118 @@ function DashboardContainer({ iotThingNames }) {
     };
     // Line Chart UI element
     const { weightGraph, accuracyGraph, portionTimeGraph } = reportsLineChartData;
+    const getScaleIDAndDailySummary = async () => {
+        try {
+            let path = "/daily/";
+            const finalAPIRoute = path + iotThingNames[selectedIndex.current];
+            // console.log("Your API Route :", finalAPIRoute); // debug statement
+
+            // Get daily-hourly summary
+            let tempDate = dayjs(); // Local time of Client
+            await API.get(process.env.REACT_APP_AMPLIFY_API_NAME, finalAPIRoute, {
+                queryStringParameters: {
+                    dayOfYear: tempDate.dayOfYear().toString(),
+                    hourOfDay: tempDate.hour().toString(),
+                    iotNameThing: iotThingNames[selectedIndex.current],
+                },
+            })
+                .then(async (response) => {
+                    console.log("Your response from Daily Hour API Call: ", response); // Debug Statement
+                    if (response.daily) {
+                        let accuracy = response.daily.hourlySummary.accuracy + "%";
+                        let inventoryWeight;
+                        inventoryWeight = response.daily.hourlySummary.inventoryConsumed + "g";
+                        let timeSaved = "+" + response.daily.hourlySummary.minutesSaved;
+                        setCardSummaryItems([response.daily.hourlySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
+                        console.log("Your cardSummaryItems: ", cardSummaryItems); // Debug Statement
+                        // Second part of the algorithm involves setting the data arrays for graphs
+                        // console.log("Your returned real-time object: ", response.daily.realTime); // Debug Statement
+                        let oldTempKeys = Object.keys(response.daily.realTime).sort();
+                        let [tempWeightAr, tempAccuracyAr, tempTimeAr] = [[], [], []];
+                        let pointBackgroundColorAr = [];
+                        let tempKeys = oldTempKeys.slice(-7); //We are slicing the array so that only 7 data points get displayed on the graphs
+                        for (let i = 0; i < tempKeys.length; i++) {
+                            if (response.daily.realTime[tempKeys[i]].portionWeight < 0) {
+                                tempWeightAr.push(response.daily.realTime[tempKeys[i]].portionWeight);
+                                tempWeightAr;
+                                pointBackgroundColorAr.push("rgba(55, 55, 55, .8)");
+                            } else {
+                                tempWeightAr.push(response.daily.realTime[tempKeys[i]].portionWeight);
+                                pointBackgroundColorAr.push("rgba(255, 255, 255, .8)");
+                            }
+
+                            tempAccuracyAr.push(response.daily.realTime[tempKeys[i]].accuracy);
+                            tempTimeAr.push(response.daily.realTime[tempKeys[i]].portionTime.toFixed(1));
+                        }
+                        weightGraph.labels = tempKeys;
+                        weightGraph.datasets.data = tempWeightAr;
+                        weightGraph.pointBackgroundColorAr = pointBackgroundColorAr;
+
+                        accuracyGraph.labels = tempKeys;
+                        accuracyGraph.datasets.data = tempAccuracyAr;
+                        accuracyGraph.pointBackgroundColorAr = pointBackgroundColorAr;
+
+                        portionTimeGraph.labels = tempKeys;
+                        portionTimeGraph.datasets.data = tempTimeAr;
+                        portionTimeGraph.pointBackgroundColorAr = pointBackgroundColorAr;
+
+                        setRealTimeWeight(weightGraph);
+                        setRealTimeAccuracy(accuracyGraph);
+                        setRealTimePortionTime(portionTimeGraph);
+                    } else {
+                        //  Scale has been inactive
+                        setCardSummaryItems(["0", "NA", "0", "NA"]);
+                        setRealTimeWeight([]);
+                        setRealTimeAccuracy([]);
+                        setRealTimePortionTime([]);
+
+                        // Our Step 3
+
+                        // Update Hourly Meta Record
+                        path = "/hourlyMeta/";
+                        let finalAPIRoute = path + iotThingNames[selectedIndex.current];
+                        let tempDate = dayjs().format(); // Local time of Client
+                        console.log("Your temp date is: ", tempDate);
+                        await API.get(process.env.REACT_APP_AMPLIFY_API_NAME, finalAPIRoute, {
+                            queryStringParameters: {
+                                tempDate: tempDate,
+                            },
+                        })
+                            .then((response) => {
+                                console.log("Success calling your amplify lambda that will call Serverless Lamda...", response);
+                            })
+                            .catch((error) => {
+                                console.log("Failed to retrieve from API (hourlyMeta)", error);
+                            });
+                    }
+                })
+                .catch((error) => {
+                    console.log("Failed to retrieve from API (daily)", error);
+                });
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
     /*
         Hook to Fetch Daily information from Dynamo using Amplify Backend 
     */
+
     useEffect(() => {
-        const getScaleIDAndDailySummary = async () => {
-            try {
-                let path = "/daily/";
-                const finalAPIRoute = path + iotThingNames[selectedIndex];
-                // console.log("Your API Route :", finalAPIRoute); // debug statement
-
-                // Get daily-hourly summary
-                let tempDate = dayjs(); // Local time of Client
-                await API.get(process.env.REACT_APP_AMPLIFY_API_NAME, finalAPIRoute, {
-                    queryStringParameters: {
-                        dayOfYear: tempDate.dayOfYear().toString(),
-                        hourOfDay: tempDate.hour().toString(),
-                        iotNameThing: iotThingNames[selectedIndex],
-                    },
-                })
-                    .then(async (response) => {
-                        console.log("Your response from Daily Hour API Call: ", response); // Debug Statement
-                        if (response.daily) {
-                            let accuracy = response.daily.hourlySummary.accuracy + "%";
-                            let inventoryWeight;
-                            if (response.daily.hourlySummary.inventoryConsumed < 0) {
-                                inventoryWeight = "0g";
-                            } else {
-                                inventoryWeight = response.daily.hourlySummary.inventoryConsumed + "g";
-                            }
-                            let timeSaved = "+" + response.daily.hourlySummary.minutesSaved;
-                            setCardSummaryItems([response.daily.hourlySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
-
-                            // Second part of the algorithm involves setting the data arrays for graphs
-                            // console.log("Your returned real-time object: ", response.daily.realTime); // Debug Statement
-                            let tempKeys = Object.keys(response.daily.realTime).sort();
-                            let [tempWeightAr, tempAccuracyAr, tempTimeAr] = [[], [], []];
-                            let pointBackgroundColorAr = [];
-
-                            for (let i = 0; i < tempKeys.length; i++) {
-                                if (response.daily.realTime[tempKeys[i]].portionWeight < 0) {
-                                    tempWeightAr.push(response.daily.realTime[tempKeys[i]].portionWeight);
-                                    pointBackgroundColorAr.push("rgba(55, 55, 55, .8)");
-                                } else {
-                                    tempWeightAr.push(response.daily.realTime[tempKeys[i]].portionWeight);
-                                    pointBackgroundColorAr.push("rgba(255, 255, 255, .8)");
-                                }
-
-                                tempAccuracyAr.push(response.daily.realTime[tempKeys[i]].accuracy);
-                                tempTimeAr.push(response.daily.realTime[tempKeys[i]].portionTime.toFixed(1));
-                            }
-
-                            weightGraph.labels = tempKeys;
-                            weightGraph.datasets.data = tempWeightAr;
-                            weightGraph.pointBackgroundColorAr = pointBackgroundColorAr;
-
-                            accuracyGraph.labels = tempKeys;
-                            accuracyGraph.datasets.data = tempAccuracyAr;
-                            accuracyGraph.pointBackgroundColorAr = pointBackgroundColorAr;
-
-                            portionTimeGraph.labels = tempKeys;
-                            portionTimeGraph.datasets.data = tempTimeAr;
-                            portionTimeGraph.pointBackgroundColorAr = pointBackgroundColorAr;
-
-                            setRealTimeWeight(weightGraph);
-                            setRealTimeAccuracy(accuracyGraph);
-                            setRealTimePortionTime(portionTimeGraph);
-                        } else {
-                            //  Scale has been inactive
-                            setCardSummaryItems(["0", "NA", "0", "NA"]);
-
-                            // Our Step 3
-
-                            // Update Hourly Meta Record
-                            path = "/hourlyMeta/";
-                            let finalAPIRoute = path + iotThingNames[selectedIndex];
-                            let tempDate = dayjs().format(); // Local time of Client
-                            console.log("Your temp date is: ", tempDate);
-                            await API.get(process.env.REACT_APP_AMPLIFY_API_NAME, finalAPIRoute, {
-                                queryStringParameters: {
-                                    tempDate: tempDate,
-                                },
-                            })
-                                .then((response) => {
-                                    console.log("Success calling your amplify lambda that will call Serverless Lamda...", response);
-                                })
-                                .catch((error) => {
-                                    console.log("Failed to retrieve from API (hourlyMeta)", error);
-                                });
-                        }
-                    })
-                    .catch((error) => {
-                        console.log("Failed to retrieve from API (daily)", error);
-                    });
-            } catch (err) {
-                console.log(err);
-            }
-        };
+        console.log("Getting Daily Summary");
         getScaleIDAndDailySummary();
+    }, [selectedIndex.current]);
+
+    useEffect(() => {
+        console.log("Subscribing to scale updates");
+        PubSub.subscribe("$aws/things/" + iotThingNames[selectedIndex.current] + "/shadow/name/timeseries/update/accepted").subscribe({
+            next: (dataCloud) => {
+                console.log("Message received by scale to update dashboard", dataCloud);
+                getScaleIDAndDailySummary();
+            },
+            error: (error) => console.error(error),
+            complete: () => console.log("Web Socket Done"),
+        });
     }, []);
 
     return (
@@ -183,8 +196,9 @@ function DashboardContainer({ iotThingNames }) {
                         aria-label="when device is locked"
                         aria-expanded={open ? "true" : undefined}
                         onClick={handleClickListItem}
+                        style={{ fontFamily: "Roboto" }}
                     >
-                        <ListItemText secondary={options[selectedIndex]} />
+                        <ListItemText secondary={selectedIndex.current === -1 ? "Ingredient" : options[selectedIndex.current]} />
                         <ListItemIcon style={{ marginRight: "-35px" }}>
                             <ArrowDropDownIcon />
                         </ListItemIcon>
@@ -206,7 +220,7 @@ function DashboardContainer({ iotThingNames }) {
                     }}
                 >
                     {options.map((option, index) => (
-                        <MenuItem key={option} selected={index === selectedIndex} onClick={(event) => handleMenuItemClick(event, index)}>
+                        <MenuItem key={option} selected={index === selectedIndex.current} onClick={(event) => handleMenuItemClick(event, index)}>
                             {option}
                         </MenuItem>
                     ))}
@@ -278,8 +292,7 @@ function DashboardContainer({ iotThingNames }) {
                     <Grid container spacing={3}>
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
-                                <ReportsLineChart color="success" title="Portion Weight" chart={realTimeWeight} />
-                                {/* <ReportsLineChart color="success" title="Inventory Used" description="" date=""  chart={realTimeWeight} /> Note you can also pass an object {<></> to description} */}
+                                <ReportsLineChart color="success" title="Portion Weight" key={realTimeAccuracy} chart={realTimeWeight} />
                             </MDBox>
                         </Grid>
                         <Grid item xs={12} md={6} lg={4}>
