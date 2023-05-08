@@ -21,7 +21,8 @@ import configs from "./configs";
 
 function ReportsLineChart({ color, title, description, chart }) {
     const { data, options } = configs(chart.labels || [], chart.datasets || {}, chart.pointBackgroundColorAr || []);
-
+    console.log("Your data is:", data);
+    //let slicedData = data.slice(0, 6);
     return (
         <Card sx={{ height: "100%" }}>
             <MDBox padding="1rem">

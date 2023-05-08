@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types"; // prop-types is a library for typechecking of props.
 import { PubSub } from "aws-amplify";
 // @mui material components
@@ -52,15 +52,15 @@ function DashboardContainer({ iotThingNames }) {
     //Adding dropdown menu for scales
     const options = iotThingNames;
     const [anchorEl, setAnchorEl] = useState(null);
-    const [selectedIndex, setSelectedIndex] = useState(0);
-
+    const selectedIndex = useRef(0);
+    console.log(selectedIndex);
     const open = Boolean(anchorEl);
     const handleClickListItem = (event) => {
         setAnchorEl(event.currentTarget);
     };
 
     const handleMenuItemClick = (event, index) => {
-        setSelectedIndex(index);
+        selectedIndex.current = index;
         setAnchorEl(null);
     };
 
@@ -72,7 +72,7 @@ function DashboardContainer({ iotThingNames }) {
     const getScaleIDAndDailySummary = async () => {
         try {
             let path = "/daily/";
-            const finalAPIRoute = path + iotThingNames[selectedIndex];
+            const finalAPIRoute = path + iotThingNames[selectedIndex.current];
             // console.log("Your API Route :", finalAPIRoute); // debug statement
 
             // Get daily-hourly summary
@@ -81,7 +81,7 @@ function DashboardContainer({ iotThingNames }) {
                 queryStringParameters: {
                     dayOfYear: tempDate.dayOfYear().toString(),
                     hourOfDay: tempDate.hour().toString(),
-                    iotNameThing: iotThingNames[selectedIndex],
+                    iotNameThing: iotThingNames[selectedIndex.current],
                 },
             })
                 .then(async (response) => {
@@ -89,20 +89,16 @@ function DashboardContainer({ iotThingNames }) {
                     if (response.daily) {
                         let accuracy = response.daily.hourlySummary.accuracy + "%";
                         let inventoryWeight;
-                        if (response.daily.hourlySummary.inventoryConsumed < 0) {
-                            inventoryWeight = "0g";
-                        } else {
-                            inventoryWeight = response.daily.hourlySummary.inventoryConsumed + "g";
-                        }
+                        inventoryWeight = response.daily.hourlySummary.inventoryConsumed + "g";
                         let timeSaved = "+" + response.daily.hourlySummary.minutesSaved;
                         setCardSummaryItems([response.daily.hourlySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
-
+                        console.log("Your cardSummaryItems: ", cardSummaryItems); // Debug Statement
                         // Second part of the algorithm involves setting the data arrays for graphs
                         // console.log("Your returned real-time object: ", response.daily.realTime); // Debug Statement
-                        let tempKeys = Object.keys(response.daily.realTime).sort();
+                        let oldTempKeys = Object.keys(response.daily.realTime).sort();
                         let [tempWeightAr, tempAccuracyAr, tempTimeAr] = [[], [], []];
                         let pointBackgroundColorAr = [];
-
+                        let tempKeys = oldTempKeys.slice(-7); //We are slicing the array so that only 7 data points get displayed on the graphs
                         for (let i = 0; i < tempKeys.length; i++) {
                             if (response.daily.realTime[tempKeys[i]].portionWeight < 0) {
                                 tempWeightAr.push(response.daily.realTime[tempKeys[i]].portionWeight);
@@ -116,7 +112,6 @@ function DashboardContainer({ iotThingNames }) {
                             tempAccuracyAr.push(response.daily.realTime[tempKeys[i]].accuracy);
                             tempTimeAr.push(response.daily.realTime[tempKeys[i]].portionTime.toFixed(1));
                         }
-
                         weightGraph.labels = tempKeys;
                         weightGraph.datasets.data = tempWeightAr;
                         weightGraph.pointBackgroundColorAr = pointBackgroundColorAr;
@@ -143,7 +138,7 @@ function DashboardContainer({ iotThingNames }) {
 
                         // Update Hourly Meta Record
                         path = "/hourlyMeta/";
-                        let finalAPIRoute = path + iotThingNames[selectedIndex];
+                        let finalAPIRoute = path + iotThingNames[selectedIndex.current];
                         let tempDate = dayjs().format(); // Local time of Client
                         console.log("Your temp date is: ", tempDate);
                         await API.get(process.env.REACT_APP_AMPLIFY_API_NAME, finalAPIRoute, {
@@ -170,12 +165,15 @@ function DashboardContainer({ iotThingNames }) {
     /*
         Hook to Fetch Daily information from Dynamo using Amplify Backend 
     */
-    useEffect(() => {
-        getScaleIDAndDailySummary();
-    }, [selectedIndex]);
 
     useEffect(() => {
-        PubSub.subscribe("$aws/things/" + iotThingNames[selectedIndex] + "/shadow/name/timeseries/update/accepted").subscribe({
+        console.log("Getting Daily Summary");
+        getScaleIDAndDailySummary();
+    }, [selectedIndex.current]);
+
+    useEffect(() => {
+        console.log("Subscribing to scale updates");
+        PubSub.subscribe("$aws/things/" + iotThingNames[selectedIndex.current] + "/shadow/name/timeseries/update/accepted").subscribe({
             next: (dataCloud) => {
                 console.log("Message received by scale to update dashboard", dataCloud);
                 getScaleIDAndDailySummary();
@@ -198,8 +196,9 @@ function DashboardContainer({ iotThingNames }) {
                         aria-label="when device is locked"
                         aria-expanded={open ? "true" : undefined}
                         onClick={handleClickListItem}
+                        style={{ fontFamily: "Roboto" }}
                     >
-                        <ListItemText secondary={options[selectedIndex]} />
+                        <ListItemText secondary={selectedIndex.current === -1 ? "Ingredient" : options[selectedIndex.current]} />
                         <ListItemIcon style={{ marginRight: "-35px" }}>
                             <ArrowDropDownIcon />
                         </ListItemIcon>
@@ -221,7 +220,7 @@ function DashboardContainer({ iotThingNames }) {
                     }}
                 >
                     {options.map((option, index) => (
-                        <MenuItem key={option} selected={index === selectedIndex} onClick={(event) => handleMenuItemClick(event, index)}>
+                        <MenuItem key={option} selected={index === selectedIndex.current} onClick={(event) => handleMenuItemClick(event, index)}>
                             {option}
                         </MenuItem>
                     ))}
