@@ -52,7 +52,7 @@ function ScalesContainer({ iotThingNames, restaurantName, restaurantLocationNum 
                                 <MDBox mb={1.5}>
                                     <div className="scales-container">
                                         {scalesMetaArr.map((mainScaleData, i) => (
-                                            <div key={i} style={{ marginRight: "10px", width: "100%", maxWidth: "400px" }}>
+                                            <div key={i} style={{ marginRight: "15px", marginTop: "35px", width: "100%", maxWidth: "300px" }}>
                                                 <Scale mainScaleData={mainScaleData} />
                                             </div>
                                         ))}
