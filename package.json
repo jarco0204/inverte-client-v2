@@ -73,5 +73,8 @@
         "eslint-plugin-prettier": "^4.2.1",
         "eslint-plugin-react": "^7.32.1",
         "prettier": "^2.8.3"
+    },
+    "volta": {
+        "node": "15.14.0"
     }
 }
