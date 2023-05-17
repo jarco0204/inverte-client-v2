@@ -33,6 +33,19 @@
           "delete"
         ]
       }
+    },
+    "/ingredientName/{restaurantID}": {
+      "name": "/ingredientName/{restaurantID}",
+      "lambdaFunction": "inverteAmplifyAPIv1UpdateIngredient",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
     }
   }
 }

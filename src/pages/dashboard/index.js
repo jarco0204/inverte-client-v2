@@ -50,9 +50,12 @@ function DashboardContainer({ iotThingNames }) {
     const [realTimeAccuracy, setRealTimeAccuracy] = useState([]);
     const [realTimePortionTime, setRealTimePortionTime] = useState([]);
     //Adding dropdown menu for scales
-    const options = iotThingNames;
+    const options = Object.values(iotThingNames);
+    const keys = Object.keys(iotThingNames);
+    console.log(keys);
+    console.log(options);
     const [anchorEl, setAnchorEl] = useState(null);
-    const selectedIndex = useRef(0);
+    const selectedIndex = useRef(1);
     console.log(selectedIndex);
     const open = Boolean(anchorEl);
     const handleClickListItem = (event) => {
@@ -72,7 +75,7 @@ function DashboardContainer({ iotThingNames }) {
     const getScaleIDAndDailySummary = async () => {
         try {
             let path = "/daily/";
-            const finalAPIRoute = path + iotThingNames[selectedIndex.current];
+            const finalAPIRoute = path + keys[selectedIndex.current];
             // console.log("Your API Route :", finalAPIRoute); // debug statement
 
             // Get daily-hourly summary
@@ -81,7 +84,7 @@ function DashboardContainer({ iotThingNames }) {
                 queryStringParameters: {
                     dayOfYear: tempDate.dayOfYear().toString(),
                     hourOfDay: tempDate.hour().toString(),
-                    iotNameThing: iotThingNames[selectedIndex.current],
+                    iotNameThing: keys[selectedIndex.current],
                 },
             })
                 .then(async (response) => {
@@ -138,7 +141,7 @@ function DashboardContainer({ iotThingNames }) {
 
                         // Update Hourly Meta Record
                         path = "/hourlyMeta/";
-                        let finalAPIRoute = path + iotThingNames[selectedIndex.current];
+                        let finalAPIRoute = path + keys[selectedIndex.current];
                         let tempDate = dayjs().format(); // Local time of Client
                         console.log("Your temp date is: ", tempDate);
                         await API.get(process.env.REACT_APP_AMPLIFY_API_NAME, finalAPIRoute, {
@@ -173,7 +176,7 @@ function DashboardContainer({ iotThingNames }) {
 
     useEffect(() => {
         console.log("Subscribing to scale updates");
-        PubSub.subscribe("$aws/things/" + iotThingNames[selectedIndex.current] + "/shadow/name/timeseries/update/accepted").subscribe({
+        PubSub.subscribe("$aws/things/" + keys[selectedIndex.current] + "/shadow/name/timeseries/update/accepted").subscribe({
             next: (dataCloud) => {
                 console.log("Message received by scale to update dashboard", dataCloud);
                 getScaleIDAndDailySummary();

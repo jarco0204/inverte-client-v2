@@ -25,6 +25,14 @@
           ],
           "category": "function",
           "resourceName": "inverteAmplifyAPIv1UPDATEmeta"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "inverteAmplifyAPIv1UpdateIngredient"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -75,6 +83,11 @@
       "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+    },
+    "inverteAmplifyAPIv1UpdateIngredient": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   },
   "parameters": {
@@ -123,6 +136,22 @@
         {
           "category": "function",
           "resourceName": "inverteAmplifyAPIv1UPDATEmeta"
+        }
+      ]
+    },
+    "AMPLIFY_function_inverteAmplifyAPIv1UpdateIngredient_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "inverteAmplifyAPIv1UpdateIngredient"
+        }
+      ]
+    },
+    "AMPLIFY_function_inverteAmplifyAPIv1UpdateIngredient_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "inverteAmplifyAPIv1UpdateIngredient"
         }
       ]
     }

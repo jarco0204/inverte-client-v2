@@ -18,7 +18,7 @@ import Scale from "./components/Scale";
 function ScalesContainer({ iotThingNames, restaurantName, restaurantLocationNum }) {
     const [scalesMetaArr, setScalesMetaArr] = useState([]); // Array of Scales
     const [scaleCardsReady, setScaleCardsReady] = useState(false);
-
+    const keys = Object.keys(iotThingNames);
     /*
         React Hook to generate array of scale card components
     */
@@ -29,10 +29,10 @@ function ScalesContainer({ iotThingNames, restaurantName, restaurantLocationNum 
         const createScaleCardList = () => {
             // console.log("Your IoT Names fetched from API: ", iotThingNames); // Debug Statement
             const tempScalesMetaArr = [];
-            for (let i = 0; i < iotThingNames.length; i++) {
+            for (let i = 0; i < keys.length; i++) {
                 // Construct root scale topic
                 let scaleRootTopic = restaurantName + "/" + restaurantLocationNum;
-                tempScalesMetaArr.push({ topic: scaleRootTopic, iotNameThing: iotThingNames[i] });
+                tempScalesMetaArr.push({ topic: scaleRootTopic, iotNameThing: keys[i] });
             }
             setScalesMetaArr(tempScalesMetaArr);
             setScaleCardsReady(true);

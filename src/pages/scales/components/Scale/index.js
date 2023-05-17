@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types"; // prop-types is a library for typechecking of props.
 
 // AWS Imports
-import { PubSub } from "aws-amplify";
+import { PubSub, Auth, API } from "aws-amplify";
 
 // User Components
 import MDBox from "../../../../components/MDBox";
@@ -88,6 +88,7 @@ function Scale({ mainScaleData }) {
         // Determine which property of shadow to update
         if (event.target.name === "ingredientNameField") {
             updateThingShadowRequestInput.state.desired["nameIngredient"] = nameIngredient;
+            updateIngredientName(); // Update the ingredient name in the database
         } else if (event.target.name === "correctWeightField") {
             updateThingShadowRequestInput.state.desired["correctWeight"] = correctWeight;
         } else if (event.target.name === "minOffsetField") {
@@ -105,6 +106,31 @@ function Scale({ mainScaleData }) {
         let shadowTopic = "$aws/things/" + mainScaleData.iotNameThing + "/shadow/update";
         PubSub.publish(shadowTopic, updateThingShadowRequestInput);
         console.log("Shadow Update...", updateThingShadowRequestInput); // Debug Statement
+    };
+    /*!
+   @description:Function to update the ingredient name in the database.
+   @params:
+   @return:
+   @Comments
+   @Coders:Rohan
+*/
+
+    const updateIngredientName = async () => {
+        const user = await Auth.currentAuthenticatedUser();
+        try {
+            const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
+            const path = "/ingredientName/";
+            const finalAPIRoute = path + user.username; //TODO: Cases where userSession is empty
+
+            await API.get(AMPLIFY_API, finalAPIRoute, { queryStringParameters: { iotNameThing: mainScaleData.iotNameThing, ingredientName: nameIngredient } }).then((response) => {
+                //console.log("The meta that we pull from Scale.js: ", response); //Debig statement
+                if (response.item.Item == undefined) {
+                    throw new Error("No Response from API");
+                }
+            });
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     /*

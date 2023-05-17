@@ -28,6 +28,10 @@
         "inverteAmplifyAPIv1UPDATEmeta": {
           "deploymentBucketName": "amplify-amplifyf2eff42530204-staging-171303-deployment",
           "s3Key": "amplify-builds/inverteAmplifyAPIv1UPDATEmeta-2b51306c596949575a64-build.zip"
+        },
+        "inverteAmplifyAPIv1UpdateIngredient": {
+          "deploymentBucketName": "amplify-amplifyf2eff42530204-staging-171303-deployment",
+          "s3Key": "amplify-builds/inverteAmplifyAPIv1UpdateIngredient-39744c4d75684b65546f-build.zip"
         }
       },
       "api": {
