@@ -52,10 +52,8 @@ function DashboardContainer({ iotThingNames }) {
     //Adding dropdown menu for scales
     const options = Object.values(iotThingNames);
     const keys = Object.keys(iotThingNames);
-    console.log(keys);
-    console.log(options);
     const [anchorEl, setAnchorEl] = useState(null);
-    const selectedIndex = useRef(0);
+    const selectedIndex = useRef(1);
     console.log(selectedIndex);
     const open = Boolean(anchorEl);
     const handleClickListItem = (event) => {
@@ -63,7 +61,8 @@ function DashboardContainer({ iotThingNames }) {
     };
 
     const handleMenuItemClick = (event, index) => {
-        selectedIndex.current = index;
+        setSelectedIndex(index);
+        selectedIndexRef.current = index;
         setAnchorEl(null);
     };
 
@@ -73,9 +72,11 @@ function DashboardContainer({ iotThingNames }) {
     // Line Chart UI element
     const { weightGraph, accuracyGraph, portionTimeGraph } = reportsLineChartData;
     const getScaleIDAndDailySummary = async () => {
+        console.log("Selected Index:", selectedIndex);
+        console.log("Selected Index Ref:", selectedIndexRef.current);
         try {
             let path = "/daily/";
-            const finalAPIRoute = path + keys[selectedIndex.current];
+            const finalAPIRoute = path + keys[selectedIndexRef.current];
             // console.log("Your API Route :", finalAPIRoute); // debug statement
 
             // Get daily-hourly summary
@@ -84,7 +85,7 @@ function DashboardContainer({ iotThingNames }) {
                 queryStringParameters: {
                     dayOfYear: tempDate.dayOfYear().toString(),
                     hourOfDay: tempDate.hour().toString(),
-                    iotNameThing: keys[selectedIndex.current],
+                    iotNameThing: keys[selectedIndexRef.current],
                 },
             })
                 .then(async (response) => {
@@ -141,7 +142,7 @@ function DashboardContainer({ iotThingNames }) {
 
                         // Update Hourly Meta Record
                         path = "/hourlyMeta/";
-                        let finalAPIRoute = path + keys[selectedIndex.current];
+                        let finalAPIRoute = path + keys[selectedIndexRef.current];
                         let tempDate = dayjs().format(); // Local time of Client
                         console.log("Your temp date is: ", tempDate);
                         await API.get(process.env.REACT_APP_AMPLIFY_API_NAME, finalAPIRoute, {
@@ -165,26 +166,27 @@ function DashboardContainer({ iotThingNames }) {
         }
     };
 
-    /*
-        Hook to Fetch Daily information from Dynamo using Amplify Backend 
+    /*!
+       @description:Use effect that fecthes the data during scale updates and when changing between scales
+       @params:
+       @return:
+       @Comments
+       @Coders:Rohan & Johan
     */
-
-    useEffect(() => {
-        console.log("Getting Daily Summary");
-        getScaleIDAndDailySummary();
-    }, [selectedIndex.current]);
-
     useEffect(() => {
         console.log("Subscribing to scale updates");
-        PubSub.subscribe("$aws/things/" + keys[selectedIndex.current] + "/shadow/name/timeseries/update/accepted").subscribe({
+        getScaleIDAndDailySummary();
+        selectedIndexRef.current = selectedIndex;
+        PubSub.subscribe("$aws/things/" + keys[selectedIndexRef.current] + "/shadow/name/timeseries/update/accepted").subscribe({
             next: (dataCloud) => {
                 console.log("Message received by scale to update dashboard", dataCloud);
+
                 getScaleIDAndDailySummary();
             },
             error: (error) => console.error(error),
             complete: () => console.log("Web Socket Done"),
         });
-    }, []);
+    }, [selectedIndex]);
 
     return (
         <DashboardLayout>
@@ -201,7 +203,7 @@ function DashboardContainer({ iotThingNames }) {
                         onClick={handleClickListItem}
                         style={{ fontFamily: "Roboto" }}
                     >
-                        <ListItemText secondary={selectedIndex.current === -1 ? "Ingredient" : options[selectedIndex.current]} />
+                        <ListItemText secondary={selectedIndex === -1 ? "Ingredient" : options[selectedIndex]} />
                         <ListItemIcon style={{ marginRight: "-35px" }}>
                             <ArrowDropDownIcon />
                         </ListItemIcon>
@@ -223,7 +225,7 @@ function DashboardContainer({ iotThingNames }) {
                     }}
                 >
                     {options.map((option, index) => (
-                        <MenuItem key={option} selected={index === selectedIndex.current} onClick={(event) => handleMenuItemClick(event, index)}>
+                        <MenuItem key={option} selected={index === selectedIndexRef.current} onClick={(event) => handleMenuItemClick(event, index)}>
                             {option}
                         </MenuItem>
                     ))}
