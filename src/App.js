@@ -92,8 +92,9 @@ export default function App() {
                 console.log(err);
             }
         }
+
         authSession();
-    }, []);
+    }, [authenticated]);
 
     // Setting the dir attribute for the body element
     useEffect(() => {
