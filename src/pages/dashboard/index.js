@@ -53,7 +53,8 @@ function DashboardContainer({ iotThingNames }) {
     const options = Object.values(iotThingNames);
     const keys = Object.keys(iotThingNames);
     const [anchorEl, setAnchorEl] = useState(null);
-    const selectedIndex = useRef(1);
+    const [selectedIndex, setSelectedIndex] = useState(-1);
+    const selectedIndexRef = useRef();
     console.log(selectedIndex);
     const open = Boolean(anchorEl);
     const handleClickListItem = (event) => {
