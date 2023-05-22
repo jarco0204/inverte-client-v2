@@ -91,6 +91,7 @@ function Scale({ mainScaleData }) {
             updateIngredientName(); // Update the ingredient name in the database
         } else if (event.target.name === "correctWeightField") {
             updateThingShadowRequestInput.state.desired["correctWeight"] = correctWeight;
+            updateThingShadowRequestInput.state.desired["multiplier"] = "1";
         } else if (event.target.name === "minOffsetField") {
             updateThingShadowRequestInput.state.desired["lowerErrorLimit"] = minOffset;
         } else if (event.target.name === "maxOffsetField") {
@@ -268,7 +269,7 @@ function Scale({ mainScaleData }) {
                             "aria-label": "weight",
                         }}
                         onChange={(e) => setNameIngredient(e.target.value)}
-                        onBlur={(e) => updateShadow(e)}
+                        onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updateShadow(e))}
                     />
                 </FormControl>
             </MDBox>
@@ -325,9 +326,16 @@ function Scale({ mainScaleData }) {
                             aria-describedby="outlined-weight-helper-text"
                             inputProps={{
                                 "aria-label": "weight",
+                                type: "number",
+                                min: "1",
+                                onInput: (event) => {
+                                    if (!event.target.validity.valid) {
+                                        event.target.value = "";
+                                    }
+                                },
                             }}
                             onChange={(e) => setCorrectWeight(e.target.value)}
-                            onBlur={(e) => updateShadow(e)}
+                            onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updateShadow(e))}
                         />
                     </FormControl>
                 </MDBox>
@@ -348,7 +356,7 @@ function Scale({ mainScaleData }) {
                                     "aria-label": "weight",
                                 }}
                                 onChange={(e) => setMinOffset(e.target.value)}
-                                onBlur={(e) => updateShadow(e)}
+                                onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updateShadow(e))}
                             />
                         </FormControl>
                         <FormControl sx={{ m: 1, width: 125 }} variant="outlined">
@@ -366,7 +374,7 @@ function Scale({ mainScaleData }) {
                                     "aria-label": "weight",
                                 }}
                                 onChange={(e) => setMaxOffset(e.target.value)}
-                                onBlur={(e) => updateShadow(e)}
+                                onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updateShadow(e))}
                             />
                         </FormControl>
                     </div>
