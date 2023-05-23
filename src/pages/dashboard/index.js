@@ -60,6 +60,12 @@ function DashboardContainer({ iotThingNames, unitOfMass }) {
     const handleClickListItem = (event) => {
         setAnchorEl(event.currentTarget);
     };
+    //Change unit of mass in Portion Weight graph
+    if (unitOfMass == "g") {
+        reportsLineChartData.weightGraph.datasets.yAxisLabel = "Grams";
+    } else {
+        reportsLineChartData.weightGraph.datasets.yAxisLabel = "Ounces";
+    }
 
     const handleMenuItemClick = (event, index) => {
         setSelectedIndex(index);
@@ -106,11 +112,20 @@ function DashboardContainer({ iotThingNames, unitOfMass }) {
                         let tempKeys = oldTempKeys.slice(-7); //We are slicing the array so that only 7 data points get displayed on the graphs
                         for (let i = 0; i < tempKeys.length; i++) {
                             if (response.daily.realTime[tempKeys[i]].portionWeight < 0) {
-                                tempWeightAr.push(response.daily.realTime[tempKeys[i]].portionWeight);
+                                if (unitOfMass == "g") {
+                                    tempWeightAr.push(response.daily.realTime[tempKeys[i]].portionWeight);
+                                } else {
+                                    tempWeightAr.push((response.daily.realTime[tempKeys[i]].portionWeight / 28.35).toFixed(2));
+                                }
                                 tempWeightAr;
                                 pointBackgroundColorAr.push("rgba(55, 55, 55, .8)");
                             } else {
-                                tempWeightAr.push(response.daily.realTime[tempKeys[i]].portionWeight);
+                                if (unitOfMass == "g") {
+                                    tempWeightAr.push(response.daily.realTime[tempKeys[i]].portionWeight);
+                                } else {
+                                    tempWeightAr.push((response.daily.realTime[tempKeys[i]].portionWeight / 28.35).toFixed(2));
+                                }
+
                                 pointBackgroundColorAr.push("rgba(255, 255, 255, .8)");
                             }
 
