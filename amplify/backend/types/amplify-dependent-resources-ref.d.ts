@@ -39,6 +39,13 @@ export type AmplifyDependentResourcesAttributes = {
       "Name": "string",
       "Region": "string"
     },
+    "inverteAmplifyAPIv1UnitOfMass": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
     "inverteAmplifyAPIv1UpdateIngredient": {
       "Arn": "string",
       "LambdaExecutionRole": "string",

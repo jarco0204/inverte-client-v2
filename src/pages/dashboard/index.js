@@ -42,7 +42,7 @@ dayjs.extend(toObject);
 
     @params: Array of the IoT Thing Devices associated with RestaurantID
 */
-function DashboardContainer({ iotThingNames }) {
+function DashboardContainer({ iotThingNames, unitOfMass }) {
     console.log("The things are:", iotThingNames);
     // Component State
     const [cardSummaryItems, setCardSummaryItems] = useState([]);
@@ -240,7 +240,7 @@ function DashboardContainer({ iotThingNames }) {
                                 color="success"
                                 icon={<ScaleRoundedIcon />}
                                 title="Inventory Used"
-                                count={cardSummaryItems[2]}
+                                count={unitOfMass == "g" ? cardSummaryItems[2] : (parseInt(cardSummaryItems[2]) / 28.35).toFixed(2).toString() + "oz"}
                                 percentage={{
                                     color: "success",
                                     amount: "+10%",

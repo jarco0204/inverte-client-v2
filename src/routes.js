@@ -39,8 +39,9 @@ import HomeIcon from "@mui/icons-material/Home";
 import ScaleIcon from "@mui/icons-material/Scale";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
 
-const routes = (metaInformation) => {
+const routes = (metaInformation, unitOfMass) => {
     console.log("your metadata from Routes: ", metaInformation); // TODO: Statement executes 4 times whenever reloading the component
+    console.log("Your unit of mass in routes is:", unitOfMass);
     // const [restaurantName, restaurantLocationNum] = [metaInformation.restaurantName, metaInformation.restaurantLocation];
     return [
         {
@@ -53,7 +54,7 @@ const routes = (metaInformation) => {
                 </Icon>
             ),
             route: "/dashboard",
-            component: <DashboardContainer iotThingNames={metaInformation.iotThingNames} />,
+            component: <DashboardContainer iotThingNames={metaInformation.iotThingNames} unitOfMass={unitOfMass} />,
         },
         {
             type: "collapse",
@@ -65,7 +66,14 @@ const routes = (metaInformation) => {
                 </Icon>
             ),
             route: "/scales",
-            component: <ScalesContainer iotThingNames={metaInformation.iotThingNames} restaurantName={metaInformation.restaurantName} restaurantLocationNum={metaInformation.restaurantLocationNum} />,
+            component: (
+                <ScalesContainer
+                    iotThingNames={metaInformation.iotThingNames}
+                    restaurantName={metaInformation.restaurantName}
+                    restaurantLocationNum={metaInformation.restaurantLocationNum}
+                    unitOfMass={unitOfMass}
+                />
+            ),
         },
         {
             type: "collapse",

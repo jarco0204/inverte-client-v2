@@ -46,6 +46,19 @@
           "delete"
         ]
       }
+    },
+    "/unitOfMass/{restaurantID}": {
+      "name": "/unitOfMass/{restaurantID}",
+      "lambdaFunction": "inverteAmplifyAPIv1UnitOfMass",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
     }
   }
 }

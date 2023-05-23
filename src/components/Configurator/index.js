@@ -27,7 +27,7 @@ import MDButton from "../../components/MDButton";
 // Custom styles for the Configurator
 import ConfiguratorRoot from "./ConfiguratorRoot";
 
-import { Auth } from "aws-amplify";
+import { Auth, API } from "aws-amplify";
 
 // Material Dashboard 2 React context
 import { useMaterialUIController, setOpenConfigurator, setTransparentSidenav, setWhiteSidenav, setFixedNavbar, setSidenavColor, setDarkMode } from "../../context";
@@ -42,12 +42,12 @@ const handleLogOut = async () => {
         console.log(err);
     }
 };
-function Configurator() {
+function Configurator({ metaInformation, setUnitOfMass, unitOfMass }) {
     const [controller, dispatch] = useMaterialUIController();
     const { openConfigurator, fixedNavbar, sidenavColor, transparentSidenav, whiteSidenav, darkMode } = controller;
     const [disabled, setDisabled] = useState(false);
     const sidenavColors = ["primary", "dark", "info", "success", "warning", "error"];
-
+    // console.log("The unit of mass is: ", unitOfMass);
     // Use the useEffect hook to change the button state for the sidenav type based on window size.
     useEffect(() => {
         // A function that sets the disabled state of the buttons for the sidenav type.
@@ -80,7 +80,24 @@ function Configurator() {
     };
     const handleFixedNavbar = () => setFixedNavbar(dispatch, !fixedNavbar);
     const handleDarkMode = () => setDarkMode(dispatch, !darkMode);
+    const updateUnitOfMass = async (event) => {
+        const user = await Auth.currentAuthenticatedUser();
+        try {
+            console.log("The value is:", event.target.value);
+            const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
+            const path = "/unitOfMass/";
+            const finalAPIRoute = path + user.username; //TODO: Cases where userSession is empty
 
+            await API.get(AMPLIFY_API, finalAPIRoute, { queryStringParameters: { unitOfMass: event.target.value } }).then((response) => {
+                console.log("The meta that we pull from Unit of mass: ", response); //Debig statement
+                if (response.item.Item == undefined) {
+                    throw new Error("No Response from API");
+                }
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    };
     // sidenav type buttons styles
     const sidenavTypeButtonsStyles = ({ functions: { pxToRem }, palette: { white, dark, background }, borders: { borderWidth } }) => ({
         height: pxToRem(39),
@@ -246,10 +263,12 @@ function Configurator() {
                             row
                             aria-labelledby="demo-radio-buttons-group-label"
                             name="unitOfMassField"
-                            onChange={() => {
-                                console.log("Jump");
+                            onChange={(event) => {
+                                console.log("Jump", event.target.value);
+                                setUnitOfMass(event.target.value);
+                                updateUnitOfMass(event);
                             }}
-                            defaultValue={"og"}
+                            defaultValue={metaInformation.unitOfMass}
                         >
                             <FormControlLabel value="oz" control={<Radio />} label="oz" />
                             <FormControlLabel value="g" control={<Radio />} label="g" />

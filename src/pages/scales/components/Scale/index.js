@@ -48,7 +48,7 @@ import { makeStyles } from "@material-ui/core/styles";
     //     updateShadow(event);
     // };
 */
-function Scale({ mainScaleData }) {
+function Scale({ mainScaleData, unitOfMass }) {
     console.log("Your channel good sir, ", mainScaleData); // Debug statement //NOTE: Changes to Input Fields trigger the re-render
 
     // Classic Shadow Parameters
@@ -58,7 +58,7 @@ function Scale({ mainScaleData }) {
     const [maxOffset, setMaxOffset] = useState(3);
     // const [unitOfMassCode, setUnitOfMassCode] = useState("g"); // Global variable
     const unitOfMassCode = "g";
-
+    console.log("The unit of mass in scales is:", unitOfMass);
     // Timeseries Shadow Parameters
     const [realTimeWeight, setRealTimeWeight] = useState(0);
     const [realTimeTemperature, setRealTimeTemperature] = useState("");
@@ -280,13 +280,13 @@ function Scale({ mainScaleData }) {
                 <TextField
                     id="standard-start-adornment"
                     InputProps={{
-                        endAdornment: <InputAdornment position="end">{unitOfMassCode}</InputAdornment>,
+                        endAdornment: <InputAdornment position="end">{unitOfMass}</InputAdornment>,
                         readOnly: true,
                         classes: { input: classes.centered },
                         style: { fontSize: "18px" },
                     }}
                     variant="standard"
-                    value={realTimeWeight}
+                    value={unitOfMass == "g" ? realTimeWeight : (realTimeWeight / 28.35).toFixed(2)}
                     focused={scaleStateReported == 1 ? false : true}
                 />
             </FormControl>

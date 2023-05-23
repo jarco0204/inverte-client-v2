@@ -39,9 +39,10 @@ export default function App() {
     const [onMouseEnter, setOnMouseEnter] = useState(false);
     const [authenticated, setAuthenticated] = useState(false);
 
-    const [metaInformation, setMetaInformation] = useState({ iotThingNames: ["test"], restaurantName: "pp", restaurantLocation: "pp2" }); //TODO: Support different scale IDs
+    const [metaInformation, setMetaInformation] = useState({ iotThingNames: ["test"], restaurantName: "pp", restaurantLocation: "pp2", unitOfMass: "pp3" }); //TODO: Support different scale IDs
 
     const [spinnerLoader, setSpinnerLoader] = useState(false);
+    const [unitOfMass, setUnitOfMass] = useState(metaInformation.unitOfMass);
 
     // Hook for For route traversal
     const { pathname } = useLocation();
@@ -58,6 +59,7 @@ export default function App() {
                 const user = await Auth.currentAuthenticatedUser();
                 console.log("My session is:", session);
                 console.log("My user is:", user);
+                console.log("The metaInformation is", metaInformation);
                 /* This Code block allows you to determine the CognitoIdentityID that allows
                 to attach the IoT Policy
                 Auth.currentCredentials().then((info) => {
@@ -79,6 +81,7 @@ export default function App() {
                             throw new Error("No Response from API");
                         }
                         setMetaInformation(response.item.Item);
+                        setUnitOfMass(response.item.Item.unitOfMass);
                     });
                 } catch (err) {
                     console.log(err);
@@ -210,13 +213,13 @@ export default function App() {
                                 onMouseEnter={handleOnMouseEnter}
                                 onMouseLeave={handleOnMouseLeave}
                             />
-                            <Configurator />
+                            <Configurator metaInformation={metaInformation} setUnitOfMass={setUnitOfMass} unitOfMass={unitOfMass} />
                             {configsButton}
                         </>
                     ) : null}
-                    {layout === "vr" ? <Configurator /> : null}
+                    {/* {layout === "vr" ? <Configurator /> : null} */}
                     <Routes>
-                        {getRoutes(routes(metaInformation))}
+                        {getRoutes(routes(metaInformation, unitOfMass))}
                         <Route path="*" element={<Navigate to="/dashboard" />} />
                     </Routes>
                 </ThemeProvider>
