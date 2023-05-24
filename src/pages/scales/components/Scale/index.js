@@ -306,7 +306,7 @@ function Scale({ mainScaleData, unitOfMass }) {
                 <Divider />
                 <MDBox textAlign="center" style={{ margin: "10px 0" }}>
                     <MDTypography fontWeight="medium" color="dark" fontSize="15px">
-                        Accuracy Settings: ({unitOfMassCode == "g" ? "Grams" : "Ounces"})
+                        Accuracy Settings: ({unitOfMass == "g" ? "Grams" : "Ounces"})
                     </MDTypography>
                 </MDBox>
                 <MDBox textAlign="center" lineHeight={1.2}>
@@ -321,7 +321,7 @@ function Scale({ mainScaleData, unitOfMass }) {
                                 backgroundColor: "beige",
                             }}
                             classes={{ input: classes.centered }}
-                            value={correctWeight}
+                            value={unitOfMass == "g" ? correctWeight : (correctWeight / 28.35).toFixed(2)}
                             // endAdornment={<InputAdornment position="end">{unitOfMassCode}</InputAdornment>} // Removed after feedback from the team
                             aria-describedby="outlined-weight-helper-text"
                             inputProps={{
@@ -350,7 +350,7 @@ function Scale({ mainScaleData, unitOfMass }) {
                                     backgroundColor: "beige",
                                 }}
                                 classes={{ input: classes.centered }}
-                                value={minOffset}
+                                value={unitOfMass == "g" ? minOffset : (minOffset / 28.35).toFixed(2)}
                                 aria-describedby="outlined-weight-helper-text"
                                 inputProps={{
                                     "aria-label": "weight",
@@ -368,7 +368,7 @@ function Scale({ mainScaleData, unitOfMass }) {
                                     backgroundColor: "beige",
                                 }}
                                 classes={{ input: classes.centered }}
-                                value={maxOffset}
+                                value={unitOfMass == "g" ? maxOffset : (maxOffset / 28.35).toFixed(2)}
                                 aria-describedby="outlined-weight-helper-text"
                                 inputProps={{
                                     "aria-label": "weight",

@@ -27,7 +27,7 @@ import MDButton from "../../components/MDButton";
 // Custom styles for the Configurator
 import ConfiguratorRoot from "./ConfiguratorRoot";
 
-import { Auth, API } from "aws-amplify";
+import { Auth, API, PubSub } from "aws-amplify";
 
 // Material Dashboard 2 React context
 import { useMaterialUIController, setOpenConfigurator, setTransparentSidenav, setWhiteSidenav, setFixedNavbar, setSidenavColor, setDarkMode } from "../../context";
@@ -47,6 +47,9 @@ function Configurator({ metaInformation, setUnitOfMass, unitOfMass }) {
     const { openConfigurator, fixedNavbar, sidenavColor, transparentSidenav, whiteSidenav, darkMode } = controller;
     const [disabled, setDisabled] = useState(false);
     const sidenavColors = ["primary", "dark", "info", "success", "warning", "error"];
+    const restaurantName = metaInformation.restaurantName;
+    const restaurantLocationNum = metaInformation.restaurantLocationNum;
+
     // console.log("The unit of mass is: ", unitOfMass);
     // Use the useEffect hook to change the button state for the sidenav type based on window size.
     useEffect(() => {
@@ -80,6 +83,16 @@ function Configurator({ metaInformation, setUnitOfMass, unitOfMass }) {
     };
     const handleFixedNavbar = () => setFixedNavbar(dispatch, !fixedNavbar);
     const handleDarkMode = () => setDarkMode(dispatch, !darkMode);
+    const changeScaleMass = (action) => {
+        let msg, finalTopic;
+        msg = {
+            control: action,
+            msg: "Message sent by el PumaV56",
+        };
+        finalTopic = restaurantName + "/" + restaurantLocationNum + "/control";
+        PubSub.publish(finalTopic, msg); // Await it not needed
+        console.log("Action Published to Scale...", finalTopic); // Debug Statement
+    };
     const updateUnitOfMass = async (event) => {
         const user = await Auth.currentAuthenticatedUser();
         try {
@@ -267,6 +280,7 @@ function Configurator({ metaInformation, setUnitOfMass, unitOfMass }) {
                                 console.log("Jump", event.target.value);
                                 setUnitOfMass(event.target.value);
                                 updateUnitOfMass(event);
+                                changeScaleMass(5);
                             }}
                             defaultValue={metaInformation.unitOfMass}
                         >
