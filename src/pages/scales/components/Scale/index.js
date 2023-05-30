@@ -57,7 +57,7 @@ function Scale({ mainScaleData, unitOfMass }) {
     const [minOffset, setMinOffset] = useState(3);
     const [maxOffset, setMaxOffset] = useState(3);
     // const [unitOfMassCode, setUnitOfMassCode] = useState("g"); // Global variable
-    const unitOfMassCode = "g";
+
     console.log("The unit of mass in scales is:", unitOfMass);
     // Timeseries Shadow Parameters
     const [realTimeWeight, setRealTimeWeight] = useState(0);
@@ -246,7 +246,7 @@ function Scale({ mainScaleData, unitOfMass }) {
                     height="3rem"
                     mt={-4.5}
                 >
-                    {realTimeTemperature}
+                    {realTimeTemperature == "111000℃" ? "ON" : realTimeTemperature}
                 </MDBox>
             </MDBox>
             <MDBox style={{ margin: "auto", paddingTop: "5px" }}>
