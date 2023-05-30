@@ -27,7 +27,7 @@ exports.handler = async (event) => {
     // Params object to retrieve the essential information about restaurant
     let key = event.queryStringParameters.dayOfYear + "_" + event.queryStringParameters.hourOfDay + "_" + event.queryStringParameters.iotNameThing;
     const params = {
-        TableName: "inverte_portionEvents_prod",
+        TableName: "inverte_portionEvents_dev11",
         Key: { dayOfYear_hourOfDay_iotNameThing: key, minuteOfHour_secondOfMinute: "60_60" }, // This parameters should come from scale
     };
     console.log("Your params for GETDaily are: ", params);
