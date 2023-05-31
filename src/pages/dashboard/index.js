@@ -195,7 +195,7 @@ function DashboardContainer({ iotThingNames, unitOfMass }) {
         selectedIndexRef.current = selectedIndex;
         PubSub.subscribe("$aws/things/" + keys[selectedIndexRef.current] + "/shadow/name/timeseries/update/accepted").subscribe({
             next: (dataCloud) => {
-                console.log("Message received by scale to update dashboard", dataCloud);
+                console.log("Message received by scale to update dashboard111", dataCloud);
 
                 getScaleIDAndDailySummary();
             },
