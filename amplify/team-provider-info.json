@@ -17,6 +17,10 @@
         "inverteclientv228c7d778": {}
       },
       "function": {
+        "inverteAmplifyAPIv1DisplayIngredient": {
+          "deploymentBucketName": "amplify-amplifyf2eff42530204-staging-171303-deployment",
+          "s3Key": "amplify-builds/inverteAmplifyAPIv1DisplayIngredient-4b4678713830784e776f-build.zip"
+        },
         "inverteAmplifyAPIv1GETdaily": {
           "deploymentBucketName": "amplify-amplifyf2eff42530204-staging-171303-deployment",
           "s3Key": "amplify-builds/inverteAmplifyAPIv1GETdaily-4a715979354d3649424a-build.zip"
@@ -36,21 +40,7 @@
         "inverteAmplifyAPIv1UpdateIngredient": {
           "deploymentBucketName": "amplify-amplifyf2eff42530204-staging-171303-deployment",
           "s3Key": "amplify-builds/inverteAmplifyAPIv1UpdateIngredient-39744c4d75684b65546f-build.zip"
-        },
-        "inverteAmplifyAPIv1DisplayIngredient": {
-          "deploymentBucketName": "amplify-amplifyf2eff42530204-staging-171303-deployment",
-          "s3Key": "amplify-builds/inverteAmplifyAPIv1DisplayIngredient-4b4678713830784e776f-build.zip"
         }
-      },
-      "api": {
-        "inverteClientAmplifyAPIV2": {}
-      }
-    }
-  },
-  "prod": {
-    "categories": {
-      "auth": {
-        "inverteclientv228c7d778": {}
       }
     }
   }
