@@ -59,6 +59,19 @@
           "delete"
         ]
       }
+    },
+    "/displayIngredient/{restaurantID}": {
+      "name": "/displayIngredient/{restaurantID}",
+      "lambdaFunction": "inverteAmplifyAPIv1DisplayIngredient",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
     }
   }
 }

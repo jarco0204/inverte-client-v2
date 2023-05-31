@@ -43,6 +43,7 @@ export default function App() {
 
     const [spinnerLoader, setSpinnerLoader] = useState(false);
     const [unitOfMass, setUnitOfMass] = useState(metaInformation.unitOfMass);
+    const [displayIngredient, setDisplayIngredient] = useState(0);
 
     // Hook for For route traversal
     const { pathname } = useLocation();
@@ -82,6 +83,7 @@ export default function App() {
                         }
                         setMetaInformation(response.item.Item);
                         setUnitOfMass(response.item.Item.unitOfMass);
+                        setDisplayIngredient(response.item.Item.displayIngredient);
                     });
                 } catch (err) {
                     console.log(err);
@@ -219,7 +221,7 @@ export default function App() {
                     ) : null}
                     {/* {layout === "vr" ? <Configurator /> : null} */}
                     <Routes>
-                        {getRoutes(routes(metaInformation, unitOfMass))}
+                        {getRoutes(routes(metaInformation, unitOfMass, displayIngredient))}
                         <Route path="*" element={<Navigate to="/dashboard" />} />
                     </Routes>
                 </ThemeProvider>

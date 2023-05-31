@@ -1,6 +1,5 @@
 import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types"; // prop-types is a library for typechecking of props.
-import { PubSub } from "aws-amplify";
 // @mui material components
 import Grid from "@mui/material/Grid";
 import PanToolIcon from "@mui/icons-material/PanTool";
@@ -29,7 +28,7 @@ import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import reportsLineChartData from "./data/reportsLineChartData";
 
 // AWS & other libraries
-import { API } from "aws-amplify";
+import { API, Auth, PubSub } from "aws-amplify";
 import dayjs from "dayjs";
 import dayOfYear from "dayjs/plugin/dayOfYear.js";
 import toObject from "dayjs/plugin/toObject.js";
@@ -42,7 +41,7 @@ dayjs.extend(toObject);
 
     @params: Array of the IoT Thing Devices associated with RestaurantID
 */
-function DashboardContainer({ iotThingNames, unitOfMass }) {
+function DashboardContainer({ iotThingNames, unitOfMass, displayIngredient }) {
     console.log("The things are:", iotThingNames);
     // Component State
     const [cardSummaryItems, setCardSummaryItems] = useState([]);
@@ -53,7 +52,7 @@ function DashboardContainer({ iotThingNames, unitOfMass }) {
     const options = Object.values(iotThingNames);
     const keys = Object.keys(iotThingNames);
     const [anchorEl, setAnchorEl] = useState(null);
-    const [selectedIndex, setSelectedIndex] = useState(-1);
+    const [selectedIndex, setSelectedIndex] = useState(displayIngredient);
     const selectedIndexRef = useRef();
     console.log(selectedIndex);
     const open = Boolean(anchorEl);
@@ -71,6 +70,33 @@ function DashboardContainer({ iotThingNames, unitOfMass }) {
         setSelectedIndex(index);
         selectedIndexRef.current = index;
         setAnchorEl(null);
+        updateIngredient(index);
+    };
+    /*!
+   @description: Update the index number in dynamo db such that we get the same ingredient on reloads
+   @params:index
+   @return:
+   @Comments
+   @Coders:Rohan
+*/
+
+    const updateIngredient = async (index) => {
+        const user = await Auth.currentAuthenticatedUser();
+        try {
+            console.log("The value is:", index);
+            const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
+            const path = "/displayIngredient/";
+            const finalAPIRoute = path + user.username; //TODO: Cases where userSession is empty
+
+            await API.get(AMPLIFY_API, finalAPIRoute, { queryStringParameters: { index: index } }).then((response) => {
+                console.log("The meta that we pull from Unit of mass: ", response); //Debig statement
+                if (response.item.Item == undefined) {
+                    throw new Error("No Response from API");
+                }
+            });
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     const handleClose = () => {

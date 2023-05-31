@@ -41,6 +41,14 @@
           ],
           "category": "function",
           "resourceName": "inverteAmplifyAPIv1UnitOfMass"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "inverteAmplifyAPIv1DisplayIngredient"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -76,6 +84,11 @@
     }
   },
   "function": {
+    "inverteAmplifyAPIv1DisplayIngredient": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "inverteAmplifyAPIv1GETdaily": {
       "build": true,
       "providerPlugin": "awscloudformation",
@@ -104,6 +117,22 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_inverteAmplifyAPIv1DisplayIngredient_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "inverteAmplifyAPIv1DisplayIngredient"
+        }
+      ]
+    },
+    "AMPLIFY_function_inverteAmplifyAPIv1DisplayIngredient_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "inverteAmplifyAPIv1DisplayIngredient"
+        }
+      ]
+    },
     "AMPLIFY_function_inverteAmplifyAPIv1GETdaily_deploymentBucketName": {
       "usedBy": [
         {

@@ -18,6 +18,13 @@ export type AmplifyDependentResourcesAttributes = {
     }
   },
   "function": {
+    "inverteAmplifyAPIv1DisplayIngredient": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
     "inverteAmplifyAPIv1GETdaily": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
