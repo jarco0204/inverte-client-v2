@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import PropTypes from "prop-types"; // prop-types is a library for typechecking of props.
 // @mui material components
 import Grid from "@mui/material/Grid";
@@ -53,7 +53,7 @@ function DashboardContainer({ iotThingNames, unitOfMass, displayIngredient }) {
     const keys = Object.keys(iotThingNames);
     const [anchorEl, setAnchorEl] = useState(null);
     const [selectedIndex, setSelectedIndex] = useState(displayIngredient);
-    const selectedIndexRef = useRef();
+    const selectedIndexRef = useRef(displayIngredient);
     console.log(selectedIndex);
     const open = Boolean(anchorEl);
     const handleClickListItem = (event) => {
@@ -89,7 +89,7 @@ function DashboardContainer({ iotThingNames, unitOfMass, displayIngredient }) {
             const finalAPIRoute = path + user.username; //TODO: Cases where userSession is empty
 
             await API.get(AMPLIFY_API, finalAPIRoute, { queryStringParameters: { index: index } }).then((response) => {
-                console.log("The meta that we pull from Unit of mass: ", response); //Debig statement
+                console.log("The meta that we pull from ingredient display: ", response); //Debug statement
                 if (response.item.Item == undefined) {
                     throw new Error("No Response from API");
                 }
