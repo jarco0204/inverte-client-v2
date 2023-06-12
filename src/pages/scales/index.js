@@ -15,7 +15,7 @@ import Scale from "./components/Scale";
 /*
     Main Route Container that hold array of Scale Components (Scale Cards)
 */
-function ScalesContainer({ iotThingNames, restaurantName, restaurantLocationNum, unitOfMass }) {
+function ScalesContainer({ iotThingNames, restaurantName, restaurantLocationNum }) {
     const [scalesMetaArr, setScalesMetaArr] = useState([]); // Array of Scales
     const [scaleCardsReady, setScaleCardsReady] = useState(false);
     const keys = Object.keys(iotThingNames);
@@ -54,7 +54,7 @@ function ScalesContainer({ iotThingNames, restaurantName, restaurantLocationNum,
                                     <div className="scales-container">
                                         {scalesMetaArr.map((mainScaleData, i) => (
                                             <div key={i} style={{ marginRight: "15px", marginTop: "35px", width: "100%", maxWidth: "300px" }}>
-                                                <Scale mainScaleData={mainScaleData} unitOfMass={unitOfMass} />
+                                                <Scale mainScaleData={mainScaleData} />
                                             </div>
                                         ))}
                                     </div>

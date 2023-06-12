@@ -48,7 +48,7 @@ import { makeStyles } from "@material-ui/core/styles";
     //     updateShadow(event);
     // };
 */
-function Scale({ mainScaleData, unitOfMass }) {
+function Scale({ mainScaleData }) {
     console.log("Your channel good sir, ", mainScaleData); // Debug statement //NOTE: Changes to Input Fields trigger the re-render
 
     // Classic Shadow Parameters
@@ -56,9 +56,9 @@ function Scale({ mainScaleData, unitOfMass }) {
     const [correctWeight, setCorrectWeight] = useState(24);
     const [minOffset, setMinOffset] = useState(3);
     const [maxOffset, setMaxOffset] = useState(3);
-    // const [unitOfMassCode, setUnitOfMassCode] = useState("g"); // Global variable
+    const [unitOfMass, setUnitOfMass] = useState("g"); // Unit of mass for the scale
 
-    console.log("The unit of mass in scales is:", unitOfMass);
+    console.log("The main scale data is:", mainScaleData);
     // Timeseries Shadow Parameters
     const [realTimeWeight, setRealTimeWeight] = useState(0);
     const [realTimeTemperature, setRealTimeTemperature] = useState("");
@@ -178,6 +178,7 @@ function Scale({ mainScaleData, unitOfMass }) {
                 setCorrectWeight(dataCloud.reported.correctWeight);
                 setMinOffset(dataCloud.reported.lowerErrorLimit);
                 setMaxOffset(dataCloud.reported.upperErrorLimit);
+                setUnitOfMass(dataCloud.reported.unitOfMass);
 
                 //Unsubcribe to topic after fething and updating parameters
                 subscription.unsubscribe();
@@ -200,9 +201,12 @@ function Scale({ mainScaleData, unitOfMass }) {
                 if (dataCloud.state.reported.temperature) {
                     setRealTimeTemperature(dataCloud.state.reported.temperature + "℃");
                 } else {
-                    setRealTimeTemperature("On");
+                    if (realTimeWeight == 0) {
+                        setRealTimeTemperature("OFF");
+                    } else {
+                        setRealTimeTemperature("On");
+                    }
                 }
-                setScaleStateReported(dataCloud.state.reported.scalePortionState);
             },
             error: (error) => console.error(error),
             complete: () => console.log("Web Socket Done"),
@@ -237,7 +241,7 @@ function Scale({ mainScaleData, unitOfMass }) {
                 <MDBox
                     variant="gradient"
                     bgColor="light"
-                    style={{ color: realTimeTemperature == null ? "red" : realTimeTemperature > 0 ? "#63e22a" : "#63e22a", fontSize: "21px", fontFamily: "Little Micro Sans" }}
+                    style={{ color: realTimeTemperature == "OFF" ? "red" : realTimeTemperature > 0 ? "#63e22a" : "#63e22a", fontSize: "21px", fontFamily: "Little Micro Sans" }}
                     borderRadius="xl"
                     display="flex"
                     justifyContent="center"
