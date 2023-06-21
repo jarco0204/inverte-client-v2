@@ -72,6 +72,19 @@
           "delete"
         ]
       }
+    },
+    "/analytics/{iotNameThing}": {
+      "name": "/analytics/{iotNameThing}",
+      "lambdaFunction": "inverteAmplifyAPIv1GETanalytics",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read",
+          "update",
+          "delete"
+        ]
+      }
     }
   }
 }

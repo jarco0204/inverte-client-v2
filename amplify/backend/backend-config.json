@@ -49,6 +49,14 @@
           ],
           "category": "function",
           "resourceName": "inverteAmplifyAPIv1DisplayIngredient"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "inverteAmplifyAPIv1GETanalytics"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -85,6 +93,11 @@
   },
   "function": {
     "inverteAmplifyAPIv1DisplayIngredient": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "inverteAmplifyAPIv1GETanalytics": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
@@ -130,6 +143,22 @@
         {
           "category": "function",
           "resourceName": "inverteAmplifyAPIv1DisplayIngredient"
+        }
+      ]
+    },
+    "AMPLIFY_function_inverteAmplifyAPIv1GETanalytics_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "inverteAmplifyAPIv1GETanalytics"
+        }
+      ]
+    },
+    "AMPLIFY_function_inverteAmplifyAPIv1GETanalytics_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "inverteAmplifyAPIv1GETanalytics"
         }
       ]
     },

@@ -85,7 +85,7 @@ const routes = (metaInformation, unitOfMass, displayIngredient) => {
                 </Icon>
             ),
             route: "/analytics",
-            component: <AnalyticsContainer />,
+            component: <AnalyticsContainer iotThingNames={metaInformation.iotThingNames} displayIngredient={displayIngredient} />,
         },
         // {
         //   type: "collapse",
