@@ -152,6 +152,22 @@
         }
       ]
     },
+    "AMPLIFY_function_getAnalyticsAmplifyAPIv3_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getAnalyticsAmplifyAPIv3"
+        }
+      ]
+    },
+    "AMPLIFY_function_getAnalyticsAmplifyAPIv3_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getAnalyticsAmplifyAPIv3"
+        }
+      ]
+    },
     "AMPLIFY_function_getDailyMetaRecordAmplifyAPIv3_deploymentBucketName": {
       "usedBy": [
         {

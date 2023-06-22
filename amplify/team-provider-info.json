@@ -41,7 +41,10 @@
           "deploymentBucketName": "amplify-inverteclientv3-staging-133138-deployment",
           "s3Key": "amplify-builds/updateIngredientNameAmplifyAPIv3-4e4b63532f6f62486931-build.zip"
         },
-        "getAnalyticsAmplifyAPIv3": {}
+        "getAnalyticsAmplifyAPIv3": {
+          "deploymentBucketName": "amplify-inverteclientv3-staging-133138-deployment",
+          "s3Key": "amplify-builds/getAnalyticsAmplifyAPIv3-55556d2f51354f616837-build.zip"
+        }
       },
       "api": {
         "inverteAmplifyAPIv3": {}

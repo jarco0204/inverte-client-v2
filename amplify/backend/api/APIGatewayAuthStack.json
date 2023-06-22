@@ -397,6 +397,66 @@
                       "/*/restaurants/updateIngredientName/*"
                     ]
                   ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:execute-api:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":",
+                      {
+                        "Ref": "inverteAmplifyAPIv3"
+                      },
+                      "/",
+                      {
+                        "Fn::If": [
+                          "ShouldNotCreateEnvResources",
+                          "Prod",
+                          {
+                            "Ref": "env"
+                          }
+                        ]
+                      },
+                      "/*/metaRecords/analytics/get/*/*"
+                    ]
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:execute-api:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId"
+                      },
+                      ":",
+                      {
+                        "Ref": "inverteAmplifyAPIv3"
+                      },
+                      "/",
+                      {
+                        "Fn::If": [
+                          "ShouldNotCreateEnvResources",
+                          "Prod",
+                          {
+                            "Ref": "env"
+                          }
+                        ]
+                      },
+                      "/*/metaRecords/analytics/get/*"
+                    ]
+                  ]
                 }
               ]
             }

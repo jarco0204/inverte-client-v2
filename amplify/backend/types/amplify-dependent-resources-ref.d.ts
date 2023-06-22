@@ -25,6 +25,13 @@ export type AmplifyDependentResourcesAttributes = {
       "Name": "string",
       "Region": "string"
     },
+    "getAnalyticsAmplifyAPIv3": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
     "getDailyMetaRecordAmplifyAPIv3": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
