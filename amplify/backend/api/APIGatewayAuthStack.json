@@ -11,7 +11,7 @@
     "env": {
       "Type": "String"
     },
-    "inverteClientAmplifyAPIV2": {
+    "inverteAmplifyAPIv3": {
       "Type": "String"
     }
   },
@@ -52,7 +52,7 @@
                       },
                       ":",
                       {
-                        "Ref": "inverteClientAmplifyAPIV2"
+                        "Ref": "inverteAmplifyAPIv3"
                       },
                       "/",
                       {
@@ -64,7 +64,7 @@
                           }
                         ]
                       },
-                      "/*/daily/*/*"
+                      "/*/restaurants/*/*"
                     ]
                   ]
                 },
@@ -82,7 +82,7 @@
                       },
                       ":",
                       {
-                        "Ref": "inverteClientAmplifyAPIV2"
+                        "Ref": "inverteAmplifyAPIv3"
                       },
                       "/",
                       {
@@ -94,7 +94,7 @@
                           }
                         ]
                       },
-                      "/*/daily/*"
+                      "/*/restaurants/*"
                     ]
                   ]
                 },
@@ -112,7 +112,7 @@
                       },
                       ":",
                       {
-                        "Ref": "inverteClientAmplifyAPIV2"
+                        "Ref": "inverteAmplifyAPIv3"
                       },
                       "/",
                       {
@@ -124,7 +124,7 @@
                           }
                         ]
                       },
-                      "/*/hourlyMeta/*/*"
+                      "/*/metaRecords/get/*/*"
                     ]
                   ]
                 },
@@ -142,7 +142,7 @@
                       },
                       ":",
                       {
-                        "Ref": "inverteClientAmplifyAPIV2"
+                        "Ref": "inverteAmplifyAPIv3"
                       },
                       "/",
                       {
@@ -154,7 +154,7 @@
                           }
                         ]
                       },
-                      "/*/hourlyMeta/*"
+                      "/*/metaRecords/get/*"
                     ]
                   ]
                 },
@@ -172,7 +172,7 @@
                       },
                       ":",
                       {
-                        "Ref": "inverteClientAmplifyAPIV2"
+                        "Ref": "inverteAmplifyAPIv3"
                       },
                       "/",
                       {
@@ -184,7 +184,7 @@
                           }
                         ]
                       },
-                      "/*/ingredientName/*/*"
+                      "/*/metaRecords/create/*/*"
                     ]
                   ]
                 },
@@ -202,7 +202,7 @@
                       },
                       ":",
                       {
-                        "Ref": "inverteClientAmplifyAPIV2"
+                        "Ref": "inverteAmplifyAPIv3"
                       },
                       "/",
                       {
@@ -214,7 +214,7 @@
                           }
                         ]
                       },
-                      "/*/ingredientName/*"
+                      "/*/metaRecords/create/*"
                     ]
                   ]
                 },
@@ -232,7 +232,7 @@
                       },
                       ":",
                       {
-                        "Ref": "inverteClientAmplifyAPIV2"
+                        "Ref": "inverteAmplifyAPIv3"
                       },
                       "/",
                       {
@@ -244,7 +244,7 @@
                           }
                         ]
                       },
-                      "/*/unitOfMass/*/*"
+                      "/*/restaurants/unitOfMass/*/*"
                     ]
                   ]
                 },
@@ -262,7 +262,7 @@
                       },
                       ":",
                       {
-                        "Ref": "inverteClientAmplifyAPIV2"
+                        "Ref": "inverteAmplifyAPIv3"
                       },
                       "/",
                       {
@@ -274,7 +274,7 @@
                           }
                         ]
                       },
-                      "/*/unitOfMass/*"
+                      "/*/restaurants/unitOfMass/*"
                     ]
                   ]
                 },
@@ -292,7 +292,7 @@
                       },
                       ":",
                       {
-                        "Ref": "inverteClientAmplifyAPIV2"
+                        "Ref": "inverteAmplifyAPIv3"
                       },
                       "/",
                       {
@@ -304,7 +304,7 @@
                           }
                         ]
                       },
-                      "/*/displayIngredient/*/*"
+                      "/*/restaurants/updateDisplayIngredientIndex/*/*"
                     ]
                   ]
                 },
@@ -322,7 +322,7 @@
                       },
                       ":",
                       {
-                        "Ref": "inverteClientAmplifyAPIV2"
+                        "Ref": "inverteAmplifyAPIv3"
                       },
                       "/",
                       {
@@ -334,7 +334,7 @@
                           }
                         ]
                       },
-                      "/*/displayIngredient/*"
+                      "/*/restaurants/updateDisplayIngredientIndex/*"
                     ]
                   ]
                 },
@@ -352,7 +352,7 @@
                       },
                       ":",
                       {
-                        "Ref": "inverteClientAmplifyAPIV2"
+                        "Ref": "inverteAmplifyAPIv3"
                       },
                       "/",
                       {
@@ -364,7 +364,7 @@
                           }
                         ]
                       },
-                      "/*/analytics/*/*"
+                      "/*/restaurants/updateIngredientName/*/*"
                     ]
                   ]
                 },
@@ -382,7 +382,7 @@
                       },
                       ":",
                       {
-                        "Ref": "inverteClientAmplifyAPIV2"
+                        "Ref": "inverteAmplifyAPIv3"
                       },
                       "/",
                       {
@@ -394,7 +394,7 @@
                           }
                         ]
                       },
-                      "/*/analytics/*"
+                      "/*/restaurants/updateIngredientName/*"
                     ]
                   ]
                 }

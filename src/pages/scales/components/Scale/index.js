@@ -120,7 +120,7 @@ function Scale({ mainScaleData }) {
         const user = await Auth.currentAuthenticatedUser();
         try {
             const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
-            const path = "/ingredientName/";
+            const path = "/restaurants/updateIngredientName/";
             const finalAPIRoute = path + user.username; //TODO: Cases where userSession is empty
 
             await API.get(AMPLIFY_API, finalAPIRoute, { queryStringParameters: { iotNameThing: mainScaleData.iotNameThing, ingredientName: nameIngredient } }).then((response) => {

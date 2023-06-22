@@ -85,7 +85,7 @@ function DashboardContainer({ iotThingNames, unitOfMass, displayIngredient }) {
         try {
             console.log("The value is:", index);
             const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
-            const path = "/displayIngredient/";
+            const path = "/restaurants/updateDisplayIngredientIndex/";
             const finalAPIRoute = path + user.username; //TODO: Cases where userSession is empty
 
             await API.get(AMPLIFY_API, finalAPIRoute, { queryStringParameters: { index: index } }).then((response) => {
@@ -108,7 +108,7 @@ function DashboardContainer({ iotThingNames, unitOfMass, displayIngredient }) {
         console.log("Selected Index:", selectedIndex);
         console.log("Selected Index Ref:", selectedIndexRef.current);
         try {
-            let path = "/daily/";
+            let path = "/metaRecords/get/";
             const finalAPIRoute = path + keys[selectedIndexRef.current];
             // console.log("Your API Route :", finalAPIRoute); // debug statement
 
@@ -180,11 +180,10 @@ function DashboardContainer({ iotThingNames, unitOfMass, displayIngredient }) {
                         setRealTimeAccuracy([]);
                         setRealTimePortionTime([]);
 
-                        // Our Step 3
-
-                        // Update Hourly Meta Record
-                        path = "/hourlyMeta/";
+                        // Create Updated Meta Record Based on Previous Daily Meta
+                        path = "/metaRecords/create/";
                         let finalAPIRoute = path + keys[selectedIndexRef.current];
+                        console.log("Your API Route :", finalAPIRoute); // debug statement
                         let tempDate = dayjs().format(); // Local time of Client
                         console.log("Your temp date is: ", tempDate);
                         await API.get(process.env.REACT_APP_AMPLIFY_API_NAME, finalAPIRoute, {

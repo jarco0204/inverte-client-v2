@@ -1,6 +1,6 @@
 {
   "api": {
-    "inverteClientAmplifyAPIV2": {
+    "inverteAmplifyAPIv3": {
       "dependsOn": [
         {
           "attributes": [
@@ -8,7 +8,7 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "inverteAmplifyAPIv1GETrestaurant"
+          "resourceName": "getRestaurantMetaAmplifyAPIv3"
         },
         {
           "attributes": [
@@ -16,7 +16,7 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "inverteAmplifyAPIv1GETdaily"
+          "resourceName": "getDailyMetaRecordAmplifyAPIv3"
         },
         {
           "attributes": [
@@ -24,7 +24,7 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "inverteAmplifyAPIv1UPDATEmeta"
+          "resourceName": "createMetaRecordAmplifyAPIv3"
         },
         {
           "attributes": [
@@ -32,7 +32,7 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "inverteAmplifyAPIv1UpdateIngredient"
+          "resourceName": "updateUnitOfMassAmplifyAPIv3"
         },
         {
           "attributes": [
@@ -40,7 +40,7 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "inverteAmplifyAPIv1UnitOfMass"
+          "resourceName": "updateDisplayIngredientIndexAmplifyAPIv3"
         },
         {
           "attributes": [
@@ -48,7 +48,7 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "inverteAmplifyAPIv1DisplayIngredient"
+          "resourceName": "updateIngredientNameAmplifyAPIv3"
         },
         {
           "attributes": [
@@ -56,7 +56,7 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "inverteAmplifyAPIv1GETanalytics"
+          "resourceName": "getAnalyticsAmplifyAPIv3"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -64,7 +64,7 @@
     }
   },
   "auth": {
-    "inverteclientv228c7d778": {
+    "inverteclientv30db036de": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
@@ -92,153 +92,143 @@
     }
   },
   "function": {
-    "inverteAmplifyAPIv1DisplayIngredient": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
-    "inverteAmplifyAPIv1GETanalytics": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
-    "inverteAmplifyAPIv1GETdaily": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
-    "inverteAmplifyAPIv1GETrestaurant": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    },
-    "inverteAmplifyAPIv1UPDATEmeta": {
+    "createMetaRecordAmplifyAPIv3": {
       "build": true,
       "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
-    "inverteAmplifyAPIv1UnitOfMass": {
+    "getAnalyticsAmplifyAPIv3": {
       "build": true,
+      "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
-    "inverteAmplifyAPIv1UpdateIngredient": {
+    "getDailyMetaRecordAmplifyAPIv3": {
       "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "getRestaurantMetaAmplifyAPIv3": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "updateDisplayIngredientIndexAmplifyAPIv3": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "updateIngredientNameAmplifyAPIv3": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "updateUnitOfMassAmplifyAPIv3": {
+      "build": true,
+      "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
   },
   "parameters": {
-    "AMPLIFY_function_inverteAmplifyAPIv1DisplayIngredient_deploymentBucketName": {
+    "AMPLIFY_function_createMetaRecordAmplifyAPIv3_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "inverteAmplifyAPIv1DisplayIngredient"
+          "resourceName": "createMetaRecordAmplifyAPIv3"
         }
       ]
     },
-    "AMPLIFY_function_inverteAmplifyAPIv1DisplayIngredient_s3Key": {
+    "AMPLIFY_function_createMetaRecordAmplifyAPIv3_s3Key": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "inverteAmplifyAPIv1DisplayIngredient"
+          "resourceName": "createMetaRecordAmplifyAPIv3"
         }
       ]
     },
-    "AMPLIFY_function_inverteAmplifyAPIv1GETanalytics_deploymentBucketName": {
+    "AMPLIFY_function_getDailyMetaRecordAmplifyAPIv3_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "inverteAmplifyAPIv1GETanalytics"
+          "resourceName": "getDailyMetaRecordAmplifyAPIv3"
         }
       ]
     },
-    "AMPLIFY_function_inverteAmplifyAPIv1GETanalytics_s3Key": {
+    "AMPLIFY_function_getDailyMetaRecordAmplifyAPIv3_s3Key": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "inverteAmplifyAPIv1GETanalytics"
+          "resourceName": "getDailyMetaRecordAmplifyAPIv3"
         }
       ]
     },
-    "AMPLIFY_function_inverteAmplifyAPIv1GETdaily_deploymentBucketName": {
+    "AMPLIFY_function_getRestaurantMetaAmplifyAPIv3_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "inverteAmplifyAPIv1GETdaily"
+          "resourceName": "getRestaurantMetaAmplifyAPIv3"
         }
       ]
     },
-    "AMPLIFY_function_inverteAmplifyAPIv1GETdaily_s3Key": {
+    "AMPLIFY_function_getRestaurantMetaAmplifyAPIv3_s3Key": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "inverteAmplifyAPIv1GETdaily"
+          "resourceName": "getRestaurantMetaAmplifyAPIv3"
         }
       ]
     },
-    "AMPLIFY_function_inverteAmplifyAPIv1GETrestaurant_deploymentBucketName": {
+    "AMPLIFY_function_updateDisplayIngredientIndexAmplifyAPIv3_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "inverteAmplifyAPIv1GETrestaurant"
+          "resourceName": "updateDisplayIngredientIndexAmplifyAPIv3"
         }
       ]
     },
-    "AMPLIFY_function_inverteAmplifyAPIv1GETrestaurant_s3Key": {
+    "AMPLIFY_function_updateDisplayIngredientIndexAmplifyAPIv3_s3Key": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "inverteAmplifyAPIv1GETrestaurant"
+          "resourceName": "updateDisplayIngredientIndexAmplifyAPIv3"
         }
       ]
     },
-    "AMPLIFY_function_inverteAmplifyAPIv1UPDATEmeta_deploymentBucketName": {
+    "AMPLIFY_function_updateIngredientNameAmplifyAPIv3_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "inverteAmplifyAPIv1UPDATEmeta"
+          "resourceName": "updateIngredientNameAmplifyAPIv3"
         }
       ]
     },
-    "AMPLIFY_function_inverteAmplifyAPIv1UPDATEmeta_s3Key": {
+    "AMPLIFY_function_updateIngredientNameAmplifyAPIv3_s3Key": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "inverteAmplifyAPIv1UPDATEmeta"
+          "resourceName": "updateIngredientNameAmplifyAPIv3"
         }
       ]
     },
-    "AMPLIFY_function_inverteAmplifyAPIv1UnitOfMass_deploymentBucketName": {
+    "AMPLIFY_function_updateUnitOfMassAmplifyAPIv3_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "inverteAmplifyAPIv1UnitOfMass"
+          "resourceName": "updateUnitOfMassAmplifyAPIv3"
         }
       ]
     },
-    "AMPLIFY_function_inverteAmplifyAPIv1UnitOfMass_s3Key": {
+    "AMPLIFY_function_updateUnitOfMassAmplifyAPIv3_s3Key": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "inverteAmplifyAPIv1UnitOfMass"
-        }
-      ]
-    },
-    "AMPLIFY_function_inverteAmplifyAPIv1UpdateIngredient_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "inverteAmplifyAPIv1UpdateIngredient"
-        }
-      ]
-    },
-    "AMPLIFY_function_inverteAmplifyAPIv1UpdateIngredient_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "inverteAmplifyAPIv1UpdateIngredient"
+          "resourceName": "updateUnitOfMassAmplifyAPIv3"
         }
       ]
     }

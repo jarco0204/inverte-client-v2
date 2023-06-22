@@ -1,13 +1,13 @@
 export type AmplifyDependentResourcesAttributes = {
   "api": {
-    "inverteClientAmplifyAPIV2": {
+    "inverteAmplifyAPIv3": {
       "ApiId": "string",
       "ApiName": "string",
       "RootUrl": "string"
     }
   },
   "auth": {
-    "inverteclientv228c7d778": {
+    "inverteclientv30db036de": {
       "AppClientID": "string",
       "AppClientIDWeb": "string",
       "IdentityPoolId": "string",
@@ -18,49 +18,42 @@ export type AmplifyDependentResourcesAttributes = {
     }
   },
   "function": {
-    "inverteAmplifyAPIv1DisplayIngredient": {
+    "createMetaRecordAmplifyAPIv3": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
       "LambdaExecutionRoleArn": "string",
       "Name": "string",
       "Region": "string"
     },
-    "inverteAmplifyAPIv1GETanalytics": {
+    "getDailyMetaRecordAmplifyAPIv3": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
       "LambdaExecutionRoleArn": "string",
       "Name": "string",
       "Region": "string"
     },
-    "inverteAmplifyAPIv1GETdaily": {
+    "getRestaurantMetaAmplifyAPIv3": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
       "LambdaExecutionRoleArn": "string",
       "Name": "string",
       "Region": "string"
     },
-    "inverteAmplifyAPIv1GETrestaurant": {
+    "updateDisplayIngredientIndexAmplifyAPIv3": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
       "LambdaExecutionRoleArn": "string",
       "Name": "string",
       "Region": "string"
     },
-    "inverteAmplifyAPIv1UPDATEmeta": {
+    "updateIngredientNameAmplifyAPIv3": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
       "LambdaExecutionRoleArn": "string",
       "Name": "string",
       "Region": "string"
     },
-    "inverteAmplifyAPIv1UnitOfMass": {
-      "Arn": "string",
-      "LambdaExecutionRole": "string",
-      "LambdaExecutionRoleArn": "string",
-      "Name": "string",
-      "Region": "string"
-    },
-    "inverteAmplifyAPIv1UpdateIngredient": {
+    "updateUnitOfMassAmplifyAPIv3": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
       "LambdaExecutionRoleArn": "string",

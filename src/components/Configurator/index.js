@@ -98,7 +98,7 @@ function Configurator({ metaInformation, setUnitOfMass, unitOfMass }) {
         try {
             console.log("The value is:", event.target.value);
             const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
-            const path = "/unitOfMass/";
+            const path = "/restaurants/unitOfMass/";
             const finalAPIRoute = path + user.username; //TODO: Cases where userSession is empty
 
             await API.get(AMPLIFY_API, finalAPIRoute, { queryStringParameters: { unitOfMass: event.target.value } }).then((response) => {
