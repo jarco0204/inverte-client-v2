@@ -27,6 +27,8 @@ import { Auth, API } from "aws-amplify";
 
 // Images
 import inverteLogo from "./assets/img/inverte_green_logo.png";
+import inverteLogoSideWhite from "./assets/img/inverteLogo.png";
+import inverteLogoSideBlack from "./assets/img/inverteLogoBlack.png";
 
 //Css
 import "./assets/css/SpinnerLoaderScreen.css";
@@ -209,8 +211,8 @@ export default function App() {
                         <>
                             <Sidenav
                                 color={sidenavColor}
-                                brand={(transparentSidenav && !darkMode) || whiteSidenav ? inverteLogo : inverteLogo}
-                                brandName="InVerte"
+                                brand={(transparentSidenav && !darkMode) || whiteSidenav ? inverteLogoSideBlack : inverteLogoSideWhite}
+                                // brandName="InVerte"
                                 routes={routes(metaInformation)}
                                 onMouseEnter={handleOnMouseEnter}
                                 onMouseLeave={handleOnMouseLeave}
