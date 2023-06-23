@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
 import dayjs from "dayjs";
-import { DatePicker } from "antd";
+import { DatePicker, Col, Row, Statistic, Typography } from "antd";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "../../components/Navbars/DashboardNavbar";
 import Footer from "../../components/Footer";
 import MDBox from "../../components/MDBox";
 import subtopic from "./data/TestData";
 import Grid from "@mui/material/Grid";
-import Row from "./components/Row";
+//import Row from "./components/Row";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { TextField } from "@mui/material";
@@ -21,6 +21,7 @@ import { ListItemIcon } from "@mui/material";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import { API, Auth, PubSub } from "aws-amplify";
 import moment from "moment";
+import { set } from "date-fns";
 // const importView = () =>
 //     lazy(() =>
 //         import(`./components/Row`).catch(() => {
@@ -44,8 +45,25 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
         The first row will always only have 2 plots for emphasis of that data.
     */
     const [requestedDate, setRequestedDate] = useState(null);
-    const [requestedEndDate, setRequestedEndDate] = useState(null);
+    const [totalInventory, setTotalInventory] = useState(0);
+    const [accuracy, setAccuracy] = useState(0);
+    const [totalPortions, setTotalPortions] = useState(0);
+    const [totalMinutes, setTotalMinutes] = useState(0);
+    let [analyticsData, setAnalyticsData] = useState(null);
     const [selectedDates, setSelectedDates] = useState([]);
+    const { RangePicker } = DatePicker;
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [rows, setRows] = useState([]);
+    const extract_data = (response) => response.data.children.map((response) => response);
+    const open = Boolean(anchorEl);
+    const { Title, Paragraph, Text, Link } = Typography;
+    const options = Object.values(iotThingNames);
+    const [selectedIndex, setSelectedIndex] = useState(displayIngredient);
+    const selectedIndexRef = useRef(displayIngredient);
+    const isInitialRender = useRef(true);
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
     const handleRangeChange = (dates) => {
         setSelectedDates(dates);
     };
@@ -56,17 +74,6 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
             getDataEvents(updatedDates[0], updatedDates[1]);
         }
     };
-    const { RangePicker } = DatePicker;
-    const [anchorEl, setAnchorEl] = useState(null);
-    const [rows, setRows] = useState([]);
-    const extract_data = (response) => response.data.children.map((response) => response);
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-    const open = Boolean(anchorEl);
-    const options = Object.values(iotThingNames);
-    const [selectedIndex, setSelectedIndex] = useState(displayIngredient);
-    const selectedIndexRef = useRef(displayIngredient);
     const handleMenuItemClick = (event, index) => {
         setSelectedIndex(index);
         selectedIndexRef.current = index;
@@ -93,36 +100,68 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
             children: [...midle_man],
         },
     });
+    //Use effect is triggered when we get data from backend
     useEffect(() => {
-        async function loadRows() {
-            const rowToShow = await modified_subtopic("rows data").then(extract_data);
-            let unique_keys = [];
-            const componentPromises = rowToShow.map(async (data) => {
-                let new_unique_key = Math.floor(Math.random() * 100);
-                while (unique_keys.includes(new_unique_key)) {
-                    new_unique_key = Math.floor(Math.random() * 100);
-                }
-                unique_keys.push(new_unique_key);
-                // const Row = await importView();
-                return <Row data={data} key={new_unique_key} requestedDate={requestedDate} />;
-            });
-            Promise.all(componentPromises).then(setRows);
+        setAnalyticsData(null);
+        setTotalInventory(0);
+        setAccuracy(0.0);
+        setTotalPortions(0);
+        setTotalMinutes(0);
+        setSelectedDates(null);
+    }, [selectedIndex]);
+    useEffect(() => {
+        // async function loadRows() {
+        //     const rowToShow = await modified_subtopic("rows data").then(extract_data);
+        //     let unique_keys = [];
+        //     const componentPromises = rowToShow.map(async (data) => {
+        //         let new_unique_key = Math.floor(Math.random() * 100);
+        //         while (unique_keys.includes(new_unique_key)) {
+        //             new_unique_key = Math.floor(Math.random() * 100);
+        //         }
+        //         unique_keys.push(new_unique_key);
+        //         // const Row = await importView();
+        //         return <Row data={data} key={new_unique_key} requestedDate={requestedDate} />;
+        //     });
+        //     Promise.all(componentPromises).then(setRows);
+        // }
+        // loadRows();
+
+        if (analyticsData != null) {
+            setTotalInventory(analyticsData[0]);
+            setAccuracy(analyticsData[1]);
+            setTotalPortions(analyticsData[3]);
+            setTotalMinutes(analyticsData[2]);
+            console.log("Total inventory", totalInventory);
         }
-        loadRows();
-    }, [rowToShow]);
+    }, [analyticsData]);
+    //Use effect is triggered when we change index
+    useEffect(() => {
+        if (!isInitialRender.current) {
+            setAnalyticsData(null);
+            setTotalInventory(0);
+            setAccuracy(0);
+            setTotalPortions(0);
+            setTotalMinutes(0);
+            setSelectedDates([]);
+        } else {
+            isInitialRender.current = false;
+        }
+    }, [selectedIndex]);
 
     //Get the events using the API call
     const getDataEvents = async (newDate, endDate) => {
         const user = await Auth.currentAuthenticatedUser();
         try {
             const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
-            const path = "/analytics/";
+            const path = "/metaRecords/analytics/get/";
             const finalAPIRoute = path + user.username; //TODO: Cases where userSession is empty
 
             await API.get(AMPLIFY_API, finalAPIRoute, {
                 queryStringParameters: { date: newDate._i.$d.toString(), endDate: endDate._i.$d.toString(), iotName: Object.keys(iotThingNames)[selectedIndex] },
             }).then((response) => {
                 console.log("The meta that we pull from analytics: ", response); //Debug statement
+                setAnalyticsData(response.portionEvents);
+
                 if (response.item.Item == undefined) {
                     throw new Error("No Response from API");
                 }
@@ -191,6 +230,29 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
                         {/* <Grid container spacing={number_of_plots} direction="column" justifyContent="space-between">
                             {rows}
                         </Grid> */}
+                        <div>
+                            <Typography>
+                                <Title>Summary</Title>
+                                <Paragraph>
+                                    Your total Inventory consumed for this time period was {totalInventory}g with an accuracy of {accuracy.toFixed(2)}%.This is because you took {totalPortions}{" "}
+                                    portions in {totalMinutes} minutes.
+                                </Paragraph>
+                            </Typography>
+                            <Row gutter={16}>
+                                <Col span={12}>
+                                    <Statistic title="Total Inventory" value={totalInventory} />
+                                </Col>
+                                <Col span={12}>
+                                    <Statistic title="Average Accuracy" value={accuracy} precision={2} />
+                                </Col>
+                                <Col span={12}>
+                                    <Statistic title="Minutes Saved" value={totalMinutes} />
+                                </Col>
+                                <Col span={12}>
+                                    <Statistic title="Total Portions" value={totalPortions} />
+                                </Col>
+                            </Row>
+                        </div>
                     </MDBox>
                 </MDBox>
                 <Footer />

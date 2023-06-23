@@ -19,15 +19,15 @@
       "function": {
         "createMetaRecordAmplifyAPIv3": {
           "deploymentBucketName": "amplify-inverteclientv3-staging-133138-deployment",
-          "s3Key": "amplify-builds/createMetaRecordAmplifyAPIv3-3279644d584367757731-build.zip"
+          "s3Key": "amplify-builds/createMetaRecordAmplifyAPIv3-2b484f3369436b384a6c-build.zip"
         },
         "getAnalyticsAmplifyAPIv3": {
           "deploymentBucketName": "amplify-inverteclientv3-staging-133138-deployment",
-          "s3Key": "amplify-builds/getAnalyticsAmplifyAPIv3-5074585a55475274386f-build.zip"
+          "s3Key": "amplify-builds/getAnalyticsAmplifyAPIv3-64503974634333735642-build.zip"
         },
         "getDailyMetaRecordAmplifyAPIv3": {
           "deploymentBucketName": "amplify-inverteclientv3-staging-133138-deployment",
-          "s3Key": "amplify-builds/getDailyMetaRecordAmplifyAPIv3-2f725172774d764a6664-build.zip"
+          "s3Key": "amplify-builds/getDailyMetaRecordAmplifyAPIv3-4f763370322f7943626b-build.zip"
         },
         "getRestaurantMetaAmplifyAPIv3": {
           "deploymentBucketName": "amplify-inverteclientv3-staging-133138-deployment",
@@ -35,15 +35,15 @@
         },
         "updateDisplayIngredientIndexAmplifyAPIv3": {
           "deploymentBucketName": "amplify-inverteclientv3-staging-133138-deployment",
-          "s3Key": "amplify-builds/updateDisplayIngredientIndexAmplifyAPIv3-7a396665786633457547-build.zip"
+          "s3Key": "amplify-builds/updateDisplayIngredientIndexAmplifyAPIv3-4d503264517053506266-build.zip"
         },
         "updateIngredientNameAmplifyAPIv3": {
           "deploymentBucketName": "amplify-inverteclientv3-staging-133138-deployment",
-          "s3Key": "amplify-builds/updateIngredientNameAmplifyAPIv3-4e4b63532f6f62486931-build.zip"
+          "s3Key": "amplify-builds/updateIngredientNameAmplifyAPIv3-4f31774a416f3967514b-build.zip"
         },
         "updateUnitOfMassAmplifyAPIv3": {
           "deploymentBucketName": "amplify-inverteclientv3-staging-133138-deployment",
-          "s3Key": "amplify-builds/updateUnitOfMassAmplifyAPIv3-73744845336c4d636e51-build.zip"
+          "s3Key": "amplify-builds/updateUnitOfMassAmplifyAPIv3-4734672b444761506773-build.zip"
         }
       },
       "api": {

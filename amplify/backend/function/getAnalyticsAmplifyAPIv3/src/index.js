@@ -47,6 +47,11 @@ exports.handler = async (event) => {
     const endDate = new Date(event.queryStringParameters.endDate);
     const formattedEndDateObject = endDate.toLocaleString("en-US", options);
     const formattedEndDate = new Date(formattedEndDateObject);
+    let totalInventory = 0;
+    let totalAccuracy = 0;
+    let totalTime = 0;
+    let totalPortion = 0;
+    let realTime = [];
     console.log("The start date is:", event.queryStringParameters.date);
     console.log("The end date is:", event.queryStringParameters.date);
 
@@ -77,11 +82,26 @@ exports.handler = async (event) => {
             return { error: err, statusCode: 404 };
         }
     }
+    console.log("The data fetched is", data); //Debug statement
+    //Process the data to be displayed in Analytics
+    let nonEmptyObjects = 0;
+    for (let i = 0; i < data.length; i++) {
+        if (Object.keys(data[i]).length != 0) {
+            totalInventory += data[i].Item.hourlySummary.inventoryConsumed;
+            totalAccuracy += data[i].Item.hourlySummary.accuracy;
+            totalTime += data[i].Item.hourlySummary.minutesSaved;
+            totalPortion += data[i].Item.hourlySummary.portionsCompleted;
+            realTime.concat(data[i].Item.hourlySummary.realTime);
+            nonEmptyObjects++;
+        }
+    }
+    totalAccuracy /= nonEmptyObjects;
+
     //Return the data
     const portionEvents = {
         message: "Information correctly retrieved from Dynamo using Lambda420",
         sdkVersion: AWS.VERSION,
-        portionEvents: data,
+        portionEvents: [totalInventory, totalAccuracy, totalTime, totalPortion, realTime],
     };
     return {
         statusCode: 200,
