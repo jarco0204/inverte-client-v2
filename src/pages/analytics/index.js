@@ -135,7 +135,7 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DashboardLayout>
-                <DashboardNavbar />
+                {/* <DashboardNavbar /> */}
                 <MDBox mt={4.5}>
                     <Grid container justifyContent="center" position="relative">
                         <div style={{ margin: "auto ", marginTop: "4px", width: "fit-content", border: "1px solid #49a3f1 ", borderRadius: "5px", padding: "5px", marginLeft: "0px" }}>

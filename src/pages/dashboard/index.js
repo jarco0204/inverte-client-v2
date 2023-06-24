@@ -231,7 +231,7 @@ function DashboardContainer({ iotThingNames, unitOfMass, displayIngredient }) {
 
     return (
         <DashboardLayout>
-            <DashboardNavbar />
+            {/* <DashboardNavbar /> */}
             <div style={{ margin: "auto ", marginTop: "15px", width: "fit-content", border: "1px solid #49a3f1 ", borderRadius: "5px", padding: "5px", marginLeft: "0px" }}>
                 <List component="nav" aria-label="Device settings">
                     <ListItem

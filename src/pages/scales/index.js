@@ -43,7 +43,7 @@ function ScalesContainer({ iotThingNames, restaurantName, restaurantLocationNum 
 
     return (
         <DashboardLayout>
-            <DashboardNavbar />
+            {/* <DashboardNavbar /> */}
 
             <MDBox py={3}>
                 <div className="card-container">
