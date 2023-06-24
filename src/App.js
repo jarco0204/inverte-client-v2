@@ -24,6 +24,19 @@ import theme from "./assets/theme";
 
 //AWS Imports
 import { Auth, API } from "aws-amplify";
+//AWS Imports
+import { Amplify } from "aws-amplify";
+import { AWSIoTProvider } from "@aws-amplify/pubsub"; // MQTT Client to Receive Messages
+import awsmobile from "./aws-exports";
+Amplify.addPluggable(
+    // Amplify Pub/Sub MQTT Client for Scale Container
+    new AWSIoTProvider({
+        aws_pubsub_region: process.env.REACT_APP_AWS_REGION,
+        aws_pubsub_endpoint: "wss://" + process.env.REACT_APP_MQTT_ENDPOINT + ".iot." + process.env.REACT_APP_AWS_REGION + ".amazonaws.com/mqtt",
+    })
+);
+Amplify.configure(awsmobile);
+// Amplify.Logger.LOG_LEVEL = "DEBUG";
 
 // Images
 import inverteLogo from "./assets/img/inverte_green_logo.png";
