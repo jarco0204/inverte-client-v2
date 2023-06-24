@@ -18,6 +18,7 @@ import { useMaterialUIController, setMiniSidenav } from "./context"; // Context 
 import theme from "./assets/theme";
 import ButtonConfig from "./components/ButtonConfig";
 import SpinnerLoader from "./components/SpinnerLoader";
+import { handleOnMouseEnter, handleOnMouseLeave } from "./components/Sidenav/SidenavBehaviour";
 // import themeDark from "assets/theme-dark"; // TODO
 
 // Pages Containers
@@ -148,31 +149,12 @@ export default function App() {
 
     // ======================= End of UseEffect Hooks ===================
 
-    /*
-        Function to open sidenav when mouse enter on mini sidenav
-    */
-    const handleOnMouseEnter = () => {
-        if (miniSidenav && !onMouseEnter) {
-            setMiniSidenav(dispatch, false);
-            setOnMouseEnter(true);
-        }
-    };
-
-    /*
-        Function to close sidenav when mouse leave mini sidenav
-    */
-    const handleOnMouseLeave = () => {
-        if (onMouseEnter) {
-            setMiniSidenav(dispatch, true);
-            setOnMouseEnter(false);
-        }
-    };
-
-    /*
-        Function to control the route traversal
-
-        Specifically, the function first checks if the current route object has a collapse property. 
-        If it does, the function recursively calls itself with the collapse property as the new input, effectively flattening nested route structures.
+    /*!
+        @description: Function to control the route traversal
+        @params:
+        @return:
+        @Comments
+        @Coders:
     */
     const getRoutes = (allRoutes) =>
         allRoutes.map((route) => {
@@ -192,7 +174,6 @@ export default function App() {
             {!authenticated ? (
                 <>{spinnerLoader ? SpinnerLoader() : <SignIn setAuthenticated={setAuthenticated} />}</>
             ) : (
-                // TODO: Add Dark theme
                 <ThemeProvider theme={darkMode ? null : theme}>
                     <CssBaseline />
                     {layout === "dashboard" ? (
@@ -200,10 +181,9 @@ export default function App() {
                             <Sidenav
                                 color={sidenavColor}
                                 brand={(transparentSidenav && !darkMode) || whiteSidenav ? inverteLogoSideBlack : inverteLogoSideWhite}
-                                // brandName="InVerte"
                                 routes={routes(metaInformation)}
-                                onMouseEnter={handleOnMouseEnter}
-                                onMouseLeave={handleOnMouseLeave}
+                                onMouseEnter={() => handleOnMouseEnter(miniSidenav, onMouseEnter, setMiniSidenav, setOnMouseEnter, dispatch)}
+                                onMouseLeave={() => handleOnMouseLeave(onMouseEnter, setOnMouseEnter, setMiniSidenav, dispatch)}
                             />
                             <Configurator metaInformation={metaInformation} setUnitOfMass={setUnitOfMass} unitOfMass={unitOfMass} />
                             <ButtonConfig dispatch={dispatch} openConfigurator={openConfigurator} />

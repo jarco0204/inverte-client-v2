@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 // Theme Components
 import MDBox from "../MDBox";
 import Icon from "@mui/material/Icon";
@@ -41,3 +43,9 @@ export default function ButtonConfig({ dispatch, openConfigurator }) {
         </>
     );
 }
+
+// Typechecking props for the ButtonConfig
+ButtonConfig.propTypes = {
+    dispatch: PropTypes.any,
+    openConfigurator: PropTypes.any,
+};
