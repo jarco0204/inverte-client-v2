@@ -5,7 +5,6 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 // @mui material components
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Typography } from "@material-ui/core";
 
 //AWS Imports
 import { Amplify, Auth, API } from "aws-amplify";
@@ -18,6 +17,7 @@ import Configurator from "./components/Configurator";
 import { useMaterialUIController, setMiniSidenav } from "./context"; // Context to keep track of state
 import theme from "./assets/theme";
 import ButtonConfig from "./components/ButtonConfig";
+import SpinnerLoader from "./components/SpinnerLoader";
 // import themeDark from "assets/theme-dark"; // TODO
 
 // Pages Containers
@@ -25,20 +25,17 @@ import SignIn from "./pages/signin";
 import routes from "./routes";
 
 // Assets
-import inverteLogo from "./assets/img/inverte_green_logo.png";
 import inverteLogoSideWhite from "./assets/img/inverteLogo.png";
 import inverteLogoSideBlack from "./assets/img/inverteLogoBlack.png";
-import "./assets/css/SpinnerLoaderScreen.css";
 
-// AWS Config
+// Amplify Pub/Sub MQTT Client for Scale Container
 Amplify.addPluggable(
-    // Amplify Pub/Sub MQTT Client for Scale Container
     new AWSIoTProvider({
         aws_pubsub_region: process.env.REACT_APP_AWS_REGION,
         aws_pubsub_endpoint: "wss://" + process.env.REACT_APP_MQTT_ENDPOINT + ".iot." + process.env.REACT_APP_AWS_REGION + ".amazonaws.com/mqtt",
     })
 );
-Amplify.configure(awsmobile); // // Amplify.Logger.LOG_LEVEL = "DEBUG";
+Amplify.configure(awsmobile);
 
 // Global Variables
 let DEBUG_FLAG = true;
@@ -110,6 +107,7 @@ export default function App() {
 
                 // Block to Help Debugging
                 if (DEBUG_FLAG) {
+                    Amplify.Logger.LOG_LEVEL = "DEBUG";
                     console.log("My session is:", session);
                     console.log("My user is:", user);
                     console.log("The metaInformation is", metaInformation);
@@ -189,23 +187,10 @@ export default function App() {
             return null;
         });
 
-    const SpinnerLoaderScreen = () => {
-        return (
-            <div className="spinner-container">
-                <div className="spinner-logo">
-                    <img src={inverteLogo} alt="Logo" />
-                </div>
-                <Typography variant="h5" className="spinner-text">
-                    Make Every Gram Count
-                </Typography>
-            </div>
-        );
-    };
-
     return (
         <>
             {!authenticated ? (
-                <>{spinnerLoader ? SpinnerLoaderScreen() : <SignIn setAuthenticated={setAuthenticated} />}</>
+                <>{spinnerLoader ? SpinnerLoader() : <SignIn setAuthenticated={setAuthenticated} />}</>
             ) : (
                 // TODO: Add Dark theme
                 <ThemeProvider theme={darkMode ? null : theme}>
