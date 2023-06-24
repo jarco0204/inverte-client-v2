@@ -1,33 +1,36 @@
+// React Imports
 import { useState, useEffect } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+
 // @mui material components
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import Icon from "@mui/material/Icon";
-import SettingsIcon from "@mui/icons-material/Settings";
 import { Typography } from "@material-ui/core";
-// Fundamental components
-import MDBox from "./components/MDBox";
+
+//AWS Imports
+import { Amplify, Auth, API } from "aws-amplify";
+import { AWSIoTProvider } from "@aws-amplify/pubsub";
+import awsmobile from "./aws-exports";
+
+// App-Level Components
 import Sidenav from "./components/Sidenav";
 import Configurator from "./components/Configurator";
+import { useMaterialUIController, setMiniSidenav } from "./context"; // Context to keep track of state
+import theme from "./assets/theme";
+import ButtonConfig from "./components/ButtonConfig";
+// import themeDark from "assets/theme-dark"; // TODO
 
 // Pages Containers
 import SignIn from "./pages/signin";
 import routes from "./routes";
 
-// Context to keep track of state
-import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "./context";
+// Assets
+import inverteLogo from "./assets/img/inverte_green_logo.png";
+import inverteLogoSideWhite from "./assets/img/inverteLogo.png";
+import inverteLogoSideBlack from "./assets/img/inverteLogoBlack.png";
+import "./assets/css/SpinnerLoaderScreen.css";
 
-// Material Dashboard Theme
-import theme from "./assets/theme";
-// import themeDark from "assets/theme-dark"; // TODO
-
-//AWS Imports
-import { Auth, API } from "aws-amplify";
-//AWS Imports
-import { Amplify } from "aws-amplify";
-import { AWSIoTProvider } from "@aws-amplify/pubsub"; // MQTT Client to Receive Messages
-import awsmobile from "./aws-exports";
+// AWS Config
 Amplify.addPluggable(
     // Amplify Pub/Sub MQTT Client for Scale Container
     new AWSIoTProvider({
@@ -35,86 +38,35 @@ Amplify.addPluggable(
         aws_pubsub_endpoint: "wss://" + process.env.REACT_APP_MQTT_ENDPOINT + ".iot." + process.env.REACT_APP_AWS_REGION + ".amazonaws.com/mqtt",
     })
 );
-Amplify.configure(awsmobile);
-// Amplify.Logger.LOG_LEVEL = "DEBUG";
+Amplify.configure(awsmobile); // // Amplify.Logger.LOG_LEVEL = "DEBUG";
 
-// Images
-import inverteLogo from "./assets/img/inverte_green_logo.png";
-import inverteLogoSideWhite from "./assets/img/inverteLogo.png";
-import inverteLogoSideBlack from "./assets/img/inverteLogoBlack.png";
+// Global Variables
+let DEBUG_FLAG = true;
 
-//Css
-import "./assets/css/SpinnerLoaderScreen.css";
+/*!
+   @description:
+   @params:
+   @return:
+   @Comments
+   @Coders: ElToro56
+*/
 export default function App() {
-    // Following lines should be looked into further
+    // Theme Settings
     const [controller, dispatch] = useMaterialUIController();
     const { miniSidenav, direction, layout, openConfigurator, sidenavColor, transparentSidenav, whiteSidenav, darkMode } = controller;
 
     // Component State
     const [onMouseEnter, setOnMouseEnter] = useState(false);
     const [authenticated, setAuthenticated] = useState(false);
-
-    const [metaInformation, setMetaInformation] = useState({ iotThingNames: ["test"], restaurantName: "pp", restaurantLocation: "pp2", unitOfMass: "pp3" }); //TODO: Support different scale IDs
-
     const [spinnerLoader, setSpinnerLoader] = useState(false);
-    const [unitOfMass, setUnitOfMass] = useState(metaInformation.unitOfMass);
     const [displayIngredient, setDisplayIngredient] = useState(0);
+    const [metaInformation, setMetaInformation] = useState({ iotThingNames: ["test"], restaurantName: "pp", restaurantLocation: "pp2", unitOfMass: "pp3" });
+    const [unitOfMass, setUnitOfMass] = useState(metaInformation.unitOfMass);
 
-    // Hook for For route traversal
+    // Hook for route traversal
     const { pathname } = useLocation();
 
-    // Hook to test Authentication
-    useEffect(() => {
-        /*
-        Function to handle authentication
-        */
-        async function authSession() {
-            try {
-                setSpinnerLoader(true);
-                const session = await Auth.currentSession();
-                const user = await Auth.currentAuthenticatedUser();
-                console.log("My session is:", session);
-                console.log("My user is:", user);
-                console.log("The metaInformation is", metaInformation);
-                /* This Code block allows you to determine the CognitoIdentityID that allows
-                to attach the IoT Policy
-                Auth.currentCredentials().then((info) => {
-                    const cognitoIdentityId = info.identityId;
-                    console.log("pp read this : ", cognitoIdentityId);
-                });
-                */
-                // setUserSession(user);
-                try {
-                    const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
-                    const path = "/restaurants/";
-                    const finalAPIRoute = path + user.username; //TODO: Cases where userSession is empty
-
-                    // Get Essential Restaurant Meta Data (ScaleID)
-                    console.log("Your Version of Deployment is: ", process.env.REACT_APP_DEPLOYMENT_VERSION);
-                    await API.get(AMPLIFY_API, finalAPIRoute).then((response) => {
-                        console.log("The meta that we pull from App.js: ", response.item.Item);
-                        if (response.item.Item == undefined) {
-                            throw new Error("No Response from API");
-                        }
-                        setMetaInformation(response.item.Item);
-                        setUnitOfMass(response.item.Item.unitOfMass);
-                        setDisplayIngredient(response.item.Item.displayIngredient);
-                    });
-                } catch (err) {
-                    console.log(err);
-                }
-
-                setAuthenticated(true);
-                setSpinnerLoader(false);
-            } catch (err) {
-                setSpinnerLoader(false);
-                console.log("You are not signed in");
-                console.log(err);
-            }
-        }
-
-        authSession();
-    }, [authenticated]);
+    // ======================= Start of UseEffect Hooks ===================
 
     // Setting the dir attribute for the body element
     useEffect(() => {
@@ -126,6 +78,77 @@ export default function App() {
         document.documentElement.scrollTop = 0;
         document.scrollingElement.scrollTop = 0;
     }, [pathname]);
+
+    // Setting the dir attribute for the body element
+    useEffect(() => {
+        document.body.setAttribute("dir", direction);
+    }, [direction]);
+
+    // Setting page scroll to 0 when changing the route
+    useEffect(() => {
+        document.documentElement.scrollTop = 0;
+        document.scrollingElement.scrollTop = 0;
+    }, [pathname]);
+
+    // Handling Authentication
+    useEffect(() => {
+        /*!
+           @description: Use Amplify Auth to handle authentication and signin
+           @params:
+           @return:
+           @Comments
+           @Coders: MohanPPs
+        */
+        async function authSession() {
+            try {
+                // Const Definition
+                const session = await Auth.currentSession();
+                const user = await Auth.currentAuthenticatedUser();
+                const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
+                const API_PATH = "/restaurants/";
+                setSpinnerLoader(true);
+
+                // Block to Help Debugging
+                if (DEBUG_FLAG) {
+                    console.log("My session is:", session);
+                    console.log("My user is:", user);
+                    console.log("The metaInformation is", metaInformation);
+                    // To Use IoT, you must attach an IoT Policy to this CognitoIdentityID
+                    Auth.currentCredentials().then((info) => {
+                        const cognitoIdentityId = info.identityId;
+                        console.log("pp read this : ", cognitoIdentityId);
+                    });
+                    console.log("Your Version of Deployment is: ", process.env.REACT_APP_DEPLOYMENT_VERSION);
+                }
+
+                try {
+                    const finalAPIRoute = API_PATH + user.username; //TODO: Cases where userSession is empty
+
+                    // Get Essential Restaurant Meta Data using Cognito UserID
+                    await API.get(AMPLIFY_API, finalAPIRoute).then((response) => {
+                        if (response.item.Item == undefined) {
+                            throw new Error("No Response from API");
+                        }
+                        setMetaInformation(response.item.Item);
+                        setUnitOfMass(response.item.Item.unitOfMass);
+                        setDisplayIngredient(response.item.Item.displayIngredient);
+                        // console.log("The meta that we pull from App.js: ", response.item.Item); // DEBUG Statement
+                    });
+                    setAuthenticated(true);
+                    setSpinnerLoader(false);
+                } catch (err) {
+                    console.log("Error making API call to get restaurant meta data: ", err);
+                }
+            } catch (err) {
+                setSpinnerLoader(false);
+                console.log("User not signed in...");
+                console.log(err);
+            }
+        }
+        authSession(); // Calling authSession()
+    }, [authenticated]);
+
+    // ======================= End of UseEffect Hooks ===================
 
     /*
         Function to open sidenav when mouse enter on mini sidenav
@@ -148,36 +171,6 @@ export default function App() {
     };
 
     /*
-        Function to change the openConfigurator state
-    */
-    const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
-
-    // Config Button Component
-    const configsButton = (
-        <MDBox
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            width="3.25rem"
-            height="3.25rem"
-            bgColor="white"
-            shadow="sm"
-            borderRadius="50%"
-            position="fixed"
-            right="2rem"
-            bottom="2rem"
-            zIndex={99}
-            color="dark"
-            sx={{ cursor: "pointer" }}
-            onClick={handleConfiguratorOpen}
-        >
-            <Icon fontSize="small" color="inherit">
-                <SettingsIcon />
-            </Icon>
-        </MDBox>
-    );
-
-    /*
         Function to control the route traversal
 
         Specifically, the function first checks if the current route object has a collapse property. 
@@ -196,9 +189,6 @@ export default function App() {
             return null;
         });
 
-    /*
-        TODO: Make Spinner Loader look Decent
-    */
     const SpinnerLoaderScreen = () => {
         return (
             <div className="spinner-container">
@@ -231,7 +221,7 @@ export default function App() {
                                 onMouseLeave={handleOnMouseLeave}
                             />
                             <Configurator metaInformation={metaInformation} setUnitOfMass={setUnitOfMass} unitOfMass={unitOfMass} />
-                            {configsButton}
+                            <ButtonConfig dispatch={dispatch} openConfigurator={openConfigurator} />
                         </>
                     ) : null}
                     {/* {layout === "vr" ? <Configurator /> : null} */}
