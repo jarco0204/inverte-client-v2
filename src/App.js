@@ -39,7 +39,7 @@ Amplify.addPluggable(
 Amplify.configure(awsmobile);
 
 // Global Variables
-let DEBUG_FLAG = true;
+let DEBUG_FLAG = false;
 
 /*!
    @description:
@@ -154,18 +154,16 @@ export default function App() {
         @params:
         @return:
         @Comments
-        @Coders:
+        @Coders: CodeJinja
     */
     const getRoutes = (allRoutes) =>
         allRoutes.map((route) => {
             if (route.collapse) {
                 return getRoutes(route.collapse);
             }
-
             if (route.route) {
                 return <Route exact path={route.route} element={route.component} key={route.key} />;
             }
-
             return null;
         });
 
@@ -189,10 +187,9 @@ export default function App() {
                             <ButtonConfig dispatch={dispatch} openConfigurator={openConfigurator} />
                         </>
                     ) : null}
-                    {/* {layout === "vr" ? <Configurator /> : null} */}
                     <Routes>
-                        {getRoutes(routes(metaInformation, unitOfMass, displayIngredient))}
                         <Route path="*" element={<Navigate to="/dashboard" />} />
+                        {getRoutes(routes(metaInformation, unitOfMass, displayIngredient))}
                     </Routes>
                 </ThemeProvider>
             )}
