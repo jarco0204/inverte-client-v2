@@ -22,8 +22,8 @@ import { handleOnMouseEnter, handleOnMouseLeave } from "./components/Sidenav/Sid
 // import themeDark from "assets/theme-dark"; // TODO
 
 // Pages Containers
-import SignIn from "./pages/signin";
-import routes from "./routes";
+import RouterContainer from "./pages/RouterContainer";
+import SignInContainer from "./pages/signin";
 
 // Assets
 import inverteLogoSideWhite from "./assets/img/inverteLogo.png";
@@ -58,7 +58,7 @@ export default function App() {
     const [authenticated, setAuthenticated] = useState(false);
     const [spinnerLoader, setSpinnerLoader] = useState(false);
     const [displayIngredient, setDisplayIngredient] = useState(0);
-    const [metaInformation, setMetaInformation] = useState({ iotThingNames: ["test"], restaurantName: "pp", restaurantLocation: "pp2", unitOfMass: "pp3" });
+    const [metaInformation, setMetaInformation] = useState({ iotThingNames: ["test"], restaurantName: "test", unitOfMass: "g" });
     const [unitOfMass, setUnitOfMass] = useState(metaInformation.unitOfMass);
 
     // Hook for route traversal
@@ -131,7 +131,6 @@ export default function App() {
                         setMetaInformation(response.item.Item);
                         setUnitOfMass(response.item.Item.unitOfMass);
                         setDisplayIngredient(response.item.Item.displayIngredient);
-                        // console.log("The meta that we pull from App.js: ", response.item.Item); // DEBUG Statement
                     });
                     setAuthenticated(true);
                     setSpinnerLoader(false);
@@ -156,10 +155,10 @@ export default function App() {
         @Comments
         @Coders: CodeJinja
     */
-    const getRoutes = (allRoutes) =>
+    const createRoutes = (allRoutes) =>
         allRoutes.map((route) => {
             if (route.collapse) {
-                return getRoutes(route.collapse);
+                return createRoutes(route.collapse);
             }
             if (route.route) {
                 return <Route exact path={route.route} element={route.component} key={route.key} />;
@@ -170,7 +169,7 @@ export default function App() {
     return (
         <>
             {!authenticated ? (
-                <>{spinnerLoader ? SpinnerLoader() : <SignIn setAuthenticated={setAuthenticated} />}</>
+                <>{spinnerLoader ? SpinnerLoader() : <SignInContainer setAuthenticated={setAuthenticated} />}</>
             ) : (
                 <ThemeProvider theme={darkMode ? null : theme}>
                     <CssBaseline />
@@ -179,7 +178,7 @@ export default function App() {
                             <Sidenav
                                 color={sidenavColor}
                                 brand={(transparentSidenav && !darkMode) || whiteSidenav ? inverteLogoSideBlack : inverteLogoSideWhite}
-                                routes={routes(metaInformation)}
+                                routes={RouterContainer(metaInformation)}
                                 onMouseEnter={() => handleOnMouseEnter(miniSidenav, onMouseEnter, setMiniSidenav, setOnMouseEnter, dispatch)}
                                 onMouseLeave={() => handleOnMouseLeave(onMouseEnter, setOnMouseEnter, setMiniSidenav, dispatch)}
                             />
@@ -189,7 +188,7 @@ export default function App() {
                     ) : null}
                     <Routes>
                         <Route path="*" element={<Navigate to="/dashboard" />} />
-                        {getRoutes(routes(metaInformation, unitOfMass, displayIngredient))}
+                        {createRoutes(RouterContainer(metaInformation))}
                     </Routes>
                 </ThemeProvider>
             )}
