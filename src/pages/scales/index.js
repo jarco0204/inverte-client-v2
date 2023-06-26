@@ -1,37 +1,41 @@
+// React Imports
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
-// @mui material components
+// @Mui material components
 import Grid from "@mui/material/Grid";
-//card css
-import "./components/Scale/card.css";
-// General components
+
+// User Imports
 import MDBox from "../../components/MDBox";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "../../components/Navbars/DashboardNavbar";
 import Footer from "../../components/Footer";
 import Scale from "./components/Scale";
+import "./components/Scale/card.css";
 
-/*
-    Main Route Container that hold array of Scale Components (Scale Cards)
+/*!
+   @description: Main Route Container that hold array of Scale Components (Scale Cards)
+   @params:
+   @return:
+   @Comments
+   @Coders: JAAM
 */
-function ScalesContainer({ iotThingNames, restaurantName, restaurantLocationNum }) {
-    const [scalesMetaArr, setScalesMetaArr] = useState([]); // Array of Scales
-    const [scaleCardsReady, setScaleCardsReady] = useState(false);
+const ScalesContainer = ({ iotThingNames, restaurantName, restaurantLocationNum }) => {
+    // Variable Definition
     const keys = Object.keys(iotThingNames);
+    const [scalesMetaArr, setScalesMetaArr] = useState([]);
+    const [scaleCardsReady, setScaleCardsReady] = useState(false);
 
-    /*
-        React Hook to generate array of scale card components
+    /*!
+        @description: React Hook to Create the Scale Card Components based on the number of IoT Things are associated with RestaurantID
+        @params:
+        @return:
+        @Comments
+        @Coders: JohanWing$$
     */
     useEffect(() => {
-        /*
-            Create the Scale Card Components based on the number of IoT Things are associated with RestaurantID
-        */
         const createScaleCardList = () => {
-            // console.log("Your IoT Names fetched from API: ", iotThingNames); // Debug Statement
             const tempScalesMetaArr = [];
             for (let i = 0; i < keys.length; i++) {
-                // Construct root scale topic
                 let scaleRootTopic = restaurantName + "/" + restaurantLocationNum;
                 tempScalesMetaArr.push({ topic: scaleRootTopic, iotNameThing: keys[i] });
             }
@@ -43,8 +47,6 @@ function ScalesContainer({ iotThingNames, restaurantName, restaurantLocationNum 
 
     return (
         <DashboardLayout>
-            {/* <DashboardNavbar /> */}
-
             <MDBox py={3}>
                 <div className="card-container">
                     <Grid container spacing={3}>
@@ -64,15 +66,14 @@ function ScalesContainer({ iotThingNames, restaurantName, restaurantLocationNum 
                     </Grid>
                 </div>
             </MDBox>
-
             <Footer />
         </DashboardLayout>
     );
-}
+};
 
 // Default props to start making JS into TS
 ScalesContainer.propTypes = {
-    iotThingNames: PropTypes.array,
+    iotThingNames: PropTypes.object,
     restaurantName: PropTypes.string,
     restaurantLocationNum: PropTypes.number,
 };
