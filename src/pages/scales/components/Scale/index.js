@@ -1,13 +1,9 @@
+// React Imports
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types"; // prop-types is a library for typechecking of props.
 
 // AWS Imports
 import { PubSub, Auth, API } from "aws-amplify";
-
-// User Components
-import MDBox from "../../../../components/MDBox";
-import MDTypography from "../../../../components/MDTypography";
-import { TareButton, StartButton, ExpandMore } from "./ScaleButtons";
 
 //MUI Components
 import Card from "@mui/material/Card";
@@ -24,33 +20,12 @@ import Collapse from "@mui/material/Collapse";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { makeStyles } from "@material-ui/core/styles";
 
-/*
-    Main Function Component
+// User Components
+import MDBox from "../../../../components/MDBox";
+import MDTypography from "../../../../components/MDTypography";
+import { TareButton, StartButton, ExpandMore } from "./ScaleButtons";
 
-    TODO
-        
-    //  Function to handle the change of unit of mass
-    // const unitOfMassChange = (event) => {
-    //     // Unit of mass Change
-    //     if (unitOfMassCode === "g") {
-    //         setCorrectWeight((correctWeight / 28.35).toFixed(1));
-    //         setMinOffset((minOffset / 28.35).toFixed(1));
-    //         setMaxOffset((maxOffset / 28.35).toFixed(1));
-
-    //         setUnitOfMassCode("oz");
-    //     } else {
-    //         setCorrectWeight(Math.round(correctWeight * 28.35));
-    //         setMinOffset(Math.round(minOffset * 28.35));
-    //         setMaxOffset(Math.round(maxOffset * 28.35));
-    //         setUnitOfMassCode("g");
-    //     }
-
-    //     updateShadow(event);
-    // };
-*/
-function Scale({ mainScaleData }) {
-    console.log("Your channel good sir, ", mainScaleData); // Debug statement //NOTE: Changes to Input Fields trigger the re-render
-
+const Scale = ({ mainScaleData }) => {
     // Classic Shadow Parameters
     const [nameIngredient, setNameIngredient] = useState("");
     const [correctWeight, setCorrectWeight] = useState(24);
@@ -58,15 +33,21 @@ function Scale({ mainScaleData }) {
     const [maxOffset, setMaxOffset] = useState(3);
     const [unitOfMass, setUnitOfMass] = useState("g"); // Unit of mass for the scale
 
-    console.log("The main scale data is:", mainScaleData);
     // Timeseries Shadow Parameters
     const [realTimeWeight, setRealTimeWeight] = useState(0);
-    const [realTimeTemperature, setRealTimeTemperature] = useState("");
-    const [scaleStateReported, setScaleStateReported] = useState(0); // 0 = off & 1 = Unloaded & 2 = Busy/On
-    // const [stateCardColor, setStateCardColor] = useState("warning");
+    const [realTimeTemperature, setRealTimeTemperature] = useState("Off");
+    // const [scaleStateReported, setScaleStateReported] = useState(0); // 0 = off & 1 = Unloaded & 2 = Busy/On
+    const scaleStateReported = 1;
 
-    /*
-        UI and UX state variable and handlers
+    // UI & UX
+    const [expanded, setExpanded] = useState(false);
+
+    /*!
+       @description:
+       @params:
+       @return:
+       @Comments
+       @Coders: StylingSteel
     */
     const useStyles = makeStyles(() => ({
         centered: {
@@ -74,13 +55,24 @@ function Scale({ mainScaleData }) {
         },
     }));
     const classes = useStyles();
-    const [expanded, setExpanded] = useState(false);
+
+    /*!
+       @description:
+       @params:
+       @return:
+       @Comments
+       @Coders: LAto
+    */
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
 
-    /*
-        Function to update the IoT Device Shadow by using PubSub Amplify MQTT Client
+    /*!
+        @description: Function to update the IoT Device Shadow by using PubSub Amplify MQTT Client
+        @params:
+        @return:
+        @Comments
+        @Coders: JAAM
     */
     const updateShadow = async (event) => {
         const updateThingShadowRequestInput = { state: { desired: {} } };
@@ -99,23 +91,20 @@ function Scale({ mainScaleData }) {
         } else {
             console.log("error while trying to change the scale state");
         }
-        // else if (event.target.name === "unitOfMassField") {
-        //     updateThingShadowRequestInput.state.desired["unitOfMass"] = unitOfMassCode;
-        // }
 
         // Update Shadow
         let shadowTopic = "$aws/things/" + mainScaleData.iotNameThing + "/shadow/update";
         PubSub.publish(shadowTopic, updateThingShadowRequestInput);
         console.log("Shadow Update...", updateThingShadowRequestInput); // Debug Statement
     };
-    /*!
-   @description:Function to update the ingredient name in the database.
-   @params:
-   @return:
-   @Comments
-   @Coders:Rohan
-*/
 
+    /*!
+        @description:Function to update the ingredient name in the database.
+        @params:
+        @return:
+        @Comments
+        @Coders: Rohan-16
+    */
     const updateIngredientName = async () => {
         const user = await Auth.currentAuthenticatedUser();
         try {
@@ -123,20 +112,23 @@ function Scale({ mainScaleData }) {
             const path = "/restaurants/updateIngredientName/";
             const finalAPIRoute = path + user.username; //TODO: Cases where userSession is empty
 
+            // Make API Call
             await API.get(AMPLIFY_API, finalAPIRoute, { queryStringParameters: { iotNameThing: mainScaleData.iotNameThing, ingredientName: nameIngredient } }).then((response) => {
-                //console.log("The meta that we pull from Scale.js: ", response); //Debig statement
                 if (response.item.Item == undefined) {
                     throw new Error("No Response from API");
                 }
             });
         } catch (err) {
-            console.log(err);
+            console.log("Error in updating ingredient name API...", err);
         }
     };
 
-    /*
-        Function to send desired action to scale (Tare or Start Guidance)
-        Possible Actions are {1: "tare", 2: "start"}
+    /*!
+        @description: Function to trigger scale action from client
+        @params:
+        @return:
+        @Comments: Possible Actions are {1: "tare", 2: "start"}
+        @Coders: JAAM
     */
     const sendDataAWS = (action) => {
         let msg, finalTopic;
@@ -149,14 +141,16 @@ function Scale({ mainScaleData }) {
         console.log("Action Published to Scale...", finalTopic); // Debug Statement
     };
 
-    /*
-        Hook to get Thing's Shadow by publishing to get topic and then listening after request is accepted.
+    /*!
+        @description: Hook to get Thing's Shadow by publishing to get topic and then listening after request is accepted.
+        @params:
+        @return:
+        @Comments: Triggers GET request in Firmware
+        @Coders: BlackiLorenzo
     */
     useEffect(() => {
-        /*
-            Get Shadow by publishing empty message to GET topic of Classic Shadow
-        */
-        const getShadow = () => {
+        // Publish to MQTT Topic
+        const getClassicShadow = () => {
             setTimeout(async () => {
                 try {
                     await PubSub.publish("$aws/things/" + mainScaleData.iotNameThing + "/shadow/get", {});
@@ -165,13 +159,12 @@ function Scale({ mainScaleData }) {
                 }
             }, 690);
         };
-        getShadow();
+        getClassicShadow();
 
-        // Get Shadow state
+        // Subscribe to Topic after Get Request was accepted
         const subscription = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing + "/shadow/get/accepted").subscribe({
             next: (dataCloud) => {
                 dataCloud = dataCloud.value.state;
-                console.log("Message received by el Puma from shadow get", dataCloud); // Debug Statement
 
                 // Update Scale State Parameters
                 setNameIngredient(dataCloud.reported.nameIngredient);
@@ -183,26 +176,28 @@ function Scale({ mainScaleData }) {
                 //Unsubcribe to topic after fething and updating parameters
                 subscription.unsubscribe();
             },
-            error: (error) => console.error(error),
+            error: (error) => console.error("Error in GET/Accepted web socket...", error),
             complete: () => console.log("Web Socket Done"),
         });
     }, []);
 
-    /*
-        Hook to enable real-time communication from scale to client to display IoT Shadows
+    /*!
+        @description: Hook to enable real-time communication from scale to client to display IoT Shadows
+        @params:
+        @return:
+        @Comments
+        @Coders: GGG100111001
     */
     useEffect(() => {
         PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing + "/shadow/name/timeseries/update/accepted").subscribe({
             next: (dataCloud) => {
-                console.log("Message received by el Puma Scale 313", dataCloud);
                 dataCloud = dataCloud.value;
-
                 setRealTimeWeight(dataCloud.state.reported.inventoryWeight);
                 if (dataCloud.state.reported.temperature) {
                     setRealTimeTemperature(dataCloud.state.reported.temperature + "℃");
                 } else {
                     if (realTimeWeight == 0) {
-                        setRealTimeTemperature("OFF");
+                        setRealTimeTemperature("Off");
                     } else {
                         setRealTimeTemperature("On");
                     }
@@ -211,25 +206,8 @@ function Scale({ mainScaleData }) {
             error: (error) => console.error(error),
             complete: () => console.log("Web Socket Done"),
         });
-
-        //     const handleDisconnected = useCallback(() => {
-        //         console.log("Client" + mainScaleData.iotNameThing + " Disconnected");
-        //         setRealTimeWeight(0);
-        //         setRealTimeTemperature("Off");
-        //         setScaleStateReported(0);
-        //     }, []);
-
-        //     const disconnectSubscription = PubSub.subscribe("$aws/events/presence/disconnected/" + mainScaleData.iotNameThing).subscribe({
-        //         next: handleDisconnected,
-        //         error: (error) => console.error(error),
-        //         complete: () => console.log("Web Socket Done"),
-        //     });
-
-        // return () => {
-        //     updateSubscription.unsubscribe();
-        //     disconnectSubscription.unsubscribe();
-        // };
     }, []);
+
     return (
         <Card styling={{ width: "400px" }}>
             <MDBox display="flex" justifyContent="space-between" pt={1} px={1}>
@@ -241,7 +219,7 @@ function Scale({ mainScaleData }) {
                 <MDBox
                     variant="gradient"
                     bgColor="light"
-                    style={{ color: realTimeTemperature == "OFF" ? "red" : realTimeTemperature > 0 ? "#63e22a" : "#63e22a", fontSize: "21px", fontFamily: "Little Micro Sans" }}
+                    style={{ color: realTimeTemperature == "Off" ? "white" : realTimeTemperature > 0 ? "#63e22a" : "#63e22a", fontSize: "21px", fontFamily: "" }}
                     borderRadius="xl"
                     display="flex"
                     justifyContent="center"
@@ -386,7 +364,7 @@ function Scale({ mainScaleData }) {
             </Collapse>
         </Card>
     );
-}
+};
 
 // Setting default values for the props of Scale and typechecking props for the Scale
 Scale.propTypes = {

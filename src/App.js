@@ -57,7 +57,6 @@ export default function App() {
     const [onMouseEnter, setOnMouseEnter] = useState(false);
     const [authenticated, setAuthenticated] = useState(false);
     const [spinnerLoader, setSpinnerLoader] = useState(false);
-    const [displayIngredient, setDisplayIngredient] = useState(0);
     const [metaInformation, setMetaInformation] = useState({ iotThingNames: ["test"], restaurantName: "test", unitOfMass: "g" });
     const [unitOfMass, setUnitOfMass] = useState(metaInformation.unitOfMass);
 
@@ -130,7 +129,6 @@ export default function App() {
                         }
                         setMetaInformation(response.item.Item);
                         setUnitOfMass(response.item.Item.unitOfMass);
-                        setDisplayIngredient(response.item.Item.displayIngredient);
                     });
                     setAuthenticated(true);
                     setSpinnerLoader(false);
@@ -178,6 +176,7 @@ export default function App() {
                             <Sidenav
                                 color={sidenavColor}
                                 brand={(transparentSidenav && !darkMode) || whiteSidenav ? inverteLogoSideBlack : inverteLogoSideWhite}
+                                brandName={"Test"}
                                 routes={RouterContainer(metaInformation)}
                                 onMouseEnter={() => handleOnMouseEnter(miniSidenav, onMouseEnter, setMiniSidenav, setOnMouseEnter, dispatch)}
                                 onMouseLeave={() => handleOnMouseLeave(onMouseEnter, setOnMouseEnter, setMiniSidenav, dispatch)}
