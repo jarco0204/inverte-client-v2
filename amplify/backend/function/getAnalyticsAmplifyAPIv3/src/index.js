@@ -52,6 +52,7 @@ exports.handler = async (event) => {
     let totalTime = 0;
     let totalPortion = 0;
     let realTime = [];
+
     console.log("The start date is:", event.queryStringParameters.date);
     console.log("The end date is:", event.queryStringParameters.date);
 
@@ -82,7 +83,7 @@ exports.handler = async (event) => {
             return { error: err, statusCode: 404 };
         }
     }
-    console.log("The data fetched is", data); //Debug statement
+    console.log("The data fetched is", data[1].Item.realTime); //Debug statement
     //Process the data to be displayed in Analytics
     let nonEmptyObjects = 0;
     for (let i = 0; i < data.length; i++) {
@@ -91,10 +92,11 @@ exports.handler = async (event) => {
             totalAccuracy += data[i].Item.hourlySummary.accuracy;
             totalTime += data[i].Item.hourlySummary.minutesSaved;
             totalPortion += data[i].Item.hourlySummary.portionsCompleted;
-            realTime.concat(data[i].Item.hourlySummary.realTime);
+            realTime.push(data[i].Item.realTime);
             nonEmptyObjects++;
         }
     }
+
     totalAccuracy /= nonEmptyObjects;
 
     //Return the data
