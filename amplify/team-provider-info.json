@@ -23,7 +23,7 @@
         },
         "getAnalyticsAmplifyAPIv3": {
           "deploymentBucketName": "amplify-inverteclientv3-staging-133138-deployment",
-          "s3Key": "amplify-builds/getAnalyticsAmplifyAPIv3-4e643569716355616d35-build.zip"
+          "s3Key": "amplify-builds/getAnalyticsAmplifyAPIv3-352f714c73724275715a-build.zip"
         },
         "getDailyMetaRecordAmplifyAPIv3": {
           "deploymentBucketName": "amplify-inverteclientv3-staging-133138-deployment",

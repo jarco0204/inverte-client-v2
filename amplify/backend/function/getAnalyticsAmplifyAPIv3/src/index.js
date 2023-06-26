@@ -83,7 +83,7 @@ exports.handler = async (event) => {
             return { error: err, statusCode: 404 };
         }
     }
-    console.log("The data fetched is", data[1].Item.realTime); //Debug statement
+    //console.log("The data fetched is", data[1].Item.realTime); //Debug statement
     //Process the data to be displayed in Analytics
     let nonEmptyObjects = 0;
     for (let i = 0; i < data.length; i++) {
@@ -96,14 +96,17 @@ exports.handler = async (event) => {
             nonEmptyObjects++;
         }
     }
-
+    let mergedObjects = [{}];
+    for (let i = 0; i < realTime.length; i++) {
+        mergedObjects = Object.assign(mergedObjects, realTime[i]);
+    }
     totalAccuracy /= nonEmptyObjects;
 
     //Return the data
     const portionEvents = {
         message: "Information correctly retrieved from Dynamo using Lambda420",
         sdkVersion: AWS.VERSION,
-        portionEvents: [totalInventory, totalAccuracy, totalTime, totalPortion, realTime],
+        portionEvents: [totalInventory, totalAccuracy, totalTime, totalPortion, mergedObjects],
     };
     return {
         statusCode: 200,
