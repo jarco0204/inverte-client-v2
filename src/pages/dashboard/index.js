@@ -211,7 +211,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
                         // Set the Upper Summary Card Components
                         let accuracy = response.daily.hourlySummary.accuracy + "%";
                         let inventoryWeight = response.daily.hourlySummary.inventoryConsumed + "g";
-                        let timeSaved = "+" + response.daily.hourlySummary.minutesSaved;
+                        let timeSaved = response.daily.hourlySummary.minutesSaved + "s";
                         setCardSummaryItems([response.daily.hourlySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
 
                         // Create the lower 3 Plots using the Real-Time property
@@ -344,7 +344,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
                             <ComplexStatisticsCard
                                 color="primary"
                                 icon={<AccessTimeFilledRoundedIcon />}
-                                title="Minutes Saved"
+                                title="Time Taken"
                                 count={cardSummaryItems[3]}
                                 percentage={{
                                     color: "success",
