@@ -1,6 +1,8 @@
-import { useEffect, useState, useRef, useMemo } from "react";
-import PropTypes from "prop-types"; // prop-types is a library for typechecking of props.
-// @mui material components
+// React Imports
+import { useEffect, useState, useRef } from "react";
+import PropTypes from "prop-types";
+
+// MUI material components
 import Grid from "@mui/material/Grid";
 import PanToolIcon from "@mui/icons-material/PanTool";
 import PrecisionManufacturingRoundedIcon from "@mui/icons-material/PrecisionManufacturingRounded";
@@ -14,16 +16,16 @@ import Menu from "@mui/material/Menu";
 
 // Material Dashboard 2 React components
 import MDBox from "../../components/MDBox";
-//eslint-disable-next-line
+// eslint-disable-next-line
 import Chart from "chart.js/auto";
 
 // Material Dashboard
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "../../components/Navbars/DashboardNavbar";
 import Footer from "../../components/Footer";
 import ReportsLineChart from "../../components/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+
 // Data
 import reportsLineChartData from "./data/reportsLineChartData";
 
@@ -36,77 +38,105 @@ import { ListItemIcon } from "@mui/material";
 dayjs.extend(dayOfYear);
 dayjs.extend(toObject);
 
-/*
-    Main Dashboard container that displays portion event information to user. 
-
-    @params: Array of the IoT Thing Devices associated with RestaurantID
+/*!
+   @description: Main Dashboard container that displays portion event information to user. 
+   @params:
+   @return:
+   @Comments
+   @Coders: GangaLi
 */
-function DashboardContainer({ iotThingNames, unitOfMass, displayIngredient }) {
-    console.log("The things are:", iotThingNames);
-    // Component State
+const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex }) => {
+    // Main Component State: Cards & Graphs
     const [cardSummaryItems, setCardSummaryItems] = useState([]);
     const [realTimeWeight, setRealTimeWeight] = useState([]);
     const [realTimeAccuracy, setRealTimeAccuracy] = useState([]);
     const [realTimePortionTime, setRealTimePortionTime] = useState([]);
-    //Adding dropdown menu for scales
+    const { weightGraph, accuracyGraph, portionTimeGraph } = reportsLineChartData;
+
+    // Drop-Down Menu State
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const [selectedIndex, setSelectedIndex] = useState(displayIngredientIndex);
     const options = Object.values(iotThingNames);
     const keys = Object.keys(iotThingNames);
-    const [anchorEl, setAnchorEl] = useState(null);
-    const [selectedIndex, setSelectedIndex] = useState(displayIngredient);
-    const selectedIndexRef = useRef(displayIngredient);
-    console.log(selectedIndex);
-    const open = Boolean(anchorEl);
+    const selectedIndexRef = useRef(displayIngredientIndex);
+
+    /*!
+       @description: 
+       @params:
+       @return:
+       @Comments
+       @Coders: Rohan-16
+    */
     const handleClickListItem = (event) => {
         setAnchorEl(event.currentTarget);
     };
-    //Change unit of mass in Portion Weight graph
-    if (unitOfMass == "g") {
-        reportsLineChartData.weightGraph.datasets.yAxisLabel = "Grams";
-    } else {
-        reportsLineChartData.weightGraph.datasets.yAxisLabel = "Ounces";
-    }
 
+    /*!
+       @description: 
+       @params:
+       @return:
+       @Comments
+       @Coders: Rohan-16
+    */
     const handleMenuItemClick = (event, index) => {
         setSelectedIndex(index);
         selectedIndexRef.current = index;
         setAnchorEl(null);
         updateIngredient(index);
     };
-    /*!
-   @description: Update the index number in dynamo db such that we get the same ingredient on reloads
-   @params:index
-   @return:
-   @Comments
-   @Coders:Rohan
-*/
 
+    /*!
+       @description: 
+       @params:
+       @return:
+       @Comments
+       @Coders: Rohan-16
+    */
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    /*!
+        @description: Update the index number of selected ingredient in dynamo 
+        @params: integer
+        @return:
+        @Comments
+        @Coders: Rohan-16
+    */
     const updateIngredient = async (index) => {
         const user = await Auth.currentAuthenticatedUser();
         try {
-            console.log("The value is:", index);
             const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
             const path = "/restaurants/updateDisplayIngredientIndex/";
             const finalAPIRoute = path + user.username; //TODO: Cases where userSession is empty
 
+            // Make REST API Call
             await API.get(AMPLIFY_API, finalAPIRoute, { queryStringParameters: { index: index } }).then((response) => {
-                console.log("The meta that we pull from ingredient display: ", response); //Debug statement
                 if (response.item.Item == undefined) {
                     throw new Error("No Response from API");
                 }
             });
         } catch (err) {
-            console.log(err);
+            console.log("Error when updating selected ingredient index...", err);
         }
     };
 
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-    // Line Chart UI element
-    const { weightGraph, accuracyGraph, portionTimeGraph } = reportsLineChartData;
+    /*!
+       @description:
+       @params:
+       @return:
+       @Comments
+       @Coders: Jungler333
+    */
     const getScaleIDAndDailySummary = async () => {
-        console.log("Selected Index:", selectedIndex);
-        console.log("Selected Index Ref:", selectedIndexRef.current);
+        //Change unit of mass in Portion Weight graph
+        if (unitOfMass == "g") {
+            reportsLineChartData.weightGraph.datasets.yAxisLabel = "Grams";
+        } else {
+            reportsLineChartData.weightGraph.datasets.yAxisLabel = "Ounces";
+        }
+
         try {
             let path = "/metaRecords/get/";
             const finalAPIRoute = path + keys[selectedIndexRef.current];
@@ -212,7 +242,7 @@ function DashboardContainer({ iotThingNames, unitOfMass, displayIngredient }) {
        @params:
        @return:
        @Comments
-       @Coders:Rohan & Johan
+       @Coders: Mohan
     */
     useEffect(() => {
         console.log("Subscribing to scale updates");
@@ -357,10 +387,12 @@ function DashboardContainer({ iotThingNames, unitOfMass, displayIngredient }) {
             <Footer />
         </DashboardLayout>
     );
-}
+};
 
 DashboardContainer.propTypes = {
     iotThingNames: PropTypes.array,
+    unitOfMass: PropTypes.string,
+    displayIngredientIndex: PropTypes.number,
 };
 
 export default DashboardContainer;
