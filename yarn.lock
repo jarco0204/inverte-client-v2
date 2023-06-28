@@ -9648,10 +9648,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"computed-style@npm:~0.1.3":
+  version: 0.1.4
+  resolution: "computed-style@npm:0.1.4"
+  checksum: bd99a677500e38e4cd7a5fccdc8ab7f1077ab84c487b3df26763c2878c739bd4cc4cfb3bdb4f5b59d940379044c475608d8c64cdedb73035164345fe055960e0
+  languageName: node
+  linkType: hard
+
 "concat-map@npm:0.0.1":
   version: 0.0.1
   resolution: "concat-map@npm:0.0.1"
   checksum: 88222f18b3a68b71fe4473a146c8ed3315ec0488703104319c53543ad4668af3e79418ab79e2fa8032ee04c3eb45cc478815b89877a048cc5ba34e201bc15c35
+  languageName: node
+  linkType: hard
+
+"config@npm:^1.24.0":
+  version: 1.31.0
+  resolution: "config@npm:1.31.0"
+  dependencies:
+    json5: "npm:^1.0.1"
+  checksum: 3b6023c134e33408a475d265f98398e2477f328c9c826a62d81cda98f98240e9df0ad5d4a7ab73b5a3b7f9360ff0a47edb4e4171c981031d5d1fd7510a4429a2
   languageName: node
   linkType: hard
 
@@ -12704,6 +12720,7 @@ __metadata:
     react-dom: "npm:^18.1.0"
     react-router-dom: "npm:^6.3.0"
     react-scripts: "npm:5.0.1"
+    react-scrollbar: "npm:^0.5.6"
     recharts: "npm:^2.1.14"
     redux: "npm:^4.2.0"
     web-vitals: "npm:^2.1.4"
@@ -13953,7 +13970,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"json5@npm:^1.0.2":
+"json5@npm:^1.0.1, json5@npm:^1.0.2":
   version: 1.0.2
   resolution: "json5@npm:1.0.2"
   dependencies:
@@ -14181,6 +14198,15 @@ __metadata:
   version: 2.1.0
   resolution: "lilconfig@npm:2.1.0"
   checksum: 1c7c643ccda7eb00b0d904912c1d7ea9cc36fe2e4e7e752b940daa9ba9550049c5ec1375f835cda58b9a917f6b0fbcae63617c1f63c139c1a20217dae4e58f39
+  languageName: node
+  linkType: hard
+
+"line-height@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "line-height@npm:0.1.1"
+  dependencies:
+    computed-style: "npm:~0.1.3"
+  checksum: 4b8fab38d7e1f848b90a6c55efc67ba3e4259a245d15b92c3efab5e593f2e2cc50ede30f916b44e58be39ca32ed4cc7c61d289818d7e890c4d3ccfa9f86adaf0
   languageName: node
   linkType: hard
 
@@ -15357,6 +15383,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"performance-now@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "performance-now@npm:0.2.0"
+  checksum: 3bcd051a99dc482da21a4cdb1addecd29eeb2eac7e18d33d1ec0b445ab8a953b6e68cccb1bb61fd63c13751467fe061c37dec5d27e0011dbd1dbbfb58fbda289
+  languageName: node
+  linkType: hard
+
 "performance-now@npm:^2.1.0":
   version: 2.1.0
   resolution: "performance-now@npm:2.1.0"
@@ -16405,7 +16438,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:^15.5.8, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -16558,7 +16591,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"raf@npm:^3.4.1":
+"raf@npm:^3.1.0, raf@npm:^3.4.1":
   version: 3.4.1
   resolution: "raf@npm:3.4.1"
   dependencies:
@@ -17265,6 +17298,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-motion@npm:^0.5.2":
+  version: 0.5.2
+  resolution: "react-motion@npm:0.5.2"
+  dependencies:
+    performance-now: "npm:^0.2.0"
+    prop-types: "npm:^15.5.8"
+    raf: "npm:^3.1.0"
+  peerDependencies:
+    react: ^0.14.9 || ^15.3.0 || ^16.0.0
+  checksum: 8b9dd02c19c3ad19fc5cd5d6e60abd57a0478f83834de923701ed7adc07317c75ff4faedb392dbf761d71fa8476a94d5f18d9bb24bd057b1c721f1972c50750c
+  languageName: node
+  linkType: hard
+
 "react-native-get-random-values@npm:^1.4.0":
   version: 1.9.0
   resolution: "react-native-get-random-values@npm:1.9.0"
@@ -17429,6 +17475,20 @@ __metadata:
   bin:
     react-scripts: bin/react-scripts.js
   checksum: 5cdcd909b5fd5a5dffc77ab275ff74cfb2c1b7899b6044128997ffe928b4c8d439913426009484b902b8fc75a2f02df4e962c673447e778fd8c71f81cac4d63e
+  languageName: node
+  linkType: hard
+
+"react-scrollbar@npm:^0.5.6":
+  version: 0.5.6
+  resolution: "react-scrollbar@npm:0.5.6"
+  dependencies:
+    config: "npm:^1.24.0"
+    line-height: "npm:^0.1.1"
+    react-motion: "npm:^0.5.2"
+  peerDependencies:
+    prop-types: ^15.6.0
+    react: ^15.3.0 || ^16.0.0-rc || ^16.0
+  checksum: 627f2b7e2988bc17fddbc3bb587c6a7d13c91dfb3bdcc6a38519ed6aff00521daae60e657f0317961d9978b19831ddf11a7bbc25249ae6ae771ed5eefa6d531d
   languageName: node
   linkType: hard
 

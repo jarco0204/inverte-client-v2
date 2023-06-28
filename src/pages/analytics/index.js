@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
-import dayjs from "dayjs";
+
 import { DatePicker, Col, Row, Statistic, Typography } from "antd";
+
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "../../components/Navbars/DashboardNavbar";
 import Footer from "../../components/Footer";
@@ -8,9 +9,8 @@ import MDBox from "../../components/MDBox";
 import subtopic from "./data/TestData";
 import Grid from "@mui/material/Grid";
 //import Row from "./components/Row";
-import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { TextField } from "@mui/material";
 import PropTypes from "prop-types";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
@@ -19,9 +19,11 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import { ListItemIcon } from "@mui/material";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import { API, Auth, PubSub } from "aws-amplify";
+import { API, Auth } from "aws-amplify";
 import moment from "moment";
-import { set } from "date-fns";
+import ReportsLineChart from "../../components/Charts/LineCharts/ReportsLineChart";
+import MyLineChart from "./data/MyLineChart";
+
 // const importView = () =>
 //     lazy(() =>
 //         import(`./components/Row`).catch(() => {
@@ -49,6 +51,9 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
     const [accuracy, setAccuracy] = useState(0);
     const [totalPortions, setTotalPortions] = useState(0);
     const [totalMinutes, setTotalMinutes] = useState(0);
+    const [chartWeight, setChartWeight] = useState([]);
+    const [chartAccuracy, setChartAccuracy] = useState([]);
+    const [chartPortionTime, setChartPortionTime] = useState([]);
     let [analyticsData, setAnalyticsData] = useState(null);
     const [selectedDates, setSelectedDates] = useState([]);
     const { RangePicker } = DatePicker;
@@ -61,6 +66,7 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
     const [selectedIndex, setSelectedIndex] = useState(displayIngredient);
     const selectedIndexRef = useRef(displayIngredient);
     const isInitialRender = useRef(true);
+
     const handleClose = () => {
         setAnchorEl(null);
     };
@@ -108,6 +114,9 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
         setTotalPortions(0);
         setTotalMinutes(0);
         setSelectedDates(null);
+        setChartWeight([]);
+        setChartAccuracy([]);
+        setChartPortionTime([]);
     }, [selectedIndex]);
     useEffect(() => {
         // async function loadRows() {
@@ -131,6 +140,9 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
             setAccuracy(analyticsData[1]);
             setTotalPortions(analyticsData[3]);
             setTotalMinutes(analyticsData[2]);
+            setChartWeight(analyticsData[4]);
+            setChartAccuracy(analyticsData[5]);
+            setChartPortionTime(analyticsData[6]);
             console.log("Total inventory", totalInventory);
         }
     }, [analyticsData]);
@@ -253,6 +265,9 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
                                 </Col>
                             </Row>
                         </div>
+                    </MDBox>
+                    <MDBox mb={3}>
+                        <MyLineChart data={chartWeight} />
                     </MDBox>
                 </MDBox>
                 <Footer />

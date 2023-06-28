@@ -96,17 +96,39 @@ exports.handler = async (event) => {
             nonEmptyObjects++;
         }
     }
-    let mergedObjects = [{}];
-    for (let i = 0; i < realTime.length; i++) {
-        mergedObjects = Object.assign(mergedObjects, realTime[i]);
-    }
     totalAccuracy /= nonEmptyObjects;
+    //Merge the real time data
+    const mergedObj = realTime.reduce((result, obj) => {
+        return { ...result, ...obj };
+    }, {});
+    console.log("The merged object is:", mergedObj);
 
+    //Process Real Time Data
+    const weightChartData = Object.keys(mergedObj)
+        .map((item) => ({
+            x: item,
+            y: mergedObj[item].portionWeight,
+        }))
+        .sort((a, b) => a.x.localeCompare(b.x));
+    const accuracyChartData = Object.keys(mergedObj)
+        .map((item) => ({
+            x: item,
+            y: mergedObj[item].accuracy,
+        }))
+        .sort((a, b) => a.x.localeCompare(b.x));
+    const portionTimeChartData = Object.keys(mergedObj)
+        .map((item) => ({
+            x: item,
+            y: mergedObj[item].portionTime,
+        }))
+        .sort((a, b) => a.x.localeCompare(b.x));
+
+    console.log("The chart data is: ", weightChartData);
     //Return the data
     const portionEvents = {
         message: "Information correctly retrieved from Dynamo using Lambda420",
         sdkVersion: AWS.VERSION,
-        portionEvents: [totalInventory, totalAccuracy, totalTime, totalPortion, mergedObjects],
+        portionEvents: [totalInventory, totalAccuracy, totalTime, totalPortion, weightChartData, accuracyChartData, portionTimeChartData],
     };
     return {
         statusCode: 200,
