@@ -74,6 +74,9 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
         setSelectedDates(dates);
     };
     const handleOpenChange = (open) => {
+        if (!open && selectedDates == []) {
+            setSelectedDates([]);
+        }
         if (!open && selectedDates.length > 0) {
             const updatedDates = [moment(selectedDates[0]).startOf("day").set("minute", 0), moment(selectedDates[1]).startOf("day").set("minute", 0)];
             setSelectedDates(updatedDates);
@@ -141,7 +144,7 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
             setTotalPortions(analyticsData[3]);
             setTotalMinutes(analyticsData[2]);
             for (let i = 0; i < analyticsData[4].length; i++) {
-                const [hours, minutes, seconds] = analyticsData[4][i].x.split(":");
+                const [hours, minutes] = analyticsData[4][i].x.split(":");
                 let timeString = hours + "." + minutes;
                 let decimalNumber = parseFloat(timeString);
                 //     let timeInMilliseconds = (parseInt(hours, 10) * 3600 + parseInt(minutes, 10) * 60 + parseInt(seconds, 10)) * 1000;
