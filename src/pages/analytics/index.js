@@ -74,10 +74,8 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
         setSelectedDates(dates);
     };
     const handleOpenChange = (open) => {
-        if (!open && selectedDates == []) {
-            setSelectedDates([]);
-        }
-        if (!open && selectedDates.length > 0) {
+        console.log("Open is:", open);
+        if (!open && selectedDates != null) {
             const updatedDates = [moment(selectedDates[0]).startOf("day").set("minute", 0), moment(selectedDates[1]).startOf("day").set("minute", 0)];
             setSelectedDates(updatedDates);
             getDataEvents(updatedDates[0], updatedDates[1]);
@@ -151,7 +149,6 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
                 //     timeInMilliseconds = timeInMilliseconds / 1000;
                 //     console.log("The timeInDecimal: ", timeInMilliseconds);
                 analyticsData[4][i] = { x: decimalNumber, y: analyticsData[4][i].y };
-                console.log("The weight: ", analyticsData[4][i]);
             }
             setChartWeight(analyticsData[4]);
             setChartAccuracy(analyticsData[5]);
@@ -259,21 +256,21 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
                             <Typography>
                                 <Title>Summary</Title>
                                 <Paragraph>
-                                    Your total Inventory consumed for this time period was {totalInventory}g with an accuracy of {accuracy}%.This is because you took {totalPortions} portions in{" "}
-                                    {totalMinutes} minutes.
+                                    Your total Inventory consumed for this time period was {totalInventory}g with an accuracy of {accuracy.toFixed(2)}%.This is because you took {totalPortions}{" "}
+                                    portions in {totalMinutes} minutes.
                                 </Paragraph>
                             </Typography>
                             <Row gutter={16}>
-                                <Col span={12}>
+                                <Col span={5}>
                                     <Statistic title="Total Inventory" value={totalInventory} />
                                 </Col>
-                                <Col span={12}>
+                                <Col span={5}>
                                     <Statistic title="Average Accuracy" value={accuracy} precision={2} />
                                 </Col>
-                                <Col span={12}>
+                                <Col span={5}>
                                     <Statistic title="Minutes Saved" value={totalMinutes} />
                                 </Col>
-                                <Col span={12}>
+                                <Col span={5}>
                                     <Statistic title="Total Portions" value={totalPortions} />
                                 </Col>
                             </Row>
