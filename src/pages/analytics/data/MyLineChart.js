@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import { Label, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ReferenceArea, ResponsiveContainer } from "recharts";
+import { Label, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ReferenceArea, ResponsiveContainer, ScatterChart } from "recharts";
 
 const initialState = {
     data: [],
@@ -25,6 +25,8 @@ export default class MyLineChart extends PureComponent {
     }
     getAxisYDomain = (from, to, ref, offset) => {
         //const refData = this.state.data;
+        console.log("The value of from is:", from);
+        console.log("The value of to is:", to);
         console.log("The data is:", Object.values(this.state.data));
         for (let i = 0; i < Object.values(this.state.data).length; i++) {
             if (Object.values(this.state.data)[i].x == from) {
@@ -63,8 +65,8 @@ export default class MyLineChart extends PureComponent {
         if (refAreaLeft > refAreaRight) [refAreaLeft, refAreaRight] = [refAreaRight, refAreaLeft];
 
         // yAxis domain
-        const [bottom, top] = this.getAxisYDomain(refAreaLeft, refAreaRight, "x", 10);
-
+        const [bottom, top] = this.getAxisYDomain(refAreaLeft, refAreaRight, "x", 15);
+        console.log("The value of refAreaLeft is", refAreaLeft);
         this.setState(() => ({
             refAreaLeft: "",
             refAreaRight: "",
@@ -74,10 +76,12 @@ export default class MyLineChart extends PureComponent {
             bottom,
             top,
         }));
+        console.log("The value of left is", this.state.left);
     }
 
     zoomOut() {
         const { data } = this.state;
+
         this.setState(() => ({
             data: data.slice(),
             refAreaLeft: "",
@@ -109,10 +113,11 @@ export default class MyLineChart extends PureComponent {
                         onMouseUp={this.zoom.bind(this)}
                     >
                         <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis allowDataOverflow dataKey="x" />
+                        <XAxis allowDataOverflow dataKey="x" domain={[left, right]} type="number" />
                         <YAxis allowDataOverflow domain={[bottom, top]} dataKey="y" type="number" yAxisId="1" />
+
                         <Tooltip />
-                        <Line yAxisId="1" type="natural" dataKey="y" stroke="#8884d7" animationDuration={300} />
+                        <Line yAxisId="1" dataKey="y" stroke="#8884d7" animationDuration={300} />
 
                         {refAreaLeft && refAreaRight ? <ReferenceArea yAxisId="1" x1={refAreaLeft} x2={refAreaRight} strokeOpacity={0.3} /> : null}
                     </LineChart>

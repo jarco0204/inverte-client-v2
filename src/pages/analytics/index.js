@@ -140,6 +140,16 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
             setAccuracy(analyticsData[1]);
             setTotalPortions(analyticsData[3]);
             setTotalMinutes(analyticsData[2]);
+            for (let i = 0; i < analyticsData[4].length; i++) {
+                const [hours, minutes, seconds] = analyticsData[4][i].x.split(":");
+                let timeString = hours + "." + minutes;
+                let decimalNumber = parseFloat(timeString);
+                //     let timeInMilliseconds = (parseInt(hours, 10) * 3600 + parseInt(minutes, 10) * 60 + parseInt(seconds, 10)) * 1000;
+                //     timeInMilliseconds = timeInMilliseconds / 1000;
+                //     console.log("The timeInDecimal: ", timeInMilliseconds);
+                analyticsData[4][i] = { x: decimalNumber, y: analyticsData[4][i].y };
+                console.log("The weight: ", analyticsData[4][i]);
+            }
             setChartWeight(analyticsData[4]);
             setChartAccuracy(analyticsData[5]);
             setChartPortionTime(analyticsData[6]);
