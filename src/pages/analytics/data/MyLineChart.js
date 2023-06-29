@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { PureComponent, useEffect } from "react";
 import { Label, LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ReferenceArea, ResponsiveContainer, ScatterChart } from "recharts";
 
 const initialState = {
@@ -15,14 +15,17 @@ const initialState = {
 };
 
 export default class MyLineChart extends PureComponent {
-    static demoUrl = "https://codesandbox.io/s/highlight-zomm-line-chart-v77bt";
-
     constructor(props) {
         super(props);
         this.state = initialState;
-
-        this.state.data = props.data;
+        console.log("Data in prosps is", props.data);
     }
+    componentDidMount = () => {
+        console.log("Mounted");
+        this.setState({
+            data: this.props.data,
+        });
+    };
     getAxisYDomain = (from, to, ref, offset) => {
         //const refData = this.state.data;
         console.log("The value of from is:", from);
@@ -65,7 +68,7 @@ export default class MyLineChart extends PureComponent {
         if (refAreaLeft > refAreaRight) [refAreaLeft, refAreaRight] = [refAreaRight, refAreaLeft];
 
         // yAxis domain
-        const [bottom, top] = this.getAxisYDomain(refAreaLeft, refAreaRight, "x", 15);
+        const [bottom, top] = this.getAxisYDomain(refAreaLeft, refAreaRight, "", 15);
         console.log("The value of refAreaLeft is", refAreaLeft);
         this.setState(() => ({
             refAreaLeft: "",

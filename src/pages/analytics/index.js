@@ -148,7 +148,8 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
                 //     let timeInMilliseconds = (parseInt(hours, 10) * 3600 + parseInt(minutes, 10) * 60 + parseInt(seconds, 10)) * 1000;
                 //     timeInMilliseconds = timeInMilliseconds / 1000;
                 //     console.log("The timeInDecimal: ", timeInMilliseconds);
-                analyticsData[4][i] = { x: decimalNumber, y: analyticsData[4][i].y };
+                let y = analyticsData[4][i].y;
+                analyticsData[4][i] = { x: decimalNumber, y: y };
             }
             setChartWeight(analyticsData[4]);
             setChartAccuracy(analyticsData[5]);
@@ -165,6 +166,7 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
             setTotalPortions(0);
             setTotalMinutes(0);
             setSelectedDates([]);
+            setChartWeight([]);
         } else {
             isInitialRender.current = false;
         }
@@ -268,7 +270,7 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
                                     <Statistic title="Average Accuracy" value={accuracy} precision={2} />
                                 </Col>
                                 <Col span={5}>
-                                    <Statistic title="Minutes Saved" value={totalMinutes} />
+                                    <Statistic title="Minutes Saved" value={totalMinutes.toFixed(0)} />
                                 </Col>
                                 <Col span={5}>
                                     <Statistic title="Total Portions" value={totalPortions} />
