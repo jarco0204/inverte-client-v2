@@ -167,7 +167,7 @@ export default function App() {
     return (
         <>
             {!authenticated ? (
-                <>{spinnerLoader ? SpinnerLoader() : <SignInContainer setAuthenticated={setAuthenticated} />}</>
+                <>{spinnerLoader ? SpinnerLoader() : <SignInContainer />}</>
             ) : (
                 <ThemeProvider theme={darkMode ? null : theme}>
                     <CssBaseline />

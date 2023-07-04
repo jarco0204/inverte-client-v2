@@ -25,7 +25,7 @@ const theme = createTheme({
 });
 
 // eslint-disable-next-line
-function SignInContainer({ setAuthenticated = console.log }) {
+function SignInContainer() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
@@ -43,17 +43,10 @@ function SignInContainer({ setAuthenticated = console.log }) {
         } else if (password === "") {
             setError("Enter your password");
         } else {
-            // setFetching(true);
-            console.log(email);
-            console.log(password);
-
             try {
                 await Auth.signIn(email, password);
-                setAuthenticated(true);
-                Auth.currentCredentials().then((info) => {
-                    const cognitoIdentityId = info.identityId;
-                    console.log("Your cognito identityID is: ", cognitoIdentityId);
-                });
+                // setAuthenticated(true);
+                window.location.reload(); // Reload the page after successful sign-in
             } catch (error) {
                 console.log("error signing in", error);
                 setError("Wrong credentials");
