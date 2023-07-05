@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import Grid from "@mui/material/Grid";
 
 // User Imports
+import DashboardNavbar from "../../components/Navbars/DashboardNavbar";
 import MDBox from "../../components/MDBox";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import Footer from "../../components/Footer";

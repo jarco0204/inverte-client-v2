@@ -26,6 +26,7 @@ import Footer from "../../components/Footer";
 import ReportsLineChart from "../../components/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import DashboardNavbar from "../../components/Navbars/DashboardNavbar";
 
 // Data
 import reportsLineChartData from "./data/reportsLineChartData";
@@ -317,7 +318,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
                             <ComplexStatisticsCard
                                 color="dark"
                                 icon={<PanToolIcon />}
-                                title="Portions Grabbed"
+                                title="Taken Portions"
                                 count={cardSummaryItems[0]}
                                 percentage={{
                                     color: "success",
@@ -332,7 +333,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
                             <ComplexStatisticsCard
                                 color="info"
                                 icon={<ScaleRoundedIcon />}
-                                title="Inventory Used"
+                                title="Used Inventory"
                                 count={unitOfMass == "g" ? cardSummaryItems[2] : (parseInt(cardSummaryItems[2]) / 28.35).toFixed(2).toString() + "oz"}
                                 percentage={{
                                     color: "success",
@@ -347,7 +348,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
                             <ComplexStatisticsCard
                                 color="success"
                                 icon={<AccessTimeFilledRoundedIcon />}
-                                title="Time Taken"
+                                title="Time Spent"
                                 count={cardSummaryItems[3]}
                                 percentage={{
                                     color: "success",
@@ -377,17 +378,17 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
                     <Grid container spacing={3}>
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
-                                <ReportsLineChart color="info" title="Portion Weight" key={realTimeAccuracy} chart={realTimeWeight} />
+                                <ReportsLineChart color="info" title="Portion Weight Variation" key={realTimeAccuracy} chart={realTimeWeight} />
                             </MDBox>
                         </Grid>
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
-                                <ReportsLineChart color="success" title="Portioning Time" chart={realTimePortionTime} />
+                                <ReportsLineChart color="success" title="Portion Time Variation" chart={realTimePortionTime} />
                             </MDBox>
                         </Grid>
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
-                                <ReportsLineChart color="warning" title="Performance Levels" chart={realTimeAccuracy} />
+                                <ReportsLineChart color="warning" title="Portion Performance Levels" chart={realTimeAccuracy} />
                             </MDBox>
                         </Grid>
                     </Grid>

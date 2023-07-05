@@ -134,11 +134,11 @@ function DashboardNavbar({ absolute, light, isMini }) {
                                 onClick={handleOpenMenu}
                             ></IconButton>
 
-                            <IconButton size="small" disableRipple color="inherit" sx={navbarIconButton} onClick={handleConfiguratorOpen}>
+                            {/* <IconButton size="small" disableRipple color="inherit" sx={navbarIconButton} onClick={handleConfiguratorOpen}>
                                 <Icon sx={iconsStyle}>
                                     <SettingsIcon />
                                 </Icon>
-                            </IconButton>
+                            </IconButton> */}
 
                             {renderMenu()}
                         </MDBox>

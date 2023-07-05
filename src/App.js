@@ -28,6 +28,7 @@ import SignInContainer from "./pages/signin";
 // Assets
 import inverteLogoSideWhite from "./assets/img/inverteLogo.png";
 import inverteLogoSideBlack from "./assets/img/inverteLogoBlack.png";
+import SidebarButton from "./components/SidebarButton";
 
 // Amplify Pub/Sub MQTT Client for Scale Container
 Amplify.addPluggable(
@@ -183,6 +184,7 @@ export default function App() {
                             />
                             <Configurator metaInformation={metaInformation} setUnitOfMass={setUnitOfMass} unitOfMass={unitOfMass} />
                             <ButtonConfig dispatch={dispatch} openConfigurator={openConfigurator} />
+                            <SidebarButton />
                         </>
                     ) : null}
                     <Routes>
