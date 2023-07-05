@@ -13,6 +13,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
+import DropDownMenus from "./components/DropDownMenus"
 
 // Material Dashboard 2 React components
 import MDBox from "../../components/MDBox";
@@ -308,6 +309,10 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
                     ))}
                 </Menu>
             </div>
+            <DropDownMenus 
+            options={options} 
+            selectedIndexRef={selectedIndexRef}
+            />
             <MDBox py={3}>
                 <Grid container spacing={3}>
                     <Grid item xs={12} md={6} lg={3}>
