@@ -13,7 +13,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import DropDownMenus from "./components/DropDownMenus"
+import DropDownMenus from "./components/DropDownMenus";
 
 // Material Dashboard 2 React components
 import MDBox from "../../components/MDBox";
@@ -309,16 +309,28 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
                     ))}
                 </Menu>
             </div>
-            <DropDownMenus 
-            options={options} 
-            selectedIndexRef={selectedIndexRef}
-            />
+            <DropDownMenus options={options} selectedIndexRef={selectedIndexRef} />
             <MDBox py={3}>
                 <Grid container spacing={3}>
                     <Grid item xs={12} md={6} lg={3}>
                         <MDBox mb={1.5}>
                             <ComplexStatisticsCard
-                                color="success"
+                                color="dark"
+                                icon={<PanToolIcon />}
+                                title="Portions Grabbed"
+                                count={cardSummaryItems[0]}
+                                percentage={{
+                                    color: "success",
+                                    // amount: "+24%",
+                                    // label: "than yesterday",
+                                }}
+                            />
+                        </MDBox>
+                    </Grid>
+                    <Grid item xs={12} md={6} lg={3}>
+                        <MDBox mb={1.5}>
+                            <ComplexStatisticsCard
+                                color="info"
                                 icon={<ScaleRoundedIcon />}
                                 title="Inventory Used"
                                 count={unitOfMass == "g" ? cardSummaryItems[2] : (parseInt(cardSummaryItems[2]) / 28.35).toFixed(2).toString() + "oz"}
@@ -333,21 +345,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
                     <Grid item xs={12} md={6} lg={3}>
                         <MDBox mb={1.5}>
                             <ComplexStatisticsCard
-                                icon={<PrecisionManufacturingRoundedIcon />}
-                                title="Accuracy"
-                                count={cardSummaryItems[1]}
-                                percentage={{
-                                    color: "success",
-                                    // amount: "+3%",
-                                    // label: "than yesterdays",
-                                }}
-                            />
-                        </MDBox>
-                    </Grid>
-                    <Grid item xs={12} md={6} lg={3}>
-                        <MDBox mb={1.5}>
-                            <ComplexStatisticsCard
-                                color="primary"
+                                color="success"
                                 icon={<AccessTimeFilledRoundedIcon />}
                                 title="Time Taken"
                                 count={cardSummaryItems[3]}
@@ -362,14 +360,14 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
                     <Grid item xs={12} md={6} lg={3}>
                         <MDBox mb={1.5}>
                             <ComplexStatisticsCard
-                                color="secondary"
-                                icon={<PanToolIcon />}
-                                title="Portions Completed"
-                                count={cardSummaryItems[0]}
+                                color="warning"
+                                icon={<PrecisionManufacturingRoundedIcon />}
+                                title="Performance"
+                                count={cardSummaryItems[1]}
                                 percentage={{
                                     color: "success",
-                                    // amount: "+24%",
-                                    // label: "than yesterday",
+                                    // amount: "+3%",
+                                    // label: "than yesterdays",
                                 }}
                             />
                         </MDBox>
@@ -379,17 +377,17 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
                     <Grid container spacing={3}>
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
-                                <ReportsLineChart color="success" title="Portion Weight" key={realTimeAccuracy} chart={realTimeWeight} />
+                                <ReportsLineChart color="info" title="Portion Weight" key={realTimeAccuracy} chart={realTimeWeight} />
                             </MDBox>
                         </Grid>
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
-                                <ReportsLineChart color="info" title="Accuracy Levels" chart={realTimeAccuracy} />
+                                <ReportsLineChart color="success" title="Portioning Time" chart={realTimePortionTime} />
                             </MDBox>
                         </Grid>
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
-                                <ReportsLineChart color="secondary" title="Portioning Time" chart={realTimePortionTime} />
+                                <ReportsLineChart color="warning" title="Performance Levels" chart={realTimeAccuracy} />
                             </MDBox>
                         </Grid>
                     </Grid>
