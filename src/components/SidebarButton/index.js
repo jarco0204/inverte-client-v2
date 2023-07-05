@@ -7,7 +7,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import IconButton from "@mui/material/IconButton";
 
 // User-defined Components
-import { setOpenConfigurator } from "../../context";
+import { useMaterialUIController, setMiniSidenav } from "../../context";
 
 // Images
 import inverteLogo from "../../assets/img/inverteBlackLogoNoText.png";
@@ -19,8 +19,12 @@ import inverteLogo from "../../assets/img/inverteBlackLogoNoText.png";
    @Comments
    @Coders: Jarco0204
 */
-export default function SidebarButton({ dispatch, openConfigurator }) {
-    const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
+export default function SidebarButton() {
+    const [controller, dispatch] = useMaterialUIController();
+    const { miniSidenav } = controller;
+
+    const handleMiniSidenav = () => setMiniSidenav(dispatch, !miniSidenav);
+
     return (
         <>
             <MDBox
@@ -38,7 +42,7 @@ export default function SidebarButton({ dispatch, openConfigurator }) {
                 zIndex={99}
                 color="dark"
                 sx={{ cursor: "pointer" }}
-                onClick={handleConfiguratorOpen}
+                onClick={handleMiniSidenav}
             >
                 {inverteLogo && <MDBox component="img" src={inverteLogo} alt="Brand" width="5rem" />}
 

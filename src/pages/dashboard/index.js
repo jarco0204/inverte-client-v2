@@ -26,7 +26,6 @@ import Footer from "../../components/Footer";
 import ReportsLineChart from "../../components/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import DashboardNavbar from "../../components/Navbars/DashboardNavbar";
 
 // Data
 import reportsLineChartData from "./data/reportsLineChartData";

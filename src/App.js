@@ -19,6 +19,8 @@ import theme from "./assets/theme";
 import ButtonConfig from "./components/ButtonConfig";
 import SpinnerLoader from "./components/SpinnerLoader";
 import { handleOnMouseEnter, handleOnMouseLeave } from "./components/Sidenav/SidenavBehaviour";
+import DashboardNavbar from "./components/Navbars/DashboardNavbar";
+
 // import themeDark from "assets/theme-dark"; // TODO
 
 // Pages Containers
@@ -60,6 +62,24 @@ export default function App() {
     const [spinnerLoader, setSpinnerLoader] = useState(false);
     const [metaInformation, setMetaInformation] = useState({ iotThingNames: ["test"], restaurantName: "test", unitOfMass: "g" });
     const [unitOfMass, setUnitOfMass] = useState(metaInformation.unitOfMass);
+    const [isMobileDevice, setIsMobileDevice] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobileDevice(window.innerWidth < 1200);
+        };
+
+        // Add event listener for window resize
+        window.addEventListener("resize", handleResize);
+
+        // Initial check on component mount
+        handleResize();
+
+        // Clean up the event listener on component unmount
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
 
     // Hook for route traversal
     const { pathname } = useLocation();
@@ -184,7 +204,12 @@ export default function App() {
                             />
                             <Configurator metaInformation={metaInformation} setUnitOfMass={setUnitOfMass} unitOfMass={unitOfMass} />
                             <ButtonConfig dispatch={dispatch} openConfigurator={openConfigurator} />
-                            <SidebarButton />
+                            {isMobileDevice ? (
+                                <>
+                                    <DashboardNavbar />
+                                    <SidebarButton />
+                                </>
+                            ) : null}
                         </>
                     ) : null}
                     <Routes>
