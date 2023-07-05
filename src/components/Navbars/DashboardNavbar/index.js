@@ -35,7 +35,8 @@ import { useMaterialUIController, setTransparentNavbar, setMiniSidenav, setOpenC
 function DashboardNavbar({ absolute, light, isMini }) {
     const [navbarType, setNavbarType] = useState();
     const [controller, dispatch] = useMaterialUIController();
-    const { miniSidenav, transparentNavbar, fixedNavbar, openConfigurator, darkMode } = controller;
+    const { miniSidenav, transparentNavbar, openConfigurator, darkMode } = controller;
+    const fixedNavbar = false; // Hard-coding it, you can get it from the controller
     const [openMenu, setOpenMenu] = useState(false);
     const route = useLocation().pathname.split("/").slice(1);
 
@@ -105,24 +106,26 @@ function DashboardNavbar({ absolute, light, isMini }) {
         <AppBar position={absolute ? "absolute" : navbarType} color="inherit" sx={(theme) => navbar(theme, { transparentNavbar, absolute, light, darkMode })}>
             <Toolbar sx={(theme) => navbarContainer(theme)}>
                 <MDBox color="inherit" mb={{ xs: 1, md: 0 }} sx={(theme) => navbarRow(theme, { isMini })}>
-                    <Breadcrumbs icon={<HomeIcon />} title={route[route.length - 1]} route={route} light={light} />
+                    <div style={{ marginBottom: "-60px" }}>
+                        <Breadcrumbs icon={<HomeIcon />} title={route[route.length - 1]} route={route} light={light} />
+                    </div>
                 </MDBox>
-                {isMini ? null : (
+                {/* {isMini ? null : (
                     <MDBox sx={(theme) => navbarRow(theme, { isMini })}>
-                        {/* <MDBox pr={1}>
+                        <MDBox pr={1}>
                             <MDInput label="Search here (v2)" />
-                        </MDBox> */}
+                        </MDBox>
                         <MDBox color={light ? "white" : "inherit"}>
                             <IconButton size="small" disableRipple color="inherit" sx={navbarMobileMenu} onClick={handleMiniSidenav}>
                                 <Icon sx={iconsStyle} fontSize="medium">
                                     {miniSidenav ? <ViewSidebarIcon /> : <ViewSidebarOutlinedIcon />}
                                 </Icon>
                             </IconButton>
-                            {/* <IconButton sx={navbarIconButton} size="small" disableRipple>
+                            <IconButton sx={navbarIconButton} size="small" disableRipple>
                                 <Icon sx={iconsStyle}>
                                     <AccountCircleIcon />
                                 </Icon>
-                            </IconButton> */}
+                            </IconButton>
                             <IconButton
                                 size="small"
                                 disableRipple
@@ -143,7 +146,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
                             {renderMenu()}
                         </MDBox>
                     </MDBox>
-                )}
+                )} */}
             </Toolbar>
         </AppBar>
     );
