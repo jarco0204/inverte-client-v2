@@ -154,6 +154,7 @@ const Scale = ({ mainScaleData }) => {
             setTimeout(async () => {
                 try {
                     await PubSub.publish("$aws/things/" + mainScaleData.iotNameThing + "/shadow/get", {});
+                    await PubSub.publish("$aws/things/" + mainScaleData.iotNameThing + "/shadow/name/timeseries/get", {});
                 } catch (error) {
                     console.log("Failed to publish to your GET Classic Shadow...", error);
                 }
@@ -177,6 +178,26 @@ const Scale = ({ mainScaleData }) => {
                 subscription.unsubscribe();
             },
             error: (error) => console.error("Error in GET/Accepted web socket...", error),
+            complete: () => console.log("Web Socket Done"),
+        });
+
+        // Subscribe to Topic after Get Request was accepted
+        const subscriptionTimeSeriesShadow = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing + "/shadow/name/timeseries/get/accepted").subscribe({
+            next: (dataCloud) => {
+                dataCloud = dataCloud.value.state.reported;
+
+                setRealTimeWeight(dataCloud.inventoryWeight);
+                if (dataCloud.inventoryWeight === 0) {
+                    setRealTimeTemperature("Off");
+                } else {
+                    setRealTimeTemperature("On");
+                    setRealTimeWeight(dataCloud.inventoryWeight);
+                }
+
+                //Unsubcribe to topic after fething and updating parameters
+                subscriptionTimeSeriesShadow.unsubscribe();
+            },
+            error: (error) => console.error("Error in GET/Accepted web socket of Timeseries...", error),
             complete: () => console.log("Web Socket Done"),
         });
     }, []);
