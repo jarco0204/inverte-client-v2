@@ -49,18 +49,16 @@ const ScalesContainer = ({ iotThingNames, restaurantName, restaurantLocationNum 
     return (
         <DashboardLayout>
             <MDBox py={3}>
-                <div className="card-container">
+                <div className="card-container" style={{ margin: "auto", width: "50%" }}>
                     <Grid container spacing={3}>
-                        <Grid item xs={12} md={6} lg={3}>
+                        <Grid item xs={18} md={9} lg={10}>
                             {!scaleCardsReady ? null : (
                                 <MDBox mb={1.5}>
-                                    <div className="scales-container">
-                                        {scalesMetaArr.map((mainScaleData, i) => (
-                                            <div key={i} style={{ marginRight: "15px", marginTop: "35px", width: "100%", maxWidth: "300px" }}>
-                                                <Scale mainScaleData={mainScaleData} />
-                                            </div>
-                                        ))}
-                                    </div>
+                                    {scalesMetaArr.map((mainScaleData, i) => (
+                                        <div key={i} style={{ marginTop: "50px" }}>
+                                            <Scale mainScaleData={mainScaleData} />
+                                        </div>
+                                    ))}
                                 </MDBox>
                             )}
                         </Grid>
