@@ -141,9 +141,9 @@ function Configurator({ metaInformation, setUnitOfMass, unitOfMass }) {
         <ConfiguratorRoot variant="permanent" ownerState={{ openConfigurator }}>
             <MDBox display="flex" justifyContent="space-between" alignItems="baseline" pt={4} pb={0.5} px={3}>
                 <MDBox>
-                    <MDTypography variant="h5">Welcome to your Dashboard</MDTypography>
+                    <MDTypography variant="h5">Welcome to InVerte</MDTypography>
                     <MDTypography variant="body2" color="text">
-                        Personalize your Dashboard.
+                        Personalize your App.
                     </MDTypography>
                 </MDBox>
 
@@ -166,7 +166,7 @@ function Configurator({ metaInformation, setUnitOfMass, unitOfMass }) {
 
             <MDBox pt={0.5} pb={3} px={3}>
                 <MDBox>
-                    <MDTypography variant="h6">Sidebar Colors</MDTypography>
+                    <MDTypography variant="h6">Sidebar Colors:</MDTypography>
 
                     <MDBox mb={0.5}>
                         {sidenavColors.map((color) => (
@@ -207,7 +207,7 @@ function Configurator({ metaInformation, setUnitOfMass, unitOfMass }) {
                 </MDBox>
 
                 <MDBox mt={3} lineHeight={1}>
-                    <MDTypography variant="h6">Sidebar Type</MDTypography>
+                    <MDTypography variant="h6">Sidebar Type:</MDTypography>
                     <MDTypography variant="button" color="text">
                         Choose between different sidebar types.
                     </MDTypography>
@@ -253,11 +253,11 @@ function Configurator({ metaInformation, setUnitOfMass, unitOfMass }) {
                         </MDButton>
                     </MDBox>
                 </MDBox>
-                <MDBox display="flex" justifyContent="space-between" alignItems="center" mt={3} lineHeight={1}>
+                {/* <MDBox display="flex" justifyContent="space-between" alignItems="center" mt={3} lineHeight={1}>
                     <MDTypography variant="h6">Navbar Fixed</MDTypography>
 
                     <Switch checked={fixedNavbar} onChange={handleFixedNavbar} />
-                </MDBox>
+                </MDBox> */}
                 <Divider />
                 <MDBox display="flex" justifyContent="space-between" alignItems="center" lineHeight={1}>
                     <MDTypography variant="h6">Light / Dark (V2)</MDTypography>
@@ -265,30 +265,39 @@ function Configurator({ metaInformation, setUnitOfMass, unitOfMass }) {
                     <Switch disabled checked={darkMode} onChange={handleDarkMode} />
                 </MDBox>
 
-                <MDBox textAlign="center" style={{ margin: "10px 0" }}>
-                    <MDTypography fontWeight="medium" color="dark" fontSize="15px">
-                        Unit of Mass:
+                <MDBox mt={3} lineHeight={1}>
+                    <MDTypography variant="h6">Unit of Mass:</MDTypography>
+                    <MDTypography variant="button" color="text">
+                        Choose the unit that fits yourt kitchen best.
                     </MDTypography>
+                    <MDBox
+                        sx={{
+                            display: "flex",
+                            mt: 2,
+                            mr: 1,
+                        }}
+                    >
+                        <div style={{ display: "flex", gap: "10px", marginLeft: "70px" }}>
+                            <FormControl>
+                                <RadioGroup
+                                    row
+                                    aria-labelledby="demo-radio-buttons-group-label"
+                                    name="unitOfMassField"
+                                    onChange={(event) => {
+                                        console.log("Jump", event.target.value);
+                                        setUnitOfMass(event.target.value);
+                                        updateUnitOfMass(event);
+                                        changeScaleMass(5);
+                                    }}
+                                    defaultValue={metaInformation.unitOfMass}
+                                >
+                                    <FormControlLabel value="oz" control={<Radio />} label="oz" />
+                                    <FormControlLabel value="g" control={<Radio />} label="g" />
+                                </RadioGroup>
+                            </FormControl>
+                        </div>
+                    </MDBox>
                 </MDBox>
-                <div style={{ display: "flex", gap: "10px", marginLeft: "70px" }}>
-                    <FormControl>
-                        <RadioGroup
-                            row
-                            aria-labelledby="demo-radio-buttons-group-label"
-                            name="unitOfMassField"
-                            onChange={(event) => {
-                                console.log("Jump", event.target.value);
-                                setUnitOfMass(event.target.value);
-                                updateUnitOfMass(event);
-                                changeScaleMass(5);
-                            }}
-                            defaultValue={metaInformation.unitOfMass}
-                        >
-                            <FormControlLabel value="oz" control={<Radio />} label="oz" />
-                            <FormControlLabel value="g" control={<Radio />} label="g" />
-                        </RadioGroup>
-                    </FormControl>
-                </div>
 
                 <Divider />
                 {/* <MDBox mt={3} mb={2}>
