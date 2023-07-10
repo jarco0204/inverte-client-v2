@@ -8,11 +8,6 @@ import PanToolIcon from "@mui/icons-material/PanTool";
 import PrecisionManufacturingRoundedIcon from "@mui/icons-material/PrecisionManufacturingRounded";
 import ScaleRoundedIcon from "@mui/icons-material/ScaleRounded";
 import AccessTimeFilledRoundedIcon from "@mui/icons-material/AccessTimeFilledRounded";
-// import List from "@mui/material/List";
-// import ListItem from "@mui/material/ListItem";
-// import ListItemText from "@mui/material/ListItemText";
-// import MenuItem from "@mui/material/MenuItem";
-// import Menu from "@mui/material/Menu";
 import DropDownMenus from "./components/DropDownMenus";
 
 // Material Dashboard 2 React components
@@ -25,7 +20,6 @@ import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import Footer from "../../components/Footer";
 import ReportsLineChart from "../../components/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
-// import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 
 // Data
 import reportsLineChartData from "./data/reportsLineChartData";
@@ -235,45 +229,6 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
 
     return (
         <DashboardLayout>
-            {/* <div style={{ margin: "auto ", marginTop: "15px", width: "fit-content", border: "1px solid #49a3f1 ", borderRadius: "5px", padding: "5px", marginLeft: "0px" }}>
-                <List component="nav" aria-label="Device settings">
-                    <ListItem
-                        id="lock-button"
-                        aria-haspopup="listbox"
-                        aria-controls="lock-menu"
-                        aria-label="when device is locked"
-                        aria-expanded={open ? "true" : undefined}
-                        onClick={handleClickListItem}
-                        style={{ fontFamily: "Roboto" }}
-                    >
-                        <ListItemText secondary={selectedIndex === -1 ? "Ingredient" : options[selectedIndex]} />
-                        <ListItemIcon style={{ marginRight: "-35px" }}>
-                            <ArrowDropDownIcon />
-                        </ListItemIcon>
-                    </ListItem>
-                </List>
-                <Menu
-                    style={{ display: "inline-block" }}
-                    id="lock-menu"
-                    anchorOrigin={{
-                        vertical: "bottom",
-                        horizontal: "right",
-                    }}
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={handleClose}
-                    MenuListProps={{
-                        "aria-labelledby": "lock-button",
-                        role: "listbox",
-                    }}
-                >
-                    {options.map((option, index) => (
-                        <MenuItem key={option} selected={index === selectedIndexRef.current} onClick={(event) => handleMenuItemClick(event, index)}>
-                            {option}
-                        </MenuItem>
-                    ))}
-                </Menu>
-            </div> */}
             <DropDownMenus options={options} selectedIndexRef={selectedIndexRef} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} updateIngredient={updateIngredient} />
             <MDBox py={3}>
                 <Grid container spacing={3}>
@@ -327,7 +282,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
                             <ComplexStatisticsCard
                                 color="warning"
                                 icon={<PrecisionManufacturingRoundedIcon />}
-                                title="Performance"
+                                title="Average Performance"
                                 count={cardSummaryItems[1]}
                                 percentage={{
                                     color: "success",

@@ -62,7 +62,7 @@ function configs(labels, datasets, pointColorsAR) {
                         font: {
                             size: 16,
                             weight: 300,
-                            family: "Roboto",
+                            family: "arial",
                             style: "normal",
                             lineHeight: 0.25,
                         },
@@ -87,6 +87,19 @@ function configs(labels, datasets, pointColorsAR) {
                             family: "Roboto",
                             style: "normal",
                             lineHeight: 2,
+                        },
+                    },
+                    title: {
+                        display: true,
+                        text: "Time of Day",
+                        color: "#f8f9fa",
+                        padding: 10,
+                        font: {
+                            size: 16,
+                            weight: 300,
+                            family: "arial",
+                            style: "normal",
+                            lineHeight: 0.25,
                         },
                     },
                 },

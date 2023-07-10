@@ -8,9 +8,6 @@ import { Line } from "react-chartjs-2";
 
 // @mui material components
 import Card from "@mui/material/Card";
-// import Divider from "@mui/material/Divider";
-// import Icon from "@mui/material/Icon";
-// import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 
 // Material Dashboard 2 React components
 import MDBox from "../../../../components/MDBox";
@@ -21,7 +18,7 @@ import configs from "./configs";
 
 function ReportsLineChart({ color, title, description, chart }) {
     const { data, options } = configs(chart.labels || [], chart.datasets || {}, chart.pointBackgroundColorAr || []);
-    console.log("Your data is:", data);
+    // console.log("Your data is:", data);
     //let slicedData = data.slice(0, 6);
     return (
         <Card sx={{ height: "100%" }}>

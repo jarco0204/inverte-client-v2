@@ -6,7 +6,7 @@ export default {
     },
     accuracyGraph: {
         labels: [],
-        datasets: { label: "Portion Accuracy", data: [], yAxisLabel: "Percentage" },
+        datasets: { label: "Portion Accuracy", data: [], yAxisLabel: "Percent" },
         pointBackgroundColorAr: [],
     },
     portionTimeGraph: {
