@@ -55,48 +55,13 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
     const { weightGraph, accuracyGraph, portionTimeGraph } = reportsLineChartData;
 
     // Drop-Down Menu State
-    const [anchorEl, setAnchorEl] = useState(null);
-    const open = Boolean(anchorEl);
-    const [selectedIndex, setSelectedIndex] = useState(displayIngredientIndex);
     const options = Object.values(iotThingNames);
-    const keys = Object.keys(iotThingNames);
     const selectedIndexRef = useRef(displayIngredientIndex);
+    const [selectedIndex, setSelectedIndex] = useState(displayIngredientIndex);
+    const keys = Object.keys(iotThingNames);
 
-    /*!
-       @description: 
-       @params:
-       @return:
-       @Comments
-       @Coders: Rohan-16
-    */
-    const handleClickListItem = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    /*!
-       @description: 
-       @params:
-       @return:
-       @Comments
-       @Coders: Rohan-16
-    */
-    const handleMenuItemClick = (event, index) => {
-        setSelectedIndex(index);
-        selectedIndexRef.current = index;
-        setAnchorEl(null);
-        updateIngredient(index);
-    };
-
-    /*!
-       @description: 
-       @params:
-       @return:
-       @Comments
-       @Coders: Rohan-16
-    */
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+    // const [anchorEl, setAnchorEl] = useState(null);
+    // const open = Boolean(anchorEl);
 
     /*!
         @description: Update the index number of selected ingredient in dynamo 
@@ -114,7 +79,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
 
             // Make REST API Call
             await API.get(AMPLIFY_API, finalAPIRoute, { queryStringParameters: { index: index } }).then((response) => {
-                if (response.item.Item == undefined) {
+                if (response == undefined) {
                     throw new Error("No Response from API");
                 }
             });
@@ -309,14 +274,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
                     ))}
                 </Menu>
             </div> */}
-            <DropDownMenus
-                options={options}
-                selectedIndexRef={selectedIndexRef}
-                selectedIndex={selectedIndex}
-                handleClickListItem={handleClickListItem}
-                handleMenuItemClick={handleMenuItemClick}
-                handleClose={handleClose}
-            />
+            <DropDownMenus options={options} selectedIndexRef={selectedIndexRef} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} updateIngredient={updateIngredient} />
             <MDBox py={3}>
                 <Grid container spacing={3}>
                     <Grid item xs={12} md={6} lg={3}>

@@ -5,12 +5,10 @@ import MDBox from "../../../../components/MDBox";
 // import MDTypography from "../../../../components/MDTypography";
 import { useState } from "react";
 import { KeyboardArrowDown } from "@material-ui/icons";
-import { MenuItem, ListItemIcon } from "@mui/material";
-// import { useTheme } from "@mui/material";
+import { MenuItem } from "@mui/material";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 
 const StyledMenu = styled((props) => (
     <Menu
@@ -46,12 +44,46 @@ const StyledMenu = styled((props) => (
     },
 }));
 
-const DropDownMenus = ({ options, selectedIndexRef, selectedIndex, handleClickListItem, handleMenuItemClick }) => {
+const DropDownMenus = ({ options, selectedIndexRef, selectedIndex, setSelectedIndex, updateIngredient }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
+
+    /*!
+       @description: 
+       @params:
+       @return:
+       @Comments
+       @Coders: Rohan-16
+    */
+    const handleClickListItem = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    /*!
+       @description: 
+       @params:
+       @return:
+       @Comments
+       @Coders: Rohan-16
+    */
+    const handleMenuItemClick = (event, index) => {
+        setSelectedIndex(index);
+        selectedIndexRef.current = index;
+        setAnchorEl(null);
+        updateIngredient(index);
+    };
+
+    /*!
+       @description: 
+       @params:
+       @return:
+       @Comments
+       @Coders: Rohan-16
+    */
     const handleClose = () => {
         setAnchorEl(null);
     };
@@ -59,7 +91,7 @@ const DropDownMenus = ({ options, selectedIndexRef, selectedIndex, handleClickLi
         <MDBox py={1}>
             <MDBox
                 variant="gradient"
-                bgColor="info"
+                bgColor="dark"
                 color="light"
                 coloredShadow="info"
                 borderRadius="xl"
@@ -75,9 +107,9 @@ const DropDownMenus = ({ options, selectedIndexRef, selectedIndex, handleClickLi
                 disableElevation
                 onClick={handleClick}
                 endIcon={<KeyboardArrowDown />}
-                style={{ fontFamily: "Roboto" }}
+                style={{ fontFamily: "Roboto", color: "white" }}
             >
-                <List component="nav" aria-label="Device settings">
+                <List component="nav" aria-label="Device settings" style={{ fontFamily: "Roboto", color: "white" }}>
                     <ListItem
                         id="lock-button"
                         aria-haspopup="listbox"
@@ -85,9 +117,9 @@ const DropDownMenus = ({ options, selectedIndexRef, selectedIndex, handleClickLi
                         aria-label="when device is locked"
                         aria-expanded={open ? "true" : undefined}
                         onClick={handleClickListItem}
-                        style={{ fontFamily: "Roboto" }}
+                        style={{ fontFamily: "Roboto", color: "white" }}
                     >
-                        <ListItemText secondary={selectedIndex === -1 ? "Ingredient" : options[selectedIndex]} />
+                        <ListItemText secondaryTypographyProps={{ style: { color: "white" } }} secondary={selectedIndex === -1 ? "Ingredient" : options[selectedIndex]} />
                     </ListItem>
                 </List>
                 <KeyboardArrowDown />
