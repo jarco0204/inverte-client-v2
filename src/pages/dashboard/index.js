@@ -229,25 +229,41 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
 
     return (
         <DashboardLayout>
-            <DropDownMenus options={options} selectedIndexRef={selectedIndexRef} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} updateIngredient={updateIngredient} />
-            <MDBox py={3}>
-                <Grid container spacing={3}>
-                    <Grid item xs={12} md={6} lg={3}>
-                        <MDBox mb={1.5}>
-                            <ComplexStatisticsCard
-                                color="dark"
-                                icon={<PanToolIcon />}
-                                title="Taken Portions"
-                                count={cardSummaryItems[0]}
-                                percentage={{
-                                    color: "success",
-                                    // amount: "+24%",
-                                    // label: "than yesterday",
-                                }}
-                            />
-                        </MDBox>
+            <h4 style={{ justifyContent: "left", textAlign: "left" }}>Daily Inventory Report: </h4>
+            {/* <div className="portions-container" style={{justifyContent:"center", margin:"auto"}}> */}
+                <MDBox py={3}>
+                    <Grid container spacing={3} 
+                    direction="row"
+                    alignItems="flex-end"
+                    justifyContent="space-around">
+                        <Grid item xs={12} md={12} lg={3}>
+                            <MDBox>
+                                <ComplexStatisticsCard
+                                    color="dark"
+                                    icon={<PanToolIcon />}
+                                    title="Taken Portions"
+                                    count={cardSummaryItems[0]}
+                                    percentage={{
+                                        color: "success",
+                                        // amount: "+24%",
+                                        // label: "than yesterday",
+                                    }}
+                                />
+                            </MDBox>
+                        </Grid>
+                        {/* <Grid item>
+                        Empty
+                        </Grid> */}
+                        <Grid item xs={12} md={12} lg={3}>
+                            <DropDownMenus options={options} selectedIndexRef={selectedIndexRef} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} updateIngredient={updateIngredient} />
+                        </Grid>
+        
                     </Grid>
-                    <Grid item xs={12} md={6} lg={3}>
+            </MDBox>
+                {/* </div> */}
+            <MDBox mt={4.5}>
+                <Grid container spacing={3}>
+                    <Grid item xs={12} md={6} lg={4}>
                         <MDBox mb={1.5}>
                             <ComplexStatisticsCard
                                 color="info"
@@ -262,7 +278,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
                             />
                         </MDBox>
                     </Grid>
-                    <Grid item xs={12} md={6} lg={3}>
+                    <Grid item xs={12} md={6} lg={4}>
                         <MDBox mb={1.5}>
                             <ComplexStatisticsCard
                                 color="success"
@@ -277,7 +293,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
                             />
                         </MDBox>
                     </Grid>
-                    <Grid item xs={12} md={6} lg={3}>
+                    <Grid item xs={12} md={6} lg={4}>
                         <MDBox mb={1.5}>
                             <ComplexStatisticsCard
                                 color="warning"
