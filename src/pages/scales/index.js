@@ -4,14 +4,30 @@ import PropTypes from "prop-types";
 
 // @Mui material components
 import Grid from "@mui/material/Grid";
+import { styled } from "@mui/material/styles";
 
 // User Imports
-import DashboardNavbar from "../../components/Navbars/DashboardNavbar";
 import MDBox from "../../components/MDBox";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import Footer from "../../components/Footer";
 import Scale from "./components/Scale";
-import "./components/Scale/card.css";
+
+/*!
+   @description: 
+   @params:
+   @return:
+   @Comments:
+   @Coders: DaBest
+*/
+const CustomizedGrid = styled(Grid)`
+    /* Media query for laptop/desktop */
+    @media only screen and (min-width: 770px) {
+        display: flex;
+        justify-content: center;
+        width: 50%;
+        margin: auto;
+    }
+`;
 
 /*!
    @description: Main Route Container that hold array of Scale Components (Scale Cards)
@@ -48,23 +64,21 @@ const ScalesContainer = ({ iotThingNames, restaurantName, restaurantLocationNum 
 
     return (
         <DashboardLayout>
-            <MDBox py={3}>
-                <div className="card-container" style={{ margin: "auto", width: "50%" }}>
-                    <Grid container spacing={3}>
-                        <Grid item xs={18} md={9} lg={10}>
-                            {!scaleCardsReady ? null : (
-                                <MDBox mb={1.5}>
-                                    {scalesMetaArr.map((mainScaleData, i) => (
-                                        <div key={i} style={{ marginTop: "50px" }}>
-                                            <Scale mainScaleData={mainScaleData} />
-                                        </div>
-                                    ))}
-                                </MDBox>
-                            )}
-                        </Grid>
-                    </Grid>
-                </div>
-            </MDBox>
+            {/* <MDBox py={5}> */}
+            <CustomizedGrid container spacing={1}>
+                <Grid item xs={20} md={10} lg={10}>
+                    {!scaleCardsReady ? null : (
+                        <MDBox mb={20}>
+                            {scalesMetaArr.map((mainScaleData, i) => (
+                                <div key={i} style={{ marginTop: "50px" }}>
+                                    <Scale mainScaleData={mainScaleData} />
+                                </div>
+                            ))}
+                        </MDBox>
+                    )}
+                </Grid>
+            </CustomizedGrid>
+            {/* </MDBox> */}
             <Footer />
         </DashboardLayout>
     );
