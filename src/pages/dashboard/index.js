@@ -297,17 +297,17 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
                     <Grid container spacing={3}>
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
-                                <ReportsLineChart color="info" title="Portion Weight Variation" key={realTimeAccuracy} chart={realTimeWeight} />
+                                <ReportsLineChart color="info" title="Variation of Portioning Weight" key={realTimeAccuracy} chart={realTimeWeight} />
                             </MDBox>
                         </Grid>
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
-                                <ReportsLineChart color="success" title="Portion Time Variation" chart={realTimePortionTime} />
+                                <ReportsLineChart color="success" title="Variation of Portioning Time" chart={realTimePortionTime} />
                             </MDBox>
                         </Grid>
                         <Grid item xs={12} md={6} lg={4}>
                             <MDBox mb={3}>
-                                <ReportsLineChart color="warning" title="Portion Performance Levels" chart={realTimeAccuracy} />
+                                <ReportsLineChart color="warning" title="Portioning Performance Levels" chart={realTimeAccuracy} />
                             </MDBox>
                         </Grid>
                     </Grid>
