@@ -243,7 +243,7 @@ const Scale = ({ mainScaleData }) => {
     }, []);
 
     return (
-        <Card styling={{ width: "400px" }}>
+        <Card>
             <MDBox display="flex" justifyContent="space-between" pt={1} px={1}>
                 <MDBox variant="gradient" bgColor="light" borderRadius="xl" display="flex" justifyContent="center" width="3.5rem" height="3rem" mt={-4.5}>
                     <Icon fontSize="large">
