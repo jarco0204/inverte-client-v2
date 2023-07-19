@@ -19,11 +19,24 @@ import Divider from "@mui/material/Divider";
 import Collapse from "@mui/material/Collapse";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { makeStyles } from "@material-ui/core/styles";
+import { styled } from "@mui/material/styles";
 
 // User Components
 import MDBox from "../../../../components/MDBox";
 import MDTypography from "../../../../components/MDTypography";
 import { TareButton, StartButton, ExpandMore } from "./ScaleButtons";
+
+/*!
+   @description: Center 3 buttons to control your scale card
+   @params:
+   @return:
+   @Comments:
+   @Coders: ElToro
+*/
+const CustomizedCardActions = styled(CardActions)`
+    display: flex;
+    justify-content: center;
+`;
 
 const Scale = ({ mainScaleData }) => {
     // Classic Shadow Parameters
@@ -293,7 +306,7 @@ const Scale = ({ mainScaleData }) => {
                     focused={scaleStateReported == 1 ? false : true}
                 />
             </FormControl>
-            <CardActions disableSpacing>
+            <CustomizedCardActions>
                 <TareButton name="tare" onClick={() => sendDataAWS(1)}>
                     Tare
                 </TareButton>
@@ -304,7 +317,7 @@ const Scale = ({ mainScaleData }) => {
                 <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
                     <ExpandMoreIcon />
                 </ExpandMore>
-            </CardActions>
+            </CustomizedCardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit style={{ width: "100%", boxSizing: "border-box" }}>
                 <Divider />
                 <MDBox textAlign="center" style={{ margin: "10px 0" }}>
@@ -342,46 +355,44 @@ const Scale = ({ mainScaleData }) => {
                         />
                     </FormControl>
                 </MDBox>
-                <div style={{ margin: "0 10px" }}>
-                    <div style={{ display: "flex" }}>
-                        <FormControl sx={{ m: 1, width: 125 }} variant="outlined">
-                            <FormHelperText id="outlined-weight-helper-text">Min Limit </FormHelperText>
-                            <OutlinedInput
-                                id="outlined-adornment-weight"
-                                name="minOffsetField"
-                                style={{
-                                    backgroundColor: "beige",
-                                }}
-                                classes={{ input: classes.centered }}
-                                value={unitOfMass == "g" ? minOffset : (minOffset / 28.35).toFixed(2)}
-                                aria-describedby="outlined-weight-helper-text"
-                                inputProps={{
-                                    "aria-label": "weight",
-                                }}
-                                onChange={(e) => setMinOffset(e.target.value)}
-                                onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updateShadow(e))}
-                            />
-                        </FormControl>
-                        <FormControl sx={{ m: 1, width: 125 }} variant="outlined">
-                            <FormHelperText id="outlined-weight-helper-text">Max Limit </FormHelperText>
-                            <OutlinedInput
-                                id="outlined-adornment-weight"
-                                name="maxOffsetField"
-                                style={{
-                                    backgroundColor: "beige",
-                                }}
-                                classes={{ input: classes.centered }}
-                                value={unitOfMass == "g" ? maxOffset : (maxOffset / 28.35).toFixed(2)}
-                                aria-describedby="outlined-weight-helper-text"
-                                inputProps={{
-                                    "aria-label": "weight",
-                                }}
-                                onChange={(e) => setMaxOffset(e.target.value)}
-                                onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updateShadow(e))}
-                            />
-                        </FormControl>
-                    </div>
-                </div>
+                <MDBox textAlign="center" lineHeight={1.2}>
+                    <FormControl sx={{ m: 1, width: 100 }} variant="outlined">
+                        <FormHelperText id="outlined-weight-helper-text">Min Limit </FormHelperText>
+                        <OutlinedInput
+                            id="outlined-adornment-weight"
+                            name="minOffsetField"
+                            style={{
+                                backgroundColor: "beige",
+                            }}
+                            classes={{ input: classes.centered }}
+                            value={unitOfMass == "g" ? minOffset : (minOffset / 28.35).toFixed(2)}
+                            aria-describedby="outlined-weight-helper-text"
+                            inputProps={{
+                                "aria-label": "weight",
+                            }}
+                            onChange={(e) => setMinOffset(e.target.value)}
+                            onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updateShadow(e))}
+                        />
+                    </FormControl>
+                    <FormControl sx={{ m: 1, width: 100 }} variant="outlined">
+                        <FormHelperText id="outlined-weight-helper-text">Max Limit </FormHelperText>
+                        <OutlinedInput
+                            id="outlined-adornment-weight"
+                            name="maxOffsetField"
+                            style={{
+                                backgroundColor: "beige",
+                            }}
+                            classes={{ input: classes.centered }}
+                            value={unitOfMass == "g" ? maxOffset : (maxOffset / 28.35).toFixed(2)}
+                            aria-describedby="outlined-weight-helper-text"
+                            inputProps={{
+                                "aria-label": "weight",
+                            }}
+                            onChange={(e) => setMaxOffset(e.target.value)}
+                            onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updateShadow(e))}
+                        />
+                    </FormControl>
+                </MDBox>
             </Collapse>
         </Card>
     );
