@@ -13,11 +13,11 @@ import Footer from "../../components/Footer";
 import Scale from "./components/Scale";
 
 /*!
-   @description: 
+   @description: Centering the Grid of Scale Cards
    @params:
    @return:
    @Comments:
-   @Coders: DaBest
+   @Coders: DaVest
 */
 const CustomizedGrid = styled(Grid)`
     /* Media query for laptop/desktop */
@@ -64,7 +64,6 @@ const ScalesContainer = ({ iotThingNames, restaurantName, restaurantLocationNum 
 
     return (
         <DashboardLayout>
-            {/* <MDBox py={5}> */}
             <CustomizedGrid container spacing={1}>
                 <Grid item xs={20} md={10} lg={10}>
                     {!scaleCardsReady ? null : (
@@ -78,7 +77,6 @@ const ScalesContainer = ({ iotThingNames, restaurantName, restaurantLocationNum 
                     )}
                 </Grid>
             </CustomizedGrid>
-            {/* </MDBox> */}
             <Footer />
         </DashboardLayout>
     );
