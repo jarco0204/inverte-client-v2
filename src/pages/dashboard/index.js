@@ -229,13 +229,13 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
 
     return (
         <DashboardLayout>
-            <h3 style={{}}>Daily Inventory Report </h3>
             {/* TODO: ADD Style such that title gets centered with media query (textAlign) */}
+            <DropDownMenus options={options} selectedIndexRef={selectedIndexRef} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} updateIngredient={updateIngredient} />
+
             <MDBox py={2}>
                 <Grid container spacing={1}>
-                    <Grid item xs={1} md={1} lg={3}>
-                        <DropDownMenus options={options} selectedIndexRef={selectedIndexRef} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} updateIngredient={updateIngredient} />
-                    </Grid>
+                    {/* <Grid item xs={10} md={1} lg={1}>
+                    </Grid> */}
                     <Grid item xs={12} md={6} lg={3}>
                         {/* <MDBox mb={1.5}> */}
                         <ComplexStatisticsCard
@@ -275,7 +275,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
                             <ComplexStatisticsCard
                                 color="info"
                                 icon={<ScaleRoundedIcon />}
-                                title="Consumed Inventory"
+                                title="Total Consumed Inventory"
                                 count={unitOfMass == "g" ? cardSummaryItems[2] : (parseInt(cardSummaryItems[2]) / 28.35).toFixed(2).toString() + "oz"}
                                 percentage={{
                                     color: "success",
@@ -305,7 +305,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
                             <ComplexStatisticsCard
                                 color="warning"
                                 icon={<PrecisionManufacturingRoundedIcon />}
-                                title="Average Performance"
+                                title="Average Performance Level"
                                 count={cardSummaryItems[1]}
                                 percentage={{
                                     color: "success",
