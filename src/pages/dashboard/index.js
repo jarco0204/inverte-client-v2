@@ -239,8 +239,8 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
             {/* TODO: ADD Style such that title gets centered with media query (textAlign) */}
             <DropDownMenus options={options} selectedIndexRef={selectedIndexRef} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} updateIngredient={updateIngredient} />
 
-            <MDBox py={2}>
-                <Grid container spacing={1}>
+            <MDBox py={3}>
+                <Grid container spacing={1} display="flex" justifyContent="center">
                     {/* <Grid item xs={10} md={1} lg={1}>
                     </Grid> */}
                     <Grid item xs={12} md={6} lg={3}>
@@ -261,22 +261,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                 </Grid>
             </MDBox>
             <MDBox py={3}>
-                <Grid container spacing={3}>
-                    {/* <Grid item xs={12} md={6} lg={3}>
-                        <MDBox mb={1.5}>
-                            <ComplexStatisticsCard
-                                color="dark"
-                                icon={<PanToolIcon />}
-                                title="Completed Portions"
-                                count={cardSummaryItems[0]}
-                                percentage={{
-                                    color: "success",
-                                    // amount: "+24%",
-                                    // label: "than yesterday",
-                                }}
-                            />
-                        </MDBox>
-                    </Grid> */}
+                <Grid container spacing={3} display="flex" justifyContent="center">
                     <Grid item xs={12} md={6} lg={3}>
                         <MDBox mb={1.5}>
                             <ComplexStatisticsCard
@@ -297,7 +282,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                             <ComplexStatisticsCard
                                 color="success"
                                 icon={<AccessTimeFilledRoundedIcon />}
-                                title="Average Portion Time"
+                                title="Total Portioning Time"
                                 count={cardSummaryItems[3]}
                                 percentage={{
                                     color: "success",
