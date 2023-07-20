@@ -237,7 +237,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
                             <ComplexStatisticsCard
                                 color="dark"
                                 icon={<PanToolIcon />}
-                                title="Taken Portions"
+                                title="Completed Portions"
                                 count={cardSummaryItems[0]}
                                 percentage={{
                                     color: "success",
@@ -252,7 +252,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
                             <ComplexStatisticsCard
                                 color="info"
                                 icon={<ScaleRoundedIcon />}
-                                title="Used Inventory"
+                                title="Consumed Inventory"
                                 count={unitOfMass == "g" ? cardSummaryItems[2] : (parseInt(cardSummaryItems[2]) / 28.35).toFixed(2).toString() + "oz"}
                                 percentage={{
                                     color: "success",
@@ -267,7 +267,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
                             <ComplexStatisticsCard
                                 color="success"
                                 icon={<AccessTimeFilledRoundedIcon />}
-                                title="Time Spent"
+                                title="Average Portion Time"
                                 count={cardSummaryItems[3]}
                                 percentage={{
                                     color: "success",
