@@ -231,10 +231,31 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
         <DashboardLayout>
             <h3 style={{}}>Daily Inventory Report </h3>
             {/* TODO: ADD Style such that title gets centered with media query (textAlign) */}
-            <DropDownMenus options={options} selectedIndexRef={selectedIndexRef} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} updateIngredient={updateIngredient} />
+            <MDBox py={2}>
+                <Grid container spacing={1}>
+                    <Grid item xs={1} md={1} lg={3}>
+                        <DropDownMenus options={options} selectedIndexRef={selectedIndexRef} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} updateIngredient={updateIngredient} />
+                    </Grid>
+                    <Grid item xs={12} md={6} lg={3}>
+                        {/* <MDBox mb={1.5}> */}
+                        <ComplexStatisticsCard
+                            color="dark"
+                            icon={<PanToolIcon />}
+                            title="Completed Portions"
+                            count={cardSummaryItems[0]}
+                            percentage={{
+                                color: "success",
+                                // amount: "+24%",
+                                // label: "than yesterday",
+                            }}
+                        />
+                        {/* </MDBox> */}
+                    </Grid>
+                </Grid>
+            </MDBox>
             <MDBox py={3}>
                 <Grid container spacing={3}>
-                    <Grid item xs={12} md={6} lg={3}>
+                    {/* <Grid item xs={12} md={6} lg={3}>
                         <MDBox mb={1.5}>
                             <ComplexStatisticsCard
                                 color="dark"
@@ -248,7 +269,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
                                 }}
                             />
                         </MDBox>
-                    </Grid>
+                    </Grid> */}
                     <Grid item xs={12} md={6} lg={3}>
                         <MDBox mb={1.5}>
                             <ComplexStatisticsCard

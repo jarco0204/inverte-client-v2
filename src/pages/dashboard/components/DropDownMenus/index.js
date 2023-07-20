@@ -88,60 +88,59 @@ const DropDownMenus = ({ options, selectedIndexRef, selectedIndex, setSelectedIn
         setAnchorEl(null);
     };
     return (
-        <MDBox py={1} display="flex" justifyContent="space-between">
-            <MDBox
-                variant="gradient"
-                bgColor="dark"
-                color="light"
-                coloredShadow="info"
-                borderRadius="xl"
-                width="22%"
-                maxWidth="100px"
-                height="3rem"
-                justifyContent="center"
-                alignItems="center"
-                display="flex"
-                id="lock-menu"
-                aria-controls={open ? "lock-menu" : undefined}
-                aria-haspopup="listbox"
-                aria-expanded={open ? "true" : undefined}
-                disableElevation
-                onClick={handleClick}
-                endIcon={<KeyboardArrowDown />}
-                style={{ fontFamily: "Roboto", color: "white" }}
-            >
-                <List component="nav" aria-label="Device settings" style={{ fontFamily: "Roboto", color: "white" }}>
-                    <ListItem
-                        id="lock-button"
-                        aria-haspopup="listbox"
-                        aria-controls="lock-menu"
-                        aria-label="when device is locked"
-                        aria-expanded={open ? "true" : undefined}
-                        onClick={handleClickListItem}
-                        style={{ fontFamily: "Roboto", color: "white" }}
-                    >
-                        <ListItemText secondaryTypographyProps={{ style: { color: "white" } }} secondary={selectedIndex === -1 ? "Ingredient" : options[selectedIndex]} />
-                    </ListItem>
-                </List>
-                <KeyboardArrowDown />
-            </MDBox>
-            <StyledMenu
-                id="lock-menu"
-                MenuListProps={{
-                    "aria-labelledby": "lock-menu",
-                    role: "listbox",
-                }}
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-            >
-                {options.map((option, index) => (
-                    <MenuItem key={option} selected={index === selectedIndexRef.curent} onClick={(event) => handleMenuItemClick(event, index)} disableRipple>
-                        {option}
-                    </MenuItem>
-                ))}
-            </StyledMenu>
+        // <MDBox py={1} display="flex" justifyContent="space-between">
+        <MDBox
+            variant="gradient"
+            bgColor="dark"
+            color="light"
+            coloredShadow="info"
+            borderRadius="xl"
+            maxWidth="150px"
+            height="3rem"
+            justifyContent="center"
+            alignItems="center"
+            display="flex"
+            id="lock-menu"
+            aria-controls={open ? "lock-menu" : undefined}
+            aria-haspopup="listbox"
+            aria-expanded={open ? "true" : undefined}
+            disableElevation
+            onClick={handleClick}
+            endIcon={<KeyboardArrowDown />}
+            style={{ fontFamily: "Roboto", color: "white" }}
+        >
+            <List component="nav" aria-label="Device settings" style={{ fontFamily: "Roboto", color: "white" }}>
+                <ListItem
+                    id="lock-button"
+                    aria-haspopup="listbox"
+                    aria-controls="lock-menu"
+                    aria-label="when device is locked"
+                    aria-expanded={open ? "true" : undefined}
+                    onClick={handleClickListItem}
+                    style={{ fontFamily: "Roboto", color: "white" }}
+                >
+                    <ListItemText secondaryTypographyProps={{ style: { color: "white" } }} secondary={selectedIndex === -1 ? "Ingredient" : options[selectedIndex]} />
+                </ListItem>
+            </List>
+            <KeyboardArrowDown />
         </MDBox>
+        // <StyledMenu
+        //     id="lock-menu"
+        //     MenuListProps={{
+        //         "aria-labelledby": "lock-menu",
+        //         role: "listbox",
+        //     }}
+        //     anchorEl={anchorEl}
+        //     open={open}
+        //     onClose={handleClose}
+        // >
+        //     {options.map((option, index) => (
+        //         <MenuItem key={option} selected={index === selectedIndexRef.curent} onClick={(event) => handleMenuItemClick(event, index)} disableRipple>
+        //             {option}
+        //         </MenuItem>
+        //     ))}
+        // </StyledMenu>
+        // </MDBox>
     );
 };
 
