@@ -28,7 +28,14 @@ const RouterContainer = (metaInformation) => {
                 </Icon>
             ),
             route: "/dashboard",
-            component: <DashboardContainer iotThingNames={metaInformation.iotThingNames} unitOfMass={metaInformation.unitOfMass} displayIngredientIndex={metaInformation.displayIngredient} />,
+            component: (
+                <DashboardContainer
+                    iotThingNames={metaInformation.iotThingNames}
+                    unitOfMass={metaInformation.unitOfMass}
+                    displayIngredientIndex={metaInformation.displayIngredient}
+                    timeZone={metaInformation.timeZone}
+                />
+            ),
         },
         {
             type: "collapse",

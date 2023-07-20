@@ -28,10 +28,14 @@ import reportsLineChartData from "./data/reportsLineChartData";
 import { API, Auth, PubSub } from "aws-amplify";
 import dayjs from "dayjs";
 import dayOfYear from "dayjs/plugin/dayOfYear.js";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 import toObject from "dayjs/plugin/toObject.js";
 // import { ListItemIcon } from "@mui/material";
 dayjs.extend(dayOfYear);
 dayjs.extend(toObject);
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 /*!
    @description: Main Dashboard container that displays portion event information to user. 
@@ -40,7 +44,7 @@ dayjs.extend(toObject);
    @Comments
    @Coders: GangaLi
 */
-const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex }) => {
+const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex, timeZone }) => {
     // Main Component State: Cards & Graphs
     const [cardSummaryItems, setCardSummaryItems] = useState([]);
     const [realTimeWeight, setRealTimeWeight] = useState([]);
@@ -157,7 +161,9 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
         let pathGET = "/metaRecords/get/";
         const finalAPIGETRoute = pathGET + keys[selectedIndexRef.current];
         try {
-            let tempDate = dayjs(); // Local time of Client
+            let tempDate = dayjs().tz(timeZone); // Local time of Client
+            console.log("The temp date is: ", tempDate.hour());
+
             await API.get(process.env.REACT_APP_AMPLIFY_API_NAME, finalAPIGETRoute, {
                 queryStringParameters: {
                     dayOfYear: tempDate.dayOfYear().toString(),
@@ -186,7 +192,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
                         // Create Updated Meta Record Based on Previous Daily Meta
                         let pathCREATE = "/metaRecords/create/";
                         let finalAPIRoute = pathCREATE + keys[selectedIndexRef.current];
-                        let tempDate = dayjs().format(); // Local time of Client
+                        let tempDate = dayjs().tz(timeZone).format(); // Local time of Client
                         await API.get(process.env.REACT_APP_AMPLIFY_API_NAME, finalAPIRoute, {
                             queryStringParameters: {
                                 tempDate: tempDate,
@@ -217,6 +223,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
     */
     useEffect(() => {
         getHourlyMetaRecords();
+
         selectedIndexRef.current = selectedIndex;
         PubSub.subscribe("$aws/things/" + keys[selectedIndexRef.current] + "/shadow/name/timeseries/update/accepted").subscribe({
             next: () => {
@@ -345,6 +352,7 @@ DashboardContainer.propTypes = {
     iotThingNames: PropTypes.object,
     unitOfMass: PropTypes.string,
     displayIngredientIndex: PropTypes.string,
+    timeZone: PropTypes.string,
 };
 
 export default DashboardContainer;
