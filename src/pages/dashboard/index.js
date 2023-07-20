@@ -229,6 +229,8 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex 
 
     return (
         <DashboardLayout>
+            <h3 style={{}}>Daily Inventory Report </h3>
+            {/* TODO: ADD Style such that title gets centered with media query (textAlign) */}
             <DropDownMenus options={options} selectedIndexRef={selectedIndexRef} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} updateIngredient={updateIngredient} />
             <MDBox py={3}>
                 <Grid container spacing={3}>

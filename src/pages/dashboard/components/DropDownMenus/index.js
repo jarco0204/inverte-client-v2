@@ -89,7 +89,6 @@ const DropDownMenus = ({ options, selectedIndexRef, selectedIndex, setSelectedIn
     };
     return (
         <MDBox py={1} display="flex" justifyContent="space-between">
-            <h4 style={{ justifyContent: "center", textAlign: "center" }}>Daily Inventory Report: </h4>
             <MDBox
                 variant="gradient"
                 bgColor="dark"
