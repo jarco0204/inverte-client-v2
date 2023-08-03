@@ -9,6 +9,7 @@ import PrecisionManufacturingRoundedIcon from "@mui/icons-material/PrecisionManu
 import ScaleRoundedIcon from "@mui/icons-material/ScaleRounded";
 import AccessTimeFilledRoundedIcon from "@mui/icons-material/AccessTimeFilledRounded";
 import DropDownMenus from "./components/DropDownMenus";
+import { getHour, getDay } from "../../graphql/queries";
 
 // Material Dashboard 2 React components
 import MDBox from "../../components/MDBox";
@@ -114,6 +115,8 @@ const DashboardContainer = ({
     */
     const generateLowerRealTimeGraphs = (realTime) => {
         // Variable definition
+        realTime = JSON.parse(realTime);
+
         let [tempWeightAr, tempAccuracyAr, tempTimeAr, pointBackgroundColorAr] = [[], [], [], []];
         let oldTempKeys = Object.keys(realTime).sort();
         let tempKeys = oldTempKeys.slice(-7); //We are slicing the array so that only 7 data points get displayed on the graphs
@@ -139,7 +142,8 @@ const DashboardContainer = ({
             }
             // Push Data pointsn to arrays
             tempAccuracyAr.push(realTime[tempKeys[i]].accuracy);
-            tempTimeAr.push(realTime[tempKeys[i]].portionTime.toFixed(1));
+            tempTimeAr.push(parseFloat(realTime[tempKeys[i]].portionTime).toFixed(1));
+            console.log("Temp time array is", tempTimeAr);
         }
 
         // Improve UI by adding labels and colours
@@ -175,61 +179,88 @@ const DashboardContainer = ({
        @Coders: Jungler333
     */
     const getHourlyMetaRecords = async () => {
-        // Get Daily Hourly Summary
-        let pathGET = "/metaRecords/get/";
-        const finalAPIGETRoute = pathGET + keys[selectedIndexRef.current];
         try {
             let tempDate = dayjs().tz(timeZone); // Local time of Client
-            console.log("The temp date is: ", tempDate.hour());
 
-            await API.get(process.env.REACT_APP_AMPLIFY_API_NAME, finalAPIGETRoute, {
-                queryStringParameters: {
-                    dayOfYear: tempDate.dayOfYear().toString(),
-                    hourOfDay: tempDate.hour().toString(),
-                    iotNameThing: keys[selectedIndexRef.current],
-                },
-            })
-                .then(async (response) => {
-                    // Check to see if there is a hourly response
-                    if (response.daily) {
-                        // Set the Upper Summary Card Components
-                        let accuracy = response.daily.hourlySummary.accuracy + "%";
-                        let inventoryWeight = response.daily.hourlySummary.inventoryConsumed + "g";
-                        let timeSaved = response.daily.hourlySummary.minutesSaved + "s";
-                        setCardSummaryItems([response.daily.hourlySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
+            const response = await API.graphql({
+                query: getDay,
+                variables: { dayOfYear_iotNameThing: tempDate.dayOfYear().toString() + "_" + keys[selectedIndexRef.current] }, // Provide the ID as a variable
+            });
+            const hour = response.data;
+            if (hour.getDay) {
+                console.log("Test");
+                // Set the Upper Summary Card Components
+                let accuracy = hour.getDay.dailySummary.accuracy.toFixed(0) + "%";
+                let inventoryWeight = hour.getDay.dailySummary.inventoryConsumed + "g";
+                let timeSaved = hour.getDay.dailySummary.minutesSaved.toFixed(1) + "s";
+                setCardSummaryItems([hour.getDay.dailySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
+                // Create the lower 3 Plots using the Real-Time property
+                console.log(hour.getDay.realTime);
 
-                        // Create the lower 3 Plots using the Real-Time property
-                        generateLowerRealTimeGraphs(response.daily.realTime);
-                    } else {
-                        // There is no hourly response so we need to create one
-                        setCardSummaryItems(["0", "NA", "0", "NA"]);
-                        setRealTimeWeight([]);
-                        setRealTimeAccuracy([]);
-                        setRealTimePortionTime([]);
-
-                        // Create Updated Meta Record Based on Previous Daily Meta
-                        let pathCREATE = "/metaRecords/create/";
-                        let finalAPIRoute = pathCREATE + keys[selectedIndexRef.current];
-                        let tempDate = dayjs().tz(timeZone).format(); // Local time of Client
-                        await API.get(process.env.REACT_APP_AMPLIFY_API_NAME, finalAPIRoute, {
-                            queryStringParameters: {
-                                tempDate: tempDate,
-                            },
-                        })
-                            .then((response) => {
-                                console.log("Success calling Serverless Lambda that creates Meta Hourly Record...", response);
-                            })
-                            .catch((error) => {
-                                console.log("Failed To Create Hourly Meta Record...", error);
-                            });
-                    }
-                })
-                .catch((error) => {
-                    throw new Error("Failed to retrieve from /metaRecords/get/ Route...", error);
-                });
-        } catch (err) {
-            console.log(err);
+                generateLowerRealTimeGraphs(hour.getDay.realTime);
+            } else {
+                // There is no hourly response so we need to create one
+                setCardSummaryItems(["0", "NA", "0", "NA"]);
+                setRealTimeWeight([]);
+                setRealTimeAccuracy([]);
+                setRealTimePortionTime([]);
+                return;
+            }
+        } catch (error) {
+            console.error("Error retrieving Hour:", error);
         }
+        // Get Daily Hourly Summary
+        // let pathGET = "/metaRecords/get/";
+        // const finalAPIGETRoute = pathGET + keys[selectedIndexRef.current];
+        // try {
+        //     let tempDate = dayjs().tz(timeZone); // Local time of Client
+        //     console.log("The temp date is: ", tempDate.hour());
+        //     await API.get(process.env.REACT_APP_AMPLIFY_API_NAME, finalAPIGETRoute, {
+        //         queryStringParameters: {
+        //             dayOfYear: tempDate.dayOfYear().toString(),
+        //             hourOfDay: tempDate.hour().toString(),
+        //             iotNameThing: keys[selectedIndexRef.current],
+        //         },
+        //     })
+        //         .then(async (response) => {
+        //             // Check to see if there is a hourly response
+        //             if (response.daily) {
+        //                 // Set the Upper Summary Card Components
+        //                 let accuracy = response.daily.hourlySummary.accuracy + "%";
+        //                 let inventoryWeight = response.daily.hourlySummary.inventoryConsumed + "g";
+        //                 let timeSaved = response.daily.hourlySummary.minutesSaved + "s";
+        //                 setCardSummaryItems([response.daily.hourlySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
+        //                 // Create the lower 3 Plots using the Real-Time property
+        //                 generateLowerRealTimeGraphs(response.daily.realTime);
+        //             } else {
+        //                 // There is no hourly response so we need to create one
+        //                 setCardSummaryItems(["0", "NA", "0", "NA"]);
+        //                 setRealTimeWeight([]);
+        //                 setRealTimeAccuracy([]);
+        //                 setRealTimePortionTime([]);
+        //                 // Create Updated Meta Record Based on Previous Daily Meta
+        //                 let pathCREATE = "/metaRecords/create/";
+        //                 let finalAPIRoute = pathCREATE + keys[selectedIndexRef.current];
+        //                 let tempDate = dayjs().tz(timeZone).format(); // Local time of Client
+        //                 await API.get(process.env.REACT_APP_AMPLIFY_API_NAME, finalAPIRoute, {
+        //                     queryStringParameters: {
+        //                         tempDate: tempDate,
+        //                     },
+        //                 })
+        //                     .then((response) => {
+        //                         console.log("Success calling Serverless Lambda that creates Meta Hourly Record...", response);
+        //                     })
+        //                     .catch((error) => {
+        //                         console.log("Failed To Create Hourly Meta Record...", error);
+        //                     });
+        //             }
+        //         })
+        //         .catch((error) => {
+        //             throw new Error("Failed to retrieve from /metaRecords/get/ Route...", error);
+        //         });
+        // } catch (err) {
+        //     console.log(err);
+        // }
     };
 
     /*!

@@ -1,0 +1,155 @@
+input AMPLIFY {
+    globalAuthRule: AuthRule = { allow: public }
+} # FOR TESTING ONLY!
+type Restaurant @model {
+    restaurant_id: ID! @primaryKey
+    displayIngredient: Int!
+    restaurantName: String!
+    scale: [Scale] @hasMany(indexName: "byRestaurant")
+}
+type Scale @model {
+    iotNameThing: ID! @primaryKey
+    restaurant_id: ID! @index(name: "byRestaurant")
+    unitOfMass: String!
+    multiplier: Float!
+    firmwareVersion: String
+    ingredient: [Ingredient] @hasMany(indexName: "byScale")
+}
+type Ingredient @model {
+    ingredient_name: ID! @primaryKey
+    iotNameThing: ID! @index(name: "byScale")
+    year: [Year] @hasMany(indexName: "byIngredient")
+}
+type Year @model {
+    year_iotNameThing: ID! @primaryKey
+    ingredient_name: ID! @index(name: "byIngredient")
+    yearlySummary: YearlySummary
+    realTime: AWSJSON
+    scaleActions: AWSJSON
+    month: [Month] @hasMany(indexName: "byYear")
+}
+type Month @model {
+    monthOfYear_iotNameThing: ID! @primaryKey
+    year_iotNameThing: ID! @index(name: "byYear")
+    monthlySummary: MonthlySummary
+    realTime: AWSJSON
+    scaleActions: AWSJSON
+    week: [Week] @hasMany(indexName: "byMonth")
+}
+
+type Week @model {
+    weekOfYear_iotNameThing: ID! @primaryKey
+    monthOfYear_iotNameThing: ID! @index(name: "byMonth")
+    weeklySummary: WeeklySummary
+    realTime: AWSJSON
+    scaleActions: AWSJSON
+    day: [Day] @hasMany(indexName: "byWeek")
+}
+
+type Day @model {
+    dayOfYear_iotNameThing: ID! @primaryKey
+    weekOfYear_iotNameThing: ID! @index(name: "byWeek")
+    dailySummary: DailySummary
+    realTime: AWSJSON
+    scaleActions: AWSJSON
+    hour: [Hour] @hasMany(indexName: "byDay")
+}
+
+type Hour @model {
+    dayOfYear_hourOfDay_iotNameThing: ID! @primaryKey
+    dayOfYear_iotNameThing: ID! @index(name: "byDay")
+    minuteOfHour_secondOfMinute: String
+    hourlySummary: HourlySummary
+    realTime: AWSJSON!
+    scaleActions: AWSJSON
+    portionEvent: [PortionEvent!] @hasMany(indexName: "byHour")
+}
+
+type PortionEvent @model {
+    iotNameThing: String
+    timestamp: ID! @primaryKey
+    batchPortionID: Int
+    portionStatus: Int
+    portionWeight: Int
+    inventoryWeight: Int
+    batchPortionWeight: String
+    batchPortionStatus: String
+    LowerErrorLimit: Int
+    UpperErrorLimit: Int
+    portionTimeTaken: Int
+    dayOfYear_hourOfDay_iotNameThing: ID @index(name: "byHour")
+    hour: Hour @belongsTo(fields: ["dayOfYear_hourOfDay_iotNameThing"])
+}
+
+input HourlySummaryInput {
+    minutesSaved: Float!
+    portionsCompleted: Int!
+    accuracy: Float!
+    inventoryConsumed: Int!
+}
+
+input DailySummaryInput {
+    minutesSaved: Float!
+    portionsCompleted: Int!
+    accuracy: Float!
+    inventoryConsumed: Int!
+}
+
+input WeeklySummaryInput {
+    minutesSaved: Int!
+    portionsCompleted: Int!
+    accuracy: Int!
+    inventoryConsumed: Int!
+}
+
+input MonthlySummaryInput {
+    minutesSaved: Int!
+    portionsCompleted: Int!
+    accuracy: Int!
+    inventoryConsumed: Int!
+}
+input YearlySummaryInput {
+    minutesSaved: Int!
+    portionsCompleted: Int!
+    accuracy: Int!
+    inventoryConsumed: Int!
+}
+
+type HourlySummary {
+    minutesSaved: Float!
+    portionsCompleted: Int!
+    accuracy: Float!
+    inventoryConsumed: Int!
+    hour: Hour
+}
+
+type DailySummary {
+    minutesSaved: Float!
+    portionsCompleted: Int!
+    accuracy: Float!
+    inventoryConsumed: Int!
+    day: Day
+}
+
+type WeeklySummary {
+    minutesSaved: Int!
+    portionsCompleted: Int!
+    accuracy: Int!
+    inventoryConsumed: Int!
+    week: Week
+}
+
+type MonthlySummary {
+    minutesSaved: Int!
+    portionsCompleted: Int!
+    accuracy: Int!
+    inventoryConsumed: Int!
+    month: Month
+}
+type YearlySummary {
+    minutesSaved: Int!
+    portionsCompleted: Int!
+    accuracy: Int!
+    inventoryConsumed: Int!
+    year: Year
+}
