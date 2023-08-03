@@ -20,7 +20,7 @@ import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import Footer from "../../components/Footer";
 import ReportsLineChart from "../../components/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
-
+import ComplexStatisticsCard_v2 from "./components/ComplexStatisticsCard_v2";
 // Data
 import reportsLineChartData from "./data/reportsLineChartData";
 
@@ -31,6 +31,7 @@ import dayOfYear from "dayjs/plugin/dayOfYear.js";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import toObject from "dayjs/plugin/toObject.js";
+import { ConstructionOutlined } from "@mui/icons-material";
 // import { ListItemIcon } from "@mui/material";
 dayjs.extend(dayOfYear);
 dayjs.extend(toObject);
@@ -44,23 +45,41 @@ dayjs.extend(timezone);
    @Comments
    @Coders: GangaLi
 */
-const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex, timeZone }) => {
+const DashboardContainer = ({ 
+    iotThingNames, 
+    unitOfMass, 
+    displayIngredientIndex, 
+    timeZone,
+}) => {
     // Main Component State: Cards & Graphs
     const [cardSummaryItems, setCardSummaryItems] = useState([]);
     const [realTimeWeight, setRealTimeWeight] = useState([]);
     const [realTimeAccuracy, setRealTimeAccuracy] = useState([]);
     const [realTimePortionTime, setRealTimePortionTime] = useState([]);
     const { weightGraph, accuracyGraph, portionTimeGraph } = reportsLineChartData;
-
+    const [isMobileDevice, setIsMobileDevice] = useState(false);
     // Drop-Down Menu State
     const options = Object.values(iotThingNames);
     const selectedIndexRef = useRef(displayIngredientIndex);
     const [selectedIndex, setSelectedIndex] = useState(displayIngredientIndex);
     const keys = Object.keys(iotThingNames);
 
+    console.log(isMobileDevice)
     // const [anchorEl, setAnchorEl] = useState(null);
     // const open = Boolean(anchorEl);
 
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobileDevice(window.innerWidth < 1200);
+        };
+        window.addEventListener("resize", handleResize);
+
+        handleResize();
+
+        return () => {
+            window.removeEventListener("resize", handleResize)
+        };
+    }, []);
     /*!
         @description: Update the index number of selected ingredient in dynamo 
         @params: integer
@@ -148,7 +167,6 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
         setRealTimeAccuracy(accuracyGraph);
         setRealTimePortionTime(portionTimeGraph);
     };
-
     /*!
        @description:
        @params:
@@ -238,25 +256,26 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
         <DashboardLayout>
             {/* TODO: ADD Style such that title gets centered with media query (textAlign) */}
             <DropDownMenus options={options} selectedIndexRef={selectedIndexRef} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} updateIngredient={updateIngredient} />
-
+            
+        {!isMobileDevice && <div>
             <MDBox py={3}>
                 <Grid container spacing={1} display="flex" justifyContent="center">
                     {/* <Grid item xs={10} md={1} lg={1}>
-                    </Grid> */}
+                </Grid> */}
                     <Grid item xs={12} md={6} lg={3}>
-                        {/* <MDBox mb={1.5}> */}
+                {/* <MDBox mb={1.5}> */}
                         <ComplexStatisticsCard
-                            color="dark"
-                            icon={<PanToolIcon />}
-                            title="Completed Portions"
-                            count={cardSummaryItems[0]}
-                            percentage={{
-                                color: "success",
-                                // amount: "+24%",
-                                // label: "than yesterday",
-                            }}
+                        color="dark"
+                        icon={<PanToolIcon />}
+                        title="Completed Portions"
+                        count={cardSummaryItems[0]}
+                        percentage={{
+                            color: "success",
+                            // amount: "+24%",
+                            // label: "than yesterday",
+                        }}
                         />
-                        {/* </MDBox> */}
+                {/* </MDBox> */}
                     </Grid>
                 </Grid>
             </MDBox>
@@ -277,67 +296,124 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                             />
                         </MDBox>
                     </Grid>
-                    <Grid item xs={12} md={6} lg={3}>
-                        <MDBox mb={1.5}>
-                            <ComplexStatisticsCard
-                                color="success"
-                                icon={<AccessTimeFilledRoundedIcon />}
-                                title="Total Portioning Time"
-                                count={cardSummaryItems[3]}
-                                percentage={{
-                                    color: "success",
-                                    // amount: "+10%",
-                                    // label: "than yesterday",
-                                }}
-                            />
+                <Grid item xs={12} md={6} lg={3}>
+                    <MDBox mb={1.5}>
+                        <ComplexStatisticsCard
+                            color="success"
+                            icon={<AccessTimeFilledRoundedIcon />}
+                            title="Total Portioning Time"
+                            count={cardSummaryItems[3]}
+                            percentage={{
+                                color: "success",
+                                // amount: "+10%",
+                                // label: "than yesterday",
+                            }}
+                        />
+                    </MDBox>
+                </Grid>
+                <Grid item xs={12} md={6} lg={3}>
+                    <MDBox mb={1.5}>
+                        <ComplexStatisticsCard
+                            color="warning"
+                            icon={<PrecisionManufacturingRoundedIcon />}
+                            title="Average Performance Level"
+                            count={cardSummaryItems[1]}
+                            percentage={{
+                                color: "success",
+                                // amount: "+3%",
+                                // label: "than yesterdays",
+                            }}
+                        />
+                    </MDBox>
+                </Grid>
+            </Grid>
+            <MDBox mt={4.5}>
+                <Grid container spacing={3}>
+                    <Grid item xs={12} md={6} lg={4}>
+                        <MDBox mb={3}>
+                            <ReportsLineChart color="info" title="Variation of Portioning Weight" key={realTimeAccuracy} chart={realTimeWeight} />
                         </MDBox>
                     </Grid>
-                    <Grid item xs={12} md={6} lg={3}>
-                        <MDBox mb={1.5}>
-                            <ComplexStatisticsCard
-                                color="warning"
-                                icon={<PrecisionManufacturingRoundedIcon />}
-                                title="Average Performance Level"
-                                count={cardSummaryItems[1]}
-                                percentage={{
-                                    color: "success",
-                                    // amount: "+3%",
-                                    // label: "than yesterdays",
-                                }}
-                            />
+                    <Grid item xs={12} md={6} lg={4}>
+                        <MDBox mb={3}>
+                            <ReportsLineChart color="success" title="Variation of Portioning Time" chart={realTimePortionTime} />
+                        </MDBox>
+                    </Grid>
+                    <Grid item xs={12} md={6} lg={4}>
+                        <MDBox mb={3}>
+                            <ReportsLineChart color="warning" title="Portioning Performance Levels" chart={realTimeAccuracy} />
                         </MDBox>
                     </Grid>
                 </Grid>
-                <MDBox mt={4.5}>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12} md={6} lg={4}>
-                            <MDBox mb={3}>
-                                <ReportsLineChart color="info" title="Variation of Portioning Weight" key={realTimeAccuracy} chart={realTimeWeight} />
-                            </MDBox>
-                        </Grid>
-                        <Grid item xs={12} md={6} lg={4}>
-                            <MDBox mb={3}>
-                                <ReportsLineChart color="success" title="Variation of Portioning Time" chart={realTimePortionTime} />
-                            </MDBox>
-                        </Grid>
-                        <Grid item xs={12} md={6} lg={4}>
-                            <MDBox mb={3}>
-                                <ReportsLineChart color="warning" title="Portioning Performance Levels" chart={realTimeAccuracy} />
-                            </MDBox>
-                        </Grid>
-                    </Grid>
-                </MDBox>
             </MDBox>
+        </MDBox>
+    </div>}
+        {isMobileDevice && <div>
+            <MDBox py={3}>
+                <Grid container spacing={1} display="flex" justifyContent="center">
+                    <Grid item xs={12} md={6} lg={3}>
+                        <ComplexStatisticsCard
+                        color="dark"
+                        icon={<PanToolIcon />}
+                        title="Completed Portions"
+                        count={cardSummaryItems[0]}
+                        percentage={{
+                            color:"success",
+                        }}
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={6} lg={3}>
+                        <ComplexStatisticsCard_v2
+                        color="info"
+                        icon={<ScaleRoundedIcon />}
+                        title="Total Consumed Inventory"
+                        count={unitOfMass == "g"? cardSummaryItems[2] : (parseInt(cardSummaryItems[2]) / 28.35).toFixed(2).toString() + "oz"}
+                        percentage={{
+                            color:"success",
+                        }}
+                        realTimeData={realTimeWeight}
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={6} lg={3}>
+                        <ComplexStatisticsCard_v2
+                            color="success"
+                            icon={<AccessTimeFilledRoundedIcon />}
+                            title="Total Portioning Time"
+                            count={cardSummaryItems[3]}
+                            percentage={{
+                                color: "success"
+                            }}
+                            realTimeData={realTimePortionTime}
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={6} lg={3}>
+                        <ComplexStatisticsCard_v2
+                            color="warning"
+                            icon={<PrecisionManufacturingRoundedIcon />}
+                            title="Average Performance Level"
+                            count={cardSummaryItems[1]}
+                            percentage={{
+                                color: "success"
+                            }}
+                            realTimeData={realTimeAccuracy}
+                        />
+                    </Grid>
+                </Grid>
+            </MDBox>
+            </div> 
+            }
             <Footer />
-        </DashboardLayout>
-    );
-};
+            </DashboardLayout>
 
-DashboardContainer.propTypes = {
-    iotThingNames: PropTypes.object,
-    unitOfMass: PropTypes.string,
-    displayIngredientIndex: PropTypes.string,
-    timeZone: PropTypes.string,
+);
 };
-
-export default DashboardContainer;
+        
+        DashboardContainer.propTypes = {
+            iotThingNames: PropTypes.object,
+            unitOfMass: PropTypes.string,
+            displayIngredientIndex: PropTypes.string,
+            timeZone: PropTypes.string,
+        };
+        
+        export default DashboardContainer;
+        
