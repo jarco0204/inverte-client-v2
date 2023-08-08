@@ -23,6 +23,7 @@ import { API, Auth } from "aws-amplify";
 import moment from "moment";
 import ReportsLineChart from "../../components/Charts/LineCharts/ReportsLineChart";
 import MyLineChart from "./data/MyLineChart";
+import { listHours } from "../../graphql/queries";
 
 // const importView = () =>
 //     lazy(() =>
@@ -141,22 +142,26 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
             setAccuracy(analyticsData[1]);
             setTotalPortions(analyticsData[3]);
             setTotalMinutes(analyticsData[2]);
+            console.log("The Weight chart data is:", analyticsData[4]);
             for (let i = 0; i < analyticsData[4].length; i++) {
-                const [hours, minutes] = analyticsData[4][i].x.split(":");
-                let timeString = hours + "." + minutes;
+                let x = analyticsData[4][i].x.toString();
+                console.log("The value of x is:", x);
+                const parts = x.split(":");
+                let timeString = parts[0] + "." + parts[1];
                 let decimalNumber = parseFloat(timeString);
                 //     let timeInMilliseconds = (parseInt(hours, 10) * 3600 + parseInt(minutes, 10) * 60 + parseInt(seconds, 10)) * 1000;
                 //     timeInMilliseconds = timeInMilliseconds / 1000;
                 //     console.log("The timeInDecimal: ", timeInMilliseconds);
-                let y = analyticsData[4][i].y;
+                let y = parseInt(analyticsData[4][i].y);
                 analyticsData[4][i] = { x: decimalNumber, y: y };
             }
             setChartWeight(analyticsData[4]);
             setChartAccuracy(analyticsData[5]);
             setChartPortionTime(analyticsData[6]);
             console.log("Total inventory", totalInventory);
+            console.log("Weight array is:", chartWeight);
         }
-    }, [analyticsData]);
+    }, [analyticsData, chartAccuracy]);
     //Use effect is triggered when we change index
     useEffect(() => {
         if (!isInitialRender.current) {
@@ -173,15 +178,70 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
     }, [selectedIndex]);
 
     //Get the events using the API call
+    // const getDataEvents = async (newDate, endDate) => {
+    //     console.log("The start date is:", newDate);
+    //     console.log("The end date is:", endDate);
+    //     console.log("The day of year for start date is:", newDate._i.dayOfYear());
+    //     console.log("The day of year for end date is:", endDate._i.dayOfYear());
+    //     console.log("The iotname thing is:", Object.keys(iotThingNames)[selectedIndex]);
+
+    //     const user = await Auth.currentAuthenticatedUser();
+    //     try {
+    //         const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
+    //         const path = "/metaRecords/analytics/get/";
+    //         const finalAPIRoute = path + user.username; //TODO: Cases where userSession is empty
+
+    //         await API.get(AMPLIFY_API, finalAPIRoute, {
+    //             queryStringParameters: { dayOfYear: newDate._i.dayOfYear(), date: newDate._i, endDate: endDate._i, iotName: Object.keys(iotThingNames)[selectedIndex] },
+    //         }).then((response) => {
+    //             console.log("The meta that we pull from analytics: ", response); //Debug statement
+    //             setAnalyticsData(response.portionEvents);
+
+    //             if (response.item.Item == undefined) {
+    //                 throw new Error("No Response from API");
+    //             }
+    //         });
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // };
+    const processPrimaryKey = (newDate) => {
+        newDate = new Date(newDate);
+        const startOfYear = new Date(newDate.getFullYear(), 0, 1);
+        const dayOfYear = Math.floor((newDate - startOfYear) / (1000 * 60 * 60 * 24));
+        const hourOfDay = newDate.getHours();
+        return dayOfYear + "_" + hourOfDay + "_" + Object.keys(iotThingNames)[selectedIndex];
+    };
     const getDataEvents = async (newDate, endDate) => {
+        let startPK = processPrimaryKey(newDate._i.$d);
+        let endPK = processPrimaryKey(endDate._i.$d);
+        console.log("The start date is:", newDate._i.$d);
+        let dynamoStartDate = new Date(newDate._i.$d);
+        let dynamoEndDate = new Date(endDate._i.$d);
+
+        console.log("The end date is:", endDate);
+        console.log(startPK, endPK);
         const user = await Auth.currentAuthenticatedUser();
         try {
+            const response = await API.graphql({
+                query: listHours,
+                variables: {
+                    filter: {
+                        createdAt: { between: [dynamoStartDate, dynamoEndDate] },
+                    },
+                }, // Provide the ID as a variable
+                include: {
+                    portionEvent: true,
+                },
+            });
+            console.log("The response is:", response);
             const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
             const path = "/metaRecords/analytics/get/";
             const finalAPIRoute = path + user.username; //TODO: Cases where userSession is empty
+            const queryString = JSON.stringify(response.data.listHours.items);
 
             await API.get(AMPLIFY_API, finalAPIRoute, {
-                queryStringParameters: { date: newDate._i.$d.toString(), endDate: endDate._i.$d.toString(), iotName: Object.keys(iotThingNames)[selectedIndex] },
+                queryStringParameters: { hourlyData: queryString },
             }).then((response) => {
                 console.log("The meta that we pull from analytics: ", response); //Debug statement
                 setAnalyticsData(response.portionEvents);
@@ -191,7 +251,7 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
                 }
             });
         } catch (err) {
-            console.log(err);
+            console.log("Error is:", err);
         }
     };
 
@@ -258,8 +318,8 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
                             <Typography>
                                 <Title>Summary</Title>
                                 <Paragraph>
-                                    Your total Inventory consumed for this time period was {totalInventory}g with an accuracy of {accuracy.toFixed(2)}%.This is because you took {totalPortions}{" "}
-                                    portions in {totalMinutes} minutes.
+                                    Your total Inventory consumed for this time period was {totalInventory}g with an accuracy of {accuracy.toFixed(1)}%.This is because you took {totalPortions}{" "}
+                                    portions in {totalMinutes} seconds.
                                 </Paragraph>
                             </Typography>
                             <Row gutter={16}>

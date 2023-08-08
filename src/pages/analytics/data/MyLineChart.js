@@ -18,7 +18,8 @@ export default class MyLineChart extends PureComponent {
     constructor(props) {
         super(props);
         this.state = initialState;
-        console.log("Data in prosps is", props.data);
+
+        console.log("Data in props is", props.data);
     }
     componentDidMount = () => {
         console.log("Mounted");
@@ -28,7 +29,7 @@ export default class MyLineChart extends PureComponent {
     };
     getAxisYDomain = (from, to, ref, offset) => {
         //const refData = this.state.data;
-        console.log("The value of from is:", from);
+        console.log("The values of from is:", from);
         console.log("The value of to is:", to);
         console.log("The data is:", Object.values(this.state.data));
         for (let i = 0; i < Object.values(this.state.data).length; i++) {
@@ -116,7 +117,7 @@ export default class MyLineChart extends PureComponent {
                         onMouseUp={this.zoom.bind(this)}
                     >
                         <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis allowDataOverflow dataKey="x" domain={[left, right]} type="number" />
+                        <XAxis allowDataOverflow dataKey="x" domain={[left, right]} type="ordinal" />
                         <YAxis allowDataOverflow domain={[bottom, top]} dataKey="y" type="number" yAxisId="1" />
 
                         <Tooltip />
