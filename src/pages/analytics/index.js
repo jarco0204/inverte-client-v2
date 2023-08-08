@@ -25,13 +25,6 @@ import ReportsLineChart from "../../components/Charts/LineCharts/ReportsLineChar
 import MyLineChart from "./data/MyLineChart";
 import { listHours } from "../../graphql/queries";
 
-// const importView = () =>
-//     lazy(() =>
-//         import(`./components/Row`).catch(() => {
-//             import(`./components/NullView`);
-//         })
-//     );
-
 function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display = 3, number_of_plots = 3, rowToShow }) {
     /*
     @description: This component creates the rows that display the plots
@@ -47,7 +40,7 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
         refined_data will create an array of 3 arrays that will be of length 2,3 and 2 respectively.
         The first row will always only have 2 plots for emphasis of that data.
     */
-    const [requestedDate, setRequestedDate] = useState(null);
+
     const [totalInventory, setTotalInventory] = useState(0);
     const [accuracy, setAccuracy] = useState(0);
     const [totalPortions, setTotalPortions] = useState(0);
@@ -59,10 +52,9 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
     const [selectedDates, setSelectedDates] = useState([]);
     const { RangePicker } = DatePicker;
     const [anchorEl, setAnchorEl] = useState(null);
-    const [rows, setRows] = useState([]);
-    const extract_data = (response) => response.data.children.map((response) => response);
+
     const open = Boolean(anchorEl);
-    const { Title, Paragraph, Text, Link } = Typography;
+    const { Title, Paragraph } = Typography;
     const options = Object.values(iotThingNames);
     const [selectedIndex, setSelectedIndex] = useState(displayIngredient);
     const selectedIndexRef = useRef(displayIngredient);
@@ -91,24 +83,8 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
     const handleClickListItem = (event) => {
         setAnchorEl(event.currentTarget);
     };
-    // const unique_keys = []
 
-    const refined_data = () =>
-        Array.from(
-            {
-                length: rows_to_display,
-            },
-            (_, i) => {
-                return i == 0 ? subtopic.data.children.splice(0, 2) : subtopic.data.children.splice(0, number_of_plots);
-            }
-        );
-    const midle_man = refined_data();
-    const modified_subtopic = async () => ({
-        data: {
-            children: [...midle_man],
-        },
-    });
-    //Use effect is triggered when we get data from backend
+    //UseEffect that sets everything to default when we load page
     useEffect(() => {
         setAnalyticsData(null);
         setTotalInventory(0);
@@ -120,23 +96,9 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
         setChartAccuracy([]);
         setChartPortionTime([]);
     }, [selectedIndex]);
-    useEffect(() => {
-        // async function loadRows() {
-        //     const rowToShow = await modified_subtopic("rows data").then(extract_data);
-        //     let unique_keys = [];
-        //     const componentPromises = rowToShow.map(async (data) => {
-        //         let new_unique_key = Math.floor(Math.random() * 100);
-        //         while (unique_keys.includes(new_unique_key)) {
-        //             new_unique_key = Math.floor(Math.random() * 100);
-        //         }
-        //         unique_keys.push(new_unique_key);
-        //         // const Row = await importView();
-        //         return <Row data={data} key={new_unique_key} requestedDate={requestedDate} />;
-        //     });
-        //     Promise.all(componentPromises).then(setRows);
-        // }
-        // loadRows();
 
+    //Use effect is triggered when we get data from backend
+    useEffect(() => {
         if (analyticsData != null) {
             setTotalInventory(analyticsData[0]);
             setAccuracy(analyticsData[1]);
@@ -162,6 +124,7 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
             console.log("Weight array is:", chartWeight);
         }
     }, [analyticsData, chartAccuracy]);
+
     //Use effect is triggered when we change index
     useEffect(() => {
         if (!isInitialRender.current) {
@@ -177,50 +140,17 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
         }
     }, [selectedIndex]);
 
-    //Get the events using the API call
-    // const getDataEvents = async (newDate, endDate) => {
-    //     console.log("The start date is:", newDate);
-    //     console.log("The end date is:", endDate);
-    //     console.log("The day of year for start date is:", newDate._i.dayOfYear());
-    //     console.log("The day of year for end date is:", endDate._i.dayOfYear());
-    //     console.log("The iotname thing is:", Object.keys(iotThingNames)[selectedIndex]);
-
-    //     const user = await Auth.currentAuthenticatedUser();
-    //     try {
-    //         const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
-    //         const path = "/metaRecords/analytics/get/";
-    //         const finalAPIRoute = path + user.username; //TODO: Cases where userSession is empty
-
-    //         await API.get(AMPLIFY_API, finalAPIRoute, {
-    //             queryStringParameters: { dayOfYear: newDate._i.dayOfYear(), date: newDate._i, endDate: endDate._i, iotName: Object.keys(iotThingNames)[selectedIndex] },
-    //         }).then((response) => {
-    //             console.log("The meta that we pull from analytics: ", response); //Debug statement
-    //             setAnalyticsData(response.portionEvents);
-
-    //             if (response.item.Item == undefined) {
-    //                 throw new Error("No Response from API");
-    //             }
-    //         });
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    // };
-    const processPrimaryKey = (newDate) => {
-        newDate = new Date(newDate);
-        const startOfYear = new Date(newDate.getFullYear(), 0, 1);
-        const dayOfYear = Math.floor((newDate - startOfYear) / (1000 * 60 * 60 * 24));
-        const hourOfDay = newDate.getHours();
-        return dayOfYear + "_" + hourOfDay + "_" + Object.keys(iotThingNames)[selectedIndex];
-    };
+    /*!
+       @description:GQL query that gets the data from hour table based on the filter provided
+       @params:
+       @return:
+       @Comments
+       @Coders:pfk123
+    */
     const getDataEvents = async (newDate, endDate) => {
-        let startPK = processPrimaryKey(newDate._i.$d);
-        let endPK = processPrimaryKey(endDate._i.$d);
-        console.log("The start date is:", newDate._i.$d);
         let dynamoStartDate = new Date(newDate._i.$d);
         let dynamoEndDate = new Date(endDate._i.$d);
 
-        console.log("The end date is:", endDate);
-        console.log(startPK, endPK);
         const user = await Auth.currentAuthenticatedUser();
         try {
             const response = await API.graphql({
@@ -254,7 +184,7 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
             console.log("Error is:", err);
         }
     };
-
+    //Display analytics page
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DashboardLayout>
@@ -311,9 +241,6 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
                     />
 
                     <MDBox mt={6} mb={3}>
-                        {/* <Grid container spacing={number_of_plots} direction="column" justifyContent="space-between">
-                            {rows}
-                        </Grid> */}
                         <div>
                             <Typography>
                                 <Title>Summary</Title>
