@@ -57,18 +57,18 @@ const RouterContainer = (metaInformation) => {
                 />
             ),
         },
-        // {
-        //     type: "collapse",
-        //     name: "Analytics",
-        //     key: "analytics",
-        //     icon: (
-        //         <Icon fontSize="small">
-        //             <AnalyticsIcon />
-        //         </Icon>
-        //     ),
-        //     route: "/analytics",
-        //     component: <AnalyticsContainer iotThingNames={metaInformation.iotThingNames} displayIngredient={metaInformation.displayIngredient} />,
-        // },
+        {
+            type: "collapse",
+            name: "Analytics",
+            key: "analytics",
+            icon: (
+                <Icon fontSize="small">
+                    <AnalyticsIcon />
+                </Icon>
+            ),
+            route: "/analytics",
+            component: <AnalyticsContainer iotThingNames={metaInformation.iotThingNames} displayIngredient={metaInformation.displayIngredient} />,
+        },
     ];
 };
 

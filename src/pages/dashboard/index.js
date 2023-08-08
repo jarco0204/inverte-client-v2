@@ -46,12 +46,7 @@ dayjs.extend(timezone);
    @Comments
    @Coders: GangaLi
 */
-const DashboardContainer = ({ 
-    iotThingNames, 
-    unitOfMass, 
-    displayIngredientIndex, 
-    timeZone,
-}) => {
+const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex, timeZone }) => {
     // Main Component State: Cards & Graphs
     const [cardSummaryItems, setCardSummaryItems] = useState([]);
     const [realTimeWeight, setRealTimeWeight] = useState([]);
@@ -65,7 +60,7 @@ const DashboardContainer = ({
     const [selectedIndex, setSelectedIndex] = useState(displayIngredientIndex);
     const keys = Object.keys(iotThingNames);
 
-    console.log(isMobileDevice)
+    console.log(isMobileDevice);
     // const [anchorEl, setAnchorEl] = useState(null);
     // const open = Boolean(anchorEl);
 
@@ -78,7 +73,7 @@ const DashboardContainer = ({
         handleResize();
 
         return () => {
-            window.removeEventListener("resize", handleResize)
+            window.removeEventListener("resize", handleResize);
         };
     }, []);
     /*!
@@ -186,7 +181,9 @@ const DashboardContainer = ({
                 query: getDay,
                 variables: { dayOfYear_iotNameThing: tempDate.dayOfYear().toString() + "_" + keys[selectedIndexRef.current] }, // Provide the ID as a variable
             });
+
             const hour = response.data;
+
             if (hour.getDay) {
                 console.log("Test");
                 // Set the Upper Summary Card Components
@@ -287,164 +284,165 @@ const DashboardContainer = ({
         <DashboardLayout>
             {/* TODO: ADD Style such that title gets centered with media query (textAlign) */}
             <DropDownMenus options={options} selectedIndexRef={selectedIndexRef} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} updateIngredient={updateIngredient} />
-            
-        {!isMobileDevice && <div>
-            <MDBox py={3}>
-                <Grid container spacing={1} display="flex" justifyContent="center">
-                    {/* <Grid item xs={10} md={1} lg={1}>
-                </Grid> */}
-                    <Grid item xs={12} md={6} lg={3}>
-                {/* <MDBox mb={1.5}> */}
-                        <ComplexStatisticsCard
-                        color="dark"
-                        icon={<PanToolIcon />}
-                        title="Completed Portions"
-                        count={cardSummaryItems[0]}
-                        percentage={{
-                            color: "success",
-                            // amount: "+24%",
-                            // label: "than yesterday",
-                        }}
-                        />
-                {/* </MDBox> */}
-                    </Grid>
-                </Grid>
-            </MDBox>
-            <MDBox py={3}>
-                <Grid container spacing={3} display="flex" justifyContent="center">
-                    <Grid item xs={12} md={6} lg={3}>
-                        <MDBox mb={1.5}>
-                            <ComplexStatisticsCard
-                                color="info"
-                                icon={<ScaleRoundedIcon />}
-                                title="Total Consumed Inventory"
-                                count={unitOfMass == "g" ? cardSummaryItems[2] : (parseInt(cardSummaryItems[2]) / 28.35).toFixed(2).toString() + "oz"}
-                                percentage={{
-                                    color: "success",
-                                    // amount: "+10%",
-                                    // label: "Stay Tuned for Past Analytics",
-                                }}
-                            />
-                        </MDBox>
-                    </Grid>
-                <Grid item xs={12} md={6} lg={3}>
-                    <MDBox mb={1.5}>
-                        <ComplexStatisticsCard
-                            color="success"
-                            icon={<AccessTimeFilledRoundedIcon />}
-                            title="Total Portioning Time"
-                            count={cardSummaryItems[3]}
-                            percentage={{
-                                color: "success",
-                                // amount: "+10%",
-                                // label: "than yesterday",
-                            }}
-                        />
-                    </MDBox>
-                </Grid>
-                <Grid item xs={12} md={6} lg={3}>
-                    <MDBox mb={1.5}>
-                        <ComplexStatisticsCard
-                            color="warning"
-                            icon={<PrecisionManufacturingRoundedIcon />}
-                            title="Average Performance Level"
-                            count={cardSummaryItems[1]}
-                            percentage={{
-                                color: "success",
-                                // amount: "+3%",
-                                // label: "than yesterdays",
-                            }}
-                        />
-                    </MDBox>
-                </Grid>
-            </Grid>
-            <MDBox mt={4.5}>
-                <Grid container spacing={3}>
-                    <Grid item xs={12} md={6} lg={4}>
-                        <MDBox mb={3}>
-                            <ReportsLineChart color="info" title="Variation of Portioning Weight" key={realTimeAccuracy} chart={realTimeWeight} />
-                        </MDBox>
-                    </Grid>
-                    <Grid item xs={12} md={6} lg={4}>
-                        <MDBox mb={3}>
-                            <ReportsLineChart color="success" title="Variation of Portioning Time" chart={realTimePortionTime} />
-                        </MDBox>
-                    </Grid>
-                    <Grid item xs={12} md={6} lg={4}>
-                        <MDBox mb={3}>
-                            <ReportsLineChart color="warning" title="Portioning Performance Levels" chart={realTimeAccuracy} />
-                        </MDBox>
-                    </Grid>
-                </Grid>
-            </MDBox>
-        </MDBox>
-    </div>}
-        {isMobileDevice && <div>
-            <MDBox py={3}>
-                <Grid container spacing={1} display="flex" justifyContent="center">
-                    <Grid item xs={12} md={6} lg={3}>
-                        <ComplexStatisticsCard
-                        color="dark"
-                        icon={<PanToolIcon />}
-                        title="Completed Portions"
-                        count={cardSummaryItems[0]}
-                        percentage={{
-                            color:"success",
-                        }}
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={6} lg={3}>
-                        <ComplexStatisticsCard_v2
-                        color="info"
-                        icon={<ScaleRoundedIcon />}
-                        title="Total Consumed Inventory"
-                        count={unitOfMass == "g"? cardSummaryItems[2] : (parseInt(cardSummaryItems[2]) / 28.35).toFixed(2).toString() + "oz"}
-                        percentage={{
-                            color:"success",
-                        }}
-                        realTimeData={realTimeWeight}
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={6} lg={3}>
-                        <ComplexStatisticsCard_v2
-                            color="success"
-                            icon={<AccessTimeFilledRoundedIcon />}
-                            title="Total Portioning Time"
-                            count={cardSummaryItems[3]}
-                            percentage={{
-                                color: "success"
-                            }}
-                            realTimeData={realTimePortionTime}
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={6} lg={3}>
-                        <ComplexStatisticsCard_v2
-                            color="warning"
-                            icon={<PrecisionManufacturingRoundedIcon />}
-                            title="Average Performance Level"
-                            count={cardSummaryItems[1]}
-                            percentage={{
-                                color: "success"
-                            }}
-                            realTimeData={realTimeAccuracy}
-                        />
-                    </Grid>
-                </Grid>
-            </MDBox>
-            </div> 
-            }
-            <Footer />
-            </DashboardLayout>
 
-);
+            {!isMobileDevice && (
+                <div>
+                    <MDBox py={3}>
+                        <Grid container spacing={1} display="flex" justifyContent="center">
+                            {/* <Grid item xs={10} md={1} lg={1}>
+                </Grid> */}
+                            <Grid item xs={12} md={6} lg={3}>
+                                {/* <MDBox mb={1.5}> */}
+                                <ComplexStatisticsCard
+                                    color="dark"
+                                    icon={<PanToolIcon />}
+                                    title="Completed Portions"
+                                    count={cardSummaryItems[0]}
+                                    percentage={{
+                                        color: "success",
+                                        // amount: "+24%",
+                                        // label: "than yesterday",
+                                    }}
+                                />
+                                {/* </MDBox> */}
+                            </Grid>
+                        </Grid>
+                    </MDBox>
+                    <MDBox py={3}>
+                        <Grid container spacing={3} display="flex" justifyContent="center">
+                            <Grid item xs={12} md={6} lg={3}>
+                                <MDBox mb={1.5}>
+                                    <ComplexStatisticsCard
+                                        color="info"
+                                        icon={<ScaleRoundedIcon />}
+                                        title="Total Consumed Inventory"
+                                        count={unitOfMass == "g" ? cardSummaryItems[2] : (parseInt(cardSummaryItems[2]) / 28.35).toFixed(2).toString() + "oz"}
+                                        percentage={{
+                                            color: "success",
+                                            // amount: "+10%",
+                                            // label: "Stay Tuned for Past Analytics",
+                                        }}
+                                    />
+                                </MDBox>
+                            </Grid>
+                            <Grid item xs={12} md={6} lg={3}>
+                                <MDBox mb={1.5}>
+                                    <ComplexStatisticsCard
+                                        color="success"
+                                        icon={<AccessTimeFilledRoundedIcon />}
+                                        title="Total Portioning Time"
+                                        count={cardSummaryItems[3]}
+                                        percentage={{
+                                            color: "success",
+                                            // amount: "+10%",
+                                            // label: "than yesterday",
+                                        }}
+                                    />
+                                </MDBox>
+                            </Grid>
+                            <Grid item xs={12} md={6} lg={3}>
+                                <MDBox mb={1.5}>
+                                    <ComplexStatisticsCard
+                                        color="warning"
+                                        icon={<PrecisionManufacturingRoundedIcon />}
+                                        title="Average Performance Level"
+                                        count={cardSummaryItems[1]}
+                                        percentage={{
+                                            color: "success",
+                                            // amount: "+3%",
+                                            // label: "than yesterdays",
+                                        }}
+                                    />
+                                </MDBox>
+                            </Grid>
+                        </Grid>
+                        <MDBox mt={4.5}>
+                            <Grid container spacing={3}>
+                                <Grid item xs={12} md={6} lg={4}>
+                                    <MDBox mb={3}>
+                                        <ReportsLineChart color="info" title="Variation of Portioning Weight" key={realTimeAccuracy} chart={realTimeWeight} />
+                                    </MDBox>
+                                </Grid>
+                                <Grid item xs={12} md={6} lg={4}>
+                                    <MDBox mb={3}>
+                                        <ReportsLineChart color="success" title="Variation of Portioning Time" chart={realTimePortionTime} />
+                                    </MDBox>
+                                </Grid>
+                                <Grid item xs={12} md={6} lg={4}>
+                                    <MDBox mb={3}>
+                                        <ReportsLineChart color="warning" title="Portioning Performance Levels" chart={realTimeAccuracy} />
+                                    </MDBox>
+                                </Grid>
+                            </Grid>
+                        </MDBox>
+                    </MDBox>
+                </div>
+            )}
+            {isMobileDevice && (
+                <div>
+                    <MDBox py={3}>
+                        <Grid container spacing={1} display="flex" justifyContent="center">
+                            <Grid item xs={12} md={6} lg={3}>
+                                <ComplexStatisticsCard
+                                    color="dark"
+                                    icon={<PanToolIcon />}
+                                    title="Completed Portions"
+                                    count={cardSummaryItems[0]}
+                                    percentage={{
+                                        color: "success",
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={6} lg={3}>
+                                <ComplexStatisticsCard_v2
+                                    color="info"
+                                    icon={<ScaleRoundedIcon />}
+                                    title="Total Consumed Inventory"
+                                    count={unitOfMass == "g" ? cardSummaryItems[2] : (parseInt(cardSummaryItems[2]) / 28.35).toFixed(2).toString() + "oz"}
+                                    percentage={{
+                                        color: "success",
+                                    }}
+                                    realTimeData={realTimeWeight}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={6} lg={3}>
+                                <ComplexStatisticsCard_v2
+                                    color="success"
+                                    icon={<AccessTimeFilledRoundedIcon />}
+                                    title="Total Portioning Time"
+                                    count={cardSummaryItems[3]}
+                                    percentage={{
+                                        color: "success",
+                                    }}
+                                    realTimeData={realTimePortionTime}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={6} lg={3}>
+                                <ComplexStatisticsCard_v2
+                                    color="warning"
+                                    icon={<PrecisionManufacturingRoundedIcon />}
+                                    title="Average Performance Level"
+                                    count={cardSummaryItems[1]}
+                                    percentage={{
+                                        color: "success",
+                                    }}
+                                    realTimeData={realTimeAccuracy}
+                                />
+                            </Grid>
+                        </Grid>
+                    </MDBox>
+                </div>
+            )}
+            <Footer />
+        </DashboardLayout>
+    );
 };
-        
-        DashboardContainer.propTypes = {
-            iotThingNames: PropTypes.object,
-            unitOfMass: PropTypes.string,
-            displayIngredientIndex: PropTypes.string,
-            timeZone: PropTypes.string,
-        };
-        
-        export default DashboardContainer;
-        
+
+DashboardContainer.propTypes = {
+    iotThingNames: PropTypes.object,
+    unitOfMass: PropTypes.string,
+    displayIngredientIndex: PropTypes.string,
+    timeZone: PropTypes.string,
+};
+
+export default DashboardContainer;
