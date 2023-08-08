@@ -553,6 +553,7 @@ export const getHour = /* GraphQL */ `
       }
       realTime
       scaleActions
+      createdAt
       portionEvent {
         items {
           iotNameThing
@@ -575,7 +576,6 @@ export const getHour = /* GraphQL */ `
         nextToken
         __typename
       }
-      createdAt
       updatedAt
       dayHourDayOfYear_iotNameThing
       __typename
@@ -610,11 +610,11 @@ export const listHours = /* GraphQL */ `
         }
         realTime
         scaleActions
+        createdAt
         portionEvent {
           nextToken
           __typename
         }
-        createdAt
         updatedAt
         dayHourDayOfYear_iotNameThing
         __typename
@@ -652,11 +652,11 @@ export const getPortionEvent = /* GraphQL */ `
         }
         realTime
         scaleActions
+        createdAt
         portionEvent {
           nextToken
           __typename
         }
-        createdAt
         updatedAt
         dayHourDayOfYear_iotNameThing
         __typename
@@ -976,11 +976,11 @@ export const hoursByDayOfYear_iotNameThing = /* GraphQL */ `
         }
         realTime
         scaleActions
+        createdAt
         portionEvent {
           nextToken
           __typename
         }
-        createdAt
         updatedAt
         dayHourDayOfYear_iotNameThing
         __typename

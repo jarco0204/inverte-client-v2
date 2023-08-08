@@ -62,6 +62,7 @@ type Hour @model {
     hourlySummary: HourlySummary
     realTime: AWSJSON!
     scaleActions: AWSJSON
+    createdAt: String!
     portionEvent: [PortionEvent!] @hasMany(indexName: "byHour")
 }
 

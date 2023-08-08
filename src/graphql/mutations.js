@@ -876,6 +876,7 @@ export const createHour = /* GraphQL */ `
       }
       realTime
       scaleActions
+      createdAt
       portionEvent {
         items {
           iotNameThing
@@ -898,7 +899,6 @@ export const createHour = /* GraphQL */ `
         nextToken
         __typename
       }
-      createdAt
       updatedAt
       dayHourDayOfYear_iotNameThing
       __typename
@@ -934,6 +934,7 @@ export const updateHour = /* GraphQL */ `
       }
       realTime
       scaleActions
+      createdAt
       portionEvent {
         items {
           iotNameThing
@@ -956,7 +957,6 @@ export const updateHour = /* GraphQL */ `
         nextToken
         __typename
       }
-      createdAt
       updatedAt
       dayHourDayOfYear_iotNameThing
       __typename
@@ -992,6 +992,7 @@ export const deleteHour = /* GraphQL */ `
       }
       realTime
       scaleActions
+      createdAt
       portionEvent {
         items {
           iotNameThing
@@ -1014,7 +1015,6 @@ export const deleteHour = /* GraphQL */ `
         nextToken
         __typename
       }
-      createdAt
       updatedAt
       dayHourDayOfYear_iotNameThing
       __typename
@@ -1052,11 +1052,11 @@ export const createPortionEvent = /* GraphQL */ `
         }
         realTime
         scaleActions
+        createdAt
         portionEvent {
           nextToken
           __typename
         }
-        createdAt
         updatedAt
         dayHourDayOfYear_iotNameThing
         __typename
@@ -1099,11 +1099,11 @@ export const updatePortionEvent = /* GraphQL */ `
         }
         realTime
         scaleActions
+        createdAt
         portionEvent {
           nextToken
           __typename
         }
-        createdAt
         updatedAt
         dayHourDayOfYear_iotNameThing
         __typename
@@ -1146,11 +1146,11 @@ export const deletePortionEvent = /* GraphQL */ `
         }
         realTime
         scaleActions
+        createdAt
         portionEvent {
           nextToken
           __typename
         }
-        createdAt
         updatedAt
         dayHourDayOfYear_iotNameThing
         __typename
