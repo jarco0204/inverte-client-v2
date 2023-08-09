@@ -9350,12 +9350,33 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chart.js@npm:^4.2.0":
-  version: 4.3.0
-  resolution: "chart.js@npm:4.3.0"
+"chart.js@npm:^4.3.3":
+  version: 4.3.3
+  resolution: "chart.js@npm:4.3.3"
   dependencies:
     "@kurkle/color": "npm:^0.3.0"
-  checksum: d35cd053d92ecd80461210d89abd59ac494523ebdae01875432bb69de756f8c1becaff2bfcc38848c9ce3ea8408a5fb2e78c2a8647a29cf15a55267666a38897
+  checksum: 64826dab87e0a904489462d3cdb328129295cfcece217694f4c0edfcf457647339ded7bcbc91c743a05f0290398389bee8e2b7409dca135aedbe3959d24e79b1
+  languageName: node
+  linkType: hard
+
+"chartjs-adapter-moment@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "chartjs-adapter-moment@npm:1.0.1"
+  peerDependencies:
+    chart.js: ">=3.0.0"
+    moment: ^2.10.2
+  checksum: 590dc15617cc7fe4542a1b2f4e2b9936cb3dba0184fa511f78cd53d8f58e78fef95d45997480e2a07273902b8e6e5a2c0d5daf86f7f147e1707e8d7dadcaea9e
+  languageName: node
+  linkType: hard
+
+"chartjs-plugin-zoom@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "chartjs-plugin-zoom@npm:2.0.1"
+  dependencies:
+    hammerjs: "npm:^2.0.8"
+  peerDependencies:
+    chart.js: ">=3.2.0"
+  checksum: ebcf9ac25a0703aae1216bfd931532846fb2a6ad186bfbbd44c59c38b05b85cbe6933c1bdbf4eb31f02fb33e6f0b146eb3f237d046b111c08c7d34c7102bc72e
   languageName: node
   linkType: hard
 
@@ -12182,6 +12203,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"hammerjs@npm:^2.0.8":
+  version: 2.0.8
+  resolution: "hammerjs@npm:2.0.8"
+  checksum: 3778ddf838e8683e55300ebc8065cba5fffa2d023079b8d813e826657ec3e0f0c38d9b06e8597c9e5aa3baa2113659c83b7b66d61431dc0707f264a86d0db30b
+  languageName: node
+  linkType: hard
+
 "handle-thing@npm:^2.0.0":
   version: 2.0.1
   resolution: "handle-thing@npm:2.0.1"
@@ -12704,7 +12732,9 @@ __metadata:
     antd: "npm:^5.6.2"
     aws-amplify: "npm:^5.0.25"
     buffer: "npm:^6.0.3"
-    chart.js: "npm:^4.2.0"
+    chart.js: "npm:^4.3.3"
+    chartjs-adapter-moment: "npm:^1.0.1"
+    chartjs-plugin-zoom: "npm:^2.0.1"
     chroma-js: "npm:^2.4.2"
     date-fns: "npm:^2.29.2"
     dayjs: "npm:^1.11.7"
