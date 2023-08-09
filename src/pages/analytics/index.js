@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 
 import { DatePicker, Col, Row, Statistic, Typography } from "antd";
-
+import ZoomableChart from "./data/ZoomableChart.mjs";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "../../components/Navbars/DashboardNavbar";
 import Footer from "../../components/Footer";
@@ -174,7 +174,9 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
                 queryStringParameters: { hourlyData: queryString },
             }).then((response) => {
                 console.log("The meta that we pull from analytics: ", response); //Debug statement
-                setAnalyticsData(response.portionEvents);
+                if (response.portionEvents[0] != 0) {
+                    setAnalyticsData(response.portionEvents);
+                }
 
                 if (response.item.Item == undefined) {
                     throw new Error("No Response from API");
@@ -245,7 +247,7 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
                             <Typography>
                                 <Title>Summary</Title>
                                 <Paragraph>
-                                    Your total Inventory consumed for this time period was {totalInventory}g with an accuracy of {accuracy.toFixed(1)}%.This is because you took {totalPortions}{" "}
+                                    Your total Inventory consumed for this time period was {totalInventory}g with an accuracy of {accuracy.toFixed(2)}%.This is because you took {totalPortions}{" "}
                                     portions in {totalMinutes} seconds.
                                 </Paragraph>
                             </Typography>
@@ -266,7 +268,8 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
                         </div>
                     </MDBox>
                     <MDBox mb={3}>
-                        <MyLineChart data={chartWeight} />
+                        {/* <MyLineChart data={chartWeight} /> */}
+                        <ZoomableChart />
                     </MDBox>
                 </MDBox>
                 <Footer />
