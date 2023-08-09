@@ -12,14 +12,14 @@ const AWS = require("aws-sdk");
    @params:
    @return:Array of all the meta records for time period
    @Comments
-   @Coders: Velloupilon
+   @Coders: Vellou
 */
 exports.handler = async (event) => {
     console.log(`EVENT: ${JSON.stringify(event)}`);
 
-    let totalInventory,
-        totalAccuracy,
-        totalTime,
+    let totalInventory = 0,
+        totalAccuracy = 0,
+        totalTime = 0,
         totalPortion = 0;
     let realTime = [];
 
@@ -31,7 +31,7 @@ exports.handler = async (event) => {
     //Loop through the hourly metas and compute the summary for that time period
     for (let i = 0; i < hourlyDataParsed.length; i++) {
         console.log("test", hourlyDataParsed[i]);
-        totalInventory += hourlyDataParsed[i].hourlySummary.inventoryConsumed;
+        totalInventory = totalInventory + hourlyDataParsed[i].hourlySummary.inventoryConsumed;
         totalAccuracy += hourlyDataParsed[i].hourlySummary.accuracy;
         totalTime += hourlyDataParsed[i].hourlySummary.minutesSaved;
         totalPortion += hourlyDataParsed[i].hourlySummary.portionsCompleted;
@@ -74,6 +74,7 @@ exports.handler = async (event) => {
         sdkVersion: AWS.VERSION,
         portionEvents: [totalInventory, totalAccuracy, totalTime, totalPortion, weightChartData, accuracyChartData, portionTimeChartData],
     };
+
     return {
         statusCode: 200,
         //  Uncomment below to enable CORS requests
