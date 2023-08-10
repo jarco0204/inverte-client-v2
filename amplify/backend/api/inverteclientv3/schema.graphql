@@ -75,8 +75,10 @@ type PortionEvent @model {
     inventoryWeight: Int
     batchPortionWeight: String
     batchPortionStatus: String
-    LowerErrorLimit: Int
-    UpperErrorLimit: Int
+    ingredientName: String
+    lowerErrorLimit: Int
+    upperErrorLimit: Int
+    correctWeight: Int
     portionTimeTaken: Int
     dayOfYear_hourOfDay_iotNameThing: ID @index(name: "byHour")
     hour: Hour @belongsTo(fields: ["dayOfYear_hourOfDay_iotNameThing"])

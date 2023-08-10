@@ -564,8 +564,10 @@ export const getHour = /* GraphQL */ `
           inventoryWeight
           batchPortionWeight
           batchPortionStatus
-          LowerErrorLimit
-          UpperErrorLimit
+          ingredientName
+          lowerErrorLimit
+          upperErrorLimit
+          correctWeight
           portionTimeTaken
           dayOfYear_hourOfDay_iotNameThing
           createdAt
@@ -635,8 +637,10 @@ export const getPortionEvent = /* GraphQL */ `
       inventoryWeight
       batchPortionWeight
       batchPortionStatus
-      LowerErrorLimit
-      UpperErrorLimit
+      ingredientName
+      lowerErrorLimit
+      upperErrorLimit
+      correctWeight
       portionTimeTaken
       dayOfYear_hourOfDay_iotNameThing
       hour {
@@ -692,8 +696,10 @@ export const listPortionEvents = /* GraphQL */ `
         inventoryWeight
         batchPortionWeight
         batchPortionStatus
-        LowerErrorLimit
-        UpperErrorLimit
+        ingredientName
+        lowerErrorLimit
+        upperErrorLimit
+        correctWeight
         portionTimeTaken
         dayOfYear_hourOfDay_iotNameThing
         hour {
@@ -1014,8 +1020,10 @@ export const portionEventsByDayOfYear_hourOfDay_iotNameThing = /* GraphQL */ `
         inventoryWeight
         batchPortionWeight
         batchPortionStatus
-        LowerErrorLimit
-        UpperErrorLimit
+        ingredientName
+        lowerErrorLimit
+        upperErrorLimit
+        correctWeight
         portionTimeTaken
         dayOfYear_hourOfDay_iotNameThing
         hour {

@@ -887,8 +887,10 @@ export const createHour = /* GraphQL */ `
           inventoryWeight
           batchPortionWeight
           batchPortionStatus
-          LowerErrorLimit
-          UpperErrorLimit
+          ingredientName
+          lowerErrorLimit
+          upperErrorLimit
+          correctWeight
           portionTimeTaken
           dayOfYear_hourOfDay_iotNameThing
           createdAt
@@ -945,8 +947,10 @@ export const updateHour = /* GraphQL */ `
           inventoryWeight
           batchPortionWeight
           batchPortionStatus
-          LowerErrorLimit
-          UpperErrorLimit
+          ingredientName
+          lowerErrorLimit
+          upperErrorLimit
+          correctWeight
           portionTimeTaken
           dayOfYear_hourOfDay_iotNameThing
           createdAt
@@ -1003,8 +1007,10 @@ export const deleteHour = /* GraphQL */ `
           inventoryWeight
           batchPortionWeight
           batchPortionStatus
-          LowerErrorLimit
-          UpperErrorLimit
+          ingredientName
+          lowerErrorLimit
+          upperErrorLimit
+          correctWeight
           portionTimeTaken
           dayOfYear_hourOfDay_iotNameThing
           createdAt
@@ -1035,8 +1041,10 @@ export const createPortionEvent = /* GraphQL */ `
       inventoryWeight
       batchPortionWeight
       batchPortionStatus
-      LowerErrorLimit
-      UpperErrorLimit
+      ingredientName
+      lowerErrorLimit
+      upperErrorLimit
+      correctWeight
       portionTimeTaken
       dayOfYear_hourOfDay_iotNameThing
       hour {
@@ -1082,8 +1090,10 @@ export const updatePortionEvent = /* GraphQL */ `
       inventoryWeight
       batchPortionWeight
       batchPortionStatus
-      LowerErrorLimit
-      UpperErrorLimit
+      ingredientName
+      lowerErrorLimit
+      upperErrorLimit
+      correctWeight
       portionTimeTaken
       dayOfYear_hourOfDay_iotNameThing
       hour {
@@ -1129,8 +1139,10 @@ export const deletePortionEvent = /* GraphQL */ `
       inventoryWeight
       batchPortionWeight
       batchPortionStatus
-      LowerErrorLimit
-      UpperErrorLimit
+      ingredientName
+      lowerErrorLimit
+      upperErrorLimit
+      correctWeight
       portionTimeTaken
       dayOfYear_hourOfDay_iotNameThing
       hour {
