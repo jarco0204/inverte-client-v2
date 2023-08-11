@@ -6,7 +6,38 @@ Amplify Params - DO NOT EDIT */
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 const AWS = require("aws-sdk");
-
+const fetch = require("node-fetch");
+const { Request } = require("node-fetch");
+const listHours = /* GraphQL */ `
+    query ListHours($dayOfYear_hourOfDay_iotNameThing: ID, $filter: ModelHourFilterInput, $limit: Int, $nextToken: String, $sortDirection: ModelSortDirection) {
+        listHours(dayOfYear_hourOfDay_iotNameThing: $dayOfYear_hourOfDay_iotNameThing, filter: $filter, limit: $limit, nextToken: $nextToken, sortDirection: $sortDirection) {
+            items {
+                dayOfYear_hourOfDay_iotNameThing
+                dayOfYear_iotNameThing
+                minuteOfHour_secondOfMinute
+                hourlySummary {
+                    minutesSaved
+                    portionsCompleted
+                    accuracy
+                    inventoryConsumed
+                    __typename
+                }
+                realTime
+                scaleActions
+                createdAt
+                portionEvent {
+                    nextToken
+                    __typename
+                }
+                updatedAt
+                dayHourDayOfYear_iotNameThing
+                __typename
+            }
+            nextToken
+            __typename
+        }
+    }
+`;
 /*!
    @description:Function that process the retrieved data for analytics
    @params:
@@ -23,10 +54,53 @@ exports.handler = async (event) => {
         totalPortion = 0;
     let realTime = [];
 
-    const hourlyData = event.queryStringParameters.hourlyData;
-    console.log("The hourlydata before parsing is:", hourlyData); //Debug statement
-    let hourlyDataParsed = JSON.parse(hourlyData);
-    console.log("The hourly data after parsing is:", hourlyDataParsed); //Debug statement
+    let GRAPHQL_ENDPOINT = "https://aeurd6fuufhb3cmvmy3fuqba5e.appsync-api.ca-central-1.amazonaws.com/graphql";
+    let GRAPHQL_API_KEY = "da2-pifjsf34xfajzos5e6pt4r2ke4";
+
+    let startDate = JSON.parse(event.queryStringParameters.startDate);
+    let endDate = JSON.parse(event.queryStringParameters.endDate);
+    let hourlyDataParsed;
+    const query = listHours;
+    let options = {
+        method: "POST",
+        headers: {
+            "x-api-key": GRAPHQL_API_KEY,
+            "content-type": "application/json",
+        },
+        body: JSON.stringify({
+            query,
+            variables: {
+                filter: {
+                    createdAt: {
+                        between: [startDate, endDate],
+                    },
+                },
+            },
+        }),
+    };
+    const request = new Request(GRAPHQL_ENDPOINT, options);
+    let statusCode = 200;
+    let body;
+    let response;
+    try {
+        response = await fetch(request);
+        console.log("Data we got from dailymeta table is...", response);
+        body = await response.json();
+        console.log("Body of data we got from dailymeta table is...", body.data.listHours.items);
+        hourlyDataParsed = body.data.listHours.items;
+        if (body.errors) statusCode = 400;
+    } catch (error) {
+        statusCode = 400;
+        body = {
+            errors: [
+                {
+                    status: response.status,
+                    message: error.message,
+                    stack: error.stack,
+                },
+            ],
+        };
+    }
 
     //Loop through the hourly metas and compute the summary for that time period
     for (let i = 0; i < hourlyDataParsed.length; i++) {
@@ -81,6 +155,7 @@ exports.handler = async (event) => {
         headers: {
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Headers": "*",
+            "Access-Control-Allow-Methods": "*",
         },
         body: JSON.stringify(portionEvents),
     };

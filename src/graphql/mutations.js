@@ -882,11 +882,9 @@ export const createHour = /* GraphQL */ `
           iotNameThing
           timestamp
           batchPortionID
-          portionStatus
-          portionWeight
           inventoryWeight
-          batchPortionWeight
-          batchPortionStatus
+          batchPortionWeightAR
+          batchPortionStatusAR
           ingredientName
           lowerErrorLimit
           upperErrorLimit
@@ -942,11 +940,9 @@ export const updateHour = /* GraphQL */ `
           iotNameThing
           timestamp
           batchPortionID
-          portionStatus
-          portionWeight
           inventoryWeight
-          batchPortionWeight
-          batchPortionStatus
+          batchPortionWeightAR
+          batchPortionStatusAR
           ingredientName
           lowerErrorLimit
           upperErrorLimit
@@ -1002,11 +998,9 @@ export const deleteHour = /* GraphQL */ `
           iotNameThing
           timestamp
           batchPortionID
-          portionStatus
-          portionWeight
           inventoryWeight
-          batchPortionWeight
-          batchPortionStatus
+          batchPortionWeightAR
+          batchPortionStatusAR
           ingredientName
           lowerErrorLimit
           upperErrorLimit
@@ -1036,11 +1030,9 @@ export const createPortionEvent = /* GraphQL */ `
       iotNameThing
       timestamp
       batchPortionID
-      portionStatus
-      portionWeight
       inventoryWeight
-      batchPortionWeight
-      batchPortionStatus
+      batchPortionWeightAR
+      batchPortionStatusAR
       ingredientName
       lowerErrorLimit
       upperErrorLimit
@@ -1085,11 +1077,9 @@ export const updatePortionEvent = /* GraphQL */ `
       iotNameThing
       timestamp
       batchPortionID
-      portionStatus
-      portionWeight
       inventoryWeight
-      batchPortionWeight
-      batchPortionStatus
+      batchPortionWeightAR
+      batchPortionStatusAR
       ingredientName
       lowerErrorLimit
       upperErrorLimit
@@ -1134,11 +1124,9 @@ export const deletePortionEvent = /* GraphQL */ `
       iotNameThing
       timestamp
       batchPortionID
-      portionStatus
-      portionWeight
       inventoryWeight
-      batchPortionWeight
-      batchPortionStatus
+      batchPortionWeightAR
+      batchPortionStatusAR
       ingredientName
       lowerErrorLimit
       upperErrorLimit

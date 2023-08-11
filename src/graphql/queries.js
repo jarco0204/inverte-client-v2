@@ -559,11 +559,9 @@ export const getHour = /* GraphQL */ `
           iotNameThing
           timestamp
           batchPortionID
-          portionStatus
-          portionWeight
           inventoryWeight
-          batchPortionWeight
-          batchPortionStatus
+          batchPortionWeightAR
+          batchPortionStatusAR
           ingredientName
           lowerErrorLimit
           upperErrorLimit
@@ -632,11 +630,9 @@ export const getPortionEvent = /* GraphQL */ `
       iotNameThing
       timestamp
       batchPortionID
-      portionStatus
-      portionWeight
       inventoryWeight
-      batchPortionWeight
-      batchPortionStatus
+      batchPortionWeightAR
+      batchPortionStatusAR
       ingredientName
       lowerErrorLimit
       upperErrorLimit
@@ -691,11 +687,9 @@ export const listPortionEvents = /* GraphQL */ `
         iotNameThing
         timestamp
         batchPortionID
-        portionStatus
-        portionWeight
         inventoryWeight
-        batchPortionWeight
-        batchPortionStatus
+        batchPortionWeightAR
+        batchPortionStatusAR
         ingredientName
         lowerErrorLimit
         upperErrorLimit
@@ -1015,11 +1009,9 @@ export const portionEventsByDayOfYear_hourOfDay_iotNameThing = /* GraphQL */ `
         iotNameThing
         timestamp
         batchPortionID
-        portionStatus
-        portionWeight
         inventoryWeight
-        batchPortionWeight
-        batchPortionStatus
+        batchPortionWeightAR
+        batchPortionStatusAR
         ingredientName
         lowerErrorLimit
         upperErrorLimit

@@ -104,19 +104,19 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
             setAccuracy(analyticsData[1]);
             setTotalPortions(analyticsData[3]);
             setTotalMinutes(analyticsData[2]);
-            console.log("The Weight chart data is:", analyticsData[4]);
-            for (let i = 0; i < analyticsData[4].length; i++) {
-                let x = analyticsData[4][i].x.toString();
-                console.log("The value of x is:", x);
-                const parts = x.split(":");
-                let timeString = parts[0] + "." + parts[1];
-                let decimalNumber = parseFloat(timeString);
-                //     let timeInMilliseconds = (parseInt(hours, 10) * 3600 + parseInt(minutes, 10) * 60 + parseInt(seconds, 10)) * 1000;
-                //     timeInMilliseconds = timeInMilliseconds / 1000;
-                //     console.log("The timeInDecimal: ", timeInMilliseconds);
-                let y = parseInt(analyticsData[4][i].y);
-                analyticsData[4][i] = { x: decimalNumber, y: y };
-            }
+            // console.log("The Weight chart data is:", analyticsData[4]);
+            // for (let i = 0; i < analyticsData[4].length; i++) {
+            //     let x = analyticsData[4][i].x.toString();
+            //     console.log("The value of x is:", x);
+            //     const parts = x.split(":");
+            //     let timeString = parts[0] + "." + parts[1];
+            //     let decimalNumber = parseFloat(timeString);
+            //     //     let timeInMilliseconds = (parseInt(hours, 10) * 3600 + parseInt(minutes, 10) * 60 + parseInt(seconds, 10)) * 1000;
+            //     //     timeInMilliseconds = timeInMilliseconds / 1000;
+            //     //     console.log("The timeInDecimal: ", timeInMilliseconds);
+            //     let y = parseInt(analyticsData[4][i].y);
+            //     analyticsData[4][i] = { x: decimalNumber, y: y };
+            // }
             setChartWeight(analyticsData[4]);
             setChartAccuracy(analyticsData[5]);
             setChartPortionTime(analyticsData[6]);
@@ -153,25 +153,14 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
 
         const user = await Auth.currentAuthenticatedUser();
         try {
-            const response = await API.graphql({
-                query: listHours,
-                variables: {
-                    filter: {
-                        createdAt: { between: [dynamoStartDate, dynamoEndDate] },
-                    },
-                }, // Provide the ID as a variable
-                include: {
-                    portionEvent: true,
-                },
-            });
-            console.log("The response is:", response);
+            const queryStartDate = JSON.stringify(dynamoStartDate);
+            const queryEndDate = JSON.stringify(dynamoEndDate);
             const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
             const path = "/metaRecords/analytics/get/";
             const finalAPIRoute = path + user.username; //TODO: Cases where userSession is empty
-            const queryString = JSON.stringify(response.data.listHours.items);
 
             await API.get(AMPLIFY_API, finalAPIRoute, {
-                queryStringParameters: { hourlyData: queryString },
+                queryStringParameters: { startDate: queryStartDate, endDate: queryEndDate },
             }).then((response) => {
                 console.log("The meta that we pull from analytics: ", response); //Debug statement
                 if (response.portionEvents[0] != 0) {
@@ -191,7 +180,7 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DashboardLayout>
                 {/* <DashboardNavbar /> */}
-                <MDBox mt={4.5}>
+                <MDBox mt={1}>
                     <Grid container justifyContent="center" position="relative">
                         <div style={{ margin: "auto ", marginTop: "4px", width: "fit-content", border: "1px solid #49a3f1 ", borderRadius: "5px", padding: "5px", marginLeft: "0px" }}>
                             <List component="nav" aria-label="Device settings">
@@ -237,12 +226,13 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
                     <RangePicker
                         showTime={{
                             format: "HH",
+                            defaultValue: [moment("00:00", "HH:mm"), moment("23:00", "HH:mm")], // Default time range
                         }}
                         onChange={handleRangeChange}
                         onOpenChange={handleOpenChange}
                     />
 
-                    <MDBox mt={6} mb={3}>
+                    <MDBox mt={3} mb={3}>
                         <div>
                             <Typography>
                                 <Title>Summary</Title>
@@ -267,9 +257,9 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
                             </Row>
                         </div>
                     </MDBox>
-                    <MDBox mb={3}>
+                    <MDBox mb={1} mt={1} style={{ width: "80%", height: "auto" }}>
                         {/* <MyLineChart data={chartWeight} /> */}
-                        <ZoomableChart />
+                        <ZoomableChart dataSet={totalInventory == 0 ? null : analyticsData} />
                     </MDBox>
                 </MDBox>
                 <Footer />

@@ -70,11 +70,9 @@ type PortionEvent @model {
     iotNameThing: String
     timestamp: ID! @primaryKey
     batchPortionID: Int
-    portionStatus: Int
-    portionWeight: Int
     inventoryWeight: Int
-    batchPortionWeight: String
-    batchPortionStatus: String
+    batchPortionWeightAR: String
+    batchPortionStatusAR: String
     ingredientName: String
     lowerErrorLimit: Int
     upperErrorLimit: Int
