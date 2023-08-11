@@ -2,20 +2,36 @@ import React, { useEffect, useRef, useState } from "react";
 import Chart from "chart.js/auto";
 import zoomPlugin from "chartjs-plugin-zoom";
 import "chartjs-adapter-moment";
+
 Chart.register(zoomPlugin);
 
-const randomInt = () => Math.floor(Math.random() * (10 - 1 + 1)) + 1;
-
+let data = null;
 const chartConfig = {
     type: "line",
     data: {
-        labels: ["2021-11-24 12:03:00", "2021-11-24 13:03:00", "2021-11-24 16:03:00", "2021-11-26 16:03:00"],
+        labels: [],
         datasets: [
             {
-                label: "# of Votes",
-                data: [12, null, "8", "5"],
-                backgroundColor: ["rgba(255, 99, 132, 0.2)", "rgba(54, 162, 235, 0.2)", "rgba(255, 206, 86, 0.2)", "rgba(75, 192, 192, 0.2)", "rgba(153, 102, 255, 0.2)", "rgba(255, 159, 64, 0.2)"],
-                borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)", "rgba(255, 206, 86, 1)", "rgba(75, 192, 192, 1)", "rgba(153, 102, 255, 1)", "rgba(255, 159, 64, 1)"],
+                label: "Portion Weight",
+                data: [],
+                backgroundColor: ["#42424a"],
+                borderColor: ["#49a3f1"],
+                spanGaps: false,
+                borderWidth: 1,
+            },
+            {
+                label: "Accuracy",
+                data: [],
+                backgroundColor: ["#ffa726"],
+                borderColor: ["#49a3f1"],
+                spanGaps: false,
+                borderWidth: 1,
+            },
+            {
+                label: "Accuracy",
+                data: [],
+                backgroundColor: ["#66bb6a"],
+                borderColor: ["#49a3f1"],
                 spanGaps: false,
                 borderWidth: 1,
             },
@@ -26,14 +42,19 @@ const chartConfig = {
         //maintainAspectRatio: false,
         scales: {
             x: {
+                min: new Date(),
+                max: new Date(),
                 type: "time",
                 time: {
                     unit: "minute",
                     displayFormats: {
-                        minute: "HH:mm",
+                        hour: "HH:mm",
                     },
                 },
-                ticks: { source: "auto" },
+                ticks: {
+                    //source: "auto",
+                    stepSize: 1, // Display data points every 1 minute
+                },
                 offset: false,
                 grid: {
                     //display: false,
@@ -51,13 +72,13 @@ const chartConfig = {
                     unit: "day",
                 },
             },
-            // y: {
-            //   ticks: {
-            //     fontSize: 8,
-            //     beginAtZero: false,
-            //     stepSize: 10
-            //   }
-            // }
+            y: {
+                ticks: {
+                    fontSize: 8,
+                    beginAtZero: false,
+                    stepSize: 1,
+                },
+            },
         },
         plugins: {
             zoom: {
@@ -81,11 +102,38 @@ const chartConfig = {
     },
 };
 
-const ZoomableChart = () => {
+const ZoomableChart = (dataSet) => {
+    data = dataSet;
+    console.log("The dataSets is", dataSet.dataSet);
+    let xArr = [];
+    let weightArr = [];
+    let accuracyArr = [];
+    let timeArr = [];
+    if (dataSet.dataSet != null) {
+        chartConfig.options.scales.x.min = Object.values(dataSet.dataSet[4][0])[0];
+        chartConfig.options.scales.x.max = Object.values(dataSet.dataSet[4][0])[dataSet.dataSet[4].length - 1];
+    }
+
+    if (dataSet.dataSet != null) {
+        for (let i = 0; i < dataSet.dataSet[4].length; i++) {
+            xArr.push(Object.values(dataSet.dataSet[4][i])[0]);
+            weightArr.push(Object.values(dataSet.dataSet[4][i])[1]);
+            accuracyArr.push(Object.values(dataSet.dataSet[5][i])[1]);
+            timeArr.push(Object.values(dataSet.dataSet[6][i])[1]);
+        }
+        console.log("The chartConfig is", chartConfig.data.labels);
+        console.log("The chartConfigs is", chartConfig.data.datasets);
+        chartConfig.data.labels = xArr;
+        chartConfig.data.datasets[0].data = weightArr;
+        chartConfig.data.datasets[1].data = accuracyArr;
+        chartConfig.data.datasets[2].data = timeArr;
+    }
+
     const chartContainer = useRef(null);
     const [chartInstance, setChartInstance] = useState(null);
 
     useEffect(() => {
+        console.log("Rendered");
         if (chartContainer && chartContainer.current) {
             const newChartInstance = new Chart(chartContainer.current, chartConfig);
             setChartInstance(newChartInstance);
@@ -93,21 +141,10 @@ const ZoomableChart = () => {
                 newChartInstance.destroy();
             };
         }
-    }, [chartContainer]);
-
-    const updateDataset = (datasetIndex, newData) => {
-        chartInstance.data.datasets[datasetIndex].data = newData;
-        chartInstance.update();
-    };
-
-    const onButtonClick = () => {
-        const data = [randomInt(), randomInt(), randomInt(), randomInt(), randomInt(), randomInt()];
-        updateDataset(0, data);
-    };
+    }, [chartContainer, data]);
 
     return (
         <div>
-            <button onClick={onButtonClick}>Randomize!</button>
             <canvas ref={chartContainer} />
         </div>
     );
