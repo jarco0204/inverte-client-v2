@@ -112,6 +112,7 @@ exports.handler = async (event) => {
         realTime.push(JSON.parse(hourlyDataParsed[i].realTime));
     }
     //Calculate the average accuracy
+    console.log("The total accuracy is", totalAccuracy);
     totalAccuracy /= hourlyDataParsed.length;
     console.log("The total realTime data is:", realTime); //Debug statement
 
@@ -155,7 +156,6 @@ exports.handler = async (event) => {
         headers: {
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Headers": "*",
-            "Access-Control-Allow-Methods": "*",
         },
         body: JSON.stringify(portionEvents),
     };

@@ -28,7 +28,7 @@ const chartConfig = {
                 borderWidth: 1,
             },
             {
-                label: "Accuracy",
+                label: "Time Taken",
                 data: [],
                 backgroundColor: ["#66bb6a"],
                 borderColor: ["#49a3f1"],
