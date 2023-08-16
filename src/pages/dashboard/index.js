@@ -46,7 +46,7 @@ dayjs.extend(timezone);
    @Comments
    @Coders: GangaLi
 */
-const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex, timeZone }) => {
+const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex, timeZone, demo }) => {
     // Main Component State: Cards & Graphs
     const [cardSummaryItems, setCardSummaryItems] = useState([]);
     const [realTimeWeight, setRealTimeWeight] = useState([]);
@@ -59,7 +59,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
     const selectedIndexRef = useRef(displayIngredientIndex);
     const [selectedIndex, setSelectedIndex] = useState(displayIngredientIndex);
     const keys = Object.keys(iotThingNames);
-
+    console.log("The value of demo is:", demo);
     console.log(isMobileDevice);
     // const [anchorEl, setAnchorEl] = useState(null);
     // const open = Boolean(anchorEl);
@@ -110,7 +110,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
     */
     const generateLowerRealTimeGraphs = (realTime) => {
         // Variable definition
-        realTime = JSON.parse(realTime);
+        //realTime = JSON.parse(realTime);
 
         let [tempWeightAr, tempAccuracyAr, tempTimeAr, pointBackgroundColorAr] = [[], [], [], []];
         let oldTempKeys = Object.keys(realTime).sort();
@@ -182,26 +182,62 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                 variables: { dayOfYear_iotNameThing: tempDate.dayOfYear().toString() + "_" + keys[selectedIndexRef.current] }, // Provide the ID as a variable
             });
 
-            const hour = response.data;
+            let hour = response.data;
+            let h = {
+                getDay: {
+                    dayOfYear_iotNameThing: "228_P0-10-v1",
+                    weekOfYear_iotNameThing: "33_P0-10-v1_w",
+                    dailySummary: {
+                        accuracy: 93.28,
+                        inventoryConsumed: 1932,
+                        minutesSaved: 971,
+                        portionsCompleted: 73,
+                    },
+                    realTime: {
+                        "2023-8-16 10:41:48": { portionTime: "5.5", accuracy: "74", portionWeight: "23" },
+                        "2023-8-16 10:47:54": { portionTime: "5", accuracy: "88", portionWeight: "19" },
+                        "2023-8-16 11:00:34": { portionTime: "7.9", accuracy: "82", portionWeight: "22" },
+                        "2023-8-16 10:55:00": { portionTime: "1", accuracy: "100", portionWeight: "20" },
+                        "2023-8-16 10:58:17": { portionTime: "1", accuracy: "100", portionWeight: "20" },
+                        "2023-8-16 9:43:32": { portionTime: "1", accuracy: "82", portionWeight: "22" },
+                        "2023-8-16 10:13:15": { portionTime: "1", accuracy: "100", portionWeight: "17" },
+                        "2023-8-16 12:11:26": { portionTime: "1", accuracy: "100", portionWeight: "18" },
+                        "2023-8-16 12:11:05": { portionTime: "1", accuracy: "100", portionWeight: "17" },
+                    },
+                },
+            };
 
-            if (hour.getDay) {
-                console.log("Test");
+            if (demo) {
                 // Set the Upper Summary Card Components
-                let accuracy = hour.getDay.dailySummary.accuracy.toFixed(0) + "%";
-                let inventoryWeight = hour.getDay.dailySummary.inventoryConsumed + "g";
-                let timeSaved = hour.getDay.dailySummary.minutesSaved.toFixed(1) + "s";
-                setCardSummaryItems([hour.getDay.dailySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
+                let accuracy = h.getDay.dailySummary.accuracy.toFixed(0) + "%";
+                let inventoryWeight = h.getDay.dailySummary.inventoryConsumed + "g";
+                let timeSaved = h.getDay.dailySummary.minutesSaved.toFixed(1) + "s";
+                setCardSummaryItems([h.getDay.dailySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
                 // Create the lower 3 Plots using the Real-Time property
-                console.log(hour.getDay.realTime);
+                console.log(h.getDay.realTime);
 
-                generateLowerRealTimeGraphs(hour.getDay.realTime);
+                generateLowerRealTimeGraphs(h.getDay.realTime);
             } else {
-                // There is no hourly response so we need to create one
-                setCardSummaryItems(["0", "NA", "0", "NA"]);
-                setRealTimeWeight([]);
-                setRealTimeAccuracy([]);
-                setRealTimePortionTime([]);
-                return;
+                if (hour.getDay) {
+                    console.log("The value of Hour.GetDay is", hour.getDay);
+
+                    // Set the Upper Summary Card Components
+                    let accuracy = hour.getDay.dailySummary.accuracy.toFixed(0) + "%";
+                    let inventoryWeight = hour.getDay.dailySummary.inventoryConsumed + "g";
+                    let timeSaved = hour.getDay.dailySummary.minutesSaved.toFixed(1) + "s";
+                    setCardSummaryItems([hour.getDay.dailySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
+                    // Create the lower 3 Plots using the Real-Time property
+                    console.log(hour.getDay.realTime);
+
+                    generateLowerRealTimeGraphs(JSON.parse(hour.getDay.realTime));
+                } else {
+                    // There is no hourly response so we need to create one
+                    setCardSummaryItems(["0", "NA", "0", "NA"]);
+                    setRealTimeWeight([]);
+                    setRealTimeAccuracy([]);
+                    setRealTimePortionTime([]);
+                    return;
+                }
             }
         } catch (error) {
             console.error("Error retrieving Hour:", error);

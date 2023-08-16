@@ -60,7 +60,7 @@ export default function App() {
     const [onMouseEnter, setOnMouseEnter] = useState(false);
     const [authenticated, setAuthenticated] = useState(false);
     const [spinnerLoader, setSpinnerLoader] = useState(false);
-    const [metaInformation, setMetaInformation] = useState({ iotThingNames: ["test"], restaurantName: "test", unitOfMass: "g" });
+    const [metaInformation, setMetaInformation] = useState({ iotThingNames: ["test"], restaurantName: "test", unitOfMass: "g", demo: "False" });
     const [unitOfMass, setUnitOfMass] = useState(metaInformation.unitOfMass);
     const [isMobileDevice, setIsMobileDevice] = useState(false);
 
@@ -148,6 +148,7 @@ export default function App() {
                         if (response.item.Item == undefined) {
                             throw new Error("No Response from API");
                         }
+                        console.log("The meta information is:", response.item.Item);
                         setMetaInformation(response.item.Item);
                         setUnitOfMass(response.item.Item.unitOfMass);
                     });

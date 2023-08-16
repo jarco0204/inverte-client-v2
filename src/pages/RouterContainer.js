@@ -35,6 +35,7 @@ const RouterContainer = (metaInformation) => {
                     displayIngredientIndex={metaInformation.displayIngredient}
                     timeZone={metaInformation.timeZone}
                     isMobileDevice={metaInformation.isMobileDevice}
+                    demo={metaInformation.demo}
                 />
             ),
         },
