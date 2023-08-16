@@ -192,7 +192,7 @@ export const createIngredient = /* GraphQL */ `
       year {
         items {
           year_iotNameThing
-          ingredient_name
+          ingredientName_weight
           realTime
           scaleActions
           createdAt
@@ -221,7 +221,7 @@ export const updateIngredient = /* GraphQL */ `
       year {
         items {
           year_iotNameThing
-          ingredient_name
+          ingredientName_weight
           realTime
           scaleActions
           createdAt
@@ -250,7 +250,7 @@ export const deleteIngredient = /* GraphQL */ `
       year {
         items {
           year_iotNameThing
-          ingredient_name
+          ingredientName_weight
           realTime
           scaleActions
           createdAt
@@ -275,7 +275,7 @@ export const createYear = /* GraphQL */ `
   ) {
     createYear(input: $input, condition: $condition) {
       year_iotNameThing
-      ingredient_name
+      ingredientName_weight
       yearlySummary {
         minutesSaved
         portionsCompleted
@@ -283,7 +283,7 @@ export const createYear = /* GraphQL */ `
         inventoryConsumed
         year {
           year_iotNameThing
-          ingredient_name
+          ingredientName_weight
           realTime
           scaleActions
           createdAt
@@ -323,7 +323,7 @@ export const updateYear = /* GraphQL */ `
   ) {
     updateYear(input: $input, condition: $condition) {
       year_iotNameThing
-      ingredient_name
+      ingredientName_weight
       yearlySummary {
         minutesSaved
         portionsCompleted
@@ -331,7 +331,7 @@ export const updateYear = /* GraphQL */ `
         inventoryConsumed
         year {
           year_iotNameThing
-          ingredient_name
+          ingredientName_weight
           realTime
           scaleActions
           createdAt
@@ -371,7 +371,7 @@ export const deleteYear = /* GraphQL */ `
   ) {
     deleteYear(input: $input, condition: $condition) {
       year_iotNameThing
-      ingredient_name
+      ingredientName_weight
       yearlySummary {
         minutesSaved
         portionsCompleted
@@ -379,7 +379,7 @@ export const deleteYear = /* GraphQL */ `
         inventoryConsumed
         year {
           year_iotNameThing
-          ingredient_name
+          ingredientName_weight
           realTime
           scaleActions
           createdAt

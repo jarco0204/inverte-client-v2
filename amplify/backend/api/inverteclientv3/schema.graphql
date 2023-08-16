@@ -22,7 +22,7 @@ type Ingredient @model {
 }
 type Year @model {
     year_iotNameThing: ID! @primaryKey
-    ingredient_name: ID! @index(name: "byIngredient")
+    ingredientName_weight: ID! @index(name: "byIngredient")
     yearlySummary: YearlySummary
     realTime: AWSJSON
     scaleActions: AWSJSON
@@ -97,22 +97,22 @@ input DailySummaryInput {
 }
 
 input WeeklySummaryInput {
-    minutesSaved: Int!
+    minutesSaved: Float!
     portionsCompleted: Int!
-    accuracy: Int!
+    accuracy: Float!
     inventoryConsumed: Int!
 }
 
 input MonthlySummaryInput {
-    minutesSaved: Int!
+    minutesSaved: Float!
     portionsCompleted: Int!
-    accuracy: Int!
+    accuracy: Float!
     inventoryConsumed: Int!
 }
 input YearlySummaryInput {
-    minutesSaved: Int!
+    minutesSaved: Float!
     portionsCompleted: Int!
-    accuracy: Int!
+    accuracy: Float!
     inventoryConsumed: Int!
 }
 
@@ -133,24 +133,24 @@ type DailySummary {
 }
 
 type WeeklySummary {
-    minutesSaved: Int!
+    minutesSaved: Float!
     portionsCompleted: Int!
-    accuracy: Int!
+    accuracy: Float!
     inventoryConsumed: Int!
     week: Week
 }
 
 type MonthlySummary {
-    minutesSaved: Int!
+    minutesSaved: Float!
     portionsCompleted: Int!
-    accuracy: Int!
+    accuracy: Float!
     inventoryConsumed: Int!
     month: Month
 }
 type YearlySummary {
-    minutesSaved: Int!
+    minutesSaved: Float!
     portionsCompleted: Int!
-    accuracy: Int!
+    accuracy: Float!
     inventoryConsumed: Int!
     year: Year
 }

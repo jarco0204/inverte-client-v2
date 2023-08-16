@@ -26,6 +26,7 @@ const chartConfig = {
                 borderColor: ["#49a3f1"],
                 spanGaps: false,
                 borderWidth: 1,
+                hidden: true, // Hide this line by default
             },
             {
                 label: "Time Taken",
@@ -34,6 +35,7 @@ const chartConfig = {
                 borderColor: ["#49a3f1"],
                 spanGaps: false,
                 borderWidth: 1,
+                hidden: true, // Hide this line by default
             },
         ],
     },

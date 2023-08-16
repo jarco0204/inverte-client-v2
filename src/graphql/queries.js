@@ -130,7 +130,7 @@ export const getIngredient = /* GraphQL */ `
       year {
         items {
           year_iotNameThing
-          ingredient_name
+          ingredientName_weight
           realTime
           scaleActions
           createdAt
@@ -184,7 +184,7 @@ export const getYear = /* GraphQL */ `
   query GetYear($year_iotNameThing: ID!) {
     getYear(year_iotNameThing: $year_iotNameThing) {
       year_iotNameThing
-      ingredient_name
+      ingredientName_weight
       yearlySummary {
         minutesSaved
         portionsCompleted
@@ -192,7 +192,7 @@ export const getYear = /* GraphQL */ `
         inventoryConsumed
         year {
           year_iotNameThing
-          ingredient_name
+          ingredientName_weight
           realTime
           scaleActions
           createdAt
@@ -242,7 +242,7 @@ export const listYears = /* GraphQL */ `
     ) {
       items {
         year_iotNameThing
-        ingredient_name
+        ingredientName_weight
         yearlySummary {
           minutesSaved
           portionsCompleted
@@ -784,16 +784,16 @@ export const ingredientsByIotNameThing = /* GraphQL */ `
     }
   }
 `;
-export const yearsByIngredient_name = /* GraphQL */ `
-  query YearsByIngredient_name(
-    $ingredient_name: ID!
+export const yearsByIngredientName_weight = /* GraphQL */ `
+  query YearsByIngredientName_weight(
+    $ingredientName_weight: ID!
     $sortDirection: ModelSortDirection
     $filter: ModelYearFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    yearsByIngredient_name(
-      ingredient_name: $ingredient_name
+    yearsByIngredientName_weight(
+      ingredientName_weight: $ingredientName_weight
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit
@@ -801,7 +801,7 @@ export const yearsByIngredient_name = /* GraphQL */ `
     ) {
       items {
         year_iotNameThing
-        ingredient_name
+        ingredientName_weight
         yearlySummary {
           minutesSaved
           portionsCompleted
