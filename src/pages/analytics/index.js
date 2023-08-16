@@ -238,7 +238,7 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
                                 <Title>Summary</Title>
                                 <Paragraph>
                                     Your total Inventory consumed for this time period was {totalInventory}g with an accuracy of {accuracy.toFixed(2)}%.This is because you took {totalPortions}{" "}
-                                    portions in {totalMinutes} seconds.
+                                    portions in {totalMinutes.toFixed(2)} seconds.
                                 </Paragraph>
                             </Typography>
                             <Row gutter={16}>
@@ -249,7 +249,7 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
                                     <Statistic title="Average Accuracy" value={accuracy} precision={2} />
                                 </Col>
                                 <Col span={5}>
-                                    <Statistic title="Minutes Saved" value={totalMinutes.toFixed(0)} />
+                                    <Statistic title="Seconds Taken" value={totalMinutes.toFixed(0)} />
                                 </Col>
                                 <Col span={5}>
                                     <Statistic title="Total Portions" value={totalPortions} />
