@@ -1,16 +1,16 @@
 {
-  "staging": {
+  "production": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-inverteclientv3-staging-133138-authRole",
-      "UnauthRoleArn": "arn:aws:iam::084619430748:role/amplify-inverteclientv3-staging-133138-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::084619430748:role/amplify-inverteclientv3-staging-133138-authRole",
+      "AuthRoleName": "amplify-inverteclientv3-production-141454-authRole",
+      "UnauthRoleArn": "arn:aws:iam::084619430748:role/amplify-inverteclientv3-production-141454-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::084619430748:role/amplify-inverteclientv3-production-141454-authRole",
       "Region": "ca-central-1",
-      "DeploymentBucketName": "amplify-inverteclientv3-staging-133138-deployment",
-      "UnauthRoleName": "amplify-inverteclientv3-staging-133138-unauthRole",
-      "StackName": "amplify-inverteclientv3-staging-133138",
-      "StackId": "arn:aws:cloudformation:ca-central-1:084619430748:stack/amplify-inverteclientv3-staging-133138/1ddb12c0-1101-11ee-8fa8-0e0bbf88b664",
+      "DeploymentBucketName": "amplify-inverteclientv3-production-141454-deployment",
+      "UnauthRoleName": "amplify-inverteclientv3-production-141454-unauthRole",
+      "StackName": "amplify-inverteclientv3-production-141454",
+      "StackId": "arn:aws:cloudformation:ca-central-1:084619430748:stack/amplify-inverteclientv3-production-141454/648667e0-3d1d-11ee-8516-06b217aba40a",
       "AmplifyAppId": "d1n1lwyzmz6bqx",
-      "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-inverteclientv3-staging-133138-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
+      "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-inverteclientv3-production-141454-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
     },
     "categories": {
       "auth": {
@@ -18,37 +18,33 @@
       },
       "function": {
         "createMetaRecordAmplifyAPIv3": {
-          "deploymentBucketName": "amplify-inverteclientv3-staging-133138-deployment",
-          "s3Key": "amplify-builds/createMetaRecordAmplifyAPIv3-2b484f3369436b384a6c-build.zip"
+          "deploymentBucketName": "amplify-inverteclientv3-production-141454-deployment",
+          "s3Key": "amplify-builds/createMetaRecordAmplifyAPIv3-3279644d584367757731-build.zip"
         },
         "getAnalyticsAmplifyAPIv3": {
-          "deploymentBucketName": "amplify-inverteclientv3-staging-133138-deployment",
-          "s3Key": "amplify-builds/getAnalyticsAmplifyAPIv3-554a4d3630684b474175-build.zip"
+          "deploymentBucketName": "amplify-inverteclientv3-production-141454-deployment",
+          "s3Key": "amplify-builds/getAnalyticsAmplifyAPIv3-4e377334587138394141-build.zip"
         },
         "getDailyMetaRecordAmplifyAPIv3": {
-          "deploymentBucketName": "amplify-inverteclientv3-staging-133138-deployment",
-          "s3Key": "amplify-builds/getDailyMetaRecordAmplifyAPIv3-4f763370322f7943626b-build.zip"
+          "deploymentBucketName": "amplify-inverteclientv3-production-141454-deployment",
+          "s3Key": "amplify-builds/getDailyMetaRecordAmplifyAPIv3-2f725172774d764a6664-build.zip"
         },
         "getRestaurantMetaAmplifyAPIv3": {
-          "deploymentBucketName": "amplify-inverteclientv3-staging-133138-deployment",
+          "deploymentBucketName": "amplify-inverteclientv3-production-141454-deployment",
           "s3Key": "amplify-builds/getRestaurantMetaAmplifyAPIv3-427039374d7666764258-build.zip"
         },
         "updateDisplayIngredientIndexAmplifyAPIv3": {
-          "deploymentBucketName": "amplify-inverteclientv3-staging-133138-deployment",
-          "s3Key": "amplify-builds/updateDisplayIngredientIndexAmplifyAPIv3-4d503264517053506266-build.zip"
+          "deploymentBucketName": "amplify-inverteclientv3-production-141454-deployment",
+          "s3Key": "amplify-builds/updateDisplayIngredientIndexAmplifyAPIv3-7a475a5262734d58784d-build.zip"
         },
         "updateIngredientNameAmplifyAPIv3": {
-          "deploymentBucketName": "amplify-inverteclientv3-staging-133138-deployment",
-          "s3Key": "amplify-builds/updateIngredientNameAmplifyAPIv3-4f31774a416f3967514b-build.zip"
+          "deploymentBucketName": "amplify-inverteclientv3-production-141454-deployment",
+          "s3Key": "amplify-builds/updateIngredientNameAmplifyAPIv3-796f424c3269546b7a6a-build.zip"
         },
         "updateUnitOfMassAmplifyAPIv3": {
-          "deploymentBucketName": "amplify-inverteclientv3-staging-133138-deployment",
-          "s3Key": "amplify-builds/updateUnitOfMassAmplifyAPIv3-4734672b444761506773-build.zip"
+          "deploymentBucketName": "amplify-inverteclientv3-production-141454-deployment",
+          "s3Key": "amplify-builds/updateUnitOfMassAmplifyAPIv3-73744845336c4d636e51-build.zip"
         }
-      },
-      "api": {
-        "inverteAmplifyAPIv3": {},
-        "inverteclientv3": {}
       }
     }
   }
