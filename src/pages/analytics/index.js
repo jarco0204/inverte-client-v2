@@ -252,7 +252,7 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
                                     <Statistic title="Seconds Taken" value={totalMinutes.toFixed(0)} />
                                 </Col>
                                 <Col span={5}>
-                                    <Statistic title="Total Portionss" value={totalPortions} />
+                                    <Statistic title="Total Portions" value={totalPortions} />
                                 </Col>
                             </Row>
                         </div>
