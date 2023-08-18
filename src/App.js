@@ -120,6 +120,7 @@ export default function App() {
         async function authSession() {
             try {
                 // Const Definition
+                console.log("test");
                 const session = await Auth.currentSession();
                 const user = await Auth.currentAuthenticatedUser();
                 const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
