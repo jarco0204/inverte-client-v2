@@ -123,6 +123,7 @@ export default function App() {
                 console.log("test");
                 const session = await Auth.currentSession();
                 const user = await Auth.currentAuthenticatedUser();
+                console.log("My user is:", user);
                 const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
                 const API_PATH = "/restaurants/";
                 setSpinnerLoader(true);

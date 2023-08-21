@@ -66,7 +66,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
 
     useEffect(() => {
         const handleResize = () => {
-            setIsMobileDevice(window.innerWidth < 1200);
+            setIsMobileDevice(window.innerWidth < 1100);
         };
         window.addEventListener("resize", handleResize);
 
@@ -417,7 +417,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
             {isMobileDevice && (
                 <div>
                     <MDBox py={3}>
-                        <Grid container spacing={1} display="flex" justifyContent="center">
+                        <Grid container spacing={1} direction="column" justifyContent="center">
                             <Grid item xs={12} md={6} lg={3}>
                                 <ComplexStatisticsCard
                                     color="dark"
