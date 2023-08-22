@@ -9,7 +9,7 @@ import PrecisionManufacturingRoundedIcon from "@mui/icons-material/PrecisionManu
 import ScaleRoundedIcon from "@mui/icons-material/ScaleRounded";
 import AccessTimeFilledRoundedIcon from "@mui/icons-material/AccessTimeFilledRounded";
 import DropDownMenus from "./components/DropDownMenus";
-import { getHour, getDay } from "../../graphql/queries";
+import { getDay } from "../../graphql/queries";
 
 // Material Dashboard 2 React components
 import MDBox from "../../components/MDBox";
@@ -32,7 +32,6 @@ import dayOfYear from "dayjs/plugin/dayOfYear.js";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import toObject from "dayjs/plugin/toObject.js";
-import { ConstructionOutlined } from "@mui/icons-material";
 // import { ListItemIcon } from "@mui/material";
 dayjs.extend(dayOfYear);
 dayjs.extend(toObject);
@@ -242,58 +241,6 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
         } catch (error) {
             console.error("Error retrieving Hour:", error);
         }
-        // Get Daily Hourly Summary
-        // let pathGET = "/metaRecords/get/";
-        // const finalAPIGETRoute = pathGET + keys[selectedIndexRef.current];
-        // try {
-        //     let tempDate = dayjs().tz(timeZone); // Local time of Client
-        //     console.log("The temp date is: ", tempDate.hour());
-        //     await API.get(process.env.REACT_APP_AMPLIFY_API_NAME, finalAPIGETRoute, {
-        //         queryStringParameters: {
-        //             dayOfYear: tempDate.dayOfYear().toString(),
-        //             hourOfDay: tempDate.hour().toString(),
-        //             iotNameThing: keys[selectedIndexRef.current],
-        //         },
-        //     })
-        //         .then(async (response) => {
-        //             // Check to see if there is a hourly response
-        //             if (response.daily) {
-        //                 // Set the Upper Summary Card Components
-        //                 let accuracy = response.daily.hourlySummary.accuracy + "%";
-        //                 let inventoryWeight = response.daily.hourlySummary.inventoryConsumed + "g";
-        //                 let timeSaved = response.daily.hourlySummary.minutesSaved + "s";
-        //                 setCardSummaryItems([response.daily.hourlySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
-        //                 // Create the lower 3 Plots using the Real-Time property
-        //                 generateLowerRealTimeGraphs(response.daily.realTime);
-        //             } else {
-        //                 // There is no hourly response so we need to create one
-        //                 setCardSummaryItems(["0", "NA", "0", "NA"]);
-        //                 setRealTimeWeight([]);
-        //                 setRealTimeAccuracy([]);
-        //                 setRealTimePortionTime([]);
-        //                 // Create Updated Meta Record Based on Previous Daily Meta
-        //                 let pathCREATE = "/metaRecords/create/";
-        //                 let finalAPIRoute = pathCREATE + keys[selectedIndexRef.current];
-        //                 let tempDate = dayjs().tz(timeZone).format(); // Local time of Client
-        //                 await API.get(process.env.REACT_APP_AMPLIFY_API_NAME, finalAPIRoute, {
-        //                     queryStringParameters: {
-        //                         tempDate: tempDate,
-        //                     },
-        //                 })
-        //                     .then((response) => {
-        //                         console.log("Success calling Serverless Lambda that creates Meta Hourly Record...", response);
-        //                     })
-        //                     .catch((error) => {
-        //                         console.log("Failed To Create Hourly Meta Record...", error);
-        //                     });
-        //             }
-        //         })
-        //         .catch((error) => {
-        //             throw new Error("Failed to retrieve from /metaRecords/get/ Route...", error);
-        //         });
-        // } catch (err) {
-        //     console.log(err);
-        // }
     };
 
     /*!

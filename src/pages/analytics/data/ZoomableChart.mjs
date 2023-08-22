@@ -40,7 +40,7 @@ const chartConfig = {
         ],
     },
     options: {
-        //responsive: true,
+        responsive: true,
         //maintainAspectRatio: false,
         scales: {
             x: {

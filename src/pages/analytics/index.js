@@ -3,10 +3,8 @@ import React, { useEffect, useState, useRef } from "react";
 import { DatePicker, Col, Row, Statistic, Typography } from "antd";
 import ZoomableChart from "./data/ZoomableChart.mjs";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "../../components/Navbars/DashboardNavbar";
 import Footer from "../../components/Footer";
 import MDBox from "../../components/MDBox";
-import subtopic from "./data/TestData";
 import Grid from "@mui/material/Grid";
 //import Row from "./components/Row";
 import { LocalizationProvider } from "@mui/x-date-pickers";
@@ -21,9 +19,6 @@ import { ListItemIcon } from "@mui/material";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import { API, Auth } from "aws-amplify";
 import moment from "moment";
-import ReportsLineChart from "../../components/Charts/LineCharts/ReportsLineChart";
-import MyLineChart from "./data/MyLineChart";
-import { listHours } from "../../graphql/queries";
 
 function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display = 3, number_of_plots = 3, rowToShow }) {
     /*
@@ -104,19 +99,6 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
             setAccuracy(analyticsData[1]);
             setTotalPortions(analyticsData[3]);
             setTotalMinutes(analyticsData[2]);
-            // console.log("The Weight chart data is:", analyticsData[4]);
-            // for (let i = 0; i < analyticsData[4].length; i++) {
-            //     let x = analyticsData[4][i].x.toString();
-            //     console.log("The value of x is:", x);
-            //     const parts = x.split(":");
-            //     let timeString = parts[0] + "." + parts[1];
-            //     let decimalNumber = parseFloat(timeString);
-            //     //     let timeInMilliseconds = (parseInt(hours, 10) * 3600 + parseInt(minutes, 10) * 60 + parseInt(seconds, 10)) * 1000;
-            //     //     timeInMilliseconds = timeInMilliseconds / 1000;
-            //     //     console.log("The timeInDecimal: ", timeInMilliseconds);
-            //     let y = parseInt(analyticsData[4][i].y);
-            //     analyticsData[4][i] = { x: decimalNumber, y: y };
-            // }
             setChartWeight(analyticsData[4]);
             setChartAccuracy(analyticsData[5]);
             setChartPortionTime(analyticsData[6]);
@@ -237,7 +219,7 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
                             <Typography>
                                 <Title>Summary</Title>
                                 <Paragraph>
-                                    Your total Inventory consumed for this time period was {totalInventory}g with an accuracy of {accuracy.toFixed(2)}%.This is because you took {totalPortions}{" "}
+                                    Your total Inventory consumed for this time period was {totalInventory}g with an accuracy of {accuracy.toFixed(0)}%.This is because you took {totalPortions}{" "}
                                     portions in {totalMinutes.toFixed(0)} seconds.
                                 </Paragraph>
                             </Typography>
@@ -246,7 +228,7 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
                                     <Statistic title="Total Inventory" value={totalInventory} />
                                 </Col>
                                 <Col span={5}>
-                                    <Statistic title="Average Accuracy" value={accuracy} precision={2} />
+                                    <Statistic title="Average Accuracy" value={accuracy} precision={0} />
                                 </Col>
                                 <Col span={5}>
                                     <Statistic title="Seconds Taken" value={totalMinutes.toFixed(0)} />
