@@ -90,9 +90,9 @@ const chartConfig = {
                     wheel: {
                         enabled: true,
                     },
-                    // drag:{
-                    //   enabled:true
-                    // },
+                    drag: {
+                        enabled: true,
+                    },
                     mode: "x",
                     speed: 100,
                 },
