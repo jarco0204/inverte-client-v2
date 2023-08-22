@@ -90,7 +90,7 @@ const chartConfig = {
                     wheel: {
                         enabled: true,
                     },
-                    drag: {
+                    pinch: {
                         enabled: true,
                     },
                     mode: "x",
