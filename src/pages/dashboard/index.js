@@ -26,7 +26,8 @@ import ComplexStatisticsCard_v2 from "./components/ComplexStatisticsCard_v2";
 import reportsLineChartData from "./data/reportsLineChartData";
 
 // AWS & other libraries
-import { API, Auth, PubSub } from "aws-amplify";
+import { API, Auth, PubSub, graphqlOperation } from "aws-amplify";
+import { onNewPortionEvent } from "../../graphql/subscriptions";
 import dayjs from "dayjs";
 import dayOfYear from "dayjs/plugin/dayOfYear.js";
 import utc from "dayjs/plugin/utc";
@@ -244,7 +245,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
     };
 
     /*!
-       @description:Use effect that fecthes the data during scale inventory weight changes
+       @description:Use effect that fecthes the data whenever new data is added to PE table
        @params:
        @return:
        @Comments
@@ -252,15 +253,17 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
     */
     useEffect(() => {
         getHourlyMetaRecords();
-
-        selectedIndexRef.current = selectedIndex;
-        PubSub.subscribe("$aws/things/" + keys[selectedIndexRef.current] + "/shadow/name/timeseries/update/accepted").subscribe({
-            next: () => {
+        const subscription = API.graphql(graphqlOperation(onNewPortionEvent)).subscribe({
+            next: (data) => {
+                const newSensorReading = data.value.data.onNewSensorReading;
+                // Handle the new sensor reading, update your state, etc.
                 getHourlyMetaRecords();
+                console.log("New sensor reading:", newSensorReading);
             },
-            error: (error) => console.error("Error with web socket...", error),
-            complete: () => console.log("Web Socket Done"),
         });
+        return () => {
+            subscription.unsubscribe();
+        };
     }, [selectedIndex]);
 
     return (

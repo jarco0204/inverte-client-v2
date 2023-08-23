@@ -20,7 +20,7 @@ import ButtonConfig from "./components/ButtonConfig";
 import SpinnerLoader from "./components/SpinnerLoader";
 import { handleOnMouseEnter, handleOnMouseLeave } from "./components/Sidenav/SidenavBehaviour";
 import DashboardNavbar from "./components/Navbars/DashboardNavbar";
-import { listRestaurants } from "./graphql/queries";
+import { getRestaurant } from "./graphql/queries";
 // import themeDark from "assets/theme-dark"; // TODO
 
 // Pages Containers
@@ -143,21 +143,25 @@ export default function App() {
                 }
 
                 try {
-                    const finalAPIRoute = API_PATH + user.username; //TODO: Cases where userSession is empty
-                    const response1 = await API.graphql({
-                        query: listRestaurants,
+                    const response = await API.graphql({
+                        query: getRestaurant,
+                        variables: { restaurant_id: user.username },
                     });
-                    console.log("The response is: ", response1);
+                    response.data.getRestaurant.iotThingNames = JSON.parse(response.data.getRestaurant.iotThingNames);
+                    setMetaInformation(response.data.getRestaurant);
+                    setUnitOfMass(response.data.getRestaurant.unitOfMass);
+                    console.log("The metaInformation is", metaInformation);
 
                     //Get Essential Restaurant Meta Data using Cognito UserID
-                    await API.get(AMPLIFY_API, finalAPIRoute).then((response) => {
-                        if (response.item.Item == undefined) {
-                            throw new Error("No Response from API");
-                        }
-                        console.log("The meta information is:", response.item.Item);
-                        setMetaInformation(response.item.Item);
-                        setUnitOfMass(response.item.Item.unitOfMass);
-                    });
+                    // const finalAPIRoute = API_PATH + user.username; //TODO: Cases where userSession is empty
+                    // await API.get(AMPLIFY_API, finalAPIRoute).then((response) => {
+                    //     if (response.item.Item == undefined) {
+                    //         throw new Error("No Response from API");
+                    //     }
+                    //     console.log("The meta information is:", response.item.Item);
+                    //     setMetaInformation(response.item.Item);
+                    //     setUnitOfMass(response.item.Item.unitOfMass);
+                    // });
 
                     setAuthenticated(true);
                     setSpinnerLoader(false);
