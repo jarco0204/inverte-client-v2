@@ -86,6 +86,9 @@ type PortionEvent @model {
     dayOfYear_hourOfDay_iotNameThing: ID @index(name: "byHour")
     hour: Hour @belongsTo(fields: ["dayOfYear_hourOfDay_iotNameThing"])
 }
+type Subscription {
+    onNewPortionEvent: PortionEvent @aws_subscribe(mutations: ["createPortionEvent"])
+}
 
 input HourlySummaryInput {
     minutesSaved: Float!

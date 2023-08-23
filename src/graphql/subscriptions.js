@@ -1,6 +1,50 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const onNewPortionEvent = /* GraphQL */ `
+  subscription OnNewPortionEvent {
+    onNewPortionEvent {
+      iotNameThing
+      timestamp
+      batchPortionID
+      inventoryWeight
+      batchPortionWeightAR
+      batchPortionStatusAR
+      ingredientName
+      lowerErrorLimit
+      upperErrorLimit
+      correctWeight
+      portionTimeTaken
+      dayOfYear_hourOfDay_iotNameThing
+      hour {
+        dayOfYear_hourOfDay_iotNameThing
+        dayOfYear_iotNameThing
+        minuteOfHour_secondOfMinute
+        hourlySummary {
+          minutesSaved
+          portionsCompleted
+          accuracy
+          inventoryConsumed
+          __typename
+        }
+        realTime
+        scaleActions
+        createdAt
+        portionEvent {
+          nextToken
+          __typename
+        }
+        updatedAt
+        dayHourDayOfYear_iotNameThing
+        __typename
+      }
+      createdAt
+      updatedAt
+      hourPortionEventDayOfYear_hourOfDay_iotNameThing
+      __typename
+    }
+  }
+`;
 export const onCreateRestaurant = /* GraphQL */ `
   subscription OnCreateRestaurant(
     $filter: ModelSubscriptionRestaurantFilterInput
