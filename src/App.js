@@ -20,7 +20,7 @@ import ButtonConfig from "./components/ButtonConfig";
 import SpinnerLoader from "./components/SpinnerLoader";
 import { handleOnMouseEnter, handleOnMouseLeave } from "./components/Sidenav/SidenavBehaviour";
 import DashboardNavbar from "./components/Navbars/DashboardNavbar";
-
+import { listRestaurants } from "./graphql/queries";
 // import themeDark from "assets/theme-dark"; // TODO
 
 // Pages Containers
@@ -144,8 +144,12 @@ export default function App() {
 
                 try {
                     const finalAPIRoute = API_PATH + user.username; //TODO: Cases where userSession is empty
+                    const response1 = await API.graphql({
+                        query: listRestaurants,
+                    });
+                    console.log("The response is: ", response1);
 
-                    // Get Essential Restaurant Meta Data using Cognito UserID
+                    //Get Essential Restaurant Meta Data using Cognito UserID
                     await API.get(AMPLIFY_API, finalAPIRoute).then((response) => {
                         if (response.item.Item == undefined) {
                             throw new Error("No Response from API");
@@ -154,6 +158,7 @@ export default function App() {
                         setMetaInformation(response.item.Item);
                         setUnitOfMass(response.item.Item.unitOfMass);
                     });
+
                     setAuthenticated(true);
                     setSpinnerLoader(false);
                 } catch (err) {

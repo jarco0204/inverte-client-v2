@@ -5,8 +5,13 @@ export const getRestaurant = /* GraphQL */ `
   query GetRestaurant($restaurant_id: ID!) {
     getRestaurant(restaurant_id: $restaurant_id) {
       restaurant_id
+      demo
+      iotThingNames
+      restaurantLocationNum
       displayIngredient
       restaurantName
+      unitOfMass
+      timeZone
       scale {
         items {
           iotNameThing
@@ -45,8 +50,13 @@ export const listRestaurants = /* GraphQL */ `
     ) {
       items {
         restaurant_id
+        demo
+        iotThingNames
+        restaurantLocationNum
         displayIngredient
         restaurantName
+        unitOfMass
+        timeZone
         scale {
           nextToken
           __typename

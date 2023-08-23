@@ -3,8 +3,13 @@ input AMPLIFY {
 } # FOR TESTING ONLY!
 type Restaurant @model {
     restaurant_id: ID! @primaryKey
-    displayIngredient: Int!
-    restaurantName: String!
+    demo: String
+    iotThingNames: AWSJSON
+    restaurantLocationNum: String
+    displayIngredient: Int
+    restaurantName: String
+    unitOfMass: String
+    timeZone: String
     scale: [Scale] @hasMany(indexName: "byRestaurant")
 }
 type Scale @model {

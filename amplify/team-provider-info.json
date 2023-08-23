@@ -31,7 +31,7 @@
         },
         "getRestaurantMetaAmplifyAPIv3": {
           "deploymentBucketName": "amplify-inverteclientv3-invertedev-112316-deployment",
-          "s3Key": "amplify-builds/getRestaurantMetaAmplifyAPIv3-6b417641513361534d46-build.zip"
+          "s3Key": "amplify-builds/getRestaurantMetaAmplifyAPIv3-394c6e69704a63656f5a-build.zip"
         },
         "updateDisplayIngredientIndexAmplifyAPIv3": {
           "deploymentBucketName": "amplify-inverteclientv3-invertedev-112316-deployment",
@@ -45,6 +45,10 @@
           "deploymentBucketName": "amplify-inverteclientv3-invertedev-112316-deployment",
           "s3Key": "amplify-builds/updateUnitOfMassAmplifyAPIv3-73744845336c4d636e51-build.zip"
         }
+      },
+      "api": {
+        "inverteAmplifyAPIv3": {},
+        "inverteclientv3": {}
       }
     }
   }
