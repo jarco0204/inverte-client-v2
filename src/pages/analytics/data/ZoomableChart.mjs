@@ -40,8 +40,8 @@ const chartConfig = {
         ],
     },
     options: {
-        responsive: true,
-        maintainAspectRatio: false,
+        // responsive: true,
+        // maintainAspectRatio: false,
         scales: {
             x: {
                 min: new Date(),
@@ -56,8 +56,8 @@ const chartConfig = {
                 ticks: {
                     //source: "auto",
                     stepSize: 1, // Display data points every 1 minute
-                    autoSkip: true,
-                    maxRotation: 0, // Disable label rotation
+                    // autoSkip: true,
+                    // maxRotation: 0, // Disable label rotation
                 },
                 offset: false,
                 grid: {

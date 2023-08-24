@@ -51,6 +51,7 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
     const open = Boolean(anchorEl);
     const { Title, Paragraph } = Typography;
     const options = Object.values(iotThingNames);
+    const devices = Object.keys(iotThingNames);
     const [selectedIndex, setSelectedIndex] = useState(displayIngredient);
     const selectedIndexRef = useRef(displayIngredient);
     const isInitialRender = useRef(true);
@@ -132,7 +133,7 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
     const getDataEvents = async (newDate, endDate) => {
         let dynamoStartDate = new Date(newDate._i.$d);
         let dynamoEndDate = new Date(endDate._i.$d);
-
+        console.log("The device is:", devices[selectedIndex]);
         const user = await Auth.currentAuthenticatedUser();
         try {
             const queryStartDate = JSON.stringify(dynamoStartDate);
@@ -142,7 +143,7 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
             const finalAPIRoute = path + user.username; //TODO: Cases where userSession is empty
 
             await API.get(AMPLIFY_API, finalAPIRoute, {
-                queryStringParameters: { startDate: queryStartDate, endDate: queryEndDate },
+                queryStringParameters: { startDate: queryStartDate, endDate: queryEndDate, scale: devices[selectedIndex] },
             }).then((response) => {
                 console.log("The meta that we pull from analytics: ", response); //Debug statement
                 if (response.portionEvents[0] != 0) {
@@ -239,7 +240,7 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
                             </Row>
                         </div>
                     </MDBox>
-                    <MDBox mb={1} mt={1} style={{ width: "80%", height: "auto" }}>
+                    <MDBox mb={1} mt={1}>
                         {/* <MyLineChart data={chartWeight} /> */}
                         <ZoomableChart dataSet={totalInventory == 0 ? null : analyticsData} />
                     </MDBox>
