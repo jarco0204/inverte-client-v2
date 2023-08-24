@@ -80,7 +80,7 @@
     }
   },
   "auth": {
-    "inverteclientv3e483745d": {
+    "inverteclientv30db036de": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {

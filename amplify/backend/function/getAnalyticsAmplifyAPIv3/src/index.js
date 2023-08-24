@@ -47,7 +47,6 @@ const listHours = /* GraphQL */ `
 */
 exports.handler = async (event) => {
     console.log(`EVENT: ${JSON.stringify(event)}`);
-    console.log("Testing env variables:", process.env.REACT_APP_GRAPHQL_ENDPOINT);
 
     let totalInventory = 0,
         totalAccuracy = 0,
@@ -55,8 +54,8 @@ exports.handler = async (event) => {
         totalPortion = 0;
     let realTime = [];
 
-    const GRAPHQL_ENDPOINT = process.env.REACT_APP_GRAPHQL_ENDPOINT;
-    const GRAPHQL_API_KEY = process.env.REACT_APP_GRAPHQL_API_KEY;
+    let GRAPHQL_ENDPOINT = "https://aeurd6fuufhb3cmvmy3fuqba5e.appsync-api.ca-central-1.amazonaws.com/graphql";
+    let GRAPHQL_API_KEY = "da2-pifjsf34xfajzos5e6pt4r2ke4";
 
     let startDate = JSON.parse(event.queryStringParameters.startDate);
     let endDate = JSON.parse(event.queryStringParameters.endDate);
@@ -75,7 +74,6 @@ exports.handler = async (event) => {
                     createdAt: {
                         between: [startDate, endDate],
                     },
-                    dayOfYear_hourOfDay_iotNameThing: { contains: event.queryStringParameters.scale },
                 },
             },
         }),
