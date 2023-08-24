@@ -227,6 +227,7 @@ const Scale = ({ mainScaleData }) => {
             next: (dataCloud) => {
                 dataCloud = dataCloud.value;
                 setRealTimeWeight(dataCloud.state.reported.inventoryWeight);
+
                 if (dataCloud.state.reported.temperature) {
                     setRealTimeTemperature(dataCloud.state.reported.temperature + "℃");
                 } else {
