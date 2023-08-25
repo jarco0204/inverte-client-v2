@@ -143,25 +143,25 @@ export default function App() {
                 }
 
                 try {
-                    // const response = await API.graphql({
-                    //     query: getRestaurant,
-                    //     variables: { restaurant_id: user.username },
-                    // });
-                    // response.data.getRestaurant.iotThingNames = JSON.parse(response.data.getRestaurant.iotThingNames);
-                    // setMetaInformation(response.data.getRestaurant);
-                    // setUnitOfMass(response.data.getRestaurant.unitOfMass);
-                    // console.log("The metaInformation is", metaInformation);
+                    const response = await API.graphql({
+                        query: getRestaurant,
+                        variables: { restaurant_id: user.username },
+                    });
+                    response.data.getRestaurant.iotThingNames = JSON.parse(response.data.getRestaurant.iotThingNames);
+                    setMetaInformation(response.data.getRestaurant);
+                    setUnitOfMass(response.data.getRestaurant.unitOfMass);
+                    console.log("The metaInformation is", metaInformation);
 
                     //Get Essential Restaurant Meta Data using Cognito UserID
-                    const finalAPIRoute = API_PATH + user.username; //TODO: Cases where userSession is empty
-                    await API.get(AMPLIFY_API, finalAPIRoute).then((response) => {
-                        if (response.item.Item == undefined) {
-                            throw new Error("No Response from API");
-                        }
-                        console.log("The meta information is:", response.item.Item);
-                        setMetaInformation(response.item.Item);
-                        setUnitOfMass(response.item.Item.unitOfMass);
-                    });
+                    // const finalAPIRoute = API_PATH + user.username; //TODO: Cases where userSession is empty
+                    // await API.get(AMPLIFY_API, finalAPIRoute).then((response) => {
+                    //     if (response.item.Item == undefined) {
+                    //         throw new Error("No Response from API");
+                    //     }
+                    //     console.log("The meta information is:", response.item.Item);
+                    //     setMetaInformation(response.item.Item);
+                    //     setUnitOfMass(response.item.Item.unitOfMass);
+                    // });
 
                     setAuthenticated(true);
                     setSpinnerLoader(false);

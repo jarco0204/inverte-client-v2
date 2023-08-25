@@ -23,7 +23,7 @@
         },
         "getAnalyticsAmplifyAPIv3": {
           "deploymentBucketName": "amplify-inverteclientv3-staging-133138-deployment",
-          "s3Key": "amplify-builds/getAnalyticsAmplifyAPIv3-4e377334587138394141-build.zip"
+          "s3Key": "amplify-builds/getAnalyticsAmplifyAPIv3-736561546f5250473878-build.zip"
         },
         "getDailyMetaRecordAmplifyAPIv3": {
           "deploymentBucketName": "amplify-inverteclientv3-staging-133138-deployment",
@@ -45,6 +45,10 @@
           "deploymentBucketName": "amplify-inverteclientv3-staging-133138-deployment",
           "s3Key": "amplify-builds/updateUnitOfMassAmplifyAPIv3-73744845336c4d636e51-build.zip"
         }
+      },
+      "api": {
+        "inverteAmplifyAPIv3": {},
+        "inverteclientv3": {}
       }
     }
   }
