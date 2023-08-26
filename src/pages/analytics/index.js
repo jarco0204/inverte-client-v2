@@ -24,22 +24,23 @@ import Footer from "../../components/Footer";
 import MDBox from "../../components/MDBox";
 
 /*
-    @description: This component creates the rows that display the plots
-    @params: rows_to_display: specifies how many rows of plots you want to display
-            number_of_plots: specifies how many plots per row you want to display
-            rowToShow: the data being passed for the component display the plots
-    @return:
-            A nested components of rows
+@description: This component creates the rows that display the plots
+@params: rows_to_display: specifies how many rows of plots you want to display
+        number_of_plots: specifies how many plots per row you want to display
+        rowToShow: the data being passed for the component display the plots
+@return:
+        A nested components of rows
 
-    @Comments
-        The utility of refined_data is to separate the incoming data into rows_to_display Arrays
-        of number_of_plots Plots. E.g: rows_to_display = 3, number_of_plots=3 and data.length==7 then:
-        refined_data will create an array of 3 arrays that will be of length 2,3 and 2 respectively.
-        The first row will always only have 2 plots for emphasis of that data.
-    
-    @Coders: Crishan
-    */
+@Comments
+    The utility of refined_data is to separate the incoming data into rows_to_display Arrays
+    of number_of_plots Plots. E.g: rows_to_display = 3, number_of_plots=3 and data.length==7 then:
+    refined_data will create an array of 3 arrays that will be of length 2,3 and 2 respectively.
+    The first row will always only have 2 plots for emphasis of that data.
+
+@Coders: Crishan
+*/
 const AnalyticsDashboard = ({ iotThingNames, displayIngredient, rows_to_display = 3, number_of_plots = 3, rowToShow }) => {
+    // Component State
     const [totalInventory, setTotalInventory] = useState(0);
     const [accuracy, setAccuracy] = useState(0);
     const [totalPortions, setTotalPortions] = useState(0);
@@ -51,7 +52,6 @@ const AnalyticsDashboard = ({ iotThingNames, displayIngredient, rows_to_display 
     const [selectedDates, setSelectedDates] = useState([]);
     const { RangePicker } = DatePicker;
     const [anchorEl, setAnchorEl] = useState(null);
-
     const open = Boolean(anchorEl);
     const { Title, Paragraph } = Typography;
     const options = Object.values(iotThingNames);
@@ -60,6 +60,7 @@ const AnalyticsDashboard = ({ iotThingNames, displayIngredient, rows_to_display 
     const selectedIndexRef = useRef(displayIngredient);
     const isInitialRender = useRef(true);
 
+    // Functions to handle child component
     const handleClose = () => {
         setAnchorEl(null);
     };
@@ -78,7 +79,6 @@ const AnalyticsDashboard = ({ iotThingNames, displayIngredient, rows_to_display 
         setSelectedIndex(index);
         selectedIndexRef.current = index;
         setAnchorEl(null);
-        //updateIngredient(index);
     };
     const handleClickListItem = (event) => {
         setAnchorEl(event.currentTarget);
@@ -135,10 +135,12 @@ const AnalyticsDashboard = ({ iotThingNames, displayIngredient, rows_to_display 
        @Coders:pfk123
     */
     const getDataEvents = async (newDate, endDate) => {
-        let dynamoStartDate = new Date(newDate._i.$d);
-        let dynamoEndDate = new Date(endDate._i.$d);
-        console.log("The device is:", devices[selectedIndex]);
+        const dynamoStartDate = new Date(newDate._i.$d);
+        const dynamoEndDate = new Date(endDate._i.$d);
         const user = await Auth.currentAuthenticatedUser();
+        console.log("Retrieving analytics for this Device...", devices[selectedIndex]); // Debug Statement
+
+        // Handle API Call
         try {
             const queryStartDate = JSON.stringify(dynamoStartDate);
             const queryEndDate = JSON.stringify(dynamoEndDate);
@@ -146,22 +148,24 @@ const AnalyticsDashboard = ({ iotThingNames, displayIngredient, rows_to_display 
             const path = "/metaRecords/analytics/get/";
             const finalAPIRoute = path + user.username; //TODO: Cases where userSession is empty
 
+            //Make API Call
             await API.get(AMPLIFY_API, finalAPIRoute, {
                 queryStringParameters: { startDate: queryStartDate, endDate: queryEndDate, scale: devices[selectedIndex] },
             }).then((response) => {
-                console.log("The meta that we pull from analytics: ", response); //Debug statement
+                console.log("This is the response Meta Object from the GQL API...", response); //Debug statement
                 if (response.portionEvents[0] != 0) {
                     setAnalyticsData(response.portionEvents);
                 }
-
+                // Error Handling
                 if (response.item.Item == undefined) {
                     throw new Error("No Response from API");
                 }
             });
         } catch (err) {
-            console.log("Error is:", err);
+            console.log("Error while making GQL API call for analytics...", err);
         }
     };
+
     //Display analytics page
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
