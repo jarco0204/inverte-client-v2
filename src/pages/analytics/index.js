@@ -1,15 +1,10 @@
+// External Library Imports
 import React, { useEffect, useState, useRef } from "react";
+import PropTypes from "prop-types";
 
-import { DatePicker, Col, Row, Statistic, Typography } from "antd";
-import ZoomableChart from "./data/ZoomableChart.mjs";
-import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
-import Footer from "../../components/Footer";
-import MDBox from "../../components/MDBox";
 import Grid from "@mui/material/Grid";
-//import Row from "./components/Row";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import PropTypes from "prop-types";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import List from "@mui/material/List";
@@ -17,11 +12,18 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import { ListItemIcon } from "@mui/material";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import { API, Auth } from "aws-amplify";
-import moment from "moment";
 
-function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display = 3, number_of_plots = 3, rowToShow }) {
-    /*
+import moment from "moment";
+import { API, Auth } from "aws-amplify";
+import { DatePicker, Col, Row, Statistic, Typography } from "antd";
+
+// MaterialUI
+import ZoomableChart from "./data/ZoomableChart.mjs";
+import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
+import Footer from "../../components/Footer";
+import MDBox from "../../components/MDBox";
+
+/*
     @description: This component creates the rows that display the plots
     @params: rows_to_display: specifies how many rows of plots you want to display
             number_of_plots: specifies how many plots per row you want to display
@@ -34,8 +36,10 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
         of number_of_plots Plots. E.g: rows_to_display = 3, number_of_plots=3 and data.length==7 then:
         refined_data will create an array of 3 arrays that will be of length 2,3 and 2 respectively.
         The first row will always only have 2 plots for emphasis of that data.
+    
+    @Coders: Crishan
     */
-
+const AnalyticsDashboard = ({ iotThingNames, displayIngredient, rows_to_display = 3, number_of_plots = 3, rowToShow }) => {
     const [totalInventory, setTotalInventory] = useState(0);
     const [accuracy, setAccuracy] = useState(0);
     const [totalPortions, setTotalPortions] = useState(0);
@@ -43,7 +47,7 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
     const [chartWeight, setChartWeight] = useState([]);
     const [chartAccuracy, setChartAccuracy] = useState([]);
     const [chartPortionTime, setChartPortionTime] = useState([]);
-    let [analyticsData, setAnalyticsData] = useState(null);
+    const [analyticsData, setAnalyticsData] = useState(null);
     const [selectedDates, setSelectedDates] = useState([]);
     const { RangePicker } = DatePicker;
     const [anchorEl, setAnchorEl] = useState(null);
@@ -162,7 +166,6 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DashboardLayout>
-                {/* <DashboardNavbar /> */}
                 <MDBox mt={1}>
                     <Grid container justifyContent="center" position="relative">
                         <div style={{ margin: "auto ", marginTop: "4px", width: "fit-content", border: "1px solid #49a3f1 ", borderRadius: "5px", padding: "5px", marginLeft: "0px" }}>
@@ -214,7 +217,6 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
                         onChange={handleRangeChange}
                         onOpenChange={handleOpenChange}
                     />
-
                     <MDBox mt={3} mb={3}>
                         <div>
                             <Typography>
@@ -241,7 +243,6 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
                         </div>
                     </MDBox>
                     <MDBox mb={1} mt={1}>
-                        {/* <MyLineChart data={chartWeight} /> */}
                         <ZoomableChart dataSet={totalInventory == 0 ? null : analyticsData} />
                     </MDBox>
                 </MDBox>
@@ -249,7 +250,7 @@ function AnalyticsDashboard({ iotThingNames, displayIngredient, rows_to_display 
             </DashboardLayout>
         </LocalizationProvider>
     );
-}
+};
 
 AnalyticsDashboard.propTypes = {
     rows_to_display: PropTypes.number,
