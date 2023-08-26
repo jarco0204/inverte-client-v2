@@ -1,7 +1,8 @@
-// External Library Imports
+// Main Libraries
 import React, { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 
+// MaterialUI
 import Grid from "@mui/material/Grid";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -13,15 +14,19 @@ import ListItemText from "@mui/material/ListItemText";
 import { ListItemIcon } from "@mui/material";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 
+// UI Libraries
 import moment from "moment";
-import { API, Auth } from "aws-amplify";
 import { DatePicker, Col, Row, Statistic, Typography } from "antd";
 
-// MaterialUI
+// Backend
+import { API, Auth } from "aws-amplify";
+
+// User Components
 import ZoomableChart from "./data/ZoomableChart.mjs";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import Footer from "../../components/Footer";
 import MDBox from "../../components/MDBox";
+import DropDownMenus from "../dashboard/components/DropDownMenus";
 
 /*
 @description: This component creates the rows that display the plots
@@ -165,12 +170,12 @@ const AnalyticsDashboard = ({ iotThingNames, displayIngredient, rows_to_display 
             console.log("Error while making GQL API call for analytics...", err);
         }
     };
-
     //Display analytics page
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DashboardLayout>
                 <MDBox mt={1}>
+                    <DropDownMenus options={options} selectedIndexRef={selectedIndexRef} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} updateIngredient={"Cheese"} />
                     <Grid container justifyContent="center" position="relative">
                         <div style={{ margin: "auto ", marginTop: "4px", width: "fit-content", border: "1px solid #49a3f1 ", borderRadius: "5px", padding: "5px", marginLeft: "0px" }}>
                             <List component="nav" aria-label="Device settings">
