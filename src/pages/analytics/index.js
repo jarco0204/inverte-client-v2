@@ -26,7 +26,7 @@ import ZoomableChart from "./data/ZoomableChart.mjs";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import Footer from "../../components/Footer";
 import MDBox from "../../components/MDBox";
-import DropDownMenus from "../dashboard/components/DropDownMenus";
+import DropDownMenus from "../../components/DropdownButton";
 
 /*
 @description: This component creates the rows that display the plots
