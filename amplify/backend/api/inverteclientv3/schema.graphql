@@ -94,6 +94,7 @@ input HourlySummaryInput {
     minutesSaved: Float!
     portionsCompleted: Int!
     accuracy: Float!
+    performance: Float!
     inventoryConsumed: Int!
 }
 
@@ -101,6 +102,7 @@ input DailySummaryInput {
     minutesSaved: Float!
     portionsCompleted: Int!
     accuracy: Float!
+    performance: Float!
     inventoryConsumed: Int!
 }
 
@@ -108,6 +110,7 @@ input WeeklySummaryInput {
     minutesSaved: Float!
     portionsCompleted: Int!
     accuracy: Float!
+    performance: Float!
     inventoryConsumed: Int!
 }
 
@@ -115,12 +118,14 @@ input MonthlySummaryInput {
     minutesSaved: Float!
     portionsCompleted: Int!
     accuracy: Float!
+    performance: Float!
     inventoryConsumed: Int!
 }
 input YearlySummaryInput {
     minutesSaved: Float!
     portionsCompleted: Int!
     accuracy: Float!
+    performance: Float!
     inventoryConsumed: Int!
 }
 
@@ -128,6 +133,7 @@ type HourlySummary {
     minutesSaved: Float!
     portionsCompleted: Int!
     accuracy: Float!
+    performance: Float!
     inventoryConsumed: Int!
     hour: Hour
 }
@@ -136,6 +142,7 @@ type DailySummary {
     minutesSaved: Float!
     portionsCompleted: Int!
     accuracy: Float!
+    performance: Float!
     inventoryConsumed: Int!
     day: Day
 }
@@ -144,6 +151,7 @@ type WeeklySummary {
     minutesSaved: Float!
     portionsCompleted: Int!
     accuracy: Float!
+    performance: Float!
     inventoryConsumed: Int!
     week: Week
 }
@@ -152,6 +160,7 @@ type MonthlySummary {
     minutesSaved: Float!
     portionsCompleted: Int!
     accuracy: Float!
+    performance: Float!
     inventoryConsumed: Int!
     month: Month
 }
@@ -159,6 +168,7 @@ type YearlySummary {
     minutesSaved: Float!
     portionsCompleted: Int!
     accuracy: Float!
+    performance: Float!
     inventoryConsumed: Int!
     year: Year
 }
