@@ -174,7 +174,7 @@ const AnalyticsDashboard = ({ iotThingNames, displayIngredient, rows_to_display 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DashboardLayout>
-                <MDBox mt={1}>
+                <MDBox mt={2}>
                     <div style={{ margin: "auto", display: "flex", flexDirection: "column" }}>
                         <DropDownMenuButton options={options} selectedIndexRef={selectedIndexRef} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} updateIngredient={"Cheese"} />
                         <RangePicker
@@ -230,29 +230,31 @@ const AnalyticsDashboard = ({ iotThingNames, displayIngredient, rows_to_display 
                         </div>
                     </Grid> */}
 
-                    <MDBox mt={3} mb={3}>
-                        <div style={{ textAlign: "center" }}>
+                    <MDBox mt={5} mb={2}>
+                        <div style={{ textAlign: "center", display: "flex", flexDirection: "column", alignContent: "center", justifyContent: "center" }}>
                             <Typography>
-                                <Title>Inventory Deplotion</Title>
+                                <Title>Consumption for X</Title>
                                 <Paragraph>
                                     Your total Inventory consumed for this time period was {totalInventory}g with an accuracy of {accuracy.toFixed(0)}%.This is because you took {totalPortions}{" "}
                                     portions in {totalMinutes.toFixed(0)} seconds.
                                 </Paragraph>
                             </Typography>
-                            <Row gutter={16}>
-                                <Col span={5}>
-                                    <Statistic title="Total Inventory" value={totalInventory} />
-                                </Col>
-                                <Col span={5}>
-                                    <Statistic title="Average Accuracy" value={accuracy} precision={0} />
-                                </Col>
-                                <Col span={5}>
-                                    <Statistic title="Seconds Taken" value={totalMinutes.toFixed(0)} />
-                                </Col>
-                                <Col span={5}>
-                                    <Statistic title="Total Portions" value={totalPortions} />
-                                </Col>
-                            </Row>
+                            <div style={{ display: "flex", justifyContent: "space-around" }}>
+                                <Row gutter={40}>
+                                    <Col span={5}>
+                                        <Statistic title="Total Inventory" value={totalInventory} />
+                                    </Col>
+                                    <Col span={5}>
+                                        <Statistic title="Precision Levels" value={accuracy} precision={0} />
+                                    </Col>
+                                    <Col span={5}>
+                                        <Statistic title="Seconds Taken" value={totalMinutes.toFixed(0)} />
+                                    </Col>
+                                    <Col span={5}>
+                                        <Statistic title="Total Portions" value={totalPortions} />
+                                    </Col>
+                                </Row>
+                            </div>
                         </div>
                     </MDBox>
                     <MDBox mb={1} mt={1}>
