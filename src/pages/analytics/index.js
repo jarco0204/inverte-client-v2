@@ -229,16 +229,15 @@ const AnalyticsDashboard = ({ iotThingNames, displayIngredient, rows_to_display 
                             </Menu>
                         </div>
                     </Grid> */}
-                    {analyticsData == null ? null : (
+                    {analyticsData == !null ? null : (
                         <React.Fragment>
                             <MDBox mt={5} mb={2}>
                                 <div style={{ textAlign: "center", display: "flex", flexDirection: "column", alignContent: "center", justifyContent: "center" }}>
                                     <Typography>
-                                        <Title>Consumption for X</Title>
-                                        <Paragraph>
+                                        <Title>
                                             Your total Inventory consumed for this time period was {totalInventory}g with an accuracy of {accuracy.toFixed(0)}%.This is because you took {totalPortions}{" "}
                                             portions in {totalMinutes.toFixed(0)} seconds.
-                                        </Paragraph>
+                                        </Title>
                                     </Typography>
                                     <div style={{ display: "flex", justifyContent: "space-around" }}>
                                         <Row gutter={40}>
