@@ -175,8 +175,19 @@ const AnalyticsDashboard = ({ iotThingNames, displayIngredient, rows_to_display 
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DashboardLayout>
                 <MDBox mt={1}>
-                    <DropDownMenuButton options={options} selectedIndexRef={selectedIndexRef} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} updateIngredient={"Cheese"} />
-                    <Grid container justifyContent="center" position="relative">
+                    <div style={{ margin: "auto", display: "flex", flexDirection: "column" }}>
+                        <DropDownMenuButton options={options} selectedIndexRef={selectedIndexRef} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} updateIngredient={"Cheese"} />
+                        <RangePicker
+                            showTime={{
+                                format: "HH",
+                                defaultValue: [moment("00:00", "HH:mm"), moment("23:00", "HH:mm")], // Default time range
+                            }}
+                            onChange={handleRangeChange}
+                            onOpenChange={handleOpenChange}
+                        />
+                    </div>
+
+                    {/* <Grid container justifyContent="center" position="relative">
                         <div style={{ margin: "auto ", marginTop: "4px", width: "fit-content", border: "1px solid #49a3f1 ", borderRadius: "5px", padding: "5px", marginLeft: "0px" }}>
                             <List component="nav" aria-label="Device settings">
                                 <ListItem
@@ -217,19 +228,12 @@ const AnalyticsDashboard = ({ iotThingNames, displayIngredient, rows_to_display 
                                 ))}
                             </Menu>
                         </div>
-                    </Grid>
-                    <RangePicker
-                        showTime={{
-                            format: "HH",
-                            defaultValue: [moment("00:00", "HH:mm"), moment("23:00", "HH:mm")], // Default time range
-                        }}
-                        onChange={handleRangeChange}
-                        onOpenChange={handleOpenChange}
-                    />
+                    </Grid> */}
+
                     <MDBox mt={3} mb={3}>
-                        <div>
+                        <div style={{ textAlign: "center" }}>
                             <Typography>
-                                <Title>Summary</Title>
+                                <Title>Inventory Deplotion</Title>
                                 <Paragraph>
                                     Your total Inventory consumed for this time period was {totalInventory}g with an accuracy of {accuracy.toFixed(0)}%.This is because you took {totalPortions}{" "}
                                     portions in {totalMinutes.toFixed(0)} seconds.

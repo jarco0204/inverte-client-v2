@@ -89,8 +89,8 @@ const DropDownMenuButton = ({ options, selectedIndexRef, selectedIndex, setSelec
     };
     return (
         <>
+            <h1 style={{ textAlign: "center", margin: "0", fontSize: "26px" }}>Past InVentory Report </h1>
             <MDBox py={1} display="flex" justifyContent="center">
-                <h2 style={{ margin: "0 10px", fontSize: "24px" }}>Past InVentory Report: </h2>
                 <MDBox
                     variant="gradient"
                     bgColor="dark"
