@@ -23,14 +23,20 @@ import PortionAccuracyLineChartConfig from "./configs";
    @Coders: EscorpionWin$
 */
 const PortionAccuracyLineChart = ({ color, title, description, chart }) => {
-    const { data, options } = PortionAccuracyLineChartConfig(chart.labels || [], chart.datasets || {}, chart.pointBackgroundColorAr || []);
+    const { data, options } = PortionAccuracyLineChartConfig(
+        chart.labels || [],
+        chart.datasets || {},
+        chart.pointBackgroundColorAr || [],
+        chart.datasets1 || [],
+        chart.datasets2 || [],
+        chart.datasets3 || []
+    );
     return (
         <Card sx={{ height: "100%" }}>
             <MDBox padding="1rem">
                 {useMemo(
                     () => (
                         <MDBox variant="gradient" bgColor={color} borderRadius="lg" coloredShadow={color} py={2} pr={0.5} mt={-5} height="14rem">
-                            <Line data={data} options={options} />
                             <Line data={data} options={options} />
                         </MDBox>
                     ),

@@ -5,7 +5,7 @@
    @Comments
    @Coders: MikelJordania
 */
-const PortionAccuracyLineChartConfig = (labels, datasets, pointColorsAR) => {
+const PortionAccuracyLineChartConfig = (labels, datasets, pointColorsAR, datasets1, datasets2, datasets3) => {
     return {
         data: {
             labels,
@@ -24,20 +24,44 @@ const PortionAccuracyLineChartConfig = (labels, datasets, pointColorsAR) => {
                     data: datasets.data,
                     maxBarThickness: 6,
                 },
-            ],
-            datasets1: [
                 {
-                    label: datasets.label,
+                    label: datasets1.label,
                     tension: 0.25,
-                    pointRadius: 8,
+                    pointRadius: 2,
+                    // pointBorderColor: "red",
+                    pointBackgroundColor: "rgba(1, 255, 1, .8)",
+                    // pointBackgroundColor: pointColorsAR,
+                    borderColor: "rgba(1, 255, 1, .8)",
+                    borderWidth: 4,
+                    backgroundColor: "transparent",
+                    fill: false,
+                    data: datasets1.data,
+                    maxBarThickness: 6,
+                },
+                {
+                    label: datasets2.label,
+                    tension: 0.25,
+                    pointRadius: 2,
                     // pointBorderColor: "red",
                     pointBackgroundColor: "rgba(255, 1, 1, .8)",
                     // pointBackgroundColor: pointColorsAR,
-                    borderColor: "rgba(255, 255, 255, .8)",
+                    borderColor: "rgba(255, 1, 1, .8)",
                     borderWidth: 4,
                     backgroundColor: "transparent",
                     fill: true,
-                    data: datasets.data,
+                    data: datasets2.data,
+                    maxBarThickness: 6,
+                },
+                {
+                    label: datasets3.label,
+                    tension: 0.25,
+                    pointRadius: 2,
+                    pointBackgroundColor: "rgba(1, 1, 255, .5)",
+                    borderColor: "rgba(1, 1, 255, .8)",
+                    borderWidth: 4,
+                    backgroundColor: "transparent",
+                    fill: false,
+                    data: datasets3.data,
                     maxBarThickness: 6,
                 },
             ],

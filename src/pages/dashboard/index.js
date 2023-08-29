@@ -48,6 +48,9 @@ const createReportLineChartObject = () => {
         weightGraph: {
             labels: [],
             datasets: { label: "Portion Event", data: [], yAxisLabel: "Grams" },
+            datasets1: { label: "Correct Weight", data: [], yAxisLabel: "Grams" },
+            datasets2: { label: "Upper Limit", data: [], yAxisLabel: "Grams" },
+            datasets3: { label: "Lower Limit", data: [], yAxisLabel: "Grams" },
             pointBackgroundColorAr: [],
         },
         accuracyGraph: {
@@ -59,11 +62,6 @@ const createReportLineChartObject = () => {
             labels: [],
             datasets: { label: "Portion Time", data: [], yAxisLabel: "Seconds" },
             pointBackgroundColorAr: [],
-        },
-        correctWeightGraph: {
-            labels: [],
-            datasets: { label: "Correct Weight", data: [], yAxisLabel: "Grams" },
-            // pointBackgroundColorAr: [],
         },
     };
 };
@@ -81,10 +79,10 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
 
     // Main Card Components
     const [cardSummaryItems, setCardSummaryItems] = useState([]);
-    const [realTimeWeightData, setRealTimeWeightData] = useState([]);
+    const [realTimeWeightGraph, setRealTimeWeightGraph] = useState([]);
     const [realTimeAccuracy, setRealTimeAccuracy] = useState([]);
     const [realTimePortionTime, setRealTimePortionTime] = useState([]);
-    const { weightGraph, accuracyGraph, portionTimeGraph, correctWeightGraph } = createReportLineChartObject();
+    const { weightGraph, accuracyGraph, portionTimeGraph } = createReportLineChartObject();
 
     // Drop-Down Menu State
     const options = Object.values(iotThingNames);
@@ -143,7 +141,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
         console.log("The length of the array is...", realTime.length);
 
         // Variable definition
-        let [tempWeightAR, correctWeightAR, tempAccuracyAR, tempTimeAR, pointBackgroundColorAR] = [[], [], [], [], []];
+        let [tempWeightAR, correctWeightAR, upperLimitAR, lowerLimitAR, tempAccuracyAR, tempTimeAR, pointBackgroundColorAR] = [[], [], [], [], [], [], []];
         let oldTempKeys = Object.keys(realTime).sort();
         let tempKeys = oldTempKeys.slice(-7); //We are slicing the array so that only 7 data points get displayed on the graphs
 
@@ -168,16 +166,21 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
             // Push Data points to arrays
             tempAccuracyAR.push(realTime[tempKeys[i]].accuracy);
             tempTimeAR.push(parseFloat(realTime[tempKeys[i]].portionTime).toFixed(1));
-            correctWeightAR.push(27);
+            correctWeightAR.push(13);
+            upperLimitAR.push(13 + 1);
+            lowerLimitAR.push(13 - 1);
         }
 
         // Improve UI by adding labels and colours
         weightGraph.labels = tempKeys;
         weightGraph.datasets.data = tempWeightAR;
+        weightGraph.datasets1.data = correctWeightAR;
+        weightGraph.datasets2.data = upperLimitAR;
+        weightGraph.datasets3.data = lowerLimitAR;
         weightGraph.pointBackgroundColorAr = pointBackgroundColorAR;
 
-        correctWeightGraph.labels = tempKeys;
-        correctWeightGraph.datasets.data = correctWeightAR;
+        // correctWeightGraph.labels = tempKeys;
+        // correctWeightGraph.datasets.data = correctWeightAR;
         // correctWeightGraph.pointBackgroundColorAr = pointBackgroundColorAR;
 
         accuracyGraph.labels = tempKeys;
@@ -196,7 +199,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
         }
 
         // Update the graphs
-        setRealTimeWeightData(weightGraph);
+        setRealTimeWeightGraph(weightGraph);
         setRealTimeAccuracy(accuracyGraph);
         setRealTimePortionTime(portionTimeGraph);
     };
@@ -268,7 +271,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                 } else {
                     // There is no hourly response so we need to create one
                     setCardSummaryItems(["0", "NA", "0", "NA"]);
-                    setRealTimeWeightData([]);
+                    setRealTimeWeightGraph([]);
                     setRealTimeAccuracy([]);
                     setRealTimePortionTime([]);
                     return;
@@ -375,7 +378,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                             <Grid container spacing={3}>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <PortionAccuracyLineChart color="info" title="Variation of Portioning Weight" key={realTimeAccuracy} chart={realTimeWeightData} />
+                                        <PortionAccuracyLineChart color="info" title="Variation of Portioning Weight" key={realTimeAccuracy} chart={realTimeWeightGraph} />
                                     </MDBox>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
@@ -417,7 +420,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                     percentage={{
                                         color: "success",
                                     }}
-                                    realTimeData={realTimeWeightData}
+                                    realTimeData={realTimeWeightGraph}
                                 />
                             </Grid>
                             <Grid item xs={12} md={6} lg={3}>
