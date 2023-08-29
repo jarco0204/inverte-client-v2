@@ -49,21 +49,19 @@ dayjs.extend(timezone);
 const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex, timeZone, demo }) => {
     // Main Component State: Cards & Graphs
     const [cardSummaryItems, setCardSummaryItems] = useState([]);
-    const [realTimeWeight, setRealTimeWeight] = useState([]);
+    const [realTimeWeightData, setRealTimeWeightData] = useState([]);
     const [realTimeAccuracy, setRealTimeAccuracy] = useState([]);
     const [realTimePortionTime, setRealTimePortionTime] = useState([]);
     const { weightGraph, accuracyGraph, portionTimeGraph } = reportsLineChartData;
     const [isMobileDevice, setIsMobileDevice] = useState(false);
+
     // Drop-Down Menu State
     const options = Object.values(iotThingNames);
     const selectedIndexRef = useRef(displayIngredientIndex);
     const [selectedIndex, setSelectedIndex] = useState(displayIngredientIndex);
     const keys = Object.keys(iotThingNames);
-    console.log("The value of demo is:", demo);
-    console.log(isMobileDevice);
-    // const [anchorEl, setAnchorEl] = useState(null);
-    // const open = Boolean(anchorEl);
 
+    // UseEffect to change layout for mobile devices
     useEffect(() => {
         const handleResize = () => {
             setIsMobileDevice(window.innerWidth < 1100);
@@ -76,6 +74,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
             window.removeEventListener("resize", handleResize);
         };
     }, []);
+
     /*!
         @description: Update the index number of selected ingredient in dynamo 
         @params: integer
@@ -93,11 +92,11 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
             // Make REST API Call
             await API.get(AMPLIFY_API, finalAPIRoute, { queryStringParameters: { index: index } }).then((response) => {
                 if (response == undefined) {
-                    throw new Error("No Response from API");
+                    throw new Error("No Response from updateDisplayIngredientIndex route in GQL API");
                 }
             });
         } catch (err) {
-            console.log("Error when updating selected ingredient index...", err);
+            console.log("Error when updating selected ingredient index in dashboard page...", err);
         }
     };
 
@@ -109,50 +108,49 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
        @Coders: BillyCaine
     */
     const generateLowerRealTimeGraphs = (realTime) => {
-        // Variable definition
-        //realTime = JSON.parse(realTime);
+        console.log("The realtimeAR pulled from Cloud is...", realTime);
+        console.log("The length of the array is...", realTime.length);
 
-        let [tempWeightAr, tempAccuracyAr, tempTimeAr, pointBackgroundColorAr] = [[], [], [], []];
+        // Variable definition
+        let [tempWeightAR, tempAccuracyAR, tempTimeAR, pointBackgroundColorAR] = [[], [], [], []];
         let oldTempKeys = Object.keys(realTime).sort();
         let tempKeys = oldTempKeys.slice(-7); //We are slicing the array so that only 7 data points get displayed on the graphs
 
         // Generate Data Arrays
         for (let i = 0; i < tempKeys.length; i++) {
+            // Determine if the weight is negative or positive (Portion Event or Refill Event)
             if (realTime[tempKeys[i]].portionWeight < 0) {
                 if (unitOfMass == "g") {
-                    tempWeightAr.push(realTime[tempKeys[i]].portionWeight);
+                    tempWeightAR.push(realTime[tempKeys[i]].portionWeight);
                 } else {
-                    tempWeightAr.push((realTime[tempKeys[i]].portionWeight / 28.35).toFixed(2));
+                    tempWeightAR.push((realTime[tempKeys[i]].portionWeight / 28.35).toFixed(2));
                 }
-                tempWeightAr;
-                pointBackgroundColorAr.push("rgba(55, 55, 55, .8)");
+                pointBackgroundColorAR.push("rgba(55, 55, 55, .8)");
             } else {
                 if (unitOfMass == "g") {
-                    tempWeightAr.push(realTime[tempKeys[i]].portionWeight);
+                    tempWeightAR.push(realTime[tempKeys[i]].portionWeight);
                 } else {
-                    tempWeightAr.push((realTime[tempKeys[i]].portionWeight / 28.35).toFixed(2));
+                    tempWeightAR.push((realTime[tempKeys[i]].portionWeight / 28.35).toFixed(2));
                 }
-
-                pointBackgroundColorAr.push("rgba(255, 255, 255, .8)");
+                pointBackgroundColorAR.push("rgba(255, 255, 255, .8)");
             }
-            // Push Data pointsn to arrays
-            tempAccuracyAr.push(realTime[tempKeys[i]].accuracy);
-            tempTimeAr.push(parseFloat(realTime[tempKeys[i]].portionTime).toFixed(1));
-            console.log("Temp time array is", tempTimeAr);
+            // Push Data points to arrays
+            tempAccuracyAR.push(realTime[tempKeys[i]].accuracy);
+            tempTimeAR.push(parseFloat(realTime[tempKeys[i]].portionTime).toFixed(1));
         }
 
         // Improve UI by adding labels and colours
         weightGraph.labels = tempKeys;
-        weightGraph.datasets.data = tempWeightAr;
-        weightGraph.pointBackgroundColorAr = pointBackgroundColorAr;
+        weightGraph.datasets.data = tempWeightAR;
+        weightGraph.pointBackgroundColorAr = pointBackgroundColorAR;
 
         accuracyGraph.labels = tempKeys;
-        accuracyGraph.datasets.data = tempAccuracyAr;
-        accuracyGraph.pointBackgroundColorAr = pointBackgroundColorAr;
+        accuracyGraph.datasets.data = tempAccuracyAR;
+        accuracyGraph.pointBackgroundColorAr = pointBackgroundColorAR;
 
         portionTimeGraph.labels = tempKeys;
-        portionTimeGraph.datasets.data = tempTimeAr;
-        portionTimeGraph.pointBackgroundColorAr = pointBackgroundColorAr;
+        portionTimeGraph.datasets.data = tempTimeAR;
+        portionTimeGraph.pointBackgroundColorAr = pointBackgroundColorAR;
 
         // Improve UX by changing unit of mass keyword
         if (unitOfMass == "g") {
@@ -162,10 +160,11 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
         }
 
         // Update the graphs
-        setRealTimeWeight(weightGraph);
+        setRealTimeWeightData(weightGraph);
         setRealTimeAccuracy(accuracyGraph);
         setRealTimePortionTime(portionTimeGraph);
     };
+
     /*!
        @description:
        @params:
@@ -233,7 +232,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                 } else {
                     // There is no hourly response so we need to create one
                     setCardSummaryItems(["0", "NA", "0", "NA"]);
-                    setRealTimeWeight([]);
+                    setRealTimeWeightData([]);
                     setRealTimeAccuracy([]);
                     setRealTimePortionTime([]);
                     return;
@@ -268,17 +267,12 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
 
     return (
         <DashboardLayout>
-            {/* TODO: ADD Style such that title gets centered with media query (textAlign) */}
             <DropDownMenus options={options} selectedIndexRef={selectedIndexRef} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} updateIngredient={updateIngredient} />
-
             {!isMobileDevice && (
                 <div>
                     <MDBox py={3}>
                         <Grid container spacing={1} display="flex" justifyContent="center">
-                            {/* <Grid item xs={10} md={1} lg={1}>
-                </Grid> */}
                             <Grid item xs={12} md={6} lg={3}>
-                                {/* <MDBox mb={1.5}> */}
                                 <ComplexStatisticsCard
                                     color="dark"
                                     icon={<PanToolIcon />}
@@ -290,7 +284,6 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                         // label: "than yesterday",
                                     }}
                                 />
-                                {/* </MDBox> */}
                             </Grid>
                         </Grid>
                     </MDBox>
@@ -346,7 +339,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                             <Grid container spacing={3}>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <ReportsLineChart color="info" title="Variation of Portioning Weight" key={realTimeAccuracy} chart={realTimeWeight} />
+                                        <ReportsLineChart color="info" title="Variation of Portioning Weight" key={realTimeAccuracy} chart={realTimeWeightData} />
                                     </MDBox>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
@@ -388,7 +381,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                     percentage={{
                                         color: "success",
                                     }}
-                                    realTimeData={realTimeWeight}
+                                    realTimeData={realTimeWeightData}
                                 />
                             </Grid>
                             <Grid item xs={12} md={6} lg={3}>
