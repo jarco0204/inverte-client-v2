@@ -13,7 +13,8 @@ import AccessTimeFilledRoundedIcon from "@mui/icons-material/AccessTimeFilledRou
 import MDBox from "../../components/MDBox";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import Footer from "../../components/Footer";
-import ReportsLineChartComponenttt from "./components/PortionAccuracyLineChart";
+import PortionAccuracyLineChart from "./components/PortionAccuracyLineChart";
+import ReportsLineChartComponent from "../../components/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
 import MobileComplexStatisticsCard from "./components/MobileComplexStatisticsCard";
 import DropDownMenus from "./components/DropDownMenus";
@@ -345,17 +346,17 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                             <Grid container spacing={3}>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <ReportsLineChartComponenttt color="info" title="Variation of Portioning Weight" key={realTimeAccuracy} chart={realTimeWeightData} />
+                                        <PortionAccuracyLineChart color="info" title="Variation of Portioning Weight" key={realTimeAccuracy} chart={realTimeWeightData} />
                                     </MDBox>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <ReportsLineChartComponenttt color="success" title="Variation of Portioning Time" chart={realTimePortionTime} />
+                                        <ReportsLineChartComponent color="success" title="Variation of Portioning Time" chart={realTimePortionTime} />
                                     </MDBox>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <ReportsLineChartComponenttt color="warning" title="Portioning Performance Levels" chart={realTimeAccuracy} />
+                                        <ReportsLineChartComponent color="warning" title="Portioning Performance Levels" chart={realTimeAccuracy} />
                                     </MDBox>
                                 </Grid>
                             </Grid>

@@ -1,6 +1,5 @@
+// React Imports
 import { useMemo } from "react";
-
-// porp-types is a library for typechecking of props
 import PropTypes from "prop-types";
 
 // react-chartjs-2 components
@@ -16,7 +15,14 @@ import MDTypography from "../../../../components/MDTypography";
 // ReportsLineChart configurations
 import configs from "./configs";
 
-function ReportsLineChartComponenttt({ color, title, description, chart }) {
+/*!
+   @description:
+   @params:
+   @return:
+   @Comments
+   @Coders: EscorpionWin$
+*/
+const PortionAccuracyLineChart = ({ color, title, description, chart }) => {
     const { data, options } = configs(chart.labels || [], chart.datasets || {}, chart.pointBackgroundColorAr || []);
     return (
         <Card sx={{ height: "100%" }}>
@@ -41,16 +47,16 @@ function ReportsLineChartComponenttt({ color, title, description, chart }) {
             </MDBox>
         </Card>
     );
-}
+};
 
 // Setting default values for the props of ReportsLineChart
-ReportsLineChartComponenttt.defaultProps = {
+PortionAccuracyLineChart.defaultProps = {
     color: "dark",
     description: "",
 };
 
 // Typechecking props for the ReportsLineChart
-ReportsLineChartComponenttt.propTypes = {
+PortionAccuracyLineChart.propTypes = {
     color: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error", "dark"]),
     title: PropTypes.string.isRequired,
     description: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
@@ -59,4 +65,4 @@ ReportsLineChartComponenttt.propTypes = {
     chart: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 };
 
-export default ReportsLineChartComponenttt;
+export default PortionAccuracyLineChart;
