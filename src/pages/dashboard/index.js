@@ -1,6 +1,7 @@
 // React Imports
 import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
+import Chart from "chart.js/auto";
 
 // MUI material components
 import Grid from "@mui/material/Grid";
@@ -29,15 +30,43 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import toObject from "dayjs/plugin/toObject.js";
 
-// Data
-import reportsLineChartData from "./data/reportsLineChartData";
-import Chart from "chart.js/auto";
-
 // Configure DayJS library
 dayjs.extend(dayOfYear);
 dayjs.extend(toObject);
 dayjs.extend(utc);
 dayjs.extend(timezone);
+
+/*!
+   @description: Helper function ton create an object to store the portion event data.
+   @params:
+   @return:
+   @Comments
+   @Coders: Mohan
+*/
+const createReportLineChartObject = () => {
+    return {
+        weightGraph: {
+            labels: [],
+            datasets: { label: "Portion Event", data: [], yAxisLabel: "Grams" },
+            pointBackgroundColorAr: [],
+        },
+        accuracyGraph: {
+            labels: [],
+            datasets: { label: "Portion Accuracy", data: [], yAxisLabel: "Percent" },
+            pointBackgroundColorAr: [],
+        },
+        portionTimeGraph: {
+            labels: [],
+            datasets: { label: "Portion Time", data: [], yAxisLabel: "Seconds" },
+            pointBackgroundColorAr: [],
+        },
+        correctWeightGraph: {
+            labels: [],
+            datasets: { label: "Correct Weight", data: [], yAxisLabel: "Grams" },
+            // pointBackgroundColorAr: [],
+        },
+    };
+};
 
 /*!
    @description: Main Dashboard container that displays portion event information to user. 
@@ -55,7 +84,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
     const [realTimeWeightData, setRealTimeWeightData] = useState([]);
     const [realTimeAccuracy, setRealTimeAccuracy] = useState([]);
     const [realTimePortionTime, setRealTimePortionTime] = useState([]);
-    const { weightGraph, accuracyGraph, portionTimeGraph, correctWeightGraph } = reportsLineChartData;
+    const { weightGraph, accuracyGraph, portionTimeGraph, correctWeightGraph } = createReportLineChartObject();
 
     // Drop-Down Menu State
     const options = Object.values(iotThingNames);
@@ -161,9 +190,9 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
 
         // Improve UX by changing unit of mass keyword
         if (unitOfMass == "g") {
-            reportsLineChartData.weightGraph.datasets.yAxisLabel = "Grams";
+            weightGraph.datasets.yAxisLabel = "Grams";
         } else {
-            reportsLineChartData.weightGraph.datasets.yAxisLabel = "Ounces";
+            weightGraph.datasets.yAxisLabel = "Ounces";
         }
 
         // Update the graphs
