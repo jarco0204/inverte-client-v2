@@ -25,11 +25,11 @@ import PortionAccuracyLineChartConfig from "./configs";
 const PortionAccuracyLineChart = ({ color, title, description, chart }) => {
     const { data, options } = PortionAccuracyLineChartConfig(
         chart.labels || [],
-        chart.datasets || {},
-        chart.pointBackgroundColorAr || [],
-        chart.datasets1 || [],
-        chart.datasets2 || [],
-        chart.datasets3 || []
+        chart.portionEvent || {},
+        chart.pointBackgroundColorAR || [],
+        chart.correctWeight || [],
+        chart.upperLimit || [],
+        chart.lowerLimit || []
     );
     return (
         <Card sx={{ height: "100%" }}>

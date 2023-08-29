@@ -47,11 +47,11 @@ const createReportLineChartObject = () => {
     return {
         weightGraph: {
             labels: [],
-            datasets: { label: "Portion Event", data: [], yAxisLabel: "Grams" },
-            datasets1: { label: "Correct Weight", data: [], yAxisLabel: "Grams" },
-            datasets2: { label: "Upper Limit", data: [], yAxisLabel: "Grams" },
-            datasets3: { label: "Lower Limit", data: [], yAxisLabel: "Grams" },
-            pointBackgroundColorAr: [],
+            portionEvent: { label: "Portion Weight", data: [], yAxisLabel: "Grams" },
+            correctWeight: { label: "Correct Weight", data: [], yAxisLabel: "Grams" },
+            upperLimit: { label: "Upper Limit", data: [], yAxisLabel: "Grams" },
+            lowerLimit: { label: "Lower Limit", data: [], yAxisLabel: "Grams" },
+            pointBackgroundColorAR: [],
         },
         accuracyGraph: {
             labels: [],
@@ -184,9 +184,6 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
        @Coders: BillyCaine
     */
     const generateLowerRealTimeGraphs = (realTime) => {
-        console.log("The realtimeAR pulled from Cloud is...", realTime);
-        console.log("The length of the array is...", realTime.length);
-
         // Variable definition
         let [tempWeightAR, correctWeightAR, upperLimitAR, lowerLimitAR, tempAccuracyAR, tempTimeAR, pointBackgroundColorAR] = [[], [], [], [], [], [], []];
         let oldTempKeys = Object.keys(realTime).sort();
@@ -194,7 +191,16 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
 
         // Generate Data Arrays
         for (let i = 0; i < tempKeys.length; i++) {
-            // Determine if the weight is negative or positive (Portion Event or Refill Event)
+            // TODO: tempKeys should contain this information for each portion event
+            const correctWeight = 7;
+            const upperLimit = 1;
+            const lowerLimit = 1;
+
+            // Portion Weight Accuracy
+            upperLimitAR.push(correctWeight + upperLimit);
+            correctWeightAR.push(correctWeight);
+            lowerLimitAR.push(correctWeight - lowerLimit);
+            // Handle Acci Refill Events
             if (realTime[tempKeys[i]].portionWeight < 0) {
                 if (unitOfMass == "g") {
                     tempWeightAR.push(realTime[tempKeys[i]].portionWeight);
@@ -210,21 +216,19 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                 }
                 pointBackgroundColorAR.push("rgba(255, 255, 255, .8)");
             }
+
             // Push Data points to arrays
             tempAccuracyAR.push(realTime[tempKeys[i]].accuracy);
             tempTimeAR.push(parseFloat(realTime[tempKeys[i]].portionTime).toFixed(1));
-            correctWeightAR.push(13);
-            upperLimitAR.push(13 + 1);
-            lowerLimitAR.push(13 - 1);
         }
 
         // Improve UI by adding labels and colours
         weightGraph.labels = tempKeys;
-        weightGraph.datasets.data = tempWeightAR;
-        weightGraph.datasets1.data = correctWeightAR;
-        weightGraph.datasets2.data = upperLimitAR;
-        weightGraph.datasets3.data = lowerLimitAR;
-        weightGraph.pointBackgroundColorAr = pointBackgroundColorAR;
+        weightGraph.portionEvent.data = tempWeightAR;
+        weightGraph.correctWeight.data = correctWeightAR;
+        weightGraph.upperLimit.data = upperLimitAR;
+        weightGraph.lowerLimit.data = lowerLimitAR;
+        weightGraph.pointBackgroundColorAR = pointBackgroundColorAR;
 
         accuracyGraph.labels = tempKeys;
         accuracyGraph.datasets.data = tempAccuracyAR;
@@ -236,9 +240,9 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
 
         // Improve UX by changing unit of mass keyword
         if (unitOfMass == "g") {
-            weightGraph.datasets.yAxisLabel = "Grams";
+            weightGraph.portionEvent.yAxisLabel = "Grams";
         } else {
-            weightGraph.datasets.yAxisLabel = "Ounces";
+            weightGraph.portionEvent.yAxisLabel = "Ounces";
         }
 
         // Update the graphs
