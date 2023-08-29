@@ -8,32 +8,31 @@ import PanToolIcon from "@mui/icons-material/PanTool";
 import PrecisionManufacturingRoundedIcon from "@mui/icons-material/PrecisionManufacturingRounded";
 import ScaleRoundedIcon from "@mui/icons-material/ScaleRounded";
 import AccessTimeFilledRoundedIcon from "@mui/icons-material/AccessTimeFilledRounded";
-import DropDownMenus from "./components/DropDownMenus";
-import { getDay } from "../../graphql/queries";
-
-// Material Dashboard 2 React components
-import MDBox from "../../components/MDBox";
-// eslint-disable-next-line
-import Chart from "chart.js/auto";
 
 // Material Dashboard
+import MDBox from "../../components/MDBox";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import Footer from "../../components/Footer";
 import ReportsLineChart from "../../components/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
 import ComplexStatisticsCard_v2 from "./components/ComplexStatisticsCard_v2";
-// Data
-import reportsLineChartData from "./data/reportsLineChartData";
+import DropDownMenus from "./components/DropDownMenus";
+import { getDay } from "../../graphql/queries";
 
 // AWS & other libraries
-import { API, Auth, PubSub, graphqlOperation } from "aws-amplify";
 import { onNewPortionEvent } from "../../graphql/subscriptions";
+import { API, Auth, graphqlOperation } from "aws-amplify";
 import dayjs from "dayjs";
 import dayOfYear from "dayjs/plugin/dayOfYear.js";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import toObject from "dayjs/plugin/toObject.js";
-// import { ListItemIcon } from "@mui/material";
+
+// Data
+import reportsLineChartData from "./data/reportsLineChartData";
+import Chart from "chart.js/auto";
+
+// Configure DayJS library
 dayjs.extend(dayOfYear);
 dayjs.extend(toObject);
 dayjs.extend(utc);
@@ -47,13 +46,15 @@ dayjs.extend(timezone);
    @Coders: GangaLi
 */
 const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex, timeZone, demo }) => {
-    // Main Component State: Cards & Graphs
+    // Main Component State
+    const [isMobileDevice, setIsMobileDevice] = useState(false);
+
+    // Main Card Components
     const [cardSummaryItems, setCardSummaryItems] = useState([]);
     const [realTimeWeightData, setRealTimeWeightData] = useState([]);
     const [realTimeAccuracy, setRealTimeAccuracy] = useState([]);
     const [realTimePortionTime, setRealTimePortionTime] = useState([]);
     const { weightGraph, accuracyGraph, portionTimeGraph } = reportsLineChartData;
-    const [isMobileDevice, setIsMobileDevice] = useState(false);
 
     // Drop-Down Menu State
     const options = Object.values(iotThingNames);
