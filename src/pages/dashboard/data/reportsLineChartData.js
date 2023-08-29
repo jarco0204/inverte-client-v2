@@ -14,4 +14,9 @@ export default {
         datasets: { label: "Portion Time", data: [], yAxisLabel: "Seconds" },
         pointBackgroundColorAr: [],
     },
+    correctWeightGraph: {
+        labels: [],
+        datasets: { label: "Correct Weight", data: [], yAxisLabel: "Grams" },
+        // pointBackgroundColorAr: [],
+    },
 };

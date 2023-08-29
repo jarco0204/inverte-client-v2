@@ -16,13 +16,11 @@ import MDTypography from "../../../../components/MDTypography";
 // ReportsLineChart configurations
 import configs from "../../../../components/Charts/LineCharts/ReportsLineChart/configs";
 
-function ReportsLineChartV2({ color, title, description, chart }) {
+const MobileReportsLineChart = ({ color, title, description, chart }) => {
     const { data, options } = configs(chart.labels || [], chart.datasets || {}, chart.pointBackgroundColorAr || []);
-    // console.log("Your data is:", data);
-    //let slicedData = data.slice(0, 6);
     return (
-        <Card >
-            <MDBox padding="0.5rem" >
+        <Card>
+            <MDBox padding="0.5rem">
                 <MDTypography variant="h6" textTransform="capitalize">
                     {title}
                 </MDTypography>
@@ -30,17 +28,6 @@ function ReportsLineChartV2({ color, title, description, chart }) {
                     <MDTypography component="div" variant="button" color="text" fontWeight="light">
                         {description}
                     </MDTypography>
-                    {/* <Divider /> */}
-                    {/* <MDBox display="flex" alignItems="center">
-                        <MDTypography variant="button" color="text" lineHeight={1} sx={{ mt: 0.15, mr: 0.5 }}>
-                            <Icon>
-                                <AccessTimeRoundedIcon />
-                            </Icon>
-                        </MDTypography>
-                        <MDTypography variant="button" color="text" fontWeight="light">
-                            {date}
-                        </MDTypography>
-                    </MDBox> */}
                 </MDBox>
                 {useMemo(
                     () => (
@@ -53,16 +40,16 @@ function ReportsLineChartV2({ color, title, description, chart }) {
             </MDBox>
         </Card>
     );
-}
+};
 
 // Setting default values for the props of ReportsLineChart
-ReportsLineChartV2.defaultProps = {
+MobileReportsLineChart.defaultProps = {
     color: "dark",
     description: "",
 };
 
 // Typechecking props for the ReportsLineChart
-ReportsLineChartV2.propTypes = {
+MobileReportsLineChart.propTypes = {
     color: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error", "dark"]),
     title: PropTypes.string.isRequired,
     description: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
@@ -71,4 +58,4 @@ ReportsLineChartV2.propTypes = {
     chart: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 };
 
-export default ReportsLineChartV2;
+export default MobileReportsLineChart;

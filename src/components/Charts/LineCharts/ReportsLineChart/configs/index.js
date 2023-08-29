@@ -18,6 +18,22 @@ function configs(labels, datasets, pointColorsAR) {
                     maxBarThickness: 6,
                 },
             ],
+            datasets1: [
+                {
+                    label: datasets.label,
+                    tension: 0.25,
+                    pointRadius: 8,
+                    // pointBorderColor: "red",
+                    pointBackgroundColor: "rgba(255, 1, 1, .8)",
+                    // pointBackgroundColor: pointColorsAR,
+                    borderColor: "rgba(255, 255, 255, .8)",
+                    borderWidth: 4,
+                    backgroundColor: "transparent",
+                    fill: true,
+                    data: datasets.data,
+                    maxBarThickness: 6,
+                },
+            ],
         },
         options: {
             animation: false,

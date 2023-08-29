@@ -16,16 +16,15 @@ import MDTypography from "../../../../components/MDTypography";
 // ReportsLineChart configurations
 import configs from "./configs";
 
-function ReportsLineChart({ color, title, description, chart }) {
+function ReportsLineChartComponent({ color, title, description, chart }) {
     const { data, options } = configs(chart.labels || [], chart.datasets || {}, chart.pointBackgroundColorAr || []);
-    // console.log("Your data is:", data);
-    //let slicedData = data.slice(0, 6);
     return (
         <Card sx={{ height: "100%" }}>
             <MDBox padding="1rem">
                 {useMemo(
                     () => (
                         <MDBox variant="gradient" bgColor={color} borderRadius="lg" coloredShadow={color} py={2} pr={0.5} mt={-5} height="14rem">
+                            <Line data={data} options={options} />
                             <Line data={data} options={options} />
                         </MDBox>
                     ),
@@ -38,17 +37,6 @@ function ReportsLineChart({ color, title, description, chart }) {
                     <MDTypography component="div" variant="button" color="text" fontWeight="light">
                         {description}
                     </MDTypography>
-                    {/* <Divider /> */}
-                    {/* <MDBox display="flex" alignItems="center">
-                        <MDTypography variant="button" color="text" lineHeight={1} sx={{ mt: 0.15, mr: 0.5 }}>
-                            <Icon>
-                                <AccessTimeRoundedIcon />
-                            </Icon>
-                        </MDTypography>
-                        <MDTypography variant="button" color="text" fontWeight="light">
-                            {date}
-                        </MDTypography>
-                    </MDBox> */}
                 </MDBox>
             </MDBox>
         </Card>
@@ -56,13 +44,13 @@ function ReportsLineChart({ color, title, description, chart }) {
 }
 
 // Setting default values for the props of ReportsLineChart
-ReportsLineChart.defaultProps = {
+ReportsLineChartComponent.defaultProps = {
     color: "dark",
     description: "",
 };
 
 // Typechecking props for the ReportsLineChart
-ReportsLineChart.propTypes = {
+ReportsLineChartComponent.propTypes = {
     color: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error", "dark"]),
     title: PropTypes.string.isRequired,
     description: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
@@ -71,4 +59,4 @@ ReportsLineChart.propTypes = {
     chart: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 };
 
-export default ReportsLineChart;
+export default ReportsLineChartComponent;

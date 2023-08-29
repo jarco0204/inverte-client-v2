@@ -13,9 +13,9 @@ import AccessTimeFilledRoundedIcon from "@mui/icons-material/AccessTimeFilledRou
 import MDBox from "../../components/MDBox";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import Footer from "../../components/Footer";
-import ReportsLineChart from "../../components/Charts/LineCharts/ReportsLineChart";
+import ReportsLineChartComponent from "../../components/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
-import ComplexStatisticsCard_v2 from "./components/ComplexStatisticsCard_v2";
+import MobileComplexStatisticsCard from "./components/MobileComplexStatisticsCard";
 import DropDownMenus from "./components/DropDownMenus";
 import { getDay } from "../../graphql/queries";
 
@@ -54,7 +54,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
     const [realTimeWeightData, setRealTimeWeightData] = useState([]);
     const [realTimeAccuracy, setRealTimeAccuracy] = useState([]);
     const [realTimePortionTime, setRealTimePortionTime] = useState([]);
-    const { weightGraph, accuracyGraph, portionTimeGraph } = reportsLineChartData;
+    const { weightGraph, accuracyGraph, portionTimeGraph, correctWeightGraph } = reportsLineChartData;
 
     // Drop-Down Menu State
     const options = Object.values(iotThingNames);
@@ -113,7 +113,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
         console.log("The length of the array is...", realTime.length);
 
         // Variable definition
-        let [tempWeightAR, tempAccuracyAR, tempTimeAR, pointBackgroundColorAR] = [[], [], [], []];
+        let [tempWeightAR, correctWeightAR, tempAccuracyAR, tempTimeAR, pointBackgroundColorAR] = [[], [], [], [], []];
         let oldTempKeys = Object.keys(realTime).sort();
         let tempKeys = oldTempKeys.slice(-7); //We are slicing the array so that only 7 data points get displayed on the graphs
 
@@ -138,12 +138,17 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
             // Push Data points to arrays
             tempAccuracyAR.push(realTime[tempKeys[i]].accuracy);
             tempTimeAR.push(parseFloat(realTime[tempKeys[i]].portionTime).toFixed(1));
+            correctWeightAR.push(27);
         }
 
         // Improve UI by adding labels and colours
         weightGraph.labels = tempKeys;
         weightGraph.datasets.data = tempWeightAR;
         weightGraph.pointBackgroundColorAr = pointBackgroundColorAR;
+
+        correctWeightGraph.labels = tempKeys;
+        correctWeightGraph.datasets.data = correctWeightAR;
+        // correctWeightGraph.pointBackgroundColorAr = pointBackgroundColorAR;
 
         accuracyGraph.labels = tempKeys;
         accuracyGraph.datasets.data = tempAccuracyAR;
@@ -340,17 +345,17 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                             <Grid container spacing={3}>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <ReportsLineChart color="info" title="Variation of Portioning Weight" key={realTimeAccuracy} chart={realTimeWeightData} />
+                                        <ReportsLineChartComponent color="info" title="Variation of Portioning Weight" key={realTimeAccuracy} chart={realTimeWeightData} />
                                     </MDBox>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <ReportsLineChart color="success" title="Variation of Portioning Time" chart={realTimePortionTime} />
+                                        <ReportsLineChartComponent color="success" title="Variation of Portioning Time" chart={realTimePortionTime} />
                                     </MDBox>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <ReportsLineChart color="warning" title="Portioning Performance Levels" chart={realTimeAccuracy} />
+                                        <ReportsLineChartComponent color="warning" title="Portioning Performance Levels" chart={realTimeAccuracy} />
                                     </MDBox>
                                 </Grid>
                             </Grid>
@@ -374,7 +379,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                 />
                             </Grid>
                             <Grid item xs={12} md={6} lg={3}>
-                                <ComplexStatisticsCard_v2
+                                <MobileComplexStatisticsCard
                                     color="info"
                                     icon={<ScaleRoundedIcon />}
                                     title="Total Consumed Inventory"
@@ -386,7 +391,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                 />
                             </Grid>
                             <Grid item xs={12} md={6} lg={3}>
-                                <ComplexStatisticsCard_v2
+                                <MobileComplexStatisticsCard
                                     color="success"
                                     icon={<AccessTimeFilledRoundedIcon />}
                                     title="Total Portioning Time"
@@ -398,7 +403,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                 />
                             </Grid>
                             <Grid item xs={12} md={6} lg={3}>
-                                <ComplexStatisticsCard_v2
+                                <MobileComplexStatisticsCard
                                     color="warning"
                                     icon={<PrecisionManufacturingRoundedIcon />}
                                     title="Average Performance Level"
