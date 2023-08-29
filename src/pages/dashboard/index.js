@@ -67,13 +67,60 @@ const createReportLineChartObject = () => {
 };
 
 /*!
+   @description: Helper function ton create an object to store the portion event data.
+   @params:
+   @return:
+   @Comments
+   @Coders: Mohan
+*/
+const createReportBarChartObject = () => {
+    return {
+        labels: ["12", "1", "2", "3", "4", "5", "6", "7"],
+        datasets: { label: "Sales", data: [90, 93, 94, 88, 79, 85, 89, 87] },
+    };
+};
+
+/*!
+   @description: Helper function to return the data that's hard coded for demo
+   @params:
+   @return:
+   @Comments
+   @Coders: Dalmatian;)
+*/
+const getDemoData = () => {
+    return {
+        getDay: {
+            dayOfYear_iotNameThing: "228_P0-10-v1",
+            weekOfYear_iotNameThing: "33_P0-10-v1_w",
+            dailySummary: {
+                accuracy: 93.28,
+                inventoryConsumed: 1932,
+                minutesSaved: 971,
+                portionsCompleted: 73,
+            },
+            realTime: {
+                "2023-8-16 10:41:48": { portionTime: "5.5", accuracy: "74", portionWeight: "23" },
+                "2023-8-16 10:47:54": { portionTime: "5", accuracy: "88", portionWeight: "19" },
+                "2023-8-16 11:00:34": { portionTime: "7.9", accuracy: "82", portionWeight: "22" },
+                "2023-8-16 10:55:00": { portionTime: "1", accuracy: "100", portionWeight: "20" },
+                "2023-8-16 10:58:17": { portionTime: "1", accuracy: "100", portionWeight: "20" },
+                "2023-8-16 9:43:32": { portionTime: "1", accuracy: "82", portionWeight: "22" },
+                "2023-8-16 10:13:15": { portionTime: "1", accuracy: "100", portionWeight: "17" },
+                "2023-8-16 12:11:26": { portionTime: "1", accuracy: "100", portionWeight: "18" },
+                "2023-8-16 12:11:05": { portionTime: "1", accuracy: "100", portionWeight: "17" },
+            },
+        },
+    };
+};
+
+/*!
    @description: Main Dashboard container that displays portion event information to user. 
    @params:
    @return:
    @Comments
    @Coders: GangaLi
 */
-const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex, timeZone, demo }) => {
+const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex, timeZone, clientDemo }) => {
     // Main Component State
     const [isMobileDevice, setIsMobileDevice] = useState(false);
 
@@ -179,10 +226,6 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
         weightGraph.datasets3.data = lowerLimitAR;
         weightGraph.pointBackgroundColorAr = pointBackgroundColorAR;
 
-        // correctWeightGraph.labels = tempKeys;
-        // correctWeightGraph.datasets.data = correctWeightAR;
-        // correctWeightGraph.pointBackgroundColorAr = pointBackgroundColorAR;
-
         accuracyGraph.labels = tempKeys;
         accuracyGraph.datasets.data = tempAccuracyAR;
         accuracyGraph.pointBackgroundColorAr = pointBackgroundColorAR;
@@ -215,61 +258,33 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
         try {
             let tempDate = dayjs().tz(timeZone); // Local time of Client
 
+            // Query GQL to pull hourly data
             const response = await API.graphql({
                 query: getDay,
                 variables: { dayOfYear_iotNameThing: tempDate.dayOfYear().toString() + "_" + keys[selectedIndexRef.current] }, // Provide the ID as a variable
             });
 
             let hour = response.data;
-            let h = {
-                getDay: {
-                    dayOfYear_iotNameThing: "228_P0-10-v1",
-                    weekOfYear_iotNameThing: "33_P0-10-v1_w",
-                    dailySummary: {
-                        accuracy: 93.28,
-                        inventoryConsumed: 1932,
-                        minutesSaved: 971,
-                        portionsCompleted: 73,
-                    },
-                    realTime: {
-                        "2023-8-16 10:41:48": { portionTime: "5.5", accuracy: "74", portionWeight: "23" },
-                        "2023-8-16 10:47:54": { portionTime: "5", accuracy: "88", portionWeight: "19" },
-                        "2023-8-16 11:00:34": { portionTime: "7.9", accuracy: "82", portionWeight: "22" },
-                        "2023-8-16 10:55:00": { portionTime: "1", accuracy: "100", portionWeight: "20" },
-                        "2023-8-16 10:58:17": { portionTime: "1", accuracy: "100", portionWeight: "20" },
-                        "2023-8-16 9:43:32": { portionTime: "1", accuracy: "82", portionWeight: "22" },
-                        "2023-8-16 10:13:15": { portionTime: "1", accuracy: "100", portionWeight: "17" },
-                        "2023-8-16 12:11:26": { portionTime: "1", accuracy: "100", portionWeight: "18" },
-                        "2023-8-16 12:11:05": { portionTime: "1", accuracy: "100", portionWeight: "17" },
-                    },
-                },
-            };
+            let demoData = getDemoData();
 
-            if (demo) {
+            // If Demo, then display hard-coded data
+            if (clientDemo) {
                 // Set the Upper Summary Card Components
-                let accuracy = h.getDay.dailySummary.accuracy.toFixed(0) + "%";
-                let inventoryWeight = h.getDay.dailySummary.inventoryConsumed + "g";
-                let timeSaved = h.getDay.dailySummary.minutesSaved.toFixed(1) + "s";
-                setCardSummaryItems([h.getDay.dailySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
-                // Create the lower 3 Plots using the Real-Time property
-                console.log(h.getDay.realTime);
-
-                generateLowerRealTimeGraphs(h.getDay.realTime);
+                let accuracy = demoData.getDay.dailySummary.accuracy.toFixed(0) + "%";
+                let inventoryWeight = demoData.getDay.dailySummary.inventoryConsumed + "g";
+                let timeSaved = demoData.getDay.dailySummary.minutesSaved.toFixed(1) + "s";
+                setCardSummaryItems([demoData.getDay.dailySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
+                generateLowerRealTimeGraphs(demoData.getDay.realTime);
             } else {
                 if (hour.getDay) {
-                    console.log("The value of Hour.GetDay is", hour.getDay);
-
                     // Set the Upper Summary Card Components
                     let accuracy = hour.getDay.dailySummary.accuracy.toFixed(0) + "%";
                     let inventoryWeight = hour.getDay.dailySummary.inventoryConsumed + "g";
                     let timeSaved = hour.getDay.dailySummary.minutesSaved.toFixed(1) + "s";
                     setCardSummaryItems([hour.getDay.dailySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
-                    // Create the lower 3 Plots using the Real-Time property
-                    console.log(hour.getDay.realTime);
-
                     generateLowerRealTimeGraphs(JSON.parse(hour.getDay.realTime));
                 } else {
-                    // There is no hourly response so we need to create one
+                    // There is no hourly response so add placeholders
                     setCardSummaryItems(["0", "NA", "0", "NA"]);
                     setRealTimeWeightGraph([]);
                     setRealTimeAccuracy([]);
