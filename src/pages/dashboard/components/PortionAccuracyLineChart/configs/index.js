@@ -1,4 +1,11 @@
-function configs(labels, datasets, pointColorsAR) {
+/*!
+   @description:
+   @params:
+   @return:
+   @Comments
+   @Coders: MikelJordania
+*/
+const PortionAccuracyLineChartConfig = (labels, datasets, pointColorsAR) => {
     return {
         data: {
             labels,
@@ -122,6 +129,6 @@ function configs(labels, datasets, pointColorsAR) {
             },
         },
     };
-}
+};
 
-export default configs;
+export default PortionAccuracyLineChartConfig;
