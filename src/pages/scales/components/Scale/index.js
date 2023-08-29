@@ -25,6 +25,7 @@ import { styled } from "@mui/material/styles";
 import MDBox from "../../../../components/MDBox";
 import MDTypography from "../../../../components/MDTypography";
 import { TareButton, StartButton, ExpandMore } from "./ScaleButtons";
+import { updateRestaurant } from "../../../../graphql/mutations";
 
 /*!
    @description: Center 3 buttons to control your scale card
@@ -120,6 +121,7 @@ const Scale = ({ mainScaleData }) => {
     */
     const updateIngredientName = async () => {
         const user = await Auth.currentAuthenticatedUser();
+        let iotThingNames;
         try {
             const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
             const path = "/restaurants/updateIngredientName/";
@@ -127,10 +129,15 @@ const Scale = ({ mainScaleData }) => {
 
             // Make API Call
             await API.get(AMPLIFY_API, finalAPIRoute, { queryStringParameters: { iotNameThing: mainScaleData.iotNameThing, ingredientName: nameIngredient } }).then((response) => {
-                if (response.item.Item == undefined) {
-                    throw new Error("No Response from API");
-                }
+                console.log("The new IotThingNames is:", response);
+                iotThingNames = JSON.stringify(response);
             });
+            const inputData = { restaurant_id: user.username, iotThingNames: iotThingNames };
+            const response1 = await API.graphql({
+                query: updateRestaurant,
+                variables: { input: inputData },
+            });
+            console.log("The response from the updateRestaurant API is:", response1);
         } catch (err) {
             console.log("Error in updating ingredient name API...", err);
         }

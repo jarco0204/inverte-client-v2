@@ -95,6 +95,7 @@ input HourlySummaryInput {
     portionsCompleted: Int!
     accuracy: Float!
     inventoryConsumed: Int!
+    performance: Float!
 }
 
 input DailySummaryInput {
@@ -102,6 +103,7 @@ input DailySummaryInput {
     portionsCompleted: Int!
     accuracy: Float!
     inventoryConsumed: Int!
+    performance: Float!
 }
 
 input WeeklySummaryInput {
@@ -109,6 +111,7 @@ input WeeklySummaryInput {
     portionsCompleted: Int!
     accuracy: Float!
     inventoryConsumed: Int!
+    performance: Float!
 }
 
 input MonthlySummaryInput {
@@ -116,12 +119,14 @@ input MonthlySummaryInput {
     portionsCompleted: Int!
     accuracy: Float!
     inventoryConsumed: Int!
+    performance: Float!
 }
 input YearlySummaryInput {
     minutesSaved: Float!
     portionsCompleted: Int!
     accuracy: Float!
     inventoryConsumed: Int!
+    performance: Float!
 }
 
 type HourlySummary {
@@ -129,6 +134,7 @@ type HourlySummary {
     portionsCompleted: Int!
     accuracy: Float!
     inventoryConsumed: Int!
+    performance: Float!
     hour: Hour
 }
 
@@ -137,6 +143,7 @@ type DailySummary {
     portionsCompleted: Int!
     accuracy: Float!
     inventoryConsumed: Int!
+    performance: Float!
     day: Day
 }
 
@@ -145,6 +152,7 @@ type WeeklySummary {
     portionsCompleted: Int!
     accuracy: Float!
     inventoryConsumed: Int!
+    performance: Float!
     week: Week
 }
 
@@ -153,6 +161,7 @@ type MonthlySummary {
     portionsCompleted: Int!
     accuracy: Float!
     inventoryConsumed: Int!
+    performance: Float!
     month: Month
 }
 type YearlySummary {
@@ -160,5 +169,6 @@ type YearlySummary {
     portionsCompleted: Int!
     accuracy: Float!
     inventoryConsumed: Int!
+    performance: Float!
     year: Year
 }

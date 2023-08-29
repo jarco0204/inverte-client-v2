@@ -296,6 +296,7 @@ export const createYear = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         year {
           year_iotNameThing
           ingredientName_weight
@@ -344,6 +345,7 @@ export const updateYear = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         year {
           year_iotNameThing
           ingredientName_weight
@@ -392,6 +394,7 @@ export const deleteYear = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         year {
           year_iotNameThing
           ingredientName_weight
@@ -440,6 +443,7 @@ export const createMonth = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         month {
           monthOfYear_iotNameThing
           year_iotNameThing
@@ -488,6 +492,7 @@ export const updateMonth = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         month {
           monthOfYear_iotNameThing
           year_iotNameThing
@@ -536,6 +541,7 @@ export const deleteMonth = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         month {
           monthOfYear_iotNameThing
           year_iotNameThing
@@ -584,6 +590,7 @@ export const createWeek = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         week {
           weekOfYear_iotNameThing
           monthOfYear_iotNameThing
@@ -632,6 +639,7 @@ export const updateWeek = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         week {
           weekOfYear_iotNameThing
           monthOfYear_iotNameThing
@@ -680,6 +688,7 @@ export const deleteWeek = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         week {
           weekOfYear_iotNameThing
           monthOfYear_iotNameThing
@@ -728,6 +737,7 @@ export const createDay = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         day {
           dayOfYear_iotNameThing
           weekOfYear_iotNameThing
@@ -777,6 +787,7 @@ export const updateDay = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         day {
           dayOfYear_iotNameThing
           weekOfYear_iotNameThing
@@ -826,6 +837,7 @@ export const deleteDay = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         day {
           dayOfYear_iotNameThing
           weekOfYear_iotNameThing
@@ -876,6 +888,7 @@ export const createHour = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         hour {
           dayOfYear_hourOfDay_iotNameThing
           dayOfYear_iotNameThing
@@ -934,6 +947,7 @@ export const updateHour = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         hour {
           dayOfYear_hourOfDay_iotNameThing
           dayOfYear_iotNameThing
@@ -992,6 +1006,7 @@ export const deleteHour = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         hour {
           dayOfYear_hourOfDay_iotNameThing
           dayOfYear_iotNameThing
@@ -1063,6 +1078,7 @@ export const createPortionEvent = /* GraphQL */ `
           portionsCompleted
           accuracy
           inventoryConsumed
+          performance
           __typename
         }
         realTime
@@ -1110,6 +1126,7 @@ export const updatePortionEvent = /* GraphQL */ `
           portionsCompleted
           accuracy
           inventoryConsumed
+          performance
           __typename
         }
         realTime
@@ -1157,6 +1174,7 @@ export const deletePortionEvent = /* GraphQL */ `
           portionsCompleted
           accuracy
           inventoryConsumed
+          performance
           __typename
         }
         realTime

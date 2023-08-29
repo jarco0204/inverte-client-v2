@@ -25,6 +25,7 @@ export const onNewPortionEvent = /* GraphQL */ `
           portionsCompleted
           accuracy
           inventoryConsumed
+          performance
           __typename
         }
         realTime
@@ -322,6 +323,7 @@ export const onCreateYear = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         year {
           year_iotNameThing
           ingredientName_weight
@@ -367,6 +369,7 @@ export const onUpdateYear = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         year {
           year_iotNameThing
           ingredientName_weight
@@ -412,6 +415,7 @@ export const onDeleteYear = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         year {
           year_iotNameThing
           ingredientName_weight
@@ -457,6 +461,7 @@ export const onCreateMonth = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         month {
           monthOfYear_iotNameThing
           year_iotNameThing
@@ -502,6 +507,7 @@ export const onUpdateMonth = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         month {
           monthOfYear_iotNameThing
           year_iotNameThing
@@ -547,6 +553,7 @@ export const onDeleteMonth = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         month {
           monthOfYear_iotNameThing
           year_iotNameThing
@@ -592,6 +599,7 @@ export const onCreateWeek = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         week {
           weekOfYear_iotNameThing
           monthOfYear_iotNameThing
@@ -637,6 +645,7 @@ export const onUpdateWeek = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         week {
           weekOfYear_iotNameThing
           monthOfYear_iotNameThing
@@ -682,6 +691,7 @@ export const onDeleteWeek = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         week {
           weekOfYear_iotNameThing
           monthOfYear_iotNameThing
@@ -727,6 +737,7 @@ export const onCreateDay = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         day {
           dayOfYear_iotNameThing
           weekOfYear_iotNameThing
@@ -773,6 +784,7 @@ export const onUpdateDay = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         day {
           dayOfYear_iotNameThing
           weekOfYear_iotNameThing
@@ -819,6 +831,7 @@ export const onDeleteDay = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         day {
           dayOfYear_iotNameThing
           weekOfYear_iotNameThing
@@ -866,6 +879,7 @@ export const onCreateHour = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         hour {
           dayOfYear_hourOfDay_iotNameThing
           dayOfYear_iotNameThing
@@ -921,6 +935,7 @@ export const onUpdateHour = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         hour {
           dayOfYear_hourOfDay_iotNameThing
           dayOfYear_iotNameThing
@@ -976,6 +991,7 @@ export const onDeleteHour = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         hour {
           dayOfYear_hourOfDay_iotNameThing
           dayOfYear_iotNameThing
@@ -1046,6 +1062,7 @@ export const onCreatePortionEvent = /* GraphQL */ `
           portionsCompleted
           accuracy
           inventoryConsumed
+          performance
           __typename
         }
         realTime
@@ -1092,6 +1109,7 @@ export const onUpdatePortionEvent = /* GraphQL */ `
           portionsCompleted
           accuracy
           inventoryConsumed
+          performance
           __typename
         }
         realTime
@@ -1138,6 +1156,7 @@ export const onDeletePortionEvent = /* GraphQL */ `
           portionsCompleted
           accuracy
           inventoryConsumed
+          performance
           __typename
         }
         realTime

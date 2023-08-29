@@ -200,6 +200,7 @@ export const getYear = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         year {
           year_iotNameThing
           ingredientName_weight
@@ -258,6 +259,7 @@ export const listYears = /* GraphQL */ `
           portionsCompleted
           accuracy
           inventoryConsumed
+          performance
           __typename
         }
         realTime
@@ -286,6 +288,7 @@ export const getMonth = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         month {
           monthOfYear_iotNameThing
           year_iotNameThing
@@ -344,6 +347,7 @@ export const listMonths = /* GraphQL */ `
           portionsCompleted
           accuracy
           inventoryConsumed
+          performance
           __typename
         }
         realTime
@@ -372,6 +376,7 @@ export const getWeek = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         week {
           weekOfYear_iotNameThing
           monthOfYear_iotNameThing
@@ -430,6 +435,7 @@ export const listWeeks = /* GraphQL */ `
           portionsCompleted
           accuracy
           inventoryConsumed
+          performance
           __typename
         }
         realTime
@@ -458,6 +464,7 @@ export const getDay = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         day {
           dayOfYear_iotNameThing
           weekOfYear_iotNameThing
@@ -517,6 +524,7 @@ export const listDays = /* GraphQL */ `
           portionsCompleted
           accuracy
           inventoryConsumed
+          performance
           __typename
         }
         realTime
@@ -548,6 +556,7 @@ export const getHour = /* GraphQL */ `
         portionsCompleted
         accuracy
         inventoryConsumed
+        performance
         hour {
           dayOfYear_hourOfDay_iotNameThing
           dayOfYear_iotNameThing
@@ -616,6 +625,7 @@ export const listHours = /* GraphQL */ `
           portionsCompleted
           accuracy
           inventoryConsumed
+          performance
           __typename
         }
         realTime
@@ -658,6 +668,7 @@ export const getPortionEvent = /* GraphQL */ `
           portionsCompleted
           accuracy
           inventoryConsumed
+          performance
           __typename
         }
         realTime
@@ -817,6 +828,7 @@ export const yearsByIngredientName_weight = /* GraphQL */ `
           portionsCompleted
           accuracy
           inventoryConsumed
+          performance
           __typename
         }
         realTime
@@ -858,6 +870,7 @@ export const monthsByYear_iotNameThing = /* GraphQL */ `
           portionsCompleted
           accuracy
           inventoryConsumed
+          performance
           __typename
         }
         realTime
@@ -899,6 +912,7 @@ export const weeksByMonthOfYear_iotNameThing = /* GraphQL */ `
           portionsCompleted
           accuracy
           inventoryConsumed
+          performance
           __typename
         }
         realTime
@@ -940,6 +954,7 @@ export const daysByWeekOfYear_iotNameThing = /* GraphQL */ `
           portionsCompleted
           accuracy
           inventoryConsumed
+          performance
           __typename
         }
         realTime
@@ -982,6 +997,7 @@ export const hoursByDayOfYear_iotNameThing = /* GraphQL */ `
           portionsCompleted
           accuracy
           inventoryConsumed
+          performance
           __typename
         }
         realTime

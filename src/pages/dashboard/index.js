@@ -114,6 +114,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
 
         let [tempWeightAr, tempAccuracyAr, tempTimeAr, pointBackgroundColorAr] = [[], [], [], []];
         let oldTempKeys = Object.keys(realTime).sort();
+
         let tempKeys = oldTempKeys.slice(-7); //We are slicing the array so that only 7 data points get displayed on the graphs
 
         // Generate Data Arrays
@@ -227,7 +228,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                     let timeSaved = hour.getDay.dailySummary.minutesSaved.toFixed(1) + "s";
                     setCardSummaryItems([hour.getDay.dailySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
                     // Create the lower 3 Plots using the Real-Time property
-                    console.log(hour.getDay.realTime);
+                    console.log("The real time object is:", hour.getDay.realTime);
 
                     generateLowerRealTimeGraphs(JSON.parse(hour.getDay.realTime));
                 } else {

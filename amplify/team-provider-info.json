@@ -39,7 +39,7 @@
         },
         "updateIngredientNameAmplifyAPIv3": {
           "deploymentBucketName": "amplify-inverteclientv3-invertedev-112316-deployment",
-          "s3Key": "amplify-builds/updateIngredientNameAmplifyAPIv3-796f424c3269546b7a6a-build.zip"
+          "s3Key": "amplify-builds/updateIngredientNameAmplifyAPIv3-7549656c51587931494b-build.zip"
         },
         "updateUnitOfMassAmplifyAPIv3": {
           "deploymentBucketName": "amplify-inverteclientv3-invertedev-112316-deployment",
