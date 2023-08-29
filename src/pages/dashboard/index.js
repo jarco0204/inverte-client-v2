@@ -15,7 +15,7 @@ import MDBox from "../../components/MDBox";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import Footer from "../../components/Footer";
 import PortionAccuracyLineChart from "./components/PortionAccuracyLineChart";
-import PortionAccuracyBarChart from "./components/PortionAccuracyBarChart";
+import PortionTimeBarChart from "./components/PortionTimeBarChart";
 import ReportsLineChartComponent from "../../components/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
 import MobileComplexStatisticsCard from "./components/MobileComplexStatisticsCard";
@@ -400,7 +400,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <PortionAccuracyBarChart color="success" title="Variation of Portioning Accuracy" chart={realTimeAccuracyGraph} />
+                                        <PortionTimeBarChart color="success" title="Variation of Portioning Accuracy" chart={realTimeAccuracyGraph} />
                                     </MDBox>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>

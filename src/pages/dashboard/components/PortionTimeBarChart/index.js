@@ -22,7 +22,7 @@ import PortionAccuracyBarChartConfig from "./Configs";
    @Comments
    @Coders: FlawlessVictorY
 */
-const PortionAccuracyBarChart = ({ color, title, chart }) => {
+const PortionTimeBarChart = ({ color, title, chart }) => {
     const { data, options } = PortionAccuracyBarChartConfig(chart.labels || [], chart.datasets || {});
 
     return (
@@ -46,13 +46,13 @@ const PortionAccuracyBarChart = ({ color, title, chart }) => {
     );
 };
 // Setting default values for the props of ReportsBarChart
-PortionAccuracyBarChart.defaultProps = {
+PortionTimeBarChart.defaultProps = {
     color: "dark",
     description: "",
 };
 
 // Typechecking props for the ReportsBarChart
-PortionAccuracyBarChart.propTypes = {
+PortionTimeBarChart.propTypes = {
     color: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error", "dark"]),
     title: PropTypes.string.isRequired,
     // description: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
@@ -60,4 +60,4 @@ PortionAccuracyBarChart.propTypes = {
     chart: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.array, PropTypes.object])).isRequired,
 };
 
-export default PortionAccuracyBarChart;
+export default PortionTimeBarChart;
