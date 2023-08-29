@@ -25,7 +25,6 @@ function ReportsLineChartComponent({ color, title, description, chart }) {
                     () => (
                         <MDBox variant="gradient" bgColor={color} borderRadius="lg" coloredShadow={color} py={2} pr={0.5} mt={-5} height="14rem">
                             <Line data={data} options={options} />
-                            <Line data={data} options={options} />
                         </MDBox>
                     ),
                     [chart, color, data]

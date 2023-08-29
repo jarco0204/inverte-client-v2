@@ -122,7 +122,7 @@ const getDemoData = () => {
 */
 const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex, timeZone, clientDemo }) => {
     // Main Component State
-    const [isMobileDevice, setIsMobileDevice] = useState(false);
+    const [isMobileDevice, setIsMobileDevice] = useState(clientDemo);
 
     // Main Card Components
     const [cardSummaryItems, setCardSummaryItems] = useState([]);
@@ -366,13 +366,13 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                 <MDBox mb={1.5}>
                                     <ComplexStatisticsCard
                                         color="success"
-                                        icon={<AccessTimeFilledRoundedIcon />}
-                                        title="Total Portioning Time"
-                                        count={cardSummaryItems[3]}
+                                        icon={<PrecisionManufacturingRoundedIcon />}
+                                        title="Average Performance Level"
+                                        count={cardSummaryItems[1]}
                                         percentage={{
                                             color: "success",
-                                            // amount: "+10%",
-                                            // label: "than yesterday",
+                                            // amount: "+3%",
+                                            // label: "than yesterdays",
                                         }}
                                     />
                                 </MDBox>
@@ -381,13 +381,13 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                 <MDBox mb={1.5}>
                                     <ComplexStatisticsCard
                                         color="warning"
-                                        icon={<PrecisionManufacturingRoundedIcon />}
-                                        title="Average Performance Level"
-                                        count={cardSummaryItems[1]}
+                                        icon={<AccessTimeFilledRoundedIcon />}
+                                        title="Total Portioning Time"
+                                        count={cardSummaryItems[3]}
                                         percentage={{
                                             color: "success",
-                                            // amount: "+3%",
-                                            // label: "than yesterdays",
+                                            // amount: "+10%",
+                                            // label: "than yesterday",
                                         }}
                                     />
                                 </MDBox>
@@ -402,12 +402,12 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <ReportsLineChartComponent color="success" title="Variation of Portioning Time" chart={realTimePortionTime} />
+                                        <ReportsLineChartComponent color="success" title="Variation of Portioning Accuracy" chart={realTimeAccuracy} />
                                     </MDBox>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <ReportsLineChartComponent color="warning" title="Portioning Performance Levels" chart={realTimeAccuracy} />
+                                        <ReportsLineChartComponent color="warning" title="Variation of Portioning Time" chart={realTimePortionTime} />
                                     </MDBox>
                                 </Grid>
                             </Grid>
