@@ -113,7 +113,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
         //realTime = JSON.parse(realTime);
 
         let [tempWeightAr, tempAccuracyAr, tempTimeAr, pointBackgroundColorAr] = [[], [], [], []];
-        let oldTempKeys = Object.keys(realTime).sort((a, b) => new Date(a) - new Date(b));
+        let oldTempKeys = Object.keys(realTime).sort((a, b) => new Date(a) - new Date(b)); //Sort the data by time
 
         let tempKeys = oldTempKeys.slice(-7); //We are slicing the array so that only 7 data points get displayed on the graphs
 
