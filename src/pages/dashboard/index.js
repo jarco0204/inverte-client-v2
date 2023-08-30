@@ -151,31 +151,6 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
     }, []);
 
     /*!
-        @description: Update the index number of selected ingredient in dynamo 
-        @params: integer
-        @return:
-        @Comments
-        @Coders: Rohan-16
-    */
-    const updateIngredient = async (index) => {
-        const user = await Auth.currentAuthenticatedUser();
-        try {
-            const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
-            const path = "/restaurants/updateDisplayIngredientIndex/";
-            const finalAPIRoute = path + user.username; //TODO: Cases where userSession is empty
-
-            // Make REST API Call
-            await API.get(AMPLIFY_API, finalAPIRoute, { queryStringParameters: { index: index } }).then((response) => {
-                if (response == undefined) {
-                    throw new Error("No Response from updateDisplayIngredientIndex route in GQL API");
-                }
-            });
-        } catch (err) {
-            console.log("Error when updating selected ingredient index in dashboard page...", err);
-        }
-    };
-
-    /*!
        @description:
        @params:
        @return:
@@ -324,14 +299,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
 
     return (
         <DashboardLayout>
-            <DropDownIngredientMenu
-                options={options}
-                selectedIndexRef={selectedIndexRef}
-                selectedIndex={selectedIndex}
-                setSelectedIndex={setSelectedIndex}
-                updateIngredient={updateIngredient}
-                titleForPage={"Daily InVentory Report"}
-            />
+            <DropDownIngredientMenu options={options} selectedIndexRef={selectedIndexRef} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} titleForPage={"Daily InVentory Report"} />
             {!isMobileDevice && (
                 <div>
                     <MDBox py={3}>

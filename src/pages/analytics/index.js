@@ -106,31 +106,6 @@ const AnalyticsDashboard = ({ iotThingNames, displayIngredient }) => {
     };
 
     /*!
-        @description: Update the index number of selected ingredient in dynamo 
-        @params: integer
-        @return:
-        @Comments
-        @Coders: Rohan-16
-    */
-    const updateIngredient = async (index) => {
-        const user = await Auth.currentAuthenticatedUser();
-        try {
-            const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
-            const path = "/restaurants/updateDisplayIngredientIndex/";
-            const finalAPIRoute = path + user.username; //TODO: Cases where userSession is empty
-
-            // Make REST API Call
-            await API.get(AMPLIFY_API, finalAPIRoute, { queryStringParameters: { index: index } }).then((response) => {
-                if (response == undefined) {
-                    throw new Error("No Response from updateDisplayIngredientIndex route in GQL API");
-                }
-            });
-        } catch (err) {
-            console.log("Error when updating selected ingredient index in dashboard page...", err);
-        }
-    };
-
-    /*!
        @description:GQL query that gets the data from hour table based on the filter provided
        @params:
        @return:
@@ -180,7 +155,6 @@ const AnalyticsDashboard = ({ iotThingNames, displayIngredient }) => {
                             selectedIndex={selectedIndex}
                             setSelectedIndex={setSelectedIndex}
                             titleForPage={"Past InVentory Report"}
-                            updateIngredient={updateIngredient}
                         />
                         <RangePicker
                             showTime={{
@@ -193,14 +167,13 @@ const AnalyticsDashboard = ({ iotThingNames, displayIngredient }) => {
                         />
                     </div>
                     <Divider variant="middle" role="presentation" />
-                    {analyticsData == null ? null : (
+                    {analyticsData == !null ? null : (
                         <React.Fragment>
                             <MDBox mt={5} mb={2}>
                                 <div style={{ textAlign: "center", display: "flex", flexDirection: "column", alignContent: "center", justifyContent: "center" }}>
                                     <Typography>
                                         <Title>
-                                            Your total Inventory consumed for this time period was {totalInventory}g with an accuracy of {accuracy.toFixed(0)}%.This is because you took {totalPortions}{" "}
-                                            portions in {totalMinutes.toFixed(0)} seconds.
+                                            You have completed {totalPortions} portions with an average accuracy of {accuracy.toFixed(0)}%.{" "}
                                         </Title>
                                     </Typography>
                                     <div style={{ display: "flex", justifyContent: "space-around" }}>
@@ -209,13 +182,7 @@ const AnalyticsDashboard = ({ iotThingNames, displayIngredient }) => {
                                                 <Statistic title="Total Inventory" value={totalInventory} />
                                             </Col>
                                             <Col span={5}>
-                                                <Statistic title="Precision Levels" value={accuracy} precision={0} />
-                                            </Col>
-                                            <Col span={5}>
                                                 <Statistic title="Seconds Taken" value={totalMinutes.toFixed(0)} />
-                                            </Col>
-                                            <Col span={5}>
-                                                <Statistic title="Total Portions" value={totalPortions} />
                                             </Col>
                                         </Row>
                                     </div>

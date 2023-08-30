@@ -49,7 +49,7 @@ const StyledMenu = styled((props) => (
    @Comments
    @Coders: PP111
 */
-const DropDownIngredientMenu = ({ options, selectedIndexRef, selectedIndex, setSelectedIndex, updateIngredient, titleForPage }) => {
+const DropDownIngredientMenu = ({ options, selectedIndexRef, selectedIndex, setSelectedIndex, titleForPage }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
@@ -66,6 +66,30 @@ const DropDownIngredientMenu = ({ options, selectedIndexRef, selectedIndex, setS
     */
     const handleClickListItem = (event) => {
         setAnchorEl(event.currentTarget);
+    };
+
+    /*!
+        @description: Update the index number of selected ingredient in dynamo 
+        @params: integer
+        @return:
+        @Comments
+        @Coders: Rohan-16
+    */
+    const updateIngredient = async (index) => {
+        // const user = await Auth.currentAuthenticatedUser();
+        // try {
+        //     const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
+        //     const path = "/restaurants/updateDisplayIngredientIndex/";
+        //     const finalAPIRoute = path + user.username; //TODO: Cases where userSession is empty
+        //     // Make REST API Call
+        //     await API.get(AMPLIFY_API, finalAPIRoute, { queryStringParameters: { index: index } }).then((response) => {
+        //         if (response == undefined) {
+        //             throw new Error("No Response from updateDisplayIngredientIndex route in GQL API");
+        //         }
+        //     });
+        // } catch (err) {
+        //     console.log("Error when updating selected ingredient index in dashboard page...", err);
+        // }
     };
 
     /*!
