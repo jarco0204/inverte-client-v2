@@ -13,6 +13,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import { ListItemIcon } from "@mui/material";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import Divider from "@mui/material/Divider";
 
 // UI Libraries
 import moment from "moment";
@@ -175,7 +176,8 @@ const AnalyticsDashboard = ({ iotThingNames, displayIngredient, rows_to_display 
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DashboardLayout>
                 <MDBox mt={2}>
-                    <div style={{ margin: "auto", display: "flex", flexDirection: "column" }}>
+                    <h1 style={{ textAlign: "center", margin: "0", fontSize: "26px" }}>Detailed InVentory Reports</h1>
+                    <div style={{ margin: "auto", display: "flex", flexDirection: "column", justifyContent: "center", maxWidth: "500px" }}>
                         <DropDownMenuButton options={options} selectedIndexRef={selectedIndexRef} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} updateIngredient={"Cheese"} />
                         <RangePicker
                             showTime={{
@@ -184,10 +186,11 @@ const AnalyticsDashboard = ({ iotThingNames, displayIngredient, rows_to_display 
                             }}
                             onChange={handleRangeChange}
                             onOpenChange={handleOpenChange}
+                            bordered={true}
                         />
                     </div>
-
-                    {/* <Grid container justifyContent="center" position="relative">
+                    <Divider variant="middle" role="presentation" />
+                    <Grid container justifyContent="center" position="relative">
                         <div style={{ margin: "auto ", marginTop: "4px", width: "fit-content", border: "1px solid #49a3f1 ", borderRadius: "5px", padding: "5px", marginLeft: "0px" }}>
                             <List component="nav" aria-label="Device settings">
                                 <ListItem
@@ -228,8 +231,8 @@ const AnalyticsDashboard = ({ iotThingNames, displayIngredient, rows_to_display 
                                 ))}
                             </Menu>
                         </div>
-                    </Grid> */}
-                    {analyticsData == !null ? null : (
+                    </Grid>
+                    {analyticsData == null ? null : (
                         <React.Fragment>
                             <MDBox mt={5} mb={2}>
                                 <div style={{ textAlign: "center", display: "flex", flexDirection: "column", alignContent: "center", justifyContent: "center" }}>
