@@ -3,16 +3,8 @@ import React, { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 
 // MaterialUI
-import Grid from "@mui/material/Grid";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import { ListItemIcon } from "@mui/material";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import Divider from "@mui/material/Divider";
 
 // UI Libraries
@@ -27,8 +19,7 @@ import ZoomableChart from "./data/ZoomableChart.mjs";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import Footer from "../../components/Footer";
 import MDBox from "../../components/MDBox";
-import DropDownMenuButton from "../../components/DropDownMenuButton";
-
+import DropDownIngredientMenu from "../../components/DropDownIngredientMenu";
 /*
 @description: This component creates the rows that display the plots
 @params: rows_to_display: specifies how many rows of plots you want to display
@@ -46,6 +37,12 @@ import DropDownMenuButton from "../../components/DropDownMenuButton";
 @Coders: Crishan
 */
 const AnalyticsDashboard = ({ iotThingNames, displayIngredient, rows_to_display = 3, number_of_plots = 3, rowToShow }) => {
+    // State and reference to handle input parameters (ingredient selected & time)
+    const { RangePicker } = DatePicker;
+    const isInitialRender = useRef(true);
+    const selectedIndexRef = useRef(displayIngredient);
+    const [selectedIndex, setSelectedIndex] = useState(displayIngredient);
+
     // Component State
     const [totalInventory, setTotalInventory] = useState(0);
     const [accuracy, setAccuracy] = useState(0);
@@ -56,39 +53,29 @@ const AnalyticsDashboard = ({ iotThingNames, displayIngredient, rows_to_display 
     const [chartPortionTime, setChartPortionTime] = useState([]);
     const [analyticsData, setAnalyticsData] = useState(null);
     const [selectedDates, setSelectedDates] = useState([]);
-    const { RangePicker } = DatePicker;
-    const [anchorEl, setAnchorEl] = useState(null);
-    const open = Boolean(anchorEl);
+
     const { Title, Paragraph } = Typography;
     const options = Object.values(iotThingNames);
     const devices = Object.keys(iotThingNames);
-    const [selectedIndex, setSelectedIndex] = useState(displayIngredient);
-    const selectedIndexRef = useRef(displayIngredient);
-    const isInitialRender = useRef(true);
 
-    // Functions to handle child component
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
     const handleRangeChange = (dates) => {
         setSelectedDates(dates);
     };
     const handleOpenChange = (open) => {
-        console.log("Open is:", open);
         if (!open && selectedDates != null) {
             const updatedDates = [moment(selectedDates[0]).startOf("day").set("minute", 0), moment(selectedDates[1]).startOf("day").set("minute", 0)];
             setSelectedDates(updatedDates);
             getDataEvents(updatedDates[0], updatedDates[1]);
         }
     };
-    const handleMenuItemClick = (event, index) => {
-        setSelectedIndex(index);
-        selectedIndexRef.current = index;
-        setAnchorEl(null);
-    };
-    const handleClickListItem = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
+    // const handleMenuItemClick = (event, index) => {
+    //     setSelectedIndex(index);
+    //     selectedIndexRef.current = index;
+    //     setAnchorEl(null);
+    // };
+    // const handleClickListItem = (event) => {
+    //     setAnchorEl(event.currentTarget);
+    // };
 
     //UseEffect that sets everything to default when we load page
     useEffect(() => {
@@ -113,8 +100,6 @@ const AnalyticsDashboard = ({ iotThingNames, displayIngredient, rows_to_display 
             setChartWeight(analyticsData[4]);
             setChartAccuracy(analyticsData[5]);
             setChartPortionTime(analyticsData[6]);
-            console.log("Total inventory", totalInventory);
-            console.log("Weight array is:", chartWeight);
         }
     }, [analyticsData, chartAccuracy]);
 
@@ -176,9 +161,14 @@ const AnalyticsDashboard = ({ iotThingNames, displayIngredient, rows_to_display 
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DashboardLayout>
                 <MDBox mt={2}>
-                    <h1 style={{ textAlign: "center", margin: "0", fontSize: "26px" }}>Detailed InVentory Reports</h1>
                     <div style={{ margin: "auto", display: "flex", flexDirection: "column", justifyContent: "center", maxWidth: "500px" }}>
-                        <DropDownMenuButton options={options} selectedIndexRef={selectedIndexRef} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} updateIngredient={"Cheese"} />
+                        <DropDownIngredientMenu
+                            options={options}
+                            selectedIndexRef={selectedIndexRef}
+                            selectedIndex={selectedIndex}
+                            setSelectedIndex={setSelectedIndex}
+                            titleForPage={"Past InVentory Report"}
+                        />
                         <RangePicker
                             showTime={{
                                 format: "HH",
@@ -190,48 +180,6 @@ const AnalyticsDashboard = ({ iotThingNames, displayIngredient, rows_to_display 
                         />
                     </div>
                     <Divider variant="middle" role="presentation" />
-                    <Grid container justifyContent="center" position="relative">
-                        <div style={{ margin: "auto ", marginTop: "4px", width: "fit-content", border: "1px solid #49a3f1 ", borderRadius: "5px", padding: "5px", marginLeft: "0px" }}>
-                            <List component="nav" aria-label="Device settings">
-                                <ListItem
-                                    button
-                                    id="lock-button"
-                                    aria-haspopup="listbox"
-                                    aria-controls="lock-menu"
-                                    aria-label="when device is locked"
-                                    aria-expanded={open ? "true" : undefined}
-                                    onClick={handleClickListItem}
-                                    style={{ fontFamily: "Roboto" }}
-                                >
-                                    <ListItemText secondary={selectedIndex === -1 ? "Ingredient" : options[selectedIndex]} />
-                                    <ListItemIcon style={{ marginRight: "-35px" }}>
-                                        <ArrowDropDownIcon />
-                                    </ListItemIcon>
-                                </ListItem>
-                            </List>
-                            <Menu
-                                style={{ display: "inline-block" }}
-                                id="lock-menu"
-                                anchorOrigin={{
-                                    vertical: "bottom",
-                                    horizontal: "right",
-                                }}
-                                anchorEl={anchorEl}
-                                open={open}
-                                onClose={handleClose}
-                                MenuListProps={{
-                                    "aria-labelledby": "lock-button",
-                                    role: "listbox",
-                                }}
-                            >
-                                {options.map((option, index) => (
-                                    <MenuItem key={option} selected={index === selectedIndexRef.current} onClick={(event) => handleMenuItemClick(event, index)}>
-                                        {option}
-                                    </MenuItem>
-                                ))}
-                            </Menu>
-                        </div>
-                    </Grid>
                     {analyticsData == null ? null : (
                         <React.Fragment>
                             <MDBox mt={5} mb={2}>

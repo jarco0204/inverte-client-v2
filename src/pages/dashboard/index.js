@@ -19,7 +19,7 @@ import PortionTimeBarChart from "./components/PortionTimeBarChart";
 import ReportsLineChartComponent from "../../components/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
 import MobileComplexStatisticsCard from "./components/MobileComplexStatisticsCard";
-import DropDownIngredientMenu from "./components/DropDownIngredientMenu";
+import DropDownIngredientMenu from "../../components/DropDownIngredientMenu";
 import { getDay } from "../../graphql/queries";
 
 // AWS & other libraries
@@ -324,7 +324,14 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
 
     return (
         <DashboardLayout>
-            <DropDownIngredientMenu options={options} selectedIndexRef={selectedIndexRef} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} updateIngredient={updateIngredient} />
+            <DropDownIngredientMenu
+                options={options}
+                selectedIndexRef={selectedIndexRef}
+                selectedIndex={selectedIndex}
+                setSelectedIndex={setSelectedIndex}
+                updateIngredient={updateIngredient}
+                titleForPage={"Daily InVentory Report"}
+            />
             {!isMobileDevice && (
                 <div>
                     <MDBox py={3}>

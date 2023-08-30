@@ -1,8 +1,6 @@
 import { styled, alpha } from "@mui/material";
 import { Menu } from "@mui/material";
-// import Button from "@mui/material/Button";
 import MDBox from "../MDBox";
-// import MDTypography from "../../../../components/MDTypography";
 import { useState } from "react";
 import { KeyboardArrowDown } from "@material-ui/icons";
 import { MenuItem } from "@mui/material";
@@ -44,7 +42,14 @@ const StyledMenu = styled((props) => (
     },
 }));
 
-const DropDownMenuButton = ({ options, selectedIndexRef, selectedIndex, setSelectedIndex, updateIngredient }) => {
+/*!
+   @description:
+   @params:
+   @return:
+   @Comments
+   @Coders: PP111
+*/
+const DropDownIngredientMenu = ({ options, selectedIndexRef, selectedIndex, setSelectedIndex, updateIngredient, titleForPage }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
@@ -90,13 +95,14 @@ const DropDownMenuButton = ({ options, selectedIndexRef, selectedIndex, setSelec
     return (
         <>
             <MDBox py={1} display="flex" justifyContent="center">
+                <h2 style={{ margin: "0 10px", fontSize: "24px" }}>{titleForPage} </h2>
                 <MDBox
                     variant="gradient"
                     bgColor="dark"
                     color="light"
                     coloredShadow="info"
                     borderRadius="xl"
-                    width="5.5rem"
+                    width="7rem"
                     height="3rem"
                     justifyContent="center"
                     alignItems="center"
@@ -147,4 +153,4 @@ const DropDownMenuButton = ({ options, selectedIndexRef, selectedIndex, setSelec
     );
 };
 
-export default DropDownMenuButton;
+export default DropDownIngredientMenu;
