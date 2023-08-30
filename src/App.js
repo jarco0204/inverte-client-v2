@@ -210,7 +210,7 @@ export default function App() {
                                 color={sidenavColor}
                                 brand={(transparentSidenav && !darkMode) || whiteSidenav ? inverteLogoSideBlack : inverteLogoSideWhite}
                                 brandName={"Test"}
-                                routes={RouterContainer(metaInformation)}
+                                routes={RouterContainer(metaInformation, isMobileDevice)}
                                 onMouseEnter={() => handleOnMouseEnter(miniSidenav, onMouseEnter, setMiniSidenav, setOnMouseEnter, dispatch)}
                                 onMouseLeave={() => handleOnMouseLeave(onMouseEnter, setOnMouseEnter, setMiniSidenav, dispatch)}
                             />

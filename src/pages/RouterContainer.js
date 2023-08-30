@@ -16,7 +16,7 @@ import AnalyticsIcon from "@mui/icons-material/Analytics";
    @Comments
    @Coders: GGG111000
 */
-const RouterContainer = (metaInformation) => {
+const RouterContainer = (metaInformation, isMobileDevice) => {
     return [
         {
             type: "collapse",
@@ -58,18 +58,22 @@ const RouterContainer = (metaInformation) => {
                 />
             ),
         },
-        {
-            type: "collapse",
-            name: "Analytics",
-            key: "analytics",
-            icon: (
-                <Icon fontSize="small">
-                    <AnalyticsIcon />
-                </Icon>
-            ),
-            route: "/analytics",
-            component: <AnalyticsContainer iotThingNames={metaInformation.iotThingNames} displayIngredient={metaInformation.displayIngredient} />,
-        },
+        isMobileDevice
+            ? {
+                  name: "Mobile Analytics coming soon",
+              }
+            : {
+                  type: "collapse",
+                  name: "Analytics",
+                  key: "analytics",
+                  icon: (
+                      <Icon fontSize="small">
+                          <AnalyticsIcon />
+                      </Icon>
+                  ),
+                  route: "/analytics",
+                  component: <AnalyticsContainer iotThingNames={metaInformation.iotThingNames} displayIngredient={metaInformation.displayIngredient} />,
+              },
     ];
 };
 
