@@ -1,6 +1,5 @@
+// React Imports
 import { useMemo } from "react";
-
-// porp-types is a library for typechecking of props
 import PropTypes from "prop-types";
 
 // react-chartjs-2 components
@@ -14,10 +13,24 @@ import MDBox from "../../../../components/MDBox";
 import MDTypography from "../../../../components/MDTypography";
 
 // ReportsLineChart configurations
-import configs from "./configs";
+import PortionAccuracyLineChartConfig from "./Configs";
 
-function ReportsLineChartComponent({ color, title, description, chart }) {
-    const { data, options } = configs(chart.labels || [], chart.datasets || {}, chart.pointBackgroundColorAr || []);
+/*!
+   @description:
+   @params:
+   @return:
+   @Comments
+   @Coders: EscorpionWin$
+*/
+const PortionAccuracyLineChart = ({ color, title, description, chart }) => {
+    const { data, options } = PortionAccuracyLineChartConfig(
+        chart.labels || [],
+        chart.portionEvent || {},
+        chart.pointBackgroundColorAR || [],
+        chart.correctWeight || [],
+        chart.upperLimit || [],
+        chart.lowerLimit || []
+    );
     return (
         <Card sx={{ height: "100%" }}>
             <MDBox padding="1rem">
@@ -40,16 +53,16 @@ function ReportsLineChartComponent({ color, title, description, chart }) {
             </MDBox>
         </Card>
     );
-}
+};
 
 // Setting default values for the props of ReportsLineChart
-ReportsLineChartComponent.defaultProps = {
+PortionAccuracyLineChart.defaultProps = {
     color: "dark",
     description: "",
 };
 
 // Typechecking props for the ReportsLineChart
-ReportsLineChartComponent.propTypes = {
+PortionAccuracyLineChart.propTypes = {
     color: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error", "dark"]),
     title: PropTypes.string.isRequired,
     description: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
@@ -58,4 +71,4 @@ ReportsLineChartComponent.propTypes = {
     chart: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 };
 
-export default ReportsLineChartComponent;
+export default PortionAccuracyLineChart;

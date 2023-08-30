@@ -1,42 +1,28 @@
-function configs(labels, datasets, pointColorsAR) {
+/*!
+   @description:
+   @params:
+   @return:
+   @Comments
+   @Coders: Cocu11uela
+*/
+const PortionAccuracyBarChartConfig = (labels, datasets) => {
     return {
         data: {
             labels,
             datasets: [
                 {
                     label: datasets.label,
-                    tension: 0.25,
-                    pointRadius: 8,
-                    pointBorderColor: "transparent",
-                    // pointBackgroundColor: "rgba(255, 255, 255, .8)",
-                    pointBackgroundColor: pointColorsAR,
-                    borderColor: "rgba(255, 255, 255, .8)",
-                    borderWidth: 4,
-                    backgroundColor: "transparent",
-                    fill: true,
+                    tension: 0.4,
+                    borderWidth: 0,
+                    borderRadius: 2,
+                    borderSkipped: false,
+                    backgroundColor: "rgba(255, 255, 255, 0.8)",
                     data: datasets.data,
-                    maxBarThickness: 6,
-                },
-            ],
-            datasets1: [
-                {
-                    label: datasets.label,
-                    tension: 0.25,
-                    pointRadius: 8,
-                    // pointBorderColor: "red",
-                    pointBackgroundColor: "rgba(255, 1, 1, .8)",
-                    // pointBackgroundColor: pointColorsAR,
-                    borderColor: "rgba(255, 255, 255, .8)",
-                    borderWidth: 4,
-                    backgroundColor: "transparent",
-                    fill: true,
-                    data: datasets.data,
-                    maxBarThickness: 6,
+                    maxBarThickness: 9,
                 },
             ],
         },
         options: {
-            animation: false,
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
@@ -59,16 +45,18 @@ function configs(labels, datasets, pointColorsAR) {
                         color: "rgba(255, 255, 255, .2)",
                     },
                     ticks: {
-                        display: true,
-                        color: "#f8f9fa",
+                        suggestedMin: 0,
+                        suggestedMax: 100,
+                        beginAtZero: true,
                         padding: 10,
                         font: {
                             size: 14,
                             weight: 300,
-                            family: "Roboto",
+                            family: "arial",
                             style: "normal",
                             lineHeight: 2,
                         },
+                        color: "#fff",
                     },
                     title: {
                         display: true,
@@ -88,19 +76,19 @@ function configs(labels, datasets, pointColorsAR) {
                     grid: {
                         drawBorder: false,
                         display: false,
-                        drawOnChartArea: true,
-                        drawTicks: true,
-                        borderDash: [5, 5],
+                        drawOnChartArea: false,
+                        drawTicks: false,
+                        borderDash: [10, 10],
+                        color: "rgba(255, 255, 255, .2)",
                     },
                     ticks: {
                         display: false,
-                        maxTicksLimit: 7,
                         color: "#f8f9fa",
-                        padding: 12,
+                        padding: 10,
                         font: {
                             size: 14,
                             weight: 300,
-                            family: "Roboto",
+                            family: "arial",
                             style: "normal",
                             lineHeight: 2,
                         },
@@ -122,6 +110,6 @@ function configs(labels, datasets, pointColorsAR) {
             },
         },
     };
-}
+};
 
-export default configs;
+export default PortionAccuracyBarChartConfig;

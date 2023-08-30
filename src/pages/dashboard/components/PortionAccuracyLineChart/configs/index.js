@@ -1,4 +1,11 @@
-function configs(labels, datasets, pointColorsAR) {
+/*!
+   @description:
+   @params:
+   @return:
+   @Comments
+   @Coders: MikelJordania
+*/
+const PortionAccuracyLineChartConfig = (labels, datasets, pointColorsAR, datasets1, datasets2, datasets3) => {
     return {
         data: {
             labels,
@@ -8,7 +15,6 @@ function configs(labels, datasets, pointColorsAR) {
                     tension: 0.25,
                     pointRadius: 8,
                     pointBorderColor: "transparent",
-                    // pointBackgroundColor: "rgba(255, 255, 255, .8)",
                     pointBackgroundColor: pointColorsAR,
                     borderColor: "rgba(255, 255, 255, .8)",
                     borderWidth: 4,
@@ -17,20 +23,43 @@ function configs(labels, datasets, pointColorsAR) {
                     data: datasets.data,
                     maxBarThickness: 6,
                 },
-            ],
-            datasets1: [
                 {
-                    label: datasets.label,
+                    label: datasets2.label,
                     tension: 0.25,
-                    pointRadius: 8,
+                    pointRadius: 2,
                     // pointBorderColor: "red",
                     pointBackgroundColor: "rgba(255, 1, 1, .8)",
                     // pointBackgroundColor: pointColorsAR,
-                    borderColor: "rgba(255, 255, 255, .8)",
+                    borderColor: "rgba(255, 1, 1, .8)",
                     borderWidth: 4,
                     backgroundColor: "transparent",
-                    fill: true,
-                    data: datasets.data,
+                    fill: false,
+                    data: datasets2.data,
+                    maxBarThickness: 6,
+                },
+                {
+                    label: datasets1.label,
+                    tension: 0.25,
+                    pointRadius: 2,
+                    // pointBorderColor: "green",
+                    pointBackgroundColor: "rgba(1, 255, 1, .8)",
+                    borderColor: "rgba(1, 255, 1, .8)",
+                    borderWidth: 4,
+                    backgroundColor: "transparent",
+                    fill: false,
+                    data: datasets1.data,
+                    maxBarThickness: 6,
+                },
+                {
+                    label: datasets3.label,
+                    tension: 0.25,
+                    pointRadius: 2,
+                    pointBackgroundColor: "rgba(1, 1, 255, .8)",
+                    borderColor: "rgba(1, 1, 255, .8)",
+                    borderWidth: 4,
+                    backgroundColor: "transparent",
+                    fill: false,
+                    data: datasets3.data,
                     maxBarThickness: 6,
                 },
             ],
@@ -122,6 +151,6 @@ function configs(labels, datasets, pointColorsAR) {
             },
         },
     };
-}
+};
 
-export default configs;
+export default PortionAccuracyLineChartConfig;
