@@ -207,8 +207,10 @@ const Scale = ({ mainScaleData }) => {
                 dataCloud = dataCloud.value.state.reported;
 
                 setRealTimeWeight(dataCloud.inventoryWeight);
-                if (dataCloud.inventoryWeight === 0) {
+                if (dataCloud.inventoryWeight === -1) {
                     setRealTimeTemperature("Off");
+                } else if (dataCloud.inventoryWeight === 0) {
+                    setRealTimeTemperature("Idle");
                 } else {
                     setRealTimeTemperature("On");
                     setRealTimeWeight(dataCloud.inventoryWeight);
@@ -220,7 +222,7 @@ const Scale = ({ mainScaleData }) => {
             error: (error) => console.error("Error in GET/Accepted web socket of Timeseries...", error),
             complete: () => console.log("Web Socket Done"),
         });
-    }, []);
+    }, [realTimeWeight, realTimeTemperature]);
 
     /*!
         @description: Hook to enable real-time communication from scale to client to display IoT Shadows
@@ -238,8 +240,10 @@ const Scale = ({ mainScaleData }) => {
                 if (dataCloud.state.reported.temperature) {
                     setRealTimeTemperature(dataCloud.state.reported.temperature + "℃");
                 } else {
-                    if (realTimeWeight == 0) {
+                    if (realTimeWeight == -1) {
                         setRealTimeTemperature("Off");
+                    } else if (realTimeWeight == 0) {
+                        setRealTimeTemperature("Idle");
                     } else {
                         setRealTimeTemperature("On");
                     }
@@ -261,7 +265,7 @@ const Scale = ({ mainScaleData }) => {
                 <MDBox
                     variant="gradient"
                     bgColor="light"
-                    style={{ color: realTimeTemperature == "Off" ? "white" : realTimeTemperature > 0 ? "#63e22a" : "#63e22a", fontSize: "21px", fontFamily: "" }}
+                    style={{ color: realTimeTemperature == "Off" ? "white" : realTimeTemperature == "Idle" ? "#e81ba8" : "#63e22a", fontSize: "21px", fontFamily: "" }}
                     borderRadius="xl"
                     display="flex"
                     justifyContent="center"
@@ -310,7 +314,7 @@ const Scale = ({ mainScaleData }) => {
                         style: { fontSize: "18px" },
                     }}
                     variant="standard"
-                    value={unitOfMass == "g" ? realTimeWeight : (realTimeWeight / 28.35).toFixed(2)}
+                    value={unitOfMass == "g" ? (realTimeWeight == -1 ? 0 : realTimeWeight) : ((realTimeWeight == -1 ? 0 : realTimeWeight) / 28.35).toFixed(2)}
                     focused={scaleStateReported == 1 ? false : true}
                 />
             </FormControl>
