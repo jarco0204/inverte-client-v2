@@ -20,30 +20,22 @@ import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import Footer from "../../components/Footer";
 import MDBox from "../../components/MDBox";
 import DropDownIngredientMenu from "../../components/DropDownIngredientMenu";
-/*
-@description: This component creates the rows that display the plots
-@params: rows_to_display: specifies how many rows of plots you want to display
-        number_of_plots: specifies how many plots per row you want to display
-        rowToShow: the data being passed for the component display the plots
-@return:
-        A nested components of rows
 
-@Comments
-    The utility of refined_data is to separate the incoming data into rows_to_display Arrays
-    of number_of_plots Plots. E.g: rows_to_display = 3, number_of_plots=3 and data.length==7 then:
-    refined_data will create an array of 3 arrays that will be of length 2,3 and 2 respectively.
-    The first row will always only have 2 plots for emphasis of that data.
-
-@Coders: Crishan
+/*!
+   @description: Hold components for Analytics Container
+   @params:
+   @return:
+   @Comments
+   @Coders: Crishan
 */
-const AnalyticsDashboard = ({ iotThingNames, displayIngredient, rows_to_display = 3, number_of_plots = 3, rowToShow }) => {
+const AnalyticsDashboard = ({ iotThingNames, displayIngredient }) => {
     // State and reference to handle input parameters (ingredient selected & time)
     const { RangePicker } = DatePicker;
     const isInitialRender = useRef(true);
     const selectedIndexRef = useRef(displayIngredient);
     const [selectedIndex, setSelectedIndex] = useState(displayIngredient);
 
-    // Component State
+    // Main Component State (Analytics)
     const [totalInventory, setTotalInventory] = useState(0);
     const [accuracy, setAccuracy] = useState(0);
     const [totalPortions, setTotalPortions] = useState(0);
@@ -57,25 +49,6 @@ const AnalyticsDashboard = ({ iotThingNames, displayIngredient, rows_to_display 
     const { Title, Paragraph } = Typography;
     const options = Object.values(iotThingNames);
     const devices = Object.keys(iotThingNames);
-
-    const handleRangeChange = (dates) => {
-        setSelectedDates(dates);
-    };
-    const handleOpenChange = (open) => {
-        if (!open && selectedDates != null) {
-            const updatedDates = [moment(selectedDates[0]).startOf("day").set("minute", 0), moment(selectedDates[1]).startOf("day").set("minute", 0)];
-            setSelectedDates(updatedDates);
-            getDataEvents(updatedDates[0], updatedDates[1]);
-        }
-    };
-    // const handleMenuItemClick = (event, index) => {
-    //     setSelectedIndex(index);
-    //     selectedIndexRef.current = index;
-    //     setAnchorEl(null);
-    // };
-    // const handleClickListItem = (event) => {
-    //     setAnchorEl(event.currentTarget);
-    // };
 
     //UseEffect that sets everything to default when we load page
     useEffect(() => {
@@ -117,6 +90,45 @@ const AnalyticsDashboard = ({ iotThingNames, displayIngredient, rows_to_display 
             isInitialRender.current = false;
         }
     }, [selectedIndex]);
+
+    // Simple Function that changes the selected time ranges
+    const handleRangeChange = (dates) => {
+        setSelectedDates(dates);
+    };
+
+    // Simple Function that changes the range date picker
+    const handleOpenChange = (open) => {
+        if (!open && selectedDates != null) {
+            const updatedDates = [moment(selectedDates[0]).startOf("day").set("minute", 0), moment(selectedDates[1]).startOf("day").set("minute", 0)];
+            setSelectedDates(updatedDates);
+            getDataEvents(updatedDates[0], updatedDates[1]);
+        }
+    };
+
+    /*!
+        @description: Update the index number of selected ingredient in dynamo 
+        @params: integer
+        @return:
+        @Comments
+        @Coders: Rohan-16
+    */
+    const updateIngredient = async (index) => {
+        const user = await Auth.currentAuthenticatedUser();
+        try {
+            const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
+            const path = "/restaurants/updateDisplayIngredientIndex/";
+            const finalAPIRoute = path + user.username; //TODO: Cases where userSession is empty
+
+            // Make REST API Call
+            await API.get(AMPLIFY_API, finalAPIRoute, { queryStringParameters: { index: index } }).then((response) => {
+                if (response == undefined) {
+                    throw new Error("No Response from updateDisplayIngredientIndex route in GQL API");
+                }
+            });
+        } catch (err) {
+            console.log("Error when updating selected ingredient index in dashboard page...", err);
+        }
+    };
 
     /*!
        @description:GQL query that gets the data from hour table based on the filter provided
@@ -168,6 +180,7 @@ const AnalyticsDashboard = ({ iotThingNames, displayIngredient, rows_to_display 
                             selectedIndex={selectedIndex}
                             setSelectedIndex={setSelectedIndex}
                             titleForPage={"Past InVentory Report"}
+                            updateIngredient={updateIngredient}
                         />
                         <RangePicker
                             showTime={{
@@ -221,9 +234,8 @@ const AnalyticsDashboard = ({ iotThingNames, displayIngredient, rows_to_display 
 };
 
 AnalyticsDashboard.propTypes = {
-    rows_to_display: PropTypes.number,
-    number_of_plots: PropTypes.number,
-    rowToShow: PropTypes.array,
+    iotThingNames: PropTypes.array,
+    displayIngredient: PropTypes.string,
 };
 
 export default AnalyticsDashboard;
