@@ -13,7 +13,7 @@ import MDBox from "../../../../components/MDBox";
 import MDTypography from "../../../../components/MDTypography";
 
 // ReportsLineChart configurations
-import PortionAccuracyLineChartConfig from "./Configs";
+import PortionAccuracyLineChartConfig from "./configs";
 
 /*!
    @description:
