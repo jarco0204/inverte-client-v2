@@ -21,6 +21,7 @@ import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/Comple
 import MobileComplexStatisticsCard from "./components/MobileComplexStatisticsCard";
 import DropDownIngredientMenu from "./components/DropDownIngredientMenu";
 import { getDay } from "../../graphql/queries";
+import { updateRestaurant } from "../../graphql/mutations";
 
 // AWS & other libraries
 import { onNewPortionEvent } from "../../graphql/subscriptions";
@@ -160,15 +161,10 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
     const updateIngredient = async (index) => {
         const user = await Auth.currentAuthenticatedUser();
         try {
-            const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
-            const path = "/restaurants/updateDisplayIngredientIndex/";
-            const finalAPIRoute = path + user.username; //TODO: Cases where userSession is empty
-
-            // Make REST API Call
-            await API.get(AMPLIFY_API, finalAPIRoute, { queryStringParameters: { index: index } }).then((response) => {
-                if (response == undefined) {
-                    throw new Error("No Response from updateDisplayIngredientIndex route in GQL API");
-                }
+            const inputData = { restaurant_id: user.username, displayIngredient: index };
+            const response = await API.graphql({
+                query: updateRestaurant,
+                variables: { input: inputData },
             });
         } catch (err) {
             console.log("Error when updating selected ingredient index in dashboard page...", err);
@@ -276,7 +272,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                 // Set the Upper Summary Card Components
                 let accuracy = demoData.getDay.dailySummary.accuracy.toFixed(0) + "%";
                 let inventoryWeight = demoData.getDay.dailySummary.inventoryConsumed + "g";
-                let timeSaved = demoData.getDay.dailySummary.minutesSaved.toFixed(1) + "s";
+                let timeSaved = demoData.getDay.dailySummary.averageTime.toFixed(1) + "s";
                 setCardSummaryItems([demoData.getDay.dailySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
                 generateLowerRealTimeGraphs(demoData.getDay.realTime);
             } else {
@@ -284,7 +280,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                     // Set the Upper Summary Card Components
                     let accuracy = hour.getDay.dailySummary.accuracy.toFixed(0) + "%";
                     let inventoryWeight = hour.getDay.dailySummary.inventoryConsumed + "g";
-                    let timeSaved = hour.getDay.dailySummary.minutesSaved.toFixed(1) + "s";
+                    let timeSaved = hour.getDay.dailySummary.averageTime.toFixed(1) + "s";
                     setCardSummaryItems([hour.getDay.dailySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
                     generateLowerRealTimeGraphs(JSON.parse(hour.getDay.realTime));
                 } else {

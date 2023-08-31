@@ -48,7 +48,7 @@ const chartConfig = {
                 max: new Date(),
                 type: "time",
                 time: {
-                    unit: "minute",
+                    unit: "hour",
                     displayFormats: {
                         hour: "HH:mm",
                     },

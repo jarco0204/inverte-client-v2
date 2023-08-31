@@ -196,11 +196,11 @@ export const getYear = /* GraphQL */ `
       year_iotNameThing
       ingredientName_weight
       yearlySummary {
-        minutesSaved
+        averageTime
         portionsCompleted
         accuracy
-        inventoryConsumed
         performance
+        inventoryConsumed
         year {
           year_iotNameThing
           ingredientName_weight
@@ -255,11 +255,11 @@ export const listYears = /* GraphQL */ `
         year_iotNameThing
         ingredientName_weight
         yearlySummary {
-          minutesSaved
+          averageTime
           portionsCompleted
           accuracy
-          inventoryConsumed
           performance
+          inventoryConsumed
           __typename
         }
         realTime
@@ -284,11 +284,11 @@ export const getMonth = /* GraphQL */ `
       monthOfYear_iotNameThing
       year_iotNameThing
       monthlySummary {
-        minutesSaved
+        averageTime
         portionsCompleted
         accuracy
-        inventoryConsumed
         performance
+        inventoryConsumed
         month {
           monthOfYear_iotNameThing
           year_iotNameThing
@@ -343,11 +343,11 @@ export const listMonths = /* GraphQL */ `
         monthOfYear_iotNameThing
         year_iotNameThing
         monthlySummary {
-          minutesSaved
+          averageTime
           portionsCompleted
           accuracy
-          inventoryConsumed
           performance
+          inventoryConsumed
           __typename
         }
         realTime
@@ -372,11 +372,11 @@ export const getWeek = /* GraphQL */ `
       weekOfYear_iotNameThing
       monthOfYear_iotNameThing
       weeklySummary {
-        minutesSaved
+        averageTime
         portionsCompleted
         accuracy
-        inventoryConsumed
         performance
+        inventoryConsumed
         week {
           weekOfYear_iotNameThing
           monthOfYear_iotNameThing
@@ -431,11 +431,11 @@ export const listWeeks = /* GraphQL */ `
         weekOfYear_iotNameThing
         monthOfYear_iotNameThing
         weeklySummary {
-          minutesSaved
+          averageTime
           portionsCompleted
           accuracy
-          inventoryConsumed
           performance
+          inventoryConsumed
           __typename
         }
         realTime
@@ -460,11 +460,11 @@ export const getDay = /* GraphQL */ `
       dayOfYear_iotNameThing
       weekOfYear_iotNameThing
       dailySummary {
-        minutesSaved
+        averageTime
         portionsCompleted
         accuracy
-        inventoryConsumed
         performance
+        inventoryConsumed
         day {
           dayOfYear_iotNameThing
           weekOfYear_iotNameThing
@@ -520,11 +520,11 @@ export const listDays = /* GraphQL */ `
         dayOfYear_iotNameThing
         weekOfYear_iotNameThing
         dailySummary {
-          minutesSaved
+          averageTime
           portionsCompleted
           accuracy
-          inventoryConsumed
           performance
+          inventoryConsumed
           __typename
         }
         realTime
@@ -552,11 +552,11 @@ export const getHour = /* GraphQL */ `
       dayOfYear_iotNameThing
       minuteOfHour_secondOfMinute
       hourlySummary {
-        minutesSaved
+        averageTime
         portionsCompleted
         accuracy
-        inventoryConsumed
         performance
+        inventoryConsumed
         hour {
           dayOfYear_hourOfDay_iotNameThing
           dayOfYear_iotNameThing
@@ -621,11 +621,11 @@ export const listHours = /* GraphQL */ `
         dayOfYear_iotNameThing
         minuteOfHour_secondOfMinute
         hourlySummary {
-          minutesSaved
+          averageTime
           portionsCompleted
           accuracy
-          inventoryConsumed
           performance
+          inventoryConsumed
           __typename
         }
         realTime
@@ -664,11 +664,11 @@ export const getPortionEvent = /* GraphQL */ `
         dayOfYear_iotNameThing
         minuteOfHour_secondOfMinute
         hourlySummary {
-          minutesSaved
+          averageTime
           portionsCompleted
           accuracy
-          inventoryConsumed
           performance
+          inventoryConsumed
           __typename
         }
         realTime
@@ -824,11 +824,11 @@ export const yearsByIngredientName_weight = /* GraphQL */ `
         year_iotNameThing
         ingredientName_weight
         yearlySummary {
-          minutesSaved
+          averageTime
           portionsCompleted
           accuracy
-          inventoryConsumed
           performance
+          inventoryConsumed
           __typename
         }
         realTime
@@ -866,11 +866,11 @@ export const monthsByYear_iotNameThing = /* GraphQL */ `
         monthOfYear_iotNameThing
         year_iotNameThing
         monthlySummary {
-          minutesSaved
+          averageTime
           portionsCompleted
           accuracy
-          inventoryConsumed
           performance
+          inventoryConsumed
           __typename
         }
         realTime
@@ -908,11 +908,11 @@ export const weeksByMonthOfYear_iotNameThing = /* GraphQL */ `
         weekOfYear_iotNameThing
         monthOfYear_iotNameThing
         weeklySummary {
-          minutesSaved
+          averageTime
           portionsCompleted
           accuracy
-          inventoryConsumed
           performance
+          inventoryConsumed
           __typename
         }
         realTime
@@ -950,11 +950,11 @@ export const daysByWeekOfYear_iotNameThing = /* GraphQL */ `
         dayOfYear_iotNameThing
         weekOfYear_iotNameThing
         dailySummary {
-          minutesSaved
+          averageTime
           portionsCompleted
           accuracy
-          inventoryConsumed
           performance
+          inventoryConsumed
           __typename
         }
         realTime
@@ -993,11 +993,11 @@ export const hoursByDayOfYear_iotNameThing = /* GraphQL */ `
         dayOfYear_iotNameThing
         minuteOfHour_secondOfMinute
         hourlySummary {
-          minutesSaved
+          averageTime
           portionsCompleted
           accuracy
-          inventoryConsumed
           performance
+          inventoryConsumed
           __typename
         }
         realTime

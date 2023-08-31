@@ -91,94 +91,89 @@ type Subscription {
 }
 
 input HourlySummaryInput {
-    minutesSaved: Float!
+    averageTime: Float!
     portionsCompleted: Int!
     accuracy: Float!
     performance: Float!
     inventoryConsumed: Int!
-    performance: Float!
 }
 
 input DailySummaryInput {
-    minutesSaved: Float!
+    averageTime: Float!
     portionsCompleted: Int!
     accuracy: Float!
     performance: Float!
     inventoryConsumed: Int!
-    performance: Float!
 }
 
 input WeeklySummaryInput {
-    minutesSaved: Float!
+    averageTime: Float!
     portionsCompleted: Int!
     accuracy: Float!
     performance: Float!
     inventoryConsumed: Int!
-    performance: Float!
 }
 
 input MonthlySummaryInput {
-    minutesSaved: Float!
+    averageTime: Float!
     portionsCompleted: Int!
     accuracy: Float!
     performance: Float!
     inventoryConsumed: Int!
-    performance: Float!
 }
 input YearlySummaryInput {
-    minutesSaved: Float!
+    averageTime: Float!
     portionsCompleted: Int!
     accuracy: Float!
     performance: Float!
     inventoryConsumed: Int!
-    performance: Float!
 }
 
 type HourlySummary {
-    minutesSaved: Float!
+    averageTime: Float!
     portionsCompleted: Int!
     accuracy: Float!
     performance: Float!
     inventoryConsumed: Int!
-    performance: Float!
+
     hour: Hour
 }
 
 type DailySummary {
-    minutesSaved: Float!
+    averageTime: Float!
     portionsCompleted: Int!
     accuracy: Float!
     performance: Float!
     inventoryConsumed: Int!
-    performance: Float!
+
     day: Day
 }
 
 type WeeklySummary {
-    minutesSaved: Float!
+    averageTime: Float!
     portionsCompleted: Int!
     accuracy: Float!
     performance: Float!
     inventoryConsumed: Int!
-    performance: Float!
+
     week: Week
 }
 
 type MonthlySummary {
-    minutesSaved: Float!
+    averageTime: Float!
     portionsCompleted: Int!
     accuracy: Float!
     performance: Float!
     inventoryConsumed: Int!
-    performance: Float!
+
     month: Month
 }
 type YearlySummary {
-    minutesSaved: Float!
+    averageTime: Float!
     portionsCompleted: Int!
     accuracy: Float!
     performance: Float!
     inventoryConsumed: Int!
-    performance: Float!
+
     year: Year
 }
