@@ -84,7 +84,7 @@ const PortionAccuracyBarChartConfig = (labels, datasets) => {
                     ticks: {
                         display: false,
                         color: "#f8f9fa",
-                        padding: 1,
+                        padding: 10,
                         font: {
                             size: 14,
                             weight: 300,
@@ -95,7 +95,7 @@ const PortionAccuracyBarChartConfig = (labels, datasets) => {
                     },
                     title: {
                         display: true,
-                        text: "Portion Completion Times",
+                        text: "Time of Day",
                         color: "#f8f9fa",
                         padding: 10,
                         font: {

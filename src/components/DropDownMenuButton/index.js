@@ -1,6 +1,8 @@
 import { styled, alpha } from "@mui/material";
 import { Menu } from "@mui/material";
+// import Button from "@mui/material/Button";
 import MDBox from "../MDBox";
+// import MDTypography from "../../../../components/MDTypography";
 import { useState } from "react";
 import { KeyboardArrowDown } from "@material-ui/icons";
 import { MenuItem } from "@mui/material";
@@ -42,14 +44,7 @@ const StyledMenu = styled((props) => (
     },
 }));
 
-/*!
-   @description:
-   @params:
-   @return:
-   @Comments
-   @Coders: PP111
-*/
-const DropDownIngredientMenu = ({ options, selectedIndexRef, selectedIndex, setSelectedIndex, titleForPage }) => {
+const DropDownMenuButton = ({ options, selectedIndexRef, selectedIndex, setSelectedIndex, updateIngredient }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
@@ -66,30 +61,6 @@ const DropDownIngredientMenu = ({ options, selectedIndexRef, selectedIndex, setS
     */
     const handleClickListItem = (event) => {
         setAnchorEl(event.currentTarget);
-    };
-
-    /*!
-        @description: Update the index number of selected ingredient in dynamo 
-        @params: integer
-        @return:
-        @Comments
-        @Coders: Rohan-16
-    */
-    const updateIngredient = async (index) => {
-        // const user = await Auth.currentAuthenticatedUser();
-        // try {
-        //     const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
-        //     const path = "/restaurants/updateDisplayIngredientIndex/";
-        //     const finalAPIRoute = path + user.username; //TODO: Cases where userSession is empty
-        //     // Make REST API Call
-        //     await API.get(AMPLIFY_API, finalAPIRoute, { queryStringParameters: { index: index } }).then((response) => {
-        //         if (response == undefined) {
-        //             throw new Error("No Response from updateDisplayIngredientIndex route in GQL API");
-        //         }
-        //     });
-        // } catch (err) {
-        //     console.log("Error when updating selected ingredient index in dashboard page...", err);
-        // }
     };
 
     /*!
@@ -118,15 +89,15 @@ const DropDownIngredientMenu = ({ options, selectedIndexRef, selectedIndex, setS
     };
     return (
         <>
+            <h1 style={{ textAlign: "center", margin: "0", fontSize: "26px" }}>Past InVentory Report11 </h1>
             <MDBox py={1} display="flex" justifyContent="center">
-                <h2 style={{ margin: "0 10px", fontSize: "24px" }}>{titleForPage} </h2>
                 <MDBox
                     variant="gradient"
                     bgColor="dark"
                     color="light"
                     coloredShadow="info"
                     borderRadius="xl"
-                    width="7rem"
+                    width="5.5rem"
                     height="3rem"
                     justifyContent="center"
                     alignItems="center"
@@ -177,4 +148,4 @@ const DropDownIngredientMenu = ({ options, selectedIndexRef, selectedIndex, setS
     );
 };
 
-export default DropDownIngredientMenu;
+export default DropDownMenuButton;
