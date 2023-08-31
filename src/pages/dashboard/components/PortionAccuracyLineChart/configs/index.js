@@ -41,7 +41,7 @@ const PortionAccuracyLineChartConfig = (labels, datasets, pointColorsAR, dataset
                     label: datasets1.label,
                     tension: 0.25,
                     pointRadius: 2,
-                    borderColor: "rgba(188, 226, 77, 1)", // Green
+                    borderColor: "rgba(83, 212, 88, 0.8)", // Green
                     borderWidth: 4,
                     backgroundColor: "transparent",
                     fill: false,
