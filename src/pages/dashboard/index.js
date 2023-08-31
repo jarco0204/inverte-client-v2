@@ -19,7 +19,7 @@ import PortionTimeBarChart from "./components/PortionTimeBarChart";
 import ReportsLineChartComponent from "../../components/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
 import MobileComplexStatisticsCard from "./components/MobileComplexStatisticsCard";
-import DropDownIngredientMenu from "./components/DropDownIngredientMenu";
+import DropDownIngredientMenu from "../../components/DropDownIngredientMenu";
 import { getDay } from "../../graphql/queries";
 import { updateRestaurant } from "../../graphql/mutations";
 
@@ -320,7 +320,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
 
     return (
         <DashboardLayout>
-            <DropDownIngredientMenu options={options} selectedIndexRef={selectedIndexRef} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} updateIngredient={updateIngredient} />
+            <DropDownIngredientMenu options={options} selectedIndexRef={selectedIndexRef} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} titleForPage={"Daily InVentory Report"} />
             {!isMobileDevice && (
                 <div>
                     <MDBox py={3}>
@@ -340,14 +340,14 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                             </Grid>
                         </Grid>
                     </MDBox>
-                    <MDBox py={3}>
+                    <MDBox py={2}>
                         <Grid container spacing={3} display="flex" justifyContent="center">
                             <Grid item xs={12} md={6} lg={3}>
                                 <MDBox mb={1.5}>
                                     <ComplexStatisticsCard
                                         color="info"
                                         icon={<ScaleRoundedIcon />}
-                                        title="Total Consumed Inventory"
+                                        title="Inventory Consumed"
                                         count={unitOfMass == "g" ? cardSummaryItems[2] : (parseInt(cardSummaryItems[2]) / 28.35).toFixed(2).toString() + "oz"}
                                         percentage={{
                                             color: "success",
@@ -362,7 +362,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                     <ComplexStatisticsCard
                                         color="success"
                                         icon={<PrecisionManufacturingRoundedIcon />}
-                                        title="Average Portioning Accuracy"
+                                        title="Precision Levels"
                                         count={cardSummaryItems[1]}
                                         percentage={{
                                             color: "success",
@@ -377,7 +377,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                     <ComplexStatisticsCard
                                         color="warning"
                                         icon={<AccessTimeFilledRoundedIcon />}
-                                        title="Average Portioning Time"
+                                        title="Portioning Duration"
                                         count={cardSummaryItems[3]}
                                         percentage={{
                                             color: "success",
@@ -388,21 +388,21 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                 </MDBox>
                             </Grid>
                         </Grid>
-                        <MDBox mt={4.5}>
+                        <MDBox mt={4.75}>
                             <Grid container spacing={3}>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <PortionAccuracyLineChart color="info" title="Variation of Portioning Weight" chart={realTimeWeightGraph} />
+                                        <PortionAccuracyLineChart color="info" title="Changes in Portion Weight" chart={realTimeWeightGraph} />
                                     </MDBox>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <PortionTimeBarChart color="success" title="Variation of Portioning Accuracy" chart={realTimeAccuracyGraph} />
+                                        <ReportsLineChartComponent color="success" title="Portion Accuracy Classification" chart={realTimePortionTime} />
                                     </MDBox>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <ReportsLineChartComponent color="warning" title="Variation of Portioning Time" chart={realTimePortionTime} />
+                                        <PortionTimeBarChart color="warning" title="Breakdown of Portioning Times" chart={realTimeAccuracyGraph} />
                                     </MDBox>
                                 </Grid>
                             </Grid>
