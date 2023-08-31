@@ -24,5 +24,3 @@ export const {
     switchColor,
     switchTheme,
 } = settingSlice.actions
-
-export default settingSlice.reducer;
