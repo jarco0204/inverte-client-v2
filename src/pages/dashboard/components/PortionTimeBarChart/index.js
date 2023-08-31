@@ -30,7 +30,7 @@ const PortionTimeBarChart = ({ color, title, chart }) => {
             <MDBox padding="1rem">
                 {useMemo(
                     () => (
-                        <MDBox variant="gradient" bgColor={color} borderRadius="lg" coloredShadow={color} py={2} pr={0.5} mt={-5} height="12.5rem">
+                        <MDBox variant="gradient" bgColor={color} borderRadius="lg" coloredShadow={color} py={2} pr={0.5} mt={-5} height="14rem">
                             <Bar data={data} options={options} />
                         </MDBox>
                     ),
