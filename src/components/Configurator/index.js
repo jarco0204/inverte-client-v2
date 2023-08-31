@@ -23,7 +23,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import MDBox from "../../components/MDBox";
 import MDTypography from "../../components/MDTypography";
 import MDButton from "../../components/MDButton";
-
+import { useDispatch, useSelector } from "react-redux";
+import { switchMetrics } from "../../redux/settingsSlice";
 // Custom styles for the Configurator
 import ConfiguratorRoot from "./ConfiguratorRoot";
 
@@ -42,14 +43,15 @@ const handleLogOut = async () => {
         console.log(err);
     }
 };
-function Configurator({ metaInformation, setUnitOfMass, unitOfMass }) {
+function Configurator({ metaInformation }) {
     const [controller, dispatch] = useMaterialUIController();
     const { openConfigurator, fixedNavbar, sidenavColor, transparentSidenav, whiteSidenav, darkMode } = controller;
     const [disabled, setDisabled] = useState(false);
     const sidenavColors = ["primary", "dark", "info", "success", "warning", "error"];
     const restaurantName = metaInformation.restaurantName;
     const restaurantLocationNum = metaInformation.restaurantLocationNum;
-
+    const unitOfMass = useSelector(state => state.settings.metric)
+    const reduxDispatch = useDispatch()
     // console.log("The unit of mass is: ", unitOfMass);
     // Use the useEffect hook to change the button state for the sidenav type based on window size.
     useEffect(() => {
@@ -285,7 +287,7 @@ function Configurator({ metaInformation, setUnitOfMass, unitOfMass }) {
                                     name="unitOfMassField"
                                     onChange={(event) => {
                                         console.log("Jump", event.target.value);
-                                        setUnitOfMass(event.target.value);
+                                        reduxDispatch(switchMetrics());
                                         updateUnitOfMass(event);
                                         changeScaleMass(5);
                                     }}
