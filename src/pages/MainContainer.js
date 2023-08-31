@@ -6,7 +6,6 @@ import { Amplify, Auth, API } from "aws-amplify";
 import { AWSIoTProvider } from "@aws-amplify/pubsub";
 import awsmobile from "../aws-exports";
 // App-Level Components
-// import ProviderWrapper from "./Provider";
 import Sidenav from "../components/Sidenav";
 import Configurator from "../components/Configurator";
 import { useMaterialUIController, setMiniSidenav } from "../context"; // Context to keep track of state
@@ -58,8 +57,8 @@ export default function MainContainer() {
     const [spinnerLoader, setSpinnerLoader] = useState(false);
     const [metaInformation, setMetaInformation] = useState({ iotThingNames: ["test"], restaurantName: "test", unitOfMass: "g", demo: "False" });
     // const [unitOfMass, setUnitOfMass] = useState(metaInformation.unitOfMass);
-    const unitOfMass = useSelector(state => state.settings.metric)
-    const reduxDispatch = useDispatch()
+    // const unitOfMass = useSelector(state => state.settings.metric)
+    // const reduxDispatch = useDispatch()
     const [isMobileDevice, setIsMobileDevice] = useState(false);
 
     useEffect(() => {
