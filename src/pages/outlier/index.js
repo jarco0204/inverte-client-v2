@@ -12,6 +12,9 @@ import Footer from "../../components/Footer";
 import MDBox from "../../components/MDBox";
 import PortionWeightLineChart from "./components/PortionWeightLineChart";
 
+// Data Structures
+import Queue from "./QueueStructure";
+
 // Backend
 import { PubSub } from "aws-amplify";
 
@@ -37,27 +40,48 @@ const createReportLineChartObject = () => {
    @Comments
    @Coders: Fu€g0001
 */
-const OutlierContainer = ({ iotThingNames, displayIngredient }) => {
+const OutlierContainer = () => {
+    // const queue2 = new Queue();
+
     // State of Container
-    const [realTimePortionEventsAR, setRealTimePortionEventsAR] = useState([]); //
+    const [realTimePortionWeightNum, setRealTimePortionWeightNum] = useState(0); //
+    const queue1 = new Queue();
+    const queue3 = new Queue();
+
+    // const [realTimePortionTimestampQueue, setRealTimePortionTimestampQueue] = useState([]); //
+
     const [realTimePortionEventChart, setRealTimePortionEventChart] = useState([]);
-    const { weightGraph } = createReportLineChartObject();
+
+    const realTimePortionWeightGraph = createReportLineChartObject();
 
     //Use Effects
     useEffect(() => {
-        PubSub.subscribe("test/rohan/1/od").subscribe({
+        const subs = PubSub.subscribe("test/rohan/1/od").subscribe({
             next: (data) => {
-                // console.log("Message received", data.value);
+                console.log("Outlier Data Point Received....");
+                console.log("portion weight is..", data.value.portionWeight);
+                console.log("portion status is..", data.value.portionStatus);
                 console.log("timestamp is", data.value.timestamp);
-                console.log("portion weight is", data.value.portionWeight);
-                console.log("portion status is", data.value.portionStatus);
+
+                // Enqueue New Measurements
+                queue1.enqueue(data.value.portionWeight);
+                // queue2.enqueue(data.value.portionStatus);
+                queue3.enqueue(data.value.timestamp);
+
+                // realTimePortionWeightQueue.printQueue();
+                realTimePortionWeightGraph.labels = queue3.getMySequence();
+                realTimePortionWeightGraph.datasets.data = queue1.getMySequence();
+
+                setRealTimePortionEventChart(realTimePortionWeightGraph);
                 console.log();
-                setRealTimePortionEventChart(weightGraph);
+                setRealTimePortionWeightNum(data.value.portionWeight);
+
+                // subs.unsubscribe();
             },
             error: (error) => console.error(error),
             complete: () => console.log("Done"),
         });
-    }, []);
+    }, [realTimePortionWeightNum]);
 
     // Display Outlier Page
     return (
@@ -79,9 +103,6 @@ const OutlierContainer = ({ iotThingNames, displayIngredient }) => {
 };
 
 // Handle the props
-OutlierContainer.propTypes = {
-    iotThingNames: PropTypes.array,
-    displayIngredient: PropTypes.string,
-};
+OutlierContainer.propTypes = {};
 
 export default OutlierContainer;
