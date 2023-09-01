@@ -86,7 +86,7 @@ const ScalesContainer = ({ iotThingNames, restaurantName, restaurantLocationNum 
 ScalesContainer.propTypes = {
     iotThingNames: PropTypes.object,
     restaurantName: PropTypes.string,
-    restaurantLocationNum: PropTypes.number,
+    restaurantLocationNum: PropTypes.string,
 };
 
 export default ScalesContainer;

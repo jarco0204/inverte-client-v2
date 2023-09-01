@@ -473,7 +473,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
 DashboardContainer.propTypes = {
     iotThingNames: PropTypes.object,
     unitOfMass: PropTypes.string,
-    displayIngredientIndex: PropTypes.string,
+    displayIngredientIndex: PropTypes.number,
     timeZone: PropTypes.string,
 };
 
