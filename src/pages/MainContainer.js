@@ -15,7 +15,7 @@ import SpinnerLoader from "../components/SpinnerLoader";
 import { handleOnMouseEnter, handleOnMouseLeave } from "../components/Sidenav/SidenavBehaviour";
 import DashboardNavbar from "../components/Navbars/DashboardNavbar";
 import { useDispatch, useSelector } from "react-redux";
-import { switchMetrics } from "../redux/settingsSlice";
+import { updateMetaInformation } from "../redux/metaSlice";
 // import themeDark from "assets/theme-dark"; // TODO
 
 // Pages Containers
@@ -55,12 +55,23 @@ export default function MainContainer() {
     const [onMouseEnter, setOnMouseEnter] = useState(false);
     const [authenticated, setAuthenticated] = useState(false);
     const [spinnerLoader, setSpinnerLoader] = useState(false);
-    const [metaInformation, setMetaInformation] = useState({ iotThingNames: ["test"], restaurantName: "test", unitOfMass: "g", demo: "False" });
-    // const [unitOfMass, setUnitOfMass] = useState(metaInformation.unitOfMass);
-    // const unitOfMass = useSelector(state => state.settings.metric)
-    // const reduxDispatch = useDispatch()
+    // const [metaInformation, setMetaInformation] = useState({ iotThingNames: ["test"], restaurantName: "test", demo: "False" });
+    const iotThingNames = useSelector(state => state.meta.iotThingNames)
+    const restaurantName = useSelector(state => state.meta.restaurantName)
+    const demo = useSelector(state => state.meta.demo)
+    const metaInformation = {
+        iotThingNames,
+        restaurantName,
+        demo,
+    }
+    const unitOfMass = useSelector(state => state.settings.metric)
+    const reduxDispatch = useDispatch()
     const [isMobileDevice, setIsMobileDevice] = useState(false);
 
+    const setMetaInformation = (data) => {
+        console.log(data)
+        reduxDispatch(updateMetaInformation(data))
+    }
     useEffect(() => {
         const handleResize = () => {
             setIsMobileDevice(window.innerWidth < 1200);
