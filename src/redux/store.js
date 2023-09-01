@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import settingsSliceReducer from './settingsSlice'
+import metaSliceReducer from './metaSlice'
 
 const store = configureStore({
     reducer:{
-        settings:settingsSliceReducer
+        settings:settingsSliceReducer,
+        meta: metaSliceReducer,
     }
 })
 
