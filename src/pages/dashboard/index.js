@@ -329,7 +329,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                 <ComplexStatisticsCard
                                     color="dark"
                                     icon={<PanToolIcon />}
-                                    title="Completed Portions"
+                                    title="Portions Completed"
                                     count={cardSummaryItems[0]}
                                     percentage={{
                                         color: "success",
@@ -346,21 +346,6 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                 <MDBox mb={1.5}>
                                     <ComplexStatisticsCard
                                         color="info"
-                                        icon={<ScaleRoundedIcon />}
-                                        title="Inventory Consumed"
-                                        count={unitOfMass == "g" ? cardSummaryItems[2] : (parseInt(cardSummaryItems[2]) / 28.35).toFixed(2).toString() + "oz"}
-                                        percentage={{
-                                            color: "success",
-                                            // amount: "+10%",
-                                            // label: "Stay Tuned for Past Analytics",
-                                        }}
-                                    />
-                                </MDBox>
-                            </Grid>
-                            <Grid item xs={12} md={6} lg={3}>
-                                <MDBox mb={1.5}>
-                                    <ComplexStatisticsCard
-                                        color="success"
                                         icon={<PrecisionManufacturingRoundedIcon />}
                                         title="Precision Levels"
                                         count={cardSummaryItems[1]}
@@ -375,9 +360,9 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                             <Grid item xs={12} md={6} lg={3}>
                                 <MDBox mb={1.5}>
                                     <ComplexStatisticsCard
-                                        color="warning"
+                                        color="success"
                                         icon={<AccessTimeFilledRoundedIcon />}
-                                        title="Portioning Duration"
+                                        title="Average Completion Time"
                                         count={cardSummaryItems[3]}
                                         percentage={{
                                             color: "success",
@@ -387,22 +372,37 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                     />
                                 </MDBox>
                             </Grid>
+                            <Grid item xs={12} md={6} lg={3}>
+                                <MDBox mb={1.5}>
+                                    <ComplexStatisticsCard
+                                        color="warning"
+                                        icon={<ScaleRoundedIcon />}
+                                        title="Inventory Consumed"
+                                        count={unitOfMass == "g" ? cardSummaryItems[2] : (parseInt(cardSummaryItems[2]) / 28.35).toFixed(2).toString() + "oz"}
+                                        percentage={{
+                                            color: "success",
+                                            // amount: "+10%",
+                                            // label: "Stay Tuned for Past Analytics",
+                                        }}
+                                    />
+                                </MDBox>
+                            </Grid>
                         </Grid>
                         <MDBox mt={4.75}>
                             <Grid container spacing={3}>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <PortionAccuracyLineChart color="info" title="Changes in Portion Weight" chart={realTimeWeightGraph} />
+                                        <PortionAccuracyLineChart color="info" title="Precision of Portioning" chart={realTimeWeightGraph} />
                                     </MDBox>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <ReportsLineChartComponent color="success" title="Portion Accuracy Classification" chart={realTimePortionTime} />
+                                        <ReportsLineChartComponent color="success" title="Accuracy of Portioning" chart={realTimePortionTime} />
                                     </MDBox>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <PortionTimeBarChart color="warning" title="Breakdown of Portioning Times" chart={realTimeAccuracyGraph} />
+                                        <PortionTimeBarChart color="warning" title="Consumption of Inventory" chart={realTimeAccuracyGraph} />
                                     </MDBox>
                                 </Grid>
                             </Grid>

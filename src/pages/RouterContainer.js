@@ -21,11 +21,11 @@ const RouterContainer = (metaInformation, isMobileDevice) => {
     return [
         {
             type: "collapse",
-            name: "Dashboard",
-            key: "dashboard",
+            name: "Daily",
+            key: "daily",
             icon: (
                 <Icon fontSize="small">
-                    <HomeIcon />
+                    <AnalyticsIcon />
                 </Icon>
             ),
             route: "/dashboard",
@@ -61,24 +61,24 @@ const RouterContainer = (metaInformation, isMobileDevice) => {
         },
         {
             route: "/outlier",
-            component: <OutlierContainer iotThingNames={metaInformation.iotThingNames} restaurantName={metaInformation.restaurantName} restaurantLocationNum={metaInformation.restaurantLocationNum} />,
+            component: <OutlierContainer />,
         },
-        isMobileDevice
-            ? {
-                  name: "Mobile Analytics coming soon",
-              }
-            : {
-                  type: "collapse",
-                  name: "Analytics",
-                  key: "analytics",
-                  icon: (
-                      <Icon fontSize="small">
-                          <AnalyticsIcon />
-                      </Icon>
-                  ),
-                  route: "/analytics",
-                  component: <AnalyticsContainer iotThingNames={metaInformation.iotThingNames} displayIngredient={metaInformation.displayIngredient} />,
-              },
+        // isMobileDevice
+        //     ? {
+        //           name: "Mobile Analytics coming soon",
+        //       }
+        //     : {
+        //           type: "collapse",
+        //           name: "Analytics",
+        //           key: "analytics",
+        //           icon: (
+        //               <Icon fontSize="small">
+        //                   <AnalyticsIcon />
+        //               </Icon>
+        //           ),
+        //           route: "/analytics",
+        //           component: <AnalyticsContainer iotThingNames={metaInformation.iotThingNames} displayIngredient={metaInformation.displayIngredient} />,
+        //       },
     ];
 };
 
