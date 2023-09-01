@@ -35,20 +35,16 @@
         },
         "updateDisplayIngredientIndexAmplifyAPIv3": {
           "deploymentBucketName": "amplify-inverteclientv3-invertedev-112316-deployment",
-          "s3Key": "amplify-builds/updateDisplayIngredientIndexAmplifyAPIv3-32645a64545576552b63-build.zip"
+          "s3Key": "amplify-builds/updateDisplayIngredientIndexAmplifyAPIv3-7a475a5262734d58784d-build.zip"
         },
         "updateIngredientNameAmplifyAPIv3": {
           "deploymentBucketName": "amplify-inverteclientv3-invertedev-112316-deployment",
-          "s3Key": "amplify-builds/updateIngredientNameAmplifyAPIv3-7549656c51587931494b-build.zip"
+          "s3Key": "amplify-builds/updateIngredientNameAmplifyAPIv3-4d37635978563842506d-build.zip"
         },
         "updateUnitOfMassAmplifyAPIv3": {
           "deploymentBucketName": "amplify-inverteclientv3-invertedev-112316-deployment",
           "s3Key": "amplify-builds/updateUnitOfMassAmplifyAPIv3-73744845336c4d636e51-build.zip"
         }
-      },
-      "api": {
-        "inverteAmplifyAPIv3": {},
-        "inverteclientv3": {}
       }
     }
   }
