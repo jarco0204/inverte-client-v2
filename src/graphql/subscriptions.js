@@ -15,6 +15,8 @@ export const onNewPortionEvent = /* GraphQL */ `
       upperErrorLimit
       correctWeight
       portionTimeTaken
+      weightClassification
+      timeClassification
       dayOfYear_hourOfDay_iotNameThing
       hour {
         dayOfYear_hourOfDay_iotNameThing
@@ -909,6 +911,8 @@ export const onCreateHour = /* GraphQL */ `
           upperErrorLimit
           correctWeight
           portionTimeTaken
+          weightClassification
+          timeClassification
           dayOfYear_hourOfDay_iotNameThing
           createdAt
           updatedAt
@@ -965,6 +969,8 @@ export const onUpdateHour = /* GraphQL */ `
           upperErrorLimit
           correctWeight
           portionTimeTaken
+          weightClassification
+          timeClassification
           dayOfYear_hourOfDay_iotNameThing
           createdAt
           updatedAt
@@ -1021,6 +1027,8 @@ export const onDeleteHour = /* GraphQL */ `
           upperErrorLimit
           correctWeight
           portionTimeTaken
+          weightClassification
+          timeClassification
           dayOfYear_hourOfDay_iotNameThing
           createdAt
           updatedAt
@@ -1052,6 +1060,8 @@ export const onCreatePortionEvent = /* GraphQL */ `
       upperErrorLimit
       correctWeight
       portionTimeTaken
+      weightClassification
+      timeClassification
       dayOfYear_hourOfDay_iotNameThing
       hour {
         dayOfYear_hourOfDay_iotNameThing
@@ -1099,6 +1109,8 @@ export const onUpdatePortionEvent = /* GraphQL */ `
       upperErrorLimit
       correctWeight
       portionTimeTaken
+      weightClassification
+      timeClassification
       dayOfYear_hourOfDay_iotNameThing
       hour {
         dayOfYear_hourOfDay_iotNameThing
@@ -1146,6 +1158,8 @@ export const onDeletePortionEvent = /* GraphQL */ `
       upperErrorLimit
       correctWeight
       portionTimeTaken
+      weightClassification
+      timeClassification
       dayOfYear_hourOfDay_iotNameThing
       hour {
         dayOfYear_hourOfDay_iotNameThing

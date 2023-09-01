@@ -586,6 +586,8 @@ export const getHour = /* GraphQL */ `
           upperErrorLimit
           correctWeight
           portionTimeTaken
+          weightClassification
+          timeClassification
           dayOfYear_hourOfDay_iotNameThing
           createdAt
           updatedAt
@@ -658,6 +660,8 @@ export const getPortionEvent = /* GraphQL */ `
       upperErrorLimit
       correctWeight
       portionTimeTaken
+      weightClassification
+      timeClassification
       dayOfYear_hourOfDay_iotNameThing
       hour {
         dayOfYear_hourOfDay_iotNameThing
@@ -716,6 +720,8 @@ export const listPortionEvents = /* GraphQL */ `
         upperErrorLimit
         correctWeight
         portionTimeTaken
+        weightClassification
+        timeClassification
         dayOfYear_hourOfDay_iotNameThing
         hour {
           dayOfYear_hourOfDay_iotNameThing
@@ -1043,6 +1049,8 @@ export const portionEventsByDayOfYear_hourOfDay_iotNameThing = /* GraphQL */ `
         upperErrorLimit
         correctWeight
         portionTimeTaken
+        weightClassification
+        timeClassification
         dayOfYear_hourOfDay_iotNameThing
         hour {
           dayOfYear_hourOfDay_iotNameThing
