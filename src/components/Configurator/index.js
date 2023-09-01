@@ -24,7 +24,7 @@ import MDBox from "../../components/MDBox";
 import MDTypography from "../../components/MDTypography";
 import MDButton from "../../components/MDButton";
 import { useDispatch, useSelector } from "react-redux";
-import { switchMetrics } from "../../redux/settingsSlice";
+import { switchMetric } from "../../redux/settingsSlice";
 // Custom styles for the Configurator
 import ConfiguratorRoot from "./ConfiguratorRoot";
 
@@ -59,17 +59,17 @@ function Configurator({ metaInformation }) {
         function handleDisabled() {
             return window.innerWidth > 1200 ? setDisabled(false) : setDisabled(true);
         }
-
+        
         // The event listener that's calling the handleDisabled function when resizing the window.
         window.addEventListener("resize", handleDisabled);
-
+        
         // Call the handleDisabled function to set the state with the initial value.
         handleDisabled();
-
+        
         // Remove event listener on cleanup
         return () => window.removeEventListener("resize", handleDisabled);
     }, []);
-
+    
     const handleCloseConfigurator = () => setOpenConfigurator(dispatch, false);
     const handleTransparentSidenav = () => {
         setTransparentSidenav(dispatch, true);
@@ -126,7 +126,7 @@ function Configurator({ metaInformation }) {
             border: `${borderWidth[1]} solid ${darkMode ? white.main : dark.main}`,
         },
     });
-
+    
     // sidenav type active button styles
     const sidenavTypeActiveButtonStyles = ({ functions: { pxToRem, linearGradient }, palette: { white, gradients, background } }) => ({
         height: pxToRem(39),
@@ -138,7 +138,12 @@ function Configurator({ metaInformation }) {
             color: darkMode ? background.sidenav : white.main,
         },
     });
-
+    const switchMetricOnClick = (event) => {
+        // console.log(event)
+        reduxDispatch(switchMetric(event.target.defaultValue))
+    }
+    
+    
     return (
         <ConfiguratorRoot variant="permanent" ownerState={{ openConfigurator }}>
             <MDBox display="flex" justifyContent="space-between" alignItems="baseline" pt={4} pb={0.5} px={3}>
@@ -285,13 +290,15 @@ function Configurator({ metaInformation }) {
                                     row
                                     aria-labelledby="demo-radio-buttons-group-label"
                                     name="unitOfMassField"
-                                    onChange={(event) => {
-                                        console.log("Jump", event.target.value);
-                                        reduxDispatch(switchMetrics());
-                                        updateUnitOfMass(event);
-                                        changeScaleMass(5);
-                                    }}
-                                    defaultValue={metaInformation.unitOfMass}
+                                    // onChange={(event) => {
+                                    //     console.log("Jump", event.target.value);
+                                    //     switchMetricOnClick;
+                                    //     console.log('Success')
+                                    //     updateUnitOfMass(event);
+                                    //     changeScaleMass(5);
+                                    // }}
+                                    onChange={switchMetricOnClick}
+                                    defaultValue={unitOfMass}
                                 >
                                     <FormControlLabel value="oz" control={<Radio />} label="oz" />
                                     <FormControlLabel value="g" control={<Radio />} label="g" />
