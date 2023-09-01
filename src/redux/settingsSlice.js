@@ -8,8 +8,8 @@ const settingSlice = createSlice({
         theme: 'light',
     },
     reducers: {
-        switchMetric: (state) => {
-            state.metric = state.metric === 'g'? 'oz': 'g'
+        switchMetric: (state, action) => {
+            state.metric = action.payload
         },
         switchTheme: (state) => {
             state.theme = state.theme === 'light'? 'dark':'light'
