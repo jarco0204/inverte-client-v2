@@ -298,13 +298,15 @@ function Configurator({ metaInformation }) {
                                     row
                                     aria-labelledby="demo-radio-buttons-group-label"
                                     name="unitOfMassField"
-                                    onChange={(event) => {
-                                        console.log("Jump", event.target.value);
-                                        reduxDispatch(switchMetrics());
-                                        updateUnitOfMass(event);
-                                        changeScaleMass(5);
-                                    }}
-                                    defaultValue={metaInformation.unitOfMass}
+                                    // onChange={(event) => {
+                                    //     console.log("Jump", event.target.value);
+                                    //     switchMetricOnClick;
+                                    //     console.log('Success')
+                                    //     updateUnitOfMass(event);
+                                    //     changeScaleMass(5);
+                                    // }}
+                                    onChange={switchMetricOnClick}
+                                    defaultValue={unitOfMass}
                                 >
                                     <FormControlLabel value="oz" control={<Radio />} label="oz" />
                                     <FormControlLabel value="g" control={<Radio />} label="g" />
