@@ -24,7 +24,8 @@ import MDBox from "../../components/MDBox";
 import MDTypography from "../../components/MDTypography";
 import MDButton from "../../components/MDButton";
 import { useDispatch, useSelector } from "react-redux";
-import { switchMetric } from "../../redux/settingsSlice";
+import { switchColor } from "../../redux/settingsSlice";
+import { setUnitOfMass } from "../../redux/metaSlice";
 // Custom styles for the Configurator
 import ConfiguratorRoot from "./ConfiguratorRoot";
 
@@ -50,7 +51,8 @@ function Configurator({ metaInformation }) {
     const sidenavColors = ["primary", "dark", "info", "success", "warning", "error"];
     const restaurantName = metaInformation.restaurantName;
     const restaurantLocationNum = metaInformation.restaurantLocationNum;
-    const unitOfMass = useSelector(state => state.settings.metric)
+    const unitOfMass = useSelector(state => state.meta.unitOfMass)
+    const selectedColor = useSelector(state => state.settings.color)
     const reduxDispatch = useDispatch()
     // console.log("The unit of mass is: ", unitOfMass);
     // Use the useEffect hook to change the button state for the sidenav type based on window size.
@@ -140,7 +142,12 @@ function Configurator({ metaInformation }) {
     });
     const switchMetricOnClick = (event) => {
         // console.log(event)
-        reduxDispatch(switchMetric(event.target.defaultValue))
+        reduxDispatch(setUnitOfMass(event.target.defaultValue))
+    }
+
+    const switchColorOnClick = (event) => {
+        console.log(event)
+        reduxDispatch(switchColor(event.target.defaultValue))
     }
     
     
