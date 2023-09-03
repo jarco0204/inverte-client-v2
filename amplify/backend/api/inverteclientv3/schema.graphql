@@ -98,6 +98,9 @@ input HourlySummaryInput {
     accuracy: Float!
     performance: Float!
     inventoryConsumed: Int!
+    overServed: Int
+    underServed: Int
+    perfect: Int
 }
 
 input DailySummaryInput {
@@ -106,6 +109,9 @@ input DailySummaryInput {
     accuracy: Float!
     performance: Float!
     inventoryConsumed: Int!
+    overServed: Int
+    underServed: Int
+    perfect: Int
 }
 
 input WeeklySummaryInput {
@@ -114,6 +120,9 @@ input WeeklySummaryInput {
     accuracy: Float!
     performance: Float!
     inventoryConsumed: Int!
+    overServed: Int
+    underServed: Int
+    perfect: Int
 }
 
 input MonthlySummaryInput {
@@ -122,6 +131,9 @@ input MonthlySummaryInput {
     accuracy: Float!
     performance: Float!
     inventoryConsumed: Int!
+    overServed: Int
+    underServed: Int
+    perfect: Int
 }
 input YearlySummaryInput {
     averageTime: Float!
@@ -129,6 +141,9 @@ input YearlySummaryInput {
     accuracy: Float!
     performance: Float!
     inventoryConsumed: Int!
+    overServed: Int
+    underServed: Int
+    perfect: Int
 }
 
 type HourlySummary {
@@ -137,7 +152,9 @@ type HourlySummary {
     accuracy: Float!
     performance: Float!
     inventoryConsumed: Int!
-
+    overServed: Int
+    underServed: Int
+    perfect: Int
     hour: Hour
 }
 
@@ -147,7 +164,9 @@ type DailySummary {
     accuracy: Float!
     performance: Float!
     inventoryConsumed: Int!
-
+    overServed: Int
+    underServed: Int
+    perfect: Int
     day: Day
 }
 
@@ -157,7 +176,9 @@ type WeeklySummary {
     accuracy: Float!
     performance: Float!
     inventoryConsumed: Int!
-
+    overServed: Int
+    underServed: Int
+    perfect: Int
     week: Week
 }
 
@@ -167,7 +188,9 @@ type MonthlySummary {
     accuracy: Float!
     performance: Float!
     inventoryConsumed: Int!
-
+    overServed: Int
+    underServed: Int
+    perfect: Int
     month: Month
 }
 type YearlySummary {
@@ -176,6 +199,8 @@ type YearlySummary {
     accuracy: Float!
     performance: Float!
     inventoryConsumed: Int!
-
+    overServed: Int
+    underServed: Int
+    perfect: Int
     year: Year
 }

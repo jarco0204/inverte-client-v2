@@ -201,6 +201,9 @@ export const getYear = /* GraphQL */ `
         accuracy
         performance
         inventoryConsumed
+        overServed
+        underServed
+        perfect
         year {
           year_iotNameThing
           ingredientName_weight
@@ -260,6 +263,9 @@ export const listYears = /* GraphQL */ `
           accuracy
           performance
           inventoryConsumed
+          overServed
+          underServed
+          perfect
           __typename
         }
         realTime
@@ -289,6 +295,9 @@ export const getMonth = /* GraphQL */ `
         accuracy
         performance
         inventoryConsumed
+        overServed
+        underServed
+        perfect
         month {
           monthOfYear_iotNameThing
           year_iotNameThing
@@ -348,6 +357,9 @@ export const listMonths = /* GraphQL */ `
           accuracy
           performance
           inventoryConsumed
+          overServed
+          underServed
+          perfect
           __typename
         }
         realTime
@@ -377,6 +389,9 @@ export const getWeek = /* GraphQL */ `
         accuracy
         performance
         inventoryConsumed
+        overServed
+        underServed
+        perfect
         week {
           weekOfYear_iotNameThing
           monthOfYear_iotNameThing
@@ -436,6 +451,9 @@ export const listWeeks = /* GraphQL */ `
           accuracy
           performance
           inventoryConsumed
+          overServed
+          underServed
+          perfect
           __typename
         }
         realTime
@@ -465,6 +483,9 @@ export const getDay = /* GraphQL */ `
         accuracy
         performance
         inventoryConsumed
+        overServed
+        underServed
+        perfect
         day {
           dayOfYear_iotNameThing
           weekOfYear_iotNameThing
@@ -525,6 +546,9 @@ export const listDays = /* GraphQL */ `
           accuracy
           performance
           inventoryConsumed
+          overServed
+          underServed
+          perfect
           __typename
         }
         realTime
@@ -557,6 +581,9 @@ export const getHour = /* GraphQL */ `
         accuracy
         performance
         inventoryConsumed
+        overServed
+        underServed
+        perfect
         hour {
           dayOfYear_hourOfDay_iotNameThing
           dayOfYear_iotNameThing
@@ -628,6 +655,9 @@ export const listHours = /* GraphQL */ `
           accuracy
           performance
           inventoryConsumed
+          overServed
+          underServed
+          perfect
           __typename
         }
         realTime
@@ -673,6 +703,9 @@ export const getPortionEvent = /* GraphQL */ `
           accuracy
           performance
           inventoryConsumed
+          overServed
+          underServed
+          perfect
           __typename
         }
         realTime
@@ -835,6 +868,9 @@ export const yearsByIngredientName_weight = /* GraphQL */ `
           accuracy
           performance
           inventoryConsumed
+          overServed
+          underServed
+          perfect
           __typename
         }
         realTime
@@ -877,6 +913,9 @@ export const monthsByYear_iotNameThing = /* GraphQL */ `
           accuracy
           performance
           inventoryConsumed
+          overServed
+          underServed
+          perfect
           __typename
         }
         realTime
@@ -919,6 +958,9 @@ export const weeksByMonthOfYear_iotNameThing = /* GraphQL */ `
           accuracy
           performance
           inventoryConsumed
+          overServed
+          underServed
+          perfect
           __typename
         }
         realTime
@@ -961,6 +1003,9 @@ export const daysByWeekOfYear_iotNameThing = /* GraphQL */ `
           accuracy
           performance
           inventoryConsumed
+          overServed
+          underServed
+          perfect
           __typename
         }
         realTime
@@ -1004,6 +1049,9 @@ export const hoursByDayOfYear_iotNameThing = /* GraphQL */ `
           accuracy
           performance
           inventoryConsumed
+          overServed
+          underServed
+          perfect
           __typename
         }
         realTime
