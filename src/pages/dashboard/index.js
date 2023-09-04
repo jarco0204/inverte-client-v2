@@ -35,8 +35,10 @@ import dayOfYear from "dayjs/plugin/dayOfYear.js";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import toObject from "dayjs/plugin/toObject.js";
-
-// Configure DayJS library
+import { ConstructionOutlined } from "@mui/icons-material";
+import { useSelector } from "react-redux";
+import { setSelectedIndex } from "../../redux/metaSlice";
+// import { ListItemIcon } from "@mui/material";
 dayjs.extend(dayOfYear);
 dayjs.extend(toObject);
 dayjs.extend(utc);
@@ -137,15 +139,19 @@ const createDoughnutChartObject = (doughnutChartData) => {
    @Comments
    @Coders: GangaLi
 */
-const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex, timeZone, clientDemo }) => {
-    // Main Component State
+const DashboardContainer = () => {
+    // Main Component State: Cards & Graphs
+    const iotThingNames = useSelector(state => state.meta.iotThingNames)
+    const unitOfMass = useSelector(state => state.meta.unitOfMass)
+    const displayIngredientIndex = useSelector(state => state.meta.displayIngredient)
+    const timeZone = useSelector(state => state.meta.timeZone)
+    const demo = useSelector(state => state.meta.demo)
     const portionCompleteTitle = "Portions Completed";
     const portionPrecisionTitle = "Precision Levels";
     const portionTimeTitle = "Average Completion Time";
     const inventoryConsumedTitle = "Inventory Consumed";
     const [isMobileDevice, setIsMobileDevice] = useState(clientDemo);
 
-    // Main Card Components
     const [cardSummaryItems, setCardSummaryItems] = useState([]);
     const [realTimePrecisionGraph, setRealTimePrecisionGraph] = useState([]);
     const [realTimeAccuracyGraph, setRealTimeAccuracyGraph] = useState([]);
@@ -159,8 +165,10 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
 
     // Drop-Down Menu State
     const options = Object.values(iotThingNames);
-    const selectedIndexRef = useRef(displayIngredientIndex);
-    const [selectedIndex, setSelectedIndex] = useState(displayIngredientIndex);
+    const selectedIndexRef = {current:displayIngredientIndex.toString()};
+    // const [selectedIndex, setSelectedIndex] = useState(displayIngredientIndex);
+    const selectedIndex = displayIngredientIndex
+    console.log('indices', selectedIndexRef, selectedIndex)
     const keys = Object.keys(iotThingNames);
 
     /*!
@@ -368,9 +376,16 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
         };
     }, []);
 
+  
+
+    const convertGsToOz = (val) => {
+        return (parseInt(val) / 28.35).toFixed(2).toString()
+    }
     return (
         <DashboardLayout>
-            <DropDownIngredientMenu options={options} selectedIndexRef={selectedIndexRef} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} titleForPage={"Daily InVentory Report"} />
+            {/* TODO: ADD Style such that title gets centered with media query (textAlign) */}
+            <DropDownMenus options={options}  updateIngredient={updateIngredient}/>
+
             {!isMobileDevice && (
                 <div>
                     <MDBox py={3}>
