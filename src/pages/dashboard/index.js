@@ -33,6 +33,8 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import toObject from "dayjs/plugin/toObject.js";
 import { ConstructionOutlined } from "@mui/icons-material";
+import { useSelector } from "react-redux";
+import { setSelectedIndex } from "../../redux/metaSlice";
 // import { ListItemIcon } from "@mui/material";
 dayjs.extend(dayOfYear);
 dayjs.extend(toObject);
@@ -46,8 +48,13 @@ dayjs.extend(timezone);
    @Comments
    @Coders: GangaLi
 */
-const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex, timeZone, demo }) => {
+const DashboardContainer = () => {
     // Main Component State: Cards & Graphs
+    const iotThingNames = useSelector(state => state.meta.iotThingNames)
+    const unitOfMass = useSelector(state => state.meta.unitOfMass)
+    const displayIngredientIndex = useSelector(state => state.meta.displayIngredient)
+    const timeZone = useSelector(state => state.meta.timeZone)
+    const demo = useSelector(state => state.meta.demo)
     const [cardSummaryItems, setCardSummaryItems] = useState([]);
     const [realTimeWeight, setRealTimeWeight] = useState([]);
     const [realTimeAccuracy, setRealTimeAccuracy] = useState([]);
@@ -56,8 +63,10 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
     const [isMobileDevice, setIsMobileDevice] = useState(false);
     // Drop-Down Menu State
     const options = Object.values(iotThingNames);
-    const selectedIndexRef = useRef(displayIngredientIndex);
-    const [selectedIndex, setSelectedIndex] = useState(displayIngredientIndex);
+    const selectedIndexRef = {current:displayIngredientIndex.toString()};
+    // const [selectedIndex, setSelectedIndex] = useState(displayIngredientIndex);
+    const selectedIndex = displayIngredientIndex
+    console.log('indices', selectedIndexRef, selectedIndex)
     const keys = Object.keys(iotThingNames);
     console.log("The value of demo is:", demo);
     console.log(isMobileDevice);
@@ -176,7 +185,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
     const getHourlyMetaRecords = async () => {
         try {
             let tempDate = dayjs().tz(timeZone); // Local time of Client
-
+            
             const response = await API.graphql({
                 query: getDay,
                 variables: { dayOfYear_iotNameThing: tempDate.dayOfYear().toString() + "_" + keys[selectedIndexRef.current] }, // Provide the ID as a variable
@@ -316,10 +325,13 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
         });
     }, [selectedIndex]);
 
+    const convertGsToOz = (val) => {
+        return (parseInt(val) / 28.35).toFixed(2).toString()
+    }
     return (
         <DashboardLayout>
             {/* TODO: ADD Style such that title gets centered with media query (textAlign) */}
-            <DropDownMenus options={options} selectedIndexRef={selectedIndexRef} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} updateIngredient={updateIngredient} />
+            <DropDownMenus options={options}  updateIngredient={updateIngredient}/>
 
             {!isMobileDevice && (
                 <div>
@@ -352,7 +364,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                         color="info"
                                         icon={<ScaleRoundedIcon />}
                                         title="Total Consumed Inventory"
-                                        count={unitOfMass == "g" ? cardSummaryItems[2] : (parseInt(cardSummaryItems[2]) / 28.35).toFixed(2).toString() + "oz"}
+                                        count={unitOfMass == "g" ? cardSummaryItems[2] : convertGsToOz(cardSummaryItems[2]) + "oz"}
                                         percentage={{
                                             color: "success",
                                             // amount: "+10%",
@@ -434,7 +446,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                     color="info"
                                     icon={<ScaleRoundedIcon />}
                                     title="Total Consumed Inventory"
-                                    count={unitOfMass == "g" ? cardSummaryItems[2] : (parseInt(cardSummaryItems[2]) / 28.35).toFixed(2).toString() + "oz"}
+                                    count={unitOfMass == "g" ? cardSummaryItems[2] : convertGsToOz(cardSummaryItems[2]) + "oz"}
                                     percentage={{
                                         color: "success",
                                     }}
