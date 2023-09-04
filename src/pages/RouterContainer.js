@@ -29,14 +29,7 @@ const RouterContainer = (metaInformation) => {
             ),
             route: "/dashboard",
             component: (
-                <DashboardContainer
-                    iotThingNames={metaInformation.iotThingNames}
-                    unitOfMass={metaInformation.unitOfMass}
-                    displayIngredientIndex={metaInformation.displayIngredient}
-                    timeZone={metaInformation.timeZone}
-                    isMobileDevice={metaInformation.isMobileDevice}
-                    demo={metaInformation.demo}
-                />
+                <DashboardContainer/>
             ),
         },
         {
