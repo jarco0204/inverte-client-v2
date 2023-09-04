@@ -9,6 +9,8 @@ import { MenuItem } from "@mui/material";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
+import { useSelector, useDispatch } from "react-redux";
+import { setSelectedIndex } from "../../../../redux/metaSlice";
 
 const StyledMenu = styled((props) => (
     <Menu
@@ -44,8 +46,11 @@ const StyledMenu = styled((props) => (
     },
 }));
 
-const DropDownMenus = ({ options, selectedIndexRef, selectedIndex, setSelectedIndex, updateIngredient }) => {
+const DropDownMenus = ({ options, updateIngredient }) => {
     const [anchorEl, setAnchorEl] = useState(null);
+    const selectedIndexRef = {current: useSelector(state => state.meta.displayIngredient).toString()}
+    const selectedIndex = useSelector(state => state.meta.displayIngredient)
+    const reduxDispatch = useDispatch()
     const open = Boolean(anchorEl);
 
     const handleClick = (event) => {
@@ -75,6 +80,7 @@ const DropDownMenus = ({ options, selectedIndexRef, selectedIndex, setSelectedIn
         selectedIndexRef.current = index;
         setAnchorEl(null);
         updateIngredient(index);
+        reduxDispatch(setSelectedIndex(index.toString()))
     };
 
     /*!
