@@ -12,6 +12,9 @@ import Footer from "../../components/Footer";
 import MDBox from "../../components/MDBox";
 import PortionWeightLineChart from "./components/PortionWeightLineChart";
 
+// Data Structures
+import Queue from "./QueueStructure";
+
 // Backend
 import { PubSub } from "aws-amplify";
 
@@ -25,7 +28,7 @@ import { PubSub } from "aws-amplify";
 const createReportLineChartObject = () => {
     return {
         labels: [],
-        datasets: { label: "Portion Accuracy", data: [], yAxisLabel: "Percent" },
+        datasets: { label: "Portion Weight", data: [], yAxisLabel: "Portion Weight" },
         pointBackgroundColorAr: [],
     };
 };
@@ -37,22 +40,45 @@ const createReportLineChartObject = () => {
    @Comments
    @Coders: Fu€g0001
 */
-const OutlierContainer = ({ iotThingNames, displayIngredient }) => {
-    // State of Container
-    const [realTimePortionEventsAR, setRealTimePortionEventsAR] = useState([]); //
+const OutlierContainer = () => {
+    // Portion Sequence UseState
+    const [realTimePortionWeightAR, setRealTimePortionWeightAR] = useState([]);
+    const [realTimeStampAR, setRealTimeStampAR] = useState([]);
+
+    // Chart Variable
+    const realTimePortionEventChartObject = createReportLineChartObject();
     const [realTimePortionEventChart, setRealTimePortionEventChart] = useState([]);
-    const { weightGraph } = createReportLineChartObject();
+
+    // UseEffect
+    // useEffect(() => {}, [realTimePortionEventChart]);
 
     //Use Effects
     useEffect(() => {
-        PubSub.subscribe("test/rohan/1/od").subscribe({
+        console.log("Subscribing to updates....");
+        const subs = PubSub.subscribe("test/rohan/1/od").subscribe({
             next: (data) => {
-                // console.log("Message received", data.value);
+                console.log("Outlier Data Point Received....");
+                console.log("portion weight is..", data.value.portionWeight);
+                console.log("portion status is..", data.value.portionStatus);
                 console.log("timestamp is", data.value.timestamp);
-                console.log("portion weight is", data.value.portionWeight);
-                console.log("portion status is", data.value.portionStatus);
+
+                setRealTimePortionWeightAR((prevData) => {
+                    const updatedData = [...prevData, data.value.portionWeight].slice(-10);
+                    realTimePortionEventChartObject.datasets.data = updatedData;
+                    return updatedData;
+                });
+
+                setRealTimeStampAR((prevData) => {
+                    const updatedData = [...prevData, data.value.timestamp].slice(-10);
+                    realTimePortionEventChartObject.labels = updatedData;
+                    return updatedData;
+                });
+
                 console.log();
-                setRealTimePortionEventChart(weightGraph);
+                setRealTimePortionEventChart(realTimePortionEventChartObject);
+                return () => {
+                    subs.unsubscribe();
+                };
             },
             error: (error) => console.error(error),
             complete: () => console.log("Done"),
@@ -67,7 +93,7 @@ const OutlierContainer = ({ iotThingNames, displayIngredient }) => {
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={10} lg={12}>
                             <MDBox mb={40}>
-                                <PortionWeightLineChart color="success" title="Portion Accuracy Classification" chart={realTimePortionEventChart} />
+                                <PortionWeightLineChart color="success" title="Portion Weight" chart={realTimePortionEventChart} />
                             </MDBox>
                         </Grid>
                     </Grid>
@@ -79,9 +105,6 @@ const OutlierContainer = ({ iotThingNames, displayIngredient }) => {
 };
 
 // Handle the props
-OutlierContainer.propTypes = {
-    iotThingNames: PropTypes.array,
-    displayIngredient: PropTypes.string,
-};
+OutlierContainer.propTypes = {};
 
 export default OutlierContainer;

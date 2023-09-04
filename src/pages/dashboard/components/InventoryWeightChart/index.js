@@ -13,17 +13,17 @@ import MDBox from "../../../../components/MDBox";
 import MDTypography from "../../../../components/MDTypography";
 
 // ReportsLineChart configurations
-import PortionAccuracyLineChartConfig from "./configs";
+import InventoryWeightLineChartConfig from "./Config";
 
 /*!
    @description:
    @params:
    @return:
    @Comments
-   @Coders: EscorpionWin$
+   @Coders: BARAKAEffect
 */
-const PortionAccuracyLineChart = ({ color, title, description, chart }) => {
-    const { data, options } = PortionAccuracyLineChartConfig(
+const InventoryWeightChart = ({ color, title, description, chart }) => {
+    const { data, options } = InventoryWeightLineChartConfig(
         chart.labels || [],
         chart.portionEvent || {},
         chart.pointBackgroundColorAR || [],
@@ -56,13 +56,13 @@ const PortionAccuracyLineChart = ({ color, title, description, chart }) => {
 };
 
 // Setting default values for the props of ReportsLineChart
-PortionAccuracyLineChart.defaultProps = {
+InventoryWeightChart.defaultProps = {
     color: "dark",
     description: "",
 };
 
 // Typechecking props for the ReportsLineChart
-PortionAccuracyLineChart.propTypes = {
+InventoryWeightChart.propTypes = {
     color: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error", "dark"]),
     title: PropTypes.string.isRequired,
     description: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
@@ -71,4 +71,4 @@ PortionAccuracyLineChart.propTypes = {
     chart: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 };
 
-export default PortionAccuracyLineChart;
+export default InventoryWeightChart;

@@ -3,9 +3,9 @@
    @params:
    @return:
    @Comments
-   @Coders: MikelJordania
+   @Coders: Zarbonito
 */
-const PortionAccuracyLineChartConfig = (labels, datasets, pointColorsAR, datasets1, datasets2, datasets3) => {
+const InventoryWeightLineChartConfig = (labels, datasets, pointColorsAR, datasets1, datasets2, datasets3) => {
     return {
         data: {
             labels,
@@ -151,4 +151,4 @@ const PortionAccuracyLineChartConfig = (labels, datasets, pointColorsAR, dataset
     };
 };
 
-export default PortionAccuracyLineChartConfig;
+export default InventoryWeightLineChartConfig;
