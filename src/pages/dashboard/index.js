@@ -131,12 +131,15 @@ const DashboardContainer = () => {
     const displayIngredientIndex = useSelector(state => state.meta.displayIngredient)
     const timeZone = useSelector(state => state.meta.timeZone)
     const demo = useSelector(state => state.meta.demo)
+<<<<<<< HEAD
     const portionCompleteTitle = "Portions Completed";
     const portionPrecisionTitle = "Precision Levels";
     const portionTimeTitle = "Average Completion Time";
     const inventoryConsumedTitle = "Inventory Consumed";
     const [isMobileDevice, setIsMobileDevice] = useState(clientDemo);
 
+=======
+>>>>>>> b8853f5 (feat: added redux to the dashboard)
     const [cardSummaryItems, setCardSummaryItems] = useState([]);
     const [realTimePrecisionGraph, setRealTimePrecisionGraph] = useState([]);
     const [realTimeAccuracyGraph, setRealTimeAccuracyGraph] = useState([]);
@@ -278,8 +281,12 @@ const DashboardContainer = () => {
     const getHourlyMetaRecords = async () => {
         try {
             let tempDate = dayjs().tz(timeZone); // Local time of Client
+<<<<<<< HEAD
 
             // Query GQL to pull hourly data
+=======
+            
+>>>>>>> b8853f5 (feat: added redux to the dashboard)
             const response = await API.graphql({
                 query: getDay,
                 variables: { dayOfYear_iotNameThing: tempDate.dayOfYear().toString() + "_" + keys[selectedIndexRef.current] }, // Provide the ID as a variable
@@ -344,6 +351,7 @@ const DashboardContainer = () => {
         };
     }, [selectedIndex]);
 
+<<<<<<< HEAD
     // UseEffect to change layout for mobile devices
     useEffect(() => {
         const handleResize = () => {
@@ -360,6 +368,8 @@ const DashboardContainer = () => {
 
   
 
+=======
+>>>>>>> b8853f5 (feat: added redux to the dashboard)
     const convertGsToOz = (val) => {
         return (parseInt(val) / 28.35).toFixed(2).toString()
     }
@@ -391,9 +401,15 @@ const DashboardContainer = () => {
                                 <MDBox mb={1.5}>
                                     <ComplexStatisticsCard
                                         color="info"
+<<<<<<< HEAD
                                         icon={<PrecisionManufacturingRoundedIcon />}
                                         title={portionPrecisionTitle}
                                         count={cardSummaryItems[1]}
+=======
+                                        icon={<ScaleRoundedIcon />}
+                                        title="Total Consumed Inventory"
+                                        count={unitOfMass == "g" ? cardSummaryItems[2] : convertGsToOz(cardSummaryItems[2]) + "oz"}
+>>>>>>> b8853f5 (feat: added redux to the dashboard)
                                         percentage={{
                                             color: "success",
                                             // amount: "+3%",
@@ -463,9 +479,15 @@ const DashboardContainer = () => {
                             <Grid item xs={12} md={6} lg={3}>
                                 <MobileComplexStatisticsCard
                                     color="info"
+<<<<<<< HEAD
                                     icon={<PrecisionManufacturingRoundedIcon />}
                                     title={portionPrecisionTitle}
                                     count={cardSummaryItems[1]}
+=======
+                                    icon={<ScaleRoundedIcon />}
+                                    title="Total Consumed Inventory"
+                                    count={unitOfMass == "g" ? cardSummaryItems[2] : convertGsToOz(cardSummaryItems[2]) + "oz"}
+>>>>>>> b8853f5 (feat: added redux to the dashboard)
                                     percentage={{
                                         color: "success",
                                     }}
