@@ -28,7 +28,7 @@ import { PubSub } from "aws-amplify";
 const createReportLineChartObject = () => {
     return {
         labels: [],
-        datasets: { label: "Portion Accuracy", data: [], yAxisLabel: "Percent" },
+        datasets: { label: "Portion Weight", data: [], yAxisLabel: "Portion Weight" },
         pointBackgroundColorAr: [],
     };
 };
@@ -41,21 +41,20 @@ const createReportLineChartObject = () => {
    @Coders: Fu€g0001
 */
 const OutlierContainer = () => {
-    // const queue2 = new Queue();
+    // Portion Sequence UseState
+    const [realTimePortionWeightAR, setRealTimePortionWeightAR] = useState([]);
+    const [realTimeStampAR, setRealTimeStampAR] = useState([]);
 
-    // State of Container
-    const [realTimePortionWeightNum, setRealTimePortionWeightNum] = useState(0); //
-    const queue1 = new Queue();
-    const queue3 = new Queue();
-
-    // const [realTimePortionTimestampQueue, setRealTimePortionTimestampQueue] = useState([]); //
-
+    // Chart Variable
+    const realTimePortionEventChartObject = createReportLineChartObject();
     const [realTimePortionEventChart, setRealTimePortionEventChart] = useState([]);
 
-    const realTimePortionWeightGraph = createReportLineChartObject();
+    // UseEffect
+    // useEffect(() => {}, [realTimePortionEventChart]);
 
     //Use Effects
     useEffect(() => {
+        console.log("Subscribing to updates....");
         const subs = PubSub.subscribe("test/rohan/1/od").subscribe({
             next: (data) => {
                 console.log("Outlier Data Point Received....");
@@ -63,25 +62,28 @@ const OutlierContainer = () => {
                 console.log("portion status is..", data.value.portionStatus);
                 console.log("timestamp is", data.value.timestamp);
 
-                // Enqueue New Measurements
-                queue1.enqueue(data.value.portionWeight);
-                // queue2.enqueue(data.value.portionStatus);
-                queue3.enqueue(data.value.timestamp);
+                setRealTimePortionWeightAR((prevData) => {
+                    const updatedData = [...prevData, data.value.portionWeight].slice(-10);
+                    realTimePortionEventChartObject.datasets.data = updatedData;
+                    return updatedData;
+                });
 
-                // realTimePortionWeightQueue.printQueue();
-                realTimePortionWeightGraph.labels = queue3.getMySequence();
-                realTimePortionWeightGraph.datasets.data = queue1.getMySequence();
+                setRealTimeStampAR((prevData) => {
+                    const updatedData = [...prevData, data.value.timestamp].slice(-10);
+                    realTimePortionEventChartObject.labels = updatedData;
+                    return updatedData;
+                });
 
-                setRealTimePortionEventChart(realTimePortionWeightGraph);
                 console.log();
-                setRealTimePortionWeightNum(data.value.portionWeight);
-
-                // subs.unsubscribe();
+                setRealTimePortionEventChart(realTimePortionEventChartObject);
+                return () => {
+                    subs.unsubscribe();
+                };
             },
             error: (error) => console.error(error),
             complete: () => console.log("Done"),
         });
-    }, [realTimePortionWeightNum]);
+    }, []);
 
     // Display Outlier Page
     return (
@@ -91,7 +93,7 @@ const OutlierContainer = () => {
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={10} lg={12}>
                             <MDBox mb={40}>
-                                <PortionWeightLineChart color="success" title="Portion Accuracy Classification" chart={realTimePortionEventChart} />
+                                <PortionWeightLineChart color="success" title="Portion Weight" chart={realTimePortionEventChart} />
                             </MDBox>
                         </Grid>
                     </Grid>
