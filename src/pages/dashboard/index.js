@@ -17,6 +17,7 @@ import Footer from "../../components/Footer";
 import PortionAccuracyLineChart from "./components/PortionAccuracyLineChart";
 import PortionTimeBarChart from "./components/PortionTimeBarChart";
 import ReportsLineChartComponent from "../../components/Charts/LineCharts/ReportsLineChart";
+import DoughnutChartComponent from "../../components/Charts/DoughnutCharts";
 import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
 import MobileComplexStatisticsCard from "./components/MobileComplexStatisticsCard";
 import DropDownIngredientMenu from "../../components/DropDownIngredientMenu";
@@ -127,7 +128,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
     const [realTimeWeightGraph, setRealTimeWeightGraph] = useState([]);
     const [realTimeAccuracyGraph, setRealTimeAccuracyGraph] = useState([]);
     const [realTimePortionTime, setRealTimePortionTime] = useState([]);
-
+    const [doughnutChartData, setDoughnutChartData] = useState([]);
     const { weightGraph, portionTimeGraph } = createReportLineChartObject();
     const accuracyGraph = createReportBarChartObject();
 
@@ -278,10 +279,12 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
             } else {
                 if (hour.getDay) {
                     // Set the Upper Summary Card Components
+                    console.log("Data we get from backend is:", hour.getDay);
                     let accuracy = hour.getDay.dailySummary.accuracy.toFixed(0) + "%";
                     let inventoryWeight = hour.getDay.dailySummary.inventoryConsumed + "g";
                     let timeSaved = hour.getDay.dailySummary.averageTime.toFixed(1) + "s";
                     setCardSummaryItems([hour.getDay.dailySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
+                    setDoughnutChartData([hour.getDay.dailySummary.underServed, hour.getDay.dailySummary.perfect, hour.getDay.dailySummary.overServed]);
                     generateLowerRealTimeGraphs(JSON.parse(hour.getDay.realTime));
                 } else {
                     // There is no hourly response so add placeholders
@@ -317,7 +320,12 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
             subscription.unsubscribe();
         };
     }, [selectedIndex]);
-
+    console.log("The doughnut data is:", doughnutChartData);
+    const dummyDoughnutData = {
+        labels: ["Under serving", "Perfect", "Over Serving"],
+        data: doughnutChartData,
+        backgroundColors: ["#0693e3", "#86FF02", "#fa0d0d"],
+    };
     return (
         <DashboardLayout>
             <DropDownIngredientMenu options={options} selectedIndexRef={selectedIndexRef} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} titleForPage={"Daily InVentory Report"} />
@@ -397,7 +405,14 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <ReportsLineChartComponent color="success" title="Portion Accuracy Classification" chart={realTimePortionTime} />
+                                        {/* <ReportsLineChartComponent color="success" title="Portion Accuracy Classification" chart={realTimePortionTime} /> */}
+                                        <DoughnutChartComponent
+                                            icon={{ color: "info", component: "star" }}
+                                            title="Doughnut Chart Example"
+                                            description="This is a sample doughnut chart."
+                                            chartData={dummyDoughnutData}
+                                            height="300px"
+                                        />
                                     </MDBox>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
