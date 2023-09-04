@@ -14,8 +14,8 @@ import AccessTimeFilledRoundedIcon from "@mui/icons-material/AccessTimeFilledRou
 import MDBox from "../../components/MDBox";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import Footer from "../../components/Footer";
-import PortionAccuracyLineChart from "./components/PortionAccuracyLineChart";
-import PortionTimeBarChart from "./components/PortionTimeBarChart";
+//import PortionAccuracyLineChart from "./components/PortionAccuracyLineChart";
+//import PortionTimeBarChart from "./components/PortionTimeBarChart";
 import ReportsLineChartComponent from "../../components/Charts/LineCharts/ReportsLineChart";
 import DoughnutChartComponent from "../../components/Charts/DoughnutCharts";
 import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
@@ -335,7 +335,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
         };
     }, [selectedIndex]);
     console.log("The doughnut data is:", doughnutChartData);
-    const dummyDoughnutData = {
+    const doughnutData = {
         labels: ["Under serving", "Perfect", "Over Serving"],
         data: doughnutChartData,
         backgroundColors: ["#0693e3", "#86FF02", "#fa0d0d"],
@@ -426,7 +426,13 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                     <MDBox mb={3}>
                                         {/* <PortionClassificationChart color="warning" title="Classification of Portioning" chart={realTimeAccuracyGraph} /> */}
                                         {/* <ReportsLineChartComponent color="success" title="Portion Accuracy Classification" chart={realTimePortionTime} /> */}
-                                        <DoughnutChartComponent icon={{ color: "info", component: "star" }} title="Doughnut Chart Example" description="This is a sample doughnut chart." />
+                                        <DoughnutChartComponent
+                                            icon={{ color: "success" }}
+                                            title="Doughnut Chart Example"
+                                            description="This is a sample doughnut chart."
+                                            chartData={doughnutData}
+                                            height="245px"
+                                        />{" "}
                                     </MDBox>
                                 </Grid>
                             </Grid>
