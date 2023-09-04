@@ -9,6 +9,8 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import { updateRestaurant } from "../../graphql/mutations";
 import { API, Auth, graphqlOperation } from "aws-amplify";
+import { useSelector, useDispatch } from "react-redux";
+import { setSelectedIndex } from "../../../../redux/metaSlice";
 
 const StyledMenu = styled((props) => (
     <Menu
@@ -51,8 +53,11 @@ const StyledMenu = styled((props) => (
    @Comments
    @Coders: PP111
 */
-const DropDownIngredientMenu = ({ options, selectedIndexRef, selectedIndex, setSelectedIndex, titleForPage }) => {
+const DropDownMenus = ({ options, updateIngredient }) => {
     const [anchorEl, setAnchorEl] = useState(null);
+    const selectedIndexRef = {current: useSelector(state => state.meta.displayIngredient).toString()}
+    const selectedIndex = useSelector(state => state.meta.displayIngredient)
+    const reduxDispatch = useDispatch()
     const open = Boolean(anchorEl);
 
     const handleClick = (event) => {
@@ -102,6 +107,7 @@ const DropDownIngredientMenu = ({ options, selectedIndexRef, selectedIndex, setS
         selectedIndexRef.current = index;
         setAnchorEl(null);
         updateIngredient(index);
+        reduxDispatch(setSelectedIndex(index.toString()))
     };
 
     /*!
