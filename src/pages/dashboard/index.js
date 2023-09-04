@@ -192,9 +192,9 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
         // Generate Data Arrays
         for (let i = 0; i < tempKeys.length; i++) {
             // TODO: tempKeys should contain this information for each portion event
-            const correctWeight = 39;
-            const upperLimit = 2;
-            const lowerLimit = 2;
+            const correctWeight = realTime[tempKeys[i]].correctWeight;
+            const upperLimit = realTime[tempKeys[i]].upperLimit;
+            const lowerLimit = realTime[tempKeys[i]].lowerLimit;
 
             // Portion Weight Accuracy
             upperLimitAR.push(correctWeight + upperLimit);
@@ -409,7 +409,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <InventoryWeightChart color="warning" title="Consumption of Inventory" chart={realTimeInventoryGraph} />
+                                        <InventoryWeightChart color="warning" title="Portion Completion Times" chart={realTimeInventoryGraph} />
                                     </MDBox>
                                 </Grid>
                             </Grid>
