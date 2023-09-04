@@ -15,12 +15,16 @@ const metaSlice = createSlice({
         setUnitOfMass: (state, action) => {
             state.unitOfMass = action.payload
         },
+        setSelectedIndex: (state, action) => {
+            state.displayIngredient = action.payload
+        }
     }
 })
 
 export const {
     updateMetaInformation,
     setUnitOfMass,
+    setSelectedIndex,
 } = metaSlice.actions
 
 export default metaSlice.reducer;
