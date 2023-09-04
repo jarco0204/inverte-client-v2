@@ -55,7 +55,7 @@ dayjs.extend(timezone);
 */
 const createReportLineChartObject = () => {
     return {
-        weightGraph: {
+        precisionGraph: {
             labels: [],
             portionEvent: { label: "Portion Weight", data: [], yAxisLabel: "Grams" },
             correctWeight: { label: "Correct Weight", data: [], yAxisLabel: "Grams" },
@@ -63,7 +63,7 @@ const createReportLineChartObject = () => {
             lowerLimit: { label: "Lower Limit", data: [], yAxisLabel: "Grams" },
             pointBackgroundColorAR: [],
         },
-        portionTimeGraph: {
+        inventoryGraph: {
             labels: [],
             datasets: { label: "Portion Time", data: [], yAxisLabel: "Seconds" },
             pointBackgroundColorAr: [],
@@ -419,20 +419,12 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <InventoryWeightChart color="success" title="Portion Completion Times" chart={realTimeInventoryGraph} />
+                                        <InventoryWeightChart color="success" title="Portion Completion Times" chart={realTimePortionTime} />
                                     </MDBox>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        {/* <PortionClassificationChart color="warning" title="Classification of Portioning" chart={realTimeAccuracyGraph} /> */}
-                                        {/* <ReportsLineChartComponent color="success" title="Portion Accuracy Classification" chart={realTimePortionTime} /> */}
-                                        <DoughnutChartComponent
-                                            icon={{ color: "success" }}
-                                            title="Doughnut Chart Example"
-                                            description="This is a sample doughnut chart."
-                                            chartData={doughnutData}
-                                            height="245px"
-                                        />{" "}
+                                        <DoughnutChartComponent icon={{ color: "success" }} title="Portion Accuracy Classification" chartData={doughnutData} />{" "}
                                     </MDBox>
                                 </Grid>
                             </Grid>

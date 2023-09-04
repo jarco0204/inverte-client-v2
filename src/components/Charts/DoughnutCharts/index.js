@@ -6,7 +6,7 @@ import Icon from "@mui/material/Icon";
 import MDBox from "../../MDBox";
 import MDTypography from "../../MDTypography";
 
-function DoughnutChartComponent({ icon, title, description, chartData, height }) {
+function DoughnutChartComponent({ icon, title, description, chartData }) {
     const { labels, data, backgroundColors } = chartData;
 
     const chartOptions = {
@@ -20,11 +20,18 @@ function DoughnutChartComponent({ icon, title, description, chartData, height })
     };
 
     const renderChart = (
-        <MDBox py={2} pr={2} pl={icon.component ? 1 : 2}>
-            <MDBox height={height}>
-                <Doughnut data={{ labels, datasets: [{ data, backgroundColor: backgroundColors }] }} options={chartOptions} />
+        <Card sx={{ height: "100%" }}>
+            <MDBox padding="1rem">
+                <MDBox variant="gradient" borderRadius="lg" py={2} pr={0.5} mt={-5} height="14rem">
+                    <Doughnut data={{ labels, datasets: [{ data, backgroundColor: backgroundColors }] }} options={chartOptions} />
+                </MDBox>
+                <MDBox pt={3} pb={1} px={1}>
+                    <MDTypography variant="h6" textTransform="capitalize">
+                        {title}
+                    </MDTypography>
+                </MDBox>
             </MDBox>
-        </MDBox>
+        </Card>
     );
 
     return title || description ? <Card>{renderChart}</Card> : renderChart;

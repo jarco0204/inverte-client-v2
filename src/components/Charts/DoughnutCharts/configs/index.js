@@ -14,7 +14,8 @@ function configs(labels, data, backgroundColors) {
             maintainAspectRatio: false,
             plugins: {
                 legend: {
-                    display: false,
+                    display: true,
+                    position: "right",
                 },
             },
         },
