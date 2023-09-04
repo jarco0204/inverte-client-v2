@@ -22,7 +22,7 @@ import PortionPrecisionLineChartConfig from "./Config";
    @Comments
    @Coders: EscorpionWin$
 */
-const PortionAccuracyLineChart = ({ color, title, description, chart }) => {
+const PortionPrecisionChart = ({ color, title, description, chart }) => {
     const { data, options } = PortionPrecisionLineChartConfig(
         chart.labels || [],
         chart.portionEvent || {},
@@ -56,13 +56,13 @@ const PortionAccuracyLineChart = ({ color, title, description, chart }) => {
 };
 
 // Setting default values for the props of ReportsLineChart
-PortionAccuracyLineChart.defaultProps = {
+PortionPrecisionChart.defaultProps = {
     color: "dark",
     description: "",
 };
 
 // Typechecking props for the ReportsLineChart
-PortionAccuracyLineChart.propTypes = {
+PortionPrecisionChart.propTypes = {
     color: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error", "dark"]),
     title: PropTypes.string.isRequired,
     description: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
@@ -71,4 +71,4 @@ PortionAccuracyLineChart.propTypes = {
     chart: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 };
 
-export default PortionAccuracyLineChart;
+export default PortionPrecisionChart;
