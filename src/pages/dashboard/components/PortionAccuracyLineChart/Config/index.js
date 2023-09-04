@@ -5,7 +5,7 @@
    @Comments
    @Coders: MikelJordania
 */
-const PortionAccuracyLineChartConfig = (labels, datasets, pointColorsAR, datasets1, datasets2, datasets3) => {
+const PortionPrecisionLineChartConfig = (labels, datasets, pointColorsAR, datasets1, datasets2, datasets3) => {
     return {
         data: {
             labels,
@@ -151,4 +151,4 @@ const PortionAccuracyLineChartConfig = (labels, datasets, pointColorsAR, dataset
     };
 };
 
-export default PortionAccuracyLineChartConfig;
+export default PortionPrecisionLineChartConfig;

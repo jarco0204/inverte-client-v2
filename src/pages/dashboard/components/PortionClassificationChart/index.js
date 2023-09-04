@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import PropTypes from "prop-types";
 
 // react-chartjs-2 components
-import { Bar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -13,7 +13,7 @@ import MDBox from "../../../../components/MDBox";
 import MDTypography from "../../../../components/MDTypography";
 
 // ReportsBarChart configurations
-import PortionAccuracyBarChartConfig from "./Configs";
+import PortionClassificationChartConfig from "./Config";
 
 /*!
    @description:
@@ -22,8 +22,8 @@ import PortionAccuracyBarChartConfig from "./Configs";
    @Comments
    @Coders: FlawlessVictorY
 */
-const PortionTimeBarChart = ({ color, title, chart }) => {
-    const { data, options } = PortionAccuracyBarChartConfig(chart.labels || [], chart.datasets || {});
+const PortionClassificationChart = ({ color, title, chart }) => {
+    const { data, options } = PortionClassificationChartConfig(chart.labels || [], chart.datasets || {});
 
     return (
         <Card sx={{ height: "100%" }}>
@@ -31,7 +31,7 @@ const PortionTimeBarChart = ({ color, title, chart }) => {
                 {useMemo(
                     () => (
                         <MDBox variant="gradient" bgColor={color} borderRadius="lg" coloredShadow={color} py={2} pr={0.5} mt={-5} height="14rem">
-                            <Bar data={data} options={options} />
+                            <Line data={data} options={options} />
                         </MDBox>
                     ),
                     [chart, color, data]
@@ -46,13 +46,13 @@ const PortionTimeBarChart = ({ color, title, chart }) => {
     );
 };
 // Setting default values for the props of ReportsBarChart
-PortionTimeBarChart.defaultProps = {
+PortionClassificationChart.defaultProps = {
     color: "dark",
     description: "",
 };
 
 // Typechecking props for the ReportsBarChart
-PortionTimeBarChart.propTypes = {
+PortionClassificationChart.propTypes = {
     color: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error", "dark"]),
     title: PropTypes.string.isRequired,
     // description: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
@@ -60,4 +60,4 @@ PortionTimeBarChart.propTypes = {
     chart: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.array, PropTypes.object])).isRequired,
 };
 
-export default PortionTimeBarChart;
+export default PortionClassificationChart;

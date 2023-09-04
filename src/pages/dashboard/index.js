@@ -15,7 +15,7 @@ import MDBox from "../../components/MDBox";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import Footer from "../../components/Footer";
 import PortionAccuracyLineChart from "./components/PortionAccuracyLineChart";
-import PortionTimeBarChart from "./components/PortionTimeBarChart";
+import PortionTimeBarChart from "./components/PortionClassificationChart";
 import ReportsLineChartComponent from "../../components/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
 import MobileComplexStatisticsCard from "./components/MobileComplexStatisticsCard";
@@ -73,7 +73,7 @@ const createReportLineChartObject = () => {
 const createReportBarChartObject = () => {
     return {
         labels: [],
-        datasets: { label: "Portion Accuracy", data: [], yAxisLabel: "Percent" },
+        datasets: { label: "Inventory Weight", data: [], yAxisLabel: "Weight" },
         pointBackgroundColorAr: [],
     };
 };
@@ -188,9 +188,9 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
         // Generate Data Arrays
         for (let i = 0; i < tempKeys.length; i++) {
             // TODO: tempKeys should contain this information for each portion event
-            const correctWeight = 7;
-            const upperLimit = 1;
-            const lowerLimit = 1;
+            const correctWeight = 39;
+            const upperLimit = 2;
+            const lowerLimit = 2;
 
             // Portion Weight Accuracy
             upperLimitAR.push(correctWeight + upperLimit);
@@ -397,7 +397,11 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <ReportsLineChartComponent color="success" title="Accuracy of Portioning" chart={realTimePortionTime} />
+                                        <ReportsLineChartComponent
+                                            color="success"
+                                            title="Pie Chart or Horizontal Bar Chart to Display Accuracy of Portioning (Under, Perfect, Over)"
+                                            chart={realTimePortionTime}
+                                        />
                                     </MDBox>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>

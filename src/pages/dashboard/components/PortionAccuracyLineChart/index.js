@@ -13,7 +13,7 @@ import MDBox from "../../../../components/MDBox";
 import MDTypography from "../../../../components/MDTypography";
 
 // ReportsLineChart configurations
-import PortionAccuracyLineChartConfig from "./configs";
+import PortionPrecisionLineChartConfig from "./Config";
 
 /*!
    @description:
@@ -23,7 +23,7 @@ import PortionAccuracyLineChartConfig from "./configs";
    @Coders: EscorpionWin$
 */
 const PortionAccuracyLineChart = ({ color, title, description, chart }) => {
-    const { data, options } = PortionAccuracyLineChartConfig(
+    const { data, options } = PortionPrecisionLineChartConfig(
         chart.labels || [],
         chart.portionEvent || {},
         chart.pointBackgroundColorAR || [],
