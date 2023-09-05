@@ -1,0 +1,13 @@
+{
+  "lambdaLayers": [],
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "reactAppGraphqlApiKey",
+      "environmentVariableName": "REACT_APP_GRAPHQL_API_KEY"
+    },
+    {
+      "cloudFormationParameterName": "reactAppGraphqlEndpoint",
+      "environmentVariableName": "REACT_APP_GRAPHQL_ENDPOINT"
+    }
+  ]
+}

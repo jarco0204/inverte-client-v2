@@ -424,7 +424,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <DoughnutChartComponent icon={{ color: "success" }} title="Portion Accuracy Tendency" chartData={doughnutData} />{" "}
+                                        <DoughnutChartComponent icon={{ color: "success" }} title="Portion Accuracy Trend" chartData={doughnutData} />{" "}
                                     </MDBox>
                                 </Grid>
                             </Grid>
