@@ -5,7 +5,7 @@
    @Comments
    @Coders: Zarbonito
 */
-const InventoryWeightLineChartConfig = (labels, datasets, pointColorsAR, datasets1, datasets2, datasets3) => {
+const InventoryWeightLineChartConfig = (labels, datasets) => {
     return {
         data: {
             labels,
@@ -15,49 +15,12 @@ const InventoryWeightLineChartConfig = (labels, datasets, pointColorsAR, dataset
                     tension: 0.25,
                     pointRadius: 8,
                     pointBorderColor: "transparent",
-                    pointBackgroundColor: pointColorsAR,
+                    pointBackgroundColor: "rgba(255, 255, 255, .8)",
                     borderColor: "rgba(255, 255, 255, .8)",
                     borderWidth: 4,
                     backgroundColor: "transparent",
                     fill: true,
                     data: datasets.data,
-                    maxBarThickness: 6,
-                },
-                {
-                    label: datasets2.label,
-                    tension: 0.25,
-                    pointRadius: 2,
-                    // pointBorderColor: "red",
-                    // pointBackgroundColor: "rgba(227, 100, 20, 1)",
-                    // pointBackgroundColor: pointColorsAR,
-                    borderColor: "rgba(219, 58, 53, 1)",
-                    borderWidth: 4,
-                    backgroundColor: "transparent",
-                    fill: false,
-                    data: datasets2.data,
-                    maxBarThickness: 6,
-                },
-                {
-                    label: datasets1.label,
-                    tension: 0.25,
-                    pointRadius: 2,
-                    borderColor: "rgba(83, 212, 88, 0.8)", // Green
-                    borderWidth: 4,
-                    backgroundColor: "transparent",
-                    fill: false,
-                    data: datasets1.data,
-                    maxBarThickness: 6,
-                },
-                {
-                    label: datasets3.label,
-                    tension: 0.25,
-                    pointRadius: 2,
-                    pointBackgroundColor: "rgba(1, 1, 255, .8)",
-                    borderColor: "rgba(1, 1, 255, .8)",
-                    borderWidth: 4,
-                    backgroundColor: "transparent",
-                    fill: false,
-                    data: datasets3.data,
                     maxBarThickness: 6,
                 },
             ],

@@ -134,9 +134,8 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
     const [cardSummaryItems, setCardSummaryItems] = useState([]);
     const [realTimePrecisionGraph, setRealTimePrecisionGraph] = useState([]);
     const [realTimeAccuracyGraph, setRealTimeAccuracyGraph] = useState([]);
-    const [realTimePortionTime, setRealTimePortionTime] = useState([]);
+    // const [realTimePortionTime, setRealTimePortionTime] = useState([]);
     const [doughnutChartData, setDoughnutChartData] = useState([]);
-    const { weightGraph, portionTimeGraph } = createReportLineChartObject();
 
     const [realTimeInventoryGraph, setRealTimeInventoryGraph] = useState([]);
 
@@ -250,16 +249,18 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
 
         if (unitOfMass == "g") {
             precisionGraph.portionEvent.yAxisLabel = "Grams";
-            inventoryGraph.datasets.yAxisLabel = "Grams";
+            // inventoryGraph.datasets.yAxisLabel = "Grams";
         } else {
             precisionGraph.portionEvent.yAxisLabel = "Ounces";
-            inventoryGraph.datasets.yAxisLabel = "Ounces";
+            // inventoryGraph.datasets.yAxisLabel = "Ounces";
         }
+        inventoryGraph.datasets.yAxisLabel = "Seconds";
+        console.log("Your inventory graph is...", inventoryGraph);
 
         // Update the graphs
         setRealTimePrecisionGraph(precisionGraph);
-        setRealTimeAccuracyGraph(accuracyGraph);
         setRealTimeInventoryGraph(inventoryGraph);
+        setRealTimeAccuracyGraph(accuracyGraph);
     };
 
     /*!
@@ -419,7 +420,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <InventoryWeightChart color="success" title="Portion Completion Times" chart={realTimePortionTime} />
+                                        <InventoryWeightChart color="success" title="Portion Completion Times" chart={realTimeInventoryGraph} />
                                     </MDBox>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
