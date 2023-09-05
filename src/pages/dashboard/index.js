@@ -134,9 +134,8 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
     const [cardSummaryItems, setCardSummaryItems] = useState([]);
     const [realTimePrecisionGraph, setRealTimePrecisionGraph] = useState([]);
     const [realTimeAccuracyGraph, setRealTimeAccuracyGraph] = useState([]);
-    const [realTimePortionTime, setRealTimePortionTime] = useState([]);
+    // const [realTimePortionTime, setRealTimePortionTime] = useState([]);
     const [doughnutChartData, setDoughnutChartData] = useState([]);
-    const { weightGraph, portionTimeGraph } = createReportLineChartObject();
 
     const [realTimeInventoryGraph, setRealTimeInventoryGraph] = useState([]);
 
@@ -201,9 +200,8 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
         for (let i = 0; i < tempKeys.length; i++) {
             // TODO: tempKeys should contain this information for each portion event
             const correctWeight = realTime[tempKeys[i]].correctWeight;
-            const upperLimit = realTime[tempKeys[i]].upperLimit;
-            const lowerLimit = realTime[tempKeys[i]].lowerLimit;
-
+            const upperLimit = realTime[tempKeys[i]].upperErrorLimit;
+            const lowerLimit = realTime[tempKeys[i]].lowerErrorLimit;
             // Portion Weight Accuracy
             upperLimitAR.push(correctWeight + upperLimit);
             correctWeightAR.push(correctWeight);
@@ -250,16 +248,18 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
 
         if (unitOfMass == "g") {
             precisionGraph.portionEvent.yAxisLabel = "Grams";
-            inventoryGraph.datasets.yAxisLabel = "Grams";
+            // inventoryGraph.datasets.yAxisLabel = "Grams";
         } else {
             precisionGraph.portionEvent.yAxisLabel = "Ounces";
-            inventoryGraph.datasets.yAxisLabel = "Ounces";
+            // inventoryGraph.datasets.yAxisLabel = "Ounces";
         }
+        inventoryGraph.datasets.yAxisLabel = "Seconds";
+        console.log("Your inventory graph is...", inventoryGraph);
 
         // Update the graphs
         setRealTimePrecisionGraph(precisionGraph);
-        setRealTimeAccuracyGraph(accuracyGraph);
         setRealTimeInventoryGraph(inventoryGraph);
+        setRealTimeAccuracyGraph(accuracyGraph);
     };
 
     /*!
@@ -419,12 +419,12 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <InventoryWeightChart color="success" title="Portion Completion Times" chart={realTimePortionTime} />
+                                        <InventoryWeightChart color="success" title="Portion Completion Times" chart={realTimeInventoryGraph} />
                                     </MDBox>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <DoughnutChartComponent icon={{ color: "success" }} title="Portion Accuracy Classification" chartData={doughnutData} />{" "}
+                                        <DoughnutChartComponent icon={{ color: "success" }} title="Portion Accuracy Tendency" chartData={doughnutData} />{" "}
                                     </MDBox>
                                 </Grid>
                             </Grid>

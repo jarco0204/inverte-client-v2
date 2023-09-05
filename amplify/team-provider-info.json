@@ -47,5 +47,12 @@
         }
       }
     }
+  },
+  "staging": {
+    "categories": {
+      "auth": {
+        "inverteclientv3e483745d": {}
+      }
+    }
   }
 }

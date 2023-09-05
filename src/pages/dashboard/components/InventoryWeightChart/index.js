@@ -23,14 +23,7 @@ import InventoryWeightLineChartConfig from "./Config";
    @Coders: BARAKAEffect
 */
 const InventoryWeightChart = ({ color, title, description, chart }) => {
-    const { data, options } = InventoryWeightLineChartConfig(
-        chart.labels || [],
-        chart.portionEvent || {},
-        chart.pointBackgroundColorAR || [],
-        chart.correctWeight || [],
-        chart.upperLimit || [],
-        chart.lowerLimit || []
-    );
+    const { data, options } = InventoryWeightLineChartConfig(chart.labels || [], chart.datasets || {});
     return (
         <Card sx={{ height: "100%" }}>
             <MDBox padding="1rem">
