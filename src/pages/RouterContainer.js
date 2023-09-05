@@ -2,6 +2,7 @@
 import DashboardContainer from "./dashboard";
 import ScalesContainer from "./scales";
 import AnalyticsContainer from "./analytics";
+import OutlierContainer from "./outlier";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -20,11 +21,11 @@ const RouterContainer = (metaInformation, isMobileDevice) => {
     return [
         {
             type: "collapse",
-            name: "Dashboard",
-            key: "dashboard",
+            name: "Daily",
+            key: "daily",
             icon: (
                 <Icon fontSize="small">
-                    <HomeIcon />
+                    <AnalyticsIcon />
                 </Icon>
             ),
             route: "/dashboard",
@@ -58,22 +59,26 @@ const RouterContainer = (metaInformation, isMobileDevice) => {
                 />
             ),
         },
-        isMobileDevice
-            ? {
-                  name: "Mobile Analytics coming soon",
-              }
-            : {
-                  type: "collapse",
-                  name: "Analytics",
-                  key: "analytics",
-                  icon: (
-                      <Icon fontSize="small">
-                          <AnalyticsIcon />
-                      </Icon>
-                  ),
-                  route: "/analytics",
-                  component: <AnalyticsContainer iotThingNames={metaInformation.iotThingNames} displayIngredient={metaInformation.displayIngredient} />,
-              },
+        {
+            route: "/outlier",
+            component: <OutlierContainer />,
+        },
+        // isMobileDevice
+        //     ? {
+        //           name: "Mobile Analytics coming soon",
+        //       }
+        //     : {
+        //           type: "collapse",
+        //           name: "Analytics",
+        //           key: "analytics",
+        //           icon: (
+        //               <Icon fontSize="small">
+        //                   <AnalyticsIcon />
+        //               </Icon>
+        //           ),
+        //           route: "/analytics",
+        //           component: <AnalyticsContainer iotThingNames={metaInformation.iotThingNames} displayIngredient={metaInformation.displayIngredient} />,
+        //       },
     ];
 };
 

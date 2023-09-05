@@ -83,6 +83,8 @@ type PortionEvent @model {
     upperErrorLimit: Int
     correctWeight: Int
     portionTimeTaken: Int
+    weightClassification: String
+    timeClassification: String
     dayOfYear_hourOfDay_iotNameThing: ID @index(name: "byHour")
     hour: Hour @belongsTo(fields: ["dayOfYear_hourOfDay_iotNameThing"])
 }
@@ -91,94 +93,114 @@ type Subscription {
 }
 
 input HourlySummaryInput {
-    minutesSaved: Float!
+    averageTime: Float!
     portionsCompleted: Int!
     accuracy: Float!
     performance: Float!
     inventoryConsumed: Int!
-    performance: Float!
+    overServed: Int
+    underServed: Int
+    perfect: Int
 }
 
 input DailySummaryInput {
-    minutesSaved: Float!
+    averageTime: Float!
     portionsCompleted: Int!
     accuracy: Float!
     performance: Float!
     inventoryConsumed: Int!
-    performance: Float!
+    overServed: Int
+    underServed: Int
+    perfect: Int
 }
 
 input WeeklySummaryInput {
-    minutesSaved: Float!
+    averageTime: Float!
     portionsCompleted: Int!
     accuracy: Float!
     performance: Float!
     inventoryConsumed: Int!
-    performance: Float!
+    overServed: Int
+    underServed: Int
+    perfect: Int
 }
 
 input MonthlySummaryInput {
-    minutesSaved: Float!
+    averageTime: Float!
     portionsCompleted: Int!
     accuracy: Float!
     performance: Float!
     inventoryConsumed: Int!
-    performance: Float!
+    overServed: Int
+    underServed: Int
+    perfect: Int
 }
 input YearlySummaryInput {
-    minutesSaved: Float!
+    averageTime: Float!
     portionsCompleted: Int!
     accuracy: Float!
     performance: Float!
     inventoryConsumed: Int!
-    performance: Float!
+    overServed: Int
+    underServed: Int
+    perfect: Int
 }
 
 type HourlySummary {
-    minutesSaved: Float!
+    averageTime: Float!
     portionsCompleted: Int!
     accuracy: Float!
     performance: Float!
     inventoryConsumed: Int!
-    performance: Float!
+    overServed: Int
+    underServed: Int
+    perfect: Int
     hour: Hour
 }
 
 type DailySummary {
-    minutesSaved: Float!
+    averageTime: Float!
     portionsCompleted: Int!
     accuracy: Float!
     performance: Float!
     inventoryConsumed: Int!
-    performance: Float!
+    overServed: Int
+    underServed: Int
+    perfect: Int
     day: Day
 }
 
 type WeeklySummary {
-    minutesSaved: Float!
+    averageTime: Float!
     portionsCompleted: Int!
     accuracy: Float!
     performance: Float!
     inventoryConsumed: Int!
-    performance: Float!
+    overServed: Int
+    underServed: Int
+    perfect: Int
     week: Week
 }
 
 type MonthlySummary {
-    minutesSaved: Float!
+    averageTime: Float!
     portionsCompleted: Int!
     accuracy: Float!
     performance: Float!
     inventoryConsumed: Int!
-    performance: Float!
+    overServed: Int
+    underServed: Int
+    perfect: Int
     month: Month
 }
 type YearlySummary {
-    minutesSaved: Float!
+    averageTime: Float!
     portionsCompleted: Int!
     accuracy: Float!
     performance: Float!
     inventoryConsumed: Int!
-    performance: Float!
+    overServed: Int
+    underServed: Int
+    perfect: Int
     year: Year
 }

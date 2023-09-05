@@ -292,11 +292,14 @@ export const createYear = /* GraphQL */ `
       year_iotNameThing
       ingredientName_weight
       yearlySummary {
-        minutesSaved
+        averageTime
         portionsCompleted
         accuracy
-        inventoryConsumed
         performance
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
         year {
           year_iotNameThing
           ingredientName_weight
@@ -341,11 +344,14 @@ export const updateYear = /* GraphQL */ `
       year_iotNameThing
       ingredientName_weight
       yearlySummary {
-        minutesSaved
+        averageTime
         portionsCompleted
         accuracy
-        inventoryConsumed
         performance
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
         year {
           year_iotNameThing
           ingredientName_weight
@@ -390,11 +396,14 @@ export const deleteYear = /* GraphQL */ `
       year_iotNameThing
       ingredientName_weight
       yearlySummary {
-        minutesSaved
+        averageTime
         portionsCompleted
         accuracy
-        inventoryConsumed
         performance
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
         year {
           year_iotNameThing
           ingredientName_weight
@@ -439,11 +448,14 @@ export const createMonth = /* GraphQL */ `
       monthOfYear_iotNameThing
       year_iotNameThing
       monthlySummary {
-        minutesSaved
+        averageTime
         portionsCompleted
         accuracy
-        inventoryConsumed
         performance
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
         month {
           monthOfYear_iotNameThing
           year_iotNameThing
@@ -488,11 +500,14 @@ export const updateMonth = /* GraphQL */ `
       monthOfYear_iotNameThing
       year_iotNameThing
       monthlySummary {
-        minutesSaved
+        averageTime
         portionsCompleted
         accuracy
-        inventoryConsumed
         performance
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
         month {
           monthOfYear_iotNameThing
           year_iotNameThing
@@ -537,11 +552,14 @@ export const deleteMonth = /* GraphQL */ `
       monthOfYear_iotNameThing
       year_iotNameThing
       monthlySummary {
-        minutesSaved
+        averageTime
         portionsCompleted
         accuracy
-        inventoryConsumed
         performance
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
         month {
           monthOfYear_iotNameThing
           year_iotNameThing
@@ -586,11 +604,14 @@ export const createWeek = /* GraphQL */ `
       weekOfYear_iotNameThing
       monthOfYear_iotNameThing
       weeklySummary {
-        minutesSaved
+        averageTime
         portionsCompleted
         accuracy
-        inventoryConsumed
         performance
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
         week {
           weekOfYear_iotNameThing
           monthOfYear_iotNameThing
@@ -635,11 +656,14 @@ export const updateWeek = /* GraphQL */ `
       weekOfYear_iotNameThing
       monthOfYear_iotNameThing
       weeklySummary {
-        minutesSaved
+        averageTime
         portionsCompleted
         accuracy
-        inventoryConsumed
         performance
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
         week {
           weekOfYear_iotNameThing
           monthOfYear_iotNameThing
@@ -684,11 +708,14 @@ export const deleteWeek = /* GraphQL */ `
       weekOfYear_iotNameThing
       monthOfYear_iotNameThing
       weeklySummary {
-        minutesSaved
+        averageTime
         portionsCompleted
         accuracy
-        inventoryConsumed
         performance
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
         week {
           weekOfYear_iotNameThing
           monthOfYear_iotNameThing
@@ -733,11 +760,14 @@ export const createDay = /* GraphQL */ `
       dayOfYear_iotNameThing
       weekOfYear_iotNameThing
       dailySummary {
-        minutesSaved
+        averageTime
         portionsCompleted
         accuracy
-        inventoryConsumed
         performance
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
         day {
           dayOfYear_iotNameThing
           weekOfYear_iotNameThing
@@ -783,11 +813,14 @@ export const updateDay = /* GraphQL */ `
       dayOfYear_iotNameThing
       weekOfYear_iotNameThing
       dailySummary {
-        minutesSaved
+        averageTime
         portionsCompleted
         accuracy
-        inventoryConsumed
         performance
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
         day {
           dayOfYear_iotNameThing
           weekOfYear_iotNameThing
@@ -833,11 +866,14 @@ export const deleteDay = /* GraphQL */ `
       dayOfYear_iotNameThing
       weekOfYear_iotNameThing
       dailySummary {
-        minutesSaved
+        averageTime
         portionsCompleted
         accuracy
-        inventoryConsumed
         performance
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
         day {
           dayOfYear_iotNameThing
           weekOfYear_iotNameThing
@@ -884,11 +920,14 @@ export const createHour = /* GraphQL */ `
       dayOfYear_iotNameThing
       minuteOfHour_secondOfMinute
       hourlySummary {
-        minutesSaved
+        averageTime
         portionsCompleted
         accuracy
-        inventoryConsumed
         performance
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
         hour {
           dayOfYear_hourOfDay_iotNameThing
           dayOfYear_iotNameThing
@@ -918,6 +957,8 @@ export const createHour = /* GraphQL */ `
           upperErrorLimit
           correctWeight
           portionTimeTaken
+          weightClassification
+          timeClassification
           dayOfYear_hourOfDay_iotNameThing
           createdAt
           updatedAt
@@ -943,11 +984,14 @@ export const updateHour = /* GraphQL */ `
       dayOfYear_iotNameThing
       minuteOfHour_secondOfMinute
       hourlySummary {
-        minutesSaved
+        averageTime
         portionsCompleted
         accuracy
-        inventoryConsumed
         performance
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
         hour {
           dayOfYear_hourOfDay_iotNameThing
           dayOfYear_iotNameThing
@@ -977,6 +1021,8 @@ export const updateHour = /* GraphQL */ `
           upperErrorLimit
           correctWeight
           portionTimeTaken
+          weightClassification
+          timeClassification
           dayOfYear_hourOfDay_iotNameThing
           createdAt
           updatedAt
@@ -1002,11 +1048,14 @@ export const deleteHour = /* GraphQL */ `
       dayOfYear_iotNameThing
       minuteOfHour_secondOfMinute
       hourlySummary {
-        minutesSaved
+        averageTime
         portionsCompleted
         accuracy
-        inventoryConsumed
         performance
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
         hour {
           dayOfYear_hourOfDay_iotNameThing
           dayOfYear_iotNameThing
@@ -1036,6 +1085,8 @@ export const deleteHour = /* GraphQL */ `
           upperErrorLimit
           correctWeight
           portionTimeTaken
+          weightClassification
+          timeClassification
           dayOfYear_hourOfDay_iotNameThing
           createdAt
           updatedAt
@@ -1068,17 +1119,22 @@ export const createPortionEvent = /* GraphQL */ `
       upperErrorLimit
       correctWeight
       portionTimeTaken
+      weightClassification
+      timeClassification
       dayOfYear_hourOfDay_iotNameThing
       hour {
         dayOfYear_hourOfDay_iotNameThing
         dayOfYear_iotNameThing
         minuteOfHour_secondOfMinute
         hourlySummary {
-          minutesSaved
+          averageTime
           portionsCompleted
           accuracy
-          inventoryConsumed
           performance
+          inventoryConsumed
+          overServed
+          underServed
+          perfect
           __typename
         }
         realTime
@@ -1116,17 +1172,22 @@ export const updatePortionEvent = /* GraphQL */ `
       upperErrorLimit
       correctWeight
       portionTimeTaken
+      weightClassification
+      timeClassification
       dayOfYear_hourOfDay_iotNameThing
       hour {
         dayOfYear_hourOfDay_iotNameThing
         dayOfYear_iotNameThing
         minuteOfHour_secondOfMinute
         hourlySummary {
-          minutesSaved
+          averageTime
           portionsCompleted
           accuracy
-          inventoryConsumed
           performance
+          inventoryConsumed
+          overServed
+          underServed
+          perfect
           __typename
         }
         realTime
@@ -1164,17 +1225,22 @@ export const deletePortionEvent = /* GraphQL */ `
       upperErrorLimit
       correctWeight
       portionTimeTaken
+      weightClassification
+      timeClassification
       dayOfYear_hourOfDay_iotNameThing
       hour {
         dayOfYear_hourOfDay_iotNameThing
         dayOfYear_iotNameThing
         minuteOfHour_secondOfMinute
         hourlySummary {
-          minutesSaved
+          averageTime
           portionsCompleted
           accuracy
-          inventoryConsumed
           performance
+          inventoryConsumed
+          overServed
+          underServed
+          perfect
           __typename
         }
         realTime

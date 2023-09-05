@@ -42,7 +42,7 @@ Amplify.addPluggable(
 Amplify.configure(awsmobile);
 
 // Global Variables
-let DEBUG_FLAG = false;
+const DEBUG_FLAG = false;
 
 /*!
    @description:
@@ -120,12 +120,8 @@ export default function App() {
         async function authSession() {
             try {
                 // Const Definition
-                console.log("test");
                 const session = await Auth.currentSession();
                 const user = await Auth.currentAuthenticatedUser();
-                console.log("My user is:", user);
-                const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
-                const API_PATH = "/restaurants/";
                 setSpinnerLoader(true);
 
                 // Block to Help Debugging
@@ -150,19 +146,6 @@ export default function App() {
                     response.data.getRestaurant.iotThingNames = JSON.parse(response.data.getRestaurant.iotThingNames);
                     setMetaInformation(response.data.getRestaurant);
                     setUnitOfMass(response.data.getRestaurant.unitOfMass);
-                    console.log("The metaInformation is", metaInformation);
-
-                    //Get Essential Restaurant Meta Data using Cognito UserID
-                    // const finalAPIRoute = API_PATH + user.username; //TODO: Cases where userSession is empty
-                    // await API.get(AMPLIFY_API, finalAPIRoute).then((response) => {
-                    //     if (response.item.Item == undefined) {
-                    //         throw new Error("No Response from API");
-                    //     }
-                    //     console.log("The meta information is:", response.item.Item);
-                    //     setMetaInformation(response.item.Item);
-                    //     setUnitOfMass(response.item.Item.unitOfMass);
-                    // });
-
                     setAuthenticated(true);
                     setSpinnerLoader(false);
                 } catch (err) {
@@ -187,12 +170,12 @@ export default function App() {
         @Coders: CodeJinja
     */
     const createRoutes = (allRoutes) =>
-        allRoutes.map((route) => {
+        allRoutes.map((route, index) => {
             if (route.collapse) {
                 return createRoutes(route.collapse);
             }
             if (route.route) {
-                return <Route exact path={route.route} element={route.component} key={route.key} />;
+                return <Route exact path={route.route} element={route.component} key={index} />;
             }
             return null;
         });

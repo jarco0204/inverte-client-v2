@@ -14,17 +14,26 @@ import AccessTimeFilledRoundedIcon from "@mui/icons-material/AccessTimeFilledRou
 import MDBox from "../../components/MDBox";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import Footer from "../../components/Footer";
-import PortionAccuracyLineChart from "./components/PortionAccuracyLineChart";
-import PortionTimeBarChart from "./components/PortionTimeBarChart";
+//import PortionAccuracyLineChart from "./components/PortionAccuracyLineChart";
+//import PortionTimeBarChart from "./components/PortionTimeBarChart";
 import ReportsLineChartComponent from "../../components/Charts/LineCharts/ReportsLineChart";
+import DoughnutChartComponent from "../../components/Charts/DoughnutCharts";
 import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
-import MobileComplexStatisticsCard from "./components/MobileComplexStatisticsCard";
-import DropDownIngredientMenu from "./components/DropDownIngredientMenu";
-import { getDay } from "../../graphql/queries";
+import DropDownIngredientMenu from "../../components/DropDownIngredientMenu";
 
-// AWS & other libraries
+// AWS Imports
+import { getDay } from "../../graphql/queries";
+import { updateRestaurant } from "../../graphql/mutations";
 import { onNewPortionEvent } from "../../graphql/subscriptions";
 import { API, Auth, graphqlOperation } from "aws-amplify";
+
+// User Components
+import PortionPrecisionChart from "./components/PortionPrecisionChart";
+import InventoryWeightChart from "./components/InventoryWeightChart";
+import PortionClassificationChart from "./components/PortionClassificationChart";
+import MobileComplexStatisticsCard from "./components/MobileComplexStatisticsCard";
+
+// External Libraries
 import dayjs from "dayjs";
 import dayOfYear from "dayjs/plugin/dayOfYear.js";
 import utc from "dayjs/plugin/utc";
@@ -46,7 +55,7 @@ dayjs.extend(timezone);
 */
 const createReportLineChartObject = () => {
     return {
-        weightGraph: {
+        precisionGraph: {
             labels: [],
             portionEvent: { label: "Portion Weight", data: [], yAxisLabel: "Grams" },
             correctWeight: { label: "Correct Weight", data: [], yAxisLabel: "Grams" },
@@ -54,7 +63,7 @@ const createReportLineChartObject = () => {
             lowerLimit: { label: "Lower Limit", data: [], yAxisLabel: "Grams" },
             pointBackgroundColorAR: [],
         },
-        portionTimeGraph: {
+        inventoryGraph: {
             labels: [],
             datasets: { label: "Portion Time", data: [], yAxisLabel: "Seconds" },
             pointBackgroundColorAr: [],
@@ -72,7 +81,7 @@ const createReportLineChartObject = () => {
 const createReportBarChartObject = () => {
     return {
         labels: [],
-        datasets: { label: "Portion Accuracy", data: [], yAxisLabel: "Percent" },
+        datasets: { label: "Inventory Weight", data: [], yAxisLabel: "Weight" },
         pointBackgroundColorAr: [],
     };
 };
@@ -123,12 +132,16 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
 
     // Main Card Components
     const [cardSummaryItems, setCardSummaryItems] = useState([]);
-    const [realTimeWeightGraph, setRealTimeWeightGraph] = useState([]);
+    const [realTimePrecisionGraph, setRealTimePrecisionGraph] = useState([]);
     const [realTimeAccuracyGraph, setRealTimeAccuracyGraph] = useState([]);
     const [realTimePortionTime, setRealTimePortionTime] = useState([]);
-
+    const [doughnutChartData, setDoughnutChartData] = useState([]);
     const { weightGraph, portionTimeGraph } = createReportLineChartObject();
-    const accuracyGraph = createReportBarChartObject();
+
+    const [realTimeInventoryGraph, setRealTimeInventoryGraph] = useState([]);
+
+    const { precisionGraph, inventoryGraph } = createReportLineChartObject();
+    const accuracyGraph = createReportBarChartObject(); // TODO: Adapt it to Pie
 
     // Drop-Down Menu State
     const options = Object.values(iotThingNames);
@@ -160,15 +173,10 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
     const updateIngredient = async (index) => {
         const user = await Auth.currentAuthenticatedUser();
         try {
-            const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
-            const path = "/restaurants/updateDisplayIngredientIndex/";
-            const finalAPIRoute = path + user.username; //TODO: Cases where userSession is empty
-
-            // Make REST API Call
-            await API.get(AMPLIFY_API, finalAPIRoute, { queryStringParameters: { index: index } }).then((response) => {
-                if (response == undefined) {
-                    throw new Error("No Response from updateDisplayIngredientIndex route in GQL API");
-                }
+            const inputData = { restaurant_id: user.username, displayIngredient: index };
+            const response = await API.graphql({
+                query: updateRestaurant,
+                variables: { input: inputData },
             });
         } catch (err) {
             console.log("Error when updating selected ingredient index in dashboard page...", err);
@@ -192,9 +200,9 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
         // Generate Data Arrays
         for (let i = 0; i < tempKeys.length; i++) {
             // TODO: tempKeys should contain this information for each portion event
-            const correctWeight = 7;
-            const upperLimit = 1;
-            const lowerLimit = 1;
+            const correctWeight = realTime[tempKeys[i]].correctWeight;
+            const upperLimit = realTime[tempKeys[i]].upperLimit;
+            const lowerLimit = realTime[tempKeys[i]].lowerLimit;
 
             // Portion Weight Accuracy
             upperLimitAR.push(correctWeight + upperLimit);
@@ -222,33 +230,36 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
             tempTimeAR.push(parseFloat(realTime[tempKeys[i]].portionTime).toFixed(1));
         }
 
-        // Improve UI by adding labels and colours
-        weightGraph.labels = tempKeys;
-        weightGraph.portionEvent.data = tempWeightAR;
-        weightGraph.correctWeight.data = correctWeightAR;
-        weightGraph.upperLimit.data = upperLimitAR;
-        weightGraph.lowerLimit.data = lowerLimitAR;
-        weightGraph.pointBackgroundColorAR = pointBackgroundColorAR;
+        // Precision Chart made up of 3 lines
+        precisionGraph.labels = tempKeys;
+        precisionGraph.portionEvent.data = tempWeightAR;
+        precisionGraph.correctWeight.data = correctWeightAR;
+        precisionGraph.upperLimit.data = upperLimitAR;
+        precisionGraph.lowerLimit.data = lowerLimitAR;
+        precisionGraph.pointBackgroundColorAR = pointBackgroundColorAR;
 
+        // Accuracy Chart (Pie or Bar)
         accuracyGraph.labels = tempKeys;
         accuracyGraph.datasets.data = tempAccuracyAR;
         accuracyGraph.pointBackgroundColorAr = pointBackgroundColorAR;
 
-        portionTimeGraph.labels = tempKeys;
-        portionTimeGraph.datasets.data = tempTimeAR;
-        portionTimeGraph.pointBackgroundColorAr = pointBackgroundColorAR;
+        // Inventory Weight Chart made up of One Dataset
+        inventoryGraph.labels = tempKeys;
+        inventoryGraph.datasets.data = tempTimeAR;
+        inventoryGraph.pointBackgroundColorAr = pointBackgroundColorAR;
 
-        // Improve UX by changing unit of mass keyword
         if (unitOfMass == "g") {
-            weightGraph.portionEvent.yAxisLabel = "Grams";
+            precisionGraph.portionEvent.yAxisLabel = "Grams";
+            inventoryGraph.datasets.yAxisLabel = "Grams";
         } else {
-            weightGraph.portionEvent.yAxisLabel = "Ounces";
+            precisionGraph.portionEvent.yAxisLabel = "Ounces";
+            inventoryGraph.datasets.yAxisLabel = "Ounces";
         }
 
         // Update the graphs
-        setRealTimeWeightGraph(weightGraph);
+        setRealTimePrecisionGraph(precisionGraph);
         setRealTimeAccuracyGraph(accuracyGraph);
-        setRealTimePortionTime(portionTimeGraph);
+        setRealTimeInventoryGraph(inventoryGraph);
     };
 
     /*!
@@ -276,23 +287,25 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                 // Set the Upper Summary Card Components
                 let accuracy = demoData.getDay.dailySummary.accuracy.toFixed(0) + "%";
                 let inventoryWeight = demoData.getDay.dailySummary.inventoryConsumed + "g";
-                let timeSaved = demoData.getDay.dailySummary.minutesSaved.toFixed(1) + "s";
+                let timeSaved = demoData.getDay.dailySummary.averageTime.toFixed(1) + "s";
                 setCardSummaryItems([demoData.getDay.dailySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
                 generateLowerRealTimeGraphs(demoData.getDay.realTime);
             } else {
                 if (hour.getDay) {
                     // Set the Upper Summary Card Components
+                    console.log("Data we get from backend is:", hour.getDay);
                     let accuracy = hour.getDay.dailySummary.accuracy.toFixed(0) + "%";
                     let inventoryWeight = hour.getDay.dailySummary.inventoryConsumed + "g";
-                    let timeSaved = hour.getDay.dailySummary.minutesSaved.toFixed(1) + "s";
+                    let timeSaved = hour.getDay.dailySummary.averageTime.toFixed(1) + "s";
                     setCardSummaryItems([hour.getDay.dailySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
+                    setDoughnutChartData([hour.getDay.dailySummary.underServed, hour.getDay.dailySummary.perfect, hour.getDay.dailySummary.overServed]);
                     generateLowerRealTimeGraphs(JSON.parse(hour.getDay.realTime));
                 } else {
                     // There is no hourly response so add placeholders
                     setCardSummaryItems(["0", "NA", "0", "NA"]);
-                    setRealTimeWeightGraph([]);
+                    setRealTimePrecisionGraph([]);
                     setRealTimeAccuracyGraph([]);
-                    setRealTimePortionTime([]);
+                    setRealTimeInventoryGraph([]);
                     return;
                 }
             }
@@ -321,10 +334,15 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
             subscription.unsubscribe();
         };
     }, [selectedIndex]);
-
+    console.log("The doughnut data is:", doughnutChartData);
+    const doughnutData = {
+        labels: ["Under serving", "Perfect", "Over Serving"],
+        data: doughnutChartData,
+        backgroundColors: ["#0693e3", "#86FF02", "#fa0d0d"],
+    };
     return (
         <DashboardLayout>
-            <DropDownIngredientMenu options={options} selectedIndexRef={selectedIndexRef} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} updateIngredient={updateIngredient} />
+            <DropDownIngredientMenu options={options} selectedIndexRef={selectedIndexRef} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} titleForPage={"Daily InVentory Report"} />
             {!isMobileDevice && (
                 <div>
                     <MDBox py={3}>
@@ -333,7 +351,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                 <ComplexStatisticsCard
                                     color="dark"
                                     icon={<PanToolIcon />}
-                                    title="Completed Portions"
+                                    title="Portions Completed"
                                     count={cardSummaryItems[0]}
                                     percentage={{
                                         color: "success",
@@ -344,29 +362,14 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                             </Grid>
                         </Grid>
                     </MDBox>
-                    <MDBox py={3}>
+                    <MDBox py={2}>
                         <Grid container spacing={3} display="flex" justifyContent="center">
                             <Grid item xs={12} md={6} lg={3}>
                                 <MDBox mb={1.5}>
                                     <ComplexStatisticsCard
                                         color="info"
-                                        icon={<ScaleRoundedIcon />}
-                                        title="Total Consumed Inventory"
-                                        count={unitOfMass == "g" ? cardSummaryItems[2] : (parseInt(cardSummaryItems[2]) / 28.35).toFixed(2).toString() + "oz"}
-                                        percentage={{
-                                            color: "success",
-                                            // amount: "+10%",
-                                            // label: "Stay Tuned for Past Analytics",
-                                        }}
-                                    />
-                                </MDBox>
-                            </Grid>
-                            <Grid item xs={12} md={6} lg={3}>
-                                <MDBox mb={1.5}>
-                                    <ComplexStatisticsCard
-                                        color="success"
                                         icon={<PrecisionManufacturingRoundedIcon />}
-                                        title="Average Portioning Accuracy"
+                                        title="Precision Levels"
                                         count={cardSummaryItems[1]}
                                         percentage={{
                                             color: "success",
@@ -379,9 +382,9 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                             <Grid item xs={12} md={6} lg={3}>
                                 <MDBox mb={1.5}>
                                     <ComplexStatisticsCard
-                                        color="warning"
+                                        color="success"
                                         icon={<AccessTimeFilledRoundedIcon />}
-                                        title="Average Portioning Time"
+                                        title="Average Completion Time"
                                         count={cardSummaryItems[3]}
                                         percentage={{
                                             color: "success",
@@ -391,22 +394,37 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                     />
                                 </MDBox>
                             </Grid>
+                            <Grid item xs={12} md={6} lg={3}>
+                                <MDBox mb={1.5}>
+                                    <ComplexStatisticsCard
+                                        color="warning"
+                                        icon={<ScaleRoundedIcon />}
+                                        title="Inventory Consumed"
+                                        count={unitOfMass == "g" ? cardSummaryItems[2] : (parseInt(cardSummaryItems[2]) / 28.35).toFixed(2).toString() + "oz"}
+                                        percentage={{
+                                            color: "success",
+                                            // amount: "+10%",
+                                            // label: "Stay Tuned for Past Analytics",
+                                        }}
+                                    />
+                                </MDBox>
+                            </Grid>
                         </Grid>
-                        <MDBox mt={4.5}>
+                        <MDBox mt={4.75}>
                             <Grid container spacing={3}>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <PortionAccuracyLineChart color="info" title="Variation of Portioning Weight" chart={realTimeWeightGraph} />
+                                        <PortionPrecisionChart color="info" title="Precision of Portioning" chart={realTimePrecisionGraph} />
                                     </MDBox>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <PortionTimeBarChart color="success" title="Variation of Portioning Accuracy" chart={realTimeAccuracyGraph} />
+                                        <InventoryWeightChart color="success" title="Portion Completion Times" chart={realTimePortionTime} />
                                     </MDBox>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <ReportsLineChartComponent color="warning" title="Variation of Portioning Time" chart={realTimePortionTime} />
+                                        <DoughnutChartComponent icon={{ color: "success" }} title="Portion Accuracy Classification" chartData={doughnutData} />{" "}
                                     </MDBox>
                                 </Grid>
                             </Grid>
@@ -422,15 +440,17 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                 <ComplexStatisticsCard
                                     color="dark"
                                     icon={<PanToolIcon />}
-                                    title="Completed Portions"
+                                    title="Portions Completed"
                                     count={cardSummaryItems[0]}
                                     percentage={{
                                         color: "success",
+                                        // amount: "+24%",
+                                        // label: "than yesterday",
                                     }}
                                 />
                             </Grid>
                             <Grid item xs={12} md={6} lg={3}>
-                                <MobileComplexStatisticsCard
+                                {/* <MobileComplexStatisticsCard
                                     color="info"
                                     icon={<ScaleRoundedIcon />}
                                     title="Total Consumed Inventory"
@@ -438,11 +458,11 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                     percentage={{
                                         color: "success",
                                     }}
-                                    realTimeData={realTimeWeightGraph}
-                                />
+                                    realTimeData={realTimeInventoryGraph}
+                                /> */}
                             </Grid>
                             <Grid item xs={12} md={6} lg={3}>
-                                <MobileComplexStatisticsCard
+                                {/* <MobileComplexStatisticsCard
                                     color="success"
                                     icon={<AccessTimeFilledRoundedIcon />}
                                     title="Total Portioning Time"
@@ -450,11 +470,11 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                     percentage={{
                                         color: "success",
                                     }}
-                                    realTimeData={realTimePortionTime}
-                                />
+                                    realTimeData={realTimeAccuracyGraph}
+                                /> */}
                             </Grid>
                             <Grid item xs={12} md={6} lg={3}>
-                                <MobileComplexStatisticsCard
+                                {/* <MobileComplexStatisticsCard
                                     color="warning"
                                     icon={<PrecisionManufacturingRoundedIcon />}
                                     title="Average Performance Level"
@@ -463,7 +483,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                         color: "success",
                                     }}
                                     realTimeData={realTimeAccuracyGraph}
-                                />
+                                /> */}
                             </Grid>
                         </Grid>
                     </MDBox>
@@ -477,8 +497,9 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
 DashboardContainer.propTypes = {
     iotThingNames: PropTypes.object,
     unitOfMass: PropTypes.string,
-    displayIngredientIndex: PropTypes.string,
+    displayIngredientIndex: PropTypes.number,
     timeZone: PropTypes.string,
+    clientDemo: PropTypes.bool,
 };
 
 export default DashboardContainer;

@@ -3,9 +3,9 @@
    @params:
    @return:
    @Comments
-   @Coders: MikelJordania
+   @Coders: DaleDonDale
 */
-const PortionAccuracyLineChartConfig = (labels, datasets, pointColorsAR, datasets1, datasets2, datasets3) => {
+const PortionWeightLineChartConfig = (labels, datasets, pointColorsAR) => {
     return {
         data: {
             labels,
@@ -21,45 +21,6 @@ const PortionAccuracyLineChartConfig = (labels, datasets, pointColorsAR, dataset
                     backgroundColor: "transparent",
                     fill: true,
                     data: datasets.data,
-                    maxBarThickness: 6,
-                },
-                {
-                    label: datasets2.label,
-                    tension: 0.25,
-                    pointRadius: 2,
-                    // pointBorderColor: "red",
-                    pointBackgroundColor: "rgba(255, 1, 1, .8)",
-                    // pointBackgroundColor: pointColorsAR,
-                    borderColor: "rgba(255, 1, 1, .8)",
-                    borderWidth: 4,
-                    backgroundColor: "transparent",
-                    fill: false,
-                    data: datasets2.data,
-                    maxBarThickness: 6,
-                },
-                {
-                    label: datasets1.label,
-                    tension: 0.25,
-                    pointRadius: 2,
-                    // pointBorderColor: "green",
-                    pointBackgroundColor: "rgba(1, 255, 1, .8)",
-                    borderColor: "rgba(1, 255, 1, .8)",
-                    borderWidth: 4,
-                    backgroundColor: "transparent",
-                    fill: false,
-                    data: datasets1.data,
-                    maxBarThickness: 6,
-                },
-                {
-                    label: datasets3.label,
-                    tension: 0.25,
-                    pointRadius: 2,
-                    pointBackgroundColor: "rgba(1, 1, 255, .8)",
-                    borderColor: "rgba(1, 1, 255, .8)",
-                    borderWidth: 4,
-                    backgroundColor: "transparent",
-                    fill: false,
-                    data: datasets3.data,
                     maxBarThickness: 6,
                 },
             ],
@@ -153,4 +114,4 @@ const PortionAccuracyLineChartConfig = (labels, datasets, pointColorsAR, dataset
     };
 };
 
-export default PortionAccuracyLineChartConfig;
+export default PortionWeightLineChartConfig;
