@@ -1,6 +1,68 @@
 {
   "api": {
-    "inverteclientv4": {
+    "inverteAmplifyAPIv3": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "getRestaurantMetaAmplifyAPIv3"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "getDailyMetaRecordAmplifyAPIv3"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "createMetaRecordAmplifyAPIv3"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "updateUnitOfMassAmplifyAPIv3"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "updateDisplayIngredientIndexAmplifyAPIv3"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "updateIngredientNameAmplifyAPIv3"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "getAnalyticsAmplifyAPIv3"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    },
+    "inverteclientv3": {
       "dependsOn": [],
       "output": {
         "authConfig": {
@@ -18,7 +80,7 @@
     }
   },
   "auth": {
-    "inverteclientv4957d0b56": {
+    "inverteclientv3e483745d": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
@@ -46,25 +108,43 @@
     }
   },
   "function": {
-    "getAnalyticsAmplifyAPIv4": {
+    "createMetaRecordAmplifyAPIv3": {
       "build": true,
       "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
-    "updateDisplayIngredientIndexAmplifyAPIv4": {
+    "getAnalyticsAmplifyAPIv3": {
       "build": true,
       "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
-    "updateIngredientNameAmplifyAPIv4": {
+    "getDailyMetaRecordAmplifyAPIv3": {
       "build": true,
       "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
-    "updateUnitOfMassAmplifyAPIv4": {
+    "getRestaurantMetaAmplifyAPIv3": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "updateDisplayIngredientIndexAmplifyAPIv3": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "updateIngredientNameAmplifyAPIv3": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "updateUnitOfMassAmplifyAPIv3": {
       "build": true,
       "dependsOn": [],
       "providerPlugin": "awscloudformation",
@@ -72,131 +152,115 @@
     }
   },
   "parameters": {
-    "AMPLIFY_function_getAnalyticsAmplifyAPIv4_deploymentBucketName": {
+    "AMPLIFY_function_createMetaRecordAmplifyAPIv3_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "getAnalyticsAmplifyAPIv4"
+          "resourceName": "createMetaRecordAmplifyAPIv3"
         }
       ]
     },
-    "AMPLIFY_function_getAnalyticsAmplifyAPIv4_reactAppGraphqlApiKey": {
+    "AMPLIFY_function_createMetaRecordAmplifyAPIv3_s3Key": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "getAnalyticsAmplifyAPIv4"
+          "resourceName": "createMetaRecordAmplifyAPIv3"
         }
       ]
     },
-    "AMPLIFY_function_getAnalyticsAmplifyAPIv4_reactAppGraphqlEndpoint": {
+    "AMPLIFY_function_getAnalyticsAmplifyAPIv3_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "getAnalyticsAmplifyAPIv4"
+          "resourceName": "getAnalyticsAmplifyAPIv3"
         }
       ]
     },
-    "AMPLIFY_function_getAnalyticsAmplifyAPIv4_s3Key": {
+    "AMPLIFY_function_getAnalyticsAmplifyAPIv3_s3Key": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "getAnalyticsAmplifyAPIv4"
+          "resourceName": "getAnalyticsAmplifyAPIv3"
         }
       ]
     },
-    "AMPLIFY_function_updateDisplayIngredientIndexAmplifyAPIv4_deploymentBucketName": {
+    "AMPLIFY_function_getDailyMetaRecordAmplifyAPIv3_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "updateDisplayIngredientIndexAmplifyAPIv4"
+          "resourceName": "getDailyMetaRecordAmplifyAPIv3"
         }
       ]
     },
-    "AMPLIFY_function_updateDisplayIngredientIndexAmplifyAPIv4_reactAppGraphqlApiKey": {
+    "AMPLIFY_function_getDailyMetaRecordAmplifyAPIv3_s3Key": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "updateDisplayIngredientIndexAmplifyAPIv4"
+          "resourceName": "getDailyMetaRecordAmplifyAPIv3"
         }
       ]
     },
-    "AMPLIFY_function_updateDisplayIngredientIndexAmplifyAPIv4_reactAppGraphqlEndpoint": {
+    "AMPLIFY_function_getRestaurantMetaAmplifyAPIv3_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "updateDisplayIngredientIndexAmplifyAPIv4"
+          "resourceName": "getRestaurantMetaAmplifyAPIv3"
         }
       ]
     },
-    "AMPLIFY_function_updateDisplayIngredientIndexAmplifyAPIv4_s3Key": {
+    "AMPLIFY_function_getRestaurantMetaAmplifyAPIv3_s3Key": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "updateDisplayIngredientIndexAmplifyAPIv4"
+          "resourceName": "getRestaurantMetaAmplifyAPIv3"
         }
       ]
     },
-    "AMPLIFY_function_updateIngredientNameAmplifyAPIv4_deploymentBucketName": {
+    "AMPLIFY_function_updateDisplayIngredientIndexAmplifyAPIv3_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "updateIngredientNameAmplifyAPIv4"
+          "resourceName": "updateDisplayIngredientIndexAmplifyAPIv3"
         }
       ]
     },
-    "AMPLIFY_function_updateIngredientNameAmplifyAPIv4_reactAppGraphqlApiKey": {
+    "AMPLIFY_function_updateDisplayIngredientIndexAmplifyAPIv3_s3Key": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "updateIngredientNameAmplifyAPIv4"
+          "resourceName": "updateDisplayIngredientIndexAmplifyAPIv3"
         }
       ]
     },
-    "AMPLIFY_function_updateIngredientNameAmplifyAPIv4_reactAppGraphqlEndpoint": {
+    "AMPLIFY_function_updateIngredientNameAmplifyAPIv3_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "updateIngredientNameAmplifyAPIv4"
+          "resourceName": "updateIngredientNameAmplifyAPIv3"
         }
       ]
     },
-    "AMPLIFY_function_updateIngredientNameAmplifyAPIv4_s3Key": {
+    "AMPLIFY_function_updateIngredientNameAmplifyAPIv3_s3Key": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "updateIngredientNameAmplifyAPIv4"
+          "resourceName": "updateIngredientNameAmplifyAPIv3"
         }
       ]
     },
-    "AMPLIFY_function_updateUnitOfMassAmplifyAPIv4_deploymentBucketName": {
+    "AMPLIFY_function_updateUnitOfMassAmplifyAPIv3_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "updateUnitOfMassAmplifyAPIv4"
+          "resourceName": "updateUnitOfMassAmplifyAPIv3"
         }
       ]
     },
-    "AMPLIFY_function_updateUnitOfMassAmplifyAPIv4_reactAppGraphqlApiKey": {
+    "AMPLIFY_function_updateUnitOfMassAmplifyAPIv3_s3Key": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "updateUnitOfMassAmplifyAPIv4"
-        }
-      ]
-    },
-    "AMPLIFY_function_updateUnitOfMassAmplifyAPIv4_reactAppGraphqlEndpoint": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "updateUnitOfMassAmplifyAPIv4"
-        }
-      ]
-    },
-    "AMPLIFY_function_updateUnitOfMassAmplifyAPIv4_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "updateUnitOfMassAmplifyAPIv4"
+          "resourceName": "updateUnitOfMassAmplifyAPIv3"
         }
       ]
     }

@@ -1,13 +1,18 @@
 export type AmplifyDependentResourcesAttributes = {
   "api": {
-    "inverteclientv4": {
+    "inverteAmplifyAPIv3": {
+      "ApiId": "string",
+      "ApiName": "string",
+      "RootUrl": "string"
+    },
+    "inverteclientv3": {
       "GraphQLAPIEndpointOutput": "string",
       "GraphQLAPIIdOutput": "string",
       "GraphQLAPIKeyOutput": "string"
     }
   },
   "auth": {
-    "inverteclientv4957d0b56": {
+    "inverteclientv3e483745d": {
       "AppClientID": "string",
       "AppClientIDWeb": "string",
       "IdentityPoolId": "string",
@@ -18,28 +23,49 @@ export type AmplifyDependentResourcesAttributes = {
     }
   },
   "function": {
-    "getAnalyticsAmplifyAPIv4": {
+    "createMetaRecordAmplifyAPIv3": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
       "LambdaExecutionRoleArn": "string",
       "Name": "string",
       "Region": "string"
     },
-    "updateDisplayIngredientIndexAmplifyAPIv4": {
+    "getAnalyticsAmplifyAPIv3": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
       "LambdaExecutionRoleArn": "string",
       "Name": "string",
       "Region": "string"
     },
-    "updateIngredientNameAmplifyAPIv4": {
+    "getDailyMetaRecordAmplifyAPIv3": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
       "LambdaExecutionRoleArn": "string",
       "Name": "string",
       "Region": "string"
     },
-    "updateUnitOfMassAmplifyAPIv4": {
+    "getRestaurantMetaAmplifyAPIv3": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
+    "updateDisplayIngredientIndexAmplifyAPIv3": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
+    "updateIngredientNameAmplifyAPIv3": {
+      "Arn": "string",
+      "LambdaExecutionRole": "string",
+      "LambdaExecutionRoleArn": "string",
+      "Name": "string",
+      "Region": "string"
+    },
+    "updateUnitOfMassAmplifyAPIv3": {
       "Arn": "string",
       "LambdaExecutionRole": "string",
       "LambdaExecutionRoleArn": "string",
