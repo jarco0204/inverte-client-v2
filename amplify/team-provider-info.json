@@ -47,5 +47,32 @@
         }
       }
     }
+  },
+  "prod": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-inverteclientv3-prod-144924-authRole",
+      "UnauthRoleArn": "arn:aws:iam::084619430748:role/amplify-inverteclientv3-prod-144924-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::084619430748:role/amplify-inverteclientv3-prod-144924-authRole",
+      "Region": "ca-central-1",
+      "DeploymentBucketName": "amplify-inverteclientv3-prod-144924-deployment",
+      "UnauthRoleName": "amplify-inverteclientv3-prod-144924-unauthRole",
+      "StackName": "amplify-inverteclientv3-prod-144924",
+      "StackId": "arn:aws:cloudformation:ca-central-1:084619430748:stack/amplify-inverteclientv3-prod-144924/879d9610-4cd9-11ee-b4b5-0e632a7df75c",
+      "AmplifyAppId": "d1n1lwyzmz6bqx"
+    },
+    "categories": {
+      "auth": {
+        "inverteclientv3e483745d": {}
+      },
+      "function": {
+        "createMetaRecordAmplifyAPIv3": {},
+        "getAnalyticsAmplifyAPIv3": {},
+        "getDailyMetaRecordAmplifyAPIv3": {},
+        "getRestaurantMetaAmplifyAPIv3": {},
+        "updateDisplayIngredientIndexAmplifyAPIv3": {},
+        "updateIngredientNameAmplifyAPIv3": {},
+        "updateUnitOfMassAmplifyAPIv3": {}
+      }
+    }
   }
 }
