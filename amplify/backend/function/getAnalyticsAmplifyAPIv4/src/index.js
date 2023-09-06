@@ -119,7 +119,7 @@ exports.handler = async (event) => {
     //Calculate the average accuracy
     console.log("The total accuracy is", totalAccuracy);
     totalAccuracy /= hourlyDataParsed.length;
-    console.log("The total realTime data iss:", realTime); //Debug statement
+    console.log("The total realTime data is:", realTime); //Debug statement
 
     //Merge the real time data for the realtime data and sort them in ascending order
     const mergedObj = realTime.reduce((result, obj) => {

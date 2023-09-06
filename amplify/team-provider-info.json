@@ -23,25 +23,25 @@
           "reactAppGraphqlApiKey": "da2-6j4dv2xq7fbsbapoku4zurwcbm",
           "reactAppGraphqlEndpoint": "https://njdlll4kdrhuzphl2jrwnifdsa.appsync-api.ca-central-1.amazonaws.com/graphql",
           "deploymentBucketName": "amplify-inverteclientv4-dev-130139-deployment",
-          "s3Key": "amplify-builds/updateIngredientNameAmplifyAPIv4-3641537853393272432f-build.zip"
+          "s3Key": "amplify-builds/updateIngredientNameAmplifyAPIv4-7634514a4572756c4638-build.zip"
         },
         "getAnalyticsAmplifyAPIv4": {
           "reactAppGraphqlApiKey": "da2-6j4dv2xq7fbsbapoku4zurwcbm",
           "reactAppGraphqlEndpoint": "https://njdlll4kdrhuzphl2jrwnifdsa.appsync-api.ca-central-1.amazonaws.com/graphql",
           "deploymentBucketName": "amplify-inverteclientv4-dev-130139-deployment",
-          "s3Key": "amplify-builds/getAnalyticsAmplifyAPIv4-684441692f46674a6966-build.zip"
+          "s3Key": "amplify-builds/getAnalyticsAmplifyAPIv4-6b4956706c6641665654-build.zip"
         },
         "updateDisplayIngredientIndexAmplifyAPIv4": {
           "reactAppGraphqlApiKey": "da2-6j4dv2xq7fbsbapoku4zurwcbm",
           "reactAppGraphqlEndpoint": "https://njdlll4kdrhuzphl2jrwnifdsa.appsync-api.ca-central-1.amazonaws.com/graphql",
           "deploymentBucketName": "amplify-inverteclientv4-dev-130139-deployment",
-          "s3Key": "amplify-builds/updateDisplayIngredientIndexAmplifyAPIv4-2b2b386f4c5131792f35-build.zip"
+          "s3Key": "amplify-builds/updateDisplayIngredientIndexAmplifyAPIv4-4d48416d49676c555759-build.zip"
         },
         "updateUnitOfMassAmplifyAPIv4": {
           "reactAppGraphqlApiKey": "da2-6j4dv2xq7fbsbapoku4zurwcbm",
           "reactAppGraphqlEndpoint": "https://njdlll4kdrhuzphl2jrwnifdsa.appsync-api.ca-central-1.amazonaws.com/graphql",
           "deploymentBucketName": "amplify-inverteclientv4-dev-130139-deployment",
-          "s3Key": "amplify-builds/updateUnitOfMassAmplifyAPIv4-7a7450536a3273364c4c-build.zip"
+          "s3Key": "amplify-builds/updateUnitOfMassAmplifyAPIv4-774633382f5364726532-build.zip"
         }
       }
     }
