@@ -12,19 +12,7 @@
       "AmplifyAppId": "d2djyf6szty5nn"
     },
     "categories": {
-      "api": {
-        "inverteclientv4": {}
-      },
-      "auth": {
-        "inverteclientv4957d0b56": {}
-      },
       "function": {
-        "updateIngredientNameAmplifyAPIv4": {
-          "reactAppGraphqlApiKey": "da2-6j4dv2xq7fbsbapoku4zurwcbm",
-          "reactAppGraphqlEndpoint": "https://njdlll4kdrhuzphl2jrwnifdsa.appsync-api.ca-central-1.amazonaws.com/graphql",
-          "deploymentBucketName": "amplify-inverteclientv4-dev-130139-deployment",
-          "s3Key": "amplify-builds/updateIngredientNameAmplifyAPIv4-7634514a4572756c4638-build.zip"
-        },
         "getAnalyticsAmplifyAPIv4": {
           "reactAppGraphqlApiKey": "da2-6j4dv2xq7fbsbapoku4zurwcbm",
           "reactAppGraphqlEndpoint": "https://njdlll4kdrhuzphl2jrwnifdsa.appsync-api.ca-central-1.amazonaws.com/graphql",
@@ -37,59 +25,21 @@
           "deploymentBucketName": "amplify-inverteclientv4-dev-130139-deployment",
           "s3Key": "amplify-builds/updateDisplayIngredientIndexAmplifyAPIv4-4d48416d49676c555759-build.zip"
         },
+        "updateIngredientNameAmplifyAPIv4": {
+          "reactAppGraphqlApiKey": "da2-6j4dv2xq7fbsbapoku4zurwcbm",
+          "reactAppGraphqlEndpoint": "https://njdlll4kdrhuzphl2jrwnifdsa.appsync-api.ca-central-1.amazonaws.com/graphql",
+          "deploymentBucketName": "amplify-inverteclientv4-dev-130139-deployment",
+          "s3Key": "amplify-builds/updateIngredientNameAmplifyAPIv4-7634514a4572756c4638-build.zip"
+        },
         "updateUnitOfMassAmplifyAPIv4": {
           "reactAppGraphqlApiKey": "da2-6j4dv2xq7fbsbapoku4zurwcbm",
           "reactAppGraphqlEndpoint": "https://njdlll4kdrhuzphl2jrwnifdsa.appsync-api.ca-central-1.amazonaws.com/graphql",
           "deploymentBucketName": "amplify-inverteclientv4-dev-130139-deployment",
           "s3Key": "amplify-builds/updateUnitOfMassAmplifyAPIv4-774633382f5364726532-build.zip"
         }
-      }
-    }
-  },
-  "production": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-inverteclientv4-production-164921-authRole",
-      "UnauthRoleArn": "arn:aws:iam::084619430748:role/amplify-inverteclientv4-production-164921-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::084619430748:role/amplify-inverteclientv4-production-164921-authRole",
-      "Region": "ca-central-1",
-      "DeploymentBucketName": "amplify-inverteclientv4-production-164921-deployment",
-      "UnauthRoleName": "amplify-inverteclientv4-production-164921-unauthRole",
-      "StackName": "amplify-inverteclientv4-production-164921",
-      "StackId": "arn:aws:cloudformation:ca-central-1:084619430748:stack/amplify-inverteclientv4-production-164921/1e2a3b60-4c21-11ee-81e6-0a9cab8040d0",
-      "AmplifyAppId": "d2djyf6szty5nn"
-    },
-    "categories": {
+      },
       "auth": {
         "inverteclientv4957d0b56": {}
-      },
-      "function": {
-        "getAnalyticsAmplifyAPIv4": {
-          "reactAppGraphqlApiKey": "da2-6j4dv2xq7fbsbapoku4zurwcbm",
-          "reactAppGraphqlEndpoint": "https://njdlll4kdrhuzphl2jrwnifdsa.appsync-api.ca-central-1.amazonaws.com/graphql",
-          "deploymentBucketName": "amplify-inverteclientv4-production-164921-deployment",
-          "s3Key": "amplify-builds/getAnalyticsAmplifyAPIv4-54764a2b4f794e324247-build.zip"
-        },
-        "updateDisplayIngredientIndexAmplifyAPIv4": {
-          "reactAppGraphqlApiKey": "da2-6j4dv2xq7fbsbapoku4zurwcbm",
-          "reactAppGraphqlEndpoint": "https://njdlll4kdrhuzphl2jrwnifdsa.appsync-api.ca-central-1.amazonaws.com/graphql",
-          "deploymentBucketName": "amplify-inverteclientv4-production-164921-deployment",
-          "s3Key": "amplify-builds/updateDisplayIngredientIndexAmplifyAPIv4-2b2b386f4c5131792f35-build.zip"
-        },
-        "updateIngredientNameAmplifyAPIv4": {
-          "reactAppGraphqlApiKey": "da2-6j4dv2xq7fbsbapoku4zurwcbm",
-          "reactAppGraphqlEndpoint": "https://njdlll4kdrhuzphl2jrwnifdsa.appsync-api.ca-central-1.amazonaws.com/graphql",
-          "deploymentBucketName": "amplify-inverteclientv4-production-164921-deployment",
-          "s3Key": "amplify-builds/updateIngredientNameAmplifyAPIv4-3641537853393272432f-build.zip"
-        },
-        "updateUnitOfMassAmplifyAPIv4": {
-          "reactAppGraphqlApiKey": "da2-6j4dv2xq7fbsbapoku4zurwcbm",
-          "reactAppGraphqlEndpoint": "https://njdlll4kdrhuzphl2jrwnifdsa.appsync-api.ca-central-1.amazonaws.com/graphql",
-          "deploymentBucketName": "amplify-inverteclientv4-production-164921-deployment",
-          "s3Key": "amplify-builds/updateUnitOfMassAmplifyAPIv4-7a7450536a3273364c4c-build.zip"
-        }
-      },
-      "api": {
-        "inverteclientv4": {}
       }
     }
   }
