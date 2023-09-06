@@ -6,5 +6,12 @@
         "inverteclientv30db036de": {}
       }
     }
+  },
+  "prod": {
+    "categories": {
+      "auth": {
+        "inverteclientv30db036de": {}
+      }
+    }
   }
 }
