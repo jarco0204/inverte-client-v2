@@ -29,7 +29,7 @@
           "reactAppGraphqlApiKey": "da2-6j4dv2xq7fbsbapoku4zurwcbm",
           "reactAppGraphqlEndpoint": "https://njdlll4kdrhuzphl2jrwnifdsa.appsync-api.ca-central-1.amazonaws.com/graphql",
           "deploymentBucketName": "amplify-inverteclientv4-dev-130139-deployment",
-          "s3Key": "amplify-builds/getAnalyticsAmplifyAPIv4-6b4956706c6641665654-build.zip"
+          "s3Key": "amplify-builds/getAnalyticsAmplifyAPIv4-643031484b50447a5353-build.zip"
         },
         "updateDisplayIngredientIndexAmplifyAPIv4": {
           "reactAppGraphqlApiKey": "da2-6j4dv2xq7fbsbapoku4zurwcbm",
