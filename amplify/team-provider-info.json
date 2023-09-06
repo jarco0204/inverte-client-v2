@@ -45,6 +45,10 @@
           "deploymentBucketName": "amplify-inverteclientv3-staging-133138-deployment",
           "s3Key": "amplify-builds/updateUnitOfMassAmplifyAPIv3-73744845336c4d636e51-build.zip"
         }
+      },
+      "api": {
+        "inverteAmplifyAPIv3": {},
+        "inverteclientv3": {}
       }
     }
   }

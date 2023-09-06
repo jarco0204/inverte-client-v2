@@ -24,6 +24,8 @@ export declare type PortionEventUpdateFormInputValues = {
     upperErrorLimit?: number;
     correctWeight?: number;
     portionTimeTaken?: number;
+    weightClassification?: string;
+    timeClassification?: string;
 };
 export declare type PortionEventUpdateFormValidationValues = {
     iotNameThing?: ValidationFunction<string>;
@@ -37,6 +39,8 @@ export declare type PortionEventUpdateFormValidationValues = {
     upperErrorLimit?: ValidationFunction<number>;
     correctWeight?: ValidationFunction<number>;
     portionTimeTaken?: ValidationFunction<number>;
+    weightClassification?: ValidationFunction<string>;
+    timeClassification?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type PortionEventUpdateFormOverridesProps = {
@@ -52,6 +56,8 @@ export declare type PortionEventUpdateFormOverridesProps = {
     upperErrorLimit?: PrimitiveOverrideProps<TextFieldProps>;
     correctWeight?: PrimitiveOverrideProps<TextFieldProps>;
     portionTimeTaken?: PrimitiveOverrideProps<TextFieldProps>;
+    weightClassification?: PrimitiveOverrideProps<TextFieldProps>;
+    timeClassification?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type PortionEventUpdateFormProps = React.PropsWithChildren<{
     overrides?: PortionEventUpdateFormOverridesProps | undefined | null;
