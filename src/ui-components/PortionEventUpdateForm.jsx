@@ -36,8 +36,6 @@ export default function PortionEventUpdateForm(props) {
     upperErrorLimit: "",
     correctWeight: "",
     portionTimeTaken: "",
-    weightClassification: "",
-    timeClassification: "",
   };
   const [iotNameThing, setIotNameThing] = React.useState(
     initialValues.iotNameThing
@@ -70,12 +68,6 @@ export default function PortionEventUpdateForm(props) {
   const [portionTimeTaken, setPortionTimeTaken] = React.useState(
     initialValues.portionTimeTaken
   );
-  const [weightClassification, setWeightClassification] = React.useState(
-    initialValues.weightClassification
-  );
-  const [timeClassification, setTimeClassification] = React.useState(
-    initialValues.timeClassification
-  );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = portionEventRecord
@@ -92,8 +84,6 @@ export default function PortionEventUpdateForm(props) {
     setUpperErrorLimit(cleanValues.upperErrorLimit);
     setCorrectWeight(cleanValues.correctWeight);
     setPortionTimeTaken(cleanValues.portionTimeTaken);
-    setWeightClassification(cleanValues.weightClassification);
-    setTimeClassification(cleanValues.timeClassification);
     setErrors({});
   };
   const [portionEventRecord, setPortionEventRecord] = React.useState(
@@ -126,8 +116,6 @@ export default function PortionEventUpdateForm(props) {
     upperErrorLimit: [],
     correctWeight: [],
     portionTimeTaken: [],
-    weightClassification: [],
-    timeClassification: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -166,8 +154,6 @@ export default function PortionEventUpdateForm(props) {
           upperErrorLimit: upperErrorLimit ?? null,
           correctWeight: correctWeight ?? null,
           portionTimeTaken: portionTimeTaken ?? null,
-          weightClassification: weightClassification ?? null,
-          timeClassification: timeClassification ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -239,8 +225,6 @@ export default function PortionEventUpdateForm(props) {
               upperErrorLimit,
               correctWeight,
               portionTimeTaken,
-              weightClassification,
-              timeClassification,
             };
             const result = onChange(modelFields);
             value = result?.iotNameThing ?? value;
@@ -275,8 +259,6 @@ export default function PortionEventUpdateForm(props) {
               upperErrorLimit,
               correctWeight,
               portionTimeTaken,
-              weightClassification,
-              timeClassification,
             };
             const result = onChange(modelFields);
             value = result?.timestamp ?? value;
@@ -315,8 +297,6 @@ export default function PortionEventUpdateForm(props) {
               upperErrorLimit,
               correctWeight,
               portionTimeTaken,
-              weightClassification,
-              timeClassification,
             };
             const result = onChange(modelFields);
             value = result?.batchPortionID ?? value;
@@ -355,8 +335,6 @@ export default function PortionEventUpdateForm(props) {
               upperErrorLimit,
               correctWeight,
               portionTimeTaken,
-              weightClassification,
-              timeClassification,
             };
             const result = onChange(modelFields);
             value = result?.inventoryWeight ?? value;
@@ -391,8 +369,6 @@ export default function PortionEventUpdateForm(props) {
               upperErrorLimit,
               correctWeight,
               portionTimeTaken,
-              weightClassification,
-              timeClassification,
             };
             const result = onChange(modelFields);
             value = result?.batchPortionWeightAR ?? value;
@@ -429,8 +405,6 @@ export default function PortionEventUpdateForm(props) {
               upperErrorLimit,
               correctWeight,
               portionTimeTaken,
-              weightClassification,
-              timeClassification,
             };
             const result = onChange(modelFields);
             value = result?.batchPortionStatusAR ?? value;
@@ -467,8 +441,6 @@ export default function PortionEventUpdateForm(props) {
               upperErrorLimit,
               correctWeight,
               portionTimeTaken,
-              weightClassification,
-              timeClassification,
             };
             const result = onChange(modelFields);
             value = result?.ingredientName ?? value;
@@ -507,8 +479,6 @@ export default function PortionEventUpdateForm(props) {
               upperErrorLimit,
               correctWeight,
               portionTimeTaken,
-              weightClassification,
-              timeClassification,
             };
             const result = onChange(modelFields);
             value = result?.lowerErrorLimit ?? value;
@@ -547,8 +517,6 @@ export default function PortionEventUpdateForm(props) {
               upperErrorLimit: value,
               correctWeight,
               portionTimeTaken,
-              weightClassification,
-              timeClassification,
             };
             const result = onChange(modelFields);
             value = result?.upperErrorLimit ?? value;
@@ -587,8 +555,6 @@ export default function PortionEventUpdateForm(props) {
               upperErrorLimit,
               correctWeight: value,
               portionTimeTaken,
-              weightClassification,
-              timeClassification,
             };
             const result = onChange(modelFields);
             value = result?.correctWeight ?? value;
@@ -627,8 +593,6 @@ export default function PortionEventUpdateForm(props) {
               upperErrorLimit,
               correctWeight,
               portionTimeTaken: value,
-              weightClassification,
-              timeClassification,
             };
             const result = onChange(modelFields);
             value = result?.portionTimeTaken ?? value;
@@ -642,82 +606,6 @@ export default function PortionEventUpdateForm(props) {
         errorMessage={errors.portionTimeTaken?.errorMessage}
         hasError={errors.portionTimeTaken?.hasError}
         {...getOverrideProps(overrides, "portionTimeTaken")}
-      ></TextField>
-      <TextField
-        label="Weight classification"
-        isRequired={false}
-        isReadOnly={false}
-        value={weightClassification}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              iotNameThing,
-              timestamp,
-              batchPortionID,
-              inventoryWeight,
-              batchPortionWeightAR,
-              batchPortionStatusAR,
-              ingredientName,
-              lowerErrorLimit,
-              upperErrorLimit,
-              correctWeight,
-              portionTimeTaken,
-              weightClassification: value,
-              timeClassification,
-            };
-            const result = onChange(modelFields);
-            value = result?.weightClassification ?? value;
-          }
-          if (errors.weightClassification?.hasError) {
-            runValidationTasks("weightClassification", value);
-          }
-          setWeightClassification(value);
-        }}
-        onBlur={() =>
-          runValidationTasks("weightClassification", weightClassification)
-        }
-        errorMessage={errors.weightClassification?.errorMessage}
-        hasError={errors.weightClassification?.hasError}
-        {...getOverrideProps(overrides, "weightClassification")}
-      ></TextField>
-      <TextField
-        label="Time classification"
-        isRequired={false}
-        isReadOnly={false}
-        value={timeClassification}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              iotNameThing,
-              timestamp,
-              batchPortionID,
-              inventoryWeight,
-              batchPortionWeightAR,
-              batchPortionStatusAR,
-              ingredientName,
-              lowerErrorLimit,
-              upperErrorLimit,
-              correctWeight,
-              portionTimeTaken,
-              weightClassification,
-              timeClassification: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.timeClassification ?? value;
-          }
-          if (errors.timeClassification?.hasError) {
-            runValidationTasks("timeClassification", value);
-          }
-          setTimeClassification(value);
-        }}
-        onBlur={() =>
-          runValidationTasks("timeClassification", timeClassification)
-        }
-        errorMessage={errors.timeClassification?.errorMessage}
-        hasError={errors.timeClassification?.hasError}
-        {...getOverrideProps(overrides, "timeClassification")}
       ></TextField>
       <Flex
         justifyContent="space-between"

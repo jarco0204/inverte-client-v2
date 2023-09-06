@@ -1,10 +1,10 @@
 {
   "version": "1",
   "cognitoConfig": {
-    "identityPoolName": "inverteclientv3e483745d_identitypool_e483745d",
+    "identityPoolName": "inverteclientv30db036de_identitypool_0db036de",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "inverte483745d",
-    "userPoolName": "inverteclientv3e483745d_userpool_e483745d",
+    "resourceNameTruncated": "invert0db036de",
+    "userPoolName": "inverteclientv30db036de_userpool_0db036de",
     "autoVerifiedAttributes": [
       "email"
     ],
@@ -31,15 +31,16 @@
     "userpoolClientReadAttributes": [
       "email"
     ],
-    "userpoolClientLambdaRole": "inverte483745d_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "invert0db036de_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "e483745d",
-    "resourceName": "inverteclientv3e483745d",
+    "sharedId": "0db036de",
+    "resourceName": "inverteclientv30db036de",
     "authSelections": "identityPoolAndUserPool",
     "useDefault": "default",
     "usernameAttributes": [
       "email"
     ],
+    "triggers": {},
     "userPoolGroupList": [],
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,

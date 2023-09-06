@@ -80,7 +80,7 @@
     }
   },
   "auth": {
-    "inverteclientv3e483745d": {
+    "inverteclientv30db036de": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
@@ -149,6 +149,120 @@
       "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_createMetaRecordAmplifyAPIv3_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "createMetaRecordAmplifyAPIv3"
+        }
+      ]
+    },
+    "AMPLIFY_function_createMetaRecordAmplifyAPIv3_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "createMetaRecordAmplifyAPIv3"
+        }
+      ]
+    },
+    "AMPLIFY_function_getAnalyticsAmplifyAPIv3_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getAnalyticsAmplifyAPIv3"
+        }
+      ]
+    },
+    "AMPLIFY_function_getAnalyticsAmplifyAPIv3_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getAnalyticsAmplifyAPIv3"
+        }
+      ]
+    },
+    "AMPLIFY_function_getDailyMetaRecordAmplifyAPIv3_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getDailyMetaRecordAmplifyAPIv3"
+        }
+      ]
+    },
+    "AMPLIFY_function_getDailyMetaRecordAmplifyAPIv3_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getDailyMetaRecordAmplifyAPIv3"
+        }
+      ]
+    },
+    "AMPLIFY_function_getRestaurantMetaAmplifyAPIv3_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getRestaurantMetaAmplifyAPIv3"
+        }
+      ]
+    },
+    "AMPLIFY_function_getRestaurantMetaAmplifyAPIv3_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "getRestaurantMetaAmplifyAPIv3"
+        }
+      ]
+    },
+    "AMPLIFY_function_updateDisplayIngredientIndexAmplifyAPIv3_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "updateDisplayIngredientIndexAmplifyAPIv3"
+        }
+      ]
+    },
+    "AMPLIFY_function_updateDisplayIngredientIndexAmplifyAPIv3_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "updateDisplayIngredientIndexAmplifyAPIv3"
+        }
+      ]
+    },
+    "AMPLIFY_function_updateIngredientNameAmplifyAPIv3_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "updateIngredientNameAmplifyAPIv3"
+        }
+      ]
+    },
+    "AMPLIFY_function_updateIngredientNameAmplifyAPIv3_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "updateIngredientNameAmplifyAPIv3"
+        }
+      ]
+    },
+    "AMPLIFY_function_updateUnitOfMassAmplifyAPIv3_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "updateUnitOfMassAmplifyAPIv3"
+        }
+      ]
+    },
+    "AMPLIFY_function_updateUnitOfMassAmplifyAPIv3_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "updateUnitOfMassAmplifyAPIv3"
+        }
+      ]
     }
   }
 }
