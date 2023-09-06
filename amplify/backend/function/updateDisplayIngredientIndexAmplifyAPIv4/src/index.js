@@ -26,7 +26,7 @@ exports.handler = async (event) => {
         };
         try {
             const data = await docClient.update(dynamoInputParams).promise();
-            console.log("Your data is updated from Dynamo: ", data);
+            console.log("Your data is updated from Dynamoo: ", data);
         } catch (error) {
             console.log("Error while updating restaurant meta data from Dynamo: ", error);
         }
