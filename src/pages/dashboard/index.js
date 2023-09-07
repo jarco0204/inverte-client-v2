@@ -199,9 +199,9 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
         // Generate Data Arrays
         for (let i = 0; i < tempKeys.length; i++) {
             // TODO: tempKeys should contain this information for each portion event
-            const correctWeight = realTime[tempKeys[i]].correctWeight;
-            const upperLimit = realTime[tempKeys[i]].upperErrorLimit;
-            const lowerLimit = realTime[tempKeys[i]].lowerErrorLimit;
+            const correctWeight = parseInt(realTime[tempKeys[i]].correctWeight);
+            const upperLimit = parseInt(realTime[tempKeys[i]].upperErrorLimit);
+            const lowerLimit = parseInt(realTime[tempKeys[i]].lowerErrorLimit);
             // Portion Weight Accuracy
             upperLimitAR.push(correctWeight + upperLimit);
             correctWeightAR.push(correctWeight);

@@ -42,7 +42,7 @@ Amplify.addPluggable(
 Amplify.configure(awsmobile);
 
 // Global Variables
-const DEBUG_FLAG = false;
+const DEBUG_FLAG = true;
 
 /*!
    @description:
