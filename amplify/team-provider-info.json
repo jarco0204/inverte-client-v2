@@ -47,7 +47,6 @@
         }
       },
       "api": {
-        "inverteAmplifyAPIv3": {},
         "inverteclientv3": {}
       }
     }
