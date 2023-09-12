@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import { Doughnut } from "react-chartjs-2";
 import Card from "@mui/material/Card";
 import Icon from "@mui/material/Icon";
-import MDBox from "../../MDBox";
-import MDTypography from "../../MDTypography";
+import MDBox from "../../../../components/MDBox";
+import MDTypography from "../../../../components/MDTypography";
 
 /*!
    @description: Chart component to hold doughnut chart
@@ -13,7 +13,7 @@ import MDTypography from "../../MDTypography";
    @Comments
    @Coders: HumbleDior
 */
-const DoughnutChartComponent = ({ icon, title, description, chartData }) => {
+const PortionAccuracyDoughnutChart = ({ icon, title, description, chartData }) => {
     const { labels, data, backgroundColors } = chartData;
 
     const chartOptions = {
@@ -44,14 +44,14 @@ const DoughnutChartComponent = ({ icon, title, description, chartData }) => {
     return title || description ? <>{renderChart}</> : renderChart;
 };
 
-DoughnutChartComponent.defaultProps = {
+PortionAccuracyDoughnutChart.defaultProps = {
     icon: { color: "info", component: "" },
     title: "",
     description: "",
     height: "19.125rem",
 };
 
-DoughnutChartComponent.propTypes = {
+PortionAccuracyDoughnutChart.propTypes = {
     icon: PropTypes.shape({
         color: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error", "light", "dark"]),
         component: PropTypes.node,
@@ -66,4 +66,4 @@ DoughnutChartComponent.propTypes = {
     }).isRequired,
 };
 
-export default DoughnutChartComponent;
+export default PortionAccuracyDoughnutChart;

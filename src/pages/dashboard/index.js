@@ -14,7 +14,6 @@ import AccessTimeFilledRoundedIcon from "@mui/icons-material/AccessTimeFilledRou
 import MDBox from "../../components/MDBox";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import Footer from "../../components/Footer";
-import DoughnutChartComponent from "../../components/Charts/DoughnutCharts";
 import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
 import DropDownIngredientMenu from "../../components/DropDownIngredientMenu";
 
@@ -27,6 +26,7 @@ import { API, Auth, graphqlOperation } from "aws-amplify";
 // User Components
 import PortionPrecisionChart from "./components/PortionPrecisionChart";
 import InventoryWeightChart from "./components/PortionTimeLineChart";
+import PortionAccuracyDoughnutChart from "./components/PortionAccuracyDoughnutChart";
 import MobileComplexStatisticsCard from "./components/MobileComplexStatisticsCard";
 
 // External Libraries
@@ -436,7 +436,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <DoughnutChartComponent icon={{ color: "success" }} title="Portion Accuracy Trend" chartData={doughnutGraph} />
+                                        <PortionAccuracyDoughnutChart icon={{ color: "success" }} title="Portion Accuracy Trend" chartData={doughnutGraph} />
                                     </MDBox>
                                 </Grid>
                             </Grid>
