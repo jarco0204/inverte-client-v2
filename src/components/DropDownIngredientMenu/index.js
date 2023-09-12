@@ -7,6 +7,8 @@ import { MenuItem } from "@mui/material";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
+import { updateRestaurant } from "../../graphql/mutations";
+import { API, Auth, graphqlOperation } from "aws-amplify";
 
 const StyledMenu = styled((props) => (
     <Menu
@@ -76,20 +78,16 @@ const DropDownIngredientMenu = ({ options, selectedIndexRef, selectedIndex, setS
         @Coders: Rohan-16
     */
     const updateIngredient = async (index) => {
-        // const user = await Auth.currentAuthenticatedUser();
-        // try {
-        //     const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
-        //     const path = "/restaurants/updateDisplayIngredientIndex/";
-        //     const finalAPIRoute = path + user.username; //TODO: Cases where userSession is empty
-        //     // Make REST API Call
-        //     await API.get(AMPLIFY_API, finalAPIRoute, { queryStringParameters: { index: index } }).then((response) => {
-        //         if (response == undefined) {
-        //             throw new Error("No Response from updateDisplayIngredientIndex route in GQL API");
-        //         }
-        //     });
-        // } catch (err) {
-        //     console.log("Error when updating selected ingredient index in dashboard page...", err);
-        // }
+        const user = await Auth.currentAuthenticatedUser();
+        try {
+            const inputData = { restaurant_id: user.username, displayIngredient: index };
+            const response = await API.graphql({
+                query: updateRestaurant,
+                variables: { input: inputData },
+            });
+        } catch (err) {
+            console.log("Error when updating selected ingredient index in dashboard page...", err);
+        }
     };
 
     /*!

@@ -23,7 +23,7 @@ import DropDownIngredientMenu from "../../components/DropDownIngredientMenu";
 
 // AWS Imports
 import { getDay } from "../../graphql/queries";
-import { updateRestaurant } from "../../graphql/mutations";
+
 import { onNewPortionEvent } from "../../graphql/subscriptions";
 import { API, Auth, graphqlOperation } from "aws-amplify";
 
@@ -161,26 +161,6 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
             window.removeEventListener("resize", handleResize);
         };
     }, []);
-
-    /*!
-        @description: Update the index number of selected ingredient in dynamo 
-        @params: integer
-        @return:
-        @Comments
-        @Coders: Rohan-16
-    */
-    const updateIngredient = async (index) => {
-        const user = await Auth.currentAuthenticatedUser();
-        try {
-            const inputData = { restaurant_id: user.username, displayIngredient: index };
-            const response = await API.graphql({
-                query: updateRestaurant,
-                variables: { input: inputData },
-            });
-        } catch (err) {
-            console.log("Error when updating selected ingredient index in dashboard page...", err);
-        }
-    };
 
     /*!
        @description:
