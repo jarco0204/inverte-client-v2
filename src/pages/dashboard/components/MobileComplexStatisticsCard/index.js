@@ -23,9 +23,9 @@ const MobileComplexStatisticsCard = ({ color, title, count, icon, generateChart 
         setIsOpen(!isOpen);
     };
     return (
-        <div style={{ width: "325px" }}>
+        <div>
             <Card onClick={handleClick}>
-                <MDBox display="flex" justifyContent="space-between" pt={1} px={2} height="75px">
+                <MDBox display="flex" justifyContent="space-between" pt={1} px={2} height="90px">
                     <MDBox
                         variant="gradient"
                         bgColor={color}
@@ -50,9 +50,9 @@ const MobileComplexStatisticsCard = ({ color, title, count, icon, generateChart 
                         <MDTypography variant="h4">{count}</MDTypography>
                     </MDBox>
                 </MDBox>
-                <Divider />
+                {isOpen ? null : <Divider />}
                 {isOpen && (
-                    <MDBox pb={1} px={4}>
+                    <MDBox>
                         {generateChart()}
                         <MDBox display="flex" justifyContent="right" py={0.1}>
                             <KeyboardArrowUp />
@@ -60,7 +60,7 @@ const MobileComplexStatisticsCard = ({ color, title, count, icon, generateChart 
                     </MDBox>
                 )}
                 {!isOpen && (
-                    <MDBox display="flex" justifyContent="right" py={0.1}>
+                    <MDBox display="flex" justifyContent="right" px={1} py={0.1}>
                         <KeyboardArrowDown />
                     </MDBox>
                 )}
