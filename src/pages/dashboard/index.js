@@ -170,8 +170,8 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
         @Comments
         @Coders: TheBestCoderInAmerica
     */
-    const generatePrecisionChartResponsive = () => {
-        return <PortionPrecisionChart color="info" title="Precision of Portioning" chart={realTimePrecisionGraph} />;
+    const generatePrecisionChartResponsive = (mobileViewFlag) => {
+        return <PortionPrecisionChart color="info" title="Precision of Portioning" chart={realTimePrecisionGraph} mobileViewFlag={mobileViewFlag} />;
     };
 
     /*!
@@ -433,7 +433,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                         <MDBox mt={4.75}>
                             <Grid container spacing={3}>
                                 <Grid item xs={12} md={6} lg={4}>
-                                    <MDBox mb={3}>{generatePrecisionChartResponsive()}</MDBox>
+                                    <MDBox mb={3}>{generatePrecisionChartResponsive(false)}</MDBox>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
@@ -474,7 +474,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                     percentage={{
                                         color: "success",
                                     }}
-                                    generateChart={generatePrecisionChartResponsive}
+                                    generateChart={() => generatePrecisionChartResponsive(true)}
                                 />
                             </Grid>
                             <Grid item xs={12} md={6} lg={3}>
