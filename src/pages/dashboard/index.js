@@ -304,12 +304,18 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
             } else {
                 if (hour.getDay) {
                     // Set the Upper Summary Card Components
-                    console.log("Data we get from backend is:", hour.getDay);
                     let accuracy = hour.getDay.dailySummary.accuracy.toFixed(0) + "%";
                     let inventoryWeight = hour.getDay.dailySummary.inventoryConsumed + "g";
                     let timeSaved = hour.getDay.dailySummary.averageTime.toFixed(1) + "s";
                     setCardSummaryItems([hour.getDay.dailySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
-                    setDoughnutChartData([hour.getDay.dailySummary.underServed, hour.getDay.dailySummary.perfect, hour.getDay.dailySummary.overServed]);
+
+                    // Add Percentages
+                    // Add Percentages
+                    const underPercent = parseInt((hour.getDay.dailySummary.underServed / hour.getDay.dailySummary.portionsCompleted) * 100);
+                    const perfectPercent = parseInt((hour.getDay.dailySummary.perfect / hour.getDay.dailySummary.portionsCompleted) * 100);
+                    const overPercent = parseInt((hour.getDay.dailySummary.overServed / hour.getDay.dailySummary.portionsCompleted) * 100);
+                    setDoughnutChartData([underPercent, perfectPercent, overPercent]);
+                    // setDoughnutChartData([hour.getDay.dailySummary.underServed, hour.getDay.dailySummary.perfect, hour.getDay.dailySummary.overServed]);
                     generateLowerRealTimeGraphs(JSON.parse(hour.getDay.realTime));
                 } else {
                     // There is no hourly response so add placeholders

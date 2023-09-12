@@ -29,8 +29,8 @@ const PortionAccuracyDoughnutChart = ({ icon, title, description, chartData }) =
     const renderChart = (
         <Card sx={{ height: "100%" }}>
             <MDBox padding="1rem" bgColor="transparent">
-                <MDBox borderRadius="lg" py={2} pr={0.5} mt={-5} height="14rem" bgColor="transparent">
-                    <Doughnut data={{ labels, datasets: [{ data, backgroundColor: backgroundColors }] }} options={chartOptions} />
+                <MDBox borderRadius="lg" py={1} pr={0.5} mt={-5} height="14rem" bgColor="transparent">
+                    <Doughnut data={{ labels, datasets: [{ data, backgroundColor: backgroundColors, label: "Percentage (%)" }] }} options={chartOptions} />
                 </MDBox>
                 <MDBox pt={3} pb={1} px={1}>
                     <MDTypography variant="h6" textTransform="capitalize">
