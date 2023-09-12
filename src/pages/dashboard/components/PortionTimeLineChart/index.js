@@ -20,12 +20,21 @@ import InventoryWeightLineChartConfig from "./Config";
    @params:
    @return:
    @Comments
-   @Coders: BARAKAEffect
+   @Coders: RakateEffect
 */
-const PortionTimeLineChart = ({ color, title, description, chart }) => {
+const PortionTimeLineChart = ({ color, title, description, chart, mobileViewFlag }) => {
+    // Component State
     const { data, options } = InventoryWeightLineChartConfig(chart.labels || [], chart.datasets || {});
-    return (
-        <Card sx={{ height: "100%" }}>
+
+    /*!
+       @description: Helper function to encapsulate code
+       @params:
+       @return:
+       @Comments
+       @Coders: TexanRanger
+    */
+    const returnMyChart = () => {
+        return (
             <MDBox padding="1rem">
                 {useMemo(
                     () => (
@@ -44,8 +53,10 @@ const PortionTimeLineChart = ({ color, title, description, chart }) => {
                     </MDTypography>
                 </MDBox>
             </MDBox>
-        </Card>
-    );
+        );
+    };
+
+    return mobileViewFlag ? returnMyChart() : <Card sx={{ height: "100%" }}>{returnMyChart()}</Card>;
 };
 
 // Setting default values for the props of ReportsLineChart
@@ -62,6 +73,7 @@ PortionTimeLineChart.propTypes = {
     // date: PropTypes.string.isRequired,
     // chart: PropTypes.objectOf(PropTypes.oneOfType(PropTypes.array)).isRequired,
     chart: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+    mobileViewFlag: PropTypes.bool,
 };
 
 export default PortionTimeLineChart;

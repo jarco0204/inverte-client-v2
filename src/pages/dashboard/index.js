@@ -25,7 +25,7 @@ import { API, Auth, graphqlOperation } from "aws-amplify";
 
 // User Components
 import PortionPrecisionChart from "./components/PortionPrecisionChart";
-import InventoryWeightChart from "./components/PortionTimeLineChart";
+import PortionTimeLineChart from "./components/PortionTimeLineChart";
 import PortionAccuracyDoughnutChart from "./components/PortionAccuracyDoughnutChart";
 import MobileComplexStatisticsCard from "./components/MobileComplexStatisticsCard";
 
@@ -179,10 +179,21 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
        @params:
        @return:
        @Comments
-       @Coders:
+       @Coders: Underkaner
+    */
+    const generateDoughnutChartResponsive = (mobileViewFlag) => {
+        return <PortionAccuracyDoughnutChart icon={{ color: "success" }} title="Accuracy of Portioning" chartData={doughnutGraph} mobileViewFlag={mobileViewFlag} />;
+    };
+
+    /*!
+       @description:
+       @params:
+       @return:
+       @Comments
+       @Coders: SashaGris
     */
     const generateTimeLineChartResponsive = (mobileViewFlag) => {
-        return <PortionAccuracyDoughnutChart icon={{ color: "success" }} title="Accuracy of Portioning" chartData={doughnutGraph} mobileViewFlag={mobileViewFlag} />;
+        return <PortionTimeLineChart color="success" title="Portion Completion Times" chart={realTimeInventoryGraph} mobileViewFlag={mobileViewFlag} />;
     };
 
     /*!
@@ -447,12 +458,10 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                     <MDBox mb={3}>{generatePrecisionChartResponsive(false)}</MDBox>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
-                                    <MDBox mb={3}>{generateTimeLineChartResponsive(false)}</MDBox>
+                                    <MDBox mb={3}>{generateDoughnutChartResponsive(false)}</MDBox>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
-                                    <MDBox mb={3}>
-                                        <InventoryWeightChart color="success" title="Portion Completion Times" chart={realTimeInventoryGraph} />
-                                    </MDBox>
+                                    <MDBox mb={3}>{generateTimeLineChartResponsive(false)}</MDBox>
                                 </Grid>
                             </Grid>
                         </MDBox>
@@ -507,7 +516,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                     percentage={{
                                         color: "success",
                                     }}
-                                    realTimeData={realTimeAccuracyGraph}
+                                    generateChart={() => generateDoughnutChartResponsive(true)}
                                 />
                             </Grid>
                         </Grid>
