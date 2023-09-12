@@ -126,7 +126,7 @@ const createDoughnutChartObject = (doughnutChartData) => {
     return {
         labels: ["Under serving", "Perfect", "Over Serving"],
         data: doughnutChartData,
-        backgroundColors: ["#0693e3", "#86FF02", "#fa0d0d"],
+        backgroundColors: ["#0693e3", "rgba(83, 212, 88, 1)", "rgba(236,65,1,1)"],
     };
 };
 
@@ -400,7 +400,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                             <Grid item xs={12} md={6} lg={3}>
                                 <MDBox mb={1.5}>
                                     <ComplexStatisticsCard
-                                        color="success"
+                                        color="warning"
                                         icon={<ScaleRoundedIcon />}
                                         title={inventoryConsumedTitle}
                                         count={unitOfMass == "g" ? cardSummaryItems[2] : (parseInt(cardSummaryItems[2]) / 28.35).toFixed(2).toString() + "oz"}
@@ -413,7 +413,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                             <Grid item xs={12} md={6} lg={3}>
                                 <MDBox mb={1.5}>
                                     <ComplexStatisticsCard
-                                        color="warning"
+                                        color="success"
                                         icon={<AccessTimeFilledRoundedIcon />}
                                         title={portionTimeTitle}
                                         count={cardSummaryItems[3]}
@@ -431,12 +431,12 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <PortionAccuracyDoughnutChart icon={{ color: "success" }} title="Portion Accuracy Trend" chartData={doughnutGraph} />
+                                        <PortionAccuracyDoughnutChart icon={{ color: "success" }} title="Accuracy of Portioning" chartData={doughnutGraph} />
                                     </MDBox>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <InventoryWeightChart color="warning" title="Portion Completion Times" chart={realTimeInventoryGraph} />
+                                        <InventoryWeightChart color="success" title="Portion Completion Times" chart={realTimeInventoryGraph} />
                                     </MDBox>
                                 </Grid>
                             </Grid>
