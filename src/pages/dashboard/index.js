@@ -401,9 +401,9 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                 <MDBox mb={1.5}>
                                     <ComplexStatisticsCard
                                         color="success"
-                                        icon={<AccessTimeFilledRoundedIcon />}
-                                        title={portionTimeTitle}
-                                        count={cardSummaryItems[3]}
+                                        icon={<ScaleRoundedIcon />}
+                                        title={inventoryConsumedTitle}
+                                        count={unitOfMass == "g" ? cardSummaryItems[2] : (parseInt(cardSummaryItems[2]) / 28.35).toFixed(2).toString() + "oz"}
                                         percentage={{
                                             color: "success",
                                         }}
@@ -414,9 +414,9 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                 <MDBox mb={1.5}>
                                     <ComplexStatisticsCard
                                         color="warning"
-                                        icon={<ScaleRoundedIcon />}
-                                        title={inventoryConsumedTitle}
-                                        count={unitOfMass == "g" ? cardSummaryItems[2] : (parseInt(cardSummaryItems[2]) / 28.35).toFixed(2).toString() + "oz"}
+                                        icon={<AccessTimeFilledRoundedIcon />}
+                                        title={portionTimeTitle}
+                                        count={cardSummaryItems[3]}
                                         percentage={{
                                             color: "success",
                                         }}
@@ -431,12 +431,12 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <InventoryWeightChart color="success" title="Portion Completion Times" chart={realTimeInventoryGraph} />
+                                        <PortionAccuracyDoughnutChart icon={{ color: "success" }} title="Portion Accuracy Trend" chartData={doughnutGraph} />
                                     </MDBox>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
-                                        <PortionAccuracyDoughnutChart icon={{ color: "success" }} title="Portion Accuracy Trend" chartData={doughnutGraph} />
+                                        <InventoryWeightChart color="warning" title="Portion Completion Times" chart={realTimeInventoryGraph} />
                                     </MDBox>
                                 </Grid>
                             </Grid>
