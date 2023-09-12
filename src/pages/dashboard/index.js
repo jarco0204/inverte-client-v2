@@ -175,6 +175,17 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
     };
 
     /*!
+       @description:
+       @params:
+       @return:
+       @Comments
+       @Coders:
+    */
+    const generateTimeLineChartResponsive = (mobileViewFlag) => {
+        return <PortionAccuracyDoughnutChart icon={{ color: "success" }} title="Accuracy of Portioning" chartData={doughnutGraph} mobileViewFlag={mobileViewFlag} />;
+    };
+
+    /*!
         @description: Update the index number of selected ingredient in dynamo 
         @params: integer
         @return:
@@ -436,9 +447,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                     <MDBox mb={3}>{generatePrecisionChartResponsive(false)}</MDBox>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
-                                    <MDBox mb={3}>
-                                        <PortionAccuracyDoughnutChart icon={{ color: "success" }} title="Accuracy of Portioning" chartData={doughnutGraph} />
-                                    </MDBox>
+                                    <MDBox mb={3}>{generateTimeLineChartResponsive(false)}</MDBox>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
@@ -486,7 +495,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                     percentage={{
                                         color: "success",
                                     }}
-                                    realTimeData={realTimeAccuracyGraph}
+                                    generateChart={() => generateTimeLineChartResponsive(true)}
                                 />
                             </Grid>
                             <Grid item xs={12} md={6} lg={3}>

@@ -13,7 +13,7 @@ import MDTypography from "../../../../components/MDTypography";
    @Comments
    @Coders: HumbleDior
 */
-const PortionAccuracyDoughnutChart = ({ icon, title, description, chartData }) => {
+const PortionAccuracyDoughnutChart = ({ icon, title, description, chartData, mobileViewFlag }) => {
     const { labels, data, backgroundColors } = chartData;
 
     const chartOptions = {
@@ -26,8 +26,15 @@ const PortionAccuracyDoughnutChart = ({ icon, title, description, chartData }) =
         },
     };
 
-    const renderChart = (
-        <Card sx={{ height: "100%" }}>
+    /*!
+       @description:
+       @params:
+       @return:
+       @Comments
+       @Coders: ADNama
+    */
+    const genateDoughnutChart = () => {
+        return (
             <MDBox padding="1rem" bgColor="transparent">
                 <MDBox borderRadius="lg" py={1} pr={0.5} mt={-5} height="14rem" bgColor="transparent">
                     <Doughnut data={{ labels, datasets: [{ data, backgroundColor: backgroundColors, label: "Percentage (%)" }] }} options={chartOptions} />
@@ -38,8 +45,10 @@ const PortionAccuracyDoughnutChart = ({ icon, title, description, chartData }) =
                     </MDTypography>
                 </MDBox>
             </MDBox>
-        </Card>
-    );
+        );
+    };
+
+    const renderChart = mobileViewFlag ? genateDoughnutChart() : <Card sx={{ height: "100%" }}>{genateDoughnutChart()}</Card>;
 
     return title || description ? <>{renderChart}</> : renderChart;
 };
@@ -64,6 +73,7 @@ PortionAccuracyDoughnutChart.propTypes = {
         data: PropTypes.arrayOf(PropTypes.number).isRequired,
         backgroundColors: PropTypes.arrayOf(PropTypes.string).isRequired,
     }).isRequired,
+    mobileViewFlag: PropTypes.bool.isRequired,
 };
 
 export default PortionAccuracyDoughnutChart;
