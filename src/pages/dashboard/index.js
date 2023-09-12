@@ -26,7 +26,7 @@ import { API, Auth, graphqlOperation } from "aws-amplify";
 
 // User Components
 import PortionPrecisionChart from "./components/PortionPrecisionChart";
-import InventoryWeightChart from "./components/InventoryWeightChart";
+import InventoryWeightChart from "./components/PortionTimeLineChart";
 import MobileComplexStatisticsCard from "./components/MobileComplexStatisticsCard";
 
 // External Libraries
@@ -163,19 +163,16 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
     const [selectedIndex, setSelectedIndex] = useState(displayIngredientIndex);
     const keys = Object.keys(iotThingNames);
 
-    // UseEffect to change layout for mobile devices
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobileDevice(window.innerWidth < 1100);
-        };
-        window.addEventListener("resize", handleResize);
-
-        handleResize();
-
-        return () => {
-            window.removeEventListener("resize", handleResize);
-        };
-    }, []);
+    /*!
+        @description:
+        @params:
+        @return:
+        @Comments
+        @Coders: TheBestCoderInAmerica
+    */
+    const generatePrecisionChartResponsive = () => {
+        return <PortionPrecisionChart color="info" title="Precision of Portioning" chart={realTimePrecisionGraph} />;
+    };
 
     /*!
         @description: Update the index number of selected ingredient in dynamo 
@@ -349,6 +346,20 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
         };
     }, [selectedIndex]);
 
+    // UseEffect to change layout for mobile devices
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobileDevice(window.innerWidth < 1100);
+        };
+        window.addEventListener("resize", handleResize);
+
+        handleResize();
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
+
     return (
         <DashboardLayout>
             <DropDownIngredientMenu options={options} selectedIndexRef={selectedIndexRef} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} titleForPage={"Daily InVentory Report"} />
@@ -416,9 +427,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                         <MDBox mt={4.75}>
                             <Grid container spacing={3}>
                                 <Grid item xs={12} md={6} lg={4}>
-                                    <MDBox mb={3}>
-                                        <PortionPrecisionChart color="info" title="Precision of Portioning" chart={realTimePrecisionGraph} />
-                                    </MDBox>
+                                    <MDBox mb={3}>{generatePrecisionChartResponsive()}</MDBox>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>
@@ -459,7 +468,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                     percentage={{
                                         color: "success",
                                     }}
-                                    realTimeData={realTimeInventoryGraph}
+                                    generateChart={generatePrecisionChartResponsive}
                                 />
                             </Grid>
                             <Grid item xs={12} md={6} lg={3}>

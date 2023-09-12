@@ -14,7 +14,7 @@ import { Grid } from "@mui/material";
 import { useState } from "react";
 import ReportsLineChartV2 from "../MobileReportsLineChart";
 
-const MobileComplexStatisticsCard = ({ color, title, count, icon, realTimeData }) => {
+const MobileComplexStatisticsCard = ({ color, title, count, icon, generateChart }) => {
     // Component State
     const [isOpen, setIsOpen] = useState(false);
 
@@ -55,9 +55,7 @@ const MobileComplexStatisticsCard = ({ color, title, count, icon, realTimeData }
                     <MDBox pb={1} px={3}>
                         <Grid container spacing={3}>
                             <Grid item xs={12} md={6} lg={4}>
-                                <MDBox mb={3}>
-                                    <ReportsLineChartV2 color={color} title={title} chart={realTimeData} />
-                                </MDBox>
+                                <MDBox mb={3}>{generateChart()}</MDBox>
                             </Grid>
                         </Grid>
                         <MDBox display="flex" justifyContent="right" py={0.1}>
