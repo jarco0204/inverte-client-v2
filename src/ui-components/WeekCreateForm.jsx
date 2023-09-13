@@ -31,7 +31,6 @@ export default function WeekCreateForm(props) {
   const initialValues = {
     weekOfYear_iotNameThing: "",
     monthOfYear_iotNameThing: "",
-    realTime: "",
     scaleActions: "",
   };
   const [weekOfYear_iotNameThing, setWeekOfYear_iotNameThing] = React.useState(
@@ -39,7 +38,6 @@ export default function WeekCreateForm(props) {
   );
   const [monthOfYear_iotNameThing, setMonthOfYear_iotNameThing] =
     React.useState(initialValues.monthOfYear_iotNameThing);
-  const [realTime, setRealTime] = React.useState(initialValues.realTime);
   const [scaleActions, setScaleActions] = React.useState(
     initialValues.scaleActions
   );
@@ -47,14 +45,12 @@ export default function WeekCreateForm(props) {
   const resetStateValues = () => {
     setWeekOfYear_iotNameThing(initialValues.weekOfYear_iotNameThing);
     setMonthOfYear_iotNameThing(initialValues.monthOfYear_iotNameThing);
-    setRealTime(initialValues.realTime);
     setScaleActions(initialValues.scaleActions);
     setErrors({});
   };
   const validations = {
     weekOfYear_iotNameThing: [{ type: "Required" }],
     monthOfYear_iotNameThing: [{ type: "Required" }],
-    realTime: [{ type: "JSON" }],
     scaleActions: [{ type: "JSON" }],
   };
   const runValidationTasks = async (
@@ -85,7 +81,6 @@ export default function WeekCreateForm(props) {
         let modelFields = {
           weekOfYear_iotNameThing,
           monthOfYear_iotNameThing,
-          realTime,
           scaleActions,
         };
         const validationResponses = await Promise.all(
@@ -151,7 +146,6 @@ export default function WeekCreateForm(props) {
             const modelFields = {
               weekOfYear_iotNameThing: value,
               monthOfYear_iotNameThing,
-              realTime,
               scaleActions,
             };
             const result = onChange(modelFields);
@@ -180,7 +174,6 @@ export default function WeekCreateForm(props) {
             const modelFields = {
               weekOfYear_iotNameThing,
               monthOfYear_iotNameThing: value,
-              realTime,
               scaleActions,
             };
             const result = onChange(modelFields);
@@ -202,32 +195,6 @@ export default function WeekCreateForm(props) {
         {...getOverrideProps(overrides, "monthOfYear_iotNameThing")}
       ></TextField>
       <TextAreaField
-        label="Real time"
-        isRequired={false}
-        isReadOnly={false}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              weekOfYear_iotNameThing,
-              monthOfYear_iotNameThing,
-              realTime: value,
-              scaleActions,
-            };
-            const result = onChange(modelFields);
-            value = result?.realTime ?? value;
-          }
-          if (errors.realTime?.hasError) {
-            runValidationTasks("realTime", value);
-          }
-          setRealTime(value);
-        }}
-        onBlur={() => runValidationTasks("realTime", realTime)}
-        errorMessage={errors.realTime?.errorMessage}
-        hasError={errors.realTime?.hasError}
-        {...getOverrideProps(overrides, "realTime")}
-      ></TextAreaField>
-      <TextAreaField
         label="Scale actions"
         isRequired={false}
         isReadOnly={false}
@@ -237,7 +204,6 @@ export default function WeekCreateForm(props) {
             const modelFields = {
               weekOfYear_iotNameThing,
               monthOfYear_iotNameThing,
-              realTime,
               scaleActions: value,
             };
             const result = onChange(modelFields);

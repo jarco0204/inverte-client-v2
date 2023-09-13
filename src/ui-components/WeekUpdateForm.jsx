@@ -33,7 +33,6 @@ export default function WeekUpdateForm(props) {
   const initialValues = {
     weekOfYear_iotNameThing: "",
     monthOfYear_iotNameThing: "",
-    realTime: "",
     scaleActions: "",
   };
   const [weekOfYear_iotNameThing, setWeekOfYear_iotNameThing] = React.useState(
@@ -41,7 +40,6 @@ export default function WeekUpdateForm(props) {
   );
   const [monthOfYear_iotNameThing, setMonthOfYear_iotNameThing] =
     React.useState(initialValues.monthOfYear_iotNameThing);
-  const [realTime, setRealTime] = React.useState(initialValues.realTime);
   const [scaleActions, setScaleActions] = React.useState(
     initialValues.scaleActions
   );
@@ -52,11 +50,6 @@ export default function WeekUpdateForm(props) {
       : initialValues;
     setWeekOfYear_iotNameThing(cleanValues.weekOfYear_iotNameThing);
     setMonthOfYear_iotNameThing(cleanValues.monthOfYear_iotNameThing);
-    setRealTime(
-      typeof cleanValues.realTime === "string" || cleanValues.realTime === null
-        ? cleanValues.realTime
-        : JSON.stringify(cleanValues.realTime)
-    );
     setScaleActions(
       typeof cleanValues.scaleActions === "string" ||
         cleanValues.scaleActions === null
@@ -86,7 +79,6 @@ export default function WeekUpdateForm(props) {
   const validations = {
     weekOfYear_iotNameThing: [{ type: "Required" }],
     monthOfYear_iotNameThing: [{ type: "Required" }],
-    realTime: [{ type: "JSON" }],
     scaleActions: [{ type: "JSON" }],
   };
   const runValidationTasks = async (
@@ -117,7 +109,6 @@ export default function WeekUpdateForm(props) {
         let modelFields = {
           weekOfYear_iotNameThing,
           monthOfYear_iotNameThing,
-          realTime: realTime ?? null,
           scaleActions: scaleActions ?? null,
         };
         const validationResponses = await Promise.all(
@@ -181,7 +172,6 @@ export default function WeekUpdateForm(props) {
             const modelFields = {
               weekOfYear_iotNameThing: value,
               monthOfYear_iotNameThing,
-              realTime,
               scaleActions,
             };
             const result = onChange(modelFields);
@@ -210,7 +200,6 @@ export default function WeekUpdateForm(props) {
             const modelFields = {
               weekOfYear_iotNameThing,
               monthOfYear_iotNameThing: value,
-              realTime,
               scaleActions,
             };
             const result = onChange(modelFields);
@@ -232,33 +221,6 @@ export default function WeekUpdateForm(props) {
         {...getOverrideProps(overrides, "monthOfYear_iotNameThing")}
       ></TextField>
       <TextAreaField
-        label="Real time"
-        isRequired={false}
-        isReadOnly={false}
-        value={realTime}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              weekOfYear_iotNameThing,
-              monthOfYear_iotNameThing,
-              realTime: value,
-              scaleActions,
-            };
-            const result = onChange(modelFields);
-            value = result?.realTime ?? value;
-          }
-          if (errors.realTime?.hasError) {
-            runValidationTasks("realTime", value);
-          }
-          setRealTime(value);
-        }}
-        onBlur={() => runValidationTasks("realTime", realTime)}
-        errorMessage={errors.realTime?.errorMessage}
-        hasError={errors.realTime?.hasError}
-        {...getOverrideProps(overrides, "realTime")}
-      ></TextAreaField>
-      <TextAreaField
         label="Scale actions"
         isRequired={false}
         isReadOnly={false}
@@ -269,7 +231,6 @@ export default function WeekUpdateForm(props) {
             const modelFields = {
               weekOfYear_iotNameThing,
               monthOfYear_iotNameThing,
-              realTime,
               scaleActions: value,
             };
             const result = onChange(modelFields);

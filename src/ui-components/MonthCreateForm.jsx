@@ -31,7 +31,6 @@ export default function MonthCreateForm(props) {
   const initialValues = {
     monthOfYear_iotNameThing: "",
     year_iotNameThing: "",
-    realTime: "",
     scaleActions: "",
   };
   const [monthOfYear_iotNameThing, setMonthOfYear_iotNameThing] =
@@ -39,7 +38,6 @@ export default function MonthCreateForm(props) {
   const [year_iotNameThing, setYear_iotNameThing] = React.useState(
     initialValues.year_iotNameThing
   );
-  const [realTime, setRealTime] = React.useState(initialValues.realTime);
   const [scaleActions, setScaleActions] = React.useState(
     initialValues.scaleActions
   );
@@ -47,14 +45,12 @@ export default function MonthCreateForm(props) {
   const resetStateValues = () => {
     setMonthOfYear_iotNameThing(initialValues.monthOfYear_iotNameThing);
     setYear_iotNameThing(initialValues.year_iotNameThing);
-    setRealTime(initialValues.realTime);
     setScaleActions(initialValues.scaleActions);
     setErrors({});
   };
   const validations = {
     monthOfYear_iotNameThing: [{ type: "Required" }],
     year_iotNameThing: [{ type: "Required" }],
-    realTime: [{ type: "JSON" }],
     scaleActions: [{ type: "JSON" }],
   };
   const runValidationTasks = async (
@@ -85,7 +81,6 @@ export default function MonthCreateForm(props) {
         let modelFields = {
           monthOfYear_iotNameThing,
           year_iotNameThing,
-          realTime,
           scaleActions,
         };
         const validationResponses = await Promise.all(
@@ -151,7 +146,6 @@ export default function MonthCreateForm(props) {
             const modelFields = {
               monthOfYear_iotNameThing: value,
               year_iotNameThing,
-              realTime,
               scaleActions,
             };
             const result = onChange(modelFields);
@@ -183,7 +177,6 @@ export default function MonthCreateForm(props) {
             const modelFields = {
               monthOfYear_iotNameThing,
               year_iotNameThing: value,
-              realTime,
               scaleActions,
             };
             const result = onChange(modelFields);
@@ -202,32 +195,6 @@ export default function MonthCreateForm(props) {
         {...getOverrideProps(overrides, "year_iotNameThing")}
       ></TextField>
       <TextAreaField
-        label="Real time"
-        isRequired={false}
-        isReadOnly={false}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              monthOfYear_iotNameThing,
-              year_iotNameThing,
-              realTime: value,
-              scaleActions,
-            };
-            const result = onChange(modelFields);
-            value = result?.realTime ?? value;
-          }
-          if (errors.realTime?.hasError) {
-            runValidationTasks("realTime", value);
-          }
-          setRealTime(value);
-        }}
-        onBlur={() => runValidationTasks("realTime", realTime)}
-        errorMessage={errors.realTime?.errorMessage}
-        hasError={errors.realTime?.hasError}
-        {...getOverrideProps(overrides, "realTime")}
-      ></TextAreaField>
-      <TextAreaField
         label="Scale actions"
         isRequired={false}
         isReadOnly={false}
@@ -237,7 +204,6 @@ export default function MonthCreateForm(props) {
             const modelFields = {
               monthOfYear_iotNameThing,
               year_iotNameThing,
-              realTime,
               scaleActions: value,
             };
             const result = onChange(modelFields);

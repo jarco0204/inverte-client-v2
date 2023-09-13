@@ -15,13 +15,11 @@ export declare type ValidationFunction<T> = (value: T, validationResponse: Valid
 export declare type MonthCreateFormInputValues = {
     monthOfYear_iotNameThing?: string;
     year_iotNameThing?: string;
-    realTime?: string;
     scaleActions?: string;
 };
 export declare type MonthCreateFormValidationValues = {
     monthOfYear_iotNameThing?: ValidationFunction<string>;
     year_iotNameThing?: ValidationFunction<string>;
-    realTime?: ValidationFunction<string>;
     scaleActions?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
@@ -29,7 +27,6 @@ export declare type MonthCreateFormOverridesProps = {
     MonthCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
     monthOfYear_iotNameThing?: PrimitiveOverrideProps<TextFieldProps>;
     year_iotNameThing?: PrimitiveOverrideProps<TextFieldProps>;
-    realTime?: PrimitiveOverrideProps<TextAreaFieldProps>;
     scaleActions?: PrimitiveOverrideProps<TextAreaFieldProps>;
 } & EscapeHatchProps;
 export declare type MonthCreateFormProps = React.PropsWithChildren<{

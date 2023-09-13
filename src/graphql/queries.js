@@ -141,7 +141,6 @@ export const getIngredient = /* GraphQL */ `
         items {
           year_iotNameThing
           ingredientName_weight
-          realTime
           scaleActions
           createdAt
           updatedAt
@@ -207,7 +206,6 @@ export const getYear = /* GraphQL */ `
         year {
           year_iotNameThing
           ingredientName_weight
-          realTime
           scaleActions
           createdAt
           updatedAt
@@ -216,13 +214,11 @@ export const getYear = /* GraphQL */ `
         }
         __typename
       }
-      realTime
       scaleActions
       month {
         items {
           monthOfYear_iotNameThing
           year_iotNameThing
-          realTime
           scaleActions
           createdAt
           updatedAt
@@ -268,7 +264,6 @@ export const listYears = /* GraphQL */ `
           perfect
           __typename
         }
-        realTime
         scaleActions
         month {
           nextToken
@@ -301,7 +296,6 @@ export const getMonth = /* GraphQL */ `
         month {
           monthOfYear_iotNameThing
           year_iotNameThing
-          realTime
           scaleActions
           createdAt
           updatedAt
@@ -310,13 +304,11 @@ export const getMonth = /* GraphQL */ `
         }
         __typename
       }
-      realTime
       scaleActions
       week {
         items {
           weekOfYear_iotNameThing
           monthOfYear_iotNameThing
-          realTime
           scaleActions
           createdAt
           updatedAt
@@ -362,7 +354,6 @@ export const listMonths = /* GraphQL */ `
           perfect
           __typename
         }
-        realTime
         scaleActions
         week {
           nextToken
@@ -395,7 +386,6 @@ export const getWeek = /* GraphQL */ `
         week {
           weekOfYear_iotNameThing
           monthOfYear_iotNameThing
-          realTime
           scaleActions
           createdAt
           updatedAt
@@ -404,7 +394,6 @@ export const getWeek = /* GraphQL */ `
         }
         __typename
       }
-      realTime
       scaleActions
       day {
         items {
@@ -456,7 +445,6 @@ export const listWeeks = /* GraphQL */ `
           perfect
           __typename
         }
-        realTime
         scaleActions
         day {
           nextToken
@@ -873,7 +861,6 @@ export const yearsByIngredientName_weight = /* GraphQL */ `
           perfect
           __typename
         }
-        realTime
         scaleActions
         month {
           nextToken
@@ -918,7 +905,6 @@ export const monthsByYear_iotNameThing = /* GraphQL */ `
           perfect
           __typename
         }
-        realTime
         scaleActions
         week {
           nextToken
@@ -963,7 +949,6 @@ export const weeksByMonthOfYear_iotNameThing = /* GraphQL */ `
           perfect
           __typename
         }
-        realTime
         scaleActions
         day {
           nextToken
