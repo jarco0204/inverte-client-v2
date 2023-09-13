@@ -10,12 +10,12 @@ function configs(labels, data, backgroundColors) {
             ],
         },
         options: {
+            animation: false,
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
                 legend: {
                     display: true,
-                    position: "right",
                 },
             },
         },
