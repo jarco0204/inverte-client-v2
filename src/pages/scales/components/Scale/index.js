@@ -26,6 +26,7 @@ import MDBox from "../../../../components/MDBox";
 import MDTypography from "../../../../components/MDTypography";
 import { TareButton, StartButton, ExpandMore } from "./ScaleButtons";
 import { updateRestaurant } from "../../../../graphql/mutations";
+import { getRestaurant } from "../../../../graphql/queries";
 
 /*!
    @description: Center 3 buttons to control your scale card
@@ -123,15 +124,24 @@ const Scale = ({ mainScaleData }) => {
         const user = await Auth.currentAuthenticatedUser();
         let iotThingNames;
         try {
-            const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
-            const path = "/restaurants/updateIngredientName/";
-            const finalAPIRoute = path + user.username; //TODO: Cases where userSession is empty
+            // const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
+            // const path = "/restaurants/updateIngredientName/";
+            // const finalAPIRoute = path + user.username; //TODO: Cases where userSession is empty
 
-            // Make API Call
-            await API.get(AMPLIFY_API, finalAPIRoute, { queryStringParameters: { iotNameThing: mainScaleData.iotNameThing, ingredientName: nameIngredient } }).then((response) => {
-                console.log("The new IotThingNames is:", response);
-                iotThingNames = JSON.stringify(response);
+            // // Make API Call
+            // await API.get(AMPLIFY_API, finalAPIRoute, { queryStringParameters: { iotNameThing: mainScaleData.iotNameThing, ingredientName: nameIngredient } }).then((response) => {
+            //     console.log("The new IotThingNames is:", response);
+            //     iotThingNames = JSON.stringify(response);
+            // });
+            const response = await API.graphql({
+                query: getRestaurant,
+                variables: { restaurant_id: user.username },
             });
+            console.log("The iotThingNames are", response.data.getRestaurant.iotThingNames);
+            let iotThingNames = JSON.parse(response.data.getRestaurant.iotThingNames);
+            iotThingNames[mainScaleData.iotNameThing] = nameIngredient;
+            iotThingNames = JSON.stringify(iotThingNames);
+
             const inputData = { restaurant_id: user.username, iotThingNames: iotThingNames };
             const response1 = await API.graphql({
                 query: updateRestaurant,

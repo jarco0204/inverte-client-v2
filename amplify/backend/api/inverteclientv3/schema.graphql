@@ -29,7 +29,6 @@ type Year @model {
     year_iotNameThing: ID! @primaryKey
     ingredientName_weight: ID! @index(name: "byIngredient")
     yearlySummary: YearlySummary
-    realTime: AWSJSON
     scaleActions: AWSJSON
     month: [Month] @hasMany(indexName: "byYear")
 }
@@ -37,7 +36,6 @@ type Month @model {
     monthOfYear_iotNameThing: ID! @primaryKey
     year_iotNameThing: ID! @index(name: "byYear")
     monthlySummary: MonthlySummary
-    realTime: AWSJSON
     scaleActions: AWSJSON
     week: [Week] @hasMany(indexName: "byMonth")
 }
@@ -46,7 +44,6 @@ type Week @model {
     weekOfYear_iotNameThing: ID! @primaryKey
     monthOfYear_iotNameThing: ID! @index(name: "byMonth")
     weeklySummary: WeeklySummary
-    realTime: AWSJSON
     scaleActions: AWSJSON
     day: [Day] @hasMany(indexName: "byWeek")
 }

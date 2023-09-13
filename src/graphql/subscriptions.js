@@ -245,7 +245,6 @@ export const onCreateIngredient = /* GraphQL */ `
         items {
           year_iotNameThing
           ingredientName_weight
-          realTime
           scaleActions
           createdAt
           updatedAt
@@ -273,7 +272,6 @@ export const onUpdateIngredient = /* GraphQL */ `
         items {
           year_iotNameThing
           ingredientName_weight
-          realTime
           scaleActions
           createdAt
           updatedAt
@@ -301,7 +299,6 @@ export const onDeleteIngredient = /* GraphQL */ `
         items {
           year_iotNameThing
           ingredientName_weight
-          realTime
           scaleActions
           createdAt
           updatedAt
@@ -335,7 +332,6 @@ export const onCreateYear = /* GraphQL */ `
         year {
           year_iotNameThing
           ingredientName_weight
-          realTime
           scaleActions
           createdAt
           updatedAt
@@ -344,13 +340,11 @@ export const onCreateYear = /* GraphQL */ `
         }
         __typename
       }
-      realTime
       scaleActions
       month {
         items {
           monthOfYear_iotNameThing
           year_iotNameThing
-          realTime
           scaleActions
           createdAt
           updatedAt
@@ -384,7 +378,6 @@ export const onUpdateYear = /* GraphQL */ `
         year {
           year_iotNameThing
           ingredientName_weight
-          realTime
           scaleActions
           createdAt
           updatedAt
@@ -393,13 +386,11 @@ export const onUpdateYear = /* GraphQL */ `
         }
         __typename
       }
-      realTime
       scaleActions
       month {
         items {
           monthOfYear_iotNameThing
           year_iotNameThing
-          realTime
           scaleActions
           createdAt
           updatedAt
@@ -433,7 +424,6 @@ export const onDeleteYear = /* GraphQL */ `
         year {
           year_iotNameThing
           ingredientName_weight
-          realTime
           scaleActions
           createdAt
           updatedAt
@@ -442,13 +432,11 @@ export const onDeleteYear = /* GraphQL */ `
         }
         __typename
       }
-      realTime
       scaleActions
       month {
         items {
           monthOfYear_iotNameThing
           year_iotNameThing
-          realTime
           scaleActions
           createdAt
           updatedAt
@@ -482,7 +470,6 @@ export const onCreateMonth = /* GraphQL */ `
         month {
           monthOfYear_iotNameThing
           year_iotNameThing
-          realTime
           scaleActions
           createdAt
           updatedAt
@@ -491,13 +478,11 @@ export const onCreateMonth = /* GraphQL */ `
         }
         __typename
       }
-      realTime
       scaleActions
       week {
         items {
           weekOfYear_iotNameThing
           monthOfYear_iotNameThing
-          realTime
           scaleActions
           createdAt
           updatedAt
@@ -531,7 +516,6 @@ export const onUpdateMonth = /* GraphQL */ `
         month {
           monthOfYear_iotNameThing
           year_iotNameThing
-          realTime
           scaleActions
           createdAt
           updatedAt
@@ -540,13 +524,11 @@ export const onUpdateMonth = /* GraphQL */ `
         }
         __typename
       }
-      realTime
       scaleActions
       week {
         items {
           weekOfYear_iotNameThing
           monthOfYear_iotNameThing
-          realTime
           scaleActions
           createdAt
           updatedAt
@@ -580,7 +562,6 @@ export const onDeleteMonth = /* GraphQL */ `
         month {
           monthOfYear_iotNameThing
           year_iotNameThing
-          realTime
           scaleActions
           createdAt
           updatedAt
@@ -589,13 +570,11 @@ export const onDeleteMonth = /* GraphQL */ `
         }
         __typename
       }
-      realTime
       scaleActions
       week {
         items {
           weekOfYear_iotNameThing
           monthOfYear_iotNameThing
-          realTime
           scaleActions
           createdAt
           updatedAt
@@ -629,7 +608,6 @@ export const onCreateWeek = /* GraphQL */ `
         week {
           weekOfYear_iotNameThing
           monthOfYear_iotNameThing
-          realTime
           scaleActions
           createdAt
           updatedAt
@@ -638,7 +616,6 @@ export const onCreateWeek = /* GraphQL */ `
         }
         __typename
       }
-      realTime
       scaleActions
       day {
         items {
@@ -678,7 +655,6 @@ export const onUpdateWeek = /* GraphQL */ `
         week {
           weekOfYear_iotNameThing
           monthOfYear_iotNameThing
-          realTime
           scaleActions
           createdAt
           updatedAt
@@ -687,7 +663,6 @@ export const onUpdateWeek = /* GraphQL */ `
         }
         __typename
       }
-      realTime
       scaleActions
       day {
         items {
@@ -727,7 +702,6 @@ export const onDeleteWeek = /* GraphQL */ `
         week {
           weekOfYear_iotNameThing
           monthOfYear_iotNameThing
-          realTime
           scaleActions
           createdAt
           updatedAt
@@ -736,7 +710,6 @@ export const onDeleteWeek = /* GraphQL */ `
         }
         __typename
       }
-      realTime
       scaleActions
       day {
         items {

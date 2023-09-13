@@ -3,10 +3,17 @@ import PropTypes from "prop-types";
 import { Doughnut } from "react-chartjs-2";
 import Card from "@mui/material/Card";
 import Icon from "@mui/material/Icon";
-import MDBox from "../../MDBox";
-import MDTypography from "../../MDTypography";
+import MDBox from "../../../../components/MDBox";
+import MDTypography from "../../../../components/MDTypography";
 
-function DoughnutChartComponent({ icon, title, description, chartData }) {
+/*!
+   @description: Chart component to hold doughnut chart
+   @params:
+   @return:
+   @Comments
+   @Coders: HumbleDior
+*/
+const PortionAccuracyDoughnutChart = ({ icon, title, description, chartData, mobileViewFlag }) => {
     const { labels, data, backgroundColors } = chartData;
 
     const chartOptions = {
@@ -19,11 +26,18 @@ function DoughnutChartComponent({ icon, title, description, chartData }) {
         },
     };
 
-    const renderChart = (
-        <Card sx={{ height: "100%" }}>
-            <MDBox padding="1rem">
-                <MDBox variant="gradient" borderRadius="lg" py={2} pr={0.5} mt={-5} height="14rem">
-                    <Doughnut data={{ labels, datasets: [{ data, backgroundColor: backgroundColors }] }} options={chartOptions} />
+    /*!
+       @description:
+       @params:
+       @return:
+       @Comments
+       @Coders: ADNama
+    */
+    const genateDoughnutChart = () => {
+        return (
+            <MDBox padding="1rem" bgColor="transparent">
+                <MDBox borderRadius="lg" py={1} pr={0.5} mt={-5} height="14rem" bgColor="transparent">
+                    <Doughnut data={{ labels, datasets: [{ data, backgroundColor: backgroundColors, label: "Percentage (%)" }] }} options={chartOptions} />
                 </MDBox>
                 <MDBox pt={3} pb={1} px={1}>
                     <MDTypography variant="h6" textTransform="capitalize">
@@ -31,20 +45,22 @@ function DoughnutChartComponent({ icon, title, description, chartData }) {
                     </MDTypography>
                 </MDBox>
             </MDBox>
-        </Card>
-    );
+        );
+    };
 
-    return title || description ? <Card>{renderChart}</Card> : renderChart;
-}
+    const renderChart = mobileViewFlag ? genateDoughnutChart() : <Card sx={{ height: "100%" }}>{genateDoughnutChart()}</Card>;
 
-DoughnutChartComponent.defaultProps = {
+    return title || description ? <>{renderChart}</> : renderChart;
+};
+
+PortionAccuracyDoughnutChart.defaultProps = {
     icon: { color: "info", component: "" },
     title: "",
     description: "",
     height: "19.125rem",
 };
 
-DoughnutChartComponent.propTypes = {
+PortionAccuracyDoughnutChart.propTypes = {
     icon: PropTypes.shape({
         color: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error", "light", "dark"]),
         component: PropTypes.node,
@@ -57,6 +73,7 @@ DoughnutChartComponent.propTypes = {
         data: PropTypes.arrayOf(PropTypes.number).isRequired,
         backgroundColors: PropTypes.arrayOf(PropTypes.string).isRequired,
     }).isRequired,
+    mobileViewFlag: PropTypes.bool.isRequired,
 };
 
-export default DoughnutChartComponent;
+export default PortionAccuracyDoughnutChart;

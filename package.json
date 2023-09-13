@@ -2,13 +2,12 @@
     "name": "inverte-client-v2",
     "version": "1.0.0",
     "private": true,
-    "description": "InVerte Client V2",
+    "description": "InVerte Client V4",
     "main": "index.js",
     "repository": "https://github.com/jarco0204/inverte-client-v2",
-    "author": "InVerte Dev #1 <jarco0204@outlook.com>",
+    "author": "InVerte FoodTech Inc.",
     "engines": {
-        "node": "14 || 15 || 16 || 18",
-        "npm": ">=6"
+        "node": "16"
     },
     "dependencies": {
         "@aws-amplify/pubsub": "^5.1.8",
@@ -25,7 +24,7 @@
         "@testing-library/react": "^13.2.0",
         "@testing-library/user-event": "^13.5.0",
         "antd": "^5.6.2",
-        "aws-amplify": "^5.0.25",
+        "aws-amplify": "^5.3.10",
         "buffer": "^6.0.3",
         "chart.js": "^4.3.3",
         "chartjs-adapter-moment": "^1.0.1",
@@ -81,6 +80,6 @@
         "prettier": "^2.8.3"
     },
     "volta": {
-        "node": "18.16.1"
+        "node": "16.20.2"
     }
 }

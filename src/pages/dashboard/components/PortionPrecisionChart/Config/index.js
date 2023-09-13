@@ -30,7 +30,7 @@ const PortionPrecisionLineChartConfig = (labels, datasets, pointColorsAR, datase
                     // pointBorderColor: "red",
                     // pointBackgroundColor: "rgba(227, 100, 20, 1)",
                     // pointBackgroundColor: pointColorsAR,
-                    borderColor: "rgba(219, 58, 53, 1)",
+                    borderColor: "rgba(236,65,1,1)",
                     borderWidth: 4,
                     backgroundColor: "transparent",
                     fill: false,
@@ -41,7 +41,7 @@ const PortionPrecisionLineChartConfig = (labels, datasets, pointColorsAR, datase
                     label: datasets1.label,
                     tension: 0.25,
                     pointRadius: 2,
-                    borderColor: "rgba(83, 212, 88, 0.8)", // Green
+                    borderColor: "rgba(83, 212, 88, 1)", // Green
                     borderWidth: 4,
                     backgroundColor: "transparent",
                     fill: false,

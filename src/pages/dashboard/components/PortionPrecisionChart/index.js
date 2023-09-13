@@ -22,7 +22,7 @@ import PortionPrecisionLineChartConfig from "./Config";
    @Comments
    @Coders: EscorpionWin$
 */
-const PortionPrecisionChart = ({ color, title, description, chart }) => {
+const PortionPrecisionChart = ({ color, title, description, chart, mobileViewFlag }) => {
     const { data, options } = PortionPrecisionLineChartConfig(
         chart.labels || [],
         chart.portionEvent || {},
@@ -31,8 +31,16 @@ const PortionPrecisionChart = ({ color, title, description, chart }) => {
         chart.upperLimit || [],
         chart.lowerLimit || []
     );
-    return (
-        <Card sx={{ height: "100%" }}>
+
+    /*!
+        @description: Helper function to simplify component architecture for desktop and mobile
+        @params:
+        @return:
+        @Comments
+        @Coders: ManuLAO
+    */
+    const returnMyChart = () => {
+        return (
             <MDBox padding="1rem">
                 {useMemo(
                     () => (
@@ -51,8 +59,9 @@ const PortionPrecisionChart = ({ color, title, description, chart }) => {
                     </MDTypography>
                 </MDBox>
             </MDBox>
-        </Card>
-    );
+        );
+    };
+    return mobileViewFlag ? returnMyChart() : <Card sx={{ height: "100%" }}>{returnMyChart()}</Card>;
 };
 
 // Setting default values for the props of ReportsLineChart
@@ -69,6 +78,7 @@ PortionPrecisionChart.propTypes = {
     // date: PropTypes.string.isRequired,
     // chart: PropTypes.objectOf(PropTypes.oneOfType(PropTypes.array)).isRequired,
     chart: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+    mobileViewFlag: PropTypes.bool.isRequired,
 };
 
 export default PortionPrecisionChart;

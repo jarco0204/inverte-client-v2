@@ -33,7 +33,6 @@ export default function YearUpdateForm(props) {
   const initialValues = {
     year_iotNameThing: "",
     ingredientName_weight: "",
-    realTime: "",
     scaleActions: "",
   };
   const [year_iotNameThing, setYear_iotNameThing] = React.useState(
@@ -42,7 +41,6 @@ export default function YearUpdateForm(props) {
   const [ingredientName_weight, setIngredientName_weight] = React.useState(
     initialValues.ingredientName_weight
   );
-  const [realTime, setRealTime] = React.useState(initialValues.realTime);
   const [scaleActions, setScaleActions] = React.useState(
     initialValues.scaleActions
   );
@@ -53,11 +51,6 @@ export default function YearUpdateForm(props) {
       : initialValues;
     setYear_iotNameThing(cleanValues.year_iotNameThing);
     setIngredientName_weight(cleanValues.ingredientName_weight);
-    setRealTime(
-      typeof cleanValues.realTime === "string" || cleanValues.realTime === null
-        ? cleanValues.realTime
-        : JSON.stringify(cleanValues.realTime)
-    );
     setScaleActions(
       typeof cleanValues.scaleActions === "string" ||
         cleanValues.scaleActions === null
@@ -85,7 +78,6 @@ export default function YearUpdateForm(props) {
   const validations = {
     year_iotNameThing: [{ type: "Required" }],
     ingredientName_weight: [{ type: "Required" }],
-    realTime: [{ type: "JSON" }],
     scaleActions: [{ type: "JSON" }],
   };
   const runValidationTasks = async (
@@ -116,7 +108,6 @@ export default function YearUpdateForm(props) {
         let modelFields = {
           year_iotNameThing,
           ingredientName_weight,
-          realTime: realTime ?? null,
           scaleActions: scaleActions ?? null,
         };
         const validationResponses = await Promise.all(
@@ -180,7 +171,6 @@ export default function YearUpdateForm(props) {
             const modelFields = {
               year_iotNameThing: value,
               ingredientName_weight,
-              realTime,
               scaleActions,
             };
             const result = onChange(modelFields);
@@ -209,7 +199,6 @@ export default function YearUpdateForm(props) {
             const modelFields = {
               year_iotNameThing,
               ingredientName_weight: value,
-              realTime,
               scaleActions,
             };
             const result = onChange(modelFields);
@@ -228,33 +217,6 @@ export default function YearUpdateForm(props) {
         {...getOverrideProps(overrides, "ingredientName_weight")}
       ></TextField>
       <TextAreaField
-        label="Real time"
-        isRequired={false}
-        isReadOnly={false}
-        value={realTime}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              year_iotNameThing,
-              ingredientName_weight,
-              realTime: value,
-              scaleActions,
-            };
-            const result = onChange(modelFields);
-            value = result?.realTime ?? value;
-          }
-          if (errors.realTime?.hasError) {
-            runValidationTasks("realTime", value);
-          }
-          setRealTime(value);
-        }}
-        onBlur={() => runValidationTasks("realTime", realTime)}
-        errorMessage={errors.realTime?.errorMessage}
-        hasError={errors.realTime?.hasError}
-        {...getOverrideProps(overrides, "realTime")}
-      ></TextAreaField>
-      <TextAreaField
         label="Scale actions"
         isRequired={false}
         isReadOnly={false}
@@ -265,7 +227,6 @@ export default function YearUpdateForm(props) {
             const modelFields = {
               year_iotNameThing,
               ingredientName_weight,
-              realTime,
               scaleActions: value,
             };
             const result = onChange(modelFields);
