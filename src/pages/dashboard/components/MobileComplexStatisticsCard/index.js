@@ -14,7 +14,7 @@ import { Grid } from "@mui/material";
 import { useState } from "react";
 import ReportsLineChartV2 from "../MobileReportsLineChart";
 
-const MobileComplexStatisticsCard = ({ color, title, count, icon, realTimeData }) => {
+const MobileComplexStatisticsCard = ({ color, title, count, icon, generateChart }) => {
     // Component State
     const [isOpen, setIsOpen] = useState(false);
 
@@ -25,7 +25,7 @@ const MobileComplexStatisticsCard = ({ color, title, count, icon, realTimeData }
     return (
         <div>
             <Card onClick={handleClick}>
-                <MDBox display="flex" justifyContent="space-between" pt={1} px={2} height="75px">
+                <MDBox display="flex" justifyContent="space-between" pt={1} px={2} height="90px">
                     <MDBox
                         variant="gradient"
                         bgColor={color}
@@ -50,23 +50,17 @@ const MobileComplexStatisticsCard = ({ color, title, count, icon, realTimeData }
                         <MDTypography variant="h4">{count}</MDTypography>
                     </MDBox>
                 </MDBox>
-                <Divider />
+                {isOpen ? null : <Divider />}
                 {isOpen && (
-                    <MDBox pb={1} px={3}>
-                        <Grid container spacing={3}>
-                            <Grid item xs={12} md={6} lg={4}>
-                                <MDBox mb={3}>
-                                    <ReportsLineChartV2 color={color} title={title} chart={realTimeData} />
-                                </MDBox>
-                            </Grid>
-                        </Grid>
+                    <MDBox>
+                        {generateChart()}
                         <MDBox display="flex" justifyContent="right" py={0.1}>
                             <KeyboardArrowUp />
                         </MDBox>
                     </MDBox>
                 )}
                 {!isOpen && (
-                    <MDBox display="flex" justifyContent="right" py={0.1}>
+                    <MDBox display="flex" justifyContent="right" px={1} py={0.1}>
                         <KeyboardArrowDown />
                     </MDBox>
                 )}
