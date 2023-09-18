@@ -206,10 +206,9 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
     const generateLowerRealTimeGraphs = (realTime) => {
         // Variable definition
         let [tempWeightAR, correctWeightAR, upperLimitAR, lowerLimitAR, tempAccuracyAR, tempTimeAR, pointBackgroundColorAR] = [[], [], [], [], [], [], []];
-        let oldTempKeys = Object.keys(realTime).sort((a, b) => new Date(a) - new Date(b)); //Sort the data by time
+        let oldTempKeys = Object.keys(realTime).sort((a, b) => a - b); //Sort the data by time
 
         let tempKeys = oldTempKeys.slice(-7); //We are slicing the array so that only 7 data points get displayed on the graphs
-
         // Generate Data Arrays
         for (let i = 0; i < tempKeys.length; i++) {
             // TODO: tempKeys should contain this information for each portion event
@@ -240,6 +239,12 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
             // Push Data points to arrays
             tempAccuracyAR.push(realTime[tempKeys[i]].accuracy);
             tempTimeAR.push(parseFloat(realTime[tempKeys[i]].portionTime).toFixed(1));
+        }
+        for (let i = 0; i < tempKeys.length; i++) {
+            tempKeys[i] = dayjs
+                .unix(tempKeys[i] / 1000)
+                .tz(timeZone)
+                .format("MM-DD HH:mm");
         }
 
         // Precision Chart made up of 3 lines
