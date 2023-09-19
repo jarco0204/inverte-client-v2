@@ -13,6 +13,10 @@ const PortionDoughnutChartConfig = (labels, datasets, backgroundColors) => {
                 {
                     data: datasets.data,
                     backgroundColor: backgroundColors,
+                    hoverOffset: 5,
+                    hoverBorderColor: "rgba(1, 1, 1, 0.05)",
+                    hoverBackgroundColor: backgroundColors,
+                    borderAlign: "inner",
                 },
             ],
         },
@@ -23,6 +27,7 @@ const PortionDoughnutChartConfig = (labels, datasets, backgroundColors) => {
             plugins: {
                 legend: {
                     display: false,
+                    position: "bottom",
                 },
             },
         },

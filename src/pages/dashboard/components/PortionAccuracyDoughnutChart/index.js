@@ -25,8 +25,8 @@ const PortionAccuracyDoughnutChart = ({ title, description, chart, mobileViewFla
     */
     const genateDoughnutChart = () => {
         return (
-            <MDBox padding="1rem" bgColor="transparent">
-                <MDBox borderRadius="lg" py={1} pr={0.5} mt={-5} height="14rem" bgColor="transparent">
+            <MDBox padding="1rem">
+                <MDBox py={0.1} mt={-5} height="14rem">
                     <Doughnut data={data} options={options} />
                 </MDBox>
                 <MDBox pt={3} pb={1} px={1}>

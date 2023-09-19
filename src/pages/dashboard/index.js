@@ -420,7 +420,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                     <MDBox mb={3}>{generatePrecisionChartResponsive(false)}</MDBox>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
-                                    <MDBox mb={3}>{generateDoughnutChartResponsive(false)}</MDBox>
+                                    <MDBox mb={1}>{generateDoughnutChartResponsive(false)}</MDBox>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <MDBox mb={3}>{generateTimeLineChartResponsive(false)}</MDBox>
