@@ -1,10 +1,17 @@
-function configs(labels, data, backgroundColors) {
+/*!
+   @description: Configure the portion accuracy doughnut chart
+   @params:
+   @return:
+   @Comments
+   @Coders: GoldyLuck
+*/
+const PortionDoughnutChartConfig = (labels, datasets, backgroundColors) => {
     return {
         data: {
             labels: labels,
             datasets: [
                 {
-                    data: data,
+                    data: datasets.data,
                     backgroundColor: backgroundColors,
                 },
             ],
@@ -15,11 +22,11 @@ function configs(labels, data, backgroundColors) {
             maintainAspectRatio: false,
             plugins: {
                 legend: {
-                    display: true,
+                    display: false,
                 },
             },
         },
     };
-}
+};
 
-export default configs;
+export default PortionDoughnutChartConfig;

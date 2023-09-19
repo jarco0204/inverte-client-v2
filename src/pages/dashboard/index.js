@@ -101,32 +101,17 @@ const createReportLineChartObject = () => {
 };
 
 /*!
-   @description: Helper function ton create an object to store the portion event data.
-   @params:
-   @return:
-   @Comments
-   @Coders: Mohan
-*/
-const createReportBarChartObject = () => {
-    return {
-        labels: [],
-        datasets: { label: "Inventory Weight", data: [], yAxisLabel: "Weight" },
-        pointBackgroundColorAr: [],
-    };
-};
-
-/*!
    @description: Helper function to create Doughnut chart
    @params:
    @return:
    @Comments
    @Coders: Mohan
 */
-const createDoughnutChartObject = (doughnutChartData) => {
+const createDoughnutChartObject = () => {
     return {
         labels: ["Under serving", "Perfect", "Over Serving"],
-        data: doughnutChartData,
-        backgroundColors: ["#0693e3", "rgba(83, 212, 88, 1)", "rgba(236,65,1,1)"],
+        datasets: { label: "Percentage (%)", data: [], yAxisLabel: "Percentage" },
+        pointBackgroundColorAR: ["#0693e3", "rgba(83, 212, 88, 1)", "rgba(236,65,1,1)"],
     };
 };
 
@@ -149,13 +134,11 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
     const [cardSummaryItems, setCardSummaryItems] = useState([]);
     const [realTimePrecisionGraph, setRealTimePrecisionGraph] = useState([]);
     const [realTimeAccuracyGraph, setRealTimeAccuracyGraph] = useState([]);
-    const [doughnutChartData, setDoughnutChartData] = useState([]);
+    const [realTimeInventoryGraph, setRealTimeInventoryGraph] = useState([]);
 
     // Chart Related Variables
-    const [realTimeInventoryGraph, setRealTimeInventoryGraph] = useState([]);
     const { precisionGraph, inventoryGraph } = createReportLineChartObject();
-    const accuracyGraph = createReportBarChartObject(); // TODO: Adapt it to Pie
-    const doughnutGraph = createDoughnutChartObject(doughnutChartData);
+    const accuracyGraph = createDoughnutChartObject();
 
     // Drop-Down Menu State
     const options = Object.values(iotThingNames);
@@ -182,7 +165,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
        @Coders: Underkaner
     */
     const generateDoughnutChartResponsive = (mobileViewFlag) => {
-        return <PortionAccuracyDoughnutChart icon={{ color: "success" }} title="Accuracy of Portioning" chartData={doughnutGraph} mobileViewFlag={mobileViewFlag} />;
+        return <PortionAccuracyDoughnutChart title="Accuracy of Portioning" chart={realTimeAccuracyGraph} mobileViewFlag={mobileViewFlag} />;
     };
 
     /*!
@@ -203,9 +186,9 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
        @Comments
        @Coders: BillyCaine
     */
-    const generateLowerRealTimeGraphs = (realTime) => {
+    const generateLowerRealTimeGraphs = (realTime, accuracyPercentagesAR) => {
         // Variable definition
-        let [tempWeightAR, correctWeightAR, upperLimitAR, lowerLimitAR, tempAccuracyAR, tempTimeAR, pointBackgroundColorAR] = [[], [], [], [], [], [], []];
+        let [tempWeightAR, correctWeightAR, upperLimitAR, lowerLimitAR, tempTimeAR, pointBackgroundColorAR] = [[], [], [], [], [], []];
         let oldTempKeys = Object.keys(realTime).sort((a, b) => a - b); //Sort the data by time
 
         let tempKeys = oldTempKeys.slice(-7); //We are slicing the array so that only 7 data points get displayed on the graphs
@@ -237,7 +220,6 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
             }
 
             // Push Data points to arrays
-            tempAccuracyAR.push(realTime[tempKeys[i]].accuracy);
             tempTimeAR.push(parseFloat(realTime[tempKeys[i]].portionTime).toFixed(1));
         }
         for (let i = 0; i < tempKeys.length; i++) {
@@ -255,10 +237,8 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
         precisionGraph.lowerLimit.data = lowerLimitAR;
         precisionGraph.pointBackgroundColorAR = pointBackgroundColorAR;
 
-        // Accuracy Chart (Pie or Bar)
-        accuracyGraph.labels = tempKeys;
-        accuracyGraph.datasets.data = tempAccuracyAR;
-        accuracyGraph.pointBackgroundColorAr = pointBackgroundColorAR;
+        // Accuracy Chart (Doughnut)
+        accuracyGraph.datasets.data = accuracyPercentagesAR;
 
         // Inventory Weight Chart made up of One Dataset
         inventoryGraph.labels = tempKeys;
@@ -307,7 +287,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                 let inventoryWeight = demoData.getDay.dailySummary.inventoryConsumed + "g";
                 let timeSaved = demoData.getDay.dailySummary.averageTime.toFixed(1) + "s";
                 setCardSummaryItems([demoData.getDay.dailySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
-                generateLowerRealTimeGraphs(demoData.getDay.realTime);
+                generateLowerRealTimeGraphs(demoData.getDay.realTime, [44, 36, 20]);
             } else {
                 if (hour.getDay) {
                     // Set the Upper Summary Card Components
@@ -317,13 +297,10 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                     setCardSummaryItems([hour.getDay.dailySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
 
                     // Add Percentages
-                    // Add Percentages
                     const underPercent = parseInt((hour.getDay.dailySummary.underServed / hour.getDay.dailySummary.portionsCompleted) * 100);
                     const perfectPercent = parseInt((hour.getDay.dailySummary.perfect / hour.getDay.dailySummary.portionsCompleted) * 100);
                     const overPercent = parseInt((hour.getDay.dailySummary.overServed / hour.getDay.dailySummary.portionsCompleted) * 100);
-                    setDoughnutChartData([underPercent, perfectPercent, overPercent]);
-                    // setDoughnutChartData([hour.getDay.dailySummary.underServed, hour.getDay.dailySummary.perfect, hour.getDay.dailySummary.overServed]);
-                    generateLowerRealTimeGraphs(JSON.parse(hour.getDay.realTime));
+                    generateLowerRealTimeGraphs(JSON.parse(hour.getDay.realTime), [underPercent, perfectPercent, overPercent]);
                 } else {
                     // There is no hourly response so add placeholders
                     setCardSummaryItems(["0", "NA", "0", "NA"]);

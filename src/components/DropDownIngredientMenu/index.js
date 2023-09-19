@@ -133,9 +133,7 @@ const DropDownIngredientMenu = ({ options, selectedIndexRef, selectedIndex, setS
                     aria-controls={open ? "lock-menu" : undefined}
                     aria-haspopup="listbox"
                     aria-expanded={open ? "true" : undefined}
-                    disableElevation
                     onClick={handleClick}
-                    endIcon={<KeyboardArrowDown />}
                     style={{ fontFamily: "Roboto", color: "white" }}
                 >
                     <List component="nav" aria-label="Device settings" style={{ fontFamily: "Roboto", color: "white" }}>
