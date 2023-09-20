@@ -24,7 +24,7 @@ const MobileComplexStatisticsCard = ({ color, title, count, icon, generateChart 
     };
     return (
         <div>
-            <Card onClick={handleClick}>
+            <Card>
                 <MDBox display="flex" justifyContent="space-between" pt={1} px={2} height="90px">
                     <MDBox
                         variant="gradient"
@@ -55,13 +55,13 @@ const MobileComplexStatisticsCard = ({ color, title, count, icon, generateChart 
                     <MDBox>
                         {generateChart()}
                         <MDBox display="flex" justifyContent="right" py={0.1}>
-                            <KeyboardArrowUp />
+                            <KeyboardArrowUp onClick={handleClick} />
                         </MDBox>
                     </MDBox>
                 )}
                 {!isOpen && (
                     <MDBox display="flex" justifyContent="right" px={1} py={0.1}>
-                        <KeyboardArrowDown />
+                        <KeyboardArrowDown onClick={handleClick} />
                     </MDBox>
                 )}
             </Card>
