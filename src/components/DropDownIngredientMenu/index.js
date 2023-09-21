@@ -10,8 +10,7 @@ import ListItemText from "@mui/material/ListItemText";
 import { updateRestaurant } from "../../graphql/mutations";
 import { API, Auth, graphqlOperation } from "aws-amplify";
 import { useSelector, useDispatch } from "react-redux";
-import { setSelectedIndex } from "../../../../redux/metaSlice";
-
+import { setSelectedIndex } from "../../redux/metaSlice";
 const StyledMenu = styled((props) => (
     <Menu
         elevation={0}
@@ -53,7 +52,7 @@ const StyledMenu = styled((props) => (
    @Comments
    @Coders: PP111
 */
-const DropDownMenus = ({ options, updateIngredient }) => {
+const DropDownIngredientMenu = ({ options, titleForPage }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const selectedIndexRef = {current: useSelector(state => state.meta.displayIngredient).toString()}
     const selectedIndex = useSelector(state => state.meta.displayIngredient)

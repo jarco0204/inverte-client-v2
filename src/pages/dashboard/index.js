@@ -130,7 +130,7 @@ const DashboardContainer = () => {
     const unitOfMass = useSelector(state => state.meta.unitOfMass)
     const displayIngredientIndex = useSelector(state => state.meta.displayIngredient)
     const timeZone = useSelector(state => state.meta.timeZone)
-    const demo = useSelector(state => state.meta.demo)
+    const clientDemo = useSelector(state => state.meta.demo)
     const portionCompleteTitle = "Portions Completed";
     const portionPrecisionTitle = "Precision Levels";
     const portionTimeTitle = "Average Completion Time";
@@ -365,7 +365,7 @@ const DashboardContainer = () => {
     return (
         <DashboardLayout>
             {/* TODO: ADD Style such that title gets centered with media query (textAlign) */}
-            <DropDownMenus options={options}  updateIngredient={updateIngredient}/>
+            <DropDownIngredientMenu options={options}  titleForPage={"Daily Inventory Report"}/>
 
             {!isMobileDevice && (
                 <div>
@@ -390,11 +390,8 @@ const DashboardContainer = () => {
                                 <MDBox mb={1.5}>
                                     <ComplexStatisticsCard
                                         color="info"
-                                        icon={<PrecisionManufacturingRoundedIcon />}
                                         title={portionPrecisionTitle}
-                                        count={cardSummaryItems[1]}
                                         icon={<ScaleRoundedIcon />}
-                                        title="Total Consumed Inventory"
                                         count={unitOfMass == "g" ? cardSummaryItems[2] : convertGsToOz(cardSummaryItems[2]) + "oz"}
                                         percentage={{
                                             color: "success",
@@ -468,9 +465,6 @@ const DashboardContainer = () => {
                                     icon={<PrecisionManufacturingRoundedIcon />}
                                     title={portionPrecisionTitle}
                                     count={cardSummaryItems[1]}
-                                    icon={<ScaleRoundedIcon />}
-                                    title="Total Consumed Inventory"
-                                    count={unitOfMass == "g" ? cardSummaryItems[2] : convertGsToOz(cardSummaryItems[2]) + "oz"}
                                     percentage={{
                                         color: "success",
                                     }}
