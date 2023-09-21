@@ -14,8 +14,10 @@ import ButtonConfig from "../components/ButtonConfig";
 import SpinnerLoader from "../components/SpinnerLoader";
 import { handleOnMouseEnter, handleOnMouseLeave } from "../components/Sidenav/SidenavBehaviour";
 import DashboardNavbar from "../components/Navbars/DashboardNavbar";
+import { getRestaurant } from "../graphql/queries";
 import { useDispatch, useSelector } from "react-redux";
 import { updateMetaInformation } from "../redux/metaSlice";
+import { setUnitOfMass } from "../redux/metaSlice";
 // import themeDark from "assets/theme-dark"; // TODO
 
 // Pages Containers
@@ -64,7 +66,6 @@ export default function MainContainer() {
         restaurantName,
         demo,
     }
-    const unitOfMass = useSelector(state => state.settings.metric)
     const reduxDispatch = useDispatch()
     const [isMobileDevice, setIsMobileDevice] = useState(false);
 
@@ -130,8 +131,6 @@ export default function MainContainer() {
                 // Const Definition
                 const session = await Auth.currentSession();
                 const user = await Auth.currentAuthenticatedUser();
-                const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
-                const API_PATH = "/restaurants/";
                 setSpinnerLoader(true);
 
                 // Block to Help Debugging
@@ -149,16 +148,13 @@ export default function MainContainer() {
                 }
 
                 try {
-                    const finalAPIRoute = API_PATH + user.username; //TODO: Cases where userSession is empty
-
-                    // Get Essential Restaurant Meta Data using Cognito UserID
-                    await API.get(AMPLIFY_API, finalAPIRoute).then((response) => {
-                        if (response.item.Item == undefined) {
-                            throw new Error("No Response from API");
-                        }
-                        console.log("The meta information is:", response.item.Item);
-                        setMetaInformation(response.item.Item);
+                    const response = await API.graphql({
+                        query: getRestaurant,
+                        variables: { restaurant_id: user.username },
                     });
+                    response.data.getRestaurant.iotThingNames = JSON.parse(response.data.getRestaurant.iotThingNames);
+                    setMetaInformation(response.data.getRestaurant);
+                    setUnitOfMass(response.data.getRestaurant.unitOfMass);
                     setAuthenticated(true);
                     setSpinnerLoader(false);
                 } catch (err) {
