@@ -803,6 +803,7 @@ __metadata:
   version "3.398.0"
   resolved "https://registry.yarnpkg.com/@aws-sdk/client-iot-data-plane/-/client-iot-data-plane-3.398.0.tgz#a2d9785afed334b591dd079797d4f461db4efcc8"
   integrity sha512-aURiQAnz/KVYdXDGN40ND67BiqdIMFpDypXGB7jOqBi+Ih3dO+htQaOPQUmkrB/5/mT1cnVgQvi4PNOiwfK1VQ==
+<<<<<<< HEAD
   dependencies:
     "@aws-crypto/sha256-browser" "3.0.0"
     "@aws-crypto/sha256-js" "3.0.0"
@@ -2739,6 +2740,8 @@ __metadata:
   version "3.398.0"
   resolved "https://registry.yarnpkg.com/@aws-sdk/client-iot-data-plane/-/client-iot-data-plane-3.398.0.tgz#a2d9785afed334b591dd079797d4f461db4efcc8"
   integrity sha512-aURiQAnz/KVYdXDGN40ND67BiqdIMFpDypXGB7jOqBi+Ih3dO+htQaOPQUmkrB/5/mT1cnVgQvi4PNOiwfK1VQ==
+=======
+>>>>>>> d4b314a3a20451741f7f72f7dabac8ff35d2ec06
   dependencies:
     "@aws-crypto/sha256-browser" "3.0.0"
     "@aws-crypto/sha256-js" "3.0.0"
