@@ -17,6 +17,9 @@ import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import Divider from "@mui/material/Divider";
 import Collapse from "@mui/material/Collapse";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormLabel from "@mui/material/FormLabel";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { makeStyles } from "@material-ui/core/styles";
 import { styled } from "@mui/material/styles";
@@ -27,6 +30,8 @@ import MDTypography from "../../../../components/MDTypography";
 import { TareButton, StartButton, ExpandMore } from "./ScaleButtons";
 import { updateRestaurant } from "../../../../graphql/mutations";
 import { getRestaurant } from "../../../../graphql/queries";
+import { Radio } from "antd";
+import { set } from "date-fns";
 
 /*!
    @description: Center 3 buttons to control your scale card
@@ -42,12 +47,16 @@ const CustomizedCardActions = styled(CardActions)`
 
 const Scale = ({ mainScaleData }) => {
     // Classic Shadow Parameters
+    const [textBoxValue, setTextBoxValue] = useState(0);
     const [nameIngredient, setNameIngredient] = useState("");
-    const [correctWeight, setCorrectWeight] = useState(24);
+    const [correctWeight1, setCorrectWeight1] = useState(24);
+    const [correctWeight2, setCorrectWeight2] = useState(30);
+    const [correctWeight3, setCorrectWeight3] = useState(35);
     const [minOffset, setMinOffset] = useState(3);
     const [maxOffset, setMaxOffset] = useState(3);
     const [unitOfMass, setUnitOfMass] = useState("g"); // Unit of mass for the scale
-
+    const [value, setValue] = useState(correctWeight3);
+    const [weightIndex, setWeightIndex] = useState(0);
     // Timeseries Shadow Parameters
     const [realTimeWeight, setRealTimeWeight] = useState(0);
     const [realTimeTemperature, setRealTimeTemperature] = useState("Off");
@@ -91,24 +100,55 @@ const Scale = ({ mainScaleData }) => {
     */
     const updateShadow = async (event) => {
         const updateThingShadowRequestInput = { state: { desired: {} } };
-
+        const correctWeightIndex = 1;
         // Determine which property of shadow to update
         if (event.target.name === "ingredientNameField") {
             updateThingShadowRequestInput.state.desired["nameIngredient"] = nameIngredient;
             updateIngredientName(); // Update the ingredient name in the database
-        } else if (event.target.name === "correctWeightField") {
-            updateThingShadowRequestInput.state.desired["correctWeight"] = correctWeight;
-            updateThingShadowRequestInput.state.desired["multiplier"] = "1";
         } else if (event.target.name === "minOffsetField") {
             updateThingShadowRequestInput.state.desired["lowerErrorLimit"] = minOffset;
         } else if (event.target.name === "maxOffsetField") {
             updateThingShadowRequestInput.state.desired["upperErrorLimit"] = maxOffset;
+        } else if (event.target.data_name != undefined) {
+            if (event.target.data_name === "correctWeight1") {
+                updateThingShadowRequestInput.state.desired["correctWeightIndex"] = correctWeightIndex;
+                setWeightIndex(0);
+            } else if (event.target.data_name === "correctWeight2") {
+                updateThingShadowRequestInput.state.desired["correctWeightIndex"] = correctWeightIndex;
+                setWeightIndex(1);
+            } else {
+                updateThingShadowRequestInput.state.desired["correctWeightIndex"] = correctWeightIndex;
+                setWeightIndex(2);
+            }
         } else {
             console.log("error while trying to change the scale state");
         }
 
         // Update Shadow
         let shadowTopic = "$aws/things/" + mainScaleData.iotNameThing + "/shadow/update";
+        PubSub.publish(shadowTopic, updateThingShadowRequestInput);
+        console.log("Shadow Update...", updateThingShadowRequestInput); // Debug Statement
+    };
+    /*!
+        @description: Function to update the IoT Device Timeseries Shadow by using PubSub Amplify MQTT Client
+        @params:
+        @return:
+        @Comments
+        @Coders: MHyke
+    */
+    const updateTimeseriesShadow = async (event) => {
+        const updateThingShadowRequestInput = { state: { desired: {} } };
+        if (event.target.name === "correctWeightField") {
+            if (weightIndex == 0) {
+                updateThingShadowRequestInput.state.desired["correctWeight1"] = parseInt(textBoxValue);
+            } else if (weightIndex == 1) {
+                updateThingShadowRequestInput.state.desired["correctWeight2"] = parseInt(textBoxValue);
+            } else if (weightIndex == 2) {
+                updateThingShadowRequestInput.state.desired["correctWeight3"] = parseInt(textBoxValue);
+            }
+        }
+        // Update Shadow
+        let shadowTopic = "$aws/things/" + mainScaleData.iotNameThing + "/shadow/name/timeseries/update";
         PubSub.publish(shadowTopic, updateThingShadowRequestInput);
         console.log("Shadow Update...", updateThingShadowRequestInput); // Debug Statement
     };
@@ -199,12 +239,21 @@ const Scale = ({ mainScaleData }) => {
 
                 // Update Scale State Parameters
                 setNameIngredient(dataCloud.reported.nameIngredient);
-                setCorrectWeight(dataCloud.reported.correctWeight);
                 setMinOffset(dataCloud.reported.lowerErrorLimit);
                 setMaxOffset(dataCloud.reported.upperErrorLimit);
                 setUnitOfMass(dataCloud.reported.unitOfMass);
-
+                setWeightIndex(dataCloud.reported.correctWeightIndex);
                 //Unsubcribe to topic after fething and updating parameters
+                if (dataCloud.reported.correctWeightIndex == 0) {
+                    setValue(correctWeight1);
+                    setTextBoxValue(correctWeight1);
+                } else if (dataCloud.reported.correctWeightIndex == 1) {
+                    setValue(correctWeight2);
+                    setTextBoxValue(correctWeight2);
+                } else if (dataCloud.reported.correctWeightIndex == 2) {
+                    setValue(correctWeight3);
+                    setTextBoxValue(correctWeight3);
+                }
                 subscription.unsubscribe();
             },
             error: (error) => console.error("Error in GET/Accepted web socket...", error),
@@ -225,7 +274,9 @@ const Scale = ({ mainScaleData }) => {
                     setRealTimeTemperature("On");
                     setRealTimeWeight(dataCloud.inventoryWeight);
                 }
-
+                setCorrectWeight1(dataCloud.correctWeight1);
+                setCorrectWeight2(dataCloud.correctWeight2);
+                setCorrectWeight3(dataCloud.correctWeight3);
                 //Unsubcribe to topic after fething and updating parameters
                 subscriptionTimeSeriesShadow.unsubscribe();
             },
@@ -246,6 +297,7 @@ const Scale = ({ mainScaleData }) => {
             next: (dataCloud) => {
                 dataCloud = dataCloud.value;
                 setRealTimeWeight(dataCloud.state.reported.inventoryWeight);
+                console.log("The data cloud is", dataCloud);
 
                 if (dataCloud.state.reported.temperature) {
                     setRealTimeTemperature(dataCloud.state.reported.temperature + "℃");
@@ -263,7 +315,48 @@ const Scale = ({ mainScaleData }) => {
             complete: () => console.log("Web Socket Done"),
         });
     }, []);
+    /*!
+   @description: On change function for radio button to select the portion sizes
+   @params:
+   @return:
+   @Comments
+   @Coders:Cyno
+*/
 
+    const onChange = (e) => {
+        console.log("radio checked", e.target);
+        setValue(e.target.value);
+        if (e.target.data_name == "correctWeight1") {
+            setValue(correctWeight1);
+            setTextBoxValue(correctWeight1);
+            updateShadow(e);
+        } else if (e.target.data_name == "correctWeight2") {
+            setValue(correctWeight2);
+            setTextBoxValue(correctWeight2);
+            updateShadow(e);
+        } else if (e.target.data_name == "correctWeight3") {
+            setValue(correctWeight3);
+            setTextBoxValue(correctWeight3);
+            updateShadow(e);
+        }
+    };
+    /*!
+   @description:On change function correctWeight changes
+   @params:
+   @return:
+   @Comments
+   @Coders:
+*/
+    const handleCorrectWeightChange = (e) => {
+        console.log("the event is", e);
+        if (weightIndex == 0) {
+            setTextBoxValue(e.target.value);
+        } else if (weightIndex == 1) {
+            setTextBoxValue(e.target.value);
+        } else if (weightIndex == 2) {
+            setTextBoxValue(e.target.value);
+        }
+    };
     return (
         <Card>
             <MDBox display="flex" justifyContent="space-between" pt={1} px={1}>
@@ -288,7 +381,7 @@ const Scale = ({ mainScaleData }) => {
                 </MDBox>
             </MDBox>
             <MDBox style={{ margin: "auto", paddingTop: "5px" }}>
-                <FormControl sx={{ m: 1, width: 145 }} variant="outlined">
+                <FormControl id={"ingredient-name"} sx={{ m: 1, width: 145 }} variant="outlined">
                     <FormHelperText style={{ margin: "auto" }} id="outlined-weight-helper-text">
                         Ingredient Name
                     </FormHelperText>
@@ -311,7 +404,7 @@ const Scale = ({ mainScaleData }) => {
                     />
                 </FormControl>
             </MDBox>
-            <FormControl sx={{ m: 1, width: "18ch" }} style={{ margin: "10px auto" }} variant="outlined">
+            <FormControl id={"inventory-weight"} sx={{ m: 1, width: "18ch" }} style={{ margin: "10px auto" }} variant="outlined">
                 <FormHelperText style={{ margin: "2px auto" }} id="outlined-weight-helper-text">
                     Real-Time Weight
                 </FormHelperText>
@@ -332,6 +425,7 @@ const Scale = ({ mainScaleData }) => {
                 <TareButton name="tare" onClick={() => sendDataAWS(1)}>
                     Tare
                 </TareButton>
+
                 <StartButton name="start" onClick={() => sendDataAWS(2)}>
                     {scaleStateReported == 2 ? "Guide" : scaleStateReported == 1 ? "Guide" : "Guide"}
                 </StartButton>
@@ -347,8 +441,9 @@ const Scale = ({ mainScaleData }) => {
                         Accuracy Settings: ({unitOfMass == "g" ? "Grams" : "Ounces"})
                     </MDTypography>
                 </MDBox>
+
                 <MDBox textAlign="center" lineHeight={1.2}>
-                    <FormControl sx={{ m: 1, width: 155 }} variant="outlined">
+                    <FormControl id={"correct-weight"} sx={{ m: 1, width: 155 }} variant="outlined">
                         <FormHelperText style={{ margin: "auto" }} id="outlined-weight-helper-text">
                             Correct Weight
                         </FormHelperText>
@@ -359,7 +454,7 @@ const Scale = ({ mainScaleData }) => {
                                 backgroundColor: "beige",
                             }}
                             classes={{ input: classes.centered }}
-                            value={unitOfMass == "g" ? correctWeight : (correctWeight / 28.35).toFixed(2)}
+                            value={unitOfMass == "g" ? textBoxValue : (textBoxValue / 28.35).toFixed(2)}
                             // endAdornment={<InputAdornment position="end">{unitOfMassCode}</InputAdornment>} // Removed after feedback from the team
                             aria-describedby="outlined-weight-helper-text"
                             inputProps={{
@@ -372,13 +467,13 @@ const Scale = ({ mainScaleData }) => {
                                     }
                                 },
                             }}
-                            onChange={(e) => setCorrectWeight(e.target.value)}
-                            onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updateShadow(e))}
+                            onChange={(e) => handleCorrectWeightChange(e)}
+                            onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updateTimeseriesShadow(e))}
                         />
                     </FormControl>
                 </MDBox>
                 <MDBox textAlign="center" lineHeight={1.2}>
-                    <FormControl sx={{ m: 1, width: 100 }} variant="outlined">
+                    <FormControl id={"min-limit"} sx={{ m: 1, width: 100 }} variant="outlined">
                         <FormHelperText id="outlined-weight-helper-text">Min Limit </FormHelperText>
                         <OutlinedInput
                             id="outlined-adornment-weight"
@@ -396,7 +491,7 @@ const Scale = ({ mainScaleData }) => {
                             onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updateShadow(e))}
                         />
                     </FormControl>
-                    <FormControl sx={{ m: 1, width: 100 }} variant="outlined">
+                    <FormControl id={"max-limit"} sx={{ m: 1, width: 100 }} variant="outlined">
                         <FormHelperText id="outlined-weight-helper-text">Max Limit </FormHelperText>
                         <OutlinedInput
                             id="outlined-adornment-weight"
@@ -414,6 +509,22 @@ const Scale = ({ mainScaleData }) => {
                             onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updateShadow(e))}
                         />
                     </FormControl>
+                </MDBox>
+                <MDBox textAlign="center" lineHeight={1.3}>
+                    <FormHelperText style={{ margin: "auto", textAlign: "center" }} id="portion-sizes-helper-text">
+                        Portion Sizes
+                    </FormHelperText>
+                    <Radio.Group onChange={onChange} defaultValue={value}>
+                        <Radio value={correctWeight1} data_name={"correctWeight1"}>
+                            {correctWeight1}
+                        </Radio>
+                        <Radio value={correctWeight2} data_name="correctWeight2">
+                            {correctWeight2}
+                        </Radio>
+                        <Radio value={correctWeight3} data_name="correctWeight3">
+                            {correctWeight3}
+                        </Radio>
+                    </Radio.Group>
                 </MDBox>
             </Collapse>
         </Card>
