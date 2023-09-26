@@ -39,7 +39,7 @@ const Scale = ({ mainScaleData }) => {
     const [maxOffset, setMaxOffset] = useState(3);
     const [unitOfMass, setUnitOfMass] = useState("g");
     const [nameIngredient, setNameIngredient] = useState("default");
-    const [correctWeightIndex, setCorrectWeightIndex] = useState("0");
+    const [correctWeightIndex, setCorrectWeightIndex] = useState(-1);
 
     // Time Series Shadow Parameters
     const [realTimeWeight, setRealTimeWeight] = useState(0);
@@ -130,14 +130,14 @@ const Scale = ({ mainScaleData }) => {
         let shadowTopic = "$aws/things/" + mainScaleData.iotNameThing + "/shadow/name/timeseries/update";
 
         if (event == "correctWeight1Field") {
-            setCorrectWeightIndex("0"); // NOTE Coding Convention, from smallest to biggest if there is no logical ordering
-            updateThingShadowRequestInput.state.desired["correctWeight1"] = parseInt(correctWeight1); // NOTE: MUST Be Careful with Types (Unit Test)
+            setCorrectWeightIndex(0); // NOTE Coding Convention, from smallest to biggest if there is no logical ordering
+            updateThingShadowRequestInput.state.desired["correctWeight1"] = correctWeight1; // NOTE: MUST Be Careful with Types (Unit Test)
         } else if (event === "correctWeight2Field") {
-            setCorrectWeightIndex("1");
-            updateThingShadowRequestInput.state.desired["correctWeight2"] = parseInt(correctWeight2);
+            setCorrectWeightIndex(1);
+            updateThingShadowRequestInput.state.desired["correctWeight2"] = correctWeight2;
         } else if (event === "correctWeight3Field") {
-            setCorrectWeightIndex("2");
-            updateThingShadowRequestInput.state.desired["correctWeight3"] = parseInt(correctWeight3);
+            setCorrectWeightIndex(2);
+            updateThingShadowRequestInput.state.desired["correctWeight3"] = correctWeight3;
         }
 
         // Update Shadow
@@ -153,9 +153,9 @@ const Scale = ({ mainScaleData }) => {
         @Comments
         @Coders: JohanRules
     */
-    const updateCorrectWeightIndexClassicShadow = () => {
+    const updateCorrectWeightIndexClassicShadow = (newIndex) => {
         const updateThingShadowRequestInput = { state: { desired: {} } };
-        updateThingShadowRequestInput.state.desired["correctWeightIndex"] = parseInt(correctWeightIndex);
+        updateThingShadowRequestInput.state.desired["correctWeightIndex"] = parseInt(newIndex);
 
         // Update Shadow
         let shadowTopic = "$aws/things/" + mainScaleData.iotNameThing + "/shadow/update";
@@ -172,9 +172,9 @@ const Scale = ({ mainScaleData }) => {
         @Coders: Cyno & JohanWin$
     */
     const handleCorrectWeightIndexChange = (e) => {
-        setCorrectWeightIndex(e.target.value);
-        updateCorrectWeightIndexClassicShadow();
         let index = parseInt(e.target.value);
+        setCorrectWeightIndex(index);
+        updateCorrectWeightIndexClassicShadow(index);
         if (index == 0) {
             updateTimeSeriesShadow("correctWeight1Field");
         } else if (index == 1) {
@@ -232,22 +232,29 @@ const Scale = ({ mainScaleData }) => {
         console.log("Action Not Published to AWS..."); // Debug Statement
     };
 
-    // @description: Hook to get Thing's Shadow by publishing to get topic and then listening after request is accepted.
+    // Hook to enable real-time communication from scale to client to display IoT Shadows
     useEffect(() => {
-        // Publish to MQTT Topic
-        const getClassicShadow = () => {
-            setTimeout(async () => {
-                try {
-                    await PubSub.publish("$aws/things/" + mainScaleData.iotNameThing + "/shadow/get", {});
-                    await PubSub.publish("$aws/things/" + mainScaleData.iotNameThing + "/shadow/name/timeseries/get", {});
-                    console.log("Successfully queried your shadows...");
-                } catch (error) {
-                    console.log("Failed to publish to your GET Classic Shadow...", error);
-                }
-            }, 100);
-        };
-        getClassicShadow();
+        // PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing + "/shadow/name/timeseries/update/accepted").subscribe({
+        //     next: (dataCloud) => {
+        //         dataCloud = dataCloud.value;
+        //         setRealTimeWeight(dataCloud.state.reported.inventoryWeight);
+        //         console.log("The data cloud is", dataCloud);
 
+        //         if (dataCloud.state.reported.temperature) {
+        //             setRealTimeTemperature(dataCloud.state.reported.temperature + "℃");
+        //         } else {
+        //             if (realTimeWeight == -1) {
+        //                 setRealTimeTemperature("Off");
+        //             } else if (realTimeWeight == 0) {
+        //                 setRealTimeTemperature("Idle");
+        //             } else {
+        //                 setRealTimeTemperature("On");
+        //             }
+        //         }
+        //     },
+        //     error: (error) => console.error(error),
+        //     complete: () => console.log("Web Socket Done"),
+        // });
         // Subscribe to Topic after Get Request was accepted
         const subscriptionClassicShadow = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing + "/shadow/get/accepted").subscribe({
             next: (dataCloud) => {
@@ -261,7 +268,7 @@ const Scale = ({ mainScaleData }) => {
                 setCorrectWeightIndex(dataCloud.reported.correctWeightIndex);
                 console.log("Successfully handled your GET Classic Shadow...");
 
-                subscriptionClassicShadow.unsubscribe(); //Unsubcribe to topic after fething and updating parameters
+                // subscriptionClassicShadow.unsubscribe(); //Unsubcribe to topic after fething and updating parameters
             },
             error: (error) => console.error("Error in Classic Shadow GET Request...", error),
             complete: () => console.log("Web Socket Done"),
@@ -285,37 +292,29 @@ const Scale = ({ mainScaleData }) => {
                 setCorrectWeight2(dataCloud.correctWeight2);
                 setCorrectWeight3(dataCloud.correctWeight3);
                 console.log("Successfully handled your GET Time Series Shadow...");
-                subscriptionTimeSeriesShadow.unsubscribe(); //Unsubcribe to topic after fething and updating parameters
+                // subscriptionTimeSeriesShadow.unsubscribe(); //Unsubcribe to topic after fething and updating parameters
             },
             error: (error) => console.error("Error in GET/Accepted web socket of Timeseries...", error),
             complete: () => console.log("Web Socket Done"),
         });
+    }, [correctWeightIndex]);
+
+    // @description: Hook to get Thing's Shadow by publishing to get topic and then listening after request is accepted.
+    useEffect(() => {
+        // Publish to MQTT Topic
+        const getClassicShadow = () => {
+            setTimeout(async () => {
+                try {
+                    await PubSub.publish("$aws/things/" + mainScaleData.iotNameThing + "/shadow/get", {});
+                    await PubSub.publish("$aws/things/" + mainScaleData.iotNameThing + "/shadow/name/timeseries/get", {});
+                    console.log("Successfully queried your shadows...");
+                } catch (error) {
+                    console.log("Failed to publish to your GET Classic Shadow...", error);
+                }
+            }, 1000);
+        };
+        getClassicShadow();
     }, []);
-
-    // Hook to enable real-time communication from scale to client to display IoT Shadows
-    // useEffect(() => {
-    //     PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing + "/shadow/name/timeseries/update/accepted").subscribe({
-    //         next: (dataCloud) => {
-    //             dataCloud = dataCloud.value;
-    //             setRealTimeWeight(dataCloud.state.reported.inventoryWeight);
-    //             console.log("The data cloud is", dataCloud);
-
-    //             if (dataCloud.state.reported.temperature) {
-    //                 setRealTimeTemperature(dataCloud.state.reported.temperature + "℃");
-    //             } else {
-    //                 if (realTimeWeight == -1) {
-    //                     setRealTimeTemperature("Off");
-    //                 } else if (realTimeWeight == 0) {
-    //                     setRealTimeTemperature("Idle");
-    //                 } else {
-    //                     setRealTimeTemperature("On");
-    //                 }
-    //             }
-    //         },
-    //         error: (error) => console.error(error),
-    //         complete: () => console.log("Web Socket Done"),
-    //     });
-    // }, []);
 
     return (
         <Card>
@@ -406,7 +405,7 @@ const Scale = ({ mainScaleData }) => {
                         Correct Portion Size
                     </FormHelperText>
                     <Radio.Group onChange={handleCorrectWeightIndexChange} value={correctWeightIndex}>
-                        <Radio value="0" data_name={"correctWeight1"}>
+                        <Radio value={0}>
                             <FormControl id={"min-limit"} sx={{ m: 1, width: 75 }} variant="outlined">
                                 <FormHelperText id="outlined-weight-helper-text">Size #1 </FormHelperText>
                                 <OutlinedInput
@@ -426,7 +425,7 @@ const Scale = ({ mainScaleData }) => {
                                 />
                             </FormControl>
                         </Radio>
-                        <Radio value="1" data_name="correctWeight2">
+                        <Radio value={1}>
                             <FormControl id={"min-limit"} sx={{ m: 1, width: 75 }} variant="outlined">
                                 <FormHelperText id="outlined-weight-helper-text">Size #2 </FormHelperText>
                                 <OutlinedInput
@@ -446,7 +445,7 @@ const Scale = ({ mainScaleData }) => {
                                 />
                             </FormControl>
                         </Radio>
-                        <Radio value="2" data_name="correctWeight3">
+                        <Radio value={2}>
                             <FormControl id={"min-limit"} sx={{ m: 1, width: 75 }} variant="outlined">
                                 <FormHelperText id="outlined-weight-helper-text">Size #3 </FormHelperText>
                                 <OutlinedInput
