@@ -7,6 +7,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 
 // User-defined Components
 import { setOpenConfigurator } from "../../context";
+import { Tooltip } from "@mui/material";
 
 /*!
    @description: Function to change the openConfigurator state
@@ -19,27 +20,29 @@ export default function ButtonConfig({ dispatch, openConfigurator }) {
     const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
     return (
         <>
-            <MDBox
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                width="3.25rem"
-                height="3.25rem"
-                bgColor="white"
-                shadow="sm"
-                borderRadius="50%"
-                position="fixed"
-                right="2rem"
-                bottom="2rem"
-                zIndex={99}
-                color="dark"
-                sx={{ cursor: "pointer" }}
-                onClick={handleConfiguratorOpen}
-            >
-                <Icon fontSize="small" color="inherit">
-                    <SettingsIcon />
-                </Icon>
-            </MDBox>
+            <Tooltip title="Open configurator" placement="bottom">
+                <MDBox
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    width="3.25rem"
+                    height="3.25rem"
+                    bgColor="white"
+                    shadow="sm"
+                    borderRadius="50%"
+                    position="fixed"
+                    right="2rem"
+                    bottom="2rem"
+                    zIndex={99}
+                    color="dark"
+                    sx={{ cursor: "pointer" }}
+                    onClick={handleConfiguratorOpen}
+                >
+                    <Icon Icon fontSize="small" color="inherit" style={{ display: "flex", alignItems: "center" }}>
+                        <SettingsIcon />
+                    </Icon>
+                </MDBox>
+            </Tooltip>
         </>
     );
 }
