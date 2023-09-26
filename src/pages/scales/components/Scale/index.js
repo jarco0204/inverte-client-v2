@@ -23,6 +23,7 @@ import FormLabel from "@mui/material/FormLabel";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { makeStyles } from "@material-ui/core/styles";
 import { styled } from "@mui/material/styles";
+import {} from "@mui/material";
 
 // User Components
 import MDBox from "../../../../components/MDBox";
@@ -32,38 +33,24 @@ import { updateRestaurant } from "../../../../graphql/mutations";
 import { getRestaurant } from "../../../../graphql/queries";
 import { Radio } from "antd";
 
-/*!
-   @description: Center 3 buttons to control your scale card
-   @params:
-   @return:
-   @Comments:
-   @Coders: ElToro
-*/
-const CustomizedCardActions = styled(CardActions)`
-    display: flex;
-    justify-content: center;
-`;
-
 const Scale = ({ mainScaleData }) => {
     // Classic Shadow Parameters
-    const [textBoxValue, setTextBoxValue] = useState(0);
-    const [nameIngredient, setNameIngredient] = useState("");
-    const [correctWeight1, setCorrectWeight1] = useState(24);
-    const [correctWeight2, setCorrectWeight2] = useState(30);
-    const [correctWeight3, setCorrectWeight3] = useState(35);
     const [minOffset, setMinOffset] = useState(3);
     const [maxOffset, setMaxOffset] = useState(3);
-    const [unitOfMass, setUnitOfMass] = useState("g"); // Unit of mass for the scale
-    // const [value, setValue] = useState(correctWeight3);
-    const [weightIndex, setWeightIndex] = useState(0);
-    // Timeseries Shadow Parameters
+    const [unitOfMass, setUnitOfMass] = useState("g");
+    const [nameIngredient, setNameIngredient] = useState("default");
+    const [correctWeightIndex, setCorrectWeightIndex] = useState("0");
+
+    // Time Series Shadow Parameters
     const [realTimeWeight, setRealTimeWeight] = useState(0);
+    const [correctWeight1, setCorrectWeight1] = useState(7);
+    const [correctWeight2, setCorrectWeight2] = useState(28);
+    const [correctWeight3, setCorrectWeight3] = useState(56);
     const [realTimeTemperature, setRealTimeTemperature] = useState("Off");
-    // const [scaleStateReported, setScaleStateReported] = useState(0); // 0 = off & 1 = Unloaded & 2 = Busy/On
-    const scaleStateReported = 1;
 
     // UI & UX
     const [expanded, setExpanded] = useState(false);
+    const scaleStateReported = 1; // 0 = off & 1 = Unloaded & 2 = Busy/On
 
     /*!
        @description:
@@ -78,6 +65,18 @@ const Scale = ({ mainScaleData }) => {
         },
     }));
     const classes = useStyles();
+
+    /*!
+        @description: Center 3 buttons to control your scale card
+        @params:
+        @return:
+        @Comments:
+        @Coders: ElToro
+    */
+    const CustomizedCardActions = styled(CardActions)`
+        display: flex;
+        justify-content: center;
+    `;
 
     /*!
        @description:
@@ -97,7 +96,7 @@ const Scale = ({ mainScaleData }) => {
         @Comments
         @Coders: JAAM
     */
-    const updateClassicShadow = async (event) => {
+    const updateClassicShadow = (event) => {
         // Creae Variables
         const updateThingShadowRequestInput = { state: { desired: {} } };
         let shadowTopic = "$aws/things/" + mainScaleData.iotNameThing + "/shadow/update";
@@ -110,46 +109,79 @@ const Scale = ({ mainScaleData }) => {
             updateThingShadowRequestInput.state.desired["lowerErrorLimit"] = minOffset;
         } else if (event.target.name === "maxOffsetField") {
             updateThingShadowRequestInput.state.desired["upperErrorLimit"] = maxOffset;
-        } else if (event.target.data_name != undefined) {
-            if (event.target.data_name === "correctWeight1") {
-                setWeightIndex(0); // NOTE Coding Convention, from smallest to biggest if there is no logical ordering
-                updateThingShadowRequestInput.state.desired["correctWeightIndex"] = 0; // NOTE: MUST Be Careful with Types (Unit Test)
-            } else if (event.target.data_name === "correctWeight2") {
-                setWeightIndex(1);
-                updateThingShadowRequestInput.state.desired["correctWeightIndex"] = 1;
-            } else {
-                updateThingShadowRequestInput.state.desired["correctWeightIndex"] = 2;
-                setWeightIndex(2); // TODO: Follow Coding Convenction
-            }
         }
 
         // Update Shadow
-        console.log("Your shadow topic is...", shadowTopic); // Debug Statement
+        console.log("your topic is...", shadowTopic);
         PubSub.publish(shadowTopic, updateThingShadowRequestInput);
         console.log("Classic Shadow Update...", updateThingShadowRequestInput); // Debug Statement
     };
+
+    /*!
+       @description:
+       @params:
+       @return:
+       @Comments
+       @Coders: BlackyFliper
+    */
+    const updateTimeSeriesShadow = (event) => {
+        // Creae Variables
+        const updateThingShadowRequestInput = { state: { desired: {} } };
+        let shadowTopic = "$aws/things/" + mainScaleData.iotNameThing + "/shadow/name/timeseries/update";
+
+        if (event == "correctWeight1Field") {
+            setCorrectWeightIndex("0"); // NOTE Coding Convention, from smallest to biggest if there is no logical ordering
+            updateThingShadowRequestInput.state.desired["correctWeight1"] = parseInt(correctWeight1); // NOTE: MUST Be Careful with Types (Unit Test)
+        } else if (event === "correctWeight2Field") {
+            setCorrectWeightIndex("1");
+            updateThingShadowRequestInput.state.desired["correctWeight2"] = parseInt(correctWeight2);
+        } else if (event === "correctWeight3Field") {
+            setCorrectWeightIndex("2");
+            updateThingShadowRequestInput.state.desired["correctWeight3"] = parseInt(correctWeight3);
+        }
+
+        // Update Shadow
+        console.log("your topic is...", shadowTopic);
+        PubSub.publish(shadowTopic, updateThingShadowRequestInput);
+        console.log("Updated Correct weight in Time Series Shadow...", updateThingShadowRequestInput); // Debug Statement
+    };
+
     /*!
         @description: Function to update the IoT Device Timeseries Shadow by using PubSub Amplify MQTT Client
         @params:
         @return:
         @Comments
-        @Coders: MHyke
+        @Coders: JohanRules
     */
-    const updateTimeseriesShadow = async (event) => {
+    const updateCorrectWeightIndexClassicShadow = () => {
         const updateThingShadowRequestInput = { state: { desired: {} } };
-        if (event.target.name === "correctWeightField") {
-            if (weightIndex == 0) {
-                updateThingShadowRequestInput.state.desired["correctWeight1"] = parseInt(textBoxValue);
-            } else if (weightIndex == 1) {
-                updateThingShadowRequestInput.state.desired["correctWeight2"] = parseInt(textBoxValue);
-            } else if (weightIndex == 2) {
-                updateThingShadowRequestInput.state.desired["correctWeight3"] = parseInt(textBoxValue);
-            }
-        }
+        updateThingShadowRequestInput.state.desired["correctWeightIndex"] = parseInt(correctWeightIndex);
+
         // Update Shadow
-        let shadowTopic = "$aws/things/" + mainScaleData.iotNameThing + "/shadow/name/timeseries/update";
+        let shadowTopic = "$aws/things/" + mainScaleData.iotNameThing + "/shadow/update";
+        console.log("your topic is...", shadowTopic);
         PubSub.publish(shadowTopic, updateThingShadowRequestInput);
-        console.log("Time Series Shadow Update...", updateThingShadowRequestInput); // Debug Statement
+        console.log("Updated correct weight index in Classic Shadow...", updateThingShadowRequestInput); // Debug Statement
+    };
+
+    /*!
+        @description: On change function for radio button to select the portion sizes
+        @params:
+        @return:
+        @Comments
+        @Coders: Cyno & JohanWin$
+    */
+    const handleCorrectWeightIndexChange = (e) => {
+        setCorrectWeightIndex(e.target.value);
+        updateCorrectWeightIndexClassicShadow();
+        let index = parseInt(e.target.value);
+        if (index == 0) {
+            updateTimeSeriesShadow("correctWeight1Field");
+        } else if (index == 1) {
+            updateTimeSeriesShadow("correctWeight2Field");
+        } else if (index == 2) {
+            updateTimeSeriesShadow("correctWeight3Field");
+        }
     };
 
     /*!
@@ -161,26 +193,16 @@ const Scale = ({ mainScaleData }) => {
     */
     const updateIngredientName = async () => {
         const user = await Auth.currentAuthenticatedUser();
-        let iotThingNames;
         try {
-            // const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
-            // const path = "/restaurants/updateIngredientName/";
-            // const finalAPIRoute = path + user.username; //TODO: Cases where userSession is empty
-
-            // // Make API Call
-            // await API.get(AMPLIFY_API, finalAPIRoute, { queryStringParameters: { iotNameThing: mainScaleData.iotNameThing, ingredientName: nameIngredient } }).then((response) => {
-            //     console.log("The new IotThingNames is:", response);
-            //     iotThingNames = JSON.stringify(response);
-            // });
             const response = await API.graphql({
                 query: getRestaurant,
                 variables: { restaurant_id: user.username },
             });
-            console.log("The iotThingNames are", response.data.getRestaurant.iotThingNames);
             let iotThingNames = JSON.parse(response.data.getRestaurant.iotThingNames);
             iotThingNames[mainScaleData.iotNameThing] = nameIngredient;
             iotThingNames = JSON.stringify(iotThingNames);
 
+            // Perform GQL Query
             const inputData = { restaurant_id: user.username, iotThingNames: iotThingNames };
             const response1 = await API.graphql({
                 query: updateRestaurant,
@@ -193,30 +215,24 @@ const Scale = ({ mainScaleData }) => {
     };
 
     /*!
-        @description: Function to trigger scale action from client
-        @params:
-        @return:
-        @Comments: Possible Actions are {1: "tare", 2: "start"}
-        @Coders: JAAM
-    */
+            @description: Function to trigger scale action from client
+            @params:
+            @return:
+            @Comments: Possible Actions are {1: "tare", 2: "start"}
+            @Coders: JAAM
+        */
     const sendActionDataAWS = (action) => {
-        let msg, finalTopic;
+        // let msg, finalTopic;
         // msg = {
         //     control: action,
         //     msg: "Message sent by el PumaV56",
         // };
         // finalTopic = mainScaleData.topic + "/" + mainScaleData.iotNameThing + "/control";
         // PubSub.publish(finalTopic, msg);
-        console.log("Action Not Published to AWS...", finalTopic); // Debug Statement
+        console.log("Action Not Published to AWS..."); // Debug Statement
     };
 
-    /*!
-        @description: Hook to get Thing's Shadow by publishing to get topic and then listening after request is accepted.
-        @params:
-        @return:
-        @Comments: Triggers GET request in Firmware
-        @Coders: BlackiLorenzo
-    */
+    // @description: Hook to get Thing's Shadow by publishing to get topic and then listening after request is accepted.
     useEffect(() => {
         // Publish to MQTT Topic
         const getClassicShadow = () => {
@@ -224,15 +240,16 @@ const Scale = ({ mainScaleData }) => {
                 try {
                     await PubSub.publish("$aws/things/" + mainScaleData.iotNameThing + "/shadow/get", {});
                     await PubSub.publish("$aws/things/" + mainScaleData.iotNameThing + "/shadow/name/timeseries/get", {});
+                    console.log("Successfully queried your shadows...");
                 } catch (error) {
                     console.log("Failed to publish to your GET Classic Shadow...", error);
                 }
-            }, 1000);
+            }, 100);
         };
         getClassicShadow();
 
         // Subscribe to Topic after Get Request was accepted
-        const subscription = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing + "/shadow/get/accepted").subscribe({
+        const subscriptionClassicShadow = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing + "/shadow/get/accepted").subscribe({
             next: (dataCloud) => {
                 dataCloud = dataCloud.value.state;
 
@@ -241,25 +258,16 @@ const Scale = ({ mainScaleData }) => {
                 setMinOffset(dataCloud.reported.lowerErrorLimit);
                 setMaxOffset(dataCloud.reported.upperErrorLimit);
                 setUnitOfMass(dataCloud.reported.unitOfMass);
-                setWeightIndex(dataCloud.reported.correctWeightIndex);
-                //Unsubcribe to topic after fething and updating parameters
-                if (dataCloud.reported.correctWeightIndex == 0) {
-                    // setValue(correctWeight1);
-                    setTextBoxValue(correctWeight1);
-                } else if (dataCloud.reported.correctWeightIndex == 1) {
-                    // setValue(correctWeight2);
-                    setTextBoxValue(correctWeight2);
-                } else if (dataCloud.reported.correctWeightIndex == 2) {
-                    // setValue(correctWeight3);
-                    setTextBoxValue(correctWeight3);
-                }
-                subscription.unsubscribe();
+                setCorrectWeightIndex(dataCloud.reported.correctWeightIndex);
+                console.log("Successfully handled your GET Classic Shadow...");
+
+                subscriptionClassicShadow.unsubscribe(); //Unsubcribe to topic after fething and updating parameters
             },
-            error: (error) => console.error("Error in GET/Accepted web socket...", error),
+            error: (error) => console.error("Error in Classic Shadow GET Request...", error),
             complete: () => console.log("Web Socket Done"),
         });
 
-        // Subscribe to Topic after Get Request was accepted
+        // Subscribe Time Series Shadow to Topic after Get Request was accepted
         const subscriptionTimeSeriesShadow = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing + "/shadow/name/timeseries/get/accepted").subscribe({
             next: (dataCloud) => {
                 dataCloud = dataCloud.value.state.reported;
@@ -276,87 +284,39 @@ const Scale = ({ mainScaleData }) => {
                 setCorrectWeight1(dataCloud.correctWeight1);
                 setCorrectWeight2(dataCloud.correctWeight2);
                 setCorrectWeight3(dataCloud.correctWeight3);
-                //Unsubcribe to topic after fething and updating parameters
-                subscriptionTimeSeriesShadow.unsubscribe();
+                console.log("Successfully handled your GET Time Series Shadow...");
+                subscriptionTimeSeriesShadow.unsubscribe(); //Unsubcribe to topic after fething and updating parameters
             },
             error: (error) => console.error("Error in GET/Accepted web socket of Timeseries...", error),
             complete: () => console.log("Web Socket Done"),
         });
-    }, [realTimeWeight, realTimeTemperature]);
-
-    /*!
-        @description: Hook to enable real-time communication from scale to client to display IoT Shadows
-        @params:
-        @return:
-        @Comments
-        @Coders: GGG100111001
-    */
-    useEffect(() => {
-        PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing + "/shadow/name/timeseries/update/accepted").subscribe({
-            next: (dataCloud) => {
-                dataCloud = dataCloud.value;
-                setRealTimeWeight(dataCloud.state.reported.inventoryWeight);
-                console.log("The data cloud is", dataCloud);
-
-                if (dataCloud.state.reported.temperature) {
-                    setRealTimeTemperature(dataCloud.state.reported.temperature + "℃");
-                } else {
-                    if (realTimeWeight == -1) {
-                        setRealTimeTemperature("Off");
-                    } else if (realTimeWeight == 0) {
-                        setRealTimeTemperature("Idle");
-                    } else {
-                        setRealTimeTemperature("On");
-                    }
-                }
-            },
-            error: (error) => console.error(error),
-            complete: () => console.log("Web Socket Done"),
-        });
     }, []);
 
-    /*!
-        @description: On change function for radio button to select the portion sizes
-        @params:
-        @return:
-        @Comments
-        @Coders:Cyno
-    */
-    const handleOnRadioButtonChange = (e) => {
-        console.log("radio checked", e.target);
-        // setValue(e.target.value);
-        if (e.target.data_name == "correctWeight1") {
-            // setValue(correctWeight1);
-            setTextBoxValue(correctWeight1);
-            updateClassicShadow(e);
-        } else if (e.target.data_name == "correctWeight2") {
-            // setValue(correctWeight2);
-            setTextBoxValue(correctWeight2);
-            updateClassicShadow(e);
-        } else if (e.target.data_name == "correctWeight3") {
-            // setValue(correctWeight3);
-            setTextBoxValue(correctWeight3);
-            updateClassicShadow(e);
-        }
-    };
+    // Hook to enable real-time communication from scale to client to display IoT Shadows
+    // useEffect(() => {
+    //     PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing + "/shadow/name/timeseries/update/accepted").subscribe({
+    //         next: (dataCloud) => {
+    //             dataCloud = dataCloud.value;
+    //             setRealTimeWeight(dataCloud.state.reported.inventoryWeight);
+    //             console.log("The data cloud is", dataCloud);
 
-    /*!
-        @description:On change function correctWeight changes
-        @params:
-        @return:
-        @Comments
-        @Coders: Rohan-16
-    */
-    const handleCorrectWeightChange = (e) => {
-        console.log("the event is", e);
-        if (weightIndex == 0) {
-            setTextBoxValue(e.target.value);
-        } else if (weightIndex == 1) {
-            setTextBoxValue(e.target.value);
-        } else if (weightIndex == 2) {
-            setTextBoxValue(e.target.value);
-        }
-    };
+    //             if (dataCloud.state.reported.temperature) {
+    //                 setRealTimeTemperature(dataCloud.state.reported.temperature + "℃");
+    //             } else {
+    //                 if (realTimeWeight == -1) {
+    //                     setRealTimeTemperature("Off");
+    //                 } else if (realTimeWeight == 0) {
+    //                     setRealTimeTemperature("Idle");
+    //                 } else {
+    //                     setRealTimeTemperature("On");
+    //                 }
+    //             }
+    //         },
+    //         error: (error) => console.error(error),
+    //         complete: () => console.log("Web Socket Done"),
+    //     });
+    // }, []);
+
     return (
         <Card>
             <MDBox display="flex" justifyContent="space-between" pt={1} px={1}>
@@ -441,8 +401,74 @@ const Scale = ({ mainScaleData }) => {
                         Accuracy Settings: ({unitOfMass == "g" ? "Grams" : "Ounces"})
                     </MDTypography>
                 </MDBox>
-
-                <MDBox textAlign="center" lineHeight={1.2}>
+                <MDBox textAlign="center" lineHeight={1.3}>
+                    <FormHelperText style={{ margin: "auto", textAlign: "center" }} id="portion-sizes-helper-text">
+                        Correct Portion Size
+                    </FormHelperText>
+                    <Radio.Group onChange={handleCorrectWeightIndexChange} value={correctWeightIndex}>
+                        <Radio value="0" data_name={"correctWeight1"}>
+                            <FormControl id={"min-limit"} sx={{ m: 1, width: 75 }} variant="outlined">
+                                <FormHelperText id="outlined-weight-helper-text">Size #1 </FormHelperText>
+                                <OutlinedInput
+                                    id="outlined-adornment-weight"
+                                    name="correctWeight1Field"
+                                    style={{
+                                        backgroundColor: "beige",
+                                    }}
+                                    classes={{ input: classes.centered }}
+                                    value={unitOfMass == "g" ? correctWeight1 : (correctWeight1 / 28.35).toFixed(2)}
+                                    aria-describedby="outlined-weight-helper-text"
+                                    inputProps={{
+                                        "aria-label": "weight",
+                                    }}
+                                    onChange={(e) => setCorrectWeight1(e.target.value)}
+                                    onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updateTimeSeriesShadow(e.target.name))}
+                                />
+                            </FormControl>
+                        </Radio>
+                        <Radio value="1" data_name="correctWeight2">
+                            <FormControl id={"min-limit"} sx={{ m: 1, width: 75 }} variant="outlined">
+                                <FormHelperText id="outlined-weight-helper-text">Size #2 </FormHelperText>
+                                <OutlinedInput
+                                    id="outlined-adornment-weight"
+                                    name="correctWeight2Field"
+                                    style={{
+                                        backgroundColor: "beige",
+                                    }}
+                                    classes={{ input: classes.centered }}
+                                    value={unitOfMass == "g" ? correctWeight2 : (correctWeight2 / 28.35).toFixed(2)}
+                                    aria-describedby="outlined-weight-helper-text"
+                                    inputProps={{
+                                        "aria-label": "weight",
+                                    }}
+                                    onChange={(e) => setCorrectWeight2(e.target.value)}
+                                    onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updateTimeSeriesShadow(e.target.name))}
+                                />
+                            </FormControl>
+                        </Radio>
+                        <Radio value="2" data_name="correctWeight3">
+                            <FormControl id={"min-limit"} sx={{ m: 1, width: 75 }} variant="outlined">
+                                <FormHelperText id="outlined-weight-helper-text">Size #3 </FormHelperText>
+                                <OutlinedInput
+                                    id="outlined-adornment-weight"
+                                    name="correctWeight3Field"
+                                    style={{
+                                        backgroundColor: "beige",
+                                    }}
+                                    classes={{ input: classes.centered }}
+                                    value={unitOfMass == "g" ? correctWeight3 : (correctWeight3 / 28.35).toFixed(2)}
+                                    aria-describedby="outlined-weight-helper-text"
+                                    inputProps={{
+                                        "aria-label": "weight",
+                                    }}
+                                    onChange={(e) => setCorrectWeight3(e.target.value)}
+                                    onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updateTimeSeriesShadow(e.target.name))}
+                                />
+                            </FormControl>
+                        </Radio>
+                    </Radio.Group>
+                </MDBox>
+                {/* <MDBox textAlign="center" lineHeight={1.2}>
                     <FormControl id={"correct-weight"} sx={{ m: 1, width: 155 }} variant="outlined">
                         <FormHelperText style={{ margin: "auto" }} id="outlined-weight-helper-text">
                             Correct Weight
@@ -470,8 +496,11 @@ const Scale = ({ mainScaleData }) => {
                             onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updateTimeseriesShadow(e))}
                         />
                     </FormControl>
-                </MDBox>
+                </MDBox> */}
                 <MDBox textAlign="center" lineHeight={1.2}>
+                    <FormHelperText style={{ margin: "auto", textAlign: "center" }} id="portion-sizes-helper-text">
+                        Tolerance Limits
+                    </FormHelperText>
                     <FormControl id={"min-limit"} sx={{ m: 1, width: 100 }} variant="outlined">
                         <FormHelperText id="outlined-weight-helper-text">Min Limit </FormHelperText>
                         <OutlinedInput
@@ -508,22 +537,6 @@ const Scale = ({ mainScaleData }) => {
                             onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updateClassicShadow(e))}
                         />
                     </FormControl>
-                </MDBox>
-                <MDBox textAlign="center" lineHeight={1.3}>
-                    <FormHelperText style={{ margin: "auto", textAlign: "center" }} id="portion-sizes-helper-text">
-                        Portion Sizes
-                    </FormHelperText>
-                    <Radio.Group onChange={handleOnRadioButtonChange}>
-                        <Radio value="0" data_name={"correctWeight1"}>
-                            {correctWeight1}
-                        </Radio>
-                        <Radio value="1" data_name="correctWeight2">
-                            {correctWeight2}
-                        </Radio>
-                        <Radio value="2" data_name="correctWeight3">
-                            {correctWeight3}
-                        </Radio>
-                    </Radio.Group>
                 </MDBox>
             </Collapse>
         </Card>
