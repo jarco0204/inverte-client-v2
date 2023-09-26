@@ -1,4 +1,4 @@
-import { styled, alpha } from "@mui/material";
+import { styled, alpha, Tooltip } from "@mui/material";
 import { Menu } from "@mui/material";
 import MDBox from "../MDBox";
 import { useState } from "react";
@@ -118,39 +118,41 @@ const DropDownIngredientMenu = ({ options, selectedIndexRef, selectedIndex, setS
         <>
             <MDBox py={1} display="flex" justifyContent="center">
                 <h2 style={{ margin: "0 10px", fontSize: "24px" }}>{titleForPage} </h2>
-                <MDBox
-                    variant="gradient"
-                    bgColor="dark"
-                    color="light"
-                    coloredShadow="info"
-                    borderRadius="xl"
-                    width="7rem"
-                    height="3rem"
-                    justifyContent="center"
-                    alignItems="center"
-                    display="flex"
-                    id="lock-menu"
-                    aria-controls={open ? "lock-menu" : undefined}
-                    aria-haspopup="listbox"
-                    aria-expanded={open ? "true" : undefined}
-                    onClick={handleClick}
-                    style={{ fontFamily: "Roboto", color: "white" }}
-                >
-                    <List component="nav" aria-label="Device settings" style={{ fontFamily: "Roboto", color: "white" }}>
-                        <ListItem
-                            id="lock-button"
-                            aria-haspopup="listbox"
-                            aria-controls="lock-menu"
-                            aria-label="when device is locked"
-                            aria-expanded={open ? "true" : undefined}
-                            onClick={handleClickListItem}
-                            style={{ fontFamily: "Roboto", color: "white" }}
-                        >
-                            <ListItemText secondaryTypographyProps={{ style: { color: "white" } }} secondary={selectedIndex === -1 ? "Ingredient" : options[selectedIndex]} />
-                        </ListItem>
-                    </List>
-                    <KeyboardArrowDown />
-                </MDBox>
+                <Tooltip title="Dropdown to select Ingredient" placement="bottom-end">
+                    <MDBox
+                        variant="gradient"
+                        bgColor="dark"
+                        color="light"
+                        coloredShadow="info"
+                        borderRadius="xl"
+                        width="7rem"
+                        height="3rem"
+                        justifyContent="center"
+                        alignItems="center"
+                        display="flex"
+                        id="lock-menu"
+                        aria-controls={open ? "lock-menu" : undefined}
+                        aria-haspopup="listbox"
+                        aria-expanded={open ? "true" : undefined}
+                        onClick={handleClick}
+                        style={{ fontFamily: "Roboto", color: "white" }}
+                    >
+                        <List component="nav" aria-label="Device settings" style={{ fontFamily: "Roboto", color: "white" }}>
+                            <ListItem
+                                id="lock-button"
+                                aria-haspopup="listbox"
+                                aria-controls="lock-menu"
+                                aria-label="when device is locked"
+                                aria-expanded={open ? "true" : undefined}
+                                onClick={handleClickListItem}
+                                style={{ fontFamily: "Roboto", color: "white" }}
+                            >
+                                <ListItemText secondaryTypographyProps={{ style: { color: "white" } }} secondary={selectedIndex === -1 ? "Ingredient" : options[selectedIndex]} />
+                            </ListItem>
+                        </List>
+                        <KeyboardArrowDown />
+                    </MDBox>
+                </Tooltip>
             </MDBox>
 
             <StyledMenu
