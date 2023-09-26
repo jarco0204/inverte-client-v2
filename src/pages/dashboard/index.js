@@ -16,6 +16,7 @@ import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import Footer from "../../components/Footer";
 import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
 import DropDownIngredientMenu from "../../components/DropDownIngredientMenu";
+import { Tooltip } from "@mui/material";
 
 // AWS Imports
 import { getDay } from "../../graphql/queries";
@@ -354,76 +355,91 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
         <DashboardLayout>
             <DropDownIngredientMenu options={options} selectedIndexRef={selectedIndexRef} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} titleForPage={"Daily InVentory Report"} />
             {!isMobileDevice && (
-                <div>
+                <div style={{ height: "85vh" }}>
                     <MDBox py={3}>
                         <Grid container spacing={1} display="flex" justifyContent="center">
-                            <Grid item xs={12} md={6} lg={3}>
-                                <ComplexStatisticsCard
-                                    color="dark"
-                                    icon={<PanToolIcon />}
-                                    title={portionCompleteTitle}
-                                    count={cardSummaryItems[0]}
-                                    percentage={{
-                                        color: "success",
-                                    }}
-                                />
-                            </Grid>
+                            <Tooltip title="Number of portions completed" placement="bottom">
+                                <Grid item xs={12} md={6} lg={3}>
+                                    <ComplexStatisticsCard
+                                        color="dark"
+                                        icon={<PanToolIcon />}
+                                        title={portionCompleteTitle}
+                                        count={cardSummaryItems[0]}
+                                        percentage={{
+                                            color: "success",
+                                        }}
+                                    />
+                                </Grid>
+                            </Tooltip>
                         </Grid>
                     </MDBox>
+
                     <MDBox py={2}>
                         <Grid container spacing={3} display="flex" justifyContent="center">
-                            <Grid item xs={12} md={6} lg={3}>
-                                <MDBox mb={1.5}>
-                                    <ComplexStatisticsCard
-                                        color="info"
-                                        icon={<PrecisionManufacturingRoundedIcon />}
-                                        title={portionPrecisionTitle}
-                                        count={cardSummaryItems[1]}
-                                        percentage={{
-                                            color: "success",
-                                            // amount: "+3%",
-                                            // label: "than yesterdays",
-                                        }}
-                                    />
-                                </MDBox>
-                            </Grid>
-                            <Grid item xs={12} md={6} lg={3}>
-                                <MDBox mb={1.5}>
-                                    <ComplexStatisticsCard
-                                        color="warning"
-                                        icon={<ScaleRoundedIcon />}
-                                        title={inventoryConsumedTitle}
-                                        count={unitOfMass == "g" ? cardSummaryItems[2] : (parseInt(cardSummaryItems[2]) / 28.35).toFixed(2).toString() + "oz"}
-                                        percentage={{
-                                            color: "success",
-                                        }}
-                                    />
-                                </MDBox>
-                            </Grid>
-                            <Grid item xs={12} md={6} lg={3}>
-                                <MDBox mb={1.5}>
-                                    <ComplexStatisticsCard
-                                        color="success"
-                                        icon={<AccessTimeFilledRoundedIcon />}
-                                        title={portionTimeTitle}
-                                        count={cardSummaryItems[3]}
-                                        percentage={{
-                                            color: "success",
-                                        }}
-                                    />
-                                </MDBox>
-                            </Grid>
+                            <Tooltip title="Average portion precision" placement="bottom">
+                                <Grid item xs={12} md={6} lg={3}>
+                                    <MDBox mb={1.5}>
+                                        <ComplexStatisticsCard
+                                            color="info"
+                                            icon={<PrecisionManufacturingRoundedIcon />}
+                                            title={portionPrecisionTitle}
+                                            count={cardSummaryItems[1]}
+                                            percentage={{
+                                                color: "success",
+                                                // amount: "+3%",
+                                                // label: "than yesterdays",
+                                            }}
+                                        />
+                                    </MDBox>
+                                </Grid>
+                            </Tooltip>
+                            <Tooltip title="Total Inventory consumed for the day" placement="bottom">
+                                <Grid item xs={12} md={6} lg={3}>
+                                    <MDBox mb={1.5}>
+                                        <ComplexStatisticsCard
+                                            color="warning"
+                                            icon={<ScaleRoundedIcon />}
+                                            title={inventoryConsumedTitle}
+                                            count={unitOfMass == "g" ? cardSummaryItems[2] : (parseInt(cardSummaryItems[2]) / 28.35).toFixed(2).toString() + "oz"}
+                                            percentage={{
+                                                color: "success",
+                                            }}
+                                        />
+                                    </MDBox>
+                                </Grid>
+                            </Tooltip>
+                            <Tooltip title="Average time taken to complete portions " placement="bottom">
+                                <Grid item xs={12} md={6} lg={3}>
+                                    <MDBox mb={1.5}>
+                                        <ComplexStatisticsCard
+                                            color="success"
+                                            icon={<AccessTimeFilledRoundedIcon />}
+                                            title={portionTimeTitle}
+                                            count={cardSummaryItems[3]}
+                                            percentage={{
+                                                color: "success",
+                                            }}
+                                        />
+                                    </MDBox>
+                                </Grid>
+                            </Tooltip>
                         </Grid>
                         <MDBox mt={4.75}>
                             <Grid container spacing={3}>
                                 <Grid item xs={12} md={6} lg={4}>
-                                    <MDBox mb={3}>{generatePrecisionChartResponsive(false)}</MDBox>
+                                    <Tooltip title="Precision chart for individual portions " placement="bottom">
+                                        <MDBox mb={3}>{generatePrecisionChartResponsive(false)}</MDBox>
+                                    </Tooltip>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
-                                    <MDBox mb={3}>{generateDoughnutChartResponsive(false)}</MDBox>
+                                    <Tooltip title="Doughnut chart for portions' tendency " placement="bottom">
+                                        <MDBox mb={3}>{generateDoughnutChartResponsive(false)}</MDBox>
+                                    </Tooltip>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
-                                    <MDBox mb={3}>{generateTimeLineChartResponsive(false)}</MDBox>
+                                    <Tooltip title="Line chart for inidividual portions' completion time  " placement="bottom">
+                                        <MDBox mb={3}>{generateTimeLineChartResponsive(false)}</MDBox>
+                                    </Tooltip>
                                 </Grid>
                             </Grid>
                         </MDBox>

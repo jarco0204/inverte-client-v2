@@ -64,7 +64,7 @@ const ScalesContainer = ({ iotThingNames, restaurantName, restaurantLocationNum 
 
     return (
         <DashboardLayout>
-            <CustomizedGrid container spacing={1}>
+            <CustomizedGrid container spacing={1} style={{ height: "92vh" }}>
                 <Grid item xs={20} md={10} lg={10}>
                     {!scaleCardsReady ? null : (
                         <MDBox mb={20}>

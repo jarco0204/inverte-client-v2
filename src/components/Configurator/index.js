@@ -141,7 +141,7 @@ function Configurator({ metaInformation, setUnitOfMass, unitOfMass }) {
         <ConfiguratorRoot variant="permanent" ownerState={{ openConfigurator }}>
             <MDBox display="flex" justifyContent="space-between" alignItems="baseline" pt={4} pb={0.5} px={3}>
                 <MDBox>
-                    <MDTypography variant="h5">Welcome to InVerte</MDTypography>
+                    <MDTypography variant="h5">{metaInformation.restaurantName}</MDTypography>
                     <MDTypography variant="body2" color="text">
                         Personalize your App.
                     </MDTypography>
