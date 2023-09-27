@@ -21,7 +21,7 @@ import DropDownIngredientMenu from "../../components/DropDownIngredientMenu";
 import { getDay } from "../../graphql/queries";
 
 import { onNewPortionEvent } from "../../graphql/subscriptions";
-import { API, Auth, graphqlOperation } from "aws-amplify";
+import { API, graphqlOperation } from "aws-amplify";
 
 // User Components
 import PortionPrecisionChart from "./components/PortionPrecisionChart";
@@ -35,7 +35,6 @@ import dayOfYear from "dayjs/plugin/dayOfYear.js";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import toObject from "dayjs/plugin/toObject.js";
-import { ConstructionOutlined } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import { setSelectedIndex } from "../../redux/metaSlice";
 // import { ListItemIcon } from "@mui/material";
@@ -131,13 +130,15 @@ const DashboardContainer = () => {
     const displayIngredientIndex = useSelector(state => state.meta.displayIngredient)
     const timeZone = useSelector(state => state.meta.timeZone)
     const clientDemo = useSelector(state => state.meta.demo)
+
     const portionCompleteTitle = "Portions Completed";
     const portionPrecisionTitle = "Precision Levels";
     const portionTimeTitle = "Average Completion Time";
     const inventoryConsumedTitle = "Inventory Consumed";
-    const [isMobileDevice, setIsMobileDevice] = useState(clientDemo);
 
+    const [isMobileDevice, setIsMobileDevice] = useState(clientDemo);
     const [cardSummaryItems, setCardSummaryItems] = useState([]);
+    console.log(cardSummaryItems)
     const [realTimePrecisionGraph, setRealTimePrecisionGraph] = useState([]);
     const [realTimeAccuracyGraph, setRealTimeAccuracyGraph] = useState([]);
     const [realTimeInventoryGraph, setRealTimeInventoryGraph] = useState([]);
@@ -149,9 +150,7 @@ const DashboardContainer = () => {
     // Drop-Down Menu State
     const options = Object.values(iotThingNames);
     const selectedIndexRef = {current:displayIngredientIndex.toString()};
-    // const [selectedIndex, setSelectedIndex] = useState(displayIngredientIndex);
     const selectedIndex = displayIngredientIndex
-    console.log('indices', selectedIndexRef, selectedIndex)
     const keys = Object.keys(iotThingNames);
 
     /*!
@@ -391,8 +390,8 @@ const DashboardContainer = () => {
                                     <ComplexStatisticsCard
                                         color="info"
                                         title={portionPrecisionTitle}
-                                        icon={<ScaleRoundedIcon />}
-                                        count={unitOfMass == "g" ? cardSummaryItems[2] : convertGsToOz(cardSummaryItems[2]) + "oz"}
+                                        icon={<PrecisionManufacturingRoundedIcon />}
+                                        count={unitOfMass == "g" ? cardSummaryItems[1] : convertGsToOz(cardSummaryItems[1]) + "oz"}
                                         percentage={{
                                             color: "success",
                                             // amount: "+3%",
