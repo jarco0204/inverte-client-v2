@@ -1,7 +1,6 @@
 // React Imports
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import Chart from "chart.js/auto";
 
 // MUI material components
 import Grid from "@mui/material/Grid";
