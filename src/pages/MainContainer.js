@@ -217,7 +217,7 @@ export default function MainContainer() {
                     ) : null}
                     <Routes>
                         <Route path="*" element={<Navigate to="/dashboard" />} />
-                        {createRoutes(RouterContainer(metaInformation))}
+                        {createRoutes(RouterContainer())}
                     </Routes>
                 </div>
             )}

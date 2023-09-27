@@ -138,7 +138,6 @@ const DashboardContainer = () => {
 
     const [isMobileDevice, setIsMobileDevice] = useState(clientDemo);
     const [cardSummaryItems, setCardSummaryItems] = useState([]);
-    console.log(cardSummaryItems)
     const [realTimePrecisionGraph, setRealTimePrecisionGraph] = useState([]);
     const [realTimeAccuracyGraph, setRealTimeAccuracyGraph] = useState([]);
     const [realTimeInventoryGraph, setRealTimeInventoryGraph] = useState([]);
