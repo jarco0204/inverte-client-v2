@@ -6,7 +6,6 @@ import OutlierContainer from "./outlier";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
-import HomeIcon from "@mui/icons-material/Home";
 import ScaleIcon from "@mui/icons-material/Scale";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
 
