@@ -44,12 +44,7 @@ const RouterContainer = (metaInformation, isMobileDevice) => {
             ),
             route: "/scales",
             component: (
-                <ScalesContainer
-                    iotThingNames={metaInformation.iotThingNames}
-                    restaurantName={metaInformation.restaurantName}
-                    restaurantLocationNum={metaInformation.restaurantLocationNum}
-                    unitOfMass={metaInformation.unitOfMass}
-                />
+                <ScalesContainer/>
             ),
         },
         {
