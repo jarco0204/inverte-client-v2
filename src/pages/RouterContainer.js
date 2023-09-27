@@ -17,7 +17,7 @@ import AnalyticsIcon from "@mui/icons-material/Analytics";
    @Comments
    @Coders: GGG111000
 */
-const RouterContainer = (metaInformation, isMobileDevice) => {
+const RouterContainer = () => {
     return [
         {
             type: "collapse",
