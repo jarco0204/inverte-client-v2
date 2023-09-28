@@ -297,24 +297,13 @@ const Scale = ({ mainScaleData }) => {
             error: (error) => console.error("Error in GET/Accepted web socket of Timeseries...", error),
             complete: () => console.log("Web Socket Done"),
         });
+        //Listen for Updates in Timeseries shadow
         const subscriptionTimeSeriesShadowInventoryWeight = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing + "/shadow/name/timeseries/update/accepted").subscribe({
             next: (dataCloud) => {
                 dataCloud = dataCloud.value.state.reported;
 
                 setRealTimeWeight(dataCloud.inventoryWeight);
-                // if (dataCloud.inventoryWeight === -1) {
-                //     setRealTimeTemperature("Off");
-                // } else if (dataCloud.inventoryWeight === 0) {
-                //     setRealTimeTemperature("Idle");
-                // } else {
-                //     setRealTimeTemperature("On");
-                //     setRealTimeWeight(dataCloud.inventoryWeight);
-                // }
-                // setCorrectWeight1(dataCloud.correctWeight1);
-                // setCorrectWeight2(dataCloud.correctWeight2);
-                // setCorrectWeight3(dataCloud.correctWeight3);
                 console.log("Successfully handled your UPDATE Time Series Shadow...");
-                // subscriptionTimeSeriesShadow.unsubscribe(); //Unsubcribe to topic after fething and updating parameters
             },
             error: (error) => console.error("Error in GET/Accepted web socket of Timeseries...", error),
             complete: () => console.log("Web Socket Done"),
