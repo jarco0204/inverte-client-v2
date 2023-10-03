@@ -608,6 +608,7 @@ export const createWeek = /* GraphQL */ `
           dayOfYear_iotNameThing
           weekOfYear_iotNameThing
           realTime
+          dashboardGraph
           scaleActions
           createdAt
           updatedAt
@@ -658,6 +659,7 @@ export const updateWeek = /* GraphQL */ `
           dayOfYear_iotNameThing
           weekOfYear_iotNameThing
           realTime
+          dashboardGraph
           scaleActions
           createdAt
           updatedAt
@@ -708,6 +710,7 @@ export const deleteWeek = /* GraphQL */ `
           dayOfYear_iotNameThing
           weekOfYear_iotNameThing
           realTime
+          dashboardGraph
           scaleActions
           createdAt
           updatedAt
@@ -745,6 +748,7 @@ export const createDay = /* GraphQL */ `
           dayOfYear_iotNameThing
           weekOfYear_iotNameThing
           realTime
+          dashboardGraph
           scaleActions
           createdAt
           updatedAt
@@ -754,6 +758,7 @@ export const createDay = /* GraphQL */ `
         __typename
       }
       realTime
+      dashboardGraph
       scaleActions
       hour {
         items {
@@ -798,6 +803,7 @@ export const updateDay = /* GraphQL */ `
           dayOfYear_iotNameThing
           weekOfYear_iotNameThing
           realTime
+          dashboardGraph
           scaleActions
           createdAt
           updatedAt
@@ -807,6 +813,7 @@ export const updateDay = /* GraphQL */ `
         __typename
       }
       realTime
+      dashboardGraph
       scaleActions
       hour {
         items {
@@ -851,6 +858,7 @@ export const deleteDay = /* GraphQL */ `
           dayOfYear_iotNameThing
           weekOfYear_iotNameThing
           realTime
+          dashboardGraph
           scaleActions
           createdAt
           updatedAt
@@ -860,6 +868,7 @@ export const deleteDay = /* GraphQL */ `
         __typename
       }
       realTime
+      dashboardGraph
       scaleActions
       hour {
         items {

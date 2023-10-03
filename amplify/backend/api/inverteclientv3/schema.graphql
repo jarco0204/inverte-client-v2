@@ -53,6 +53,7 @@ type Day @model {
     weekOfYear_iotNameThing: ID! @index(name: "byWeek")
     dailySummary: DailySummary
     realTime: AWSJSON
+    dashboardGraph: AWSJSON
     scaleActions: AWSJSON
     hour: [Hour] @hasMany(indexName: "byDay")
 }

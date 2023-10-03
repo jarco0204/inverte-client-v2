@@ -34,6 +34,7 @@ export default function DayUpdateForm(props) {
     dayOfYear_iotNameThing: "",
     weekOfYear_iotNameThing: "",
     realTime: "",
+    dashboardGraph: "",
     scaleActions: "",
   };
   const [dayOfYear_iotNameThing, setDayOfYear_iotNameThing] = React.useState(
@@ -43,6 +44,9 @@ export default function DayUpdateForm(props) {
     initialValues.weekOfYear_iotNameThing
   );
   const [realTime, setRealTime] = React.useState(initialValues.realTime);
+  const [dashboardGraph, setDashboardGraph] = React.useState(
+    initialValues.dashboardGraph
+  );
   const [scaleActions, setScaleActions] = React.useState(
     initialValues.scaleActions
   );
@@ -57,6 +61,12 @@ export default function DayUpdateForm(props) {
       typeof cleanValues.realTime === "string" || cleanValues.realTime === null
         ? cleanValues.realTime
         : JSON.stringify(cleanValues.realTime)
+    );
+    setDashboardGraph(
+      typeof cleanValues.dashboardGraph === "string" ||
+        cleanValues.dashboardGraph === null
+        ? cleanValues.dashboardGraph
+        : JSON.stringify(cleanValues.dashboardGraph)
     );
     setScaleActions(
       typeof cleanValues.scaleActions === "string" ||
@@ -86,6 +96,7 @@ export default function DayUpdateForm(props) {
     dayOfYear_iotNameThing: [{ type: "Required" }],
     weekOfYear_iotNameThing: [{ type: "Required" }],
     realTime: [{ type: "JSON" }],
+    dashboardGraph: [{ type: "JSON" }],
     scaleActions: [{ type: "JSON" }],
   };
   const runValidationTasks = async (
@@ -117,6 +128,7 @@ export default function DayUpdateForm(props) {
           dayOfYear_iotNameThing,
           weekOfYear_iotNameThing,
           realTime: realTime ?? null,
+          dashboardGraph: dashboardGraph ?? null,
           scaleActions: scaleActions ?? null,
         };
         const validationResponses = await Promise.all(
@@ -181,6 +193,7 @@ export default function DayUpdateForm(props) {
               dayOfYear_iotNameThing: value,
               weekOfYear_iotNameThing,
               realTime,
+              dashboardGraph,
               scaleActions,
             };
             const result = onChange(modelFields);
@@ -210,6 +223,7 @@ export default function DayUpdateForm(props) {
               dayOfYear_iotNameThing,
               weekOfYear_iotNameThing: value,
               realTime,
+              dashboardGraph,
               scaleActions,
             };
             const result = onChange(modelFields);
@@ -239,6 +253,7 @@ export default function DayUpdateForm(props) {
               dayOfYear_iotNameThing,
               weekOfYear_iotNameThing,
               realTime: value,
+              dashboardGraph,
               scaleActions,
             };
             const result = onChange(modelFields);
@@ -255,6 +270,34 @@ export default function DayUpdateForm(props) {
         {...getOverrideProps(overrides, "realTime")}
       ></TextAreaField>
       <TextAreaField
+        label="Dashboard graph"
+        isRequired={false}
+        isReadOnly={false}
+        value={dashboardGraph}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              dayOfYear_iotNameThing,
+              weekOfYear_iotNameThing,
+              realTime,
+              dashboardGraph: value,
+              scaleActions,
+            };
+            const result = onChange(modelFields);
+            value = result?.dashboardGraph ?? value;
+          }
+          if (errors.dashboardGraph?.hasError) {
+            runValidationTasks("dashboardGraph", value);
+          }
+          setDashboardGraph(value);
+        }}
+        onBlur={() => runValidationTasks("dashboardGraph", dashboardGraph)}
+        errorMessage={errors.dashboardGraph?.errorMessage}
+        hasError={errors.dashboardGraph?.hasError}
+        {...getOverrideProps(overrides, "dashboardGraph")}
+      ></TextAreaField>
+      <TextAreaField
         label="Scale actions"
         isRequired={false}
         isReadOnly={false}
@@ -266,6 +309,7 @@ export default function DayUpdateForm(props) {
               dayOfYear_iotNameThing,
               weekOfYear_iotNameThing,
               realTime,
+              dashboardGraph,
               scaleActions: value,
             };
             const result = onChange(modelFields);
