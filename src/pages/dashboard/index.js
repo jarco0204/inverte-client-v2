@@ -221,15 +221,15 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
     const generateLowerRealTimeGraphs = (realTime, accuracyPercentagesAR) => {
         // Variable definition
         let [tempWeightAR, correctWeightAR, upperLimitAR, lowerLimitAR, tempTimeAR, pointBackgroundColorAR] = [[], [], [], [], [], []];
-        let keys = Object.keys(realTime).sort((a, b) => a - b);
+        let keys = Object.keys(realTime).sort((a, b) => a - b); //Sorting the keys in ascending order
 
-        for (let i = 0; i < Object.keys(realTime).length; i++) {
+        for (let i = 0; i < keys.length; i++) {
             const correctWeight = parseInt(realTime[keys[i]].correctWeight);
             const upperLimit = parseInt(realTime[keys[i]].upperErrorLimit);
             const lowerLimit = parseInt(realTime[keys[i]].lowerErrorLimit);
             upperLimitAR.push(correctWeight + upperLimit);
-            correctWeightAR.push(correctWeight);
             lowerLimitAR.push(correctWeight - lowerLimit);
+            correctWeightAR.push(correctWeight);
             // Handle Acci Refill Events
             if (realTime[keys[i]].portionWeight < 0) {
                 if (unitOfMass == "g") {
