@@ -154,13 +154,12 @@ const createDoughnutChartObject = () => {
    @Comments
    @Coders: GangaLi
 */
-const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex, timeZone, clientDemo }) => {
+const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex, timeZone, isMobileDevice, demo }) => {
     // Main Component State
     const portionCompleteTitle = "Portions Completed";
     const portionPrecisionTitle = "Precision Levels";
     const portionTimeTitle = "Average Completion Time";
     const inventoryConsumedTitle = "Inventory Consumed";
-    const [isMobileDevice, setIsMobileDevice] = useState(clientDemo);
 
     // Main Card Components
     const [cardSummaryItems, setCardSummaryItems] = useState([]);
@@ -308,7 +307,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
             let demoData = getDemoData();
 
             // If Demo, then display hard-coded data
-            if (clientDemo) {
+            if (demo) {
                 // Set the Upper Summary Card Components
                 let accuracy = demoData.getDay.dailySummary.accuracy.toFixed(0) + "%";
                 let inventoryWeight = demoData.getDay.dailySummary.inventoryConsumed + "g";
@@ -364,18 +363,18 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
     }, [selectedIndex]);
 
     // UseEffect to change layout for mobile devices
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobileDevice(window.innerWidth < 1100);
-        };
-        window.addEventListener("resize", handleResize);
+    // useEffect(() => {
+    //     const handleResize = () => {
+    //         setIsMobileDevice(window.innerWidth < 1100);
+    //     };
+    //     window.addEventListener("resize", handleResize);
 
-        handleResize();
+    //     handleResize();
 
-        return () => {
-            window.removeEventListener("resize", handleResize);
-        };
-    }, []);
+    //     return () => {
+    //         window.removeEventListener("resize", handleResize);
+    //     };
+    // }, []);
 
     return (
         <DashboardLayout>

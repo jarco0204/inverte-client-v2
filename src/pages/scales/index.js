@@ -36,12 +36,12 @@ const CustomizedGrid = styled(Grid)`
    @Comments
    @Coders: JAAM
 */
-const ScalesContainer = ({ iotThingNames, restaurantName, restaurantLocationNum }) => {
+const ScalesContainer = ({ iotThingNames, restaurantName, restaurantLocationNum, unitOfMass, isMobileDevice }) => {
     // Variable Definition
     const keys = Object.keys(iotThingNames);
     const [scalesMetaArr, setScalesMetaArr] = useState([]);
     const [scaleCardsReady, setScaleCardsReady] = useState(false);
-
+    console.log("Mobile device:", isMobileDevice);
     /*!
         @description: React Hook to Create the Scale Card Components based on the number of IoT Things are associated with RestaurantID
         @params:
@@ -70,7 +70,7 @@ const ScalesContainer = ({ iotThingNames, restaurantName, restaurantLocationNum 
                         <MDBox mb={20}>
                             {scalesMetaArr.map((mainScaleData, i) => (
                                 <div key={i} style={{ marginTop: "50px" }}>
-                                    <Scale mainScaleData={mainScaleData} />
+                                    <Scale mainScaleData={mainScaleData} isMobileDevice={isMobileDevice} />
                                 </div>
                             ))}
                         </MDBox>

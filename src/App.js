@@ -209,7 +209,7 @@ export default function App() {
                     ) : null}
                     <Routes>
                         <Route path="*" element={<Navigate to="/dashboard" />} />
-                        {createRoutes(RouterContainer(metaInformation))}
+                        {createRoutes(RouterContainer(metaInformation, isMobileDevice))}
                     </Routes>
                 </ThemeProvider>
             )}

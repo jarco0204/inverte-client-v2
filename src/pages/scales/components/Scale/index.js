@@ -23,8 +23,7 @@ import FormLabel from "@mui/material/FormLabel";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { makeStyles } from "@material-ui/core/styles";
 import { styled } from "@mui/material/styles";
-import {} from "@mui/material";
-
+import { Input } from "@mui/material";
 // User Components
 import MDBox from "../../../../components/MDBox";
 import MDTypography from "../../../../components/MDTypography";
@@ -32,8 +31,9 @@ import { TareButton, StartButton, ExpandMore } from "./ScaleButtons";
 import { updateRestaurant } from "../../../../graphql/mutations";
 import { getRestaurant } from "../../../../graphql/queries";
 import { Radio } from "antd";
+import { Button } from "@material-ui/core";
 
-const Scale = ({ mainScaleData }) => {
+const Scale = ({ mainScaleData, isMobileDevice }) => {
     // Classic Shadow Parameters
     const [minOffset, setMinOffset] = useState(3);
     const [maxOffset, setMaxOffset] = useState(3);
@@ -212,6 +212,17 @@ const Scale = ({ mainScaleData }) => {
         } catch (err) {
             console.log("Error in updating ingredient name API...", err);
         }
+    };
+    /*!
+   @description:Function that prevents keyboard inputs on the texbox for Lower and upper Error Limit
+   @params:
+   @return:
+   @Comments
+   @Coders:Rohan-16
+*/
+    const handleKeyDown = (event) => {
+        // Prevent keyboard inputs on the text box
+        event.preventDefault();
     };
 
     /*!
@@ -513,8 +524,10 @@ const Scale = ({ mainScaleData }) => {
                     </FormHelperText>
                     <FormControl id={"min-limit"} sx={{ m: 1, width: 100 }} variant="outlined">
                         <FormHelperText id="outlined-weight-helper-text">Min Limit </FormHelperText>
-                        <OutlinedInput
+
+                        <TextField
                             id="outlined-adornment-weight"
+                            type="number"
                             name="minOffsetField"
                             style={{
                                 backgroundColor: "beige",
@@ -524,15 +537,22 @@ const Scale = ({ mainScaleData }) => {
                             aria-describedby="outlined-weight-helper-text"
                             inputProps={{
                                 "aria-label": "weight",
+                                style: {
+                                    textAlign: "center",
+                                },
+
+                                min: 2, // Set the minimum value
                             }}
-                            onChange={(e) => setMinOffset(e.target.value)}
+                            onKeyDown={!isMobileDevice ? handleKeyDown : null} // Prevent keyboard Inputs
+                            onChange={(e) => setMinOffset(e.target.value == 1 ? 2 : e.target.value)}
                             onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updateClassicShadow(e))}
                         />
                     </FormControl>
                     <FormControl id={"max-limit"} sx={{ m: 1, width: 100 }} variant="outlined">
                         <FormHelperText id="outlined-weight-helper-text">Max Limit </FormHelperText>
-                        <OutlinedInput
+                        <TextField
                             id="outlined-adornment-weight"
+                            type="number"
                             name="maxOffsetField"
                             style={{
                                 backgroundColor: "beige",
@@ -542,8 +562,14 @@ const Scale = ({ mainScaleData }) => {
                             aria-describedby="outlined-weight-helper-text"
                             inputProps={{
                                 "aria-label": "weight",
+                                style: {
+                                    textAlign: "center",
+                                },
+
+                                min: 2, // Set the minimum value
                             }}
-                            onChange={(e) => setMaxOffset(e.target.value)}
+                            onKeyDown={!isMobileDevice ? handleKeyDown : null} // Prevent keyboard Inputs
+                            onChange={(e) => setMaxOffset(e.target.value == 1 ? 2 : e.target.value)}
                             onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updateClassicShadow(e))}
                         />
                     </FormControl>
