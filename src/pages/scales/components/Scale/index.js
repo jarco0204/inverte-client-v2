@@ -314,6 +314,14 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                 dataCloud = dataCloud.value.state.reported;
 
                 setRealTimeWeight(dataCloud.inventoryWeight);
+                if (dataCloud.inventoryWeight === -1) {
+                    setRealTimeTemperature("Off");
+                } else if (dataCloud.inventoryWeight === 0) {
+                    setRealTimeTemperature("Idle");
+                } else {
+                    setRealTimeTemperature("On");
+                    setRealTimeWeight(dataCloud.inventoryWeight);
+                }
                 console.log("Successfully handled your UPDATE Time Series Shadow...");
             },
             error: (error) => console.error("Error in GET/Accepted web socket of Timeseries...", error),
