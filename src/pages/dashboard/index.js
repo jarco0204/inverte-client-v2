@@ -383,7 +383,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                 <div style={{ height: "85vh" }}>
                     <MDBox py={3}>
                         <Grid container spacing={1} display="flex" justifyContent="center">
-                            <Tooltip title="Number of portions completed" placement="bottom">
+                            <Tooltip title="Portions Completed for Today" placement="bottom">
                                 <Grid item xs={12} md={6} lg={3}>
                                     <ComplexStatisticsCard
                                         color="dark"
@@ -401,7 +401,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
 
                     <MDBox py={2}>
                         <Grid container spacing={3} display="flex" justifyContent="center">
-                            <Tooltip title="Average portion precision" placement="bottom">
+                            <Tooltip title="Average Portioning Precision for Today" placement="bottom">
                                 <Grid item xs={12} md={6} lg={3}>
                                     <MDBox mb={1.5}>
                                         <ComplexStatisticsCard
@@ -418,7 +418,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                     </MDBox>
                                 </Grid>
                             </Tooltip>
-                            <Tooltip title="Total Inventory consumed for the day" placement="bottom">
+                            <Tooltip title="Total Consumed Inventory for Today" placement="bottom">
                                 <Grid item xs={12} md={6} lg={3}>
                                     <MDBox mb={1.5}>
                                         <ComplexStatisticsCard
@@ -433,7 +433,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                     </MDBox>
                                 </Grid>
                             </Tooltip>
-                            <Tooltip title="Average time taken to complete portions " placement="bottom">
+                            <Tooltip title="Average Time Taken to Complete Portions " placement="bottom">
                                 <Grid item xs={12} md={6} lg={3}>
                                     <MDBox mb={1.5}>
                                         <ComplexStatisticsCard
@@ -452,17 +452,17 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                         <MDBox mt={4.75}>
                             <Grid container spacing={3}>
                                 <Grid item xs={12} md={6} lg={4}>
-                                    <Tooltip title="Precision chart for individual portions " placement="bottom">
+                                    <Tooltip title="Precision of Portioning for the Last 7 Events" placement="bottom">
                                         <MDBox mb={3}>{generatePrecisionChartResponsive(false)}</MDBox>
                                     </Tooltip>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
-                                    <Tooltip title="Doughnut chart for portions' tendency " placement="bottom">
+                                    <Tooltip title="Serving Tendency of Portions" placement="bottom">
                                         <MDBox mb={3}>{generateDoughnutChartResponsive(false)}</MDBox>
                                     </Tooltip>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
-                                    <Tooltip title="Line chart for inidividual portions' completion time  " placement="bottom">
+                                    <Tooltip title="Completion Time for the Last 7 Events" placement="bottom">
                                         <MDBox mb={3}>{generateTimeLineChartResponsive(false)}</MDBox>
                                     </Tooltip>
                                 </Grid>

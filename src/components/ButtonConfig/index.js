@@ -20,7 +20,7 @@ export default function ButtonConfig({ dispatch, openConfigurator }) {
     const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
     return (
         <>
-            <Tooltip title="Open configurator" placement="bottom">
+            <Tooltip title="Personalize Dashboard" placement="bottom">
                 <MDBox
                     display="flex"
                     justifyContent="center"
