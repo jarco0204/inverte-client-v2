@@ -156,11 +156,11 @@ const createDoughnutChartObject = () => {
 */
 const DashboardContainer = () => {
     // Main Component State: Cards & Graphs
-    const iotThingNames = useSelector(state => state.meta.iotThingNames)
-    const unitOfMass = useSelector(state => state.meta.unitOfMass)
-    const displayIngredientIndex = useSelector(state => state.meta.displayIngredient)
-    const timeZone = useSelector(state => state.meta.timeZone)
-    const clientDemo = useSelector(state => state.meta.demo)
+    const iotThingNames = useSelector((state) => state.meta.iotThingNames);
+    const unitOfMass = useSelector((state) => state.meta.unitOfMass);
+    const displayIngredientIndex = useSelector((state) => state.meta.displayIngredient);
+    const timeZone = useSelector((state) => state.meta.timeZone);
+    const clientDemo = useSelector((state) => state.meta.demo);
 
     const portionCompleteTitle = "Portions Completed";
     const portionPrecisionTitle = "Precision Levels";
@@ -179,8 +179,8 @@ const DashboardContainer = () => {
 
     // Drop-Down Menu State
     const options = Object.values(iotThingNames);
-    const selectedIndexRef = {current:displayIngredientIndex.toString()};
-    const selectedIndex = displayIngredientIndex
+    const selectedIndexRef = { current: displayIngredientIndex.toString() };
+    const selectedIndex = displayIngredientIndex;
     const keys = Object.keys(iotThingNames);
 
     /*!
@@ -310,7 +310,7 @@ const DashboardContainer = () => {
 
             let hour = response.data;
             let demoData = getDemoData();
-            let demo = false
+            let demo = false;
             // If Demo, then display hard-coded data
             if (demo) {
                 // Set the Upper Summary Card Components
@@ -381,15 +381,13 @@ const DashboardContainer = () => {
     //     };
     // }, []);
 
-  
-
     const convertGsToOz = (val) => {
-        return (parseInt(val) / 28.35).toFixed(2).toString()
-    }
+        return (parseInt(val) / 28.35).toFixed(2).toString();
+    };
     return (
         <DashboardLayout>
             {/* TODO: ADD Style such that title gets centered with media query (textAlign) */}
-            <DropDownIngredientMenu options={options}  titleForPage={"Daily Inventory Report"}/>
+            <DropDownIngredientMenu options={options} titleForPage={"Daily Inventory Report"} />
 
             {!isMobileDevice && (
                 <div style={{ height: "85vh" }}>
@@ -398,10 +396,10 @@ const DashboardContainer = () => {
                             <Tooltip title="Portions Completed for Today" placement="bottom">
                                 <Grid item xs={12} md={6} lg={3}>
                                     <ComplexStatisticsCard
-                                        color="info"
-                                        title={portionPrecisionTitle}
-                                        icon={<PrecisionManufacturingRoundedIcon />}
-                                        count={unitOfMass == "g" ? cardSummaryItems[1] : convertGsToOz(cardSummaryItems[1]) + "oz"}
+                                        color="dark"
+                                        title={portionCompleteTitle}
+                                        icon={<PanToolIcon />}
+                                        count={unitOfMass == "g" ? cardSummaryItems[0] : convertGsToOz(cardSummaryItems[1]) + "oz"}
                                         percentage={{
                                             color: "success",
                                         }}
