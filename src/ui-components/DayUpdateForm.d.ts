@@ -16,12 +16,14 @@ export declare type DayUpdateFormInputValues = {
     dayOfYear_iotNameThing?: string;
     weekOfYear_iotNameThing?: string;
     realTime?: string;
+    dashboardGraph?: string;
     scaleActions?: string;
 };
 export declare type DayUpdateFormValidationValues = {
     dayOfYear_iotNameThing?: ValidationFunction<string>;
     weekOfYear_iotNameThing?: ValidationFunction<string>;
     realTime?: ValidationFunction<string>;
+    dashboardGraph?: ValidationFunction<string>;
     scaleActions?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
@@ -30,6 +32,7 @@ export declare type DayUpdateFormOverridesProps = {
     dayOfYear_iotNameThing?: PrimitiveOverrideProps<TextFieldProps>;
     weekOfYear_iotNameThing?: PrimitiveOverrideProps<TextFieldProps>;
     realTime?: PrimitiveOverrideProps<TextAreaFieldProps>;
+    dashboardGraph?: PrimitiveOverrideProps<TextAreaFieldProps>;
     scaleActions?: PrimitiveOverrideProps<TextAreaFieldProps>;
 } & EscapeHatchProps;
 export declare type DayUpdateFormProps = React.PropsWithChildren<{
