@@ -310,7 +310,7 @@ const DashboardContainer = () => {
 
             let hour = response.data;
             let demoData = getDemoData();
-
+            let demo = false
             // If Demo, then display hard-coded data
             if (demo) {
                 // Set the Upper Summary Card Components
