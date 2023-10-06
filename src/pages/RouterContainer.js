@@ -35,7 +35,7 @@ const RouterContainer = (metaInformation, isMobileDevice) => {
                     unitOfMass={metaInformation.unitOfMass}
                     displayIngredientIndex={metaInformation.displayIngredient}
                     timeZone={metaInformation.timeZone}
-                    isMobileDevice={metaInformation.isMobileDevice}
+                    isMobileDevice={isMobileDevice}
                     demo={metaInformation.demo}
                 />
             ),
@@ -56,6 +56,7 @@ const RouterContainer = (metaInformation, isMobileDevice) => {
                     restaurantName={metaInformation.restaurantName}
                     restaurantLocationNum={metaInformation.restaurantLocationNum}
                     unitOfMass={metaInformation.unitOfMass}
+                    isMobileDevice={isMobileDevice}
                 />
             ),
         },

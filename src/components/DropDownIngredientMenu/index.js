@@ -118,7 +118,7 @@ const DropDownIngredientMenu = ({ options, selectedIndexRef, selectedIndex, setS
         <>
             <MDBox py={1} display="flex" justifyContent="center">
                 <h2 style={{ margin: "0 10px", fontSize: "24px" }}>{titleForPage} </h2>
-                <Tooltip title="Dropdown to select Ingredient" placement="bottom-end">
+                <Tooltip title="Select Ingredient" placement="bottom-end">
                     <MDBox
                         variant="gradient"
                         bgColor="dark"

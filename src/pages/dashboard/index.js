@@ -75,6 +75,37 @@ const getDemoData = () => {
         },
     };
 };
+//Custom query to get only the necessary data from table so that we don't pull the big realTime object each time
+const getDashboard = /* GraphQL */ `
+    query GetDay($dayOfYear_iotNameThing: ID!) {
+        getDay(dayOfYear_iotNameThing: $dayOfYear_iotNameThing) {
+            dayOfYear_iotNameThing
+            dailySummary {
+                averageTime
+                portionsCompleted
+                accuracy
+                performance
+                inventoryConsumed
+                overServed
+                underServed
+                perfect
+                day {
+                    dayOfYear_iotNameThing
+                    weekOfYear_iotNameThing
+                    realTime
+                    dashboardGraph
+                    scaleActions
+                    createdAt
+                    updatedAt
+                    weekDayWeekOfYear_iotNameThing
+                    __typename
+                }
+                __typename
+            }
+            dashboardGraph
+        }
+    }
+`;
 
 /*!
    @description: Helper function ton create an object to store the portion event data.
@@ -123,13 +154,12 @@ const createDoughnutChartObject = () => {
    @Comments
    @Coders: GangaLi
 */
-const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex, timeZone, clientDemo }) => {
+const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex, timeZone, isMobileDevice, demo }) => {
     // Main Component State
     const portionCompleteTitle = "Portions Completed";
     const portionPrecisionTitle = "Precision Levels";
     const portionTimeTitle = "Average Completion Time";
     const inventoryConsumedTitle = "Inventory Consumed";
-    const [isMobileDevice, setIsMobileDevice] = useState(clientDemo);
 
     // Main Card Components
     const [cardSummaryItems, setCardSummaryItems] = useState([]);
@@ -190,48 +220,43 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
     const generateLowerRealTimeGraphs = (realTime, accuracyPercentagesAR) => {
         // Variable definition
         let [tempWeightAR, correctWeightAR, upperLimitAR, lowerLimitAR, tempTimeAR, pointBackgroundColorAR] = [[], [], [], [], [], []];
-        let oldTempKeys = Object.keys(realTime).sort((a, b) => a - b); //Sort the data by time
+        let keys = Object.keys(realTime).sort((a, b) => a - b); //Sorting the keys in ascending order
 
-        let tempKeys = oldTempKeys.slice(-7); //We are slicing the array so that only 7 data points get displayed on the graphs
-        // Generate Data Arrays
-        for (let i = 0; i < tempKeys.length; i++) {
-            // TODO: tempKeys should contain this information for each portion event
-            const correctWeight = parseInt(realTime[tempKeys[i]].correctWeight);
-            const upperLimit = parseInt(realTime[tempKeys[i]].upperErrorLimit);
-            const lowerLimit = parseInt(realTime[tempKeys[i]].lowerErrorLimit);
-            // Portion Weight Accuracy
+        for (let i = 0; i < keys.length; i++) {
+            const correctWeight = parseInt(realTime[keys[i]].correctWeight);
+            const upperLimit = parseInt(realTime[keys[i]].upperErrorLimit);
+            const lowerLimit = parseInt(realTime[keys[i]].lowerErrorLimit);
             upperLimitAR.push(correctWeight + upperLimit);
-            correctWeightAR.push(correctWeight);
             lowerLimitAR.push(correctWeight - lowerLimit);
+            correctWeightAR.push(correctWeight);
             // Handle Acci Refill Events
-            if (realTime[tempKeys[i]].portionWeight < 0) {
+            if (realTime[keys[i]].portionWeight < 0) {
                 if (unitOfMass == "g") {
-                    tempWeightAR.push(realTime[tempKeys[i]].portionWeight);
+                    tempWeightAR.push(realTime[keys[i]].portionWeight);
                 } else {
-                    tempWeightAR.push((realTime[tempKeys[i]].portionWeight / 28.35).toFixed(2));
+                    tempWeightAR.push((realTime[keys[i]].portionWeight / 28.35).toFixed(2));
                 }
                 pointBackgroundColorAR.push("rgba(55, 55, 55, .8)");
             } else {
                 if (unitOfMass == "g") {
-                    tempWeightAR.push(realTime[tempKeys[i]].portionWeight);
+                    tempWeightAR.push(realTime[keys[i]].portionWeight);
                 } else {
-                    tempWeightAR.push((realTime[tempKeys[i]].portionWeight / 28.35).toFixed(2));
+                    tempWeightAR.push((realTime[keys[i]].portionWeight / 28.35).toFixed(2));
                 }
                 pointBackgroundColorAR.push("rgba(255, 255, 255, .8)");
             }
 
             // Push Data points to arrays
-            tempTimeAR.push(parseFloat(realTime[tempKeys[i]].portionTime).toFixed(1));
-        }
-        for (let i = 0; i < tempKeys.length; i++) {
-            tempKeys[i] = dayjs
-                .unix(tempKeys[i] / 1000)
+            tempTimeAR.push(parseFloat(realTime[keys[i]].portionTime).toFixed(1));
+
+            // Convert from Unix Timestamp to Local Time
+            keys[i] = dayjs
+                .unix(keys[i] / 1000)
                 .tz(timeZone)
                 .format("MM-DD HH:mm");
         }
-
         // Precision Chart made up of 3 lines
-        precisionGraph.labels = tempKeys;
+        precisionGraph.labels = keys;
         precisionGraph.portionEvent.data = tempWeightAR;
         precisionGraph.correctWeight.data = correctWeightAR;
         precisionGraph.upperLimit.data = upperLimitAR;
@@ -242,7 +267,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
         accuracyGraph.datasets.data = accuracyPercentagesAR;
 
         // Inventory Weight Chart made up of One Dataset
-        inventoryGraph.labels = tempKeys;
+        inventoryGraph.labels = keys;
         inventoryGraph.datasets.data = tempTimeAR;
         inventoryGraph.pointBackgroundColorAr = pointBackgroundColorAR;
 
@@ -274,7 +299,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
 
             // Query GQL to pull hourly data
             const response = await API.graphql({
-                query: getDay,
+                query: getDashboard,
                 variables: { dayOfYear_iotNameThing: tempDate.dayOfYear().toString() + "_" + keys[selectedIndexRef.current] }, // Provide the ID as a variable
             });
 
@@ -282,7 +307,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
             let demoData = getDemoData();
 
             // If Demo, then display hard-coded data
-            if (clientDemo) {
+            if (demo) {
                 // Set the Upper Summary Card Components
                 let accuracy = demoData.getDay.dailySummary.accuracy.toFixed(0) + "%";
                 let inventoryWeight = demoData.getDay.dailySummary.inventoryConsumed + "g";
@@ -301,7 +326,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                     const underPercent = parseInt((hour.getDay.dailySummary.underServed / hour.getDay.dailySummary.portionsCompleted) * 100);
                     const perfectPercent = parseInt((hour.getDay.dailySummary.perfect / hour.getDay.dailySummary.portionsCompleted) * 100);
                     const overPercent = parseInt((hour.getDay.dailySummary.overServed / hour.getDay.dailySummary.portionsCompleted) * 100);
-                    generateLowerRealTimeGraphs(JSON.parse(hour.getDay.realTime), [underPercent, perfectPercent, overPercent]);
+                    generateLowerRealTimeGraphs(JSON.parse(hour.getDay.dashboardGraph), [underPercent, perfectPercent, overPercent]);
                 } else {
                     // There is no hourly response so add placeholders
                     setCardSummaryItems(["0", "NA", "0", "NA"]);
@@ -338,18 +363,18 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
     }, [selectedIndex]);
 
     // UseEffect to change layout for mobile devices
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobileDevice(window.innerWidth < 1100);
-        };
-        window.addEventListener("resize", handleResize);
+    // useEffect(() => {
+    //     const handleResize = () => {
+    //         setIsMobileDevice(window.innerWidth < 1100);
+    //     };
+    //     window.addEventListener("resize", handleResize);
 
-        handleResize();
+    //     handleResize();
 
-        return () => {
-            window.removeEventListener("resize", handleResize);
-        };
-    }, []);
+    //     return () => {
+    //         window.removeEventListener("resize", handleResize);
+    //     };
+    // }, []);
 
     return (
         <DashboardLayout>
@@ -358,7 +383,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                 <div style={{ height: "85vh" }}>
                     <MDBox py={3}>
                         <Grid container spacing={1} display="flex" justifyContent="center">
-                            <Tooltip title="Number of portions completed" placement="bottom">
+                            <Tooltip title="Portions Completed for Today" placement="bottom">
                                 <Grid item xs={12} md={6} lg={3}>
                                     <ComplexStatisticsCard
                                         color="dark"
@@ -376,7 +401,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
 
                     <MDBox py={2}>
                         <Grid container spacing={3} display="flex" justifyContent="center">
-                            <Tooltip title="Average portion precision" placement="bottom">
+                            <Tooltip title="Average Portioning Precision for Today" placement="bottom">
                                 <Grid item xs={12} md={6} lg={3}>
                                     <MDBox mb={1.5}>
                                         <ComplexStatisticsCard
@@ -393,7 +418,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                     </MDBox>
                                 </Grid>
                             </Tooltip>
-                            <Tooltip title="Total Inventory consumed for the day" placement="bottom">
+                            <Tooltip title="Total Consumed Inventory for Today" placement="bottom">
                                 <Grid item xs={12} md={6} lg={3}>
                                     <MDBox mb={1.5}>
                                         <ComplexStatisticsCard
@@ -408,7 +433,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                     </MDBox>
                                 </Grid>
                             </Tooltip>
-                            <Tooltip title="Average time taken to complete portions " placement="bottom">
+                            <Tooltip title="Average Time Taken to Complete Portions " placement="bottom">
                                 <Grid item xs={12} md={6} lg={3}>
                                     <MDBox mb={1.5}>
                                         <ComplexStatisticsCard
@@ -427,17 +452,17 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                         <MDBox mt={4.75}>
                             <Grid container spacing={3}>
                                 <Grid item xs={12} md={6} lg={4}>
-                                    <Tooltip title="Precision chart for individual portions " placement="bottom">
+                                    <Tooltip title="Precision of Portioning for the Last 7 Events" placement="bottom">
                                         <MDBox mb={3}>{generatePrecisionChartResponsive(false)}</MDBox>
                                     </Tooltip>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
-                                    <Tooltip title="Doughnut chart for portions' tendency " placement="bottom">
+                                    <Tooltip title="Serving Tendency of Portions" placement="bottom">
                                         <MDBox mb={3}>{generateDoughnutChartResponsive(false)}</MDBox>
                                     </Tooltip>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
-                                    <Tooltip title="Line chart for inidividual portions' completion time  " placement="bottom">
+                                    <Tooltip title="Completion Time for the Last 7 Events" placement="bottom">
                                         <MDBox mb={3}>{generateTimeLineChartResponsive(false)}</MDBox>
                                     </Tooltip>
                                 </Grid>

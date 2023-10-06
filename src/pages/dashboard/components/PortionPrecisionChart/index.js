@@ -1,5 +1,5 @@
 // React Imports
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import PropTypes from "prop-types";
 
 // react-chartjs-2 components
@@ -40,6 +40,7 @@ const PortionPrecisionChart = ({ color, title, description, chart, mobileViewFla
         @Coders: ManuLAO
     */
     const returnMyChart = () => {
+        console.log("The data is:", data);
         return (
             <MDBox padding="1rem">
                 {useMemo(
