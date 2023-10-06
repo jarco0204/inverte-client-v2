@@ -23,7 +23,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import MDBox from "../../components/MDBox";
 import MDTypography from "../../components/MDTypography";
 import MDButton from "../../components/MDButton";
-
+import { useDispatch, useSelector } from "react-redux";
+import { switchColor } from "../../redux/settingsSlice";
+import { setUnitOfMass } from "../../redux/metaSlice";
+import { switchMetrics } from "../../redux/settingsSlice";
 // Custom styles for the Configurator
 import ConfiguratorRoot from "./ConfiguratorRoot";
 
@@ -42,14 +45,16 @@ const handleLogOut = async () => {
         console.log(err);
     }
 };
-function Configurator({ metaInformation, setUnitOfMass, unitOfMass }) {
+function Configurator({ metaInformation }) {
     const [controller, dispatch] = useMaterialUIController();
     const { openConfigurator, fixedNavbar, sidenavColor, transparentSidenav, whiteSidenav, darkMode } = controller;
     const [disabled, setDisabled] = useState(false);
     const sidenavColors = ["primary", "dark", "info", "success", "warning", "error"];
     const restaurantName = metaInformation.restaurantName;
     const restaurantLocationNum = metaInformation.restaurantLocationNum;
-
+    const unitOfMass = useSelector(state => state.meta.unitOfMass)
+    const selectedColor = useSelector(state => state.settings.color)
+    const reduxDispatch = useDispatch()
     // console.log("The unit of mass is: ", unitOfMass);
     // Use the useEffect hook to change the button state for the sidenav type based on window size.
     useEffect(() => {
@@ -57,17 +62,17 @@ function Configurator({ metaInformation, setUnitOfMass, unitOfMass }) {
         function handleDisabled() {
             return window.innerWidth > 1200 ? setDisabled(false) : setDisabled(true);
         }
-
+        
         // The event listener that's calling the handleDisabled function when resizing the window.
         window.addEventListener("resize", handleDisabled);
-
+        
         // Call the handleDisabled function to set the state with the initial value.
         handleDisabled();
-
+        
         // Remove event listener on cleanup
         return () => window.removeEventListener("resize", handleDisabled);
     }, []);
-
+    
     const handleCloseConfigurator = () => setOpenConfigurator(dispatch, false);
     const handleTransparentSidenav = () => {
         setTransparentSidenav(dispatch, true);
@@ -124,7 +129,7 @@ function Configurator({ metaInformation, setUnitOfMass, unitOfMass }) {
             border: `${borderWidth[1]} solid ${darkMode ? white.main : dark.main}`,
         },
     });
-
+    
     // sidenav type active button styles
     const sidenavTypeActiveButtonStyles = ({ functions: { pxToRem, linearGradient }, palette: { white, gradients, background } }) => ({
         height: pxToRem(39),
@@ -136,7 +141,17 @@ function Configurator({ metaInformation, setUnitOfMass, unitOfMass }) {
             color: darkMode ? background.sidenav : white.main,
         },
     });
+    const switchMetricOnClick = (event) => {
+        // console.log(event)
+        reduxDispatch(setUnitOfMass(event.target.defaultValue))
+    }
 
+    const switchColorOnClick = (event) => {
+        console.log(event)
+        reduxDispatch(switchColor(event.target.defaultValue))
+    }
+    
+    
     return (
         <ConfiguratorRoot variant="permanent" ownerState={{ openConfigurator }}>
             <MDBox display="flex" justifyContent="space-between" alignItems="baseline" pt={4} pb={0.5} px={3}>
@@ -283,13 +298,15 @@ function Configurator({ metaInformation, setUnitOfMass, unitOfMass }) {
                                     row
                                     aria-labelledby="demo-radio-buttons-group-label"
                                     name="unitOfMassField"
-                                    onChange={(event) => {
-                                        console.log("Jump", event.target.value);
-                                        setUnitOfMass(event.target.value);
-                                        updateUnitOfMass(event);
-                                        changeScaleMass(5);
-                                    }}
-                                    defaultValue={metaInformation.unitOfMass}
+                                    // onChange={(event) => {
+                                    //     console.log("Jump", event.target.value);
+                                    //     switchMetricOnClick;
+                                    //     console.log('Success')
+                                    //     updateUnitOfMass(event);
+                                    //     changeScaleMass(5);
+                                    // }}
+                                    onChange={switchMetricOnClick}
+                                    defaultValue={unitOfMass}
                                 >
                                     <FormControlLabel value="oz" control={<Radio />} label="oz" />
                                     <FormControlLabel value="g" control={<Radio />} label="g" />

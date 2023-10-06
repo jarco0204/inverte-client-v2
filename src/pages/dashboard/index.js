@@ -1,7 +1,6 @@
 // React Imports
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import Chart from "chart.js/auto";
 
 // MUI material components
 import Grid from "@mui/material/Grid";
@@ -22,7 +21,7 @@ import { Tooltip } from "@mui/material";
 import { getDay } from "../../graphql/queries";
 
 import { onNewPortionEvent } from "../../graphql/subscriptions";
-import { API, Auth, graphqlOperation } from "aws-amplify";
+import { API, graphqlOperation } from "aws-amplify";
 
 // User Components
 import PortionPrecisionChart from "./components/PortionPrecisionChart";
@@ -36,8 +35,9 @@ import dayOfYear from "dayjs/plugin/dayOfYear.js";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import toObject from "dayjs/plugin/toObject.js";
-
-// Configure DayJS library
+import { useSelector } from "react-redux";
+import { setSelectedIndex } from "../../redux/metaSlice";
+// import { ListItemIcon } from "@mui/material";
 dayjs.extend(dayOfYear);
 dayjs.extend(toObject);
 dayjs.extend(utc);
@@ -123,15 +123,20 @@ const createDoughnutChartObject = () => {
    @Comments
    @Coders: GangaLi
 */
-const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex, timeZone, clientDemo }) => {
-    // Main Component State
+const DashboardContainer = () => {
+    // Main Component State: Cards & Graphs
+    const iotThingNames = useSelector(state => state.meta.iotThingNames)
+    const unitOfMass = useSelector(state => state.meta.unitOfMass)
+    const displayIngredientIndex = useSelector(state => state.meta.displayIngredient)
+    const timeZone = useSelector(state => state.meta.timeZone)
+    const clientDemo = useSelector(state => state.meta.demo)
+
     const portionCompleteTitle = "Portions Completed";
     const portionPrecisionTitle = "Precision Levels";
     const portionTimeTitle = "Average Completion Time";
     const inventoryConsumedTitle = "Inventory Consumed";
-    const [isMobileDevice, setIsMobileDevice] = useState(clientDemo);
 
-    // Main Card Components
+    const [isMobileDevice, setIsMobileDevice] = useState(clientDemo);
     const [cardSummaryItems, setCardSummaryItems] = useState([]);
     const [realTimePrecisionGraph, setRealTimePrecisionGraph] = useState([]);
     const [realTimeAccuracyGraph, setRealTimeAccuracyGraph] = useState([]);
@@ -143,8 +148,8 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
 
     // Drop-Down Menu State
     const options = Object.values(iotThingNames);
-    const selectedIndexRef = useRef(displayIngredientIndex);
-    const [selectedIndex, setSelectedIndex] = useState(displayIngredientIndex);
+    const selectedIndexRef = {current:displayIngredientIndex.toString()};
+    const selectedIndex = displayIngredientIndex
     const keys = Object.keys(iotThingNames);
 
     /*!
@@ -271,7 +276,6 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
     const getHourlyMetaRecords = async () => {
         try {
             let tempDate = dayjs().tz(timeZone); // Local time of Client
-
             // Query GQL to pull hourly data
             const response = await API.graphql({
                 query: getDay,
@@ -351,9 +355,16 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
         };
     }, []);
 
+  
+
+    const convertGsToOz = (val) => {
+        return (parseInt(val) / 28.35).toFixed(2).toString()
+    }
     return (
         <DashboardLayout>
-            <DropDownIngredientMenu options={options} selectedIndexRef={selectedIndexRef} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} titleForPage={"Daily InVentory Report"} />
+            {/* TODO: ADD Style such that title gets centered with media query (textAlign) */}
+            <DropDownIngredientMenu options={options}  titleForPage={"Daily Inventory Report"}/>
+
             {!isMobileDevice && (
                 <div style={{ height: "85vh" }}>
                     <MDBox py={3}>
@@ -361,10 +372,10 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                             <Tooltip title="Number of portions completed" placement="bottom">
                                 <Grid item xs={12} md={6} lg={3}>
                                     <ComplexStatisticsCard
-                                        color="dark"
-                                        icon={<PanToolIcon />}
-                                        title={portionCompleteTitle}
-                                        count={cardSummaryItems[0]}
+                                        color="info"
+                                        title={portionPrecisionTitle}
+                                        icon={<PrecisionManufacturingRoundedIcon />}
+                                        count={unitOfMass == "g" ? cardSummaryItems[1] : convertGsToOz(cardSummaryItems[1]) + "oz"}
                                         percentage={{
                                             color: "success",
                                         }}
