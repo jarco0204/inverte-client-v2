@@ -515,7 +515,7 @@ const DashboardContainer = ({ iotThingNames, unitOfMass, displayIngredientIndex,
                                     color="warning"
                                     icon={<PrecisionManufacturingRoundedIcon />}
                                     title={inventoryConsumedTitle}
-                                    count={cardSummaryItems[1]}
+                                    count={cardSummaryItems[2]}
                                     percentage={{
                                         color: "success",
                                     }}
