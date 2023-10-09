@@ -1,6 +1,7 @@
 // React Imports
-import { useState, useEffect } from "react";
 import PropTypes from "prop-types"; // prop-types is a library for typechecking of props.
+import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
 
 // AWS Imports
 import { PubSub, Auth, API } from "aws-amplify";
@@ -8,30 +9,27 @@ import { PubSub, Auth, API } from "aws-amplify";
 //MUI Components
 import Card from "@mui/material/Card";
 import Icon from "@mui/material/Icon";
-import FastfoodIcon from "@mui/icons-material/Fastfood";
-import CardActions from "@mui/material/CardActions";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputAdornment from "@mui/material/InputAdornment";
-import FormHelperText from "@mui/material/FormHelperText";
-import FormControl from "@mui/material/FormControl";
-import TextField from "@mui/material/TextField";
 import Divider from "@mui/material/Divider";
 import Collapse from "@mui/material/Collapse";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormLabel from "@mui/material/FormLabel";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { makeStyles } from "@material-ui/core/styles";
 import { styled } from "@mui/material/styles";
-import { Input } from "@mui/material";
+import TextField from "@mui/material/TextField";
+import CardActions from "@mui/material/CardActions";
+import FormControl from "@mui/material/FormControl";
+import { makeStyles } from "@material-ui/core/styles";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import FastfoodIcon from "@mui/icons-material/Fastfood";
+import InputAdornment from "@mui/material/InputAdornment";
+import FormHelperText from "@mui/material/FormHelperText";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
 // User Components
-import MDBox from "../../../../components/MDBox";
-import MDTypography from "../../../../components/MDTypography";
-import { TareButton, StartButton, ExpandMore } from "./ScaleButtons";
-import { updateRestaurant } from "../../../../graphql/mutations";
-import { getRestaurant } from "../../../../graphql/queries";
 import { Radio } from "antd";
 import { Button } from "@material-ui/core";
+import MDBox from "../../../../components/MDBox";
+import { getRestaurant } from "../../../../graphql/queries";
+import MDTypography from "../../../../components/MDTypography";
+import { updateRestaurant } from "../../../../graphql/mutations";
+import { TareButton, StartButton, ExpandMore } from "./ScaleButtons";
 
 const Scale = ({ mainScaleData, isMobileDevice }) => {
     // Classic Shadow Parameters
@@ -49,8 +47,9 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
     const [realTimeTemperature, setRealTimeTemperature] = useState("Off");
 
     // UI & UX
-    const [expanded, setExpanded] = useState(false);
     const scaleStateReported = 1; // 0 = off & 1 = Unloaded & 2 = Busy/On
+    const [expanded, setExpanded] = useState(false);
+    const accessType = useSelector((state) => state.meta.accessType);
 
     /*!
        @description:
@@ -289,19 +288,23 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
         const subscriptionTimeSeriesShadow = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing + "/shadow/name/timeseries/get/accepted").subscribe({
             next: (dataCloud) => {
                 dataCloud = dataCloud.value.state.reported;
-
-                setRealTimeWeight(dataCloud.inventoryWeight);
-                if (dataCloud.inventoryWeight === -1) {
-                    setRealTimeTemperature("Off");
-                } else if (dataCloud.inventoryWeight === 0) {
-                    setRealTimeTemperature("Idle");
-                } else {
-                    setRealTimeTemperature("On");
+                if (dataCloud != undefined) {
+                    console.log("The data cloud is:", dataCloud);
                     setRealTimeWeight(dataCloud.inventoryWeight);
+                    if (dataCloud.inventoryWeight === -1) {
+                        setRealTimeTemperature("Off");
+                    } else if (dataCloud.inventoryWeight === 0) {
+                        setRealTimeTemperature("Idle");
+                    } else {
+                        setRealTimeTemperature("On");
+                        setRealTimeWeight(dataCloud.inventoryWeight);
+                    }
+                    setCorrectWeight1(dataCloud.correctWeight1);
+                    setCorrectWeight2(dataCloud.correctWeight2);
+                    setCorrectWeight3(dataCloud.correctWeight3);
+                } else {
+                    console.log("Scale is off");
                 }
-                setCorrectWeight1(dataCloud.correctWeight1);
-                setCorrectWeight2(dataCloud.correctWeight2);
-                setCorrectWeight3(dataCloud.correctWeight3);
                 console.log("Successfully handled your GET Time Series Shadow...");
                 // subscriptionTimeSeriesShadow.unsubscribe(); //Unsubcribe to topic after fething and updating parameters
             },
@@ -312,16 +315,21 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
         const subscriptionTimeSeriesShadowInventoryWeight = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing + "/shadow/name/timeseries/update/accepted").subscribe({
             next: (dataCloud) => {
                 dataCloud = dataCloud.value.state.reported;
-
-                setRealTimeWeight(dataCloud.inventoryWeight);
-                if (dataCloud.inventoryWeight === -1) {
-                    setRealTimeTemperature("Off");
-                } else if (dataCloud.inventoryWeight === 0) {
-                    setRealTimeTemperature("Idle");
-                } else {
-                    setRealTimeTemperature("On");
+                if (dataCloud != undefined) {
+                    console.log("The dataCloud1 is:", dataCloud);
                     setRealTimeWeight(dataCloud.inventoryWeight);
+                    if (dataCloud.inventoryWeight === -1) {
+                        setRealTimeTemperature("Off");
+                    } else if (dataCloud.inventoryWeight === 0) {
+                        setRealTimeTemperature("Idle");
+                    } else {
+                        setRealTimeTemperature("On");
+                        setRealTimeWeight(dataCloud.inventoryWeight);
+                    }
+                } else {
+                    console.log("Scale is off");
                 }
+
                 console.log("Successfully handled your UPDATE Time Series Shadow...");
             },
             error: (error) => console.error("Error in GET/Accepted web socket of Timeseries...", error),
@@ -383,6 +391,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                             textAlign: "center",
                             margin: "2px 0",
                         }}
+                        readOnly={accessType === "Restricted"}
                         value={nameIngredient}
                         aria-describedby="outlined-weight-helper-text"
                         inputProps={{
@@ -444,6 +453,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                                     style={{
                                         backgroundColor: "beige",
                                     }}
+                                    readOnly={accessType === "Restricted"}
                                     classes={{ input: classes.centered }}
                                     value={unitOfMass == "g" ? correctWeight1 : (correctWeight1 / 28.35).toFixed(2)}
                                     aria-describedby="outlined-weight-helper-text"
@@ -464,6 +474,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                                     style={{
                                         backgroundColor: "beige",
                                     }}
+                                    readOnly={accessType === "Restricted"}
                                     classes={{ input: classes.centered }}
                                     value={unitOfMass == "g" ? correctWeight2 : (correctWeight2 / 28.35).toFixed(2)}
                                     aria-describedby="outlined-weight-helper-text"
@@ -484,6 +495,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                                     style={{
                                         backgroundColor: "beige",
                                     }}
+                                    readOnly={accessType === "Restricted"}
                                     classes={{ input: classes.centered }}
                                     value={unitOfMass == "g" ? correctWeight3 : (correctWeight3 / 28.35).toFixed(2)}
                                     aria-describedby="outlined-weight-helper-text"
@@ -535,11 +547,12 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
 
                         <TextField
                             id="outlined-adornment-weight"
-                            type="number"
+                            type={accessType != "Restricted" ? "number" : "text"}
                             name="minOffsetField"
                             style={{
                                 backgroundColor: "beige",
                             }}
+                            readOnly={accessType === "Restricted"}
                             classes={{ input: classes.centered }}
                             value={unitOfMass == "g" ? minOffset : (minOffset / 28.35).toFixed(2)}
                             aria-describedby="outlined-weight-helper-text"
@@ -560,11 +573,12 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                         <FormHelperText id="outlined-weight-helper-text">Max Limit </FormHelperText>
                         <TextField
                             id="outlined-adornment-weight"
-                            type="number"
+                            type={accessType != "Restricted" ? "number" : "text"}
                             name="maxOffsetField"
                             style={{
                                 backgroundColor: "beige",
                             }}
+                            readOnly={accessType === "Restricted"}
                             classes={{ input: classes.centered }}
                             value={unitOfMass == "g" ? maxOffset : (maxOffset / 28.35).toFixed(2)}
                             aria-describedby="outlined-weight-helper-text"

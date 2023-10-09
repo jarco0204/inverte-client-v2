@@ -11,6 +11,7 @@ import MDBox from "../../components/MDBox";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import Footer from "../../components/Footer";
 import Scale from "./components/Scale";
+import { useSelector } from "react-redux";
 
 /*!
    @description: Centering the Grid of Scale Cards
@@ -36,11 +37,15 @@ const CustomizedGrid = styled(Grid)`
    @Comments
    @Coders: JAAM
 */
-const ScalesContainer = ({ iotThingNames, restaurantName, restaurantLocationNum, unitOfMass, isMobileDevice }) => {
+const ScalesContainer = () => {
     // Variable Definition
+    const iotThingNames = useSelector(state => state.meta.iotThingNames)
+    const restaurantName = useSelector(state => state.meta.restaurantName)
+    const restaurantLocationNum = useSelector(state => state.meta.restaurantLocationNum)
     const keys = Object.keys(iotThingNames);
     const [scalesMetaArr, setScalesMetaArr] = useState([]);
     const [scaleCardsReady, setScaleCardsReady] = useState(false);
+    const isMobileDevice = false
     console.log("Mobile device:", isMobileDevice);
     /*!
         @description: React Hook to Create the Scale Card Components based on the number of IoT Things are associated with RestaurantID

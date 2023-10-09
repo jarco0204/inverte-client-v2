@@ -21,6 +21,7 @@ export declare type RestaurantCreateFormInputValues = {
     restaurantName?: string;
     unitOfMass?: string;
     timeZone?: string;
+    accessType?: string;
 };
 export declare type RestaurantCreateFormValidationValues = {
     restaurant_id?: ValidationFunction<string>;
@@ -31,6 +32,7 @@ export declare type RestaurantCreateFormValidationValues = {
     restaurantName?: ValidationFunction<string>;
     unitOfMass?: ValidationFunction<string>;
     timeZone?: ValidationFunction<string>;
+    accessType?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type RestaurantCreateFormOverridesProps = {
@@ -43,6 +45,7 @@ export declare type RestaurantCreateFormOverridesProps = {
     restaurantName?: PrimitiveOverrideProps<TextFieldProps>;
     unitOfMass?: PrimitiveOverrideProps<TextFieldProps>;
     timeZone?: PrimitiveOverrideProps<TextFieldProps>;
+    accessType?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type RestaurantCreateFormProps = React.PropsWithChildren<{
     overrides?: RestaurantCreateFormOverridesProps | undefined | null;

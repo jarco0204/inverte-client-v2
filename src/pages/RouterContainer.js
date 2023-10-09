@@ -6,7 +6,6 @@ import OutlierContainer from "./outlier";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
-import HomeIcon from "@mui/icons-material/Home";
 import ScaleIcon from "@mui/icons-material/Scale";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
 
@@ -17,7 +16,7 @@ import AnalyticsIcon from "@mui/icons-material/Analytics";
    @Comments
    @Coders: GGG111000
 */
-const RouterContainer = (metaInformation, isMobileDevice) => {
+const RouterContainer = () => {
     return [
         {
             type: "collapse",
@@ -30,14 +29,7 @@ const RouterContainer = (metaInformation, isMobileDevice) => {
             ),
             route: "/dashboard",
             component: (
-                <DashboardContainer
-                    iotThingNames={metaInformation.iotThingNames}
-                    unitOfMass={metaInformation.unitOfMass}
-                    displayIngredientIndex={metaInformation.displayIngredient}
-                    timeZone={metaInformation.timeZone}
-                    isMobileDevice={isMobileDevice}
-                    demo={metaInformation.demo}
-                />
+                <DashboardContainer/>
             ),
         },
         {
@@ -51,13 +43,7 @@ const RouterContainer = (metaInformation, isMobileDevice) => {
             ),
             route: "/scales",
             component: (
-                <ScalesContainer
-                    iotThingNames={metaInformation.iotThingNames}
-                    restaurantName={metaInformation.restaurantName}
-                    restaurantLocationNum={metaInformation.restaurantLocationNum}
-                    unitOfMass={metaInformation.unitOfMass}
-                    isMobileDevice={isMobileDevice}
-                />
+                <ScalesContainer/>
             ),
         },
         {

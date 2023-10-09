@@ -15,6 +15,7 @@ export const createRestaurant = /* GraphQL */ `
       restaurantName
       unitOfMass
       timeZone
+      accessType
       scale {
         items {
           iotNameThing
@@ -50,6 +51,7 @@ export const updateRestaurant = /* GraphQL */ `
       restaurantName
       unitOfMass
       timeZone
+      accessType
       scale {
         items {
           iotNameThing
@@ -85,6 +87,7 @@ export const deleteRestaurant = /* GraphQL */ `
       restaurantName
       unitOfMass
       timeZone
+      accessType
       scale {
         items {
           iotNameThing
