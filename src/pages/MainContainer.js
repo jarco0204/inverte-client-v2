@@ -58,21 +58,23 @@ export default function MainContainer() {
     const [authenticated, setAuthenticated] = useState(false);
     const [spinnerLoader, setSpinnerLoader] = useState(false);
     // const [metaInformation, setMetaInformation] = useState({ iotThingNames: ["test"], restaurantName: "test", demo: "False" });
-    const iotThingNames = useSelector(state => state.meta.iotThingNames)
-    const restaurantName = useSelector(state => state.meta.restaurantName)
-    const demo = useSelector(state => state.meta.demo)
+    const iotThingNames = useSelector((state) => state.meta.iotThingNames);
+    const restaurantName = useSelector((state) => state.meta.restaurantName);
+    const demo = useSelector((state) => state.meta.demo);
+    const accessType = useSelector((state) => state.meta.accessType);
     const metaInformation = {
         iotThingNames,
         restaurantName,
         demo,
-    }
-    const reduxDispatch = useDispatch()
+        accessType,
+    };
+    const reduxDispatch = useDispatch();
     const [isMobileDevice, setIsMobileDevice] = useState(false);
 
     const setMetaInformation = (data) => {
-        console.log(data)
-        reduxDispatch(updateMetaInformation(data))
-    }
+        console.log(data);
+        reduxDispatch(updateMetaInformation(data));
+    };
     useEffect(() => {
         const handleResize = () => {
             setIsMobileDevice(window.innerWidth < 1200);
@@ -204,7 +206,7 @@ export default function MainContainer() {
                                 routes={RouterContainer(metaInformation)}
                                 onMouseEnter={() => handleOnMouseEnter(miniSidenav, onMouseEnter, setMiniSidenav, setOnMouseEnter, dispatch)}
                                 onMouseLeave={() => handleOnMouseLeave(onMouseEnter, setOnMouseEnter, setMiniSidenav, dispatch)}
-                                />
+                            />
                             <Configurator metaInformation={metaInformation} />
                             <ButtonConfig dispatch={dispatch} openConfigurator={openConfigurator} />
                             {isMobileDevice ? (

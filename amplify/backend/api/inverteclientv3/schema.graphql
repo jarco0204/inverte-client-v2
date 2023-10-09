@@ -10,6 +10,7 @@ type Restaurant @model {
     restaurantName: String
     unitOfMass: String
     timeZone: String
+    accessType: String
     scale: [Scale] @hasMany(indexName: "byRestaurant")
 }
 type Scale @model {

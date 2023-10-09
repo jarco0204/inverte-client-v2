@@ -39,6 +39,7 @@ export default function RestaurantUpdateForm(props) {
     restaurantName: "",
     unitOfMass: "",
     timeZone: "",
+    accessType: "",
   };
   const [restaurant_id, setRestaurant_id] = React.useState(
     initialValues.restaurant_id
@@ -58,6 +59,7 @@ export default function RestaurantUpdateForm(props) {
   );
   const [unitOfMass, setUnitOfMass] = React.useState(initialValues.unitOfMass);
   const [timeZone, setTimeZone] = React.useState(initialValues.timeZone);
+  const [accessType, setAccessType] = React.useState(initialValues.accessType);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = restaurantRecord
@@ -76,6 +78,7 @@ export default function RestaurantUpdateForm(props) {
     setRestaurantName(cleanValues.restaurantName);
     setUnitOfMass(cleanValues.unitOfMass);
     setTimeZone(cleanValues.timeZone);
+    setAccessType(cleanValues.accessType);
     setErrors({});
   };
   const [restaurantRecord, setRestaurantRecord] =
@@ -104,6 +107,7 @@ export default function RestaurantUpdateForm(props) {
     restaurantName: [],
     unitOfMass: [],
     timeZone: [],
+    accessType: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -139,6 +143,7 @@ export default function RestaurantUpdateForm(props) {
           restaurantName: restaurantName ?? null,
           unitOfMass: unitOfMass ?? null,
           timeZone: timeZone ?? null,
+          accessType: accessType ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -207,6 +212,7 @@ export default function RestaurantUpdateForm(props) {
               restaurantName,
               unitOfMass,
               timeZone,
+              accessType,
             };
             const result = onChange(modelFields);
             value = result?.restaurant_id ?? value;
@@ -238,6 +244,7 @@ export default function RestaurantUpdateForm(props) {
               restaurantName,
               unitOfMass,
               timeZone,
+              accessType,
             };
             const result = onChange(modelFields);
             value = result?.demo ?? value;
@@ -269,6 +276,7 @@ export default function RestaurantUpdateForm(props) {
               restaurantName,
               unitOfMass,
               timeZone,
+              accessType,
             };
             const result = onChange(modelFields);
             value = result?.iotThingNames ?? value;
@@ -300,6 +308,7 @@ export default function RestaurantUpdateForm(props) {
               restaurantName,
               unitOfMass,
               timeZone,
+              accessType,
             };
             const result = onChange(modelFields);
             value = result?.restaurantLocationNum ?? value;
@@ -337,6 +346,7 @@ export default function RestaurantUpdateForm(props) {
               restaurantName,
               unitOfMass,
               timeZone,
+              accessType,
             };
             const result = onChange(modelFields);
             value = result?.displayIngredient ?? value;
@@ -370,6 +380,7 @@ export default function RestaurantUpdateForm(props) {
               restaurantName: value,
               unitOfMass,
               timeZone,
+              accessType,
             };
             const result = onChange(modelFields);
             value = result?.restaurantName ?? value;
@@ -401,6 +412,7 @@ export default function RestaurantUpdateForm(props) {
               restaurantName,
               unitOfMass: value,
               timeZone,
+              accessType,
             };
             const result = onChange(modelFields);
             value = result?.unitOfMass ?? value;
@@ -432,6 +444,7 @@ export default function RestaurantUpdateForm(props) {
               restaurantName,
               unitOfMass,
               timeZone: value,
+              accessType,
             };
             const result = onChange(modelFields);
             value = result?.timeZone ?? value;
@@ -445,6 +458,38 @@ export default function RestaurantUpdateForm(props) {
         errorMessage={errors.timeZone?.errorMessage}
         hasError={errors.timeZone?.hasError}
         {...getOverrideProps(overrides, "timeZone")}
+      ></TextField>
+      <TextField
+        label="Access type"
+        isRequired={false}
+        isReadOnly={false}
+        value={accessType}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              restaurant_id,
+              demo,
+              iotThingNames,
+              restaurantLocationNum,
+              displayIngredient,
+              restaurantName,
+              unitOfMass,
+              timeZone,
+              accessType: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.accessType ?? value;
+          }
+          if (errors.accessType?.hasError) {
+            runValidationTasks("accessType", value);
+          }
+          setAccessType(value);
+        }}
+        onBlur={() => runValidationTasks("accessType", accessType)}
+        errorMessage={errors.accessType?.errorMessage}
+        hasError={errors.accessType?.hasError}
+        {...getOverrideProps(overrides, "accessType")}
       ></TextField>
       <Flex
         justifyContent="space-between"

@@ -12,6 +12,7 @@ export const getRestaurant = /* GraphQL */ `
       restaurantName
       unitOfMass
       timeZone
+      accessType
       scale {
         items {
           iotNameThing
@@ -57,6 +58,7 @@ export const listRestaurants = /* GraphQL */ `
         restaurantName
         unitOfMass
         timeZone
+        accessType
         scale {
           nextToken
           __typename
