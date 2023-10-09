@@ -288,19 +288,23 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
         const subscriptionTimeSeriesShadow = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing + "/shadow/name/timeseries/get/accepted").subscribe({
             next: (dataCloud) => {
                 dataCloud = dataCloud.value.state.reported;
-
-                setRealTimeWeight(dataCloud.inventoryWeight);
-                if (dataCloud.inventoryWeight === -1) {
-                    setRealTimeTemperature("Off");
-                } else if (dataCloud.inventoryWeight === 0) {
-                    setRealTimeTemperature("Idle");
-                } else {
-                    setRealTimeTemperature("On");
+                if (dataCloud != undefined) {
+                    console.log("The data cloud is:", dataCloud);
                     setRealTimeWeight(dataCloud.inventoryWeight);
+                    if (dataCloud.inventoryWeight === -1) {
+                        setRealTimeTemperature("Off");
+                    } else if (dataCloud.inventoryWeight === 0) {
+                        setRealTimeTemperature("Idle");
+                    } else {
+                        setRealTimeTemperature("On");
+                        setRealTimeWeight(dataCloud.inventoryWeight);
+                    }
+                    setCorrectWeight1(dataCloud.correctWeight1);
+                    setCorrectWeight2(dataCloud.correctWeight2);
+                    setCorrectWeight3(dataCloud.correctWeight3);
+                } else {
+                    console.log("Scale is off");
                 }
-                setCorrectWeight1(dataCloud.correctWeight1);
-                setCorrectWeight2(dataCloud.correctWeight2);
-                setCorrectWeight3(dataCloud.correctWeight3);
                 console.log("Successfully handled your GET Time Series Shadow...");
                 // subscriptionTimeSeriesShadow.unsubscribe(); //Unsubcribe to topic after fething and updating parameters
             },
@@ -311,16 +315,21 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
         const subscriptionTimeSeriesShadowInventoryWeight = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing + "/shadow/name/timeseries/update/accepted").subscribe({
             next: (dataCloud) => {
                 dataCloud = dataCloud.value.state.reported;
-
-                setRealTimeWeight(dataCloud.inventoryWeight);
-                if (dataCloud.inventoryWeight === -1) {
-                    setRealTimeTemperature("Off");
-                } else if (dataCloud.inventoryWeight === 0) {
-                    setRealTimeTemperature("Idle");
-                } else {
-                    setRealTimeTemperature("On");
+                if (dataCloud != undefined) {
+                    console.log("The dataCloud1 is:", dataCloud);
                     setRealTimeWeight(dataCloud.inventoryWeight);
+                    if (dataCloud.inventoryWeight === -1) {
+                        setRealTimeTemperature("Off");
+                    } else if (dataCloud.inventoryWeight === 0) {
+                        setRealTimeTemperature("Idle");
+                    } else {
+                        setRealTimeTemperature("On");
+                        setRealTimeWeight(dataCloud.inventoryWeight);
+                    }
+                } else {
+                    console.log("Scale is off");
                 }
+
                 console.log("Successfully handled your UPDATE Time Series Shadow...");
             },
             error: (error) => console.error("Error in GET/Accepted web socket of Timeseries...", error),
