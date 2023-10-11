@@ -200,7 +200,6 @@ export const getYear = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -259,7 +258,6 @@ export const listYears = /* GraphQL */ `
           averageTime
           portionsCompleted
           accuracy
-          performance
           inventoryConsumed
           overServed
           underServed
@@ -290,7 +288,6 @@ export const getMonth = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -349,7 +346,6 @@ export const listMonths = /* GraphQL */ `
           averageTime
           portionsCompleted
           accuracy
-          performance
           inventoryConsumed
           overServed
           underServed
@@ -380,7 +376,6 @@ export const getWeek = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -441,7 +436,6 @@ export const listWeeks = /* GraphQL */ `
           averageTime
           portionsCompleted
           accuracy
-          performance
           inventoryConsumed
           overServed
           underServed
@@ -472,7 +466,6 @@ export const getDay = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -537,7 +530,6 @@ export const listDays = /* GraphQL */ `
           averageTime
           portionsCompleted
           accuracy
-          performance
           inventoryConsumed
           overServed
           underServed
@@ -573,7 +565,6 @@ export const getHour = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -647,7 +638,6 @@ export const listHours = /* GraphQL */ `
           averageTime
           portionsCompleted
           accuracy
-          performance
           inventoryConsumed
           overServed
           underServed
@@ -695,7 +685,6 @@ export const getPortionEvent = /* GraphQL */ `
           averageTime
           portionsCompleted
           accuracy
-          performance
           inventoryConsumed
           overServed
           underServed
@@ -860,7 +849,6 @@ export const yearsByIngredientName_weight = /* GraphQL */ `
           averageTime
           portionsCompleted
           accuracy
-          performance
           inventoryConsumed
           overServed
           underServed
@@ -904,7 +892,6 @@ export const monthsByYear_iotNameThing = /* GraphQL */ `
           averageTime
           portionsCompleted
           accuracy
-          performance
           inventoryConsumed
           overServed
           underServed
@@ -948,7 +935,6 @@ export const weeksByMonthOfYear_iotNameThing = /* GraphQL */ `
           averageTime
           portionsCompleted
           accuracy
-          performance
           inventoryConsumed
           overServed
           underServed
@@ -992,7 +978,6 @@ export const daysByWeekOfYear_iotNameThing = /* GraphQL */ `
           averageTime
           portionsCompleted
           accuracy
-          performance
           inventoryConsumed
           overServed
           underServed
@@ -1039,7 +1024,6 @@ export const hoursByDayOfYear_iotNameThing = /* GraphQL */ `
           averageTime
           portionsCompleted
           accuracy
-          performance
           inventoryConsumed
           overServed
           underServed

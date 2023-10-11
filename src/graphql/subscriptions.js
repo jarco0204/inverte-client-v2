@@ -26,7 +26,6 @@ export const onNewPortionEvent = /* GraphQL */ `
           averageTime
           portionsCompleted
           accuracy
-          performance
           inventoryConsumed
           overServed
           underServed
@@ -327,7 +326,6 @@ export const onCreateYear = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -373,7 +371,6 @@ export const onUpdateYear = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -419,7 +416,6 @@ export const onDeleteYear = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -465,7 +461,6 @@ export const onCreateMonth = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -511,7 +506,6 @@ export const onUpdateMonth = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -557,7 +551,6 @@ export const onDeleteMonth = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -603,7 +596,6 @@ export const onCreateWeek = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -651,7 +643,6 @@ export const onUpdateWeek = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -699,7 +690,6 @@ export const onDeleteWeek = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -747,7 +737,6 @@ export const onCreateDay = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -799,7 +788,6 @@ export const onUpdateDay = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -851,7 +839,6 @@ export const onDeleteDay = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -904,7 +891,6 @@ export const onCreateHour = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -965,7 +951,6 @@ export const onUpdateHour = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -1026,7 +1011,6 @@ export const onDeleteHour = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -1104,7 +1088,6 @@ export const onCreatePortionEvent = /* GraphQL */ `
           averageTime
           portionsCompleted
           accuracy
-          performance
           inventoryConsumed
           overServed
           underServed
@@ -1156,7 +1139,6 @@ export const onUpdatePortionEvent = /* GraphQL */ `
           averageTime
           portionsCompleted
           accuracy
-          performance
           inventoryConsumed
           overServed
           underServed
@@ -1208,7 +1190,6 @@ export const onDeletePortionEvent = /* GraphQL */ `
           averageTime
           portionsCompleted
           accuracy
-          performance
           inventoryConsumed
           overServed
           underServed

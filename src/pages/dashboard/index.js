@@ -84,7 +84,6 @@ const getDashboard = /* GraphQL */ `
                 averageTime
                 portionsCompleted
                 accuracy
-                performance
                 inventoryConsumed
                 overServed
                 underServed
