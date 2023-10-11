@@ -95,7 +95,6 @@ input HourlySummaryInput {
     averageTime: Float!
     portionsCompleted: Int!
     accuracy: Float!
-    performance: Float!
     inventoryConsumed: Int!
     overServed: Int
     underServed: Int
@@ -106,7 +105,6 @@ input DailySummaryInput {
     averageTime: Float!
     portionsCompleted: Int!
     accuracy: Float!
-    performance: Float!
     inventoryConsumed: Int!
     overServed: Int
     underServed: Int
@@ -117,7 +115,6 @@ input WeeklySummaryInput {
     averageTime: Float!
     portionsCompleted: Int!
     accuracy: Float!
-    performance: Float!
     inventoryConsumed: Int!
     overServed: Int
     underServed: Int
@@ -128,7 +125,6 @@ input MonthlySummaryInput {
     averageTime: Float!
     portionsCompleted: Int!
     accuracy: Float!
-    performance: Float!
     inventoryConsumed: Int!
     overServed: Int
     underServed: Int
@@ -138,7 +134,6 @@ input YearlySummaryInput {
     averageTime: Float!
     portionsCompleted: Int!
     accuracy: Float!
-    performance: Float!
     inventoryConsumed: Int!
     overServed: Int
     underServed: Int
@@ -149,7 +144,6 @@ type HourlySummary {
     averageTime: Float!
     portionsCompleted: Int!
     accuracy: Float!
-    performance: Float!
     inventoryConsumed: Int!
     overServed: Int
     underServed: Int
@@ -161,7 +155,6 @@ type DailySummary {
     averageTime: Float!
     portionsCompleted: Int!
     accuracy: Float!
-    performance: Float!
     inventoryConsumed: Int!
     overServed: Int
     underServed: Int
@@ -173,7 +166,6 @@ type WeeklySummary {
     averageTime: Float!
     portionsCompleted: Int!
     accuracy: Float!
-    performance: Float!
     inventoryConsumed: Int!
     overServed: Int
     underServed: Int
@@ -185,7 +177,6 @@ type MonthlySummary {
     averageTime: Float!
     portionsCompleted: Int!
     accuracy: Float!
-    performance: Float!
     inventoryConsumed: Int!
     overServed: Int
     underServed: Int
@@ -196,7 +187,6 @@ type YearlySummary {
     averageTime: Float!
     portionsCompleted: Int!
     accuracy: Float!
-    performance: Float!
     inventoryConsumed: Int!
     overServed: Int
     underServed: Int

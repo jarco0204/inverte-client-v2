@@ -295,7 +295,6 @@ export const createYear = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -344,7 +343,6 @@ export const updateYear = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -393,7 +391,6 @@ export const deleteYear = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -442,7 +439,6 @@ export const createMonth = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -491,7 +487,6 @@ export const updateMonth = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -540,7 +535,6 @@ export const deleteMonth = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -589,7 +583,6 @@ export const createWeek = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -640,7 +633,6 @@ export const updateWeek = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -691,7 +683,6 @@ export const deleteWeek = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -742,7 +733,6 @@ export const createDay = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -797,7 +787,6 @@ export const updateDay = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -852,7 +841,6 @@ export const deleteDay = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -908,7 +896,6 @@ export const createHour = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -972,7 +959,6 @@ export const updateHour = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -1036,7 +1022,6 @@ export const deleteHour = /* GraphQL */ `
         averageTime
         portionsCompleted
         accuracy
-        performance
         inventoryConsumed
         overServed
         underServed
@@ -1115,7 +1100,6 @@ export const createPortionEvent = /* GraphQL */ `
           averageTime
           portionsCompleted
           accuracy
-          performance
           inventoryConsumed
           overServed
           underServed
@@ -1168,7 +1152,6 @@ export const updatePortionEvent = /* GraphQL */ `
           averageTime
           portionsCompleted
           accuracy
-          performance
           inventoryConsumed
           overServed
           underServed
@@ -1221,7 +1204,6 @@ export const deletePortionEvent = /* GraphQL */ `
           averageTime
           portionsCompleted
           accuracy
-          performance
           inventoryConsumed
           overServed
           underServed

@@ -18,7 +18,7 @@ import DropDownIngredientMenu from "../../components/DropDownIngredientMenu";
 import { Tooltip } from "@mui/material";
 
 // AWS Imports
-import { getDay } from "../../graphql/queries";
+import { getDay, getPortionEvent, listPortionEvents } from "../../graphql/queries";
 
 import { onNewPortionEvent } from "../../graphql/subscriptions";
 import { API, graphqlOperation } from "aws-amplify";
@@ -84,7 +84,6 @@ const getDashboard = /* GraphQL */ `
                 averageTime
                 portionsCompleted
                 accuracy
-                performance
                 inventoryConsumed
                 overServed
                 underServed
@@ -345,6 +344,17 @@ const DashboardContainer = () => {
             console.error("Error fetching from GQL or Generating Charts... ", error);
         }
     };
+    const getPortionEvents = async () => {
+        const response = await API.graphql({
+            query: listPortionEvents,
+            variables: {
+                filter: {
+                    dayOfYear_hourOfDay_iotNameThing: { contains: "279" },
+                },
+            },
+        });
+        console.log("Portion event is:", response);
+    };
 
     /*!
        @description:Use effect that fecthes the data whenever new data is added to PE table
@@ -355,6 +365,7 @@ const DashboardContainer = () => {
     */
     useEffect(() => {
         getHourlyMetaRecords();
+        getPortionEvents();
         const subscription = API.graphql(graphqlOperation(onNewPortionEvent)).subscribe({
             next: (data) => {
                 const newSensorReading = data.value.data.onNewSensorReading;
