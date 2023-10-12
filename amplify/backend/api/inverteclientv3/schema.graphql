@@ -67,28 +67,10 @@ type Hour @model {
     realTime: AWSJSON!
     scaleActions: AWSJSON
     createdAt: String!
-    portionEvent: [PortionEvent!] @hasMany(indexName: "byHour")
 }
 
-type PortionEvent @model {
-    iotNameThing: String
-    timestamp: ID! @primaryKey
-    batchPortionID: Int
-    inventoryWeight: Int
-    batchPortionWeightAR: String
-    batchPortionStatusAR: String
-    ingredientName: String
-    lowerErrorLimit: Int
-    upperErrorLimit: Int
-    correctWeight: Int
-    portionTimeTaken: Int
-    weightClassification: String
-    timeClassification: String
-    dayOfYear_hourOfDay_iotNameThing: ID @index(name: "byHour")
-    hour: Hour @belongsTo(fields: ["dayOfYear_hourOfDay_iotNameThing"])
-}
 type Subscription {
-    onNewPortionEvent: PortionEvent @aws_subscribe(mutations: ["createPortionEvent"])
+    onNewPortionEvent: Day @aws_subscribe(mutations: ["updateDay"])
 }
 
 input HourlySummaryInput {

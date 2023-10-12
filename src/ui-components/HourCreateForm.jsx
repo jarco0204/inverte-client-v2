@@ -1,0 +1,370 @@
+/***************************************************************************
+ * The contents of this file were generated with Amplify Studio.           *
+ * Please refrain from making any modifications to this file.              *
+ * Any changes to this file will be overwritten when running amplify pull. *
+ **************************************************************************/
+
+/* eslint-disable */
+import * as React from "react";
+import {
+  Button,
+  Flex,
+  Grid,
+  TextAreaField,
+  TextField,
+} from "@aws-amplify/ui-react";
+import { getOverrideProps } from "@aws-amplify/ui-react/internal";
+import { fetchByPath, validateField } from "./utils";
+import { API } from "aws-amplify";
+import { createHour } from "../graphql/mutations";
+export default function HourCreateForm(props) {
+  const {
+    clearOnSuccess = true,
+    onSuccess,
+    onError,
+    onSubmit,
+    onValidate,
+    onChange,
+    overrides,
+    ...rest
+  } = props;
+  const initialValues = {
+    dayOfYear_hourOfDay_iotNameThing: "",
+    dayOfYear_iotNameThing: "",
+    minuteOfHour_secondOfMinute: "",
+    realTime: "",
+    scaleActions: "",
+    createdAt: "",
+  };
+  const [
+    dayOfYear_hourOfDay_iotNameThing,
+    setDayOfYear_hourOfDay_iotNameThing,
+  ] = React.useState(initialValues.dayOfYear_hourOfDay_iotNameThing);
+  const [dayOfYear_iotNameThing, setDayOfYear_iotNameThing] = React.useState(
+    initialValues.dayOfYear_iotNameThing
+  );
+  const [minuteOfHour_secondOfMinute, setMinuteOfHour_secondOfMinute] =
+    React.useState(initialValues.minuteOfHour_secondOfMinute);
+  const [realTime, setRealTime] = React.useState(initialValues.realTime);
+  const [scaleActions, setScaleActions] = React.useState(
+    initialValues.scaleActions
+  );
+  const [createdAt, setCreatedAt] = React.useState(initialValues.createdAt);
+  const [errors, setErrors] = React.useState({});
+  const resetStateValues = () => {
+    setDayOfYear_hourOfDay_iotNameThing(
+      initialValues.dayOfYear_hourOfDay_iotNameThing
+    );
+    setDayOfYear_iotNameThing(initialValues.dayOfYear_iotNameThing);
+    setMinuteOfHour_secondOfMinute(initialValues.minuteOfHour_secondOfMinute);
+    setRealTime(initialValues.realTime);
+    setScaleActions(initialValues.scaleActions);
+    setCreatedAt(initialValues.createdAt);
+    setErrors({});
+  };
+  const validations = {
+    dayOfYear_hourOfDay_iotNameThing: [{ type: "Required" }],
+    dayOfYear_iotNameThing: [{ type: "Required" }],
+    minuteOfHour_secondOfMinute: [],
+    realTime: [{ type: "Required" }, { type: "JSON" }],
+    scaleActions: [{ type: "JSON" }],
+    createdAt: [{ type: "Required" }],
+  };
+  const runValidationTasks = async (
+    fieldName,
+    currentValue,
+    getDisplayValue
+  ) => {
+    const value =
+      currentValue && getDisplayValue
+        ? getDisplayValue(currentValue)
+        : currentValue;
+    let validationResponse = validateField(value, validations[fieldName]);
+    const customValidator = fetchByPath(onValidate, fieldName);
+    if (customValidator) {
+      validationResponse = await customValidator(value, validationResponse);
+    }
+    setErrors((errors) => ({ ...errors, [fieldName]: validationResponse }));
+    return validationResponse;
+  };
+  return (
+    <Grid
+      as="form"
+      rowGap="15px"
+      columnGap="15px"
+      padding="20px"
+      onSubmit={async (event) => {
+        event.preventDefault();
+        let modelFields = {
+          dayOfYear_hourOfDay_iotNameThing,
+          dayOfYear_iotNameThing,
+          minuteOfHour_secondOfMinute,
+          realTime,
+          scaleActions,
+          createdAt,
+        };
+        const validationResponses = await Promise.all(
+          Object.keys(validations).reduce((promises, fieldName) => {
+            if (Array.isArray(modelFields[fieldName])) {
+              promises.push(
+                ...modelFields[fieldName].map((item) =>
+                  runValidationTasks(fieldName, item)
+                )
+              );
+              return promises;
+            }
+            promises.push(
+              runValidationTasks(fieldName, modelFields[fieldName])
+            );
+            return promises;
+          }, [])
+        );
+        if (validationResponses.some((r) => r.hasError)) {
+          return;
+        }
+        if (onSubmit) {
+          modelFields = onSubmit(modelFields);
+        }
+        try {
+          Object.entries(modelFields).forEach(([key, value]) => {
+            if (typeof value === "string" && value === "") {
+              modelFields[key] = null;
+            }
+          });
+          await API.graphql({
+            query: createHour,
+            variables: {
+              input: {
+                ...modelFields,
+              },
+            },
+          });
+          if (onSuccess) {
+            onSuccess(modelFields);
+          }
+          if (clearOnSuccess) {
+            resetStateValues();
+          }
+        } catch (err) {
+          if (onError) {
+            const messages = err.errors.map((e) => e.message).join("\n");
+            onError(modelFields, messages);
+          }
+        }
+      }}
+      {...getOverrideProps(overrides, "HourCreateForm")}
+      {...rest}
+    >
+      <TextField
+        label="Day of year hour of day iot name thing"
+        isRequired={true}
+        isReadOnly={false}
+        value={dayOfYear_hourOfDay_iotNameThing}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              dayOfYear_hourOfDay_iotNameThing: value,
+              dayOfYear_iotNameThing,
+              minuteOfHour_secondOfMinute,
+              realTime,
+              scaleActions,
+              createdAt,
+            };
+            const result = onChange(modelFields);
+            value = result?.dayOfYear_hourOfDay_iotNameThing ?? value;
+          }
+          if (errors.dayOfYear_hourOfDay_iotNameThing?.hasError) {
+            runValidationTasks("dayOfYear_hourOfDay_iotNameThing", value);
+          }
+          setDayOfYear_hourOfDay_iotNameThing(value);
+        }}
+        onBlur={() =>
+          runValidationTasks(
+            "dayOfYear_hourOfDay_iotNameThing",
+            dayOfYear_hourOfDay_iotNameThing
+          )
+        }
+        errorMessage={errors.dayOfYear_hourOfDay_iotNameThing?.errorMessage}
+        hasError={errors.dayOfYear_hourOfDay_iotNameThing?.hasError}
+        {...getOverrideProps(overrides, "dayOfYear_hourOfDay_iotNameThing")}
+      ></TextField>
+      <TextField
+        label="Day of year iot name thing"
+        isRequired={true}
+        isReadOnly={false}
+        value={dayOfYear_iotNameThing}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              dayOfYear_hourOfDay_iotNameThing,
+              dayOfYear_iotNameThing: value,
+              minuteOfHour_secondOfMinute,
+              realTime,
+              scaleActions,
+              createdAt,
+            };
+            const result = onChange(modelFields);
+            value = result?.dayOfYear_iotNameThing ?? value;
+          }
+          if (errors.dayOfYear_iotNameThing?.hasError) {
+            runValidationTasks("dayOfYear_iotNameThing", value);
+          }
+          setDayOfYear_iotNameThing(value);
+        }}
+        onBlur={() =>
+          runValidationTasks("dayOfYear_iotNameThing", dayOfYear_iotNameThing)
+        }
+        errorMessage={errors.dayOfYear_iotNameThing?.errorMessage}
+        hasError={errors.dayOfYear_iotNameThing?.hasError}
+        {...getOverrideProps(overrides, "dayOfYear_iotNameThing")}
+      ></TextField>
+      <TextField
+        label="Minute of hour second of minute"
+        isRequired={false}
+        isReadOnly={false}
+        value={minuteOfHour_secondOfMinute}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              dayOfYear_hourOfDay_iotNameThing,
+              dayOfYear_iotNameThing,
+              minuteOfHour_secondOfMinute: value,
+              realTime,
+              scaleActions,
+              createdAt,
+            };
+            const result = onChange(modelFields);
+            value = result?.minuteOfHour_secondOfMinute ?? value;
+          }
+          if (errors.minuteOfHour_secondOfMinute?.hasError) {
+            runValidationTasks("minuteOfHour_secondOfMinute", value);
+          }
+          setMinuteOfHour_secondOfMinute(value);
+        }}
+        onBlur={() =>
+          runValidationTasks(
+            "minuteOfHour_secondOfMinute",
+            minuteOfHour_secondOfMinute
+          )
+        }
+        errorMessage={errors.minuteOfHour_secondOfMinute?.errorMessage}
+        hasError={errors.minuteOfHour_secondOfMinute?.hasError}
+        {...getOverrideProps(overrides, "minuteOfHour_secondOfMinute")}
+      ></TextField>
+      <TextAreaField
+        label="Real time"
+        isRequired={true}
+        isReadOnly={false}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              dayOfYear_hourOfDay_iotNameThing,
+              dayOfYear_iotNameThing,
+              minuteOfHour_secondOfMinute,
+              realTime: value,
+              scaleActions,
+              createdAt,
+            };
+            const result = onChange(modelFields);
+            value = result?.realTime ?? value;
+          }
+          if (errors.realTime?.hasError) {
+            runValidationTasks("realTime", value);
+          }
+          setRealTime(value);
+        }}
+        onBlur={() => runValidationTasks("realTime", realTime)}
+        errorMessage={errors.realTime?.errorMessage}
+        hasError={errors.realTime?.hasError}
+        {...getOverrideProps(overrides, "realTime")}
+      ></TextAreaField>
+      <TextAreaField
+        label="Scale actions"
+        isRequired={false}
+        isReadOnly={false}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              dayOfYear_hourOfDay_iotNameThing,
+              dayOfYear_iotNameThing,
+              minuteOfHour_secondOfMinute,
+              realTime,
+              scaleActions: value,
+              createdAt,
+            };
+            const result = onChange(modelFields);
+            value = result?.scaleActions ?? value;
+          }
+          if (errors.scaleActions?.hasError) {
+            runValidationTasks("scaleActions", value);
+          }
+          setScaleActions(value);
+        }}
+        onBlur={() => runValidationTasks("scaleActions", scaleActions)}
+        errorMessage={errors.scaleActions?.errorMessage}
+        hasError={errors.scaleActions?.hasError}
+        {...getOverrideProps(overrides, "scaleActions")}
+      ></TextAreaField>
+      <TextField
+        label="Created at"
+        isRequired={true}
+        isReadOnly={false}
+        value={createdAt}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              dayOfYear_hourOfDay_iotNameThing,
+              dayOfYear_iotNameThing,
+              minuteOfHour_secondOfMinute,
+              realTime,
+              scaleActions,
+              createdAt: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.createdAt ?? value;
+          }
+          if (errors.createdAt?.hasError) {
+            runValidationTasks("createdAt", value);
+          }
+          setCreatedAt(value);
+        }}
+        onBlur={() => runValidationTasks("createdAt", createdAt)}
+        errorMessage={errors.createdAt?.errorMessage}
+        hasError={errors.createdAt?.hasError}
+        {...getOverrideProps(overrides, "createdAt")}
+      ></TextField>
+      <Flex
+        justifyContent="space-between"
+        {...getOverrideProps(overrides, "CTAFlex")}
+      >
+        <Button
+          children="Clear"
+          type="reset"
+          onClick={(event) => {
+            event.preventDefault();
+            resetStateValues();
+          }}
+          {...getOverrideProps(overrides, "ClearButton")}
+        ></Button>
+        <Flex
+          gap="15px"
+          {...getOverrideProps(overrides, "RightAlignCTASubFlex")}
+        >
+          <Button
+            children="Submit"
+            type="submit"
+            variation="primary"
+            isDisabled={Object.values(errors).some((e) => e?.hasError)}
+            {...getOverrideProps(overrides, "SubmitButton")}
+          ></Button>
+        </Flex>
+      </Flex>
+    </Grid>
+  );
+}

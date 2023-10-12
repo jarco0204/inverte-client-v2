@@ -6,12 +6,12 @@
 
 export { default as DayCreateForm } from "./DayCreateForm";
 export { default as DayUpdateForm } from "./DayUpdateForm";
+export { default as HourCreateForm } from "./HourCreateForm";
+export { default as HourUpdateForm } from "./HourUpdateForm";
 export { default as IngredientCreateForm } from "./IngredientCreateForm";
 export { default as IngredientUpdateForm } from "./IngredientUpdateForm";
 export { default as MonthCreateForm } from "./MonthCreateForm";
 export { default as MonthUpdateForm } from "./MonthUpdateForm";
-export { default as PortionEventCreateForm } from "./PortionEventCreateForm";
-export { default as PortionEventUpdateForm } from "./PortionEventUpdateForm";
 export { default as RestaurantCreateForm } from "./RestaurantCreateForm";
 export { default as RestaurantUpdateForm } from "./RestaurantUpdateForm";
 export { default as ScaleCreateForm } from "./ScaleCreateForm";
