@@ -399,6 +399,7 @@ export const getWeek = /* GraphQL */ `
           realTime
           dashboardGraph
           scaleActions
+          allPortionEvents
           createdAt
           updatedAt
           weekDayWeekOfYear_iotNameThing
@@ -476,6 +477,7 @@ export const getDay = /* GraphQL */ `
           realTime
           dashboardGraph
           scaleActions
+          allPortionEvents
           createdAt
           updatedAt
           weekDayWeekOfYear_iotNameThing
@@ -486,6 +488,7 @@ export const getDay = /* GraphQL */ `
       realTime
       dashboardGraph
       scaleActions
+      allPortionEvents
       hour {
         items {
           dayOfYear_hourOfDay_iotNameThing
@@ -539,6 +542,7 @@ export const listDays = /* GraphQL */ `
         realTime
         dashboardGraph
         scaleActions
+        allPortionEvents
         hour {
           nextToken
           __typename
@@ -585,30 +589,6 @@ export const getHour = /* GraphQL */ `
       realTime
       scaleActions
       createdAt
-      portionEvent {
-        items {
-          iotNameThing
-          timestamp
-          batchPortionID
-          inventoryWeight
-          batchPortionWeightAR
-          batchPortionStatusAR
-          ingredientName
-          lowerErrorLimit
-          upperErrorLimit
-          correctWeight
-          portionTimeTaken
-          weightClassification
-          timeClassification
-          dayOfYear_hourOfDay_iotNameThing
-          createdAt
-          updatedAt
-          hourPortionEventDayOfYear_hourOfDay_iotNameThing
-          __typename
-        }
-        nextToken
-        __typename
-      }
       updatedAt
       dayHourDayOfYear_iotNameThing
       __typename
@@ -647,112 +627,8 @@ export const listHours = /* GraphQL */ `
         realTime
         scaleActions
         createdAt
-        portionEvent {
-          nextToken
-          __typename
-        }
         updatedAt
         dayHourDayOfYear_iotNameThing
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
-export const getPortionEvent = /* GraphQL */ `
-  query GetPortionEvent($timestamp: ID!) {
-    getPortionEvent(timestamp: $timestamp) {
-      iotNameThing
-      timestamp
-      batchPortionID
-      inventoryWeight
-      batchPortionWeightAR
-      batchPortionStatusAR
-      ingredientName
-      lowerErrorLimit
-      upperErrorLimit
-      correctWeight
-      portionTimeTaken
-      weightClassification
-      timeClassification
-      dayOfYear_hourOfDay_iotNameThing
-      hour {
-        dayOfYear_hourOfDay_iotNameThing
-        dayOfYear_iotNameThing
-        minuteOfHour_secondOfMinute
-        hourlySummary {
-          averageTime
-          portionsCompleted
-          accuracy
-          inventoryConsumed
-          overServed
-          underServed
-          perfect
-          __typename
-        }
-        realTime
-        scaleActions
-        createdAt
-        portionEvent {
-          nextToken
-          __typename
-        }
-        updatedAt
-        dayHourDayOfYear_iotNameThing
-        __typename
-      }
-      createdAt
-      updatedAt
-      hourPortionEventDayOfYear_hourOfDay_iotNameThing
-      __typename
-    }
-  }
-`;
-export const listPortionEvents = /* GraphQL */ `
-  query ListPortionEvents(
-    $timestamp: ID
-    $filter: ModelPortionEventFilterInput
-    $limit: Int
-    $nextToken: String
-    $sortDirection: ModelSortDirection
-  ) {
-    listPortionEvents(
-      timestamp: $timestamp
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
-      items {
-        iotNameThing
-        timestamp
-        batchPortionID
-        inventoryWeight
-        batchPortionWeightAR
-        batchPortionStatusAR
-        ingredientName
-        lowerErrorLimit
-        upperErrorLimit
-        correctWeight
-        portionTimeTaken
-        weightClassification
-        timeClassification
-        dayOfYear_hourOfDay_iotNameThing
-        hour {
-          dayOfYear_hourOfDay_iotNameThing
-          dayOfYear_iotNameThing
-          minuteOfHour_secondOfMinute
-          realTime
-          scaleActions
-          createdAt
-          updatedAt
-          dayHourDayOfYear_iotNameThing
-          __typename
-        }
-        createdAt
-        updatedAt
-        hourPortionEventDayOfYear_hourOfDay_iotNameThing
         __typename
       }
       nextToken
@@ -987,6 +863,7 @@ export const daysByWeekOfYear_iotNameThing = /* GraphQL */ `
         realTime
         dashboardGraph
         scaleActions
+        allPortionEvents
         hour {
           nextToken
           __typename
@@ -1033,63 +910,8 @@ export const hoursByDayOfYear_iotNameThing = /* GraphQL */ `
         realTime
         scaleActions
         createdAt
-        portionEvent {
-          nextToken
-          __typename
-        }
         updatedAt
         dayHourDayOfYear_iotNameThing
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
-export const portionEventsByDayOfYear_hourOfDay_iotNameThing = /* GraphQL */ `
-  query PortionEventsByDayOfYear_hourOfDay_iotNameThing(
-    $dayOfYear_hourOfDay_iotNameThing: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelPortionEventFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    portionEventsByDayOfYear_hourOfDay_iotNameThing(
-      dayOfYear_hourOfDay_iotNameThing: $dayOfYear_hourOfDay_iotNameThing
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        iotNameThing
-        timestamp
-        batchPortionID
-        inventoryWeight
-        batchPortionWeightAR
-        batchPortionStatusAR
-        ingredientName
-        lowerErrorLimit
-        upperErrorLimit
-        correctWeight
-        portionTimeTaken
-        weightClassification
-        timeClassification
-        dayOfYear_hourOfDay_iotNameThing
-        hour {
-          dayOfYear_hourOfDay_iotNameThing
-          dayOfYear_iotNameThing
-          minuteOfHour_secondOfMinute
-          realTime
-          scaleActions
-          createdAt
-          updatedAt
-          dayHourDayOfYear_iotNameThing
-          __typename
-        }
-        createdAt
-        updatedAt
-        hourPortionEventDayOfYear_hourOfDay_iotNameThing
         __typename
       }
       nextToken

@@ -12,41 +12,41 @@ export declare type ValidationResponse = {
     errorMessage?: string;
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
-export declare type DayUpdateFormInputValues = {
+export declare type HourUpdateFormInputValues = {
+    dayOfYear_hourOfDay_iotNameThing?: string;
     dayOfYear_iotNameThing?: string;
-    weekOfYear_iotNameThing?: string;
+    minuteOfHour_secondOfMinute?: string;
     realTime?: string;
-    dashboardGraph?: string;
     scaleActions?: string;
-    allPortionEvents?: string;
+    createdAt?: string;
 };
-export declare type DayUpdateFormValidationValues = {
+export declare type HourUpdateFormValidationValues = {
+    dayOfYear_hourOfDay_iotNameThing?: ValidationFunction<string>;
     dayOfYear_iotNameThing?: ValidationFunction<string>;
-    weekOfYear_iotNameThing?: ValidationFunction<string>;
+    minuteOfHour_secondOfMinute?: ValidationFunction<string>;
     realTime?: ValidationFunction<string>;
-    dashboardGraph?: ValidationFunction<string>;
     scaleActions?: ValidationFunction<string>;
-    allPortionEvents?: ValidationFunction<string>;
+    createdAt?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
-export declare type DayUpdateFormOverridesProps = {
-    DayUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
+export declare type HourUpdateFormOverridesProps = {
+    HourUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
+    dayOfYear_hourOfDay_iotNameThing?: PrimitiveOverrideProps<TextFieldProps>;
     dayOfYear_iotNameThing?: PrimitiveOverrideProps<TextFieldProps>;
-    weekOfYear_iotNameThing?: PrimitiveOverrideProps<TextFieldProps>;
+    minuteOfHour_secondOfMinute?: PrimitiveOverrideProps<TextFieldProps>;
     realTime?: PrimitiveOverrideProps<TextAreaFieldProps>;
-    dashboardGraph?: PrimitiveOverrideProps<TextAreaFieldProps>;
     scaleActions?: PrimitiveOverrideProps<TextAreaFieldProps>;
-    allPortionEvents?: PrimitiveOverrideProps<TextAreaFieldProps>;
+    createdAt?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
-export declare type DayUpdateFormProps = React.PropsWithChildren<{
-    overrides?: DayUpdateFormOverridesProps | undefined | null;
+export declare type HourUpdateFormProps = React.PropsWithChildren<{
+    overrides?: HourUpdateFormOverridesProps | undefined | null;
 } & {
-    dayOfYear_iotNameThing?: string;
-    day?: any;
-    onSubmit?: (fields: DayUpdateFormInputValues) => DayUpdateFormInputValues;
-    onSuccess?: (fields: DayUpdateFormInputValues) => void;
-    onError?: (fields: DayUpdateFormInputValues, errorMessage: string) => void;
-    onChange?: (fields: DayUpdateFormInputValues) => DayUpdateFormInputValues;
-    onValidate?: DayUpdateFormValidationValues;
+    dayOfYear_hourOfDay_iotNameThing?: string;
+    hour?: any;
+    onSubmit?: (fields: HourUpdateFormInputValues) => HourUpdateFormInputValues;
+    onSuccess?: (fields: HourUpdateFormInputValues) => void;
+    onError?: (fields: HourUpdateFormInputValues, errorMessage: string) => void;
+    onChange?: (fields: HourUpdateFormInputValues) => HourUpdateFormInputValues;
+    onValidate?: HourUpdateFormValidationValues;
 } & React.CSSProperties>;
-export default function DayUpdateForm(props: DayUpdateFormProps): React.ReactElement;
+export default function HourUpdateForm(props: HourUpdateFormProps): React.ReactElement;
