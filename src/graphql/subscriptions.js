@@ -20,6 +20,7 @@ export const onNewPortionEvent = /* GraphQL */ `
           realTime
           dashboardGraph
           scaleActions
+          allPortionEvents
           createdAt
           updatedAt
           weekDayWeekOfYear_iotNameThing
@@ -30,6 +31,7 @@ export const onNewPortionEvent = /* GraphQL */ `
       realTime
       dashboardGraph
       scaleActions
+      allPortionEvents
       hour {
         items {
           dayOfYear_hourOfDay_iotNameThing
@@ -621,6 +623,7 @@ export const onCreateWeek = /* GraphQL */ `
           realTime
           dashboardGraph
           scaleActions
+          allPortionEvents
           createdAt
           updatedAt
           weekDayWeekOfYear_iotNameThing
@@ -668,6 +671,7 @@ export const onUpdateWeek = /* GraphQL */ `
           realTime
           dashboardGraph
           scaleActions
+          allPortionEvents
           createdAt
           updatedAt
           weekDayWeekOfYear_iotNameThing
@@ -715,6 +719,7 @@ export const onDeleteWeek = /* GraphQL */ `
           realTime
           dashboardGraph
           scaleActions
+          allPortionEvents
           createdAt
           updatedAt
           weekDayWeekOfYear_iotNameThing
@@ -749,6 +754,7 @@ export const onCreateDay = /* GraphQL */ `
           realTime
           dashboardGraph
           scaleActions
+          allPortionEvents
           createdAt
           updatedAt
           weekDayWeekOfYear_iotNameThing
@@ -759,6 +765,7 @@ export const onCreateDay = /* GraphQL */ `
       realTime
       dashboardGraph
       scaleActions
+      allPortionEvents
       hour {
         items {
           dayOfYear_hourOfDay_iotNameThing
@@ -800,6 +807,7 @@ export const onUpdateDay = /* GraphQL */ `
           realTime
           dashboardGraph
           scaleActions
+          allPortionEvents
           createdAt
           updatedAt
           weekDayWeekOfYear_iotNameThing
@@ -810,6 +818,7 @@ export const onUpdateDay = /* GraphQL */ `
       realTime
       dashboardGraph
       scaleActions
+      allPortionEvents
       hour {
         items {
           dayOfYear_hourOfDay_iotNameThing
@@ -851,6 +860,7 @@ export const onDeleteDay = /* GraphQL */ `
           realTime
           dashboardGraph
           scaleActions
+          allPortionEvents
           createdAt
           updatedAt
           weekDayWeekOfYear_iotNameThing
@@ -861,6 +871,7 @@ export const onDeleteDay = /* GraphQL */ `
       realTime
       dashboardGraph
       scaleActions
+      allPortionEvents
       hour {
         items {
           dayOfYear_hourOfDay_iotNameThing

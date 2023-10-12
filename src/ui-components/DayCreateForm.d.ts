@@ -18,6 +18,7 @@ export declare type DayCreateFormInputValues = {
     realTime?: string;
     dashboardGraph?: string;
     scaleActions?: string;
+    allPortionEvents?: string;
 };
 export declare type DayCreateFormValidationValues = {
     dayOfYear_iotNameThing?: ValidationFunction<string>;
@@ -25,6 +26,7 @@ export declare type DayCreateFormValidationValues = {
     realTime?: ValidationFunction<string>;
     dashboardGraph?: ValidationFunction<string>;
     scaleActions?: ValidationFunction<string>;
+    allPortionEvents?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type DayCreateFormOverridesProps = {
@@ -34,6 +36,7 @@ export declare type DayCreateFormOverridesProps = {
     realTime?: PrimitiveOverrideProps<TextAreaFieldProps>;
     dashboardGraph?: PrimitiveOverrideProps<TextAreaFieldProps>;
     scaleActions?: PrimitiveOverrideProps<TextAreaFieldProps>;
+    allPortionEvents?: PrimitiveOverrideProps<TextAreaFieldProps>;
 } & EscapeHatchProps;
 export declare type DayCreateFormProps = React.PropsWithChildren<{
     overrides?: DayCreateFormOverridesProps | undefined | null;

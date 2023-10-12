@@ -34,6 +34,7 @@ export default function DayCreateForm(props) {
     realTime: "",
     dashboardGraph: "",
     scaleActions: "",
+    allPortionEvents: "",
   };
   const [dayOfYear_iotNameThing, setDayOfYear_iotNameThing] = React.useState(
     initialValues.dayOfYear_iotNameThing
@@ -48,6 +49,9 @@ export default function DayCreateForm(props) {
   const [scaleActions, setScaleActions] = React.useState(
     initialValues.scaleActions
   );
+  const [allPortionEvents, setAllPortionEvents] = React.useState(
+    initialValues.allPortionEvents
+  );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setDayOfYear_iotNameThing(initialValues.dayOfYear_iotNameThing);
@@ -55,6 +59,7 @@ export default function DayCreateForm(props) {
     setRealTime(initialValues.realTime);
     setDashboardGraph(initialValues.dashboardGraph);
     setScaleActions(initialValues.scaleActions);
+    setAllPortionEvents(initialValues.allPortionEvents);
     setErrors({});
   };
   const validations = {
@@ -63,6 +68,7 @@ export default function DayCreateForm(props) {
     realTime: [{ type: "JSON" }],
     dashboardGraph: [{ type: "JSON" }],
     scaleActions: [{ type: "JSON" }],
+    allPortionEvents: [{ type: "JSON" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -95,6 +101,7 @@ export default function DayCreateForm(props) {
           realTime,
           dashboardGraph,
           scaleActions,
+          allPortionEvents,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -162,6 +169,7 @@ export default function DayCreateForm(props) {
               realTime,
               dashboardGraph,
               scaleActions,
+              allPortionEvents,
             };
             const result = onChange(modelFields);
             value = result?.dayOfYear_iotNameThing ?? value;
@@ -192,6 +200,7 @@ export default function DayCreateForm(props) {
               realTime,
               dashboardGraph,
               scaleActions,
+              allPortionEvents,
             };
             const result = onChange(modelFields);
             value = result?.weekOfYear_iotNameThing ?? value;
@@ -221,6 +230,7 @@ export default function DayCreateForm(props) {
               realTime: value,
               dashboardGraph,
               scaleActions,
+              allPortionEvents,
             };
             const result = onChange(modelFields);
             value = result?.realTime ?? value;
@@ -248,6 +258,7 @@ export default function DayCreateForm(props) {
               realTime,
               dashboardGraph: value,
               scaleActions,
+              allPortionEvents,
             };
             const result = onChange(modelFields);
             value = result?.dashboardGraph ?? value;
@@ -275,6 +286,7 @@ export default function DayCreateForm(props) {
               realTime,
               dashboardGraph,
               scaleActions: value,
+              allPortionEvents,
             };
             const result = onChange(modelFields);
             value = result?.scaleActions ?? value;
@@ -288,6 +300,34 @@ export default function DayCreateForm(props) {
         errorMessage={errors.scaleActions?.errorMessage}
         hasError={errors.scaleActions?.hasError}
         {...getOverrideProps(overrides, "scaleActions")}
+      ></TextAreaField>
+      <TextAreaField
+        label="All portion events"
+        isRequired={false}
+        isReadOnly={false}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              dayOfYear_iotNameThing,
+              weekOfYear_iotNameThing,
+              realTime,
+              dashboardGraph,
+              scaleActions,
+              allPortionEvents: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.allPortionEvents ?? value;
+          }
+          if (errors.allPortionEvents?.hasError) {
+            runValidationTasks("allPortionEvents", value);
+          }
+          setAllPortionEvents(value);
+        }}
+        onBlur={() => runValidationTasks("allPortionEvents", allPortionEvents)}
+        errorMessage={errors.allPortionEvents?.errorMessage}
+        hasError={errors.allPortionEvents?.hasError}
+        {...getOverrideProps(overrides, "allPortionEvents")}
       ></TextAreaField>
       <Flex
         justifyContent="space-between"

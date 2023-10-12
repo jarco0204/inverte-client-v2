@@ -399,6 +399,7 @@ export const getWeek = /* GraphQL */ `
           realTime
           dashboardGraph
           scaleActions
+          allPortionEvents
           createdAt
           updatedAt
           weekDayWeekOfYear_iotNameThing
@@ -476,6 +477,7 @@ export const getDay = /* GraphQL */ `
           realTime
           dashboardGraph
           scaleActions
+          allPortionEvents
           createdAt
           updatedAt
           weekDayWeekOfYear_iotNameThing
@@ -486,6 +488,7 @@ export const getDay = /* GraphQL */ `
       realTime
       dashboardGraph
       scaleActions
+      allPortionEvents
       hour {
         items {
           dayOfYear_hourOfDay_iotNameThing
@@ -539,6 +542,7 @@ export const listDays = /* GraphQL */ `
         realTime
         dashboardGraph
         scaleActions
+        allPortionEvents
         hour {
           nextToken
           __typename
@@ -859,6 +863,7 @@ export const daysByWeekOfYear_iotNameThing = /* GraphQL */ `
         realTime
         dashboardGraph
         scaleActions
+        allPortionEvents
         hour {
           nextToken
           __typename

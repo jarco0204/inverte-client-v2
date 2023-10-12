@@ -606,6 +606,7 @@ export const createWeek = /* GraphQL */ `
           realTime
           dashboardGraph
           scaleActions
+          allPortionEvents
           createdAt
           updatedAt
           weekDayWeekOfYear_iotNameThing
@@ -656,6 +657,7 @@ export const updateWeek = /* GraphQL */ `
           realTime
           dashboardGraph
           scaleActions
+          allPortionEvents
           createdAt
           updatedAt
           weekDayWeekOfYear_iotNameThing
@@ -706,6 +708,7 @@ export const deleteWeek = /* GraphQL */ `
           realTime
           dashboardGraph
           scaleActions
+          allPortionEvents
           createdAt
           updatedAt
           weekDayWeekOfYear_iotNameThing
@@ -743,6 +746,7 @@ export const createDay = /* GraphQL */ `
           realTime
           dashboardGraph
           scaleActions
+          allPortionEvents
           createdAt
           updatedAt
           weekDayWeekOfYear_iotNameThing
@@ -753,6 +757,7 @@ export const createDay = /* GraphQL */ `
       realTime
       dashboardGraph
       scaleActions
+      allPortionEvents
       hour {
         items {
           dayOfYear_hourOfDay_iotNameThing
@@ -797,6 +802,7 @@ export const updateDay = /* GraphQL */ `
           realTime
           dashboardGraph
           scaleActions
+          allPortionEvents
           createdAt
           updatedAt
           weekDayWeekOfYear_iotNameThing
@@ -807,6 +813,7 @@ export const updateDay = /* GraphQL */ `
       realTime
       dashboardGraph
       scaleActions
+      allPortionEvents
       hour {
         items {
           dayOfYear_hourOfDay_iotNameThing
@@ -851,6 +858,7 @@ export const deleteDay = /* GraphQL */ `
           realTime
           dashboardGraph
           scaleActions
+          allPortionEvents
           createdAt
           updatedAt
           weekDayWeekOfYear_iotNameThing
@@ -861,6 +869,7 @@ export const deleteDay = /* GraphQL */ `
       realTime
       dashboardGraph
       scaleActions
+      allPortionEvents
       hour {
         items {
           dayOfYear_hourOfDay_iotNameThing
