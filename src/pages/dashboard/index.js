@@ -18,7 +18,7 @@ import DropDownIngredientMenu from "../../components/DropDownIngredientMenu";
 import { Tooltip } from "@mui/material";
 
 // AWS Imports
-import { getDay } from "../../graphql/queries";
+import { getDay, getPortionEvent, listPortionEvents } from "../../graphql/queries";
 
 import { onNewPortionEvent } from "../../graphql/subscriptions";
 import { API, graphqlOperation } from "aws-amplify";
