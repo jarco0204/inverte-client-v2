@@ -28,9 +28,7 @@ const RouterContainer = () => {
                 </Icon>
             ),
             route: "/dashboard",
-            component: (
-                <DashboardContainer/>
-            ),
+            component: <DashboardContainer />,
         },
         {
             type: "collapse",
@@ -42,30 +40,24 @@ const RouterContainer = () => {
                 </Icon>
             ),
             route: "/scales",
-            component: (
-                <ScalesContainer/>
-            ),
+            component: <ScalesContainer />,
         },
         {
             route: "/outlier",
             component: <OutlierContainer />,
         },
-        // isMobileDevice
-        //     ? {
-        //           name: "Mobile Analytics coming soon",
-        //       }
-        //     : {
-        //           type: "collapse",
-        //           name: "Analytics",
-        //           key: "analytics",
-        //           icon: (
-        //               <Icon fontSize="small">
-        //                   <AnalyticsIcon />
-        //               </Icon>
-        //           ),
-        //           route: "/analytics",
-        //           component: <AnalyticsContainer iotThingNames={metaInformation.iotThingNames} displayIngredient={metaInformation.displayIngredient} />,
-        //       },
+        {
+            type: "collapse",
+            name: "Past",
+            key: "past",
+            icon: (
+                <Icon fontSize="small">
+                    <AnalyticsIcon />
+                </Icon>
+            ),
+            route: "/past",
+            component: <AnalyticsContainer />,
+        },
     ];
 };
 
