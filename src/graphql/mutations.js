@@ -762,7 +762,6 @@ export const createDay = /* GraphQL */ `
         items {
           dayOfYear_hourOfDay_iotNameThing
           dayOfYear_iotNameThing
-          minuteOfHour_secondOfMinute
           realTime
           scaleActions
           createdAt
@@ -818,7 +817,6 @@ export const updateDay = /* GraphQL */ `
         items {
           dayOfYear_hourOfDay_iotNameThing
           dayOfYear_iotNameThing
-          minuteOfHour_secondOfMinute
           realTime
           scaleActions
           createdAt
@@ -874,7 +872,6 @@ export const deleteDay = /* GraphQL */ `
         items {
           dayOfYear_hourOfDay_iotNameThing
           dayOfYear_iotNameThing
-          minuteOfHour_secondOfMinute
           realTime
           scaleActions
           createdAt
@@ -900,7 +897,6 @@ export const createHour = /* GraphQL */ `
     createHour(input: $input, condition: $condition) {
       dayOfYear_hourOfDay_iotNameThing
       dayOfYear_iotNameThing
-      minuteOfHour_secondOfMinute
       hourlySummary {
         averageTime
         portionsCompleted
@@ -912,7 +908,6 @@ export const createHour = /* GraphQL */ `
         hour {
           dayOfYear_hourOfDay_iotNameThing
           dayOfYear_iotNameThing
-          minuteOfHour_secondOfMinute
           realTime
           scaleActions
           createdAt
@@ -939,7 +934,6 @@ export const updateHour = /* GraphQL */ `
     updateHour(input: $input, condition: $condition) {
       dayOfYear_hourOfDay_iotNameThing
       dayOfYear_iotNameThing
-      minuteOfHour_secondOfMinute
       hourlySummary {
         averageTime
         portionsCompleted
@@ -951,7 +945,6 @@ export const updateHour = /* GraphQL */ `
         hour {
           dayOfYear_hourOfDay_iotNameThing
           dayOfYear_iotNameThing
-          minuteOfHour_secondOfMinute
           realTime
           scaleActions
           createdAt
@@ -978,7 +971,6 @@ export const deleteHour = /* GraphQL */ `
     deleteHour(input: $input, condition: $condition) {
       dayOfYear_hourOfDay_iotNameThing
       dayOfYear_iotNameThing
-      minuteOfHour_secondOfMinute
       hourlySummary {
         averageTime
         portionsCompleted
@@ -990,7 +982,6 @@ export const deleteHour = /* GraphQL */ `
         hour {
           dayOfYear_hourOfDay_iotNameThing
           dayOfYear_iotNameThing
-          minuteOfHour_secondOfMinute
           realTime
           scaleActions
           createdAt
