@@ -31,7 +31,6 @@ export default function HourCreateForm(props) {
   const initialValues = {
     dayOfYear_hourOfDay_iotNameThing: "",
     dayOfYear_iotNameThing: "",
-    minuteOfHour_secondOfMinute: "",
     realTime: "",
     scaleActions: "",
     createdAt: "",
@@ -43,8 +42,6 @@ export default function HourCreateForm(props) {
   const [dayOfYear_iotNameThing, setDayOfYear_iotNameThing] = React.useState(
     initialValues.dayOfYear_iotNameThing
   );
-  const [minuteOfHour_secondOfMinute, setMinuteOfHour_secondOfMinute] =
-    React.useState(initialValues.minuteOfHour_secondOfMinute);
   const [realTime, setRealTime] = React.useState(initialValues.realTime);
   const [scaleActions, setScaleActions] = React.useState(
     initialValues.scaleActions
@@ -56,7 +53,6 @@ export default function HourCreateForm(props) {
       initialValues.dayOfYear_hourOfDay_iotNameThing
     );
     setDayOfYear_iotNameThing(initialValues.dayOfYear_iotNameThing);
-    setMinuteOfHour_secondOfMinute(initialValues.minuteOfHour_secondOfMinute);
     setRealTime(initialValues.realTime);
     setScaleActions(initialValues.scaleActions);
     setCreatedAt(initialValues.createdAt);
@@ -65,7 +61,6 @@ export default function HourCreateForm(props) {
   const validations = {
     dayOfYear_hourOfDay_iotNameThing: [{ type: "Required" }],
     dayOfYear_iotNameThing: [{ type: "Required" }],
-    minuteOfHour_secondOfMinute: [],
     realTime: [{ type: "Required" }, { type: "JSON" }],
     scaleActions: [{ type: "JSON" }],
     createdAt: [{ type: "Required" }],
@@ -98,7 +93,6 @@ export default function HourCreateForm(props) {
         let modelFields = {
           dayOfYear_hourOfDay_iotNameThing,
           dayOfYear_iotNameThing,
-          minuteOfHour_secondOfMinute,
           realTime,
           scaleActions,
           createdAt,
@@ -166,7 +160,6 @@ export default function HourCreateForm(props) {
             const modelFields = {
               dayOfYear_hourOfDay_iotNameThing: value,
               dayOfYear_iotNameThing,
-              minuteOfHour_secondOfMinute,
               realTime,
               scaleActions,
               createdAt,
@@ -200,7 +193,6 @@ export default function HourCreateForm(props) {
             const modelFields = {
               dayOfYear_hourOfDay_iotNameThing,
               dayOfYear_iotNameThing: value,
-              minuteOfHour_secondOfMinute,
               realTime,
               scaleActions,
               createdAt,
@@ -220,40 +212,6 @@ export default function HourCreateForm(props) {
         hasError={errors.dayOfYear_iotNameThing?.hasError}
         {...getOverrideProps(overrides, "dayOfYear_iotNameThing")}
       ></TextField>
-      <TextField
-        label="Minute of hour second of minute"
-        isRequired={false}
-        isReadOnly={false}
-        value={minuteOfHour_secondOfMinute}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              dayOfYear_hourOfDay_iotNameThing,
-              dayOfYear_iotNameThing,
-              minuteOfHour_secondOfMinute: value,
-              realTime,
-              scaleActions,
-              createdAt,
-            };
-            const result = onChange(modelFields);
-            value = result?.minuteOfHour_secondOfMinute ?? value;
-          }
-          if (errors.minuteOfHour_secondOfMinute?.hasError) {
-            runValidationTasks("minuteOfHour_secondOfMinute", value);
-          }
-          setMinuteOfHour_secondOfMinute(value);
-        }}
-        onBlur={() =>
-          runValidationTasks(
-            "minuteOfHour_secondOfMinute",
-            minuteOfHour_secondOfMinute
-          )
-        }
-        errorMessage={errors.minuteOfHour_secondOfMinute?.errorMessage}
-        hasError={errors.minuteOfHour_secondOfMinute?.hasError}
-        {...getOverrideProps(overrides, "minuteOfHour_secondOfMinute")}
-      ></TextField>
       <TextAreaField
         label="Real time"
         isRequired={true}
@@ -264,7 +222,6 @@ export default function HourCreateForm(props) {
             const modelFields = {
               dayOfYear_hourOfDay_iotNameThing,
               dayOfYear_iotNameThing,
-              minuteOfHour_secondOfMinute,
               realTime: value,
               scaleActions,
               createdAt,
@@ -292,7 +249,6 @@ export default function HourCreateForm(props) {
             const modelFields = {
               dayOfYear_hourOfDay_iotNameThing,
               dayOfYear_iotNameThing,
-              minuteOfHour_secondOfMinute,
               realTime,
               scaleActions: value,
               createdAt,
@@ -321,7 +277,6 @@ export default function HourCreateForm(props) {
             const modelFields = {
               dayOfYear_hourOfDay_iotNameThing,
               dayOfYear_iotNameThing,
-              minuteOfHour_secondOfMinute,
               realTime,
               scaleActions,
               createdAt: value,

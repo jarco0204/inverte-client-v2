@@ -493,7 +493,6 @@ export const getDay = /* GraphQL */ `
         items {
           dayOfYear_hourOfDay_iotNameThing
           dayOfYear_iotNameThing
-          minuteOfHour_secondOfMinute
           realTime
           scaleActions
           createdAt
@@ -564,7 +563,6 @@ export const getHour = /* GraphQL */ `
     ) {
       dayOfYear_hourOfDay_iotNameThing
       dayOfYear_iotNameThing
-      minuteOfHour_secondOfMinute
       hourlySummary {
         averageTime
         portionsCompleted
@@ -576,7 +574,6 @@ export const getHour = /* GraphQL */ `
         hour {
           dayOfYear_hourOfDay_iotNameThing
           dayOfYear_iotNameThing
-          minuteOfHour_secondOfMinute
           realTime
           scaleActions
           createdAt
@@ -613,7 +610,6 @@ export const listHours = /* GraphQL */ `
       items {
         dayOfYear_hourOfDay_iotNameThing
         dayOfYear_iotNameThing
-        minuteOfHour_secondOfMinute
         hourlySummary {
           averageTime
           portionsCompleted
@@ -896,7 +892,6 @@ export const hoursByDayOfYear_iotNameThing = /* GraphQL */ `
       items {
         dayOfYear_hourOfDay_iotNameThing
         dayOfYear_iotNameThing
-        minuteOfHour_secondOfMinute
         hourlySummary {
           averageTime
           portionsCompleted

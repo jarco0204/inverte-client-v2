@@ -15,7 +15,6 @@ export declare type ValidationFunction<T> = (value: T, validationResponse: Valid
 export declare type HourCreateFormInputValues = {
     dayOfYear_hourOfDay_iotNameThing?: string;
     dayOfYear_iotNameThing?: string;
-    minuteOfHour_secondOfMinute?: string;
     realTime?: string;
     scaleActions?: string;
     createdAt?: string;
@@ -23,7 +22,6 @@ export declare type HourCreateFormInputValues = {
 export declare type HourCreateFormValidationValues = {
     dayOfYear_hourOfDay_iotNameThing?: ValidationFunction<string>;
     dayOfYear_iotNameThing?: ValidationFunction<string>;
-    minuteOfHour_secondOfMinute?: ValidationFunction<string>;
     realTime?: ValidationFunction<string>;
     scaleActions?: ValidationFunction<string>;
     createdAt?: ValidationFunction<string>;
@@ -33,7 +31,6 @@ export declare type HourCreateFormOverridesProps = {
     HourCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
     dayOfYear_hourOfDay_iotNameThing?: PrimitiveOverrideProps<TextFieldProps>;
     dayOfYear_iotNameThing?: PrimitiveOverrideProps<TextFieldProps>;
-    minuteOfHour_secondOfMinute?: PrimitiveOverrideProps<TextFieldProps>;
     realTime?: PrimitiveOverrideProps<TextAreaFieldProps>;
     scaleActions?: PrimitiveOverrideProps<TextAreaFieldProps>;
     createdAt?: PrimitiveOverrideProps<TextFieldProps>;
