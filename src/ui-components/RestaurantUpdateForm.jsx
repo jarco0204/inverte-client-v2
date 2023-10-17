@@ -88,7 +88,7 @@ export default function RestaurantUpdateForm(props) {
       const record = restaurant_idProp
         ? (
             await API.graphql({
-              query: getRestaurant,
+              query: getRestaurant.replaceAll("__typename", ""),
               variables: { restaurant_id: restaurant_idProp },
             })
           )?.data?.getRestaurant
@@ -174,7 +174,7 @@ export default function RestaurantUpdateForm(props) {
             }
           });
           await API.graphql({
-            query: updateRestaurant,
+            query: updateRestaurant.replaceAll("__typename", ""),
             variables: {
               input: {
                 restaurant_id: restaurantRecord.restaurant_id,

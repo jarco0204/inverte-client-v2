@@ -65,7 +65,7 @@ export default function YearUpdateForm(props) {
       const record = year_iotNameThingProp
         ? (
             await API.graphql({
-              query: getYear,
+              query: getYear.replaceAll("__typename", ""),
               variables: { year_iotNameThing: year_iotNameThingProp },
             })
           )?.data?.getYear
@@ -139,7 +139,7 @@ export default function YearUpdateForm(props) {
             }
           });
           await API.graphql({
-            query: updateYear,
+            query: updateYear.replaceAll("__typename", ""),
             variables: {
               input: {
                 year_iotNameThing: yearRecord.year_iotNameThing,

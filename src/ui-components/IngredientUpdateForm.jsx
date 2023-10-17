@@ -50,7 +50,7 @@ export default function IngredientUpdateForm(props) {
       const record = ingredient_nameProp
         ? (
             await API.graphql({
-              query: getIngredient,
+              query: getIngredient.replaceAll("__typename", ""),
               variables: { ingredient_name: ingredient_nameProp },
             })
           )?.data?.getIngredient
@@ -122,7 +122,7 @@ export default function IngredientUpdateForm(props) {
             }
           });
           await API.graphql({
-            query: updateIngredient,
+            query: updateIngredient.replaceAll("__typename", ""),
             variables: {
               input: {
                 ingredient_name: ingredientRecord.ingredient_name,

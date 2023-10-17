@@ -132,7 +132,7 @@ export default function DayCreateForm(props) {
             }
           });
           await API.graphql({
-            query: createDay,
+            query: createDay.replaceAll("__typename", ""),
             variables: {
               input: {
                 ...modelFields,

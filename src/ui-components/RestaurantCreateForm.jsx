@@ -147,7 +147,7 @@ export default function RestaurantCreateForm(props) {
             }
           });
           await API.graphql({
-            query: createRestaurant,
+            query: createRestaurant.replaceAll("__typename", ""),
             variables: {
               input: {
                 ...modelFields,

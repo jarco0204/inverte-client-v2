@@ -113,7 +113,7 @@ export default function YearCreateForm(props) {
             }
           });
           await API.graphql({
-            query: createYear,
+            query: createYear.replaceAll("__typename", ""),
             variables: {
               input: {
                 ...modelFields,

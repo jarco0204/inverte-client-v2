@@ -64,7 +64,7 @@ export default function MonthUpdateForm(props) {
       const record = monthOfYear_iotNameThingProp
         ? (
             await API.graphql({
-              query: getMonth,
+              query: getMonth.replaceAll("__typename", ""),
               variables: {
                 monthOfYear_iotNameThing: monthOfYear_iotNameThingProp,
               },
@@ -140,7 +140,7 @@ export default function MonthUpdateForm(props) {
             }
           });
           await API.graphql({
-            query: updateMonth,
+            query: updateMonth.replaceAll("__typename", ""),
             variables: {
               input: {
                 monthOfYear_iotNameThing: monthRecord.monthOfYear_iotNameThing,

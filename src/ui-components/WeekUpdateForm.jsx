@@ -64,7 +64,7 @@ export default function WeekUpdateForm(props) {
       const record = weekOfYear_iotNameThingProp
         ? (
             await API.graphql({
-              query: getWeek,
+              query: getWeek.replaceAll("__typename", ""),
               variables: {
                 weekOfYear_iotNameThing: weekOfYear_iotNameThingProp,
               },
@@ -140,7 +140,7 @@ export default function WeekUpdateForm(props) {
             }
           });
           await API.graphql({
-            query: updateWeek,
+            query: updateWeek.replaceAll("__typename", ""),
             variables: {
               input: {
                 weekOfYear_iotNameThing: weekRecord.weekOfYear_iotNameThing,

@@ -112,7 +112,7 @@ export default function MonthCreateForm(props) {
             }
           });
           await API.graphql({
-            query: createMonth,
+            query: createMonth.replaceAll("__typename", ""),
             variables: {
               input: {
                 ...modelFields,
