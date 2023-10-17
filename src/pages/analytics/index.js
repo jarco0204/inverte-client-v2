@@ -136,7 +136,7 @@ const AnalyticsContainer = () => {
 
     const [date, setDate] = useState(dayjs(""));
     const [cardSummaryItems, setCardSummaryItems] = useState([]);
-    const [isMobileDevice, setIsMobileDevice] = useState(clientDemo);
+    const [isMobileDevice, setIsMobileDevice] = useState(false);
     const [realTimeAccuracyGraph, setRealTimeAccuracyGraph] = useState([]);
     const [realTimePrecisionGraph, setRealTimePrecisionGraph] = useState([]);
     const [realTimeInventoryGraph, setRealTimeInventoryGraph] = useState([]);
@@ -316,6 +316,22 @@ const AnalyticsContainer = () => {
         getHourlyMetaRecords();
         console.log("useEffect");
     }, [date]);
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobileDevice(window.innerWidth < 1200);
+        };
+
+        // Add event listener for window resize
+        window.addEventListener("resize", handleResize);
+
+        // Initial check on component mount
+        handleResize();
+
+        // Clean up the event listener on component unmount
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
 
     const convertGsToOz = (val) => {
         return (parseInt(val) / 28.35).toFixed(2).toString();
