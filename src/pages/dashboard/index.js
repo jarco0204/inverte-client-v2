@@ -166,7 +166,7 @@ const DashboardContainer = () => {
     const portionTimeTitle = "Average Completion Time";
     const inventoryConsumedTitle = "Inventory Consumed";
 
-    const [isMobileDevice, setIsMobileDevice] = useState(clientDemo);
+    const [isMobileDevice, setIsMobileDevice] = useState(false);
     const [cardSummaryItems, setCardSummaryItems] = useState([]);
     const [realTimePrecisionGraph, setRealTimePrecisionGraph] = useState([]);
     const [realTimeAccuracyGraph, setRealTimeAccuracyGraph] = useState([]);
@@ -365,6 +365,22 @@ const DashboardContainer = () => {
             subscription.unsubscribe();
         };
     }, [selectedIndex]);
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobileDevice(window.innerWidth < 1200);
+        };
+
+        // Add event listener for window resize
+        window.addEventListener("resize", handleResize);
+
+        // Initial check on component mount
+        handleResize();
+
+        // Clean up the event listener on component unmount
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
 
     // UseEffect to change layout for mobile devices
     // useEffect(() => {
