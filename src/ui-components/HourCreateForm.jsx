@@ -126,7 +126,7 @@ export default function HourCreateForm(props) {
             }
           });
           await API.graphql({
-            query: createHour,
+            query: createHour.replaceAll("__typename", ""),
             variables: {
               input: {
                 ...modelFields,

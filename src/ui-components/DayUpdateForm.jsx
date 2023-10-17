@@ -92,7 +92,7 @@ export default function DayUpdateForm(props) {
       const record = dayOfYear_iotNameThingProp
         ? (
             await API.graphql({
-              query: getDay,
+              query: getDay.replaceAll("__typename", ""),
               variables: { dayOfYear_iotNameThing: dayOfYear_iotNameThingProp },
             })
           )?.data?.getDay
@@ -172,7 +172,7 @@ export default function DayUpdateForm(props) {
             }
           });
           await API.graphql({
-            query: updateDay,
+            query: updateDay.replaceAll("__typename", ""),
             variables: {
               input: {
                 dayOfYear_iotNameThing: dayRecord.dayOfYear_iotNameThing,

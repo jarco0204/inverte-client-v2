@@ -100,7 +100,7 @@ export default function IngredientCreateForm(props) {
             }
           });
           await API.graphql({
-            query: createIngredient,
+            query: createIngredient.replaceAll("__typename", ""),
             variables: {
               input: {
                 ...modelFields,

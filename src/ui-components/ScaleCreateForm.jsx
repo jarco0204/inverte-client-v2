@@ -117,7 +117,7 @@ export default function ScaleCreateForm(props) {
             }
           });
           await API.graphql({
-            query: createScale,
+            query: createScale.replaceAll("__typename", ""),
             variables: {
               input: {
                 ...modelFields,

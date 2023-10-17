@@ -112,7 +112,7 @@ export default function WeekCreateForm(props) {
             }
           });
           await API.graphql({
-            query: createWeek,
+            query: createWeek.replaceAll("__typename", ""),
             variables: {
               input: {
                 ...modelFields,

@@ -78,7 +78,7 @@ export default function HourUpdateForm(props) {
       const record = dayOfYear_hourOfDay_iotNameThingProp
         ? (
             await API.graphql({
-              query: getHour,
+              query: getHour.replaceAll("__typename", ""),
               variables: {
                 dayOfYear_hourOfDay_iotNameThing:
                   dayOfYear_hourOfDay_iotNameThingProp,
@@ -159,7 +159,7 @@ export default function HourUpdateForm(props) {
             }
           });
           await API.graphql({
-            query: updateHour,
+            query: updateHour.replaceAll("__typename", ""),
             variables: {
               input: {
                 dayOfYear_hourOfDay_iotNameThing:

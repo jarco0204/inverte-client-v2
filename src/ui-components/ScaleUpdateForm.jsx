@@ -60,7 +60,7 @@ export default function ScaleUpdateForm(props) {
       const record = iotNameThingProp
         ? (
             await API.graphql({
-              query: getScale,
+              query: getScale.replaceAll("__typename", ""),
               variables: { iotNameThing: iotNameThingProp },
             })
           )?.data?.getScale
@@ -138,7 +138,7 @@ export default function ScaleUpdateForm(props) {
             }
           });
           await API.graphql({
-            query: updateScale,
+            query: updateScale.replaceAll("__typename", ""),
             variables: {
               input: {
                 iotNameThing: scaleRecord.iotNameThing,
