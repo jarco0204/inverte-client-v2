@@ -62,6 +62,7 @@ export default function MainContainer() {
     const restaurantName = useSelector((state) => state.meta.restaurantName);
     const demo = useSelector((state) => state.meta.demo);
     const accessType = useSelector((state) => state.meta.accessType);
+    const [isMobileDevice, setIsMobileDevice] = useState(false);
     const metaInformation = {
         iotThingNames,
         restaurantName,
@@ -69,7 +70,6 @@ export default function MainContainer() {
         accessType,
     };
     const reduxDispatch = useDispatch();
-    const [isMobileDevice, setIsMobileDevice] = useState(false);
 
     const setMetaInformation = (data) => {
         console.log(data);
