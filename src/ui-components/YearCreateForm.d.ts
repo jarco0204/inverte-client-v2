@@ -16,11 +16,13 @@ export declare type YearCreateFormInputValues = {
     year_iotNameThing?: string;
     ingredientName_weight?: string;
     scaleActions?: string;
+    lastConnected?: number;
 };
 export declare type YearCreateFormValidationValues = {
     year_iotNameThing?: ValidationFunction<string>;
     ingredientName_weight?: ValidationFunction<string>;
     scaleActions?: ValidationFunction<string>;
+    lastConnected?: ValidationFunction<number>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type YearCreateFormOverridesProps = {
@@ -28,6 +30,7 @@ export declare type YearCreateFormOverridesProps = {
     year_iotNameThing?: PrimitiveOverrideProps<TextFieldProps>;
     ingredientName_weight?: PrimitiveOverrideProps<TextFieldProps>;
     scaleActions?: PrimitiveOverrideProps<TextAreaFieldProps>;
+    lastConnected?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type YearCreateFormProps = React.PropsWithChildren<{
     overrides?: YearCreateFormOverridesProps | undefined | null;

@@ -34,6 +34,7 @@ export default function YearUpdateForm(props) {
     year_iotNameThing: "",
     ingredientName_weight: "",
     scaleActions: "",
+    lastConnected: "",
   };
   const [year_iotNameThing, setYear_iotNameThing] = React.useState(
     initialValues.year_iotNameThing
@@ -43,6 +44,9 @@ export default function YearUpdateForm(props) {
   );
   const [scaleActions, setScaleActions] = React.useState(
     initialValues.scaleActions
+  );
+  const [lastConnected, setLastConnected] = React.useState(
+    initialValues.lastConnected
   );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
@@ -57,6 +61,7 @@ export default function YearUpdateForm(props) {
         ? cleanValues.scaleActions
         : JSON.stringify(cleanValues.scaleActions)
     );
+    setLastConnected(cleanValues.lastConnected);
     setErrors({});
   };
   const [yearRecord, setYearRecord] = React.useState(yearModelProp);
@@ -79,6 +84,7 @@ export default function YearUpdateForm(props) {
     year_iotNameThing: [{ type: "Required" }],
     ingredientName_weight: [{ type: "Required" }],
     scaleActions: [{ type: "JSON" }],
+    lastConnected: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -109,6 +115,7 @@ export default function YearUpdateForm(props) {
           year_iotNameThing,
           ingredientName_weight,
           scaleActions: scaleActions ?? null,
+          lastConnected: lastConnected ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -172,6 +179,7 @@ export default function YearUpdateForm(props) {
               year_iotNameThing: value,
               ingredientName_weight,
               scaleActions,
+              lastConnected,
             };
             const result = onChange(modelFields);
             value = result?.year_iotNameThing ?? value;
@@ -200,6 +208,7 @@ export default function YearUpdateForm(props) {
               year_iotNameThing,
               ingredientName_weight: value,
               scaleActions,
+              lastConnected,
             };
             const result = onChange(modelFields);
             value = result?.ingredientName_weight ?? value;
@@ -228,6 +237,7 @@ export default function YearUpdateForm(props) {
               year_iotNameThing,
               ingredientName_weight,
               scaleActions: value,
+              lastConnected,
             };
             const result = onChange(modelFields);
             value = result?.scaleActions ?? value;
@@ -242,6 +252,37 @@ export default function YearUpdateForm(props) {
         hasError={errors.scaleActions?.hasError}
         {...getOverrideProps(overrides, "scaleActions")}
       ></TextAreaField>
+      <TextField
+        label="Last connected"
+        isRequired={false}
+        isReadOnly={false}
+        type="number"
+        step="any"
+        value={lastConnected}
+        onChange={(e) => {
+          let value = isNaN(parseFloat(e.target.value))
+            ? e.target.value
+            : parseFloat(e.target.value);
+          if (onChange) {
+            const modelFields = {
+              year_iotNameThing,
+              ingredientName_weight,
+              scaleActions,
+              lastConnected: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.lastConnected ?? value;
+          }
+          if (errors.lastConnected?.hasError) {
+            runValidationTasks("lastConnected", value);
+          }
+          setLastConnected(value);
+        }}
+        onBlur={() => runValidationTasks("lastConnected", lastConnected)}
+        errorMessage={errors.lastConnected?.errorMessage}
+        hasError={errors.lastConnected?.hasError}
+        {...getOverrideProps(overrides, "lastConnected")}
+      ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

@@ -144,6 +144,7 @@ export const getIngredient = /* GraphQL */ `
           year_iotNameThing
           ingredientName_weight
           scaleActions
+          lastConnected
           createdAt
           updatedAt
           ingredientYearIngredient_name
@@ -208,6 +209,7 @@ export const getYear = /* GraphQL */ `
           year_iotNameThing
           ingredientName_weight
           scaleActions
+          lastConnected
           createdAt
           updatedAt
           ingredientYearIngredient_name
@@ -216,6 +218,7 @@ export const getYear = /* GraphQL */ `
         __typename
       }
       scaleActions
+      lastConnected
       month {
         items {
           monthOfYear_iotNameThing
@@ -265,6 +268,7 @@ export const listYears = /* GraphQL */ `
           __typename
         }
         scaleActions
+        lastConnected
         month {
           nextToken
           __typename
@@ -728,6 +732,7 @@ export const yearsByIngredientName_weight = /* GraphQL */ `
           __typename
         }
         scaleActions
+        lastConnected
         month {
           nextToken
           __typename

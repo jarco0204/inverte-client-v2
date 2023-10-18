@@ -212,6 +212,7 @@ export const createIngredient = /* GraphQL */ `
           year_iotNameThing
           ingredientName_weight
           scaleActions
+          lastConnected
           createdAt
           updatedAt
           ingredientYearIngredient_name
@@ -240,6 +241,7 @@ export const updateIngredient = /* GraphQL */ `
           year_iotNameThing
           ingredientName_weight
           scaleActions
+          lastConnected
           createdAt
           updatedAt
           ingredientYearIngredient_name
@@ -268,6 +270,7 @@ export const deleteIngredient = /* GraphQL */ `
           year_iotNameThing
           ingredientName_weight
           scaleActions
+          lastConnected
           createdAt
           updatedAt
           ingredientYearIngredient_name
@@ -303,6 +306,7 @@ export const createYear = /* GraphQL */ `
           year_iotNameThing
           ingredientName_weight
           scaleActions
+          lastConnected
           createdAt
           updatedAt
           ingredientYearIngredient_name
@@ -311,6 +315,7 @@ export const createYear = /* GraphQL */ `
         __typename
       }
       scaleActions
+      lastConnected
       month {
         items {
           monthOfYear_iotNameThing
@@ -351,6 +356,7 @@ export const updateYear = /* GraphQL */ `
           year_iotNameThing
           ingredientName_weight
           scaleActions
+          lastConnected
           createdAt
           updatedAt
           ingredientYearIngredient_name
@@ -359,6 +365,7 @@ export const updateYear = /* GraphQL */ `
         __typename
       }
       scaleActions
+      lastConnected
       month {
         items {
           monthOfYear_iotNameThing
@@ -399,6 +406,7 @@ export const deleteYear = /* GraphQL */ `
           year_iotNameThing
           ingredientName_weight
           scaleActions
+          lastConnected
           createdAt
           updatedAt
           ingredientYearIngredient_name
@@ -407,6 +415,7 @@ export const deleteYear = /* GraphQL */ `
         __typename
       }
       scaleActions
+      lastConnected
       month {
         items {
           monthOfYear_iotNameThing
