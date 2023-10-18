@@ -211,6 +211,7 @@ export const createIngredient = /* GraphQL */ `
         items {
           year_iotNameThing
           ingredientName_weight
+          lastConnected
           scaleActions
           createdAt
           updatedAt
@@ -239,6 +240,7 @@ export const updateIngredient = /* GraphQL */ `
         items {
           year_iotNameThing
           ingredientName_weight
+          lastConnected
           scaleActions
           createdAt
           updatedAt
@@ -267,6 +269,7 @@ export const deleteIngredient = /* GraphQL */ `
         items {
           year_iotNameThing
           ingredientName_weight
+          lastConnected
           scaleActions
           createdAt
           updatedAt
@@ -291,6 +294,7 @@ export const createYear = /* GraphQL */ `
     createYear(input: $input, condition: $condition) {
       year_iotNameThing
       ingredientName_weight
+      lastConnected
       yearlySummary {
         averageTime
         portionsCompleted
@@ -302,6 +306,7 @@ export const createYear = /* GraphQL */ `
         year {
           year_iotNameThing
           ingredientName_weight
+          lastConnected
           scaleActions
           createdAt
           updatedAt
@@ -339,6 +344,7 @@ export const updateYear = /* GraphQL */ `
     updateYear(input: $input, condition: $condition) {
       year_iotNameThing
       ingredientName_weight
+      lastConnected
       yearlySummary {
         averageTime
         portionsCompleted
@@ -350,6 +356,7 @@ export const updateYear = /* GraphQL */ `
         year {
           year_iotNameThing
           ingredientName_weight
+          lastConnected
           scaleActions
           createdAt
           updatedAt
@@ -387,6 +394,7 @@ export const deleteYear = /* GraphQL */ `
     deleteYear(input: $input, condition: $condition) {
       year_iotNameThing
       ingredientName_weight
+      lastConnected
       yearlySummary {
         averageTime
         portionsCompleted
@@ -398,6 +406,7 @@ export const deleteYear = /* GraphQL */ `
         year {
           year_iotNameThing
           ingredientName_weight
+          lastConnected
           scaleActions
           createdAt
           updatedAt

@@ -29,6 +29,7 @@ type Ingredient @model {
 type Year @model {
     year_iotNameThing: ID! @primaryKey
     ingredientName_weight: ID! @index(name: "byIngredient")
+    lastConnected: Float
     yearlySummary: YearlySummary
     scaleActions: AWSJSON
     month: [Month] @hasMany(indexName: "byYear")

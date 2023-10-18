@@ -250,6 +250,7 @@ export const onCreateIngredient = /* GraphQL */ `
         items {
           year_iotNameThing
           ingredientName_weight
+          lastConnected
           scaleActions
           createdAt
           updatedAt
@@ -277,6 +278,7 @@ export const onUpdateIngredient = /* GraphQL */ `
         items {
           year_iotNameThing
           ingredientName_weight
+          lastConnected
           scaleActions
           createdAt
           updatedAt
@@ -304,6 +306,7 @@ export const onDeleteIngredient = /* GraphQL */ `
         items {
           year_iotNameThing
           ingredientName_weight
+          lastConnected
           scaleActions
           createdAt
           updatedAt
@@ -325,6 +328,7 @@ export const onCreateYear = /* GraphQL */ `
     onCreateYear(filter: $filter) {
       year_iotNameThing
       ingredientName_weight
+      lastConnected
       yearlySummary {
         averageTime
         portionsCompleted
@@ -336,6 +340,7 @@ export const onCreateYear = /* GraphQL */ `
         year {
           year_iotNameThing
           ingredientName_weight
+          lastConnected
           scaleActions
           createdAt
           updatedAt
@@ -370,6 +375,7 @@ export const onUpdateYear = /* GraphQL */ `
     onUpdateYear(filter: $filter) {
       year_iotNameThing
       ingredientName_weight
+      lastConnected
       yearlySummary {
         averageTime
         portionsCompleted
@@ -381,6 +387,7 @@ export const onUpdateYear = /* GraphQL */ `
         year {
           year_iotNameThing
           ingredientName_weight
+          lastConnected
           scaleActions
           createdAt
           updatedAt
@@ -415,6 +422,7 @@ export const onDeleteYear = /* GraphQL */ `
     onDeleteYear(filter: $filter) {
       year_iotNameThing
       ingredientName_weight
+      lastConnected
       yearlySummary {
         averageTime
         portionsCompleted
@@ -426,6 +434,7 @@ export const onDeleteYear = /* GraphQL */ `
         year {
           year_iotNameThing
           ingredientName_weight
+          lastConnected
           scaleActions
           createdAt
           updatedAt

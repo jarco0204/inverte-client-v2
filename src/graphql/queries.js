@@ -143,6 +143,7 @@ export const getIngredient = /* GraphQL */ `
         items {
           year_iotNameThing
           ingredientName_weight
+          lastConnected
           scaleActions
           createdAt
           updatedAt
@@ -196,6 +197,7 @@ export const getYear = /* GraphQL */ `
     getYear(year_iotNameThing: $year_iotNameThing) {
       year_iotNameThing
       ingredientName_weight
+      lastConnected
       yearlySummary {
         averageTime
         portionsCompleted
@@ -207,6 +209,7 @@ export const getYear = /* GraphQL */ `
         year {
           year_iotNameThing
           ingredientName_weight
+          lastConnected
           scaleActions
           createdAt
           updatedAt
@@ -254,6 +257,7 @@ export const listYears = /* GraphQL */ `
       items {
         year_iotNameThing
         ingredientName_weight
+        lastConnected
         yearlySummary {
           averageTime
           portionsCompleted
@@ -717,6 +721,7 @@ export const yearsByIngredientName_weight = /* GraphQL */ `
       items {
         year_iotNameThing
         ingredientName_weight
+        lastConnected
         yearlySummary {
           averageTime
           portionsCompleted

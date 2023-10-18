@@ -15,11 +15,13 @@ export declare type ValidationFunction<T> = (value: T, validationResponse: Valid
 export declare type YearUpdateFormInputValues = {
     year_iotNameThing?: string;
     ingredientName_weight?: string;
+    lastConnected?: number;
     scaleActions?: string;
 };
 export declare type YearUpdateFormValidationValues = {
     year_iotNameThing?: ValidationFunction<string>;
     ingredientName_weight?: ValidationFunction<string>;
+    lastConnected?: ValidationFunction<number>;
     scaleActions?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
@@ -27,6 +29,7 @@ export declare type YearUpdateFormOverridesProps = {
     YearUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     year_iotNameThing?: PrimitiveOverrideProps<TextFieldProps>;
     ingredientName_weight?: PrimitiveOverrideProps<TextFieldProps>;
+    lastConnected?: PrimitiveOverrideProps<TextFieldProps>;
     scaleActions?: PrimitiveOverrideProps<TextAreaFieldProps>;
 } & EscapeHatchProps;
 export declare type YearUpdateFormProps = React.PropsWithChildren<{
