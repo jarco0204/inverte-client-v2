@@ -24,14 +24,23 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 // User Components
 import { Radio } from "antd";
-import { Button } from "@material-ui/core";
+import Grid from "@mui/material/Grid";
+import { Tooltip } from "@mui/material";
 import MDBox from "../../../../components/MDBox";
-import { getRestaurant } from "../../../../graphql/queries";
+import { getRestaurant, getYear } from "../../../../graphql/queries";
 import MDTypography from "../../../../components/MDTypography";
 import { updateRestaurant } from "../../../../graphql/mutations";
 import { TareButton, StartButton, ExpandMore } from "./ScaleButtons";
 
+// External Libraries
+import dayjs from "dayjs";
+import dayOfYear from "dayjs/plugin/dayOfYear.js";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+dayjs.extend(timezone);
+
 const Scale = ({ mainScaleData, isMobileDevice }) => {
+    console.log("The main scale data is:", mainScaleData);
     // Classic Shadow Parameters
     const [minOffset, setMinOffset] = useState(3);
     const [maxOffset, setMaxOffset] = useState(3);
@@ -50,6 +59,8 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
     const scaleStateReported = 1; // 0 = off & 1 = Unloaded & 2 = Busy/On
     const [expanded, setExpanded] = useState(false);
     const accessType = useSelector((state) => state.meta.accessType);
+    const [lastConnected, setLastConnected] = useState(0);
+    const timeZone = useSelector((state) => state.meta.timeZone);
 
     /*!
        @description:
@@ -88,6 +99,27 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
         setExpanded(!expanded);
     };
 
+    /*!
+       @description:Get the last time scale was connected
+       @params:
+       @return:
+       @Comments
+       @Coders:Rohan
+    */
+    const getLastConnected = async () => {
+        const year = dayjs().year(); // Get the current year
+        const response = await API.graphql({
+            query: getYear,
+            variables: { year_iotNameThing: year.toString() + "_" + mainScaleData.iotNameThing }, // Provide the ID as a variable
+        });
+        let timestamp = response.data.getYear.lastConnected;
+        timestamp = dayjs
+            .unix(timestamp / 1000)
+            .tz(timeZone)
+            .format("MM-DD HH:mm");
+        setLastConnected(timestamp);
+        console.log("Last Connected Time:", lastConnected);
+    };
     /*!
         @description: Function to update the IoT Device Shadow by using PubSub Amplify MQTT Client
         @params:
@@ -335,6 +367,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
             error: (error) => console.error("Error in GET/Accepted web socket of Timeseries...", error),
             complete: () => console.log("Web Socket Done"),
         });
+        getLastConnected();
     }, [correctWeightIndex]);
 
     // @description: Hook to get Thing's Shadow by publishing to get topic and then listening after request is accepted.
@@ -362,20 +395,24 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                         <FastfoodIcon style={{ color: scaleStateReported == 0 ? "grey" : scaleStateReported == 1 ? "#02182E" : "#71990D" }} />
                     </Icon>
                 </MDBox>
-                <MDBox
-                    variant="gradient"
-                    bgColor="light"
-                    style={{ color: realTimeTemperature == "Off" ? "white" : realTimeTemperature == "Idle" ? "#e81ba8" : "#63e22a", fontSize: "21px", fontFamily: "" }}
-                    borderRadius="xl"
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                    width="4.5rem"
-                    height="3rem"
-                    mt={-4.5}
-                >
-                    {realTimeTemperature == "111000℃" ? "ON" : realTimeTemperature}
-                </MDBox>
+                <Grid>
+                    <Tooltip title={"Last time the scale connected:" + `${lastConnected}`} placement="top">
+                        <MDBox
+                            variant="gradient"
+                            bgColor="light"
+                            style={{ color: realTimeTemperature == "Off" ? "white" : realTimeTemperature == "Idle" ? "#e81ba8" : "#63e22a", fontSize: "21px", fontFamily: "" }}
+                            borderRadius="xl"
+                            display="flex"
+                            justifyContent="center"
+                            alignItems="center"
+                            width="4.5rem"
+                            height="3rem"
+                            mt={-4.5}
+                        >
+                            {realTimeTemperature == "111000℃" ? "ON" : realTimeTemperature}
+                        </MDBox>
+                    </Tooltip>
+                </Grid>
             </MDBox>
             <MDBox style={{ margin: "auto", paddingTop: "5px" }}>
                 <FormControl id={"ingredient-name"} sx={{ m: 1, width: 145 }} variant="outlined">

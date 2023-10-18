@@ -161,8 +161,8 @@ const DashboardContainer = () => {
     const timeZone = useSelector((state) => state.meta.timeZone);
     const clientDemo = useSelector((state) => state.meta.demo);
 
-    const portionCompleteTitle = "Portions Completed";
     const portionPrecisionTitle = "Precision Levels";
+    const portionCompleteTitle = "Portions Completed";
     const portionTimeTitle = "Average Completion Time";
     const inventoryConsumedTitle = "Inventory Consumed";
 
