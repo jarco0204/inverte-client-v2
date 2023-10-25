@@ -1,3 +1,4 @@
+import "chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm";
 /*!
    @description:
    @params:
@@ -12,8 +13,8 @@ const PortionPrecisionLineChartConfig = (labels, datasets, pointColorsAR, datase
             datasets: [
                 {
                     label: datasets.label,
-                    tension: 0.25,
-                    pointRadius: 8,
+                    tension: 0.1,
+                    pointRadius: 0,
                     pointBorderColor: "transparent",
                     pointBackgroundColor: pointColorsAR,
                     borderColor: "rgba(255, 255, 255, .8)",
@@ -23,47 +24,10 @@ const PortionPrecisionLineChartConfig = (labels, datasets, pointColorsAR, datase
                     data: datasets.data,
                     maxBarThickness: 6,
                 },
-                {
-                    label: datasets2.label,
-                    tension: 0.25,
-                    pointRadius: 2,
-                    // pointBorderColor: "red",
-                    // pointBackgroundColor: "rgba(227, 100, 20, 1)",
-                    // pointBackgroundColor: pointColorsAR,
-                    borderColor: "rgba(236,65,1,1)",
-                    borderWidth: 4,
-                    backgroundColor: "transparent",
-                    fill: false,
-                    data: datasets2.data,
-                    maxBarThickness: 6,
-                },
-                {
-                    label: datasets1.label,
-                    tension: 0.25,
-                    pointRadius: 2,
-                    borderColor: "rgba(83, 212, 88, 1)", // Green
-                    borderWidth: 4,
-                    backgroundColor: "transparent",
-                    fill: false,
-                    data: datasets1.data,
-                    maxBarThickness: 6,
-                },
-                {
-                    label: datasets3.label,
-                    tension: 0.25,
-                    pointRadius: 2,
-                    pointBackgroundColor: "rgba(1, 1, 255, .8)",
-                    borderColor: "rgba(1, 1, 255, .8)",
-                    borderWidth: 4,
-                    backgroundColor: "transparent",
-                    fill: false,
-                    data: datasets3.data,
-                    maxBarThickness: 6,
-                },
             ],
         },
         options: {
-            animation: false,
+            animation: true,
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
@@ -112,15 +76,24 @@ const PortionPrecisionLineChartConfig = (labels, datasets, pointColorsAR, datase
                     },
                 },
                 x: {
+                    type: "time", // This is required if you have non-numeric x-axis data
+                    time: {
+                        unit: "day", // Set the time unit to 'day'
+                        displayFormats: {
+                            day: "MM-DD", // Format for displaying days as month and day
+                        },
+                    },
                     grid: {
-                        drawBorder: false,
-                        display: false,
+                        drawBorder: true,
+                        display: true,
                         drawOnChartArea: true,
                         drawTicks: true,
-                        borderDash: [5, 5],
+                        borderDash: [10, 5],
+                        color: "rgba(255, 0, 0, .2)",
+                        lineWidth: 2,
                     },
                     ticks: {
-                        display: false,
+                        display: true,
                         maxTicksLimit: 7,
                         color: "#f8f9fa",
                         padding: 12,

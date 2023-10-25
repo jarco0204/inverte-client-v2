@@ -7005,6 +7005,11 @@ chart.js@^4.3.3:
   dependencies:
     "@kurkle/color" "^0.3.0"
 
+chartjs-adapter-dayjs-4@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/chartjs-adapter-dayjs-4/-/chartjs-adapter-dayjs-4-1.0.4.tgz#4e810c99d9f28c07364381317d01f1bc504c5b2e"
+  integrity sha512-yy9BAYW4aNzPVrCWZetbILegTRb7HokhgospPoC3b5iZ5qdlqNmXts2KdSp6AqnjkPAp/YWyHDxLvIvwt5x81w==
+
 chartjs-adapter-moment@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/chartjs-adapter-moment/-/chartjs-adapter-moment-1.0.1.tgz#0f04c30d330b207c14bfb57dfaae9ce332f09102"
@@ -7665,7 +7670,7 @@ date-fns@^2.29.2:
   dependencies:
     "@babel/runtime" "^7.21.0"
 
-dayjs@^1.11.1, dayjs@^1.11.7:
+dayjs@^1.11.1, dayjs@^1.11.10:
   version "1.11.10"
   resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.10.tgz#68acea85317a6e164457d6d6947564029a6a16a0"
   integrity sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==

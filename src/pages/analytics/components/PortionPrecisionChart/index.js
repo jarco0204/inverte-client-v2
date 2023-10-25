@@ -40,7 +40,6 @@ const PortionPrecisionChart = ({ color, title, description, chart, mobileViewFla
         @Coders: ManuLAO
     */
     const returnMyChart = () => {
-        console.log("The data is:", data);
         return (
             <MDBox padding="1rem">
                 {useMemo(
