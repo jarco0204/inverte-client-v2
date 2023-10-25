@@ -414,7 +414,7 @@ const DashboardContainer = () => {
                                         color="dark"
                                         title={portionCompleteTitle}
                                         icon={<PanToolIcon />}
-                                        count={unitOfMass == "g" ? cardSummaryItems[0] : convertGsToOz(cardSummaryItems[1]) + "oz"}
+                                        count={cardSummaryItems[0]}
                                         percentage={{
                                             color: "success",
                                         }}

@@ -129,6 +129,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
     */
     const updateClassicShadow = (event) => {
         // Creae Variables
+        console.log("The event is:", event);
         const updateThingShadowRequestInput = { state: { desired: {} } };
         let shadowTopic = "$aws/things/" + mainScaleData.iotNameThing + "/shadow/update";
 
@@ -591,18 +592,24 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                             }}
                             readOnly={accessType === "Restricted"}
                             classes={{ input: classes.centered }}
-                            value={unitOfMass == "g" ? minOffset : (minOffset / 28.35).toFixed(2)}
+                            value={unitOfMass == "g" ? minOffset : (minOffset / 28.35).toFixed(1)}
                             aria-describedby="outlined-weight-helper-text"
                             inputProps={{
                                 "aria-label": "weight",
+                                step: unitOfMass == "g" ? 1 : 0.1,
                                 style: {
                                     textAlign: "center",
                                 },
 
-                                min: 2, // Set the minimum value
+                                min: unitOfMass == "g" ? 2 : 0.1, // Set the minimum value
+                                max: unitOfMass == "g" ? 10 : 0.6,
                             }}
                             onKeyDown={!isMobileDevice ? handleKeyDown : null} // Prevent keyboard Inputs
-                            onChange={(e) => setMinOffset(e.target.value == 1 ? 2 : e.target.value)}
+                            onChange={(e) =>
+                                unitOfMass == "g"
+                                    ? setMinOffset(e.target.value == 1 ? 2 : e.target.value)
+                                    : setMinOffset(e.target.value * (28.35).toFixed(0) == 1 ? 2 : (e.target.value * 28.35).toFixed(0).toString())
+                            }
                             onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updateClassicShadow(e))}
                         />
                     </FormControl>
@@ -617,18 +624,23 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                             }}
                             readOnly={accessType === "Restricted"}
                             classes={{ input: classes.centered }}
-                            value={unitOfMass == "g" ? maxOffset : (maxOffset / 28.35).toFixed(2)}
+                            value={unitOfMass == "g" ? maxOffset : (maxOffset / 28.35).toFixed(1)}
                             aria-describedby="outlined-weight-helper-text"
                             inputProps={{
+                                step: unitOfMass == "g" ? 1 : 0.1,
                                 "aria-label": "weight",
                                 style: {
                                     textAlign: "center",
                                 },
-
-                                min: 2, // Set the minimum value
+                                min: unitOfMass == "g" ? 2 : 0.1, // Set the minimum value
+                                max: unitOfMass == "g" ? 10 : 0.6,
                             }}
                             onKeyDown={!isMobileDevice ? handleKeyDown : null} // Prevent keyboard Inputs
-                            onChange={(e) => setMaxOffset(e.target.value == 1 ? 2 : e.target.value)}
+                            onChange={(e) =>
+                                unitOfMass == "g"
+                                    ? setMaxOffset(e.target.value == 1 ? 2 : e.target.value)
+                                    : setMaxOffset(e.target.value * (28.35).toFixed(0) == 1 ? 2 : (e.target.value * 28.35).toFixed(0).toString())
+                            }
                             onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updateClassicShadow(e))}
                         />
                     </FormControl>
