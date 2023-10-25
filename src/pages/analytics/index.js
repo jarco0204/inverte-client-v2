@@ -20,7 +20,7 @@ import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/Comple
 
 // AWS Imports
 import { API, graphqlOperation } from "aws-amplify";
-import { getDay, getPortionEvent, listPortionEvents } from "../../graphql/queries";
+import { getDay, getPortionEvent, listDays, listPortionEvents } from "../../graphql/queries";
 
 // User Components
 import PortionTimeLineChart from "./components/PortionTimeLineChart";
@@ -85,7 +85,7 @@ const createReportLineChartObject = () => {
     return {
         precisionGraph: {
             labels: [],
-            portionEvent: { label: "Portion Weight", data: [], yAxisLabel: "Grams" },
+            portionEvent: { label: "Inventory Weight", data: [], yAxisLabel: "Grams" },
             correctWeight: { label: "Correct Weight", data: [], yAxisLabel: "Grams" },
             upperLimit: { label: "Upper Limit", data: [], yAxisLabel: "Grams" },
             lowerLimit: { label: "Lower Limit", data: [], yAxisLabel: "Grams" },
@@ -159,7 +159,7 @@ const AnalyticsContainer = () => {
         @Coders: TheBestCoderInAmerica
     */
     const generatePrecisionChartResponsive = (mobileViewFlag) => {
-        return <PortionPrecisionChart color="info" title="Precision of Portioning" chart={realTimePrecisionGraph} mobileViewFlag={mobileViewFlag} />;
+        return <PortionPrecisionChart color="info" title="Inventory Usage" chart={realTimePrecisionGraph} mobileViewFlag={mobileViewFlag} />;
     };
 
     /*!
@@ -195,7 +195,7 @@ const AnalyticsContainer = () => {
         // Variable definition
         let [tempWeightAR, correctWeightAR, upperLimitAR, lowerLimitAR, tempTimeAR, pointBackgroundColorAR] = [[], [], [], [], [], []];
         let keys = Object.keys(realTime).sort((a, b) => a - b); //Sorting the keys in ascending order
-
+        let xAxis = keys;
         for (let i = 0; i < keys.length; i++) {
             const correctWeight = parseInt(realTime[keys[i]].correctWeight);
             const upperLimit = parseInt(realTime[keys[i]].upperErrorLimit);
@@ -213,9 +213,9 @@ const AnalyticsContainer = () => {
                 pointBackgroundColorAR.push("rgba(55, 55, 55, .8)");
             } else {
                 if (unitOfMass == "g") {
-                    tempWeightAR.push(realTime[keys[i]].portionWeight);
+                    tempWeightAR.push(realTime[keys[i]].inventoryWeight);
                 } else {
-                    tempWeightAR.push((realTime[keys[i]].portionWeight / 28.35).toFixed(2));
+                    tempWeightAR.push((realTime[keys[i]].inventoryWeight / 28.35).toFixed(2));
                 }
                 pointBackgroundColorAR.push("rgba(255, 255, 255, .8)");
             }
@@ -227,14 +227,15 @@ const AnalyticsContainer = () => {
             keys[i] = dayjs
                 .unix(keys[i] / 1000)
                 .tz(timeZone)
-                .format("MM-DD HH:mm");
+                .format("YYYY-MM-DD HH:mm");
         }
+
         // Precision Chart made up of 3 lines
         precisionGraph.labels = keys;
         precisionGraph.portionEvent.data = tempWeightAR;
-        precisionGraph.correctWeight.data = correctWeightAR;
-        precisionGraph.upperLimit.data = upperLimitAR;
-        precisionGraph.lowerLimit.data = lowerLimitAR;
+        //precisionGraph.correctWeight.data = correctWeightAR;
+        //precisionGraph.upperLimit.data = upperLimitAR;
+        //precisionGraph.lowerLimit.data = lowerLimitAR;
         precisionGraph.pointBackgroundColorAR = pointBackgroundColorAR;
 
         // Accuracy Chart (Doughnut)
@@ -261,6 +262,22 @@ const AnalyticsContainer = () => {
     };
 
     /*!
+       @description:Getting the last key of an object and adding 1 milli second  to create an event with inventory weight of zero
+       @params:
+       @return:
+       @Comments
+       @Coders:Rohan
+    */
+    const getNewKey = (portionEvents) => {
+        const sortedKeys = Object.keys(portionEvents)
+            .map(Number)
+            .sort((a, b) => a - b);
+        let newKey = parseInt(sortedKeys[sortedKeys.length - 1]) + 200000;
+        let keyBefore = parseInt(sortedKeys[0]) - 200000;
+        return [keyBefore.toString(), newKey.toString()];
+    };
+
+    /*!
        @description:
        @params:
        @return:
@@ -268,30 +285,94 @@ const AnalyticsContainer = () => {
        @Coders: Jungler333
     */
     const getHourlyMetaRecords = async () => {
+        let accuracy = 0,
+            inventoryConsumed = 0,
+            timeSaved = 0,
+            portionsCompleted = 0,
+            underPercent = 0,
+            overPercent = 0,
+            perfectPercent = 0,
+            dashboardGraph = {},
+            response;
         try {
-            const dayOfYear = date.dayOfYear();
             // Query GQL to pull hourly data
-            const response = await API.graphql({
-                query: getDashboard,
-                variables: { dayOfYear_iotNameThing: dayOfYear.toString() + "_" + keys[selectedIndexRef.current] }, // Provide the ID as a variable
-            });
+            if (date[0].dayOfYear() == date[1].dayOfYear()) {
+                response = await API.graphql({
+                    query: getDashboard,
+                    //variables: { dayOfYear_iotNameThing: daysOfYear_iotNameThing[0] }, // Provide the ID as a variable
+                    variables: {
+                        dayOfYear_iotNameThing: date[0].dayOfYear() + "_" + keys[selectedIndexRef.current],
+                    },
+                });
+                if (response.data.getDay) {
+                    console.log("response: ", response);
+                    accuracy = response.data.getDay.dailySummary.accuracy;
+                    inventoryConsumed = response.data.getDay.dailySummary.inventoryConsumed;
+                    timeSaved = response.data.getDay.dailySummary.averageTime;
+                    portionsCompleted = response.data.getDay.dailySummary.portionsCompleted;
+                    underPercent = parseInt((response.data.getDay.dailySummary.underServed / portionsCompleted) * 100);
+                    perfectPercent = parseInt((response.data.getDay.dailySummary.perfect / portionsCompleted) * 100);
+                    overPercent = parseInt((response.data.getDay.dailySummary.overServed / portionsCompleted) * 100);
+                    dashboardGraph = JSON.parse(response.data.getDay.dashboardGraph);
+                    let newKey = getNewKey(dashboardGraph);
+                    dashboardGraph[newKey[0]] = { inventoryWeight: 0 };
+                    dashboardGraph[newKey[1]] = { inventoryWeight: 0 };
+                    console.log("The dashboard graph is ", dashboardGraph);
+                }
+            } else {
+                console.log("Date before fetching data is:", date[0].format("YYYY-MM-DD"));
+                response = await API.graphql({
+                    query: listDays,
+                    //variables: { dayOfYear_iotNameThing: daysOfYear_iotNameThing[0] }, // Provide the ID as a variable
+                    variables: {
+                        filter: {
+                            createdAt: {
+                                between: [date[0].format("YYYY-MM-DD"), date[1].format("YYYY-MM-DD")],
+                            },
+                            dayOfYear_iotNameThing: { contains: keys[selectedIndexRef.current] },
+                        },
+                    },
+                });
+                if (response.data.listDays) {
+                    console.log("response: ", response);
+                    let data = response.data.listDays.items;
+                    for (let i = 0; i < data.length; i++) {
+                        accuracy += data[i].dailySummary.accuracy;
+                        portionsCompleted += data[i].dailySummary.portionsCompleted;
+                        inventoryConsumed += data[i].dailySummary.inventoryConsumed;
+                        timeSaved += data[i].dailySummary.averageTime;
+                        perfectPercent += parseInt((data[i].dailySummary.perfect / data[i].dailySummary.portionsCompleted) * 100);
+                        underPercent += parseInt((data[i].dailySummary.underServed / data[i].dailySummary.portionsCompleted) * 100);
+                        overPercent += parseInt((data[i].dailySummary.overServed / data[i].dailySummary.portionsCompleted) * 100);
+                        let newKey = getNewKey(JSON.parse(data[i].dashboardGraph));
+                        dashboardGraph[newKey[0]] = { inventoryWeight: 0 };
+                        dashboardGraph[newKey[1]] = { inventoryWeight: 0 };
+                        dashboardGraph = { ...dashboardGraph, ...JSON.parse(data[i].allPortionEvents) };
+                    }
+                    console.log("Dashboard graph is:", dashboardGraph);
+                    perfectPercent = perfectPercent / data.length;
+                    underPercent = underPercent / data.length;
+                    overPercent = overPercent / data.length;
+                    timeSaved = timeSaved / data.length;
+                    accuracy = accuracy / data.length;
+                }
+            }
 
-            let hour = response.data;
             let demo = false;
             // If Demo, then display hard-coded data
 
-            if (hour.getDay) {
+            if (response.data.getDay || response.data.listDays) {
                 // Set the Upper Summary Card Components
-                let accuracy = hour.getDay.dailySummary.accuracy.toFixed(0) + "%";
-                let inventoryWeight = hour.getDay.dailySummary.inventoryConsumed + "g";
-                let timeSaved = hour.getDay.dailySummary.averageTime.toFixed(1) + "s";
-                setCardSummaryItems([hour.getDay.dailySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
+                accuracy = accuracy.toFixed(0) + "%";
+                inventoryConsumed = inventoryConsumed + "g";
+                timeSaved = timeSaved.toFixed(1) + "s";
+                setCardSummaryItems([portionsCompleted, accuracy, inventoryConsumed, timeSaved]);
 
                 // Add Percentages
-                const underPercent = parseInt((hour.getDay.dailySummary.underServed / hour.getDay.dailySummary.portionsCompleted) * 100);
-                const perfectPercent = parseInt((hour.getDay.dailySummary.perfect / hour.getDay.dailySummary.portionsCompleted) * 100);
-                const overPercent = parseInt((hour.getDay.dailySummary.overServed / hour.getDay.dailySummary.portionsCompleted) * 100);
-                generateLowerRealTimeGraphs(JSON.parse(hour.getDay.dashboardGraph), [underPercent, perfectPercent, overPercent]);
+                underPercent = parseInt(underPercent);
+                perfectPercent = parseInt(perfectPercent);
+                overPercent = parseInt(overPercent);
+                generateLowerRealTimeGraphs(dashboardGraph, [underPercent, perfectPercent, overPercent]);
             } else {
                 // There is no hourly response so add placeholders
                 setCardSummaryItems(["0", "NA", "0", "NA"]);
@@ -314,7 +395,6 @@ const AnalyticsContainer = () => {
     */
     useEffect(() => {
         getHourlyMetaRecords();
-        console.log("useEffect");
     }, [date]);
     useEffect(() => {
         const handleResize = () => {
@@ -412,20 +492,15 @@ const AnalyticsContainer = () => {
                             </Tooltip>
                         </Grid>
                         <MDBox mt={4.75}>
-                            <Grid container spacing={3}>
-                                <Grid item xs={12} md={6} lg={4}>
-                                    <Tooltip title="Precision of Portioning for the Last 7 Events" placement="bottom">
-                                        <MDBox mb={3}>{generatePrecisionChartResponsive(false)}</MDBox>
+                            <Grid container spacing={3} justifyContent={"center"}>
+                                <Grid item xs={12} md={4} lg={6}>
+                                    <Tooltip title="Inventory Usage" placement="bottom">
+                                        <div style={{ width: "100%", height: "100%" }}>{generatePrecisionChartResponsive(false)}</div>
                                     </Tooltip>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <Tooltip title="Serving Tendency of Portions" placement="bottom">
-                                        <MDBox mb={3}>{generateDoughnutChartResponsive(false)}</MDBox>
-                                    </Tooltip>
-                                </Grid>
-                                <Grid item xs={12} md={6} lg={4}>
-                                    <Tooltip title="Completion Time for the Last 7 Events" placement="bottom">
-                                        <MDBox mb={3}>{generateTimeLineChartResponsive(false)}</MDBox>
+                                        <div style={{ width: "100%", height: "100%" }}>{generateDoughnutChartResponsive(false)}</div> {/* Adjust the height and width as needed */}
                                     </Tooltip>
                                 </Grid>
                             </Grid>

@@ -58,6 +58,7 @@ type Day @model {
     dashboardGraph: AWSJSON
     scaleActions: AWSJSON
     allPortionEvents: AWSJSON
+    createdAt: String!
     hour: [Hour] @hasMany(indexName: "byDay")
 }
 

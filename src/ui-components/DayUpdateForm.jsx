@@ -37,6 +37,7 @@ export default function DayUpdateForm(props) {
     dashboardGraph: "",
     scaleActions: "",
     allPortionEvents: "",
+    createdAt: "",
   };
   const [dayOfYear_iotNameThing, setDayOfYear_iotNameThing] = React.useState(
     initialValues.dayOfYear_iotNameThing
@@ -54,6 +55,7 @@ export default function DayUpdateForm(props) {
   const [allPortionEvents, setAllPortionEvents] = React.useState(
     initialValues.allPortionEvents
   );
+  const [createdAt, setCreatedAt] = React.useState(initialValues.createdAt);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = dayRecord
@@ -84,6 +86,7 @@ export default function DayUpdateForm(props) {
         ? cleanValues.allPortionEvents
         : JSON.stringify(cleanValues.allPortionEvents)
     );
+    setCreatedAt(cleanValues.createdAt);
     setErrors({});
   };
   const [dayRecord, setDayRecord] = React.useState(dayModelProp);
@@ -109,6 +112,7 @@ export default function DayUpdateForm(props) {
     dashboardGraph: [{ type: "JSON" }],
     scaleActions: [{ type: "JSON" }],
     allPortionEvents: [{ type: "JSON" }],
+    createdAt: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -142,6 +146,7 @@ export default function DayUpdateForm(props) {
           dashboardGraph: dashboardGraph ?? null,
           scaleActions: scaleActions ?? null,
           allPortionEvents: allPortionEvents ?? null,
+          createdAt,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -208,6 +213,7 @@ export default function DayUpdateForm(props) {
               dashboardGraph,
               scaleActions,
               allPortionEvents,
+              createdAt,
             };
             const result = onChange(modelFields);
             value = result?.dayOfYear_iotNameThing ?? value;
@@ -239,6 +245,7 @@ export default function DayUpdateForm(props) {
               dashboardGraph,
               scaleActions,
               allPortionEvents,
+              createdAt,
             };
             const result = onChange(modelFields);
             value = result?.weekOfYear_iotNameThing ?? value;
@@ -270,6 +277,7 @@ export default function DayUpdateForm(props) {
               dashboardGraph,
               scaleActions,
               allPortionEvents,
+              createdAt,
             };
             const result = onChange(modelFields);
             value = result?.realTime ?? value;
@@ -299,6 +307,7 @@ export default function DayUpdateForm(props) {
               dashboardGraph: value,
               scaleActions,
               allPortionEvents,
+              createdAt,
             };
             const result = onChange(modelFields);
             value = result?.dashboardGraph ?? value;
@@ -328,6 +337,7 @@ export default function DayUpdateForm(props) {
               dashboardGraph,
               scaleActions: value,
               allPortionEvents,
+              createdAt,
             };
             const result = onChange(modelFields);
             value = result?.scaleActions ?? value;
@@ -357,6 +367,7 @@ export default function DayUpdateForm(props) {
               dashboardGraph,
               scaleActions,
               allPortionEvents: value,
+              createdAt,
             };
             const result = onChange(modelFields);
             value = result?.allPortionEvents ?? value;
@@ -371,6 +382,36 @@ export default function DayUpdateForm(props) {
         hasError={errors.allPortionEvents?.hasError}
         {...getOverrideProps(overrides, "allPortionEvents")}
       ></TextAreaField>
+      <TextField
+        label="Created at"
+        isRequired={true}
+        isReadOnly={false}
+        value={createdAt}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              dayOfYear_iotNameThing,
+              weekOfYear_iotNameThing,
+              realTime,
+              dashboardGraph,
+              scaleActions,
+              allPortionEvents,
+              createdAt: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.createdAt ?? value;
+          }
+          if (errors.createdAt?.hasError) {
+            runValidationTasks("createdAt", value);
+          }
+          setCreatedAt(value);
+        }}
+        onBlur={() => runValidationTasks("createdAt", createdAt)}
+        errorMessage={errors.createdAt?.errorMessage}
+        hasError={errors.createdAt?.hasError}
+        {...getOverrideProps(overrides, "createdAt")}
+      ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

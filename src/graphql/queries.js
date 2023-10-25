@@ -493,6 +493,7 @@ export const getDay = /* GraphQL */ `
       dashboardGraph
       scaleActions
       allPortionEvents
+      createdAt
       hour {
         items {
           dayOfYear_hourOfDay_iotNameThing
@@ -507,7 +508,6 @@ export const getDay = /* GraphQL */ `
         nextToken
         __typename
       }
-      createdAt
       updatedAt
       weekDayWeekOfYear_iotNameThing
       __typename
@@ -546,11 +546,11 @@ export const listDays = /* GraphQL */ `
         dashboardGraph
         scaleActions
         allPortionEvents
+        createdAt
         hour {
           nextToken
           __typename
         }
-        createdAt
         updatedAt
         weekDayWeekOfYear_iotNameThing
         __typename
@@ -865,11 +865,11 @@ export const daysByWeekOfYear_iotNameThing = /* GraphQL */ `
         dashboardGraph
         scaleActions
         allPortionEvents
+        createdAt
         hour {
           nextToken
           __typename
         }
-        createdAt
         updatedAt
         weekDayWeekOfYear_iotNameThing
         __typename

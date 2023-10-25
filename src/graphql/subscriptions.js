@@ -32,6 +32,7 @@ export const onNewPortionEvent = /* GraphQL */ `
       dashboardGraph
       scaleActions
       allPortionEvents
+      createdAt
       hour {
         items {
           dayOfYear_hourOfDay_iotNameThing
@@ -46,7 +47,6 @@ export const onNewPortionEvent = /* GraphQL */ `
         nextToken
         __typename
       }
-      createdAt
       updatedAt
       weekDayWeekOfYear_iotNameThing
       __typename
@@ -774,6 +774,7 @@ export const onCreateDay = /* GraphQL */ `
       dashboardGraph
       scaleActions
       allPortionEvents
+      createdAt
       hour {
         items {
           dayOfYear_hourOfDay_iotNameThing
@@ -788,7 +789,6 @@ export const onCreateDay = /* GraphQL */ `
         nextToken
         __typename
       }
-      createdAt
       updatedAt
       weekDayWeekOfYear_iotNameThing
       __typename
@@ -826,6 +826,7 @@ export const onUpdateDay = /* GraphQL */ `
       dashboardGraph
       scaleActions
       allPortionEvents
+      createdAt
       hour {
         items {
           dayOfYear_hourOfDay_iotNameThing
@@ -840,7 +841,6 @@ export const onUpdateDay = /* GraphQL */ `
         nextToken
         __typename
       }
-      createdAt
       updatedAt
       weekDayWeekOfYear_iotNameThing
       __typename
@@ -878,6 +878,7 @@ export const onDeleteDay = /* GraphQL */ `
       dashboardGraph
       scaleActions
       allPortionEvents
+      createdAt
       hour {
         items {
           dayOfYear_hourOfDay_iotNameThing
@@ -892,7 +893,6 @@ export const onDeleteDay = /* GraphQL */ `
         nextToken
         __typename
       }
-      createdAt
       updatedAt
       weekDayWeekOfYear_iotNameThing
       __typename
