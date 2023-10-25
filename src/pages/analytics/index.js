@@ -262,7 +262,7 @@ const AnalyticsContainer = () => {
     };
 
     /*!
-       @description:Getting the last key of an object and adding 1 milli second  to create an event with inventory weight of zero
+       @description:Getting the last key of an object and adding millisecond  to create an event with inventory weight of zero
        @params:
        @return:
        @Comments
@@ -317,13 +317,10 @@ const AnalyticsContainer = () => {
                     let newKey = getNewKey(dashboardGraph);
                     dashboardGraph[newKey[0]] = { inventoryWeight: 0 };
                     dashboardGraph[newKey[1]] = { inventoryWeight: 0 };
-                    console.log("The dashboard graph is ", dashboardGraph);
                 }
             } else {
-                console.log("Date before fetching data is:", date[0].format("YYYY-MM-DD"));
                 response = await API.graphql({
                     query: listDays,
-                    //variables: { dayOfYear_iotNameThing: daysOfYear_iotNameThing[0] }, // Provide the ID as a variable
                     variables: {
                         filter: {
                             createdAt: {
@@ -349,7 +346,6 @@ const AnalyticsContainer = () => {
                         dashboardGraph[newKey[1]] = { inventoryWeight: 0 };
                         dashboardGraph = { ...dashboardGraph, ...JSON.parse(data[i].allPortionEvents) };
                     }
-                    console.log("Dashboard graph is:", dashboardGraph);
                     perfectPercent = perfectPercent / data.length;
                     underPercent = underPercent / data.length;
                     overPercent = overPercent / data.length;
