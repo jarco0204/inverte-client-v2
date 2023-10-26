@@ -120,6 +120,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
         setLastConnected(timestamp);
         console.log("Last Connected Time:", lastConnected);
     };
+
     /*!
         @description: Function to update the IoT Device Shadow by using PubSub Amplify MQTT Client
         @params:
@@ -157,19 +158,32 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
        @Coders: BlackyFliper
     */
     const updateTimeSeriesShadow = (event) => {
-        // Creae Variables
+        // Create Variables
+        console.log("The event is", event);
         const updateThingShadowRequestInput = { state: { desired: {} } };
         let shadowTopic = "$aws/things/" + mainScaleData.iotNameThing + "/shadow/name/timeseries/update";
 
         if (event == "correctWeight1Field") {
             setCorrectWeightIndex(0); // NOTE Coding Convention, from smallest to biggest if there is no logical ordering
-            updateThingShadowRequestInput.state.desired["correctWeight1"] = correctWeight1; // NOTE: MUST Be Careful with Types (Unit Test)
+            if (unitOfMass == "g") {
+                updateThingShadowRequestInput.state.desired["correctWeight1"] = correctWeight1; // NOTE: MUST Be Careful with Types (Unit Test)
+            } else {
+                updateThingShadowRequestInput.state.desired["correctWeight1"] = Math.round((correctWeight1 * 28.35 * 10) / 10).toString();
+            }
         } else if (event === "correctWeight2Field") {
             setCorrectWeightIndex(1);
-            updateThingShadowRequestInput.state.desired["correctWeight2"] = correctWeight2;
+            if (unitOfMass == "g") {
+                updateThingShadowRequestInput.state.desired["correctWeight2"] = correctWeight2; // NOTE: MUST Be Careful with Types (Unit Test)
+            } else {
+                updateThingShadowRequestInput.state.desired["correctWeight2"] = Math.round((correctWeight2 * 28.35 * 10) / 10).toString();
+            }
         } else if (event === "correctWeight3Field") {
             setCorrectWeightIndex(2);
-            updateThingShadowRequestInput.state.desired["correctWeight3"] = correctWeight3;
+            if (unitOfMass == "g") {
+                updateThingShadowRequestInput.state.desired["correctWeight3"] = correctWeight3; // NOTE: MUST Be Careful with Types (Unit Test)
+            } else {
+                updateThingShadowRequestInput.state.desired["correctWeight3"] = Math.round((correctWeight3 * 28.35 * 10) / 10).toString();
+            }
         }
 
         // Update Shadow
@@ -256,6 +270,22 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
         // Prevent keyboard inputs on the text box
         event.preventDefault();
     };
+    /*!
+   @description:Handle changes from CorrectWeight textbox
+   @params:
+   @return:
+   @Comments
+   @Coders: Rohan
+*/
+    const handleCorrectWeightChange = (event, number) => {
+        if (number == 1) {
+            setCorrectWeight1(event);
+        } else if (number == 2) {
+            setCorrectWeight2(event);
+        } else if (number == 3) {
+            setCorrectWeight3(event);
+        }
+    };
 
     /*!
             @description: Function to trigger scale action from client
@@ -332,9 +362,15 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                         setRealTimeTemperature("On");
                         setRealTimeWeight(dataCloud.inventoryWeight);
                     }
-                    setCorrectWeight1(dataCloud.correctWeight1);
-                    setCorrectWeight2(dataCloud.correctWeight2);
-                    setCorrectWeight3(dataCloud.correctWeight3);
+                    if (unitOfMass == "g") {
+                        setCorrectWeight1(dataCloud.correctWeight1);
+                        setCorrectWeight2(dataCloud.correctWeight2);
+                        setCorrectWeight3(dataCloud.correctWeight3);
+                    } else {
+                        setCorrectWeight1(Math.round((dataCloud.correctWeight1 / 28.35) * 10) / 10);
+                        setCorrectWeight2(Math.round((dataCloud.correctWeight2 / 28.35) * 10) / 10);
+                        setCorrectWeight3(Math.round((dataCloud.correctWeight3 / 28.35) * 10) / 10);
+                    }
                 } else {
                     console.log("Scale is off");
                 }
@@ -386,7 +422,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
             }, 1000);
         };
         getClassicShadow();
-    }, []);
+    }, [unitOfMass]);
 
     return (
         <Card>
@@ -493,12 +529,15 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                                     }}
                                     readOnly={accessType === "Restricted"}
                                     classes={{ input: classes.centered }}
-                                    value={unitOfMass == "g" ? correctWeight1 : (correctWeight1 / 28.35).toFixed(2)}
+                                    value={correctWeight1}
                                     aria-describedby="outlined-weight-helper-text"
                                     inputProps={{
                                         "aria-label": "weight",
+                                        min: 0,
+                                        max: 100000,
                                     }}
-                                    onChange={(e) => setCorrectWeight1(e.target.value)}
+                                    // onChange={(e) => (unitOfMass == "g" ? setCorrectWeight1(e.target.value) : console.log(e.target.value * (28.35).toFixed(0)))}
+                                    onChange={(e) => handleCorrectWeightChange(e.target.value, 1)}
                                     onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updateTimeSeriesShadow(e.target.name))}
                                 />
                             </FormControl>
@@ -514,12 +553,12 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                                     }}
                                     readOnly={accessType === "Restricted"}
                                     classes={{ input: classes.centered }}
-                                    value={unitOfMass == "g" ? correctWeight2 : (correctWeight2 / 28.35).toFixed(2)}
+                                    value={correctWeight2}
                                     aria-describedby="outlined-weight-helper-text"
                                     inputProps={{
                                         "aria-label": "weight",
                                     }}
-                                    onChange={(e) => setCorrectWeight2(e.target.value)}
+                                    onChange={(e) => handleCorrectWeightChange(e.target.value, 2)}
                                     onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updateTimeSeriesShadow(e.target.name))}
                                 />
                             </FormControl>
@@ -535,12 +574,12 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                                     }}
                                     readOnly={accessType === "Restricted"}
                                     classes={{ input: classes.centered }}
-                                    value={unitOfMass == "g" ? correctWeight3 : (correctWeight3 / 28.35).toFixed(2)}
+                                    value={correctWeight3}
                                     aria-describedby="outlined-weight-helper-text"
                                     inputProps={{
                                         "aria-label": "weight",
                                     }}
-                                    onChange={(e) => setCorrectWeight3(e.target.value)}
+                                    onChange={(e) => handleCorrectWeightChange(e.target.value, 3)}
                                     onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updateTimeSeriesShadow(e.target.name))}
                                 />
                             </FormControl>
