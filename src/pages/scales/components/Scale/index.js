@@ -346,6 +346,19 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
             error: (error) => console.error("Error in Classic Shadow GET Request...", error),
             complete: () => console.log("Web Socket Done"),
         });
+        const subscriptionClassicShadowPortionSize = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing + "/shadow/update/accepted").subscribe({
+            next: (dataCloud) => {
+                dataCloud = dataCloud.value.state;
+                // Update Scale State Parameters
+                if (dataCloud.desired == undefined && dataCloud.reported.correctWeightIndex != undefined) {
+                    setCorrectWeightIndex(dataCloud.reported.correctWeightIndex);
+                }
+                console.log("Successfully handled your UPDATE Classic Shadow...");
+                // subscriptionClassicShadow.unsubscribe(); //Unsubcribe to topic after fething and updating parameters
+            },
+            error: (error) => console.error("Error in Classic Shadow GET Request...", error),
+            complete: () => console.log("Web Socket Done"),
+        });
 
         // Subscribe Time Series Shadow to Topic after Get Request was accepted
         const subscriptionTimeSeriesShadow = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing + "/shadow/name/timeseries/get/accepted").subscribe({
@@ -422,7 +435,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
             }, 1000);
         };
         getClassicShadow();
-    }, [unitOfMass]);
+    }, []);
 
     return (
         <Card>
