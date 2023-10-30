@@ -39,13 +39,13 @@ const CustomizedGrid = styled(Grid)`
 */
 const ScalesContainer = () => {
     // Variable Definition
-    const iotThingNames = useSelector(state => state.meta.iotThingNames)
-    const restaurantName = useSelector(state => state.meta.restaurantName)
-    const restaurantLocationNum = useSelector(state => state.meta.restaurantLocationNum)
+    const iotThingNames = useSelector((state) => state.meta.iotThingNames);
+    const restaurantName = useSelector((state) => state.meta.restaurantName);
+    const restaurantLocationNum = useSelector((state) => state.meta.restaurantLocationNum);
     const keys = Object.keys(iotThingNames);
     const [scalesMetaArr, setScalesMetaArr] = useState([]);
     const [scaleCardsReady, setScaleCardsReady] = useState(false);
-    const isMobileDevice = false
+    const isMobileDevice = false;
     console.log("Mobile device:", isMobileDevice);
     /*!
         @description: React Hook to Create the Scale Card Components based on the number of IoT Things are associated with RestaurantID
@@ -69,20 +69,24 @@ const ScalesContainer = () => {
 
     return (
         <DashboardLayout>
-            <CustomizedGrid container spacing={1} style={{ height: "92vh" }}>
-                <Grid item xs={20} md={10} lg={10}>
-                    {!scaleCardsReady ? null : (
-                        <MDBox mb={20}>
-                            {scalesMetaArr.map((mainScaleData, i) => (
-                                <div key={i} style={{ marginTop: "50px" }}>
-                                    <Scale mainScaleData={mainScaleData} isMobileDevice={isMobileDevice} />
-                                </div>
-                            ))}
-                        </MDBox>
-                    )}
-                </Grid>
-            </CustomizedGrid>
-            <Footer />
+            <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+                <div style={{ flex: 1 }}>
+                    <CustomizedGrid container spacing={1} style={{ height: "100%", padding: "20px", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        <Grid item xs={20} md={10} lg={10}>
+                            {!scaleCardsReady ? null : (
+                                <MDBox mb={20}>
+                                    {scalesMetaArr.map((mainScaleData, i) => (
+                                        <div key={i} style={{ marginTop: "50px" }}>
+                                            <Scale mainScaleData={mainScaleData} isMobileDevice={isMobileDevice} />
+                                        </div>
+                                    ))}
+                                </MDBox>
+                            )}
+                        </Grid>
+                    </CustomizedGrid>
+                </div>
+                <Footer style={{ flexShrink: 0 }} />
+            </div>
         </DashboardLayout>
     );
 };
