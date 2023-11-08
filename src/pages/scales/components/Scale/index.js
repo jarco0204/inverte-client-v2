@@ -44,7 +44,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
     // Classic Shadow Parameters
     const [minOffset, setMinOffset] = useState(3);
     const [maxOffset, setMaxOffset] = useState(3);
-    const [unitOfMass, setUnitOfMass] = useState("g");
+    const [unitOfMass, setUnitOfMass] = useState(null);
     const [nameIngredient, setNameIngredient] = useState("default");
     const [correctWeightIndex, setCorrectWeightIndex] = useState(-1);
 
