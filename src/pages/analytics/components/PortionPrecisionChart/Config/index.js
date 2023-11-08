@@ -19,6 +19,7 @@ const PortionPrecisionLineChartConfig = (labels, datasets, pointColorsAR, datase
                     pointBackgroundColor: pointColorsAR,
                     borderColor: "rgba(255, 255, 255, .8)",
                     borderWidth: 4,
+                    spanGaps: true, // Remove gaps in the chart,
                     backgroundColor: "transparent",
                     fill: true,
                     data: datasets.data,
@@ -41,6 +42,7 @@ const PortionPrecisionLineChartConfig = (labels, datasets, pointColorsAR, datase
             },
             scales: {
                 y: {
+                    suggestedMin: -10, // Set the minimum value to 0
                     grid: {
                         drawBorder: false,
                         display: true,
@@ -83,6 +85,10 @@ const PortionPrecisionLineChartConfig = (labels, datasets, pointColorsAR, datase
                             day: "MM-DD", // Format for displaying days as month and day
                         },
                     },
+                    beginAtZero: false,
+                    offset: true,
+                    maxPadding: 0.1, // Adjust as needed
+                    minPadding: 0.1, // Adjust as needed
                     grid: {
                         drawBorder: true,
                         display: true,
