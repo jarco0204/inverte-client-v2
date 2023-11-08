@@ -298,7 +298,7 @@ const AnalyticsContainer = () => {
             // Query GQL to pull hourly data
             if (date[0].dayOfYear() == date[1].dayOfYear()) {
                 response = await API.graphql({
-                    query: getDashboard,
+                    query: getDay,
                     //variables: { dayOfYear_iotNameThing: daysOfYear_iotNameThing[0] }, // Provide the ID as a variable
                     variables: {
                         dayOfYear_iotNameThing: date[0].dayOfYear() + "_" + keys[selectedIndexRef.current],
@@ -313,7 +313,7 @@ const AnalyticsContainer = () => {
                     underPercent = parseInt((response.data.getDay.dailySummary.underServed / portionsCompleted) * 100);
                     perfectPercent = parseInt((response.data.getDay.dailySummary.perfect / portionsCompleted) * 100);
                     overPercent = parseInt((response.data.getDay.dailySummary.overServed / portionsCompleted) * 100);
-                    dashboardGraph = JSON.parse(response.data.getDay.dashboardGraph);
+                    dashboardGraph = JSON.parse(response.data.getDay.allPortionEvents);
                     let newKey = getNewKey(dashboardGraph);
                     dashboardGraph[newKey[0]] = { inventoryWeight: 0 };
                     dashboardGraph[newKey[1]] = { inventoryWeight: 0 };
