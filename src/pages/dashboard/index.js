@@ -327,9 +327,22 @@ const DashboardContainer = () => {
                     setCardSummaryItems([hour.getDay.dailySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
 
                     // Add Percentages
-                    const underPercent = parseInt((hour.getDay.dailySummary.underServed / hour.getDay.dailySummary.portionsCompleted) * 100);
-                    const perfectPercent = parseInt((hour.getDay.dailySummary.perfect / hour.getDay.dailySummary.portionsCompleted) * 100);
-                    const overPercent = parseInt((hour.getDay.dailySummary.overServed / hour.getDay.dailySummary.portionsCompleted) * 100);
+                    let underPercent = Math.round((hour.getDay.dailySummary.underServed / hour.getDay.dailySummary.portionsCompleted) * 100);
+                    let perfectPercent = Math.round((hour.getDay.dailySummary.perfect / hour.getDay.dailySummary.portionsCompleted) * 100);
+                    let overPercent = Math.round((hour.getDay.dailySummary.overServed / hour.getDay.dailySummary.portionsCompleted) * 100);
+                    const totalPercent = underPercent + overPercent + perfectPercent;
+                    if (totalPercent != 100) {
+                        if (100 - totalPercent == 1) {
+                            perfectPercent++;
+                        } else if (100 - totalPercent == 2) {
+                            underPercent++;
+                            overPercent++;
+                        } else if (100 - totalPercent == 3) {
+                            underPercent++;
+                            overPercent++;
+                            perfectPercent++;
+                        }
+                    }
                     generateLowerRealTimeGraphs(JSON.parse(hour.getDay.dashboardGraph), [underPercent, perfectPercent, overPercent]);
                 } else {
                     // There is no hourly response so add placeholders

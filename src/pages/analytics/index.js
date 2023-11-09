@@ -36,6 +36,7 @@ import timezone from "dayjs/plugin/timezone";
 import toObject from "dayjs/plugin/toObject.js";
 import dayOfYear from "dayjs/plugin/dayOfYear.js";
 import { setSelectedIndex } from "../../redux/metaSlice";
+import { difference, sum } from "d3-array";
 // import { ListItemIcon } from "@mui/material";
 dayjs.extend(dayOfYear);
 dayjs.extend(toObject);
@@ -311,9 +312,22 @@ const AnalyticsContainer = () => {
                     inventoryConsumed = response.data.getDay.dailySummary.inventoryConsumed;
                     timeSaved = response.data.getDay.dailySummary.averageTime;
                     portionsCompleted = response.data.getDay.dailySummary.portionsCompleted;
-                    underPercent = parseInt((response.data.getDay.dailySummary.underServed / portionsCompleted) * 100);
-                    perfectPercent = parseInt((response.data.getDay.dailySummary.perfect / portionsCompleted) * 100);
-                    overPercent = parseInt((response.data.getDay.dailySummary.overServed / portionsCompleted) * 100);
+                    underPercent = Math.round((response.data.getDay.dailySummary.underServed / portionsCompleted) * 100);
+                    perfectPercent = Math.round((response.data.getDay.dailySummary.perfect / portionsCompleted) * 100);
+                    overPercent = Math.round((response.data.getDay.dailySummary.overServed / portionsCompleted) * 100);
+                    const totalPercent = underPercent + overPercent + perfectPercent;
+                    if (totalPercent != 100) {
+                        if (100 - totalPercent == 1) {
+                            perfectPercent++;
+                        } else if (100 - totalPercent == 2) {
+                            underPercent++;
+                            overPercent++;
+                        } else if (100 - totalPercent == 3) {
+                            underPercent++;
+                            overPercent++;
+                            perfectPercent++;
+                        }
+                    }
                     dashboardGraph = JSON.parse(response.data.getDay.allPortionEvents);
                     scaleActions = JSON.parse(response.data.getDay.scaleActions);
                     let action = Object.values(scaleActions);
