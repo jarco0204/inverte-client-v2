@@ -293,6 +293,7 @@ const AnalyticsContainer = () => {
             overPercent = 0,
             perfectPercent = 0,
             dashboardGraph = {},
+            scaleActions = {},
             response;
         try {
             // Query GQL to pull hourly data
@@ -314,9 +315,17 @@ const AnalyticsContainer = () => {
                     perfectPercent = parseInt((response.data.getDay.dailySummary.perfect / portionsCompleted) * 100);
                     overPercent = parseInt((response.data.getDay.dailySummary.overServed / portionsCompleted) * 100);
                     dashboardGraph = JSON.parse(response.data.getDay.allPortionEvents);
-                    let newKey = getNewKey(dashboardGraph);
-                    dashboardGraph[newKey[0]] = { inventoryWeight: 0 };
-                    dashboardGraph[newKey[1]] = { inventoryWeight: 0 };
+                    scaleActions = JSON.parse(response.data.getDay.scaleActions);
+                    let action = Object.values(scaleActions);
+                    let time = Object.keys(scaleActions);
+                    for (let i = 0; i < action.length; i++) {
+                        if (action[i].eventType == "StartAction") {
+                            dashboardGraph[time[i]] = { inventoryWeight: action[i].inventoryWeight };
+                        }
+                        if (action[i].eventType == "disconnected") {
+                            dashboardGraph[time[i]] = { inventoryWeight: action[i].inventoryWeight };
+                        }
+                    }
                 }
             } else {
                 response = await API.graphql({
@@ -341,11 +350,20 @@ const AnalyticsContainer = () => {
                         perfectPercent += parseInt((data[i].dailySummary.perfect / data[i].dailySummary.portionsCompleted) * 100);
                         underPercent += parseInt((data[i].dailySummary.underServed / data[i].dailySummary.portionsCompleted) * 100);
                         overPercent += parseInt((data[i].dailySummary.overServed / data[i].dailySummary.portionsCompleted) * 100);
-                        let newKey = getNewKey(JSON.parse(data[i].dashboardGraph));
-                        dashboardGraph[newKey[0]] = { inventoryWeight: 0 };
-                        dashboardGraph[newKey[1]] = { inventoryWeight: 0 };
+                        scaleActions = JSON.parse(data[i].scaleActions);
+                        let action = Object.values(scaleActions);
+                        let time = Object.keys(scaleActions);
+                        for (let k = 0; k < action.length; k++) {
+                            if (action[k].eventType == "StartAction") {
+                                dashboardGraph[time[k]] = { inventoryWeight: action[k].inventoryWeight };
+                            }
+                            if (action[k].eventType == "disconnected") {
+                                dashboardGraph[time[k]] = { inventoryWeight: action[k].inventoryWeight };
+                            }
+                        }
                         dashboardGraph = { ...dashboardGraph, ...JSON.parse(data[i].allPortionEvents) };
                     }
+
                     perfectPercent = perfectPercent / data.length;
                     underPercent = underPercent / data.length;
                     overPercent = overPercent / data.length;
@@ -355,6 +373,8 @@ const AnalyticsContainer = () => {
             }
 
             let demo = false;
+            console.log("The scale actions are:", Object.values(scaleActions));
+
             // If Demo, then display hard-coded data
 
             if (response.data.getDay || response.data.listDays) {

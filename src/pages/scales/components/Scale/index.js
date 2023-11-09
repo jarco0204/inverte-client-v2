@@ -435,7 +435,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
             }, 1000);
         };
         getClassicShadow();
-    }, []);
+    }, [unitOfMass]);
 
     return (
         <Card>
