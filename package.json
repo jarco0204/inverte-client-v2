@@ -7,7 +7,7 @@
     "repository": "https://github.com/jarco0204/inverte-client-v2",
     "author": "InVerte FoodTech Inc.",
     "engines": {
-        "node": "18.12.0"
+        "node": "16"
     },
     "dependencies": {
         "@aws-amplify/pubsub": "^5.1.8",
@@ -83,6 +83,6 @@
         "prettier": "^2.8.3"
     },
     "volta": {
-        "node": "18.12.0"
+        "node": "16.20.2"
     }
 }
