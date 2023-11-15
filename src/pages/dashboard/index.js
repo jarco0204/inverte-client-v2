@@ -18,7 +18,7 @@ import DropDownIngredientMenu from "../../components/DropDownIngredientMenu";
 import { Tooltip } from "@mui/material";
 
 // AWS Imports
-import { getDay, getPortionEvent, listHours, hoursByDayOfYear_iotNameThing, listPortionEvents } from "../../graphql/queries";
+import { hoursByDayOfYear_iotNameThing } from "../../graphql/queries";
 
 import { onNewPortionEvent } from "../../graphql/subscriptions";
 import { API, graphqlOperation } from "aws-amplify";
@@ -192,9 +192,9 @@ const DashboardContainer = () => {
 
     //Difference in portion completed
     const [differencePortionsCompleted, setDifferencePortionsCompleted] = useState(0);
+    const [differenceCompletionTime, setDifferenceCompletionTime] = useState(0);
     const [differencePrecision, setDifferencePrecision] = useState(0);
     const [differenceInventory, setDifferenceInventory] = useState(0);
-    const [differenceCompletionTime, setDifferenceCompletionTime] = useState(0);
 
     /*!
         @description:
@@ -388,14 +388,12 @@ const DashboardContainer = () => {
 
     useEffect(() => {
         const getHourlyMetaRecords = async () => {
-            console.log("The hour of day is:", tempDate.hour());
             const response = await API.graphql({
                 query: hoursByDayOfYear_iotNameThing,
                 variables: {
                     dayOfYear_iotNameThing: (tempDate.dayOfYear() - 7).toString() + "_" + keys[selectedIndexRef.current],
                 }, // Provide the ID as a variable
             });
-            console.log("The hourly response is:", response);
             const data = response.data.hoursByDayOfYear_iotNameThing.items;
             let tempPortionCompleted = 0;
             let tempPrecision = 0;

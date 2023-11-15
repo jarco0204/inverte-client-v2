@@ -40,7 +40,6 @@ import timezone from "dayjs/plugin/timezone";
 dayjs.extend(timezone);
 
 const Scale = ({ mainScaleData, isMobileDevice }) => {
-    console.log("The main scale data is:", mainScaleData);
     // Classic Shadow Parameters
     const [minOffset, setMinOffset] = useState(3);
     const [maxOffset, setMaxOffset] = useState(3);
@@ -119,7 +118,6 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
             .tz(timeZone)
             .format("MM-DD HH:mm");
         setLastConnected(timestamp);
-        console.log("Last Connected Time:", lastConnected);
     };
 
     /*!
@@ -365,7 +363,6 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
             next: (dataCloud) => {
                 dataCloud = dataCloud.value.state.reported;
                 if (dataCloud != undefined) {
-                    console.log("The data cloud is:", dataCloud);
                     setRealTimeWeight(dataCloud.inventoryWeight);
                     setScaleState(dataCloud.scaleState);
                     if (dataCloud.scaleState === 0) {
@@ -414,7 +411,6 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
             next: (dataCloud) => {
                 dataCloud = dataCloud.value.state.reported;
                 if (dataCloud != undefined) {
-                    console.log("The dataCloud1 is:", dataCloud);
                     setRealTimeWeight(dataCloud.inventoryWeight);
                     if (dataCloud.scaleState === 0) {
                         setRealTimeTemperature("Off");

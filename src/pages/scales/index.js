@@ -46,7 +46,6 @@ const ScalesContainer = () => {
     const [scalesMetaArr, setScalesMetaArr] = useState([]);
     const [scaleCardsReady, setScaleCardsReady] = useState(false);
     const isMobileDevice = false;
-    console.log("Mobile device:", isMobileDevice);
     /*!
         @description: React Hook to Create the Scale Card Components based on the number of IoT Things are associated with RestaurantID
         @params:
