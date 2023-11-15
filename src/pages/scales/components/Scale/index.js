@@ -54,6 +54,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
     const [correctWeight2, setCorrectWeight2] = useState(28);
     const [correctWeight3, setCorrectWeight3] = useState(56);
     const [realTimeTemperature, setRealTimeTemperature] = useState("Off");
+    const [scaleState, setScaleState] = useState(-1);
 
     // UI & UX
     const scaleStateReported = 1; // 0 = off & 1 = Unloaded & 2 = Busy/On
@@ -366,11 +367,12 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                 if (dataCloud != undefined) {
                     console.log("The data cloud is:", dataCloud);
                     setRealTimeWeight(dataCloud.inventoryWeight);
-                    if (dataCloud.inventoryWeight === -1) {
+                    setScaleState(dataCloud.scaleState);
+                    if (dataCloud.scaleState === 0) {
                         setRealTimeTemperature("Off");
-                    } else if (dataCloud.inventoryWeight === 0) {
+                    } else if (dataCloud.scaleState === 1) {
                         setRealTimeTemperature("Idle");
-                    } else {
+                    } else if (dataCloud.scaleState === 2) {
                         setRealTimeTemperature("On");
                         setRealTimeWeight(dataCloud.inventoryWeight);
                     }
@@ -414,11 +416,11 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                 if (dataCloud != undefined) {
                     console.log("The dataCloud1 is:", dataCloud);
                     setRealTimeWeight(dataCloud.inventoryWeight);
-                    if (dataCloud.inventoryWeight === -1) {
+                    if (dataCloud.scaleState === 0) {
                         setRealTimeTemperature("Off");
-                    } else if (dataCloud.inventoryWeight === 0) {
+                    } else if (dataCloud.scaleState == 1) {
                         setRealTimeTemperature("Idle");
-                    } else {
+                    } else if (dataCloud.sclaeState === 2) {
                         setRealTimeTemperature("On");
                         setRealTimeWeight(dataCloud.inventoryWeight);
                     }
