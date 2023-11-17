@@ -334,15 +334,22 @@ const AnalyticsContainer = () => {
                     scaleActions = JSON.parse(response.data.getDay.scaleActions);
                     let action = Object.values(scaleActions);
                     let time = Object.keys(scaleActions);
-                    for (let i = 0; i < action.length; i++) {
-                        if (action[i].eventType == "StartAction") {
-                            dashboardGraph[time[i]] = { inventoryWeight: action[i].inventoryWeight };
-                        }
-                        if (action[i].eventType == "disconnected") {
-                            dashboardGraph[time[i]] = { inventoryWeight: action[i].inventoryWeight };
-                        }
-                    }
+                    // for (let i = 0; i < action.length; i++) {
+                    //     if (action[i].eventType == "StartAction") {
+                    //         dashboardGraph[time[i]] = { inventoryWeight: action[i].inventoryWeight };
+                    //     }
+                    //     if (action[i].eventType == "disconnected") {
+                    //         dashboardGraph[time[i]] = { inventoryWeight: action[i].inventoryWeight };
+                    //     }
+                    // }
+                    const sortedKeys = Object.keys(dashboardGraph).sort((a, b) => parseInt(a) - parseInt(b));
+                    const sortedObject = {};
+                    sortedKeys.forEach((key) => {
+                        sortedObject[key] = dashboardGraph[key];
+                    });
+                    dashboardGraph = sortedObject;
                     setDashboardGraph(dashboardGraph);
+                    console.log("The Dashboard graph is:", dashboardGraph);
                 }
             } else {
                 response = await API.graphql({
@@ -370,16 +377,23 @@ const AnalyticsContainer = () => {
                         scaleActions = JSON.parse(data[i].scaleActions);
                         let action = Object.values(scaleActions);
                         let time = Object.keys(scaleActions);
-                        for (let k = 0; k < action.length; k++) {
-                            if (action[k].eventType == "StartAction") {
-                                dashboardGraph[time[k]] = { inventoryWeight: action[k].inventoryWeight };
-                            }
-                            if (action[k].eventType == "disconnected") {
-                                dashboardGraph[time[k]] = { inventoryWeight: action[k].inventoryWeight };
-                            }
-                        }
+                        // for (let k = 0; k < action.length; k++) {
+                        //     if (action[k].eventType == "StartAction") {
+                        //         dashboardGraph[time[k]] = { inventoryWeight: action[k].inventoryWeight };
+                        //     }
+                        //     if (action[k].eventType == "disconnected") {
+                        //         dashboardGraph[time[k]] = { inventoryWeight: action[k].inventoryWeight };
+                        //     }
+                        // }
                         dashboardGraph = { ...dashboardGraph, ...JSON.parse(data[i].allPortionEvents) };
                     }
+                    const sortedKeys = Object.keys(dashboardGraph).sort((a, b) => parseInt(a) - parseInt(b));
+                    const sortedObject = {};
+                    sortedKeys.forEach((key) => {
+                        sortedObject[key] = dashboardGraph[key];
+                    });
+                    dashboardGraph = sortedObject;
+                    setDashboardGraph(dashboardGraph);
                     setDashboardGraph(dashboardGraph);
 
                     perfectPercent = perfectPercent / data.length;

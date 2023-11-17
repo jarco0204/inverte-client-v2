@@ -12,7 +12,6 @@ dayjs.extend(dayOfYear);
 dayjs.extend(toObject);
 dayjs.extend(utc);
 dayjs.extend(timezone);
-
 Chart.register(zoomPlugin);
 
 let data = null;
@@ -32,12 +31,19 @@ const chartConfig = {
         ],
     },
     options: {
-        // responsive: true,
+        responsive: true,
         // maintainAspectRatio: false,
+
+        elements: {
+            point: {
+                radius: 2.5,
+            },
+            line: {
+                tension: 0.9, // Adjust the tension value (0 to 1)
+            },
+        },
         scales: {
             x: {
-                min: new Date(),
-                max: new Date(),
                 type: "time",
                 time: {
                     unit: "hour",
@@ -45,36 +51,28 @@ const chartConfig = {
                         hour: "HH:mm",
                     },
                 },
-                ticks: {
-                    //source: "auto",
-                    stepSize: 1, // Display data points every 1 minute
-                    // autoSkip: true,
-                    // maxRotation: 0, // Disable label rotation
-                },
+
                 offset: false,
                 grid: {
-                    //display: false,
+                    display: false,
                     drawBorder: true,
                     drawOnChartArea: false,
-                    drawTicks: true,
+                    drawTicks: false,
                 },
                 font: {
                     size: 8,
                 },
             },
-            xAxis2: {
+            x1: {
                 type: "time",
                 time: {
                     unit: "day",
+                    displayFormats: {
+                        hour: "DD",
+                    },
                 },
             },
-            y: {
-                ticks: {
-                    fontSize: 8,
-                    beginAtZero: false,
-                    stepSize: 1,
-                },
-            },
+            y: {},
         },
         plugins: {
             zoom: {
@@ -113,6 +111,7 @@ const ZoomableChart = (dataSet) => {
             xArr.push(parseInt(Object.keys(data)[i]));
             weightArr.push(Object.values(data)[i].inventoryWeight);
         }
+
         console.log("The chartConfig is", chartConfig.data.labels);
         console.log("The chartConfigs is", chartConfig.data.datasets);
         chartConfig.data.labels = xArr;
