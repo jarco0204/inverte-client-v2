@@ -302,13 +302,13 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
             @Coders: JAAM
         */
     const sendActionDataAWS = (action) => {
-        // let msg, finalTopic;
-        // msg = {
-        //     control: action,
-        //     msg: "Message sent by el PumaV56",
-        // };
-        // finalTopic = mainScaleData.topic + "/" + mainScaleData.iotNameThing + "/control";
-        // PubSub.publish(finalTopic, msg);
+        console.log("test", mainScaleData.topic);
+        let msg, finalTopic;
+        msg = {
+            scaleAction: "tare",
+        };
+        finalTopic = mainScaleData.topic + "/" + mainScaleData.iotNameThing + "/clientActions";
+        PubSub.publish(finalTopic, msg);
         console.log("Action Not Published to AWS..."); // Debug Statement
     };
 
