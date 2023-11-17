@@ -488,7 +488,7 @@ const DashboardContainer = () => {
                                         icon={<PanToolIcon />}
                                         count={cardSummaryItems[0]}
                                         percentage={{
-                                            amount: differencePortionsCompleted >= 0 ? "+" + differencePortionsCompleted : "-" + differencePortionsCompleted,
+                                            amount: differencePortionsCompleted >= 0 ? "+" + differencePortionsCompleted : differencePortionsCompleted,
                                             label: "than last week",
                                             color: "success",
                                         }}

@@ -16,6 +16,7 @@ import Footer from "../../components/Footer";
 import BasicDatePicker from "../../components/DatePicker";
 import DropDownIngredientMenu from "../../components/DropDownIngredientMenu";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
+import ZoomableChart from "./components/ZoomableChart.mjs";
 import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
 
 // AWS Imports
@@ -141,6 +142,7 @@ const AnalyticsContainer = () => {
     const [realTimeAccuracyGraph, setRealTimeAccuracyGraph] = useState([]);
     const [realTimePrecisionGraph, setRealTimePrecisionGraph] = useState([]);
     const [realTimeInventoryGraph, setRealTimeInventoryGraph] = useState([]);
+    const [dashboardGraph, setDashboardGraph] = useState([]);
 
     // Chart Related Variables
     const accuracyGraph = createDoughnutChartObject();
@@ -340,6 +342,7 @@ const AnalyticsContainer = () => {
                             dashboardGraph[time[i]] = { inventoryWeight: action[i].inventoryWeight };
                         }
                     }
+                    setDashboardGraph(dashboardGraph);
                 }
             } else {
                 response = await API.graphql({
@@ -377,6 +380,7 @@ const AnalyticsContainer = () => {
                         }
                         dashboardGraph = { ...dashboardGraph, ...JSON.parse(data[i].allPortionEvents) };
                     }
+                    setDashboardGraph(dashboardGraph);
 
                     perfectPercent = perfectPercent / data.length;
                     underPercent = underPercent / data.length;
@@ -525,7 +529,9 @@ const AnalyticsContainer = () => {
                             <Grid container spacing={3} justifyContent={"center"}>
                                 <Grid item xs={12} md={4} lg={6}>
                                     <Tooltip title="Inventory Usage" placement="bottom">
-                                        <div style={{ width: "100%", height: "100%" }}>{generatePrecisionChartResponsive(false)}</div>
+                                        <div style={{ width: "100%", height: "100%" }}>
+                                            {/*generatePrecisionChartResponsive(false)*/ <ZoomableChart dataSet={dashboardGraph == 0 ? null : dashboardGraph} />}
+                                        </div>
                                     </Tooltip>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>

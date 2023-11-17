@@ -2,6 +2,16 @@ import React, { useEffect, useRef, useState } from "react";
 import Chart from "chart.js/auto";
 import zoomPlugin from "chartjs-plugin-zoom";
 import "chartjs-adapter-moment";
+// External Libraries
+import dayjs from "dayjs";
+import dayOfYear from "dayjs/plugin/dayOfYear.js";
+import utc from "dayjs/plugin/utc.js";
+import timezone from "dayjs/plugin/timezone.js";
+import toObject from "dayjs/plugin/toObject.js";
+dayjs.extend(dayOfYear);
+dayjs.extend(toObject);
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 Chart.register(zoomPlugin);
 
@@ -12,30 +22,12 @@ const chartConfig = {
         labels: [],
         datasets: [
             {
-                label: "Portion Weight",
+                label: "Inventory Weight",
                 data: [],
                 backgroundColor: ["#42424a"],
                 borderColor: ["#49a3f1"],
                 spanGaps: false,
                 borderWidth: 1,
-            },
-            {
-                label: "Accuracy",
-                data: [],
-                backgroundColor: ["#ffa726"],
-                borderColor: ["#49a3f1"],
-                spanGaps: false,
-                borderWidth: 1,
-                hidden: true, // Hide this line by default
-            },
-            {
-                label: "Time Taken",
-                data: [],
-                backgroundColor: ["#66bb6a"],
-                borderColor: ["#49a3f1"],
-                spanGaps: false,
-                borderWidth: 1,
-                hidden: true, // Hide this line by default
             },
         ],
     },
@@ -107,30 +99,24 @@ const chartConfig = {
 };
 
 const ZoomableChart = (dataSet) => {
-    data = dataSet;
-    console.log("The dataSets is", dataSet.dataSet);
+    data = dataSet.dataSet;
+
     let xArr = [];
     let weightArr = [];
-    let accuracyArr = [];
-    let timeArr = [];
     if (dataSet.dataSet != null) {
-        chartConfig.options.scales.x.min = Object.values(dataSet.dataSet[4][0])[0];
-        chartConfig.options.scales.x.max = Object.values(dataSet.dataSet[4][0])[dataSet.dataSet[4].length - 1];
+        console.log("The dataSets is", Object.keys(data)[1]);
+        chartConfig.options.scales.x.min = parseInt(Object.keys(data)[1]);
+        chartConfig.options.scales.x.max = parseInt(Object.keys(data)[data.length - 1]);
     }
-
     if (dataSet.dataSet != null) {
-        for (let i = 0; i < dataSet.dataSet[4].length; i++) {
-            xArr.push(Object.values(dataSet.dataSet[4][i])[0]);
-            weightArr.push(Object.values(dataSet.dataSet[4][i])[1]);
-            accuracyArr.push(Object.values(dataSet.dataSet[5][i])[1]);
-            timeArr.push(Object.values(dataSet.dataSet[6][i])[1]);
+        for (let i = 0; i < Object.keys(data).length; i++) {
+            xArr.push(parseInt(Object.keys(data)[i]));
+            weightArr.push(Object.values(data)[i].inventoryWeight);
         }
         console.log("The chartConfig is", chartConfig.data.labels);
         console.log("The chartConfigs is", chartConfig.data.datasets);
         chartConfig.data.labels = xArr;
         chartConfig.data.datasets[0].data = weightArr;
-        chartConfig.data.datasets[1].data = accuracyArr;
-        chartConfig.data.datasets[2].data = timeArr;
     }
 
     const chartContainer = useRef(null);
