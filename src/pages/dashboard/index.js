@@ -510,7 +510,7 @@ const DashboardContainer = () => {
                                             count={cardSummaryItems[1]}
                                             percentage={{
                                                 color: "success",
-                                                amount: differencePrecision >= 0 ? "+" + differencePrecision.toFixed(0) + "%" : "-" + differencePrecision.toFixed(0) + "%",
+                                                amount: differencePrecision >= 0 ? "+" + differencePrecision.toFixed(0) + "%" : differencePrecision.toFixed(0) + "%",
                                                 label: "than last week",
                                             }}
                                         />
