@@ -20,7 +20,7 @@ const RouterContainer = (metaInformation, isMobileDevice) => {
     return [
         {
             type: "collapse",
-            name: "Real Time",
+            name: "Real-Time",
             key: "real time",
             icon: (
                 <Icon fontSize="small">

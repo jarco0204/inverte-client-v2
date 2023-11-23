@@ -14,7 +14,7 @@ import { Grid } from "@mui/material";
 import { useState } from "react";
 import ReportsLineChartV2 from "../MobileReportsLineChart";
 
-const MobileComplexStatisticsCard = ({ color, title, count, icon, generateChart }) => {
+const MobileComplexStatisticsCard = ({ color, title, count, icon, generateChart, percentage }) => {
     // Component State
     const [isOpen, setIsOpen] = useState(false);
 
@@ -48,6 +48,14 @@ const MobileComplexStatisticsCard = ({ color, title, count, icon, generateChart 
                             {title}
                         </MDTypography>
                         <MDTypography variant="h4">{count}</MDTypography>
+                    </MDBox>
+                    <MDBox textAlign="left">
+                        <MDTypography component="p" variant="button" color="text" display="flex">
+                            <MDTypography component="span" variant="button" fontWeight="bold" color={percentage.color}>
+                                {percentage.amount}
+                            </MDTypography>
+                            &nbsp;{percentage.label}
+                        </MDTypography>
                     </MDBox>
                 </MDBox>
                 {isOpen ? null : <Divider />}

@@ -474,7 +474,7 @@ const DashboardContainer = () => {
     return (
         <DashboardLayout>
             {/* TODO: ADD Style such that title gets centered with media query (textAlign) */}
-            <DropDownIngredientMenu options={options} titleForPage={"Daily Inventory Report"} />
+            <DropDownIngredientMenu options={options} titleForPage={"Real-Time Report"} />
 
             {!isMobileDevice && (
                 <div style={{ height: "85vh" }}>
@@ -586,6 +586,8 @@ const DashboardContainer = () => {
                                     count={cardSummaryItems[0]}
                                     percentage={{
                                         color: "success",
+                                        amount: differencePortionsCompleted >= 0 ? "+" + differencePortionsCompleted : "-" + differencePortionsCompleted,
+                                        label: "than last week",
                                     }}
                                 />
                             </Grid>
@@ -593,11 +595,13 @@ const DashboardContainer = () => {
                                 <MobileComplexStatisticsCard
                                     color="info"
                                     icon={<PrecisionManufacturingRoundedIcon />}
-                                    title={portionPrecisionTitle}
-                                    count={cardSummaryItems[1]}
                                     percentage={{
                                         color: "success",
+                                        amount: differencePrecision >= 0 ? "+" + differencePrecision.toFixed(0) + "%" : differencePrecision.toFixed(0) + "%",
+                                        label: "than last week",
                                     }}
+                                    title={portionPrecisionTitle}
+                                    count={cardSummaryItems[1]}
                                     generateChart={() => generatePrecisionChartResponsive(true)}
                                 />
                             </Grid>
@@ -609,6 +613,8 @@ const DashboardContainer = () => {
                                     count={cardSummaryItems[3]}
                                     percentage={{
                                         color: "success",
+                                        amount: differenceCompletionTime >= 0 ? "+" + differenceCompletionTime.toFixed(1) + "s" : differenceCompletionTime.toFixed(1) + "s",
+                                        label: "than last week",
                                     }}
                                     generateChart={() => generateTimeLineChartResponsive(true)}
                                 />
@@ -621,6 +627,8 @@ const DashboardContainer = () => {
                                     count={cardSummaryItems[2]}
                                     percentage={{
                                         color: "success",
+                                        amount: differenceInventory >= 0 ? "+" + differenceInventory + "g" : differenceInventory + "g",
+                                        label: "than last week",
                                     }}
                                     generateChart={() => generateDoughnutChartResponsive(true)}
                                 />
