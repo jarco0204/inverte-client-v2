@@ -304,9 +304,16 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
     const sendActionDataAWS = (action) => {
         console.log("test", mainScaleData.topic);
         let msg, finalTopic;
-        msg = {
-            scaleAction: "tare",
-        };
+        if (action == 1) {
+            msg = {
+                scaleAction: "tare",
+            };
+        } else if (action == 2) {
+            msg = {
+                scaleAction: "unitOfMass",
+            };
+        }
+
         finalTopic = mainScaleData.topic + "/" + mainScaleData.iotNameThing + "/clientActions";
         PubSub.publish(finalTopic, msg);
         console.log("Action Not Published to AWS..."); // Debug Statement
@@ -399,6 +406,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                 if (dataCloud.desired == undefined && dataCloud.reported.correctWeightIndex != undefined) {
                     setCorrectWeightIndex(dataCloud.reported.correctWeightIndex);
                 }
+                setUnitOfMass(dataCloud.reported.unitOfMass);
                 console.log("Successfully handled your UPDATE Classic Shadow...");
                 // subscriptionClassicShadow.unsubscribe(); //Unsubcribe to topic after fething and updating parameters
             },
@@ -520,11 +528,11 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                 />
             </FormControl>
             <CustomizedCardActions>
-                <TareButton name="tare" onClick={() => sendActionDataAWS(1)}>
-                    Tare
+                <TareButton name="tare" onClick={() => (realTimeTemperature == "On" ? sendActionDataAWS(1) : sendActionDataAWS(2))}>
+                    {realTimeTemperature == "On" ? "Tare" : "g/oz"}
                 </TareButton>
 
-                <StartButton name="start" onClick={() => sendActionDataAWS(2)}>
+                <StartButton name="start" onClick={() => sendActionDataAWS(1)}>
                     {scaleStateReported == 2 ? "Guide" : scaleStateReported == 1 ? "Guide" : "Guide"}
                 </StartButton>
 
