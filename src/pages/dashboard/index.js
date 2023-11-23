@@ -483,17 +483,6 @@ const DashboardContainer = () => {
                             <Tooltip title="Portions Completed for Today" placement="bottom">
                                 <Grid item xs={12} md={6} lg={3}>
                                     <ComplexStatisticsCard color="dark" title={portionCompleteTitle} icon={<PanToolIcon />} count={cardSummaryItems[0]} />
-                                    <ComplexStatisticsCard
-                                        color="dark"
-                                        title={portionCompleteTitle}
-                                        icon={<PanToolIcon />}
-                                        count={cardSummaryItems[0]}
-                                        percentage={{
-                                            amount: differencePortionsCompleted >= 0 ? "+" + differencePortionsCompleted : differencePortionsCompleted,
-                                            label: "than last week",
-                                            color: "success",
-                                        }}
-                                    />
                                 </Grid>
                             </Tooltip>
                         </Grid>
