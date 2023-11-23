@@ -482,17 +482,7 @@ const DashboardContainer = () => {
                         <Grid container spacing={1} display="flex" justifyContent="center">
                             <Tooltip title="Portions Completed for Today" placement="bottom">
                                 <Grid item xs={12} md={6} lg={3}>
-                                    <ComplexStatisticsCard
-                                        color="dark"
-                                        title={portionCompleteTitle}
-                                        icon={<PanToolIcon />}
-                                        count={cardSummaryItems[0]}
-                                        percentage={{
-                                            amount: differencePortionsCompleted >= 0 ? "+" + differencePortionsCompleted : "-" + differencePortionsCompleted,
-                                            label: "than last week",
-                                            color: "success",
-                                        }}
-                                    />
+                                    <ComplexStatisticsCard color="dark" title={portionCompleteTitle} icon={<PanToolIcon />} count={cardSummaryItems[0]} />
                                 </Grid>
                             </Tooltip>
                         </Grid>
@@ -579,27 +569,12 @@ const DashboardContainer = () => {
                     <MDBox py={3}>
                         <Grid container spacing={1} direction="column" justifyContent="center">
                             <Grid item xs={12} md={6} lg={3}>
-                                <ComplexStatisticsCard
-                                    color="dark"
-                                    icon={<PanToolIcon />}
-                                    title={portionCompleteTitle}
-                                    count={cardSummaryItems[0]}
-                                    percentage={{
-                                        color: "success",
-                                        amount: differencePortionsCompleted >= 0 ? "+" + differencePortionsCompleted : "-" + differencePortionsCompleted,
-                                        label: "than last week",
-                                    }}
-                                />
+                                <ComplexStatisticsCard color="dark" icon={<PanToolIcon />} title={portionCompleteTitle} count={cardSummaryItems[0]} />
                             </Grid>
                             <Grid item xs={12} md={6} lg={3}>
                                 <MobileComplexStatisticsCard
                                     color="info"
                                     icon={<PrecisionManufacturingRoundedIcon />}
-                                    percentage={{
-                                        color: "success",
-                                        amount: differencePrecision >= 0 ? "+" + differencePrecision.toFixed(0) + "%" : differencePrecision.toFixed(0) + "%",
-                                        label: "than last week",
-                                    }}
                                     title={portionPrecisionTitle}
                                     count={cardSummaryItems[1]}
                                     generateChart={() => generatePrecisionChartResponsive(true)}
