@@ -416,7 +416,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                         setRealTimeTemperature("Off");
                     } else if (dataCloud.scaleState == 1) {
                         setRealTimeTemperature("Idle");
-                    } else if (dataCloud.sclaeState === 2) {
+                    } else if (dataCloud.scaleState === 2) {
                         setRealTimeTemperature("On");
                         setRealTimeWeight(dataCloud.inventoryWeight);
                     }
@@ -430,7 +430,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
             complete: () => console.log("Web Socket Done"),
         });
         getLastConnected();
-    }, [correctWeightIndex, unitOfMass]);
+    }, [correctWeightIndex, unitOfMass, realTimeTemperature]);
 
     // @description: Hook to get Thing's Shadow by publishing to get topic and then listening after request is accepted.
     useEffect(() => {

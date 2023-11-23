@@ -16,12 +16,12 @@ import AnalyticsIcon from "@mui/icons-material/Analytics";
    @Comments
    @Coders: GGG111000
 */
-const RouterContainer = () => {
+const RouterContainer = (metaInformation, isMobileDevice) => {
     return [
         {
             type: "collapse",
-            name: "Daily",
-            key: "daily",
+            name: "Real-Time",
+            key: "real time",
             icon: (
                 <Icon fontSize="small">
                     <AnalyticsIcon />
@@ -46,18 +46,20 @@ const RouterContainer = () => {
             route: "/outlier",
             component: <OutlierContainer />,
         },
-        {
-            type: "collapse",
-            name: "Past",
-            key: "past",
-            icon: (
-                <Icon fontSize="small">
-                    <AnalyticsIcon />
-                </Icon>
-            ),
-            route: "/past",
-            component: <AnalyticsContainer />,
-        },
+        !isMobileDevice
+            ? {
+                  type: "collapse",
+                  name: "Past Daily",
+                  key: "past daily",
+                  icon: (
+                      <Icon fontSize="small">
+                          <AnalyticsIcon />
+                      </Icon>
+                  ),
+                  route: "/pastDaily",
+                  component: <AnalyticsContainer />,
+              }
+            : {},
     ];
 };
 
