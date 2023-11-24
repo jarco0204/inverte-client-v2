@@ -14,9 +14,10 @@ import {
   TextField,
 } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
-import { API } from "aws-amplify";
+import { generateClient } from "aws-amplify/api";
 import { getRestaurant } from "../graphql/queries";
 import { updateRestaurant } from "../graphql/mutations";
+const client = generateClient();
 export default function RestaurantUpdateForm(props) {
   const {
     restaurant_id: restaurant_idProp,
@@ -86,7 +87,7 @@ export default function RestaurantUpdateForm(props) {
     const queryData = async () => {
       const record = restaurant_idProp
         ? (
-            await API.graphql({
+            await client.graphql({
               query: getRestaurant.replaceAll("__typename", ""),
               variables: { restaurant_id: restaurant_idProp },
             })
@@ -172,7 +173,7 @@ export default function RestaurantUpdateForm(props) {
               modelFields[key] = null;
             }
           });
-          await API.graphql({
+          await client.graphql({
             query: updateRestaurant.replaceAll("__typename", ""),
             variables: {
               input: {

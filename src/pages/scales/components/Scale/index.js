@@ -704,7 +704,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                                 min: unitOfMass == "g" ? 2 : 0.1, // Set the minimum value
                                 max: unitOfMass == "g" ? 10 : 0.6,
                             }}
-                            onKeyDown={!isMobileDevice ? handleKeyDown : null} // Prevent keyboard Inputs
+                            //onKeyDown={!isMobileDevice ? handleKeyDown : null} // Prevent keyboard Inputs
                             onChange={(e) => (unitOfMass == "g" ? setMaxOffset(e.target.value == 1 ? 2 : e.target.value) : setMaxOffset(e.target.value))}
                             onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updateClassicShadow(e))}
                         />

@@ -14,9 +14,10 @@ import {
   TextField,
 } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
-import { API } from "aws-amplify";
+import { generateClient } from "aws-amplify/api";
 import { getWeek } from "../graphql/queries";
 import { updateWeek } from "../graphql/mutations";
+const client = generateClient();
 export default function WeekUpdateForm(props) {
   const {
     weekOfYear_iotNameThing: weekOfYear_iotNameThingProp,
@@ -62,7 +63,7 @@ export default function WeekUpdateForm(props) {
     const queryData = async () => {
       const record = weekOfYear_iotNameThingProp
         ? (
-            await API.graphql({
+            await client.graphql({
               query: getWeek.replaceAll("__typename", ""),
               variables: {
                 weekOfYear_iotNameThing: weekOfYear_iotNameThingProp,
@@ -138,7 +139,7 @@ export default function WeekUpdateForm(props) {
               modelFields[key] = null;
             }
           });
-          await API.graphql({
+          await client.graphql({
             query: updateWeek.replaceAll("__typename", ""),
             variables: {
               input: {

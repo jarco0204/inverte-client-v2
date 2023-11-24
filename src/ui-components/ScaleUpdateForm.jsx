@@ -8,9 +8,10 @@
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
-import { API } from "aws-amplify";
+import { generateClient } from "aws-amplify/api";
 import { getScale } from "../graphql/queries";
 import { updateScale } from "../graphql/mutations";
+const client = generateClient();
 export default function ScaleUpdateForm(props) {
   const {
     iotNameThing: iotNameThingProp,
@@ -58,7 +59,7 @@ export default function ScaleUpdateForm(props) {
     const queryData = async () => {
       const record = iotNameThingProp
         ? (
-            await API.graphql({
+            await client.graphql({
               query: getScale.replaceAll("__typename", ""),
               variables: { iotNameThing: iotNameThingProp },
             })
@@ -136,7 +137,7 @@ export default function ScaleUpdateForm(props) {
               modelFields[key] = null;
             }
           });
-          await API.graphql({
+          await client.graphql({
             query: updateScale.replaceAll("__typename", ""),
             variables: {
               input: {
