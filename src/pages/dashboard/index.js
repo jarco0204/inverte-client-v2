@@ -18,7 +18,7 @@ import DropDownIngredientMenu from "../../components/DropDownIngredientMenu";
 import { Tooltip } from "@mui/material";
 
 // AWS Imports
-import { getDay, getPortionEvent, listPortionEvents } from "../../graphql/queries";
+import { hoursByDayOfYear_iotNameThing } from "../../graphql/queries";
 
 import { onNewPortionEvent } from "../../graphql/subscriptions";
 import { API, graphqlOperation } from "aws-amplify";
@@ -160,6 +160,8 @@ const DashboardContainer = () => {
     const displayIngredientIndex = useSelector((state) => state.meta.displayIngredient);
     const timeZone = useSelector((state) => state.meta.timeZone);
     const clientDemo = useSelector((state) => state.meta.demo);
+    const tempDate = dayjs().tz(timeZone); // Local time of Client
+    const hourOfDay = tempDate.hour();
 
     const portionPrecisionTitle = "Precision Levels";
     const portionCompleteTitle = "Portions Completed";
@@ -181,6 +183,18 @@ const DashboardContainer = () => {
     const selectedIndexRef = { current: displayIngredientIndex.toString() };
     const selectedIndex = displayIngredientIndex;
     const keys = Object.keys(iotThingNames);
+
+    //Data from last week
+    const [portionsCompletedLastWeek, setPortionsCompletedLastWeek] = useState(null);
+    const [inventoryConsumedLastWeek, setInventoryConsumedLastWeek] = useState(0);
+    const [completionTimeLastWeek, setCompletionTimeLastWeek] = useState(0);
+    const [precisionLastWeek, setPrecisionLastWeek] = useState(0);
+
+    //Difference in portion completed
+    const [differencePortionsCompleted, setDifferencePortionsCompleted] = useState(0);
+    const [differenceCompletionTime, setDifferenceCompletionTime] = useState(0);
+    const [differencePrecision, setDifferencePrecision] = useState(0);
+    const [differenceInventory, setDifferenceInventory] = useState(0);
 
     /*!
         @description:
@@ -298,7 +312,7 @@ const DashboardContainer = () => {
        @Comments
        @Coders: Jungler333
     */
-    const getHourlyMetaRecords = async () => {
+    const getDailyMetaRecords = async () => {
         try {
             let tempDate = dayjs().tz(timeZone); // Local time of Client
             // Query GQL to pull hourly data
@@ -307,30 +321,49 @@ const DashboardContainer = () => {
                 variables: { dayOfYear_iotNameThing: tempDate.dayOfYear().toString() + "_" + keys[selectedIndexRef.current] }, // Provide the ID as a variable
             });
 
-            let hour = response.data;
+            let day = response.data;
             let demoData = getDemoData();
             let demo = false;
             // If Demo, then display hard-coded data
             if (demo) {
                 // Set the Upper Summary Card Components
-                let accuracy = demoData.getDay.dailySummary.accuracy.toFixed(0) + "%";
-                let inventoryWeight = demoData.getDay.dailySummary.inventoryConsumed + "g";
-                let timeSaved = demoData.getDay.dailySummary.averageTime.toFixed(1) + "s";
-                setCardSummaryItems([demoData.getDay.dailySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
+                setCardSummaryItems([
+                    demoData.getDay.dailySummary.portionsCompleted,
+                    demoData.getDay.dailySummary.accuracy.toFixed(0) + "%",
+                    demoData.getDay.dailySummary.inventoryConsumed + "g",
+                    demoData.getDay.dailySummary.averageTime.toFixed(1) + "s",
+                ]);
                 generateLowerRealTimeGraphs(demoData.getDay.realTime, [44, 36, 20]);
             } else {
-                if (hour.getDay) {
+                if (day.getDay) {
                     // Set the Upper Summary Card Components
-                    let accuracy = hour.getDay.dailySummary.accuracy.toFixed(0) + "%";
-                    let inventoryWeight = hour.getDay.dailySummary.inventoryConsumed + "g";
-                    let timeSaved = hour.getDay.dailySummary.averageTime.toFixed(1) + "s";
-                    setCardSummaryItems([hour.getDay.dailySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
+                    let accuracy = day.getDay.dailySummary.accuracy.toFixed(0) + "%";
+                    let inventoryWeight = day.getDay.dailySummary.inventoryConsumed + "g";
+                    let timeSaved = day.getDay.dailySummary.averageTime.toFixed(1) + "s";
+                    setCardSummaryItems([day.getDay.dailySummary.portionsCompleted, accuracy, inventoryWeight, timeSaved]);
 
                     // Add Percentages
-                    const underPercent = parseInt((hour.getDay.dailySummary.underServed / hour.getDay.dailySummary.portionsCompleted) * 100);
-                    const perfectPercent = parseInt((hour.getDay.dailySummary.perfect / hour.getDay.dailySummary.portionsCompleted) * 100);
-                    const overPercent = parseInt((hour.getDay.dailySummary.overServed / hour.getDay.dailySummary.portionsCompleted) * 100);
-                    generateLowerRealTimeGraphs(JSON.parse(hour.getDay.dashboardGraph), [underPercent, perfectPercent, overPercent]);
+                    let underPercent = Math.round((day.getDay.dailySummary.underServed / day.getDay.dailySummary.portionsCompleted) * 100);
+                    let perfectPercent = Math.round((day.getDay.dailySummary.perfect / day.getDay.dailySummary.portionsCompleted) * 100);
+                    let overPercent = Math.round((day.getDay.dailySummary.overServed / day.getDay.dailySummary.portionsCompleted) * 100);
+                    const totalPercent = underPercent + overPercent + perfectPercent;
+                    if (totalPercent != 100) {
+                        if (100 - totalPercent == 1) {
+                            perfectPercent++;
+                        } else if (100 - totalPercent == 2) {
+                            underPercent++;
+                            overPercent++;
+                        } else if (100 - totalPercent == 3) {
+                            underPercent++;
+                            overPercent++;
+                            perfectPercent++;
+                        }
+                    }
+                    generateLowerRealTimeGraphs(JSON.parse(day.getDay.dashboardGraph), [underPercent, perfectPercent, overPercent]);
+                    setDifferencePortionsCompleted(day.getDay.dailySummary.portionsCompleted - portionsCompletedLastWeek);
+                    setDifferencePrecision(day.getDay.dailySummary.accuracy - precisionLastWeek);
+                    setDifferenceInventory(day.getDay.dailySummary.inventoryConsumed - inventoryConsumedLastWeek);
+                    setDifferenceCompletionTime(day.getDay.dailySummary.averageTime - completionTimeLastWeek);
                 } else {
                     // There is no hourly response so add placeholders
                     setCardSummaryItems(["0", "NA", "0", "NA"]);
@@ -346,6 +379,45 @@ const DashboardContainer = () => {
     };
 
     /*!
+       @description:Get hourly records from last week
+       @params:
+       @return:
+       @Comments
+       @Coders:Rohan-16
+    */
+
+    useEffect(() => {
+        const getHourlyMetaRecords = async () => {
+            const response = await API.graphql({
+                query: hoursByDayOfYear_iotNameThing,
+                variables: {
+                    dayOfYear_iotNameThing: (tempDate.dayOfYear() - 7).toString() + "_" + keys[selectedIndexRef.current],
+                }, // Provide the ID as a variable
+            });
+            const data = response.data.hoursByDayOfYear_iotNameThing.items;
+            let tempPortionCompleted = 0;
+            let tempPrecision = 0;
+            let tempInventory = 0;
+            let tempCompletion = 0;
+            for (let i = 0; i < data.length; i++) {
+                const hour = data[i].dayOfYear_hourOfDay_iotNameThing.split("_");
+                if (parseInt(hour[1]) <= hourOfDay) {
+                    tempPortionCompleted += data[i].hourlySummary.portionsCompleted;
+                    tempPrecision += data[i].hourlySummary.accuracy;
+                    tempInventory += data[i].hourlySummary.inventoryConsumed;
+                    tempCompletion += data[i].hourlySummary.averageTime;
+                }
+            }
+            setPortionsCompletedLastWeek(tempPortionCompleted);
+            setPrecisionLastWeek(tempPrecision / data.length);
+            setInventoryConsumedLastWeek(tempInventory);
+            setCompletionTimeLastWeek(tempCompletion / data.length);
+
+            //console.log("The number of portions completed last week is", portionsCompletedLastWeek);
+        };
+        getHourlyMetaRecords();
+    }, [hourOfDay]);
+    /*!
        @description:Use effect that fecthes the data whenever new data is added to PE table
        @params:
        @return:
@@ -353,18 +425,18 @@ const DashboardContainer = () => {
        @Coders: Mohan
     */
     useEffect(() => {
-        getHourlyMetaRecords();
+        getDailyMetaRecords();
         const subscription = API.graphql(graphqlOperation(onNewPortionEvent)).subscribe({
             next: (data) => {
                 const newSensorReading = data.value.data.onNewSensorReading;
                 // Handle the new sensor reading, update your state, etc.
-                getHourlyMetaRecords();
+                getDailyMetaRecords();
             },
         });
         return () => {
             subscription.unsubscribe();
         };
-    }, [selectedIndex]);
+    }, [selectedIndex, portionsCompletedLastWeek]);
     useEffect(() => {
         const handleResize = () => {
             setIsMobileDevice(window.innerWidth < 1200);
@@ -380,7 +452,7 @@ const DashboardContainer = () => {
         return () => {
             window.removeEventListener("resize", handleResize);
         };
-    }, []);
+    }, [portionsCompletedLastWeek]);
 
     // UseEffect to change layout for mobile devices
     // useEffect(() => {
@@ -402,7 +474,7 @@ const DashboardContainer = () => {
     return (
         <DashboardLayout>
             {/* TODO: ADD Style such that title gets centered with media query (textAlign) */}
-            <DropDownIngredientMenu options={options} titleForPage={"Daily Inventory Report"} />
+            <DropDownIngredientMenu options={options} titleForPage={"Real-Time Report"} />
 
             {!isMobileDevice && (
                 <div style={{ height: "85vh" }}>
@@ -410,15 +482,7 @@ const DashboardContainer = () => {
                         <Grid container spacing={1} display="flex" justifyContent="center">
                             <Tooltip title="Portions Completed for Today" placement="bottom">
                                 <Grid item xs={12} md={6} lg={3}>
-                                    <ComplexStatisticsCard
-                                        color="dark"
-                                        title={portionCompleteTitle}
-                                        icon={<PanToolIcon />}
-                                        count={cardSummaryItems[0]}
-                                        percentage={{
-                                            color: "success",
-                                        }}
-                                    />
+                                    <ComplexStatisticsCard color="dark" title={portionCompleteTitle} icon={<PanToolIcon />} count={cardSummaryItems[0]} />
                                 </Grid>
                             </Tooltip>
                         </Grid>
@@ -436,8 +500,8 @@ const DashboardContainer = () => {
                                             count={cardSummaryItems[1]}
                                             percentage={{
                                                 color: "success",
-                                                // amount: "+3%",
-                                                // label: "than yesterdays",
+                                                amount: differencePrecision >= 0 ? "+" + differencePrecision.toFixed(0) + "%" : differencePrecision.toFixed(0) + "%",
+                                                label: "than last week",
                                             }}
                                         />
                                     </MDBox>
@@ -453,6 +517,8 @@ const DashboardContainer = () => {
                                             count={unitOfMass == "g" ? cardSummaryItems[2] : (parseInt(cardSummaryItems[2]) / 28.35).toFixed(2).toString() + "oz"}
                                             percentage={{
                                                 color: "success",
+                                                amount: differenceInventory >= 0 ? "+" + differenceInventory + "g" : differenceInventory + "g",
+                                                label: "than last week",
                                             }}
                                         />
                                     </MDBox>
@@ -468,6 +534,8 @@ const DashboardContainer = () => {
                                             count={cardSummaryItems[3]}
                                             percentage={{
                                                 color: "success",
+                                                amount: differenceCompletionTime >= 0 ? "+" + differenceCompletionTime.toFixed(1) + "s" : differenceCompletionTime.toFixed(1) + "s",
+                                                label: "than last week",
                                             }}
                                         />
                                     </MDBox>
@@ -501,15 +569,7 @@ const DashboardContainer = () => {
                     <MDBox py={3}>
                         <Grid container spacing={1} direction="column" justifyContent="center">
                             <Grid item xs={12} md={6} lg={3}>
-                                <ComplexStatisticsCard
-                                    color="dark"
-                                    icon={<PanToolIcon />}
-                                    title={portionCompleteTitle}
-                                    count={cardSummaryItems[0]}
-                                    percentage={{
-                                        color: "success",
-                                    }}
-                                />
+                                <ComplexStatisticsCard color="dark" icon={<PanToolIcon />} title={portionCompleteTitle} count={cardSummaryItems[0]} />
                             </Grid>
                             <Grid item xs={12} md={6} lg={3}>
                                 <MobileComplexStatisticsCard
@@ -519,6 +579,8 @@ const DashboardContainer = () => {
                                     count={cardSummaryItems[1]}
                                     percentage={{
                                         color: "success",
+                                        amount: differencePrecision >= 0 ? "+" + differencePrecision.toFixed(0) + "%" : differencePrecision.toFixed(0) + "%",
+                                        label: "than last week",
                                     }}
                                     generateChart={() => generatePrecisionChartResponsive(true)}
                                 />
@@ -531,6 +593,8 @@ const DashboardContainer = () => {
                                     count={cardSummaryItems[3]}
                                     percentage={{
                                         color: "success",
+                                        amount: differenceCompletionTime >= 0 ? "+" + differenceCompletionTime.toFixed(1) + "s" : differenceCompletionTime.toFixed(1) + "s",
+                                        label: "than last week",
                                     }}
                                     generateChart={() => generateTimeLineChartResponsive(true)}
                                 />
@@ -543,6 +607,8 @@ const DashboardContainer = () => {
                                     count={cardSummaryItems[2]}
                                     percentage={{
                                         color: "success",
+                                        amount: differenceInventory >= 0 ? "+" + differenceInventory + "g" : differenceInventory + "g",
+                                        label: "than last week",
                                     }}
                                     generateChart={() => generateDoughnutChartResponsive(true)}
                                 />

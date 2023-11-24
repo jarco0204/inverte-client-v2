@@ -40,7 +40,6 @@ import timezone from "dayjs/plugin/timezone";
 dayjs.extend(timezone);
 
 const Scale = ({ mainScaleData, isMobileDevice }) => {
-    console.log("The main scale data is:", mainScaleData);
     // Classic Shadow Parameters
     const [minOffset, setMinOffset] = useState(3);
     const [maxOffset, setMaxOffset] = useState(3);
@@ -54,6 +53,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
     const [correctWeight2, setCorrectWeight2] = useState(28);
     const [correctWeight3, setCorrectWeight3] = useState(56);
     const [realTimeTemperature, setRealTimeTemperature] = useState("Off");
+    const [scaleState, setScaleState] = useState(-1);
 
     // UI & UX
     const scaleStateReported = 1; // 0 = off & 1 = Unloaded & 2 = Busy/On
@@ -118,7 +118,6 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
             .tz(timeZone)
             .format("MM-DD HH:mm");
         setLastConnected(timestamp);
-        console.log("Last Connected Time:", lastConnected);
     };
 
     /*!
@@ -139,9 +138,17 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
             updateThingShadowRequestInput.state.desired["nameIngredient"] = nameIngredient;
             updateIngredientName(); // Update the ingredient name in the database
         } else if (event.target.name === "minOffsetField") {
-            updateThingShadowRequestInput.state.desired["lowerErrorLimit"] = minOffset;
+            if (unitOfMass == "g") {
+                updateThingShadowRequestInput.state.desired["lowerErrorLimit"] = minOffset;
+            } else {
+                updateThingShadowRequestInput.state.desired["lowerErrorLimit"] = Math.round((minOffset * 28.35 * 10) / 10).toString();
+            }
         } else if (event.target.name === "maxOffsetField") {
-            updateThingShadowRequestInput.state.desired["upperErrorLimit"] = maxOffset;
+            if (unitOfMass == "g") {
+                updateThingShadowRequestInput.state.desired["upperErrorLimit"] = maxOffset;
+            } else {
+                updateThingShadowRequestInput.state.desired["upperErrorLimit"] = Math.round((maxOffset * 28.35 * 10) / 10).toString();
+            }
         }
 
         // Update Shadow
@@ -295,13 +302,20 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
             @Coders: JAAM
         */
     const sendActionDataAWS = (action) => {
-        // let msg, finalTopic;
-        // msg = {
-        //     control: action,
-        //     msg: "Message sent by el PumaV56",
-        // };
-        // finalTopic = mainScaleData.topic + "/" + mainScaleData.iotNameThing + "/control";
-        // PubSub.publish(finalTopic, msg);
+        console.log("test", mainScaleData.topic);
+        let msg, finalTopic;
+        if (action == 1) {
+            msg = {
+                scaleAction: "tare",
+            };
+        } else if (action == 2) {
+            msg = {
+                scaleAction: "unitOfMass",
+            };
+        }
+
+        finalTopic = mainScaleData.topic + "/" + mainScaleData.iotNameThing + "/clientActions";
+        PubSub.publish(finalTopic, msg);
         console.log("Action Not Published to AWS..."); // Debug Statement
     };
 
@@ -335,8 +349,14 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
 
                 // Update Scale State Parameters
                 setNameIngredient(dataCloud.reported.nameIngredient);
-                setMinOffset(dataCloud.reported.lowerErrorLimit);
-                setMaxOffset(dataCloud.reported.upperErrorLimit);
+                if (dataCloud.reported.unitOfMass === "g") {
+                    setMinOffset(dataCloud.reported.lowerErrorLimit);
+                    setMaxOffset(dataCloud.reported.upperErrorLimit);
+                } else if (dataCloud.reported.unitOfMass === "ounces") {
+                    setMinOffset(Math.round((dataCloud.reported.lowerErrorLimit / 28.35) * 10) / 10);
+                    setMaxOffset(Math.round((dataCloud.reported.upperErrorLimit / 28.35) * 10) / 10);
+                }
+
                 setUnitOfMass(dataCloud.reported.unitOfMass);
                 setCorrectWeightIndex(dataCloud.reported.correctWeightIndex);
                 console.log("Successfully handled your GET Classic Shadow...");
@@ -346,40 +366,26 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
             error: (error) => console.error("Error in Classic Shadow GET Request...", error),
             complete: () => console.log("Web Socket Done"),
         });
-        const subscriptionClassicShadowPortionSize = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing + "/shadow/update/accepted").subscribe({
-            next: (dataCloud) => {
-                dataCloud = dataCloud.value.state;
-                // Update Scale State Parameters
-                if (dataCloud.desired == undefined && dataCloud.reported.correctWeightIndex != undefined) {
-                    setCorrectWeightIndex(dataCloud.reported.correctWeightIndex);
-                }
-                console.log("Successfully handled your UPDATE Classic Shadow...");
-                // subscriptionClassicShadow.unsubscribe(); //Unsubcribe to topic after fething and updating parameters
-            },
-            error: (error) => console.error("Error in Classic Shadow GET Request...", error),
-            complete: () => console.log("Web Socket Done"),
-        });
-
-        // Subscribe Time Series Shadow to Topic after Get Request was accepted
         const subscriptionTimeSeriesShadow = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing + "/shadow/name/timeseries/get/accepted").subscribe({
             next: (dataCloud) => {
                 dataCloud = dataCloud.value.state.reported;
                 if (dataCloud != undefined) {
-                    console.log("The data cloud is:", dataCloud);
                     setRealTimeWeight(dataCloud.inventoryWeight);
-                    if (dataCloud.inventoryWeight === -1) {
+                    setScaleState(dataCloud.scaleState);
+                    if (dataCloud.scaleState === 0) {
                         setRealTimeTemperature("Off");
-                    } else if (dataCloud.inventoryWeight === 0) {
+                    } else if (dataCloud.scaleState === 1) {
                         setRealTimeTemperature("Idle");
-                    } else {
+                    } else if (dataCloud.scaleState === 2) {
                         setRealTimeTemperature("On");
                         setRealTimeWeight(dataCloud.inventoryWeight);
                     }
-                    if (unitOfMass == "g") {
+                    if (unitOfMass === "g") {
                         setCorrectWeight1(dataCloud.correctWeight1);
                         setCorrectWeight2(dataCloud.correctWeight2);
                         setCorrectWeight3(dataCloud.correctWeight3);
-                    } else {
+                    } else if (unitOfMass === "ounces") {
+                        console.log("The unit of mass is:", unitOfMass);
                         setCorrectWeight1(Math.round((dataCloud.correctWeight1 / 28.35) * 10) / 10);
                         setCorrectWeight2(Math.round((dataCloud.correctWeight2 / 28.35) * 10) / 10);
                         setCorrectWeight3(Math.round((dataCloud.correctWeight3 / 28.35) * 10) / 10);
@@ -393,18 +399,32 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
             error: (error) => console.error("Error in GET/Accepted web socket of Timeseries...", error),
             complete: () => console.log("Web Socket Done"),
         });
+        const subscriptionClassicShadowPortionSize = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing + "/shadow/update/accepted").subscribe({
+            next: (dataCloud) => {
+                dataCloud = dataCloud.value.state;
+                // Update Scale State Parameters
+                if (dataCloud.desired == undefined && dataCloud.reported.correctWeightIndex != undefined) {
+                    setCorrectWeightIndex(dataCloud.reported.correctWeightIndex);
+                }
+                setUnitOfMass(dataCloud.reported.unitOfMass);
+                console.log("Successfully handled your UPDATE Classic Shadow...");
+                // subscriptionClassicShadow.unsubscribe(); //Unsubcribe to topic after fething and updating parameters
+            },
+            error: (error) => console.error("Error in Classic Shadow GET Request...", error),
+            complete: () => console.log("Web Socket Done"),
+        });
+
         //Listen for Updates in Timeseries shadow
         const subscriptionTimeSeriesShadowInventoryWeight = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing + "/shadow/name/timeseries/update/accepted").subscribe({
             next: (dataCloud) => {
                 dataCloud = dataCloud.value.state.reported;
                 if (dataCloud != undefined) {
-                    console.log("The dataCloud1 is:", dataCloud);
                     setRealTimeWeight(dataCloud.inventoryWeight);
-                    if (dataCloud.inventoryWeight === -1) {
+                    if (dataCloud.scaleState === 0) {
                         setRealTimeTemperature("Off");
-                    } else if (dataCloud.inventoryWeight === 0) {
+                    } else if (dataCloud.scaleState == 1) {
                         setRealTimeTemperature("Idle");
-                    } else {
+                    } else if (dataCloud.scaleState === 2) {
                         setRealTimeTemperature("On");
                         setRealTimeWeight(dataCloud.inventoryWeight);
                     }
@@ -418,7 +438,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
             complete: () => console.log("Web Socket Done"),
         });
         getLastConnected();
-    }, [correctWeightIndex]);
+    }, [correctWeightIndex, unitOfMass, realTimeTemperature]);
 
     // @description: Hook to get Thing's Shadow by publishing to get topic and then listening after request is accepted.
     useEffect(() => {
@@ -434,6 +454,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                 }
             }, 1000);
         };
+
         getClassicShadow();
     }, [unitOfMass]);
 
@@ -507,11 +528,11 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                 />
             </FormControl>
             <CustomizedCardActions>
-                <TareButton name="tare" onClick={() => sendActionDataAWS(1)}>
-                    Tare
+                <TareButton name="tare" onClick={() => (realTimeTemperature == "On" ? sendActionDataAWS(1) : sendActionDataAWS(2))}>
+                    {realTimeTemperature == "On" ? "Tare" : "g/oz"}
                 </TareButton>
 
-                <StartButton name="start" onClick={() => sendActionDataAWS(2)}>
+                <StartButton name="start" onClick={() => sendActionDataAWS(1)}>
                     {scaleStateReported == 2 ? "Guide" : scaleStateReported == 1 ? "Guide" : "Guide"}
                 </StartButton>
 
@@ -644,7 +665,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                             }}
                             readOnly={accessType === "Restricted"}
                             classes={{ input: classes.centered }}
-                            value={unitOfMass == "g" ? minOffset : (minOffset / 28.35).toFixed(1)}
+                            value={minOffset}
                             aria-describedby="outlined-weight-helper-text"
                             inputProps={{
                                 "aria-label": "weight",
@@ -656,12 +677,8 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                                 min: unitOfMass == "g" ? 2 : 0.1, // Set the minimum value
                                 max: unitOfMass == "g" ? 10 : 0.6,
                             }}
-                            onKeyDown={!isMobileDevice ? handleKeyDown : null} // Prevent keyboard Inputs
-                            onChange={(e) =>
-                                unitOfMass == "g"
-                                    ? setMinOffset(e.target.value == 1 ? 2 : e.target.value)
-                                    : setMinOffset(e.target.value * (28.35).toFixed(0) == 1 ? 2 : (e.target.value * 28.35).toFixed(0).toString())
-                            }
+                            //onKeyDown={!isMobileDevice ? handleKeyDown : null} // Prevent keyboard Inputs
+                            onChange={(e) => (unitOfMass == "g" ? setMinOffset(e.target.value == 1 ? 2 : e.target.value) : setMinOffset(e.target.value))}
                             onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updateClassicShadow(e))}
                         />
                     </FormControl>
@@ -676,7 +693,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                             }}
                             readOnly={accessType === "Restricted"}
                             classes={{ input: classes.centered }}
-                            value={unitOfMass == "g" ? maxOffset : (maxOffset / 28.35).toFixed(1)}
+                            value={maxOffset}
                             aria-describedby="outlined-weight-helper-text"
                             inputProps={{
                                 step: unitOfMass == "g" ? 1 : 0.1,
@@ -688,11 +705,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                                 max: unitOfMass == "g" ? 10 : 0.6,
                             }}
                             onKeyDown={!isMobileDevice ? handleKeyDown : null} // Prevent keyboard Inputs
-                            onChange={(e) =>
-                                unitOfMass == "g"
-                                    ? setMaxOffset(e.target.value == 1 ? 2 : e.target.value)
-                                    : setMaxOffset(e.target.value * (28.35).toFixed(0) == 1 ? 2 : (e.target.value * 28.35).toFixed(0).toString())
-                            }
+                            onChange={(e) => (unitOfMass == "g" ? setMaxOffset(e.target.value == 1 ? 2 : e.target.value) : setMaxOffset(e.target.value))}
                             onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updateClassicShadow(e))}
                         />
                     </FormControl>

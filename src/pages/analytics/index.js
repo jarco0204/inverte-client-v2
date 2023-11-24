@@ -16,6 +16,7 @@ import Footer from "../../components/Footer";
 import BasicDatePicker from "../../components/DatePicker";
 import DropDownIngredientMenu from "../../components/DropDownIngredientMenu";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
+import ZoomableChart from "./components/ZoomableChart.mjs";
 import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
 
 // AWS Imports
@@ -36,6 +37,7 @@ import timezone from "dayjs/plugin/timezone";
 import toObject from "dayjs/plugin/toObject.js";
 import dayOfYear from "dayjs/plugin/dayOfYear.js";
 import { setSelectedIndex } from "../../redux/metaSlice";
+import { difference, sum } from "d3-array";
 // import { ListItemIcon } from "@mui/material";
 dayjs.extend(dayOfYear);
 dayjs.extend(toObject);
@@ -140,6 +142,7 @@ const AnalyticsContainer = () => {
     const [realTimeAccuracyGraph, setRealTimeAccuracyGraph] = useState([]);
     const [realTimePrecisionGraph, setRealTimePrecisionGraph] = useState([]);
     const [realTimeInventoryGraph, setRealTimeInventoryGraph] = useState([]);
+    const [dashboardGraph, setDashboardGraph] = useState([]);
 
     // Chart Related Variables
     const accuracyGraph = createDoughnutChartObject();
@@ -311,21 +314,42 @@ const AnalyticsContainer = () => {
                     inventoryConsumed = response.data.getDay.dailySummary.inventoryConsumed;
                     timeSaved = response.data.getDay.dailySummary.averageTime;
                     portionsCompleted = response.data.getDay.dailySummary.portionsCompleted;
-                    underPercent = parseInt((response.data.getDay.dailySummary.underServed / portionsCompleted) * 100);
-                    perfectPercent = parseInt((response.data.getDay.dailySummary.perfect / portionsCompleted) * 100);
-                    overPercent = parseInt((response.data.getDay.dailySummary.overServed / portionsCompleted) * 100);
+                    underPercent = Math.round((response.data.getDay.dailySummary.underServed / portionsCompleted) * 100);
+                    perfectPercent = Math.round((response.data.getDay.dailySummary.perfect / portionsCompleted) * 100);
+                    overPercent = Math.round((response.data.getDay.dailySummary.overServed / portionsCompleted) * 100);
+                    const totalPercent = underPercent + overPercent + perfectPercent;
+                    if (totalPercent != 100) {
+                        if (100 - totalPercent == 1) {
+                            perfectPercent++;
+                        } else if (100 - totalPercent == 2) {
+                            underPercent++;
+                            overPercent++;
+                        } else if (100 - totalPercent == 3) {
+                            underPercent++;
+                            overPercent++;
+                            perfectPercent++;
+                        }
+                    }
                     dashboardGraph = JSON.parse(response.data.getDay.allPortionEvents);
                     scaleActions = JSON.parse(response.data.getDay.scaleActions);
                     let action = Object.values(scaleActions);
                     let time = Object.keys(scaleActions);
-                    for (let i = 0; i < action.length; i++) {
-                        if (action[i].eventType == "StartAction") {
-                            dashboardGraph[time[i]] = { inventoryWeight: action[i].inventoryWeight };
-                        }
-                        if (action[i].eventType == "disconnected") {
-                            dashboardGraph[time[i]] = { inventoryWeight: action[i].inventoryWeight };
-                        }
-                    }
+                    // for (let i = 0; i < action.length; i++) {
+                    //     if (action[i].eventType == "StartAction") {
+                    //         dashboardGraph[time[i]] = { inventoryWeight: action[i].inventoryWeight };
+                    //     }
+                    //     if (action[i].eventType == "disconnected") {
+                    //         dashboardGraph[time[i]] = { inventoryWeight: action[i].inventoryWeight };
+                    //     }
+                    // }
+                    const sortedKeys = Object.keys(dashboardGraph).sort((a, b) => parseInt(a) - parseInt(b));
+                    const sortedObject = {};
+                    sortedKeys.forEach((key) => {
+                        sortedObject[key] = dashboardGraph[key];
+                    });
+                    dashboardGraph = sortedObject;
+                    setDashboardGraph(dashboardGraph);
+                    console.log("The Dashboard graph is:", dashboardGraph);
                 }
             } else {
                 response = await API.graphql({
@@ -353,16 +377,24 @@ const AnalyticsContainer = () => {
                         scaleActions = JSON.parse(data[i].scaleActions);
                         let action = Object.values(scaleActions);
                         let time = Object.keys(scaleActions);
-                        for (let k = 0; k < action.length; k++) {
-                            if (action[k].eventType == "StartAction") {
-                                dashboardGraph[time[k]] = { inventoryWeight: action[k].inventoryWeight };
-                            }
-                            if (action[k].eventType == "disconnected") {
-                                dashboardGraph[time[k]] = { inventoryWeight: action[k].inventoryWeight };
-                            }
-                        }
+                        // for (let k = 0; k < action.length; k++) {
+                        //     if (action[k].eventType == "StartAction") {
+                        //         dashboardGraph[time[k]] = { inventoryWeight: action[k].inventoryWeight };
+                        //     }
+                        //     if (action[k].eventType == "disconnected") {
+                        //         dashboardGraph[time[k]] = { inventoryWeight: action[k].inventoryWeight };
+                        //     }
+                        // }
                         dashboardGraph = { ...dashboardGraph, ...JSON.parse(data[i].allPortionEvents) };
                     }
+                    const sortedKeys = Object.keys(dashboardGraph).sort((a, b) => parseInt(a) - parseInt(b));
+                    const sortedObject = {};
+                    sortedKeys.forEach((key) => {
+                        sortedObject[key] = dashboardGraph[key];
+                    });
+                    dashboardGraph = sortedObject;
+                    setDashboardGraph(dashboardGraph);
+                    setDashboardGraph(dashboardGraph);
 
                     perfectPercent = perfectPercent / data.length;
                     underPercent = underPercent / data.length;
@@ -511,7 +543,9 @@ const AnalyticsContainer = () => {
                             <Grid container spacing={3} justifyContent={"center"}>
                                 <Grid item xs={12} md={4} lg={6}>
                                     <Tooltip title="Inventory Usage" placement="bottom">
-                                        <div style={{ width: "100%", height: "100%" }}>{generatePrecisionChartResponsive(false)}</div>
+                                        <div style={{ width: "100%", height: "100%" }}>
+                                            {/*generatePrecisionChartResponsive(false)*/ <ZoomableChart dataSet={dashboardGraph == 0 ? null : dashboardGraph} />}
+                                        </div>
                                     </Tooltip>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>

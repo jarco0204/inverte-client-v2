@@ -14,7 +14,7 @@ import { Grid } from "@mui/material";
 import { useState } from "react";
 import ReportsLineChartV2 from "../MobileReportsLineChart";
 
-const MobileComplexStatisticsCard = ({ color, title, count, icon, generateChart }) => {
+const MobileComplexStatisticsCard = ({ color, title, count, icon, generateChart, percentage }) => {
     // Component State
     const [isOpen, setIsOpen] = useState(false);
 
@@ -43,6 +43,7 @@ const MobileComplexStatisticsCard = ({ color, title, count, icon, generateChart 
                             {icon}
                         </Icon>
                     </MDBox>
+
                     <MDBox textAlign="right" lineHeight={1.25}>
                         <MDTypography variant="button" fontWeight="light" color="text">
                             {title}
@@ -50,17 +51,34 @@ const MobileComplexStatisticsCard = ({ color, title, count, icon, generateChart 
                         <MDTypography variant="h4">{count}</MDTypography>
                     </MDBox>
                 </MDBox>
+
                 {isOpen ? null : <Divider />}
                 {isOpen && (
                     <MDBox>
                         {generateChart()}
                         <MDBox display="flex" justifyContent="right" py={0.1}>
+                            <MDBox textAlign="left">
+                                <MDTypography component="p" variant="button" color="text" display="flex">
+                                    <MDTypography component="span" variant="button" fontWeight="bold" color={percentage.color}>
+                                        {percentage.amount}
+                                    </MDTypography>
+                                    &nbsp;{percentage.label}
+                                </MDTypography>
+                            </MDBox>
                             <KeyboardArrowUp onClick={handleClick} />
                         </MDBox>
                     </MDBox>
                 )}
                 {!isOpen && (
                     <MDBox display="flex" justifyContent="right" px={1} py={0.1}>
+                        <MDBox textAlign="left">
+                            <MDTypography component="p" variant="button" color="text" display="flex">
+                                <MDTypography component="span" variant="button" fontWeight="bold" color={percentage.color}>
+                                    {percentage.amount}
+                                </MDTypography>
+                                &nbsp;{percentage.label}
+                            </MDTypography>
+                        </MDBox>
                         <KeyboardArrowDown onClick={handleClick} />
                     </MDBox>
                 )}
