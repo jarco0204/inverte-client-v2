@@ -14,9 +14,10 @@ import {
   TextField,
 } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
-import { API } from "aws-amplify";
+import { generateClient } from "aws-amplify/api";
 import { getYear } from "../graphql/queries";
 import { updateYear } from "../graphql/mutations";
+const client = generateClient();
 export default function YearUpdateForm(props) {
   const {
     year_iotNameThing: year_iotNameThingProp,
@@ -68,7 +69,7 @@ export default function YearUpdateForm(props) {
     const queryData = async () => {
       const record = year_iotNameThingProp
         ? (
-            await API.graphql({
+            await client.graphql({
               query: getYear.replaceAll("__typename", ""),
               variables: { year_iotNameThing: year_iotNameThingProp },
             })
@@ -144,7 +145,7 @@ export default function YearUpdateForm(props) {
               modelFields[key] = null;
             }
           });
-          await API.graphql({
+          await client.graphql({
             query: updateYear.replaceAll("__typename", ""),
             variables: {
               input: {

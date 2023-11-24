@@ -14,9 +14,10 @@ import {
   TextField,
 } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
-import { API } from "aws-amplify";
+import { generateClient } from "aws-amplify/api";
 import { getDay } from "../graphql/queries";
 import { updateDay } from "../graphql/mutations";
+const client = generateClient();
 export default function DayUpdateForm(props) {
   const {
     dayOfYear_iotNameThing: dayOfYear_iotNameThingProp,
@@ -93,7 +94,7 @@ export default function DayUpdateForm(props) {
     const queryData = async () => {
       const record = dayOfYear_iotNameThingProp
         ? (
-            await API.graphql({
+            await client.graphql({
               query: getDay.replaceAll("__typename", ""),
               variables: { dayOfYear_iotNameThing: dayOfYear_iotNameThingProp },
             })
@@ -175,7 +176,7 @@ export default function DayUpdateForm(props) {
               modelFields[key] = null;
             }
           });
-          await API.graphql({
+          await client.graphql({
             query: updateDay.replaceAll("__typename", ""),
             variables: {
               input: {

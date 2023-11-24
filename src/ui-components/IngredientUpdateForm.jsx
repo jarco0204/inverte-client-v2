@@ -8,9 +8,10 @@
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
-import { API } from "aws-amplify";
+import { generateClient } from "aws-amplify/api";
 import { getIngredient } from "../graphql/queries";
 import { updateIngredient } from "../graphql/mutations";
+const client = generateClient();
 export default function IngredientUpdateForm(props) {
   const {
     ingredient_name: ingredient_nameProp,
@@ -48,7 +49,7 @@ export default function IngredientUpdateForm(props) {
     const queryData = async () => {
       const record = ingredient_nameProp
         ? (
-            await API.graphql({
+            await client.graphql({
               query: getIngredient.replaceAll("__typename", ""),
               variables: { ingredient_name: ingredient_nameProp },
             })
@@ -120,7 +121,7 @@ export default function IngredientUpdateForm(props) {
               modelFields[key] = null;
             }
           });
-          await API.graphql({
+          await client.graphql({
             query: updateIngredient.replaceAll("__typename", ""),
             variables: {
               input: {

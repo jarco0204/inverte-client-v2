@@ -14,8 +14,9 @@ import {
   TextField,
 } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
-import { API } from "aws-amplify";
+import { generateClient } from "aws-amplify/api";
 import { createRestaurant } from "../graphql/mutations";
+const client = generateClient();
 export default function RestaurantCreateForm(props) {
   const {
     clearOnSuccess = true,
@@ -145,7 +146,7 @@ export default function RestaurantCreateForm(props) {
               modelFields[key] = null;
             }
           });
-          await API.graphql({
+          await client.graphql({
             query: createRestaurant.replaceAll("__typename", ""),
             variables: {
               input: {
