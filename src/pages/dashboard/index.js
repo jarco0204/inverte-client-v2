@@ -409,9 +409,13 @@ const DashboardContainer = () => {
                 }
             }
             setPortionsCompletedLastWeek(tempPortionCompleted);
-            setPrecisionLastWeek(tempPrecision / data.length);
+            if (tempPrecision != 0) {
+                setPrecisionLastWeek(tempPrecision / data.length);
+            }
             setInventoryConsumedLastWeek(tempInventory);
-            setCompletionTimeLastWeek(tempCompletion / data.length);
+            if (tempCompletion != 0) {
+                setCompletionTimeLastWeek(tempCompletion / data.length);
+            }
 
             //console.log("The number of portions completed last week is", portionsCompletedLastWeek);
         };
