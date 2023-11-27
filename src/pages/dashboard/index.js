@@ -359,6 +359,7 @@ const DashboardContainer = () => {
                             perfectPercent++;
                         }
                     }
+                    console.log("The accuracy for last week is", precisionLastWeek);
                     generateLowerRealTimeGraphs(JSON.parse(day.getDay.dashboardGraph), [underPercent, perfectPercent, overPercent]);
                     setDifferencePortionsCompleted(day.getDay.dailySummary.portionsCompleted - portionsCompletedLastWeek);
                     setDifferencePrecision(day.getDay.dailySummary.accuracy - precisionLastWeek);
@@ -408,10 +409,15 @@ const DashboardContainer = () => {
                     tempCompletion += data[i].hourlySummary.averageTime;
                 }
             }
+
             setPortionsCompletedLastWeek(tempPortionCompleted);
-            setPrecisionLastWeek(tempPrecision / data.length);
+            if (tempPrecision != 0) {
+                setPrecisionLastWeek(tempPrecision / data.length);
+            }
             setInventoryConsumedLastWeek(tempInventory);
-            setCompletionTimeLastWeek(tempCompletion / data.length);
+            if (tempCompletion != 0) {
+                setCompletionTimeLastWeek(tempCompletion / data.length);
+            }
 
             //console.log("The number of portions completed last week is", portionsCompletedLastWeek);
         };
