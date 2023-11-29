@@ -53,6 +53,8 @@ type Week @model {
 type Day @model {
     dayOfYear_iotNameThing: ID! @primaryKey
     weekOfYear_iotNameThing: ID! @index(name: "byWeek")
+    monthOfYear_iotNameThing: String!
+    year_iotNameThing: String!
     dailySummary: DailySummary
     realTime: AWSJSON
     dashboardGraph: AWSJSON

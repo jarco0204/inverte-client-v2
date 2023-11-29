@@ -612,6 +612,8 @@ export const createWeek = /* GraphQL */ `
         items {
           dayOfYear_iotNameThing
           weekOfYear_iotNameThing
+          monthOfYear_iotNameThing
+          year_iotNameThing
           realTime
           dashboardGraph
           scaleActions
@@ -663,6 +665,8 @@ export const updateWeek = /* GraphQL */ `
         items {
           dayOfYear_iotNameThing
           weekOfYear_iotNameThing
+          monthOfYear_iotNameThing
+          year_iotNameThing
           realTime
           dashboardGraph
           scaleActions
@@ -714,6 +718,8 @@ export const deleteWeek = /* GraphQL */ `
         items {
           dayOfYear_iotNameThing
           weekOfYear_iotNameThing
+          monthOfYear_iotNameThing
+          year_iotNameThing
           realTime
           dashboardGraph
           scaleActions
@@ -741,6 +747,8 @@ export const createDay = /* GraphQL */ `
     createDay(input: $input, condition: $condition) {
       dayOfYear_iotNameThing
       weekOfYear_iotNameThing
+      monthOfYear_iotNameThing
+      year_iotNameThing
       dailySummary {
         averageTime
         portionsCompleted
@@ -752,6 +760,8 @@ export const createDay = /* GraphQL */ `
         day {
           dayOfYear_iotNameThing
           weekOfYear_iotNameThing
+          monthOfYear_iotNameThing
+          year_iotNameThing
           realTime
           dashboardGraph
           scaleActions
@@ -796,6 +806,8 @@ export const updateDay = /* GraphQL */ `
     updateDay(input: $input, condition: $condition) {
       dayOfYear_iotNameThing
       weekOfYear_iotNameThing
+      monthOfYear_iotNameThing
+      year_iotNameThing
       dailySummary {
         averageTime
         portionsCompleted
@@ -807,6 +819,8 @@ export const updateDay = /* GraphQL */ `
         day {
           dayOfYear_iotNameThing
           weekOfYear_iotNameThing
+          monthOfYear_iotNameThing
+          year_iotNameThing
           realTime
           dashboardGraph
           scaleActions
@@ -851,6 +865,8 @@ export const deleteDay = /* GraphQL */ `
     deleteDay(input: $input, condition: $condition) {
       dayOfYear_iotNameThing
       weekOfYear_iotNameThing
+      monthOfYear_iotNameThing
+      year_iotNameThing
       dailySummary {
         averageTime
         portionsCompleted
@@ -862,6 +878,8 @@ export const deleteDay = /* GraphQL */ `
         day {
           dayOfYear_iotNameThing
           weekOfYear_iotNameThing
+          monthOfYear_iotNameThing
+          year_iotNameThing
           realTime
           dashboardGraph
           scaleActions
