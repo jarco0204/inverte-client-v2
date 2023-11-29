@@ -356,7 +356,6 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                     setMinOffset(Math.round((dataCloud.reported.lowerErrorLimit / 28.35) * 10) / 10);
                     setMaxOffset(Math.round((dataCloud.reported.upperErrorLimit / 28.35) * 10) / 10);
                 }
-
                 setUnitOfMass(dataCloud.reported.unitOfMass);
                 setCorrectWeightIndex(dataCloud.reported.correctWeightIndex);
                 console.log("Successfully handled your GET Classic Shadow...");
@@ -406,7 +405,10 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                 if (dataCloud.desired == undefined && dataCloud.reported.correctWeightIndex != undefined) {
                     setCorrectWeightIndex(dataCloud.reported.correctWeightIndex);
                 }
-                setUnitOfMass(dataCloud.reported.unitOfMass);
+                if (dataCloud.reported.unitOfMass != undefined) {
+                    setUnitOfMass(dataCloud.reported.unitOfMass);
+                }
+
                 console.log("Successfully handled your UPDATE Classic Shadow...");
                 // subscriptionClassicShadow.unsubscribe(); //Unsubcribe to topic after fething and updating parameters
             },
@@ -532,8 +534,8 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                     {realTimeTemperature == "On" ? "Tare" : "g/oz"}
                 </TareButton>
 
-                <StartButton name="start" onClick={() => sendActionDataAWS(1)}>
-                    {scaleStateReported == 2 ? "Guide" : scaleStateReported == 1 ? "Guide" : "Guide"}
+                <StartButton name="start" onClick={() => (realTimeTemperature == "On" ? sendActionDataAWS(1) : sendActionDataAWS(2))}>
+                    {realTimeTemperature == "On" ? "g/oz" : "Guide"}
                 </StartButton>
 
                 <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
