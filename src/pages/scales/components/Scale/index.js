@@ -533,13 +533,11 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                 <TareButton name="tare" onClick={() => (realTimeTemperature == "On" ? sendActionDataAWS(1) : sendActionDataAWS(2))}>
                     {realTimeTemperature == "On" ? "Tare" : "g/oz"}
                 </TareButton>
-                {realTimeTemperature != "On" ? (
-                    <StartButton name="start" onClick={() => sendActionDataAWS(1)}>
-                        {scaleStateReported == 2 ? "Guide" : scaleStateReported == 1 ? "Guide" : "Guide"}
-                    </StartButton>
-                ) : (
-                    <> </>
-                )}
+
+                <StartButton name="start" onClick={() => (realTimeTemperature == "On" ? sendActionDataAWS(1) : sendActionDataAWS(2))}>
+                    {realTimeTemperature == "On" ? "g/oz" : "Guide"}
+                </StartButton>
+
                 <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
                     <ExpandMoreIcon />
                 </ExpandMore>
