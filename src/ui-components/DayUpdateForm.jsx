@@ -33,6 +33,8 @@ export default function DayUpdateForm(props) {
   const initialValues = {
     dayOfYear_iotNameThing: "",
     weekOfYear_iotNameThing: "",
+    monthOfYear_iotNameThing: "",
+    year_iotNameThing: "",
     realTime: "",
     dashboardGraph: "",
     scaleActions: "",
@@ -44,6 +46,11 @@ export default function DayUpdateForm(props) {
   );
   const [weekOfYear_iotNameThing, setWeekOfYear_iotNameThing] = React.useState(
     initialValues.weekOfYear_iotNameThing
+  );
+  const [monthOfYear_iotNameThing, setMonthOfYear_iotNameThing] =
+    React.useState(initialValues.monthOfYear_iotNameThing);
+  const [year_iotNameThing, setYear_iotNameThing] = React.useState(
+    initialValues.year_iotNameThing
   );
   const [realTime, setRealTime] = React.useState(initialValues.realTime);
   const [dashboardGraph, setDashboardGraph] = React.useState(
@@ -63,6 +70,8 @@ export default function DayUpdateForm(props) {
       : initialValues;
     setDayOfYear_iotNameThing(cleanValues.dayOfYear_iotNameThing);
     setWeekOfYear_iotNameThing(cleanValues.weekOfYear_iotNameThing);
+    setMonthOfYear_iotNameThing(cleanValues.monthOfYear_iotNameThing);
+    setYear_iotNameThing(cleanValues.year_iotNameThing);
     setRealTime(
       typeof cleanValues.realTime === "string" || cleanValues.realTime === null
         ? cleanValues.realTime
@@ -108,6 +117,8 @@ export default function DayUpdateForm(props) {
   const validations = {
     dayOfYear_iotNameThing: [{ type: "Required" }],
     weekOfYear_iotNameThing: [{ type: "Required" }],
+    monthOfYear_iotNameThing: [{ type: "Required" }],
+    year_iotNameThing: [{ type: "Required" }],
     realTime: [{ type: "JSON" }],
     dashboardGraph: [{ type: "JSON" }],
     scaleActions: [{ type: "JSON" }],
@@ -142,6 +153,8 @@ export default function DayUpdateForm(props) {
         let modelFields = {
           dayOfYear_iotNameThing,
           weekOfYear_iotNameThing,
+          monthOfYear_iotNameThing,
+          year_iotNameThing,
           realTime: realTime ?? null,
           dashboardGraph: dashboardGraph ?? null,
           scaleActions: scaleActions ?? null,
@@ -209,6 +222,8 @@ export default function DayUpdateForm(props) {
             const modelFields = {
               dayOfYear_iotNameThing: value,
               weekOfYear_iotNameThing,
+              monthOfYear_iotNameThing,
+              year_iotNameThing,
               realTime,
               dashboardGraph,
               scaleActions,
@@ -241,6 +256,8 @@ export default function DayUpdateForm(props) {
             const modelFields = {
               dayOfYear_iotNameThing,
               weekOfYear_iotNameThing: value,
+              monthOfYear_iotNameThing,
+              year_iotNameThing,
               realTime,
               dashboardGraph,
               scaleActions,
@@ -262,6 +279,77 @@ export default function DayUpdateForm(props) {
         hasError={errors.weekOfYear_iotNameThing?.hasError}
         {...getOverrideProps(overrides, "weekOfYear_iotNameThing")}
       ></TextField>
+      <TextField
+        label="Month of year iot name thing"
+        isRequired={true}
+        isReadOnly={false}
+        value={monthOfYear_iotNameThing}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              dayOfYear_iotNameThing,
+              weekOfYear_iotNameThing,
+              monthOfYear_iotNameThing: value,
+              year_iotNameThing,
+              realTime,
+              dashboardGraph,
+              scaleActions,
+              allPortionEvents,
+              createdAt,
+            };
+            const result = onChange(modelFields);
+            value = result?.monthOfYear_iotNameThing ?? value;
+          }
+          if (errors.monthOfYear_iotNameThing?.hasError) {
+            runValidationTasks("monthOfYear_iotNameThing", value);
+          }
+          setMonthOfYear_iotNameThing(value);
+        }}
+        onBlur={() =>
+          runValidationTasks(
+            "monthOfYear_iotNameThing",
+            monthOfYear_iotNameThing
+          )
+        }
+        errorMessage={errors.monthOfYear_iotNameThing?.errorMessage}
+        hasError={errors.monthOfYear_iotNameThing?.hasError}
+        {...getOverrideProps(overrides, "monthOfYear_iotNameThing")}
+      ></TextField>
+      <TextField
+        label="Year iot name thing"
+        isRequired={true}
+        isReadOnly={false}
+        value={year_iotNameThing}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              dayOfYear_iotNameThing,
+              weekOfYear_iotNameThing,
+              monthOfYear_iotNameThing,
+              year_iotNameThing: value,
+              realTime,
+              dashboardGraph,
+              scaleActions,
+              allPortionEvents,
+              createdAt,
+            };
+            const result = onChange(modelFields);
+            value = result?.year_iotNameThing ?? value;
+          }
+          if (errors.year_iotNameThing?.hasError) {
+            runValidationTasks("year_iotNameThing", value);
+          }
+          setYear_iotNameThing(value);
+        }}
+        onBlur={() =>
+          runValidationTasks("year_iotNameThing", year_iotNameThing)
+        }
+        errorMessage={errors.year_iotNameThing?.errorMessage}
+        hasError={errors.year_iotNameThing?.hasError}
+        {...getOverrideProps(overrides, "year_iotNameThing")}
+      ></TextField>
       <TextAreaField
         label="Real time"
         isRequired={false}
@@ -273,6 +361,8 @@ export default function DayUpdateForm(props) {
             const modelFields = {
               dayOfYear_iotNameThing,
               weekOfYear_iotNameThing,
+              monthOfYear_iotNameThing,
+              year_iotNameThing,
               realTime: value,
               dashboardGraph,
               scaleActions,
@@ -303,6 +393,8 @@ export default function DayUpdateForm(props) {
             const modelFields = {
               dayOfYear_iotNameThing,
               weekOfYear_iotNameThing,
+              monthOfYear_iotNameThing,
+              year_iotNameThing,
               realTime,
               dashboardGraph: value,
               scaleActions,
@@ -333,6 +425,8 @@ export default function DayUpdateForm(props) {
             const modelFields = {
               dayOfYear_iotNameThing,
               weekOfYear_iotNameThing,
+              monthOfYear_iotNameThing,
+              year_iotNameThing,
               realTime,
               dashboardGraph,
               scaleActions: value,
@@ -363,6 +457,8 @@ export default function DayUpdateForm(props) {
             const modelFields = {
               dayOfYear_iotNameThing,
               weekOfYear_iotNameThing,
+              monthOfYear_iotNameThing,
+              year_iotNameThing,
               realTime,
               dashboardGraph,
               scaleActions,
@@ -393,6 +489,8 @@ export default function DayUpdateForm(props) {
             const modelFields = {
               dayOfYear_iotNameThing,
               weekOfYear_iotNameThing,
+              monthOfYear_iotNameThing,
+              year_iotNameThing,
               realTime,
               dashboardGraph,
               scaleActions,
