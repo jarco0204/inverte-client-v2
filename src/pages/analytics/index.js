@@ -44,38 +44,6 @@ dayjs.extend(toObject);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-//Custom query to get only the necessary data from table so that we don't pull the big realTime object each time
-const getDashboard = /* GraphQL */ `
-    query GetDay($dayOfYear_iotNameThing: ID!) {
-        getDay(dayOfYear_iotNameThing: $dayOfYear_iotNameThing) {
-            dayOfYear_iotNameThing
-            dailySummary {
-                averageTime
-                portionsCompleted
-                accuracy
-                inventoryConsumed
-                overServed
-                underServed
-                perfect
-                day {
-                    dayOfYear_iotNameThing
-                    weekOfYear_iotNameThing
-                    realTime
-                    dashboardGraph
-                    scaleActions
-                    createdAt
-                    updatedAt
-                    weekDayWeekOfYear_iotNameThing
-                    __typename
-                }
-                __typename
-            }
-            dashboardGraph
-            allPortionEvents
-        }
-    }
-`;
-
 /*!
    @description: Helper function ton create an object to store the portion event data.
    @params:
@@ -300,109 +268,111 @@ const AnalyticsContainer = () => {
             response;
         try {
             // Query GQL to pull hourly data
-            if (date[0].dayOfYear() == date[1].dayOfYear()) {
-                response = await API.graphql({
-                    query: getDay,
-                    //variables: { dayOfYear_iotNameThing: daysOfYear_iotNameThing[0] }, // Provide the ID as a variable
-                    variables: {
-                        dayOfYear_iotNameThing: date[0].dayOfYear() + "_" + keys[selectedIndexRef.current],
-                    },
-                });
-                if (response.data.getDay) {
-                    console.log("response: ", response);
-                    accuracy = response.data.getDay.dailySummary.accuracy;
-                    inventoryConsumed = response.data.getDay.dailySummary.inventoryConsumed;
-                    timeSaved = response.data.getDay.dailySummary.averageTime;
-                    portionsCompleted = response.data.getDay.dailySummary.portionsCompleted;
-                    underPercent = Math.round((response.data.getDay.dailySummary.underServed / portionsCompleted) * 100);
-                    perfectPercent = Math.round((response.data.getDay.dailySummary.perfect / portionsCompleted) * 100);
-                    overPercent = Math.round((response.data.getDay.dailySummary.overServed / portionsCompleted) * 100);
-                    const totalPercent = underPercent + overPercent + perfectPercent;
-                    if (totalPercent != 100) {
-                        if (100 - totalPercent == 1) {
-                            perfectPercent++;
-                        } else if (100 - totalPercent == 2) {
-                            underPercent++;
-                            overPercent++;
-                        } else if (100 - totalPercent == 3) {
-                            underPercent++;
-                            overPercent++;
-                            perfectPercent++;
-                        }
+            console.log("waaa", dayjs(date.$d).dayOfYear());
+            // if (date[0].dayOfYear() == date[1].dayOfYear()) {
+            response = await API.graphql({
+                query: getDay,
+                //variables: { dayOfYear_iotNameThing: daysOfYear_iotNameThing[0] }, // Provide the ID as a variable
+                variables: {
+                    dayOfYear_iotNameThing: dayjs(date.$d).dayOfYear() + "_" + keys[selectedIndexRef.current],
+                },
+            });
+            console.log("Response is:", response);
+            if (response.data.getDay) {
+                console.log("response: ", response);
+                accuracy = response.data.getDay.dailySummary.accuracy;
+                inventoryConsumed = response.data.getDay.dailySummary.inventoryConsumed;
+                timeSaved = response.data.getDay.dailySummary.averageTime;
+                portionsCompleted = response.data.getDay.dailySummary.portionsCompleted;
+                underPercent = Math.round((response.data.getDay.dailySummary.underServed / portionsCompleted) * 100);
+                perfectPercent = Math.round((response.data.getDay.dailySummary.perfect / portionsCompleted) * 100);
+                overPercent = Math.round((response.data.getDay.dailySummary.overServed / portionsCompleted) * 100);
+                const totalPercent = underPercent + overPercent + perfectPercent;
+                if (totalPercent != 100) {
+                    if (100 - totalPercent == 1) {
+                        perfectPercent++;
+                    } else if (100 - totalPercent == 2) {
+                        underPercent++;
+                        overPercent++;
+                    } else if (100 - totalPercent == 3) {
+                        underPercent++;
+                        overPercent++;
+                        perfectPercent++;
                     }
-                    dashboardGraph = JSON.parse(response.data.getDay.allPortionEvents);
-                    scaleActions = JSON.parse(response.data.getDay.scaleActions);
-                    let action = Object.values(scaleActions);
-                    let time = Object.keys(scaleActions);
-                    // for (let i = 0; i < action.length; i++) {
-                    //     if (action[i].eventType == "StartAction") {
-                    //         dashboardGraph[time[i]] = { inventoryWeight: action[i].inventoryWeight };
-                    //     }
-                    //     if (action[i].eventType == "disconnected") {
-                    //         dashboardGraph[time[i]] = { inventoryWeight: action[i].inventoryWeight };
-                    //     }
-                    // }
-                    const sortedKeys = Object.keys(dashboardGraph).sort((a, b) => parseInt(a) - parseInt(b));
-                    const sortedObject = {};
-                    sortedKeys.forEach((key) => {
-                        sortedObject[key] = dashboardGraph[key];
-                    });
-                    dashboardGraph = sortedObject;
-                    setDashboardGraph(dashboardGraph);
-                    console.log("The Dashboard graph is:", dashboardGraph);
                 }
-            } else {
-                response = await API.graphql({
-                    query: listDays,
-                    variables: {
-                        filter: {
-                            createdAt: {
-                                between: [date[0].format("YYYY-MM-DD"), date[1].format("YYYY-MM-DD")],
-                            },
-                            dayOfYear_iotNameThing: { contains: keys[selectedIndexRef.current] },
-                        },
-                    },
+                dashboardGraph = JSON.parse(response.data.getDay.allPortionEvents);
+                scaleActions = JSON.parse(response.data.getDay.scaleActions);
+                let action = Object.values(scaleActions);
+                let time = Object.keys(scaleActions);
+                // for (let i = 0; i < action.length; i++) {
+                //     if (action[i].eventType == "StartAction") {
+                //         dashboardGraph[time[i]] = { inventoryWeight: action[i].inventoryWeight };
+                //     }
+                //     if (action[i].eventType == "disconnected") {
+                //         dashboardGraph[time[i]] = { inventoryWeight: action[i].inventoryWeight };
+                //     }
+                // }
+                const sortedKeys = Object.keys(dashboardGraph).sort((a, b) => parseInt(a) - parseInt(b));
+                const sortedObject = {};
+                sortedKeys.forEach((key) => {
+                    sortedObject[key] = dashboardGraph[key];
                 });
-                if (response.data.listDays) {
-                    console.log("response: ", response);
-                    let data = response.data.listDays.items;
-                    for (let i = 0; i < data.length; i++) {
-                        accuracy += data[i].dailySummary.accuracy;
-                        portionsCompleted += data[i].dailySummary.portionsCompleted;
-                        inventoryConsumed += data[i].dailySummary.inventoryConsumed;
-                        timeSaved += data[i].dailySummary.averageTime;
-                        perfectPercent += parseInt((data[i].dailySummary.perfect / data[i].dailySummary.portionsCompleted) * 100);
-                        underPercent += parseInt((data[i].dailySummary.underServed / data[i].dailySummary.portionsCompleted) * 100);
-                        overPercent += parseInt((data[i].dailySummary.overServed / data[i].dailySummary.portionsCompleted) * 100);
-                        scaleActions = JSON.parse(data[i].scaleActions);
-                        let action = Object.values(scaleActions);
-                        let time = Object.keys(scaleActions);
-                        // for (let k = 0; k < action.length; k++) {
-                        //     if (action[k].eventType == "StartAction") {
-                        //         dashboardGraph[time[k]] = { inventoryWeight: action[k].inventoryWeight };
-                        //     }
-                        //     if (action[k].eventType == "disconnected") {
-                        //         dashboardGraph[time[k]] = { inventoryWeight: action[k].inventoryWeight };
-                        //     }
-                        // }
-                        dashboardGraph = { ...dashboardGraph, ...JSON.parse(data[i].allPortionEvents) };
-                    }
-                    const sortedKeys = Object.keys(dashboardGraph).sort((a, b) => parseInt(a) - parseInt(b));
-                    const sortedObject = {};
-                    sortedKeys.forEach((key) => {
-                        sortedObject[key] = dashboardGraph[key];
-                    });
-                    dashboardGraph = sortedObject;
-                    setDashboardGraph(dashboardGraph);
-                    setDashboardGraph(dashboardGraph);
-
-                    perfectPercent = perfectPercent / data.length;
-                    underPercent = underPercent / data.length;
-                    overPercent = overPercent / data.length;
-                    timeSaved = timeSaved / data.length;
-                    accuracy = accuracy / data.length;
-                }
+                dashboardGraph = sortedObject;
+                setDashboardGraph(dashboardGraph);
+                console.log("The Dashboard graph is:", dashboardGraph);
             }
+            // } else {
+            //     response = await API.graphql({
+            //         query: listDays,
+            //         variables: {
+            //             filter: {
+            //                 createdAt: {
+            //                     between: [date[0].format("YYYY-MM-DD"), date[1].format("YYYY-MM-DD")],
+            //                 },
+            //                 dayOfYear_iotNameThing: { contains: keys[selectedIndexRef.current] },
+            //             },
+            //         },
+            //     });
+            //     if (response.data.listDays) {
+            //         console.log("response: ", response);
+            //         let data = response.data.listDays.items;
+            //         for (let i = 0; i < data.length; i++) {
+            //             accuracy += data[i].dailySummary.accuracy;
+            //             portionsCompleted += data[i].dailySummary.portionsCompleted;
+            //             inventoryConsumed += data[i].dailySummary.inventoryConsumed;
+            //             timeSaved += data[i].dailySummary.averageTime;
+            //             perfectPercent += parseInt((data[i].dailySummary.perfect / data[i].dailySummary.portionsCompleted) * 100);
+            //             underPercent += parseInt((data[i].dailySummary.underServed / data[i].dailySummary.portionsCompleted) * 100);
+            //             overPercent += parseInt((data[i].dailySummary.overServed / data[i].dailySummary.portionsCompleted) * 100);
+            //             scaleActions = JSON.parse(data[i].scaleActions);
+            //             let action = Object.values(scaleActions);
+            //             let time = Object.keys(scaleActions);
+            //             // for (let k = 0; k < action.length; k++) {
+            //             //     if (action[k].eventType == "StartAction") {
+            //             //         dashboardGraph[time[k]] = { inventoryWeight: action[k].inventoryWeight };
+            //             //     }
+            //             //     if (action[k].eventType == "disconnected") {
+            //             //         dashboardGraph[time[k]] = { inventoryWeight: action[k].inventoryWeight };
+            //             //     }
+            //             // }
+            //             dashboardGraph = { ...dashboardGraph, ...JSON.parse(data[i].allPortionEvents) };
+            //         }
+            //         const sortedKeys = Object.keys(dashboardGraph).sort((a, b) => parseInt(a) - parseInt(b));
+            //         const sortedObject = {};
+            //         sortedKeys.forEach((key) => {
+            //             sortedObject[key] = dashboardGraph[key];
+            //         });
+            //         dashboardGraph = sortedObject;
+            //         setDashboardGraph(dashboardGraph);
+            //         setDashboardGraph(dashboardGraph);
+
+            //         perfectPercent = perfectPercent / data.length;
+            //         underPercent = underPercent / data.length;
+            //         overPercent = overPercent / data.length;
+            //         timeSaved = timeSaved / data.length;
+            //         accuracy = accuracy / data.length;
+            //     }
+            // }
 
             let demo = false;
             console.log("The scale actions are:", Object.values(scaleActions));
