@@ -18,11 +18,9 @@ const BasicDatePicker = ({ titleForPage, date, setDate }) => {
 
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={["DateRangePicker"]}>
-                        <RangePicker
+                        <DatePicker
                             value={date || value}
                             onCalendarChange={(start) => {
-                                console.log("The start date isa:", start);
-
                                 setStartDate(start);
                             }}
                             onChange={(val) => {

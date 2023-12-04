@@ -49,8 +49,8 @@ const RouterContainer = (metaInformation, isMobileDevice) => {
         !isMobileDevice
             ? {
                   type: "collapse",
-                  name: "Past Daily",
-                  key: "past daily",
+                  name: "Past Day",
+                  key: "past day",
                   icon: (
                       <Icon fontSize="small">
                           <AnalyticsIcon />
