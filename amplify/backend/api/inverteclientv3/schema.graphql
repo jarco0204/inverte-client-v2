@@ -95,6 +95,7 @@ input DailySummaryInput {
     overServed: Int
     underServed: Int
     perfect: Int
+    precision: Float
 }
 
 input WeeklySummaryInput {
@@ -146,6 +147,7 @@ type DailySummary {
     underServed: Int
     perfect: Int
     day: Day
+    precision: Float
 }
 
 type WeeklySummary {
