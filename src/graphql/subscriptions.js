@@ -30,6 +30,7 @@ export const onNewPortionEvent = /* GraphQL */ `
           weekDayWeekOfYear_iotNameThing
           __typename
         }
+        precision
         __typename
       }
       realTime
@@ -782,6 +783,7 @@ export const onCreateDay = /* GraphQL */ `
           weekDayWeekOfYear_iotNameThing
           __typename
         }
+        precision
         __typename
       }
       realTime
@@ -838,6 +840,7 @@ export const onUpdateDay = /* GraphQL */ `
           weekDayWeekOfYear_iotNameThing
           __typename
         }
+        precision
         __typename
       }
       realTime
@@ -894,6 +897,7 @@ export const onDeleteDay = /* GraphQL */ `
           weekDayWeekOfYear_iotNameThing
           __typename
         }
+        precision
         __typename
       }
       realTime

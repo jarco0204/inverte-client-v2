@@ -13,7 +13,6 @@ import PrecisionManufacturingRoundedIcon from "@mui/icons-material/PrecisionManu
 import { Tooltip } from "@mui/material";
 import MDBox from "../../components/MDBox";
 import Footer from "../../components/Footer";
-import Typography from "@mui/material/Typography";
 import BasicDatePicker from "../../components/DatePicker";
 import DropDownIngredientMenu from "../../components/DropDownIngredientMenu";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
@@ -39,7 +38,6 @@ import toObject from "dayjs/plugin/toObject.js";
 import dayOfYear from "dayjs/plugin/dayOfYear.js";
 import { setSelectedIndex } from "../../redux/metaSlice";
 import { difference, sum } from "d3-array";
-
 // import { ListItemIcon } from "@mui/material";
 dayjs.extend(dayOfYear);
 dayjs.extend(toObject);
@@ -270,13 +268,18 @@ const AnalyticsContainer = () => {
             response;
         try {
             // Query GQL to pull hourly data
+            console.log("waaa", dayjs(date.$d).dayOfYear());
+            // if (date[0].dayOfYear() == date[1].dayOfYear()) {
             response = await API.graphql({
                 query: getDay,
+                //variables: { dayOfYear_iotNameThing: daysOfYear_iotNameThing[0] }, // Provide the ID as a variable
                 variables: {
                     dayOfYear_iotNameThing: dayjs(date.$d).dayOfYear() + "_" + keys[selectedIndexRef.current],
                 },
             });
+            console.log("Response is:", response);
             if (response.data.getDay) {
+                console.log("response: ", response);
                 accuracy = response.data.getDay.dailySummary.accuracy;
                 inventoryConsumed = response.data.getDay.dailySummary.inventoryConsumed;
                 timeSaved = response.data.getDay.dailySummary.averageTime;
@@ -301,6 +304,14 @@ const AnalyticsContainer = () => {
                 scaleActions = JSON.parse(response.data.getDay.scaleActions);
                 let action = Object.values(scaleActions);
                 let time = Object.keys(scaleActions);
+                // for (let i = 0; i < action.length; i++) {
+                //     if (action[i].eventType == "StartAction") {
+                //         dashboardGraph[time[i]] = { inventoryWeight: action[i].inventoryWeight };
+                //     }
+                //     if (action[i].eventType == "disconnected") {
+                //         dashboardGraph[time[i]] = { inventoryWeight: action[i].inventoryWeight };
+                //     }
+                // }
                 const sortedKeys = Object.keys(dashboardGraph).sort((a, b) => parseInt(a) - parseInt(b));
                 const sortedObject = {};
                 sortedKeys.forEach((key) => {
@@ -310,6 +321,58 @@ const AnalyticsContainer = () => {
                 setDashboardGraph(dashboardGraph);
                 console.log("The Dashboard graph is:", dashboardGraph);
             }
+            // } else {
+            //     response = await API.graphql({
+            //         query: listDays,
+            //         variables: {
+            //             filter: {
+            //                 createdAt: {
+            //                     between: [date[0].format("YYYY-MM-DD"), date[1].format("YYYY-MM-DD")],
+            //                 },
+            //                 dayOfYear_iotNameThing: { contains: keys[selectedIndexRef.current] },
+            //             },
+            //         },
+            //     });
+            //     if (response.data.listDays) {
+            //         console.log("response: ", response);
+            //         let data = response.data.listDays.items;
+            //         for (let i = 0; i < data.length; i++) {
+            //             accuracy += data[i].dailySummary.accuracy;
+            //             portionsCompleted += data[i].dailySummary.portionsCompleted;
+            //             inventoryConsumed += data[i].dailySummary.inventoryConsumed;
+            //             timeSaved += data[i].dailySummary.averageTime;
+            //             perfectPercent += parseInt((data[i].dailySummary.perfect / data[i].dailySummary.portionsCompleted) * 100);
+            //             underPercent += parseInt((data[i].dailySummary.underServed / data[i].dailySummary.portionsCompleted) * 100);
+            //             overPercent += parseInt((data[i].dailySummary.overServed / data[i].dailySummary.portionsCompleted) * 100);
+            //             scaleActions = JSON.parse(data[i].scaleActions);
+            //             let action = Object.values(scaleActions);
+            //             let time = Object.keys(scaleActions);
+            //             // for (let k = 0; k < action.length; k++) {
+            //             //     if (action[k].eventType == "StartAction") {
+            //             //         dashboardGraph[time[k]] = { inventoryWeight: action[k].inventoryWeight };
+            //             //     }
+            //             //     if (action[k].eventType == "disconnected") {
+            //             //         dashboardGraph[time[k]] = { inventoryWeight: action[k].inventoryWeight };
+            //             //     }
+            //             // }
+            //             dashboardGraph = { ...dashboardGraph, ...JSON.parse(data[i].allPortionEvents) };
+            //         }
+            //         const sortedKeys = Object.keys(dashboardGraph).sort((a, b) => parseInt(a) - parseInt(b));
+            //         const sortedObject = {};
+            //         sortedKeys.forEach((key) => {
+            //             sortedObject[key] = dashboardGraph[key];
+            //         });
+            //         dashboardGraph = sortedObject;
+            //         setDashboardGraph(dashboardGraph);
+            //         setDashboardGraph(dashboardGraph);
+
+            //         perfectPercent = perfectPercent / data.length;
+            //         underPercent = underPercent / data.length;
+            //         overPercent = overPercent / data.length;
+            //         timeSaved = timeSaved / data.length;
+            //         accuracy = accuracy / data.length;
+            //     }
+            // }
 
             let demo = false;
             console.log("The scale actions are:", Object.values(scaleActions));
@@ -374,15 +437,94 @@ const AnalyticsContainer = () => {
     return (
         <DashboardLayout>
             {/* TODO: ADD Style such that title gets centered with media query (textAlign) */}
-            <DropDownIngredientMenu options={options} titleForPage={"Past Day Analytics"} />
+            <DropDownIngredientMenu options={options} titleForPage={"Past Inventory Report"} />
             <BasicDatePicker titleForPage={""} date={date} setDate={setDate} />
 
             {!isMobileDevice && (
                 <div style={{ height: "85vh" }}>
                     <MDBox py={3}>
-                        <Typography variant="h5" gutterBottom>
-                            The total number of portions completed for the day is {cardSummaryItems[0]} with a total consumption of {cardSummaryItems[2]} and average accuracy of {cardSummaryItems[1]}.
-                        </Typography>
+                        <Grid container spacing={1} display="flex" justifyContent="center">
+                            <Tooltip title="Portions Completed for Today" placement="bottom">
+                                <Grid item xs={12} md={6} lg={3}>
+                                    <ComplexStatisticsCard
+                                        color="dark"
+                                        title={portionCompleteTitle}
+                                        icon={<PanToolIcon />}
+                                        count={cardSummaryItems[0]}
+                                        percentage={{
+                                            color: "success",
+                                        }}
+                                    />
+                                </Grid>
+                            </Tooltip>
+                        </Grid>
+                    </MDBox>
+                    <MDBox py={2}>
+                        <Grid container spacing={3} display="flex" justifyContent="center">
+                            <Tooltip title="Average Portioning Precision for Today" placement="bottom">
+                                <Grid item xs={12} md={6} lg={3}>
+                                    <MDBox mb={1.5}>
+                                        <ComplexStatisticsCard
+                                            color="info"
+                                            icon={<PrecisionManufacturingRoundedIcon />}
+                                            title={portionPrecisionTitle}
+                                            count={cardSummaryItems[1]}
+                                            percentage={{
+                                                color: "success",
+                                                // amount: "+3%",
+                                                // label: "than yesterdays",
+                                            }}
+                                        />
+                                    </MDBox>
+                                </Grid>
+                            </Tooltip>
+                            <Tooltip title="Total Consumed Inventory for Today" placement="bottom">
+                                <Grid item xs={12} md={6} lg={3}>
+                                    <MDBox mb={1.5}>
+                                        <ComplexStatisticsCard
+                                            color="warning"
+                                            icon={<ScaleRoundedIcon />}
+                                            title={inventoryConsumedTitle}
+                                            count={unitOfMass == "g" ? cardSummaryItems[2] : (parseInt(cardSummaryItems[2]) / 28.35).toFixed(2).toString() + "oz"}
+                                            percentage={{
+                                                color: "success",
+                                            }}
+                                        />
+                                    </MDBox>
+                                </Grid>
+                            </Tooltip>
+                            <Tooltip title="Average Time Taken to Complete Portions " placement="bottom">
+                                <Grid item xs={12} md={6} lg={3}>
+                                    <MDBox mb={1.5}>
+                                        <ComplexStatisticsCard
+                                            color="success"
+                                            icon={<AccessTimeFilledRoundedIcon />}
+                                            title={portionTimeTitle}
+                                            count={cardSummaryItems[3]}
+                                            percentage={{
+                                                color: "success",
+                                            }}
+                                        />
+                                    </MDBox>
+                                </Grid>
+                            </Tooltip>
+                        </Grid>
+                        <MDBox mt={4.75}>
+                            <Grid container spacing={3} justifyContent={"center"}>
+                                <Grid item xs={12} md={4} lg={6}>
+                                    <Tooltip title="Inventory Usage" placement="bottom">
+                                        <div style={{ width: "100%", height: "100%" }}>
+                                            {/*generatePrecisionChartResponsive(false)*/ <ZoomableChart dataSet={dashboardGraph == 0 ? null : dashboardGraph} />}
+                                        </div>
+                                    </Tooltip>
+                                </Grid>
+                                <Grid item xs={12} md={6} lg={4}>
+                                    <Tooltip title="Serving Tendency of Portions" placement="bottom">
+                                        <div style={{ width: "100%", height: "100%" }}>{generateDoughnutChartResponsive(false)}</div> {/* Adjust the height and width as needed */}
+                                    </Tooltip>
+                                </Grid>
+                            </Grid>
+                        </MDBox>
                     </MDBox>
                 </div>
             )}

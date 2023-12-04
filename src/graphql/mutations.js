@@ -771,6 +771,7 @@ export const createDay = /* GraphQL */ `
           weekDayWeekOfYear_iotNameThing
           __typename
         }
+        precision
         __typename
       }
       realTime
@@ -830,6 +831,7 @@ export const updateDay = /* GraphQL */ `
           weekDayWeekOfYear_iotNameThing
           __typename
         }
+        precision
         __typename
       }
       realTime
@@ -889,6 +891,7 @@ export const deleteDay = /* GraphQL */ `
           weekDayWeekOfYear_iotNameThing
           __typename
         }
+        precision
         __typename
       }
       realTime

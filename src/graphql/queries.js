@@ -493,6 +493,7 @@ export const getDay = /* GraphQL */ `
           weekDayWeekOfYear_iotNameThing
           __typename
         }
+        precision
         __typename
       }
       realTime
@@ -548,6 +549,7 @@ export const listDays = /* GraphQL */ `
           overServed
           underServed
           perfect
+          precision
           __typename
         }
         realTime
@@ -869,6 +871,7 @@ export const daysByWeekOfYear_iotNameThing = /* GraphQL */ `
           overServed
           underServed
           perfect
+          precision
           __typename
         }
         realTime
