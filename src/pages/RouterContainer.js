@@ -2,7 +2,6 @@
 import DashboardContainer from "./dashboard";
 import ScalesContainer from "./scales";
 import AnalyticsContainer from "./analytics";
-import OutlierContainer from "./outlier";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -41,10 +40,6 @@ const RouterContainer = (metaInformation, isMobileDevice) => {
             ),
             route: "/scales",
             component: <ScalesContainer />,
-        },
-        {
-            route: "/outlier",
-            component: <OutlierContainer />,
         },
         !isMobileDevice
             ? {
