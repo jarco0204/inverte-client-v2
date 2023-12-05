@@ -7,9 +7,7 @@ import Chart from "chart.js/auto";
 import Grid from "@mui/material/Grid";
 
 // User Components
-import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
-import Footer from "../../components/Footer";
-import MDBox from "../../components/MDBox";
+import MDBox from "../../../../components/MDBox";
 import PortionWeightLineChart from "./components/PortionWeightLineChart";
 
 // Data Structures
@@ -40,7 +38,7 @@ const createReportLineChartObject = () => {
    @Comments
    @Coders: Fu€g0001
 */
-const OutlierContainer = () => {
+const LivePortionWeightComponent = ({ clientRestaurantLocationNum, clientRestaurantName }) => {
     // Portion Sequence UseState
     const [realTimePortionWeightAR, setRealTimePortionWeightAR] = useState([]);
     const [realTimeStampAR, setRealTimeStampAR] = useState([]);
@@ -49,13 +47,11 @@ const OutlierContainer = () => {
     const realTimePortionEventChartObject = createReportLineChartObject();
     const [realTimePortionEventChart, setRealTimePortionEventChart] = useState([]);
 
-    // UseEffect
-    // useEffect(() => {}, [realTimePortionEventChart]);
-
     //Use Effects
     useEffect(() => {
-        console.log("Subscribing to updates....");
-        const subs = PubSub.subscribe("test/rohan/1/od").subscribe({
+        const finalTopicRoute = clientRestaurantName + "/" + clientRestaurantLocationNum + "/weight";
+        console.log("finalTopicRouter is", finalTopicRoute);
+        const subs = PubSub.subscribe(finalTopicRoute).subscribe({
             next: (data) => {
                 console.log("Outlier Data Point Received....");
                 console.log("portion weight is..", data.value.portionWeight);
@@ -76,35 +72,29 @@ const OutlierContainer = () => {
 
                 console.log();
                 setRealTimePortionEventChart(realTimePortionEventChartObject);
-                return () => {
-                    subs.unsubscribe();
-                };
+                // subs.unsubscribe();
+
+                // return () => {
+                // };
             },
             error: (error) => console.error(error),
             complete: () => console.log("Done"),
         });
     }, []);
 
-    // Display Outlier Page
+    // Display Portion Weight Line Chart
     return (
-        <DashboardLayout>
-            <MDBox py={1}>
-                <MDBox mt={10}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} md={10} lg={12}>
-                            <MDBox mb={40}>
-                                <PortionWeightLineChart color="success" title="Portion Weight" chart={realTimePortionEventChart} />
-                            </MDBox>
-                        </Grid>
-                    </Grid>
+        <Grid container py={4} spacing={4}>
+            <Grid item xs={12} md={10} lg={12}>
+                <MDBox mb={5}>
+                    <PortionWeightLineChart color="success" title="Live Portion Weight of Ingredient" chart={realTimePortionEventChart} />
                 </MDBox>
-            </MDBox>
-            <Footer />
-        </DashboardLayout>
+            </Grid>
+        </Grid>
     );
 };
 
 // Handle the props
-OutlierContainer.propTypes = {};
+LivePortionWeightComponent.propTypes = {};
 
-export default OutlierContainer;
+export default LivePortionWeightComponent;

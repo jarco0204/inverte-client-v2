@@ -28,6 +28,7 @@ import PortionPrecisionChart from "./components/PortionPrecisionChart";
 import PortionTimeLineChart from "./components/PortionTimeLineChart";
 import PortionAccuracyDoughnutChart from "./components/PortionAccuracyDoughnutChart";
 import MobileComplexStatisticsCard from "./components/MobileComplexStatisticsCard";
+import LivePortionWeightComponent from "./components/LivePortionWeightComponent";
 
 // External Libraries
 import dayjs from "dayjs";
@@ -37,7 +38,8 @@ import timezone from "dayjs/plugin/timezone";
 import toObject from "dayjs/plugin/toObject.js";
 import { useSelector } from "react-redux";
 import { setSelectedIndex } from "../../redux/metaSlice";
-// import { ListItemIcon } from "@mui/material";
+
+// DayJS Configuration
 dayjs.extend(dayOfYear);
 dayjs.extend(toObject);
 dayjs.extend(utc);
@@ -75,6 +77,8 @@ const getDemoData = () => {
         },
     };
 };
+
+// TODO_Rohan-16: Move this query away from here
 //Custom query to get only the necessary data from table so that we don't pull the big realTime object each time
 const getDashboard = /* GraphQL */ `
     query GetDay($dayOfYear_iotNameThing: ID!) {
@@ -159,7 +163,10 @@ const DashboardContainer = () => {
     const unitOfMass = useSelector((state) => state.meta.unitOfMass);
     const displayIngredientIndex = useSelector((state) => state.meta.displayIngredient);
     const timeZone = useSelector((state) => state.meta.timeZone);
-    const clientDemo = useSelector((state) => state.meta.demo);
+    const clientDemo = useSelector((state) => state.meta.demo); // TODO_ROHAN: Why are we using Demo like this?
+    const clientRestaurantLocationNum = useSelector((state) => state.meta.restaurantLocationNum);
+    const clientRestaurantName = useSelector((state) => state.meta.restaurantName);
+
     const tempDate = dayjs().tz(timeZone); // Local time of Client
     const hourOfDay = tempDate.hour();
 
@@ -441,6 +448,14 @@ const DashboardContainer = () => {
             subscription.unsubscribe();
         };
     }, [selectedIndex, portionsCompletedLastWeek]);
+
+    /*!
+       @description:
+       @params:
+       @return:
+       @Comments
+       @Coders:
+    */
     useEffect(() => {
         const handleResize = () => {
             setIsMobileDevice(window.innerWidth < 1200);
@@ -459,6 +474,7 @@ const DashboardContainer = () => {
     }, [portionsCompletedLastWeek]);
 
     // UseEffect to change layout for mobile devices
+    // TODO_ROHAN: Why do we have this out?
     // useEffect(() => {
     //     const handleResize = () => {
     //         setIsMobileDevice(window.innerWidth < 1100);
@@ -472,16 +488,24 @@ const DashboardContainer = () => {
     //     };
     // }, []);
 
+    /*!
+       @description:
+       @params:
+       @return:
+       @Comments: TODO_ROHAN: Why do we have this out?
+       @Coders:
+    */
     const convertGsToOz = (val) => {
         return (parseInt(val) / 28.35).toFixed(2).toString();
     };
     return (
         <DashboardLayout>
-            {/* TODO: ADD Style such that title gets centered with media query (textAlign) */}
-            <DropDownIngredientMenu options={options} titleForPage={"Real-Time Report"} />
+            <DropDownIngredientMenu options={options} titleForPage={"Today's Report"} />
 
+            {/* TODO_ROHAN: Explain why do we have this logic block  */}
             {!isMobileDevice && (
                 <div style={{ height: "85vh" }}>
+                    {/* Component to Show number of portions completed */}
                     <MDBox py={3}>
                         <Grid container spacing={1} display="flex" justifyContent="center">
                             <Tooltip title="Portions Completed for Today" placement="bottom">
@@ -492,6 +516,7 @@ const DashboardContainer = () => {
                         </Grid>
                     </MDBox>
 
+                    {/* Second Component to show average score of portioning */}
                     <MDBox py={2}>
                         <Grid container spacing={3} display="flex" justifyContent="center">
                             <Tooltip title="Average Portioning Precision for Today" placement="bottom">
@@ -549,17 +574,17 @@ const DashboardContainer = () => {
                         <MDBox mt={4.75}>
                             <Grid container spacing={3}>
                                 <Grid item xs={12} md={6} lg={4}>
-                                    <Tooltip title="Precision of Portioning for the Last 7 Events" placement="bottom">
+                                    <Tooltip title="Final Portion Weight After Inverte Guidance" placement="bottom">
                                         <MDBox mb={3}>{generatePrecisionChartResponsive(false)}</MDBox>
                                     </Tooltip>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
-                                    <Tooltip title="Serving Tendency of Portions" placement="bottom">
+                                    <Tooltip title="Tendency of Portioning Based on the First Grab" placement="bottom">
                                         <MDBox mb={3}>{generateDoughnutChartResponsive(false)}</MDBox>
                                     </Tooltip>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={4}>
-                                    <Tooltip title="Completion Time for the Last 7 Events" placement="bottom">
+                                    <Tooltip title="Completion Time for the Last 7 Portions" placement="bottom">
                                         <MDBox mb={3}>{generateTimeLineChartResponsive(false)}</MDBox>
                                     </Tooltip>
                                 </Grid>
@@ -621,6 +646,7 @@ const DashboardContainer = () => {
                     </MDBox>
                 </div>
             )}
+            <LivePortionWeightComponent clientRestaurantLocationNum={clientRestaurantLocationNum} clientRestaurantName={clientRestaurantName} />
             <Footer />
         </DashboardLayout>
     );

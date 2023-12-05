@@ -29,9 +29,9 @@ export default class MyLineChart extends PureComponent {
     };
     getAxisYDomain = (from, to, ref, offset) => {
         //const refData = this.state.data;
-        console.log("The values of from is:", from);
-        console.log("The value of to is:", to);
-        console.log("The data is:", Object.values(this.state.data));
+        // console.log("The values of from is:", from);
+        // console.log("The value of to is:", to);
+        // console.log("The data is:", Object.values(this.state.data));
         for (let i = 0; i < Object.values(this.state.data).length; i++) {
             if (Object.values(this.state.data)[i].x == from) {
                 from = i;

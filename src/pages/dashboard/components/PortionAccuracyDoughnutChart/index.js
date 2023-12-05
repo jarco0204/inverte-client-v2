@@ -51,7 +51,7 @@ PortionAccuracyDoughnutChart.defaultProps = {
 PortionAccuracyDoughnutChart.propTypes = {
     title: PropTypes.string,
     description: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    chart: PropTypes.object,
+    // chart: PropTypes.object,
     mobileViewFlag: PropTypes.bool.isRequired,
 };
 
