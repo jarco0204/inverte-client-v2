@@ -500,7 +500,7 @@ const DashboardContainer = () => {
     };
     return (
         <DashboardLayout>
-            <DropDownIngredientMenu options={options} titleForPage={"Real-Time Report"} />
+            <DropDownIngredientMenu options={options} titleForPage={"Present Day Report"} />
 
             {/* TODO_ROHAN: Explain why do we have this logic block  */}
             {!isMobileDevice && (

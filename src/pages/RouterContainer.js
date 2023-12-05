@@ -7,6 +7,7 @@ import AnalyticsContainer from "./analytics";
 import Icon from "@mui/material/Icon";
 import ScaleIcon from "@mui/icons-material/Scale";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
+import InsightsIcon from "@mui/icons-material/Insights";
 
 /*!
    @description: Array of Routes
@@ -29,6 +30,20 @@ const RouterContainer = (metaInformation, isMobileDevice) => {
             route: "/dashboard",
             component: <DashboardContainer />,
         },
+        !isMobileDevice
+            ? {
+                  type: "collapse",
+                  name: "Past Day",
+                  key: "past day",
+                  icon: (
+                      <Icon fontSize="small">
+                          <InsightsIcon />
+                      </Icon>
+                  ),
+                  route: "/pastDaily",
+                  component: <AnalyticsContainer />,
+              }
+            : {},
         {
             type: "collapse",
             name: "Scales",
@@ -41,20 +56,6 @@ const RouterContainer = (metaInformation, isMobileDevice) => {
             route: "/scales",
             component: <ScalesContainer />,
         },
-        !isMobileDevice
-            ? {
-                  type: "collapse",
-                  name: "Past Day",
-                  key: "past day",
-                  icon: (
-                      <Icon fontSize="small">
-                          <AnalyticsIcon />
-                      </Icon>
-                  ),
-                  route: "/pastDaily",
-                  component: <AnalyticsContainer />,
-              }
-            : {},
     ];
 };
 
