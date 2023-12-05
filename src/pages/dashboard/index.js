@@ -588,7 +588,6 @@ const DashboardContainer = () => {
                             </Grid>
                         </MDBox>
                     </MDBox>
-                    <OutlierContainer />
                 </div>
             )}
             {isMobileDevice && (
@@ -644,7 +643,8 @@ const DashboardContainer = () => {
                     </MDBox>
                 </div>
             )}
-            {/* <Footer /> */}
+            <OutlierContainer />
+            <Footer />
         </DashboardLayout>
     );
 };

@@ -84,20 +84,20 @@ const OutlierContainer = () => {
 
     // Display Outlier Page
     return (
-        <DashboardLayout>
-            <MDBox py={1}>
-                <MDBox mt={10}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} md={10} lg={12}>
-                            <MDBox mb={40}>
-                                <PortionWeightLineChart color="success" title="Portion Weight" chart={realTimePortionEventChart} />
-                            </MDBox>
-                        </Grid>
-                    </Grid>
+        // <DashboardLayout>
+        // <MDBox py={1}>
+        // <MDBox mt={10}>
+        <Grid container py={4} spacing={4}>
+            <Grid item xs={12} md={10} lg={12}>
+                <MDBox mb={5}>
+                    <PortionWeightLineChart color="success" title="Live Portion Weight of Ingredient" chart={realTimePortionEventChart} />
                 </MDBox>
-            </MDBox>
-            <Footer />
-        </DashboardLayout>
+            </Grid>
+        </Grid>
+        // </MDBox>
+        // </MDBox>
+        // <Footer />
+        // </DashboardLayout>
     );
 };
 
