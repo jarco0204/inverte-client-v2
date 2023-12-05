@@ -49,13 +49,10 @@ const OutlierContainer = () => {
     const realTimePortionEventChartObject = createReportLineChartObject();
     const [realTimePortionEventChart, setRealTimePortionEventChart] = useState([]);
 
-    // UseEffect
-    // useEffect(() => {}, [realTimePortionEventChart]);
-
     //Use Effects
     useEffect(() => {
         console.log("Subscribing to updates....");
-        const subs = PubSub.subscribe("test/rohan/1/od").subscribe({
+        const subs = PubSub.subscribe("test/johan/1/weight").subscribe({
             next: (data) => {
                 console.log("Outlier Data Point Received....");
                 console.log("portion weight is..", data.value.portionWeight);
