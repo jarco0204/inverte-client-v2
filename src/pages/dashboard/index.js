@@ -473,21 +473,6 @@ const DashboardContainer = () => {
         };
     }, [portionsCompletedLastWeek]);
 
-    // UseEffect to change layout for mobile devices
-    // TODO_ROHAN: Why do we have this out?
-    // useEffect(() => {
-    //     const handleResize = () => {
-    //         setIsMobileDevice(window.innerWidth < 1100);
-    //     };
-    //     window.addEventListener("resize", handleResize);
-
-    //     handleResize();
-
-    //     return () => {
-    //         window.removeEventListener("resize", handleResize);
-    //     };
-    // }, []);
-
     /*!
        @description:
        @params:
