@@ -81,8 +81,6 @@ const getDemoData = () => {
     };
 };
 
-// TODO_Rohan-16: Move this query away from here
-
 /*!
    @description: Helper function ton create an object to store the portion event data.
    @params:
@@ -136,7 +134,6 @@ const DashboardContainer = () => {
     const unitOfMass = useSelector((state) => state.meta.unitOfMass);
     const displayIngredientIndex = useSelector((state) => state.meta.displayIngredient);
     const timeZone = useSelector((state) => state.meta.timeZone);
-    const clientDemo = useSelector((state) => state.meta.demo); // TODO_ROHAN: Why are we using Demo like this?
     const clientRestaurantLocationNum = useSelector((state) => state.meta.restaurantLocationNum);
     const clientRestaurantName = useSelector((state) => state.meta.restaurantName);
 
@@ -450,7 +447,7 @@ const DashboardContainer = () => {
        @description:
        @params:
        @return:
-       @Comments: TODO_ROHAN: Why do we have this out?
+       @Comments: 
        @Coders:
     */
     const convertGsToOz = (val) => {
