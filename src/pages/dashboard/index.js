@@ -28,6 +28,7 @@ import PortionPrecisionChart from "./components/PortionPrecisionChart";
 import PortionTimeLineChart from "./components/PortionTimeLineChart";
 import PortionAccuracyDoughnutChart from "./components/PortionAccuracyDoughnutChart";
 import MobileComplexStatisticsCard from "./components/MobileComplexStatisticsCard";
+import LivePortionWeightComponent from "./components/LivePortionWeightComponent";
 
 // External Libraries
 import dayjs from "dayjs";
@@ -37,8 +38,6 @@ import timezone from "dayjs/plugin/timezone";
 import toObject from "dayjs/plugin/toObject.js";
 import { useSelector } from "react-redux";
 import { setSelectedIndex } from "../../redux/metaSlice";
-
-import OutlierContainer from "../outlier";
 
 // DayJS Configuration
 dayjs.extend(dayOfYear);
@@ -643,7 +642,7 @@ const DashboardContainer = () => {
                     </MDBox>
                 </div>
             )}
-            <OutlierContainer />
+            <LivePortionWeightComponent />
             <Footer />
         </DashboardLayout>
     );

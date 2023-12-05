@@ -7,9 +7,7 @@ import Chart from "chart.js/auto";
 import Grid from "@mui/material/Grid";
 
 // User Components
-import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
-import Footer from "../../components/Footer";
-import MDBox from "../../components/MDBox";
+import MDBox from "../../../../components/MDBox";
 import PortionWeightLineChart from "./components/PortionWeightLineChart";
 
 // Data Structures
@@ -40,7 +38,7 @@ const createReportLineChartObject = () => {
    @Comments
    @Coders: Fu€g0001
 */
-const OutlierContainer = () => {
+const LivePortionWeightComponent = () => {
     // Portion Sequence UseState
     const [realTimePortionWeightAR, setRealTimePortionWeightAR] = useState([]);
     const [realTimeStampAR, setRealTimeStampAR] = useState([]);
@@ -80,13 +78,10 @@ const OutlierContainer = () => {
             error: (error) => console.error(error),
             complete: () => console.log("Done"),
         });
-    }, []);
+    }, [realTimePortionWeightAR, realTimeStampAR]);
 
     // Display Outlier Page
     return (
-        // <DashboardLayout>
-        // <MDBox py={1}>
-        // <MDBox mt={10}>
         <Grid container py={4} spacing={4}>
             <Grid item xs={12} md={10} lg={12}>
                 <MDBox mb={5}>
@@ -94,14 +89,10 @@ const OutlierContainer = () => {
                 </MDBox>
             </Grid>
         </Grid>
-        // </MDBox>
-        // </MDBox>
-        // <Footer />
-        // </DashboardLayout>
     );
 };
 
 // Handle the props
-OutlierContainer.propTypes = {};
+LivePortionWeightComponent.propTypes = {};
 
-export default OutlierContainer;
+export default LivePortionWeightComponent;
