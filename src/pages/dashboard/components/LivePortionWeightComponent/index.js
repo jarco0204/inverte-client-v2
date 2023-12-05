@@ -5,7 +5,7 @@ import Chart from "chart.js/auto";
 
 // MUI Imports
 import Grid from "@mui/material/Grid";
-
+import { useSelector } from "react-redux";
 // User Components
 import MDBox from "../../../../components/MDBox";
 import PortionWeightLineChart from "./components/PortionWeightLineChart";
@@ -15,7 +15,8 @@ import Queue from "./QueueStructure";
 
 // Backend
 import { PubSub } from "aws-amplify";
-
+//Dayjs
+import dayjs from "dayjs";
 /*!
    @description: Helper function ton create an object to store the portion event data.
    @params:
@@ -38,18 +39,19 @@ const createReportLineChartObject = () => {
    @Comments
    @Coders: Fu€g0001
 */
-const LivePortionWeightComponent = ({ clientRestaurantLocationNum, clientRestaurantName }) => {
+const LivePortionWeightComponent = ({ clientRestaurantLocationNum, clientRestaurantName, timeZone }) => {
     // Portion Sequence UseState
     const [realTimePortionWeightAR, setRealTimePortionWeightAR] = useState([]);
     const [realTimeStampAR, setRealTimeStampAR] = useState([]);
-
     // Chart Variable
     const realTimePortionEventChartObject = createReportLineChartObject();
     const [realTimePortionEventChart, setRealTimePortionEventChart] = useState([]);
 
     //Use Effects
     useEffect(() => {
-        const finalTopicRoute = clientRestaurantName + "/" + clientRestaurantLocationNum + "/weight";
+        //const finalTopicRoute = clientRestaurantName + "/" + clientRestaurantLocationNum + "/weight";
+        const finalTopicRoute = "test/rohan/1/od";
+
         console.log("finalTopicRouter is", finalTopicRoute);
         const subs = PubSub.subscribe(finalTopicRoute).subscribe({
             next: (data) => {
@@ -57,6 +59,10 @@ const LivePortionWeightComponent = ({ clientRestaurantLocationNum, clientRestaur
                 console.log("portion weight is..", data.value.portionWeight);
                 console.log("portion status is..", data.value.portionStatus);
                 console.log("timestamp is", data.value.timestamp);
+                data.value.timestamp = dayjs
+                    .unix(data.value.timestamp / 1000)
+                    .tz(timeZone)
+                    .format("MM-DD HH:mm");
 
                 setRealTimePortionWeightAR((prevData) => {
                     const updatedData = [...prevData, data.value.portionWeight].slice(-10);
