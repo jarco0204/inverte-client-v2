@@ -456,8 +456,6 @@ const DashboardContainer = () => {
     return (
         <DashboardLayout>
             <DropDownIngredientMenu options={options} titleForPage={"Today's Report"} />
-
-            {/* TODO_ROHAN: Explain why do we have this logic block  */}
             {!isMobileDevice && (
                 <div style={{ height: "85vh" }}>
                     {/* Component to Show number of portions completed */}
