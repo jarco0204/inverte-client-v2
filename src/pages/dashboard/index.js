@@ -474,6 +474,7 @@ const DashboardContainer = () => {
     }, [portionsCompletedLastWeek]);
 
     // UseEffect to change layout for mobile devices
+    // TODO_ROHAN: Why do we have this out?
     // useEffect(() => {
     //     const handleResize = () => {
     //         setIsMobileDevice(window.innerWidth < 1100);
@@ -491,7 +492,7 @@ const DashboardContainer = () => {
        @description:
        @params:
        @return:
-       @Comments
+       @Comments: TODO_ROHAN: Why do we have this out?
        @Coders:
     */
     const convertGsToOz = (val) => {
@@ -501,8 +502,10 @@ const DashboardContainer = () => {
         <DashboardLayout>
             <DropDownIngredientMenu options={options} titleForPage={"Real-Time Report"} />
 
+            {/* TODO_ROHAN: Explain why do we have this logic block  */}
             {!isMobileDevice && (
                 <div style={{ height: "85vh" }}>
+                    {/* Component to Show number of portions completed */}
                     <MDBox py={3}>
                         <Grid container spacing={1} display="flex" justifyContent="center">
                             <Tooltip title="Portions Completed for Today" placement="bottom">
@@ -513,6 +516,7 @@ const DashboardContainer = () => {
                         </Grid>
                     </MDBox>
 
+                    {/* Second Component to show average score of portioning */}
                     <MDBox py={2}>
                         <Grid container spacing={3} display="flex" justifyContent="center">
                             <Tooltip title="Average Portioning Precision for Today" placement="bottom">
@@ -642,7 +646,7 @@ const DashboardContainer = () => {
                     </MDBox>
                 </div>
             )}
-            <LivePortionWeightComponent />
+            <LivePortionWeightComponent clientRestaurantLocationNum={clientRestaurantLocationNum} clientRestaurantName={clientRestaurantName} />
             <Footer />
         </DashboardLayout>
     );
