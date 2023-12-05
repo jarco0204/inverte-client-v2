@@ -45,6 +45,9 @@ dayjs.extend(toObject);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
+//Queries
+import { getDashboard } from "./queries/dashboardData";
+
 /*!
    @description: Helper function to return the data that's hard coded for demo
    @params:
@@ -79,36 +82,6 @@ const getDemoData = () => {
 };
 
 // TODO_Rohan-16: Move this query away from here
-//Custom query to get only the necessary data from table so that we don't pull the big realTime object each time
-const getDashboard = /* GraphQL */ `
-    query GetDay($dayOfYear_iotNameThing: ID!) {
-        getDay(dayOfYear_iotNameThing: $dayOfYear_iotNameThing) {
-            dayOfYear_iotNameThing
-            dailySummary {
-                averageTime
-                portionsCompleted
-                accuracy
-                inventoryConsumed
-                overServed
-                underServed
-                perfect
-                day {
-                    dayOfYear_iotNameThing
-                    weekOfYear_iotNameThing
-                    realTime
-                    dashboardGraph
-                    scaleActions
-                    createdAt
-                    updatedAt
-                    weekDayWeekOfYear_iotNameThing
-                    __typename
-                }
-                __typename
-            }
-            dashboardGraph
-        }
-    }
-`;
 
 /*!
    @description: Helper function ton create an object to store the portion event data.
