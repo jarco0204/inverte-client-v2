@@ -38,7 +38,7 @@ const MobileViewComponent = ({ generatePrecisionChartResponsive, generateTimeLin
                 </Grid>
                 <Grid item xs={12} md={6} lg={3}>
                     <MobileComplexStatisticsCard
-                        color="success"
+                        color="warning"
                         icon={<AccessTimeFilledRoundedIcon />}
                         title={dashboardTitles.portionsTime}
                         count={dataForMObileView.cardSummaryItems[3]}
@@ -55,7 +55,7 @@ const MobileViewComponent = ({ generatePrecisionChartResponsive, generateTimeLin
                 </Grid>
                 <Grid item xs={12} md={6} lg={3}>
                     <MobileComplexStatisticsCard
-                        color="warning"
+                        color="success"
                         icon={<PrecisionManufacturingRoundedIcon />}
                         title={dashboardTitles.inventoryConsumed}
                         count={dataForMObileView.cardSummaryItems[2]}

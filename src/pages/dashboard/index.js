@@ -195,7 +195,7 @@ const DashboardContainer = () => {
        @Coders: SashaGris
     */
     const generateTimeLineChartResponsive = (mobileViewFlag) => {
-        return <PortionTimeLineChart color="success" title="Portion Completion Times" chart={realTimeInventoryGraph} mobileViewFlag={mobileViewFlag} />;
+        return <PortionTimeLineChart color="warning" title="Portion Completion Times" chart={realTimeInventoryGraph} mobileViewFlag={mobileViewFlag} />;
     };
 
     /*!
@@ -354,7 +354,6 @@ const DashboardContainer = () => {
        @Comments
        @Coders:Rohan-16
     */
-
     useEffect(() => {
         const getHourlyMetaRecords = async () => {
             const response = await API.graphql({
@@ -513,7 +512,7 @@ const DashboardContainer = () => {
                                 <Grid item xs={12} md={6} lg={3}>
                                     <MDBox mb={1.5}>
                                         <ComplexStatisticsCard
-                                            color="warning"
+                                            color="success"
                                             icon={<ScaleRoundedIcon />}
                                             title={dashboardTitles.inventoryConsumed}
                                             count={unitOfMass == "g" ? cardSummaryItems[2] : parseInt(convertGsToOz(cardSummaryItems[2])) + "oz"}
@@ -530,7 +529,7 @@ const DashboardContainer = () => {
                                 <Grid item xs={12} md={6} lg={3}>
                                     <MDBox mb={1.5}>
                                         <ComplexStatisticsCard
-                                            color="success"
+                                            color="warning"
                                             icon={<AccessTimeFilledRoundedIcon />}
                                             title={dashboardTitles.portionsTime}
                                             count={cardSummaryItems[3]}
@@ -544,7 +543,7 @@ const DashboardContainer = () => {
                                 </Grid>
                             </Tooltip>
                         </Grid>
-                        <MDBox mt={4.75}>
+                        <MDBox mt={3.5}>
                             <Grid container spacing={3}>
                                 <Grid item xs={12} md={6} lg={4}>
                                     <Tooltip title="Final Portion Weight After Inverte Guidance" placement="bottom">
@@ -567,7 +566,6 @@ const DashboardContainer = () => {
                 </>
             )}
             <LivePortionWeightComponent clientRestaurantLocationNum={clientRestaurantLocationNum} clientRestaurantName={clientRestaurantName} timeZone={timeZone} />
-
             <Footer />
         </DashboardLayout>
     );

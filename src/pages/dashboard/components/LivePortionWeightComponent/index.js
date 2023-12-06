@@ -91,7 +91,7 @@ const LivePortionWeightComponent = ({ clientRestaurantLocationNum, clientRestaur
         <Grid container py={4} spacing={4}>
             <Grid item xs={12} md={10} lg={12}>
                 <MDBox mb={5}>
-                    <PortionWeightLineChart color="success" title="Live Portion Weight of Ingredient" chart={realTimePortionEventChart} />
+                    <PortionWeightLineChart color="success" title="Live Portion Weight" chart={realTimePortionEventChart} />
                 </MDBox>
             </Grid>
         </Grid>
