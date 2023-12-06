@@ -5,23 +5,22 @@
    @Comments
    @Coders: DaleDonDale
 */
-const PortionWeightLineChartConfig = (labels, datasets, pointColorsAR) => {
+const PortionWeightLineChartConfig = (labels, datasets) => {
     return {
         data: {
             labels,
             datasets: [
                 {
                     label: datasets.label,
-                    tension: 0.25,
-                    pointRadius: 8,
+                    tension: 0.07,
+                    pointRadius: 10,
                     pointBorderColor: "transparent",
-                    pointBackgroundColor: pointColorsAR,
-                    borderColor: "rgba(255, 255, 255, .8)",
+                    pointBackgroundColor: "rgba(1, 1, 164, 0.5)",
+                    borderColor: "rgba(255, 255, 255, .75)",
                     borderWidth: 4,
                     backgroundColor: "transparent",
                     fill: true,
                     data: datasets.data,
-                    maxBarThickness: 6,
                 },
             ],
         },
