@@ -214,9 +214,16 @@ const DashboardContainer = () => {
             const correctWeight = parseInt(realTime[keys[i]].correctWeight);
             const upperLimit = parseInt(realTime[keys[i]].upperErrorLimit);
             const lowerLimit = parseInt(realTime[keys[i]].lowerErrorLimit);
-            upperLimitAR.push(correctWeight + upperLimit);
-            lowerLimitAR.push(correctWeight - lowerLimit);
-            correctWeightAR.push(correctWeight);
+            if (unitOfMass == "g") {
+                upperLimitAR.push(correctWeight + upperLimit);
+                lowerLimitAR.push(correctWeight - lowerLimit);
+                correctWeightAR.push(correctWeight);
+            } else {
+                upperLimitAR.push(((correctWeight + upperLimit) / 28.35).toFixed(2));
+                lowerLimitAR.push(((correctWeight - lowerLimit) / 28.35).toFixed(2));
+                correctWeightAR.push((correctWeight / 28.35).toFixed(2));
+            }
+
             // Handle Acci Refill Events
             if (realTime[keys[i]].portionWeight < 0) {
                 if (unitOfMass == "g") {
@@ -330,9 +337,13 @@ const DashboardContainer = () => {
                     }
                 }
                 generateLowerRealTimeGraphs(JSON.parse(day.getDay.dashboardGraph), [underPercent, perfectPercent, overPercent]);
-                // setDifferencePortionsCompleted(day.getDay.dailySummary.portionsCompleted - portionsCompletedLastWeek);
                 setDifferencePrecision(day.getDay.dailySummary.accuracy - precisionLastWeek);
-                setDifferenceInventory(day.getDay.dailySummary.inventoryConsumed - inventoryConsumedLastWeek);
+                if (unitOfMass == "g") {
+                    setDifferenceInventory(day.getDay.dailySummary.inventoryConsumed - inventoryConsumedLastWeek);
+                } else {
+                    setDifferenceInventory(((day.getDay.dailySummary.inventoryConsumed - inventoryConsumedLastWeek) / 28.35).toFixed(2));
+                }
+
                 setDifferenceCompletionTime(day.getDay.dailySummary.averageTime - completionTimeLastWeek);
             } else {
                 // There is no hourly response so add placeholders
@@ -518,8 +529,8 @@ const DashboardContainer = () => {
                                             count={unitOfMass == "g" ? cardSummaryItems[2] : parseInt(convertGsToOz(cardSummaryItems[2])) + "oz"}
                                             percentage={{
                                                 color: "success",
-                                                amount: differenceInventory >= 0 ? "+" + differenceInventory + "g" : differenceInventory + "g",
-                                                label: "than last week",
+                                                amount: differenceInventory >= 0 ? "+" + differenceInventory : differenceInventory,
+                                                label: unitOfMass == "g" ? "g than last week" : "oz than last week",
                                             }}
                                         />
                                     </MDBox>
