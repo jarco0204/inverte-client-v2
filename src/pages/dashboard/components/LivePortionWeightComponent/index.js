@@ -25,7 +25,6 @@ const createReportLineChartObject = () => {
     return {
         labels: [],
         datasets: { label: "Portion Weight", data: [], yAxisLabel: "Portion Weight" },
-        pointBackgroundColorAr: [],
     };
 };
 
@@ -67,8 +66,6 @@ const LivePortionWeightComponent = ({ clientRestaurantLocationNum, clientRestaur
                     realTimePortionEventChartObject.labels = updatedData;
                     return updatedData;
                 });
-
-                console.log();
                 setRealTimePortionEventChart(realTimePortionEventChartObject);
             },
             error: (error) => console.error(error),

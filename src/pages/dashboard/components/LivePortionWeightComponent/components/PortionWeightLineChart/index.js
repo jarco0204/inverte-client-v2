@@ -17,7 +17,7 @@ import MDTypography from "../../../../../../components/MDTypography";
 import PortionWeightLineChartConfig from "./Config";
 
 const PortionWeightLineChart = ({ color, title, description, chart }) => {
-    const { data, options } = PortionWeightLineChartConfig(chart.labels || [], chart.datasets || {}, chart.pointBackgroundColorAr || []);
+    const { data, options } = PortionWeightLineChartConfig(chart.labels || [], chart.datasets || {}, chart.pointBackgroundColorAr || []); // Note you can add an array to hold the color of the points
     return (
         <Card sx={{ height: "100%" }}>
             <MDBox padding="1rem">
