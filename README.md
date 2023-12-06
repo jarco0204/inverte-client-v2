@@ -1,6 +1,6 @@
-# InVerte Client V3 - September 2023
+# InVerte Client V2 - December 2023
 
-_Copyright ©2023, InVerte FoodTech Inc. - All rights reserved._
+_Copyright ©2024, InVerte FoodTech Inc. - All rights reserved._
 
 ### Refer to Main Repository for Documentation
 

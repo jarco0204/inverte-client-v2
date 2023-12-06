@@ -34,6 +34,7 @@ import { Auth, API, PubSub } from "aws-amplify";
 
 // Material Dashboard 2 React context
 import { useMaterialUIController, setOpenConfigurator, setTransparentSidenav, setWhiteSidenav, setFixedNavbar, setSidenavColor, setDarkMode } from "../../context";
+import { updateRestaurant } from "../../graphql/mutations";
 
 // Function to handle log out
 const handleLogOut = async () => {
@@ -51,10 +52,12 @@ function Configurator({ metaInformation }) {
     const [disabled, setDisabled] = useState(false);
     const sidenavColors = ["primary", "dark", "info", "success", "warning", "error"];
     const restaurantName = metaInformation.restaurantName;
+    console.log("The restaurant name is: ", restaurantName);
     const restaurantLocationNum = metaInformation.restaurantLocationNum;
-    const unitOfMass = useSelector(state => state.meta.unitOfMass)
-    const selectedColor = useSelector(state => state.settings.color)
-    const reduxDispatch = useDispatch()
+    const restaurantID = useSelector((state) => state.meta.restaurant_id);
+    const unitOfMass = useSelector((state) => state.meta.unitOfMass);
+    const selectedColor = useSelector((state) => state.settings.color);
+    const reduxDispatch = useDispatch();
     // console.log("The unit of mass is: ", unitOfMass);
     // Use the useEffect hook to change the button state for the sidenav type based on window size.
     useEffect(() => {
@@ -62,17 +65,17 @@ function Configurator({ metaInformation }) {
         function handleDisabled() {
             return window.innerWidth > 1200 ? setDisabled(false) : setDisabled(true);
         }
-        
+
         // The event listener that's calling the handleDisabled function when resizing the window.
         window.addEventListener("resize", handleDisabled);
-        
+
         // Call the handleDisabled function to set the state with the initial value.
         handleDisabled();
-        
+
         // Remove event listener on cleanup
         return () => window.removeEventListener("resize", handleDisabled);
     }, []);
-    
+
     const handleCloseConfigurator = () => setOpenConfigurator(dispatch, false);
     const handleTransparentSidenav = () => {
         setTransparentSidenav(dispatch, true);
@@ -98,24 +101,6 @@ function Configurator({ metaInformation }) {
         PubSub.publish(finalTopic, msg); // Await it not needed
         console.log("Action Published to Scale...", finalTopic); // Debug Statement
     };
-    const updateUnitOfMass = async (event) => {
-        const user = await Auth.currentAuthenticatedUser();
-        try {
-            console.log("The value is:", event.target.value);
-            const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
-            const path = "/restaurants/unitOfMass/";
-            const finalAPIRoute = path + user.username; //TODO: Cases where userSession is empty
-
-            await API.get(AMPLIFY_API, finalAPIRoute, { queryStringParameters: { unitOfMass: event.target.value } }).then((response) => {
-                console.log("The meta that we pull from Unit of mass: ", response); //Debig statement
-                if (response.item.Item == undefined) {
-                    throw new Error("No Response from API");
-                }
-            });
-        } catch (err) {
-            console.log(err);
-        }
-    };
     // sidenav type buttons styles
     const sidenavTypeButtonsStyles = ({ functions: { pxToRem }, palette: { white, dark, background }, borders: { borderWidth } }) => ({
         height: pxToRem(39),
@@ -129,7 +114,7 @@ function Configurator({ metaInformation }) {
             border: `${borderWidth[1]} solid ${darkMode ? white.main : dark.main}`,
         },
     });
-    
+
     // sidenav type active button styles
     const sidenavTypeActiveButtonStyles = ({ functions: { pxToRem, linearGradient }, palette: { white, gradients, background } }) => ({
         height: pxToRem(39),
@@ -141,17 +126,31 @@ function Configurator({ metaInformation }) {
             color: darkMode ? background.sidenav : white.main,
         },
     });
-    const switchMetricOnClick = (event) => {
+    const switchMetricOnClick = async (event) => {
         // console.log(event)
-        reduxDispatch(setUnitOfMass(event.target.defaultValue))
-    }
+        reduxDispatch(setUnitOfMass(event.target.defaultValue));
+        try {
+            const response = await API.graphql({
+                query: updateRestaurant,
+                variables: {
+                    input: {
+                        restaurant_id: restaurantID, // Specify the restaurant ID here
+                        unitOfMass: event.target.defaultValue,
+                    },
+                },
+            });
+            console.log(response);
+        } catch (err) {
+            console.log(err);
+        }
+        window.location.reload();
+    };
 
     const switchColorOnClick = (event) => {
-        console.log(event)
-        reduxDispatch(switchColor(event.target.defaultValue))
-    }
-    
-    
+        console.log(event);
+        reduxDispatch(switchColor(event.target.defaultValue));
+    };
+
     return (
         <ConfiguratorRoot variant="permanent" ownerState={{ openConfigurator }}>
             <MDBox display="flex" justifyContent="space-between" alignItems="baseline" pt={4} pb={0.5} px={3}>
