@@ -17,6 +17,7 @@ import BasicDatePicker from "../../components/DatePicker";
 import DropDownIngredientMenu from "../../components/DropDownIngredientMenu";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import ZoomableChart from "./components/ZoomableChart.mjs";
+import Dropdown from "./components/Dropdown";
 import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
 
 // AWS Imports
@@ -113,6 +114,7 @@ const AnalyticsContainer = () => {
     const [realTimePrecisionGraph, setRealTimePrecisionGraph] = useState([]);
     const [realTimeInventoryGraph, setRealTimeInventoryGraph] = useState([]);
     const [dashboardGraph, setDashboardGraph] = useState([]);
+    const [displayData, setDisplayData] = useState([]);
 
     // Chart Related Variables
     const accuracyGraph = createDoughnutChartObject();
@@ -415,7 +417,7 @@ const AnalyticsContainer = () => {
     */
     useEffect(() => {
         getHourlyMetaRecords();
-    }, [date]);
+    }, [date, displayData]);
     useEffect(() => {
         const handleResize = () => {
             setIsMobileDevice(window.innerWidth < 1200);
@@ -436,6 +438,7 @@ const AnalyticsContainer = () => {
     const convertGsToOz = (val) => {
         return (parseInt(val) / 28.35).toFixed(2).toString();
     };
+    console.log("the display data is:", displayData);
     return (
         <DashboardLayout>
             {/* TODO: ADD Style such that title gets centered with media query (textAlign) */}
@@ -516,7 +519,7 @@ const AnalyticsContainer = () => {
                                 <Grid item xs={12} md={4} lg={6}>
                                     <Tooltip title="Inventory Usage" placement="bottom">
                                         <div style={{ width: "100%", height: "100%" }}>
-                                            {/*generatePrecisionChartResponsive(false)*/ <ZoomableChart dataSet={dashboardGraph == 0 ? null : dashboardGraph} />}
+                                            <ZoomableChart dataSet={dashboardGraph == 0 ? null : dashboardGraph} />
                                         </div>
                                     </Tooltip>
                                 </Grid>

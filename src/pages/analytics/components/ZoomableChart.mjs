@@ -15,6 +15,7 @@ dayjs.extend(timezone);
 Chart.register(zoomPlugin);
 
 let data = null;
+let hidden = false;
 const chartConfig = {
     type: "line",
     data: {
@@ -24,9 +25,37 @@ const chartConfig = {
                 label: "Inventory Weight",
                 data: [],
                 backgroundColor: ["#42424a"],
-                borderColor: ["#49a3f1"],
+                borderColor: ["#42424a"],
                 spanGaps: false,
                 borderWidth: 1,
+                hidden: hidden,
+            },
+            {
+                label: "Correct Weight",
+                data: [],
+                backgroundColor: ["#00CC00"],
+                borderColor: ["#00CC00"],
+                spanGaps: false,
+                borderWidth: 1,
+                hidden: !hidden,
+            },
+            {
+                label: "First Grab",
+                data: [],
+                backgroundColor: ["	#FF0000"],
+                borderColor: ["	#FF0000"],
+                spanGaps: false,
+                borderWidth: 1,
+                hidden: !hidden,
+            },
+            {
+                label: "Final Weight",
+                data: [],
+                backgroundColor: ["	#0000CC"],
+                borderColor: ["#0000CC"],
+                spanGaps: false,
+                borderWidth: 1,
+                hidden: !hidden,
             },
         ],
     },
@@ -37,9 +66,6 @@ const chartConfig = {
         elements: {
             point: {
                 radius: 2.5,
-            },
-            line: {
-                tension: 0.9, // Adjust the tension value (0 to 1)
             },
         },
         scales: {
@@ -100,7 +126,11 @@ const ZoomableChart = (dataSet) => {
     data = dataSet.dataSet;
 
     let xArr = [];
-    let weightArr = [];
+    let weightArr = [],
+        cWArr = [],
+        fGArr = [],
+        fWArr = [];
+
     if (dataSet.dataSet != null) {
         console.log("The dataSets is", Object.keys(data)[1]);
         chartConfig.options.scales.x.min = parseInt(Object.keys(data)[1]);
@@ -110,12 +140,18 @@ const ZoomableChart = (dataSet) => {
         for (let i = 0; i < Object.keys(data).length; i++) {
             xArr.push(parseInt(Object.keys(data)[i]));
             weightArr.push(Object.values(data)[i].inventoryWeight);
+            cWArr.push(Object.values(data)[i].correctWeight);
+            fGArr.push(Object.values(data)[i].firstGrab);
+            fWArr.push(Object.values(data)[i].portionWeight);
         }
 
         console.log("The chartConfig is", chartConfig.data.labels);
         console.log("The chartConfigs is", chartConfig.data.datasets);
         chartConfig.data.labels = xArr;
         chartConfig.data.datasets[0].data = weightArr;
+        chartConfig.data.datasets[1].data = cWArr;
+        chartConfig.data.datasets[2].data = fGArr;
+        chartConfig.data.datasets[3].data = fWArr;
     }
 
     const chartContainer = useRef(null);
