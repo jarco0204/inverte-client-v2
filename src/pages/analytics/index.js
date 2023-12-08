@@ -260,7 +260,7 @@ const AnalyticsContainer = () => {
        @Coders: Jungler333
     */
     const getHourlyMetaRecords = async () => {
-        let accuracy = 0,
+        let precision = 0,
             inventoryConsumed = 0,
             timeSaved = 0,
             portionsCompleted = 0,
@@ -284,7 +284,7 @@ const AnalyticsContainer = () => {
             console.log("Response is:", response);
             if (response.data.getDay) {
                 console.log("response: ", response);
-                accuracy = response.data.getDay.dailySummary.accuracy;
+                precision = response.data.getDay.dailySummary.precision;
                 inventoryConsumed = response.data.getDay.dailySummary.inventoryConsumed;
                 timeSaved = response.data.getDay.dailySummary.averageTime;
                 portionsCompleted = response.data.getDay.dailySummary.portionsCompleted;
@@ -385,10 +385,10 @@ const AnalyticsContainer = () => {
 
             if (response.data.getDay || response.data.listDays) {
                 // Set the Upper Summary Card Components
-                accuracy = accuracy.toFixed(0) + "%";
+                precision = precision.toFixed(0) + "%";
                 inventoryConsumed = inventoryConsumed + "g";
                 timeSaved = timeSaved.toFixed(1) + "s";
-                setCardSummaryItems([portionsCompleted, accuracy, inventoryConsumed, timeSaved]);
+                setCardSummaryItems([portionsCompleted, precision, inventoryConsumed, timeSaved]);
 
                 // Add Percentages
                 underPercent = parseInt(underPercent);
