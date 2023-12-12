@@ -11,21 +11,21 @@ import PrecisionManufacturingRoundedIcon from "@mui/icons-material/PrecisionManu
 
 // Material Dashboard
 import { Tooltip } from "@mui/material";
+import Stack from "@mui/material/Stack";
+import Radio from "@mui/material/Radio";
+import Switch from "@mui/material/Switch";
 import MDBox from "../../components/MDBox";
+import Dropdown from "./components/Dropdown";
 import Footer from "../../components/Footer";
+import FormLabel from "@mui/material/FormLabel";
+import RadioGroup from "@mui/material/RadioGroup";
+import Typography from "@mui/material/Typography";
+import FormControl from "@mui/material/FormControl";
 import BasicDatePicker from "../../components/DatePicker";
+import ZoomableChart from "./components/ZoomableChart.mjs";
+import FormControlLabel from "@mui/material/FormControlLabel";
 import DropDownIngredientMenu from "../../components/DropDownIngredientMenu";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
-import ZoomableChart from "./components/ZoomableChart.mjs";
-import Dropdown from "./components/Dropdown";
-import Switch from "@mui/material/Switch";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
 
 // AWS Imports
