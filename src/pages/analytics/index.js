@@ -17,6 +17,15 @@ import BasicDatePicker from "../../components/DatePicker";
 import DropDownIngredientMenu from "../../components/DropDownIngredientMenu";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import ZoomableChart from "./components/ZoomableChart.mjs";
+import Dropdown from "./components/Dropdown";
+import Switch from "@mui/material/Switch";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
 import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
 
 // AWS Imports
@@ -112,7 +121,12 @@ const AnalyticsContainer = () => {
     const [realTimeAccuracyGraph, setRealTimeAccuracyGraph] = useState([]);
     const [realTimePrecisionGraph, setRealTimePrecisionGraph] = useState([]);
     const [realTimeInventoryGraph, setRealTimeInventoryGraph] = useState([]);
+    const [radioButton, setRadioButton] = useState(0);
+    const [chartData, setChartData] = useState("Portion");
+    const [switchChecked, setSwitchChecked] = useState(true);
     const [dashboardGraph, setDashboardGraph] = useState([]);
+    const [portionSizeArr, setPortionSizeArr] = useState([]);
+    const [displayData, setDisplayData] = useState([]);
 
     // Chart Related Variables
     const accuracyGraph = createDoughnutChartObject();
@@ -249,6 +263,26 @@ const AnalyticsContainer = () => {
         let keyBefore = parseInt(sortedKeys[0]) - 200000;
         return [keyBefore.toString(), newKey.toString()];
     };
+    /*!
+    @description:Find the 3 most used portion sizes
+    @params:
+    @return:
+    @Comments
+    @Coders:Rohan-16
+    */
+    const getMostUsedPortionSizes = (portionSizes) => {
+        const countMap = new Map();
+        // Count occurrences of each number
+        portionSizes.forEach((num) => {
+            countMap.set(num, (countMap.get(num) || 0) + 1);
+        });
+        // Sort the unique numbers by their occurrences in descending order
+        const sortedPortionSizes = Array.from(new Set(portionSizes)).sort((a, b) => countMap.get(b) - countMap.get(a));
+
+        // Get the top 3 numbers with the highest occurrences
+        const topThreeSizes = sortedPortionSizes.slice(0, 3);
+        return topThreeSizes;
+    };
 
     /*!
        @description:
@@ -258,7 +292,7 @@ const AnalyticsContainer = () => {
        @Coders: Jungler333
     */
     const getHourlyMetaRecords = async () => {
-        let accuracy = 0,
+        let precision = 0,
             inventoryConsumed = 0,
             timeSaved = 0,
             portionsCompleted = 0,
@@ -267,6 +301,7 @@ const AnalyticsContainer = () => {
             perfectPercent = 0,
             dashboardGraph = {},
             scaleActions = {},
+            portionSizes = [],
             response;
         try {
             // Query GQL to pull hourly data
@@ -279,10 +314,9 @@ const AnalyticsContainer = () => {
                     dayOfYear_iotNameThing: dayjs(date.$d).dayOfYear() + "_" + keys[selectedIndexRef.current],
                 },
             });
-            console.log("Response is:", response);
+
             if (response.data.getDay) {
-                console.log("response: ", response);
-                accuracy = response.data.getDay.dailySummary.accuracy;
+                precision = response.data.getDay.dailySummary.precision;
                 inventoryConsumed = response.data.getDay.dailySummary.inventoryConsumed;
                 timeSaved = response.data.getDay.dailySummary.averageTime;
                 portionsCompleted = response.data.getDay.dailySummary.portionsCompleted;
@@ -303,6 +337,10 @@ const AnalyticsContainer = () => {
                     }
                 }
                 dashboardGraph = JSON.parse(response.data.getDay.allPortionEvents);
+                for (let portion in dashboardGraph) {
+                    portionSizes.push(dashboardGraph[portion].correctWeight);
+                }
+                setPortionSizeArr(getMostUsedPortionSizes(portionSizes));
                 scaleActions = JSON.parse(response.data.getDay.scaleActions);
                 let action = Object.values(scaleActions);
                 let time = Object.keys(scaleActions);
@@ -321,72 +359,15 @@ const AnalyticsContainer = () => {
                 });
                 dashboardGraph = sortedObject;
                 setDashboardGraph(dashboardGraph);
-                console.log("The Dashboard graph is:", dashboardGraph);
             }
-            // } else {
-            //     response = await API.graphql({
-            //         query: listDays,
-            //         variables: {
-            //             filter: {
-            //                 createdAt: {
-            //                     between: [date[0].format("YYYY-MM-DD"), date[1].format("YYYY-MM-DD")],
-            //                 },
-            //                 dayOfYear_iotNameThing: { contains: keys[selectedIndexRef.current] },
-            //             },
-            //         },
-            //     });
-            //     if (response.data.listDays) {
-            //         console.log("response: ", response);
-            //         let data = response.data.listDays.items;
-            //         for (let i = 0; i < data.length; i++) {
-            //             accuracy += data[i].dailySummary.accuracy;
-            //             portionsCompleted += data[i].dailySummary.portionsCompleted;
-            //             inventoryConsumed += data[i].dailySummary.inventoryConsumed;
-            //             timeSaved += data[i].dailySummary.averageTime;
-            //             perfectPercent += parseInt((data[i].dailySummary.perfect / data[i].dailySummary.portionsCompleted) * 100);
-            //             underPercent += parseInt((data[i].dailySummary.underServed / data[i].dailySummary.portionsCompleted) * 100);
-            //             overPercent += parseInt((data[i].dailySummary.overServed / data[i].dailySummary.portionsCompleted) * 100);
-            //             scaleActions = JSON.parse(data[i].scaleActions);
-            //             let action = Object.values(scaleActions);
-            //             let time = Object.keys(scaleActions);
-            //             // for (let k = 0; k < action.length; k++) {
-            //             //     if (action[k].eventType == "StartAction") {
-            //             //         dashboardGraph[time[k]] = { inventoryWeight: action[k].inventoryWeight };
-            //             //     }
-            //             //     if (action[k].eventType == "disconnected") {
-            //             //         dashboardGraph[time[k]] = { inventoryWeight: action[k].inventoryWeight };
-            //             //     }
-            //             // }
-            //             dashboardGraph = { ...dashboardGraph, ...JSON.parse(data[i].allPortionEvents) };
-            //         }
-            //         const sortedKeys = Object.keys(dashboardGraph).sort((a, b) => parseInt(a) - parseInt(b));
-            //         const sortedObject = {};
-            //         sortedKeys.forEach((key) => {
-            //             sortedObject[key] = dashboardGraph[key];
-            //         });
-            //         dashboardGraph = sortedObject;
-            //         setDashboardGraph(dashboardGraph);
-            //         setDashboardGraph(dashboardGraph);
-
-            //         perfectPercent = perfectPercent / data.length;
-            //         underPercent = underPercent / data.length;
-            //         overPercent = overPercent / data.length;
-            //         timeSaved = timeSaved / data.length;
-            //         accuracy = accuracy / data.length;
-            //     }
-            // }
-
             let demo = false;
-            console.log("The scale actions are:", Object.values(scaleActions));
-
             // If Demo, then display hard-coded data
-
             if (response.data.getDay || response.data.listDays) {
                 // Set the Upper Summary Card Components
-                accuracy = accuracy.toFixed(0) + "%";
+                precision = precision.toFixed(0) + "%";
                 inventoryConsumed = inventoryConsumed + "g";
                 timeSaved = timeSaved.toFixed(1) + "s";
-                setCardSummaryItems([portionsCompleted, accuracy, inventoryConsumed, timeSaved]);
+                setCardSummaryItems([portionsCompleted, precision, inventoryConsumed, timeSaved]);
 
                 // Add Percentages
                 underPercent = parseInt(underPercent);
@@ -415,7 +396,7 @@ const AnalyticsContainer = () => {
     */
     useEffect(() => {
         getHourlyMetaRecords();
-    }, [date]);
+    }, [date, displayData]);
     useEffect(() => {
         const handleResize = () => {
             setIsMobileDevice(window.innerWidth < 1200);
@@ -436,6 +417,32 @@ const AnalyticsContainer = () => {
     const convertGsToOz = (val) => {
         return (parseInt(val) / 28.35).toFixed(2).toString();
     };
+    /*!
+        @description: Switch between Portion and inventory for zoomable chart
+        @params:
+        @return:
+        @Comments
+        @Coders:Rohan-16
+    */
+    const handleSwitchChange = () => {
+        setSwitchChecked((prevChecked) => !prevChecked);
+        if (switchChecked) {
+            setChartData("Inventory");
+        } else {
+            setChartData("Portion");
+        }
+    };
+    /*!
+       @description:Handle radio button updates
+       @params:
+       @return:
+       @Comments
+       @Coders: Rohan-16
+    */
+    const handleRadioButton = (event) => {
+        setRadioButton(event.target.value);
+    };
+
     return (
         <DashboardLayout>
             {/* TODO: ADD Style such that title gets centered with media query (textAlign) */}
@@ -516,7 +523,21 @@ const AnalyticsContainer = () => {
                                 <Grid item xs={12} md={4} lg={6}>
                                     <Tooltip title="Inventory Usage" placement="bottom">
                                         <div style={{ width: "100%", height: "100%" }}>
-                                            {/*generatePrecisionChartResponsive(false)*/ <ZoomableChart dataSet={dashboardGraph == 0 ? null : dashboardGraph} />}
+                                            <Stack direction="row" spacing={1} alignItems="center" marginTop={-5}>
+                                                <Typography>Inventory</Typography>
+                                                <Switch checked={switchChecked} onChange={handleSwitchChange} inputProps={{ "aria-label": "ant design" }} />
+                                                <Typography>Portion</Typography>
+                                                <FormControl>
+                                                    <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group">
+                                                        {portionSizeArr.map((option) => (
+                                                            <FormControlLabel key={option} value={option} control={<Radio onChange={handleRadioButton} />} label={option} />
+                                                        ))}
+                                                        <FormControlLabel defaultValue={0} control={<Radio onChange={handleRadioButton} />} label="All" />
+                                                    </RadioGroup>
+                                                </FormControl>
+                                            </Stack>
+
+                                            <ZoomableChart dataSet={dashboardGraph == 0 ? null : dashboardGraph} chartData={chartData} radioButton={radioButton} />
                                         </div>
                                     </Tooltip>
                                 </Grid>
