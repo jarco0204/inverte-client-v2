@@ -530,7 +530,12 @@ const AnalyticsContainer = () => {
                                                 <FormControl>
                                                     <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group">
                                                         {portionSizeArr.map((option) => (
-                                                            <FormControlLabel key={option} value={option} control={<Radio onChange={handleRadioButton} />} label={option} />
+                                                            <FormControlLabel
+                                                                key={option}
+                                                                value={option}
+                                                                control={<Radio onChange={handleRadioButton} />}
+                                                                label={unitOfMass == "g" ? option : convertGsToOz(option)}
+                                                            />
                                                         ))}
                                                         <FormControlLabel defaultValue={0} control={<Radio onChange={handleRadioButton} />} label="All" />
                                                     </RadioGroup>
