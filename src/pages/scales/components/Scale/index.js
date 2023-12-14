@@ -48,16 +48,19 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
     const [correctWeightIndex, setCorrectWeightIndex] = useState(-1);
 
     // Time Series Shadow Parameters
+    const [scaleState, setScaleState] = useState(-1);
     const [realTimeWeight, setRealTimeWeight] = useState(0);
     const [correctWeight1, setCorrectWeight1] = useState(7);
     const [correctWeight2, setCorrectWeight2] = useState(28);
     const [correctWeight3, setCorrectWeight3] = useState(56);
-    const [realTimeTemperature, setRealTimeTemperature] = useState("Off");
-    const [scaleState, setScaleState] = useState(-1);
+    const [realTimeStatusLabel, setRealTimeStatusLabel] = useState("Off");
 
     // UI & UX
     const scaleStateReported = 1; // 0 = off & 1 = Unloaded & 2 = Busy/On
     const [expanded, setExpanded] = useState(false);
+    const [scaleAction1, setScaleAction1] = useState("Start");
+    const [scaleAction2, setScaleAction2] = useState("g/oz");
+
     const accessType = useSelector((state) => state.meta.accessType);
     const [lastConnected, setLastConnected] = useState(0);
     const timeZone = useSelector((state) => state.meta.timeZone);
@@ -294,54 +297,8 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
         }
     };
 
-    /*!
-            @description: Function to trigger scale action from client
-            @params:
-            @return:
-            @Comments: Possible Actions are {1: "tare", 2: "start"}
-            @Coders: JAAM
-        */
-    const sendActionDataAWS = (action) => {
-        console.log("test", mainScaleData.topic);
-        let msg, finalTopic;
-        if (action == 1) {
-            msg = {
-                scaleAction: "tare",
-            };
-        } else if (action == 2) {
-            msg = {
-                scaleAction: "unitOfMass",
-            };
-        }
-
-        finalTopic = mainScaleData.topic + "/" + mainScaleData.iotNameThing + "/clientActions";
-        PubSub.publish(finalTopic, msg);
-        console.log("Action Not Published to AWS..."); // Debug Statement
-    };
-
     // Hook to enable real-time communication from scale to client to display IoT Shadows
     useEffect(() => {
-        // PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing + "/shadow/name/timeseries/update/accepted").subscribe({
-        //     next: (dataCloud) => {
-        //         dataCloud = dataCloud.value;
-        //         setRealTimeWeight(dataCloud.state.reported.inventoryWeight);
-        //         console.log("The data cloud is", dataCloud);
-
-        //         if (dataCloud.state.reported.temperature) {
-        //             setRealTimeTemperature(dataCloud.state.reported.temperature + "℃");
-        //         } else {
-        //             if (realTimeWeight == -1) {
-        //                 setRealTimeTemperature("Off");
-        //             } else if (realTimeWeight == 0) {
-        //                 setRealTimeTemperature("Idle");
-        //             } else {
-        //                 setRealTimeTemperature("On");
-        //             }
-        //         }
-        //     },
-        //     error: (error) => console.error(error),
-        //     complete: () => console.log("Web Socket Done"),
-        // });
         // Subscribe to Topic after Get Request was accepted
         const subscriptionClassicShadow = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing + "/shadow/get/accepted").subscribe({
             next: (dataCloud) => {
@@ -372,12 +329,13 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                     setRealTimeWeight(dataCloud.inventoryWeight);
                     setScaleState(dataCloud.scaleState);
                     if (dataCloud.scaleState === 0) {
-                        setRealTimeTemperature("Off");
+                        setRealTimeStatusLabel("Off");
                     } else if (dataCloud.scaleState === 1) {
-                        setRealTimeTemperature("Idle");
+                        setRealTimeStatusLabel("Idle");
                     } else if (dataCloud.scaleState === 2) {
-                        setRealTimeTemperature("On");
+                        setRealTimeStatusLabel("On");
                         setRealTimeWeight(dataCloud.inventoryWeight);
+                        setScaleAction1("Tare");
                     }
                     if (unitOfMass === "g") {
                         setCorrectWeight1(dataCloud.correctWeight1);
@@ -423,12 +381,13 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                 if (dataCloud != undefined) {
                     setRealTimeWeight(dataCloud.inventoryWeight);
                     if (dataCloud.scaleState === 0) {
-                        setRealTimeTemperature("Off");
+                        setRealTimeStatusLabel("Off");
                     } else if (dataCloud.scaleState == 1) {
-                        setRealTimeTemperature("Idle");
+                        setRealTimeStatusLabel("Idle");
                     } else if (dataCloud.scaleState === 2) {
-                        setRealTimeTemperature("On");
+                        setRealTimeStatusLabel("On");
                         setRealTimeWeight(dataCloud.inventoryWeight);
+                        setScaleAction1("Tare");
                     }
                 } else {
                     console.log("Scale is off");
@@ -440,7 +399,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
             complete: () => console.log("Web Socket Done"),
         });
         getLastConnected();
-    }, [correctWeightIndex, unitOfMass, realTimeTemperature]);
+    }, [correctWeightIndex, unitOfMass, realTimeStatusLabel]);
 
     // @description: Hook to get Thing's Shadow by publishing to get topic and then listening after request is accepted.
     useEffect(() => {
@@ -460,6 +419,37 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
         getClassicShadow();
     }, [unitOfMass]);
 
+    /*!
+       @description:
+       @params:
+       @return:
+       @Comments
+       @Coders: ManuLao
+    */
+    const handleScaleAction = (event) => {
+        let msg, finalTopic;
+        if (event.target.value == "Start") {
+            msg = {
+                scaleAction: "start",
+            };
+        } else if (event.target.value == "Tare") {
+            msg = {
+                scaleAction: "tare",
+            };
+        } else if (event.target.value == "g/oz") {
+            msg = {
+                scaleAction: "unitOfMass",
+            };
+        } else {
+            console.log("No Action Published to AWS..."); // Debug Statement
+            return;
+        }
+
+        finalTopic = mainScaleData.topic + "/" + mainScaleData.iotNameThing + "/clientActions";
+        PubSub.publish(finalTopic, msg);
+        console.log("Desired Client Action Published to Scale..."); // Debug Statement
+    };
+
     return (
         <Card>
             <MDBox display="flex" justifyContent="space-between" pt={1} px={1}>
@@ -473,7 +463,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                         <MDBox
                             variant="gradient"
                             bgColor="light"
-                            style={{ color: realTimeTemperature == "Off" ? "white" : realTimeTemperature == "Idle" ? "#e81ba8" : "#63e22a", fontSize: "21px", fontFamily: "" }}
+                            style={{ color: realTimeStatusLabel == "Off" ? "white" : realTimeStatusLabel == "Idle" ? "#e81ba8" : "#63e22a", fontSize: "21px", fontFamily: "" }}
                             borderRadius="xl"
                             display="flex"
                             justifyContent="center"
@@ -482,7 +472,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                             height="3rem"
                             mt={-4.5}
                         >
-                            {realTimeTemperature == "111000℃" ? "ON" : realTimeTemperature}
+                            {realTimeStatusLabel == "111000℃" ? "ON" : realTimeStatusLabel}
                         </MDBox>
                     </Tooltip>
                 </Grid>
@@ -530,12 +520,12 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                 />
             </FormControl>
             <CustomizedCardActions>
-                <TareButton name="tare" onClick={() => (realTimeTemperature == "On" ? sendActionDataAWS(1) : sendActionDataAWS(2))}>
-                    {realTimeTemperature == "On" ? "Tare" : "g/oz"}
+                <TareButton name="leftButton" value={scaleAction1} onClick={handleScaleAction}>
+                    {scaleAction1}
                 </TareButton>
 
-                <StartButton name="start" onClick={() => (realTimeTemperature == "On" ? sendActionDataAWS(1) : sendActionDataAWS(2))}>
-                    {realTimeTemperature == "On" ? "g/oz" : "Guide"}
+                <StartButton name="rightButton" value={scaleAction2} onClick={handleScaleAction}>
+                    {scaleAction2}
                 </StartButton>
 
                 <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
