@@ -11,6 +11,10 @@ const BasicDatePicker = ({ titleForPage, date, setDate }) => {
     const { RangePicker } = DatePicker;
     const [value, setStartDate] = useState(null);
     const [date1, setDate1] = useState(null);
+    const disabledDate = (current) => {
+        // Disable dates before December 8th, 2023
+        return current && current < dayjs("2023-11-30");
+    };
     return (
         <>
             <MDBox py={1} display="flex" justifyContent="center">
@@ -20,6 +24,7 @@ const BasicDatePicker = ({ titleForPage, date, setDate }) => {
                     <DemoContainer components={["DateRangePicker"]}>
                         <DatePicker
                             value={date || value}
+                            disabledDate={disabledDate}
                             onCalendarChange={(start) => {
                                 setStartDate(start);
                             }}
