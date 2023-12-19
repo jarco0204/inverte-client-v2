@@ -322,7 +322,7 @@ const AnalyticsContainer = () => {
             data = response.data.listHours.items;
             console.log("The HOUR data is:", data);
             for (let i = 0; i < data.length; i++) {
-                precision.push(data[i].hourlySummary.precision);
+                precision.push(Math.abs(data[i].hourlySummary.precision));
                 inventoryConsumed.push(data[i].hourlySummary.inventoryConsumed);
                 portionsCompleted.push(data[i].hourlySummary.portionsCompleted);
                 accuracy.push(data[i].hourlySummary.accuracy);
