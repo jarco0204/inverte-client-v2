@@ -585,6 +585,7 @@ export const getHour = /* GraphQL */ `
         overServed
         underServed
         perfect
+        precision
         hour {
           dayOfYear_hourOfDay_iotNameThing
           dayOfYear_iotNameThing
@@ -632,6 +633,7 @@ export const listHours = /* GraphQL */ `
           overServed
           underServed
           perfect
+          precision
           __typename
         }
         realTime
@@ -918,6 +920,7 @@ export const hoursByDayOfYear_iotNameThing = /* GraphQL */ `
           overServed
           underServed
           perfect
+          precision
           __typename
         }
         realTime

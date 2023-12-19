@@ -85,6 +85,7 @@ input HourlySummaryInput {
     overServed: Int
     underServed: Int
     perfect: Int
+    precision: Float
 }
 
 input DailySummaryInput {
@@ -135,6 +136,7 @@ type HourlySummary {
     overServed: Int
     underServed: Int
     perfect: Int
+    precision: Float
     hour: Hour
 }
 

@@ -320,7 +320,7 @@ const AnalyticsContainer = () => {
                 },
             });
             data = response.data.listHours.items;
-            console.log("The data is:", data);
+            console.log("The HOUR data is:", data);
             for (let i = 0; i < data.length; i++) {
                 precision.push(data[i].hourlySummary.precision);
                 inventoryConsumed.push(data[i].hourlySummary.inventoryConsumed);
@@ -364,7 +364,7 @@ const AnalyticsContainer = () => {
             });
 
             if (response.data.getDay) {
-                precision = response.data.getDay.dailySummary.precision;
+                precision = Math.abs(response.data.getDay.dailySummary.precision);
                 inventoryConsumed = response.data.getDay.dailySummary.inventoryConsumed;
                 timeSaved = response.data.getDay.dailySummary.averageTime;
                 portionsCompleted = response.data.getDay.dailySummary.portionsCompleted;
