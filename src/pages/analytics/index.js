@@ -364,7 +364,7 @@ const AnalyticsContainer = () => {
             // If Demo, then display hard-coded data
             if (response.data.getDay || response.data.listDays) {
                 // Set the Upper Summary Card Components
-                precision = precision.toFixed(0) + "%";
+                precision = precision = precision == undefined ? "NA" : precision.toFixed(0) + "%";
                 inventoryConsumed = inventoryConsumed + "g";
                 timeSaved = timeSaved.toFixed(1) + "s";
                 setCardSummaryItems([portionsCompleted, precision, inventoryConsumed, timeSaved]);
