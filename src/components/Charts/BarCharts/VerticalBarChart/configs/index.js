@@ -14,65 +14,50 @@ Coded by www.creative-tim.com
 */
 
 // Material Dashboard 2 React base styles
-import typography from "assets/theme/base/typography";
+import typography from "../../../../../assets/theme/base/typography";
 
-function configs(labels, datasets) {
-  return {
-    data: {
-      labels,
-      datasets: [...datasets],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          display: false,
-        },
-      },
-      scales: {
-        y: {
-          grid: {
-            drawBorder: false,
-            display: true,
-            drawOnChartArea: true,
-            drawTicks: false,
-            borderDash: [5, 5],
-          },
-          ticks: {
-            display: true,
-            padding: 10,
-            color: "#9ca2b7",
-            font: {
-              size: 11,
-              family: typography.fontFamily,
-              style: "normal",
-              lineHeight: 2,
+const barChartConfigs = (data) => {
+    return {
+        labels: ["10", "12", "2", "4", "6", "8", "10"],
+        datasets: [
+            {
+                label: "Precision",
+                backgroundColor: "rgba(75,192,192,0.2)",
+                borderColor: "rgba(75,192,192,1)",
+                borderWidth: 1,
+                hoverBackgroundColor: "rgba(75,192,192,0.4)",
+                hoverBorderColor: "rgba(75,192,192,1)",
+                data: [65, 59, 80, 81, 56],
             },
-          },
-        },
-        x: {
-          grid: {
-            drawBorder: false,
-            display: false,
-            drawOnChartArea: true,
-            drawTicks: true,
-          },
-          ticks: {
-            display: true,
-            color: "#9ca2b7",
-            padding: 10,
-            font: {
-              size: 11,
-              family: typography.fontFamily,
-              style: "normal",
-              lineHeight: 2,
+            {
+                label: "Accuracy",
+                backgroundColor: "rgba(255,99,132,0.2)",
+                borderColor: "rgba(255,99,132,1)",
+                borderWidth: 1,
+                hoverBackgroundColor: "rgba(255,99,132,0.4)",
+                hoverBorderColor: "rgba(255,99,132,1)",
+                data: [45, 32, 50, 26, 70],
             },
-          },
-        },
-      },
-    },
-  };
-}
+            {
+                label: "Number of portions",
+                backgroundColor: "rgba(255,206,86,0.2)",
+                borderColor: "rgba(255,206,86,1)",
+                borderWidth: 1,
+                hoverBackgroundColor: "rgba(255,206,86,0.4)",
+                hoverBorderColor: "rgba(255,206,86,1)",
+                data: [30, 45, 22, 63, 40],
+            },
+            {
+                label: "Inventory",
+                backgroundColor: "rgba(150,200,86,0.2)",
+                borderColor: "rgba(150,200,86,1)",
+                borderWidth: 1,
+                hoverBackgroundColor: "rgba(255,206,86,0.4)",
+                hoverBorderColor: "rgba(255,206,86,1)",
+                data: [30, 45, 22, 63, 40],
+            },
+        ],
+    };
+};
 
-export default configs;
+export default barChartConfigs;

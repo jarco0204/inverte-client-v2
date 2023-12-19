@@ -30,7 +30,7 @@ import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/Comple
 
 // AWS Imports
 import { API, graphqlOperation } from "aws-amplify";
-import { getDay, getPortionEvent, listDays, listPortionEvents } from "../../graphql/queries";
+import { getDay, getPortionEvent, listDays, listPortionEvents, listHours } from "../../graphql/queries";
 
 // User Components
 import PortionTimeLineChart from "./components/PortionTimeLineChart";
@@ -45,6 +45,7 @@ import { useSelector } from "react-redux";
 import timezone from "dayjs/plugin/timezone";
 import toObject from "dayjs/plugin/toObject.js";
 import dayOfYear from "dayjs/plugin/dayOfYear.js";
+import VerticalBarChart from "../../components/Charts/BarCharts/VerticalBarChart/index";
 // import { setSelectedIndex } from "../../redux/metaSlice";
 // import { difference, sum } from "d3-array";
 // import { ListItemIcon } from "@mui/material";
@@ -170,6 +171,16 @@ const AnalyticsContainer = () => {
     const generateTimeLineChartResponsive = (mobileViewFlag) => {
         return <PortionTimeLineChart color="success" title="Portion Completion Times" chart={realTimeInventoryGraph} mobileViewFlag={mobileViewFlag} />;
     };
+    /*!
+    @description:
+    @params:
+    @return:
+    @Comments
+    @Coders:
+    */
+    const generateBarChartResponsive = (mobileViewFlag) => {
+        return <VerticalBarChart title="Hourly Accuracy and Precision" chart={realTimeInventoryGraph} mobileViewFlag={mobileViewFlag} />;
+    };
 
     /*!
        @description:
@@ -283,6 +294,44 @@ const AnalyticsContainer = () => {
         const topThreeSizes = sortedPortionSizes.slice(0, 3);
         return topThreeSizes;
     };
+    /*!
+    @description:Get hourly meta records for bar chart
+    @params:
+    @return:
+    @Comments
+    @Coders:Rohan-16
+    */
+    const getHourlyMetaRecords = async () => {
+        let precision = [],
+            inventoryConsumed = [],
+            portionsCompleted = [],
+            accuracy = [],
+            response,
+            data;
+        try {
+            response = await API.graphql({
+                query: listHours,
+                variables: {
+                    filter: {
+                        dayOfYear_iotNameThing: {
+                            eq: dayjs(date.$d).dayOfYear() + "_" + keys[selectedIndexRef.current],
+                        },
+                    },
+                },
+            });
+            data = response.data.listHours.items;
+            console.log("The data is:", data);
+            for (let i = 0; i < data.length; i++) {
+                precision.push(data[i].hourlySummary.precision);
+                inventoryConsumed.push(data[i].hourlySummary.inventoryConsumed);
+                portionsCompleted.push(data[i].hourlySummary.portionsCompleted);
+                accuracy.push(data[i].hourlySummary.accuracy);
+            }
+            console.log("The precision is:", precision);
+        } catch (error) {
+            console.error("Error fetching from HOURLY GQL or Generating Charts... ", error);
+        }
+    };
 
     /*!
        @description:
@@ -291,7 +340,7 @@ const AnalyticsContainer = () => {
        @Comments
        @Coders: Jungler333
     */
-    const getHourlyMetaRecords = async () => {
+    const getDailyMetaRecords = async () => {
         let precision = 0,
             inventoryConsumed = 0,
             timeSaved = 0,
@@ -305,7 +354,6 @@ const AnalyticsContainer = () => {
             response;
         try {
             // Query GQL to pull hourly data
-            console.log("waaa", dayjs(date.$d).dayOfYear());
             // if (date[0].dayOfYear() == date[1].dayOfYear()) {
             response = await API.graphql({
                 query: getDay,
@@ -395,6 +443,7 @@ const AnalyticsContainer = () => {
        @Coders: Mohan
     */
     useEffect(() => {
+        getDailyMetaRecords();
         getHourlyMetaRecords();
     }, [date, displayData]);
     useEffect(() => {
@@ -550,6 +599,9 @@ const AnalyticsContainer = () => {
                                     <Tooltip title="Serving Tendency of Portions" placement="bottom">
                                         <div style={{ width: "100%", height: "100%" }}>{generateDoughnutChartResponsive(false)}</div> {/* Adjust the height and width as needed */}
                                     </Tooltip>
+                                </Grid>
+                                <Grid item xs={12} md={6} lg={4}>
+                                    <div style={{ width: "100%", height: "100%" }}>{generateBarChartResponsive(false)}</div>
                                 </Grid>
                             </Grid>
                         </MDBox>
