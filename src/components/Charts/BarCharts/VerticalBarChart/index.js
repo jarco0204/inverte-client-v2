@@ -20,9 +20,9 @@ import barChartConfigs from "./configs/index";
 // Material Dashboard 2 React base styles
 import colors from "../../../../assets/theme/base/colors";
 
-function VerticalBarChart({ icon, title, description, height, chart }) {
-    console.log("The dataset for bar chart is:", chart.datasets);
-    const data = barChartConfigs();
+function VerticalBarChart({ icon, title, description, height, chart, color }) {
+    console.log("The dataset for bar chart is:", chart);
+    const data = barChartConfigs(chart);
 
     const renderChart = (
         <MDBox py={2} pr={2} pl={icon.component ? 1 : 2}>
@@ -46,24 +46,24 @@ function VerticalBarChart({ icon, title, description, height, chart }) {
                             <Icon fontSize="medium">{icon.component}</Icon>
                         </MDBox>
                     )}
-                    <MDBox mt={icon.component ? -2 : 0}>
-                        {title && <MDTypography variant="h6">{title}</MDTypography>}
-                        <MDBox mb={2}>
-                            <MDTypography component="div" variant="button" color="text">
-                                {description}
-                            </MDTypography>
-                        </MDBox>
-                    </MDBox>
                 </MDBox>
             ) : null}
             {useMemo(
                 () => (
-                    <MDBox height={height}>
+                    <MDBox MDBox variant="gradient" bgColor={color} borderRadius="lg" coloredShadow={color} height="14rem">
                         <Bar data={data} />
                     </MDBox>
                 ),
                 [chart, height]
             )}
+            <MDBox mt={icon.component ? -2 : 0}>
+                {title && <MDTypography variant="h6">{title}</MDTypography>}
+                <MDBox mb={2}>
+                    <MDTypography component="div" variant="button" color="text">
+                        {description}
+                    </MDTypography>
+                </MDBox>
+            </MDBox>
         </MDBox>
     );
 
