@@ -30,7 +30,7 @@ import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/Comple
 
 // AWS Imports
 import { API, graphqlOperation } from "aws-amplify";
-import { getDay, getPortionEvent, listDays, listPortionEvents, listHours } from "../../graphql/queries";
+import { getDay, getPortionEvent, listDays, listPortionEvents, listHours, searchHours } from "../../graphql/queries";
 
 // User Components
 import PortionTimeLineChart from "./components/PortionTimeLineChart";
@@ -127,6 +127,7 @@ const AnalyticsContainer = () => {
     const [switchChecked, setSwitchChecked] = useState(true);
     const [dashboardGraph, setDashboardGraph] = useState([]);
     const [portionSizeArr, setPortionSizeArr] = useState([]);
+    const [barChartData, setBarChartData] = useState([]);
     const [displayData, setDisplayData] = useState([]);
 
     // Chart Related Variables
@@ -179,7 +180,7 @@ const AnalyticsContainer = () => {
     @Coders:
     */
     const generateBarChartResponsive = (mobileViewFlag) => {
-        return <VerticalBarChart title="Hourly Accuracy and Precision" chart={realTimeInventoryGraph} mobileViewFlag={mobileViewFlag} />;
+        return <VerticalBarChart chart={barChartData} color="light" title="Hourly Accuracy and Precision" mobileViewFlag={mobileViewFlag} />;
     };
 
     /*!
@@ -306,11 +307,12 @@ const AnalyticsContainer = () => {
             inventoryConsumed = [],
             portionsCompleted = [],
             accuracy = [],
+            labels = [],
             response,
-            data;
+            hours;
         try {
             response = await API.graphql({
-                query: listHours,
+                query: searchHours,
                 variables: {
                     filter: {
                         dayOfYear_iotNameThing: {
@@ -319,15 +321,21 @@ const AnalyticsContainer = () => {
                     },
                 },
             });
-            data = response.data.listHours.items;
-            console.log("The HOUR data is:", data);
-            for (let i = 0; i < data.length; i++) {
-                precision.push(Math.abs(data[i].hourlySummary.precision));
-                inventoryConsumed.push(data[i].hourlySummary.inventoryConsumed);
-                portionsCompleted.push(data[i].hourlySummary.portionsCompleted);
-                accuracy.push(data[i].hourlySummary.accuracy);
+            console.log("The Hourly response is:", response);
+            hours = response.data.searchHours.items;
+            for (let i = 0; i < hours.length; i++) {
+                labels.push(hours[i].dayOfYear_hourOfDay_iotNameThing.split("_")[1]);
+                precision.push(Math.abs(hours[i].hourlySummary.precision));
+                inventoryConsumed.push(hours[i].hourlySummary.inventoryConsumed);
+                portionsCompleted.push(hours[i].hourlySummary.portionsCompleted);
+                accuracy.push(hours[i].hourlySummary.accuracy);
             }
-            console.log("The precision is:", precision);
+            precision = precision.slice().reverse();
+            inventoryConsumed = inventoryConsumed.slice().reverse();
+            portionsCompleted = portionsCompleted.slice().reverse();
+            accuracy = accuracy.slice().reverse();
+            labels = labels.slice().reverse();
+            setBarChartData({ precision, inventoryConsumed, portionsCompleted, accuracy, labels });
         } catch (error) {
             console.error("Error fetching from HOURLY GQL or Generating Charts... ", error);
         }
@@ -600,12 +608,13 @@ const AnalyticsContainer = () => {
                                         <div style={{ width: "100%", height: "100%" }}>{generateDoughnutChartResponsive(false)}</div> {/* Adjust the height and width as needed */}
                                     </Tooltip>
                                 </Grid>
-                                <Grid item xs={12} md={6} lg={4}>
+                                <Grid item xs={12} md={6} lg={10}>
                                     <div style={{ width: "100%", height: "100%" }}>{generateBarChartResponsive(false)}</div>
                                 </Grid>
                             </Grid>
                         </MDBox>
                     </MDBox>
+                    <Footer />
                 </div>
             )}
             {isMobileDevice && (
@@ -661,9 +670,9 @@ const AnalyticsContainer = () => {
                             </Grid>
                         </Grid>
                     </MDBox>
+                    <Footer />
                 </div>
             )}
-            <Footer />
         </DashboardLayout>
     );
 };

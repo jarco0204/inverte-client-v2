@@ -1,6 +1,66 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const searchHours = /* GraphQL */ `
+  query SearchHours(
+    $filter: SearchableHourFilterInput
+    $sort: [SearchableHourSortInput]
+    $limit: Int
+    $nextToken: String
+    $from: Int
+    $aggregates: [SearchableHourAggregationInput]
+  ) {
+    searchHours(
+      filter: $filter
+      sort: $sort
+      limit: $limit
+      nextToken: $nextToken
+      from: $from
+      aggregates: $aggregates
+    ) {
+      items {
+        dayOfYear_hourOfDay_iotNameThing
+        dayOfYear_iotNameThing
+        hourlySummary {
+          averageTime
+          portionsCompleted
+          accuracy
+          inventoryConsumed
+          overServed
+          underServed
+          perfect
+          precision
+          __typename
+        }
+        realTime
+        scaleActions
+        createdAt
+        updatedAt
+        dayHourDayOfYear_iotNameThing
+        __typename
+      }
+      nextToken
+      total
+      aggregateItems {
+        name
+        result {
+          ... on SearchableAggregateScalarResult {
+            value
+          }
+          ... on SearchableAggregateBucketResult {
+            buckets {
+              key
+              doc_count
+              __typename
+            }
+          }
+        }
+        __typename
+      }
+      __typename
+    }
+  }
+`;
 export const getRestaurant = /* GraphQL */ `
   query GetRestaurant($restaurant_id: ID!) {
     getRestaurant(restaurant_id: $restaurant_id) {
