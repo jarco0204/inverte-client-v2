@@ -938,6 +938,7 @@ export const onCreateHour = /* GraphQL */ `
         overServed
         underServed
         perfect
+        precision
         hour {
           dayOfYear_hourOfDay_iotNameThing
           dayOfYear_iotNameThing
@@ -972,6 +973,7 @@ export const onUpdateHour = /* GraphQL */ `
         overServed
         underServed
         perfect
+        precision
         hour {
           dayOfYear_hourOfDay_iotNameThing
           dayOfYear_iotNameThing
@@ -1006,6 +1008,7 @@ export const onDeleteHour = /* GraphQL */ `
         overServed
         underServed
         perfect
+        precision
         hour {
           dayOfYear_hourOfDay_iotNameThing
           dayOfYear_iotNameThing
