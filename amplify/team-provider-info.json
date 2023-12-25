@@ -12,6 +12,9 @@
       "AmplifyAppId": "d1n1lwyzmz6bqx"
     },
     "categories": {
+      "api": {
+        "inverteclientv3": {}
+      },
       "auth": {
         "inverteclientv30db036de": {}
       },
@@ -44,9 +47,6 @@
           "deploymentBucketName": "amplify-inverteclientv3-invertedev-112316-deployment",
           "s3Key": "amplify-builds/updateUnitOfMassAmplifyAPIv3-73744845336c4d636e51-build.zip"
         }
-      },
-      "api": {
-        "inverteclientv3": {}
       }
     }
   }
