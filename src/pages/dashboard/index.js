@@ -314,7 +314,7 @@ const DashboardContainer = () => {
             const day = response.data;
             if (day.getDay) {
                 // Set the Upper Summary Card Components
-                let precision = day.getDay.dailySummary.precision.toFixed(0) + "%";
+                let precision = Math.abs(day.getDay.dailySummary.precision.toFixed(0)) + "%";
                 let inventoryWeight = day.getDay.dailySummary.inventoryConsumed + "g";
                 let timeSaved = day.getDay.dailySummary.averageTime.toFixed(1) + "s";
                 setCardSummaryItems([day.getDay.dailySummary.portionsCompleted, precision, inventoryWeight, timeSaved]);

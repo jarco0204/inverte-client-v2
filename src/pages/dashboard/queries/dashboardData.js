@@ -11,6 +11,7 @@ export const getDashboard = /* GraphQL */ `
                 overServed
                 underServed
                 perfect
+                precision
                 day {
                     dayOfYear_iotNameThing
                     weekOfYear_iotNameThing

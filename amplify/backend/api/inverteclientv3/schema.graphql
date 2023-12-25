@@ -64,7 +64,7 @@ type Day @model {
     hour: [Hour] @hasMany(indexName: "byDay")
 }
 
-type Hour @model {
+type Hour @model @searchable {
     dayOfYear_hourOfDay_iotNameThing: ID! @primaryKey
     dayOfYear_iotNameThing: ID! @index(name: "byDay")
     hourlySummary: HourlySummary
@@ -85,6 +85,7 @@ input HourlySummaryInput {
     overServed: Int
     underServed: Int
     perfect: Int
+    precision: Float
 }
 
 input DailySummaryInput {
@@ -135,6 +136,7 @@ type HourlySummary {
     overServed: Int
     underServed: Int
     perfect: Int
+    precision: Float
     hour: Hour
 }
 
