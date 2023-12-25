@@ -30,7 +30,7 @@ import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/Comple
 
 // AWS Imports
 import { API, graphqlOperation } from "aws-amplify";
-import { getDay, getPortionEvent, listDays, listPortionEvents } from "../../graphql/queries";
+import { getDay, getPortionEvent, listDays, listPortionEvents, listHours, searchHours } from "../../graphql/queries";
 
 // User Components
 import PortionTimeLineChart from "./components/PortionTimeLineChart";
@@ -45,6 +45,7 @@ import { useSelector } from "react-redux";
 import timezone from "dayjs/plugin/timezone";
 import toObject from "dayjs/plugin/toObject.js";
 import dayOfYear from "dayjs/plugin/dayOfYear.js";
+import VerticalBarChart from "../../components/Charts/BarCharts/VerticalBarChart/index";
 // import { setSelectedIndex } from "../../redux/metaSlice";
 // import { difference, sum } from "d3-array";
 // import { ListItemIcon } from "@mui/material";
@@ -126,6 +127,7 @@ const AnalyticsContainer = () => {
     const [switchChecked, setSwitchChecked] = useState(true);
     const [dashboardGraph, setDashboardGraph] = useState([]);
     const [portionSizeArr, setPortionSizeArr] = useState([]);
+    const [barChartData, setBarChartData] = useState([]);
     const [displayData, setDisplayData] = useState([]);
 
     // Chart Related Variables
@@ -169,6 +171,16 @@ const AnalyticsContainer = () => {
     */
     const generateTimeLineChartResponsive = (mobileViewFlag) => {
         return <PortionTimeLineChart color="success" title="Portion Completion Times" chart={realTimeInventoryGraph} mobileViewFlag={mobileViewFlag} />;
+    };
+    /*!
+    @description:
+    @params:
+    @return:
+    @Comments
+    @Coders:
+    */
+    const generateBarChartResponsive = (mobileViewFlag) => {
+        return <VerticalBarChart chart={barChartData} color="light" title="Hourly Accuracy and Precision" mobileViewFlag={mobileViewFlag} />;
     };
 
     /*!
@@ -283,6 +295,51 @@ const AnalyticsContainer = () => {
         const topThreeSizes = sortedPortionSizes.slice(0, 3);
         return topThreeSizes;
     };
+    /*!
+    @description:Get hourly meta records for bar chart
+    @params:
+    @return:
+    @Comments
+    @Coders:Rohan-16
+    */
+    const getHourlyMetaRecords = async () => {
+        let precision = [],
+            inventoryConsumed = [],
+            portionsCompleted = [],
+            accuracy = [],
+            labels = [],
+            response,
+            hours;
+        try {
+            response = await API.graphql({
+                query: searchHours,
+                variables: {
+                    filter: {
+                        dayOfYear_iotNameThing: {
+                            eq: dayjs(date.$d).dayOfYear() + "_" + keys[selectedIndexRef.current],
+                        },
+                    },
+                },
+            });
+            console.log("The Hourly response is:", response);
+            hours = response.data.searchHours.items;
+            for (let i = 0; i < hours.length; i++) {
+                labels.push(hours[i].dayOfYear_hourOfDay_iotNameThing.split("_")[1]);
+                precision.push(Math.abs(hours[i].hourlySummary.precision));
+                inventoryConsumed.push(hours[i].hourlySummary.inventoryConsumed);
+                portionsCompleted.push(hours[i].hourlySummary.portionsCompleted);
+                accuracy.push(hours[i].hourlySummary.accuracy);
+            }
+            precision = precision.slice().reverse();
+            inventoryConsumed = inventoryConsumed.slice().reverse();
+            portionsCompleted = portionsCompleted.slice().reverse();
+            accuracy = accuracy.slice().reverse();
+            labels = labels.slice().reverse();
+            setBarChartData({ precision, inventoryConsumed, portionsCompleted, accuracy, labels });
+        } catch (error) {
+            console.error("Error fetching from HOURLY GQL or Generating Charts... ", error);
+        }
+    };
 
     /*!
        @description:
@@ -291,7 +348,7 @@ const AnalyticsContainer = () => {
        @Comments
        @Coders: Jungler333
     */
-    const getHourlyMetaRecords = async () => {
+    const getDailyMetaRecords = async () => {
         let precision = 0,
             inventoryConsumed = 0,
             timeSaved = 0,
@@ -305,7 +362,6 @@ const AnalyticsContainer = () => {
             response;
         try {
             // Query GQL to pull hourly data
-            console.log("waaa", dayjs(date.$d).dayOfYear());
             // if (date[0].dayOfYear() == date[1].dayOfYear()) {
             response = await API.graphql({
                 query: getDay,
@@ -316,7 +372,7 @@ const AnalyticsContainer = () => {
             });
 
             if (response.data.getDay) {
-                precision = response.data.getDay.dailySummary.precision;
+                precision = Math.abs(response.data.getDay.dailySummary.precision);
                 inventoryConsumed = response.data.getDay.dailySummary.inventoryConsumed;
                 timeSaved = response.data.getDay.dailySummary.averageTime;
                 portionsCompleted = response.data.getDay.dailySummary.portionsCompleted;
@@ -364,7 +420,7 @@ const AnalyticsContainer = () => {
             // If Demo, then display hard-coded data
             if (response.data.getDay || response.data.listDays) {
                 // Set the Upper Summary Card Components
-                precision = precision = precision == undefined ? "NA" : precision.toFixed(0) + "%";
+                precision = precision == undefined ? "NA" : precision.toFixed(0) + "%";
                 inventoryConsumed = inventoryConsumed + "g";
                 timeSaved = timeSaved.toFixed(1) + "s";
                 setCardSummaryItems([portionsCompleted, precision, inventoryConsumed, timeSaved]);
@@ -395,6 +451,7 @@ const AnalyticsContainer = () => {
        @Coders: Mohan
     */
     useEffect(() => {
+        getDailyMetaRecords();
         getHourlyMetaRecords();
     }, [date, displayData]);
     useEffect(() => {
@@ -551,9 +608,13 @@ const AnalyticsContainer = () => {
                                         <div style={{ width: "100%", height: "100%" }}>{generateDoughnutChartResponsive(false)}</div> {/* Adjust the height and width as needed */}
                                     </Tooltip>
                                 </Grid>
+                                <Grid item xs={12} md={6} lg={10}>
+                                    <div style={{ width: "100%", height: "100%" }}>{generateBarChartResponsive(false)}</div>
+                                </Grid>
                             </Grid>
                         </MDBox>
                     </MDBox>
+                    <Footer />
                 </div>
             )}
             {isMobileDevice && (
@@ -609,9 +670,9 @@ const AnalyticsContainer = () => {
                             </Grid>
                         </Grid>
                     </MDBox>
+                    <Footer />
                 </div>
             )}
-            <Footer />
         </DashboardLayout>
     );
 };
