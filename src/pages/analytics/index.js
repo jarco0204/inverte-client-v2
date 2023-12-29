@@ -316,7 +316,7 @@ const AnalyticsContainer = () => {
                 variables: {
                     filter: {
                         dayOfYear_iotNameThing: {
-                            eq: dayjs(date.$d).dayOfYear() + "_" + keys[selectedIndexRef.current],
+                            match: dayjs(date.$d).dayOfYear() + "_" + keys[selectedIndexRef.current],
                         },
                     },
                 },
@@ -609,7 +609,7 @@ const AnalyticsContainer = () => {
                                     </Tooltip>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={10}>
-                                    <div style={{ width: "100%", height: "100%" }}>{generateBarChartResponsive(false)}</div>
+                                    <div style={{ width: "60%", height: "60%" }}>{generateBarChartResponsive(false)}</div>
                                 </Grid>
                             </Grid>
                         </MDBox>
