@@ -316,7 +316,7 @@ const AnalyticsContainer = () => {
                 variables: {
                     filter: {
                         dayOfYear_iotNameThing: {
-                            eq: dayjs(date.$d).dayOfYear() + "_" + keys[selectedIndexRef.current],
+                            match: dayjs(date.$d).dayOfYear() + "_" + keys[selectedIndexRef.current],
                         },
                     },
                 },
