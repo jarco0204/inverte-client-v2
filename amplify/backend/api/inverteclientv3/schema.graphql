@@ -64,7 +64,7 @@ type Day @model {
     hour: [Hour] @hasMany(indexName: "byDay")
 }
 
-type Hour @model @searchable {
+type Hour @model {
     dayOfYear_hourOfDay_iotNameThing: ID! @primaryKey
     dayOfYear_iotNameThing: ID! @index(name: "byDay")
     hourlySummary: HourlySummary
