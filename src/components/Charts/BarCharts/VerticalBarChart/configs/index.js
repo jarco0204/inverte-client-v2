@@ -18,7 +18,7 @@ import typography from "../../../../../assets/theme/base/typography";
 
 const barChartConfigs = (data) => {
     return {
-        labels: data.labels,
+        labels: data.hourLabels,
         datasets: [
             {
                 label: "Precision",
@@ -27,7 +27,7 @@ const barChartConfigs = (data) => {
                 borderWidth: 1,
                 hoverBackgroundColor: "rgba(75,192,192,0.4)",
                 hoverBorderColor: "rgba(75,192,192,1)",
-                data: data.precision,
+                data: data.hourPrecision,
             },
             {
                 label: "Accuracy",
@@ -36,7 +36,7 @@ const barChartConfigs = (data) => {
                 borderWidth: 1,
                 hoverBackgroundColor: "rgba(255,99,132,0.4)",
                 hoverBorderColor: "rgba(255,99,132,1)",
-                data: data.inventoryConsumed,
+                data: data.hourAccuracy,
             },
             {
                 label: "Number of portions",
@@ -45,7 +45,7 @@ const barChartConfigs = (data) => {
                 borderWidth: 1,
                 hoverBackgroundColor: "rgba(255,206,86,0.4)",
                 hoverBorderColor: "rgba(255,206,86,1)",
-                data: data.portionsCompleted,
+                data: data.hourPortionsCompleted,
             },
             {
                 label: "Inventory",
@@ -54,7 +54,7 @@ const barChartConfigs = (data) => {
                 borderWidth: 1,
                 hoverBackgroundColor: "rgba(255,206,86,0.4)",
                 hoverBorderColor: "rgba(255,206,86,1)",
-                data: data.inventoryConsumed,
+                data: data.hourInventoryConsumed,
             },
         ],
     };
