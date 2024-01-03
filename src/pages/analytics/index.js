@@ -11,26 +11,27 @@ import PrecisionManufacturingRoundedIcon from "@mui/icons-material/PrecisionManu
 
 // Material Dashboard
 import { Tooltip } from "@mui/material";
+import Stack from "@mui/material/Stack";
+import Radio from "@mui/material/Radio";
+import Switch from "@mui/material/Switch";
 import MDBox from "../../components/MDBox";
+import Dropdown from "./components/Dropdown";
 import Footer from "../../components/Footer";
+import FormLabel from "@mui/material/FormLabel";
+import RadioGroup from "@mui/material/RadioGroup";
+import Typography from "@mui/material/Typography";
+import FormControl from "@mui/material/FormControl";
 import BasicDatePicker from "../../components/DatePicker";
+import ZoomableChart from "./components/ZoomableChart.mjs";
+import FormControlLabel from "@mui/material/FormControlLabel";
 import DropDownIngredientMenu from "../../components/DropDownIngredientMenu";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
-import ZoomableChart from "./components/ZoomableChart.mjs";
-import Dropdown from "./components/Dropdown";
-import Switch from "@mui/material/Switch";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
 
 // AWS Imports
 import { API, graphqlOperation } from "aws-amplify";
-import { getDay, getPortionEvent, listDays, listPortionEvents, listHours, searchHours } from "../../graphql/queries";
+import getDay from "./queries/analyticsData";
+import { hoursByDayOfYear_iotNameThing } from "../../graphql/queries";
 
 // User Components
 import PortionTimeLineChart from "./components/PortionTimeLineChart";
@@ -296,52 +297,6 @@ const AnalyticsContainer = () => {
         return topThreeSizes;
     };
     /*!
-    @description:Get hourly meta records for bar chart
-    @params:
-    @return:
-    @Comments
-    @Coders:Rohan-16
-    */
-    const getHourlyMetaRecords = async () => {
-        let precision = [],
-            inventoryConsumed = [],
-            portionsCompleted = [],
-            accuracy = [],
-            labels = [],
-            response,
-            hours;
-        try {
-            response = await API.graphql({
-                query: searchHours,
-                variables: {
-                    filter: {
-                        dayOfYear_iotNameThing: {
-                            match: dayjs(date.$d).dayOfYear() + "_" + keys[selectedIndexRef.current],
-                        },
-                    },
-                },
-            });
-            console.log("The Hourly response is:", response);
-            hours = response.data.searchHours.items;
-            for (let i = 0; i < hours.length; i++) {
-                labels.push(hours[i].dayOfYear_hourOfDay_iotNameThing.split("_")[1]);
-                precision.push(Math.abs(hours[i].hourlySummary.precision));
-                inventoryConsumed.push(hours[i].hourlySummary.inventoryConsumed);
-                portionsCompleted.push(hours[i].hourlySummary.portionsCompleted);
-                accuracy.push(hours[i].hourlySummary.accuracy);
-            }
-            precision = precision.slice().reverse();
-            inventoryConsumed = inventoryConsumed.slice().reverse();
-            portionsCompleted = portionsCompleted.slice().reverse();
-            accuracy = accuracy.slice().reverse();
-            labels = labels.slice().reverse();
-            setBarChartData({ precision, inventoryConsumed, portionsCompleted, accuracy, labels });
-        } catch (error) {
-            console.error("Error fetching from HOURLY GQL or Generating Charts... ", error);
-        }
-    };
-
-    /*!
        @description:
        @params:
        @return:
@@ -359,6 +314,13 @@ const AnalyticsContainer = () => {
             dashboardGraph = {},
             scaleActions = {},
             portionSizes = [],
+            hourPrecision = [],
+            hourInventoryConsumed = [],
+            hourPortionsCompleted = [],
+            hourAccuracy = [],
+            hourLabels = [],
+            hourResponse,
+            hours,
             response;
         try {
             // Query GQL to pull hourly data
@@ -370,7 +332,7 @@ const AnalyticsContainer = () => {
                     dayOfYear_iotNameThing: dayjs(date.$d).dayOfYear() + "_" + keys[selectedIndexRef.current],
                 },
             });
-
+            console.log("The Daily response is:", response);
             if (response.data.getDay) {
                 precision = Math.abs(response.data.getDay.dailySummary.precision);
                 inventoryConsumed = response.data.getDay.dailySummary.inventoryConsumed;
@@ -380,6 +342,7 @@ const AnalyticsContainer = () => {
                 perfectPercent = Math.round((response.data.getDay.dailySummary.perfect / portionsCompleted) * 100);
                 overPercent = Math.round((response.data.getDay.dailySummary.overServed / portionsCompleted) * 100);
                 const totalPercent = underPercent + overPercent + perfectPercent;
+                hours = response.data.getDay.hour.items;
                 if (totalPercent != 100) {
                     if (100 - totalPercent == 1) {
                         perfectPercent++;
@@ -415,7 +378,28 @@ const AnalyticsContainer = () => {
                 });
                 dashboardGraph = sortedObject;
                 setDashboardGraph(dashboardGraph);
+
+                for (let i = 0; i < hours.length; i++) {
+                    hourLabels.push(parseInt(hours[i].dayOfYear_hourOfDay_iotNameThing.split("_")[1]));
+                    hourPrecision.push(hours[i].hourlySummary.precision);
+                    hourInventoryConsumed.push(hours[i].hourlySummary.inventoryConsumed);
+                    hourPortionsCompleted.push(hours[i].hourlySummary.portionsCompleted);
+                    hourAccuracy.push(hours[i].hourlySummary.accuracy);
+                }
+                const indices = hourLabels.map((value, index) => ({ value, index }));
+
+                // Sort the indices based on the values of the original array
+                indices.sort((a, b) => a.value - b.value);
+                const sortedValues = indices.map((item) => item.value);
+                const sortedIndices = indices.map((item) => item.index);
+                // Use the sorted indices to rearrange other arrays
+                hourLabels = sortedValues;
+                hourPrecision = sortedIndices.map((index) => hourPrecision[index]);
+                hourInventoryConsumed = sortedIndices.map((index) => hourInventoryConsumed[index]);
+                hourPortionsCompleted = sortedIndices.map((index) => hourPortionsCompleted[index]);
+                hourAccuracy = sortedIndices.map((index) => hourAccuracy[index]);
             }
+            setBarChartData({ hourPrecision, hourInventoryConsumed, hourPortionsCompleted, hourAccuracy, hourLabels });
             let demo = false;
             // If Demo, then display hard-coded data
             if (response.data.getDay || response.data.listDays) {
@@ -452,7 +436,7 @@ const AnalyticsContainer = () => {
     */
     useEffect(() => {
         getDailyMetaRecords();
-        getHourlyMetaRecords();
+        //getHourlyMetaRecords();
     }, [date, displayData]);
     useEffect(() => {
         const handleResize = () => {
