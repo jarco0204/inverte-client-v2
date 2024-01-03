@@ -12,9 +12,6 @@
       "AmplifyAppId": "d1n1lwyzmz6bqx"
     },
     "categories": {
-      "api": {
-        "inverteclientv3": {}
-      },
       "auth": {
         "inverteclientv30db036de": {}
       },
