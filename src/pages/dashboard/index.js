@@ -296,6 +296,7 @@ const DashboardContainer = () => {
                 query: getDashboard,
                 variables: { dayOfYear_iotNameThing: tempDate.dayOfYear().toString() + "_" + keys[selectedIndexRef.current] }, // Provide the ID as a variable
             });
+            console.log("The daily data is:", response);
 
             // let demoData = getDemoData();
             // let demo = false;
@@ -337,7 +338,7 @@ const DashboardContainer = () => {
                     }
                 }
                 generateLowerRealTimeGraphs(JSON.parse(day.getDay.dashboardGraph), [underPercent, perfectPercent, overPercent]);
-                setDifferencePrecision(day.getDay.dailySummary.accuracy - precisionLastWeek);
+                setDifferencePrecision(Math.abs(day.getDay.dailySummary.precision) - precisionLastWeek);
                 if (unitOfMass == "g") {
                     setDifferenceInventory(day.getDay.dailySummary.inventoryConsumed - inventoryConsumedLastWeek);
                 } else {
@@ -514,7 +515,7 @@ const DashboardContainer = () => {
                                             percentage={{
                                                 color: "success",
                                                 amount: differencePrecision >= 0 ? "+" + differencePrecision.toFixed(0) + "%" : differencePrecision.toFixed(0) + "%",
-                                                label: "than last week",
+                                                label: "than last week at this time",
                                             }}
                                         />
                                     </MDBox>
@@ -531,7 +532,7 @@ const DashboardContainer = () => {
                                             percentage={{
                                                 color: "success",
                                                 amount: differenceInventory >= 0 ? "+" + differenceInventory : differenceInventory,
-                                                label: unitOfMass == "g" ? "g than last week" : "oz than last week",
+                                                label: unitOfMass == "g" ? "g than last week at this time" : "oz than last week at this time",
                                             }}
                                         />
                                     </MDBox>
@@ -548,7 +549,7 @@ const DashboardContainer = () => {
                                             percentage={{
                                                 color: "success",
                                                 amount: differenceCompletionTime >= 0 ? "+" + differenceCompletionTime.toFixed(1) + "s" : differenceCompletionTime.toFixed(1) + "s",
-                                                label: "than last week",
+                                                label: "than last week at this time",
                                             }}
                                         />
                                     </MDBox>
