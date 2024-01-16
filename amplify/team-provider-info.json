@@ -1,50 +1,17 @@
 {
-  "invertedev": {
+  "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-inverteclientv3-invertedev-112316-authRole",
-      "UnauthRoleArn": "arn:aws:iam::084619430748:role/amplify-inverteclientv3-invertedev-112316-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::084619430748:role/amplify-inverteclientv3-invertedev-112316-authRole",
+      "AuthRoleName": "amplify-inverteclientv3-dev-123331-authRole",
+      "UnauthRoleArn": "arn:aws:iam::084619430748:role/amplify-inverteclientv3-dev-123331-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::084619430748:role/amplify-inverteclientv3-dev-123331-authRole",
       "Region": "ca-central-1",
-      "DeploymentBucketName": "amplify-inverteclientv3-invertedev-112316-deployment",
-      "UnauthRoleName": "amplify-inverteclientv3-invertedev-112316-unauthRole",
-      "StackName": "amplify-inverteclientv3-invertedev-112316",
-      "StackId": "arn:aws:cloudformation:ca-central-1:084619430748:stack/amplify-inverteclientv3-invertedev-112316/93ec0560-3dce-11ee-9024-0accc044f812",
-      "AmplifyAppId": "d1n1lwyzmz6bqx"
+      "DeploymentBucketName": "amplify-inverteclientv3-dev-123331-deployment",
+      "UnauthRoleName": "amplify-inverteclientv3-dev-123331-unauthRole",
+      "StackName": "amplify-inverteclientv3-dev-123331",
+      "StackId": "arn:aws:cloudformation:ca-central-1:084619430748:stack/amplify-inverteclientv3-dev-123331/cb9314f0-b488-11ee-a170-0a364ad47136",
+      "AmplifyAppId": "d10blk6xc4u1xd"
     },
     "categories": {
-      "auth": {
-        "inverteclientv30db036de": {}
-      },
-      "function": {
-        "createMetaRecordAmplifyAPIv3": {
-          "deploymentBucketName": "amplify-inverteclientv3-invertedev-112316-deployment",
-          "s3Key": "amplify-builds/createMetaRecordAmplifyAPIv3-3279644d584367757731-build.zip"
-        },
-        "getAnalyticsAmplifyAPIv3": {
-          "deploymentBucketName": "amplify-inverteclientv3-invertedev-112316-deployment",
-          "s3Key": "amplify-builds/getAnalyticsAmplifyAPIv3-736561546f5250473878-build.zip"
-        },
-        "getDailyMetaRecordAmplifyAPIv3": {
-          "deploymentBucketName": "amplify-inverteclientv3-invertedev-112316-deployment",
-          "s3Key": "amplify-builds/getDailyMetaRecordAmplifyAPIv3-2f725172774d764a6664-build.zip"
-        },
-        "getRestaurantMetaAmplifyAPIv3": {
-          "deploymentBucketName": "amplify-inverteclientv3-invertedev-112316-deployment",
-          "s3Key": "amplify-builds/getRestaurantMetaAmplifyAPIv3-427039374d7666764258-build.zip"
-        },
-        "updateDisplayIngredientIndexAmplifyAPIv3": {
-          "deploymentBucketName": "amplify-inverteclientv3-invertedev-112316-deployment",
-          "s3Key": "amplify-builds/updateDisplayIngredientIndexAmplifyAPIv3-7a475a5262734d58784d-build.zip"
-        },
-        "updateIngredientNameAmplifyAPIv3": {
-          "deploymentBucketName": "amplify-inverteclientv3-invertedev-112316-deployment",
-          "s3Key": "amplify-builds/updateIngredientNameAmplifyAPIv3-796f424c3269546b7a6a-build.zip"
-        },
-        "updateUnitOfMassAmplifyAPIv3": {
-          "deploymentBucketName": "amplify-inverteclientv3-invertedev-112316-deployment",
-          "s3Key": "amplify-builds/updateUnitOfMassAmplifyAPIv3-73744845336c4d636e51-build.zip"
-        }
-      },
       "api": {
         "inverteclientv3": {}
       }
