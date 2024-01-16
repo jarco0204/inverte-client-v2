@@ -27,7 +27,6 @@ export const onNewPortionEvent = /* GraphQL */ `
           allPortionEvents
           createdAt
           updatedAt
-          weekDayWeekOfYear_iotNameThing
           __typename
         }
         precision
@@ -53,7 +52,6 @@ export const onNewPortionEvent = /* GraphQL */ `
         __typename
       }
       updatedAt
-      weekDayWeekOfYear_iotNameThing
       __typename
     }
   }
@@ -72,21 +70,6 @@ export const onCreateRestaurant = /* GraphQL */ `
       unitOfMass
       timeZone
       accessType
-      scale {
-        items {
-          iotNameThing
-          restaurant_id
-          unitOfMass
-          multiplier
-          firmwareVersion
-          createdAt
-          updatedAt
-          restaurantScaleRestaurant_id
-          __typename
-        }
-        nextToken
-        __typename
-      }
       createdAt
       updatedAt
       __typename
@@ -107,21 +90,6 @@ export const onUpdateRestaurant = /* GraphQL */ `
       unitOfMass
       timeZone
       accessType
-      scale {
-        items {
-          iotNameThing
-          restaurant_id
-          unitOfMass
-          multiplier
-          firmwareVersion
-          createdAt
-          updatedAt
-          restaurantScaleRestaurant_id
-          __typename
-        }
-        nextToken
-        __typename
-      }
       createdAt
       updatedAt
       __typename
@@ -142,614 +110,8 @@ export const onDeleteRestaurant = /* GraphQL */ `
       unitOfMass
       timeZone
       accessType
-      scale {
-        items {
-          iotNameThing
-          restaurant_id
-          unitOfMass
-          multiplier
-          firmwareVersion
-          createdAt
-          updatedAt
-          restaurantScaleRestaurant_id
-          __typename
-        }
-        nextToken
-        __typename
-      }
       createdAt
       updatedAt
-      __typename
-    }
-  }
-`;
-export const onCreateScale = /* GraphQL */ `
-  subscription OnCreateScale($filter: ModelSubscriptionScaleFilterInput) {
-    onCreateScale(filter: $filter) {
-      iotNameThing
-      restaurant_id
-      unitOfMass
-      multiplier
-      firmwareVersion
-      ingredient {
-        items {
-          ingredient_name
-          iotNameThing
-          createdAt
-          updatedAt
-          scaleIngredientIotNameThing
-          __typename
-        }
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      restaurantScaleRestaurant_id
-      __typename
-    }
-  }
-`;
-export const onUpdateScale = /* GraphQL */ `
-  subscription OnUpdateScale($filter: ModelSubscriptionScaleFilterInput) {
-    onUpdateScale(filter: $filter) {
-      iotNameThing
-      restaurant_id
-      unitOfMass
-      multiplier
-      firmwareVersion
-      ingredient {
-        items {
-          ingredient_name
-          iotNameThing
-          createdAt
-          updatedAt
-          scaleIngredientIotNameThing
-          __typename
-        }
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      restaurantScaleRestaurant_id
-      __typename
-    }
-  }
-`;
-export const onDeleteScale = /* GraphQL */ `
-  subscription OnDeleteScale($filter: ModelSubscriptionScaleFilterInput) {
-    onDeleteScale(filter: $filter) {
-      iotNameThing
-      restaurant_id
-      unitOfMass
-      multiplier
-      firmwareVersion
-      ingredient {
-        items {
-          ingredient_name
-          iotNameThing
-          createdAt
-          updatedAt
-          scaleIngredientIotNameThing
-          __typename
-        }
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      restaurantScaleRestaurant_id
-      __typename
-    }
-  }
-`;
-export const onCreateIngredient = /* GraphQL */ `
-  subscription OnCreateIngredient(
-    $filter: ModelSubscriptionIngredientFilterInput
-  ) {
-    onCreateIngredient(filter: $filter) {
-      ingredient_name
-      iotNameThing
-      year {
-        items {
-          year_iotNameThing
-          ingredientName_weight
-          lastConnected
-          scaleActions
-          createdAt
-          updatedAt
-          ingredientYearIngredient_name
-          __typename
-        }
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      scaleIngredientIotNameThing
-      __typename
-    }
-  }
-`;
-export const onUpdateIngredient = /* GraphQL */ `
-  subscription OnUpdateIngredient(
-    $filter: ModelSubscriptionIngredientFilterInput
-  ) {
-    onUpdateIngredient(filter: $filter) {
-      ingredient_name
-      iotNameThing
-      year {
-        items {
-          year_iotNameThing
-          ingredientName_weight
-          lastConnected
-          scaleActions
-          createdAt
-          updatedAt
-          ingredientYearIngredient_name
-          __typename
-        }
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      scaleIngredientIotNameThing
-      __typename
-    }
-  }
-`;
-export const onDeleteIngredient = /* GraphQL */ `
-  subscription OnDeleteIngredient(
-    $filter: ModelSubscriptionIngredientFilterInput
-  ) {
-    onDeleteIngredient(filter: $filter) {
-      ingredient_name
-      iotNameThing
-      year {
-        items {
-          year_iotNameThing
-          ingredientName_weight
-          lastConnected
-          scaleActions
-          createdAt
-          updatedAt
-          ingredientYearIngredient_name
-          __typename
-        }
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      scaleIngredientIotNameThing
-      __typename
-    }
-  }
-`;
-export const onCreateYear = /* GraphQL */ `
-  subscription OnCreateYear($filter: ModelSubscriptionYearFilterInput) {
-    onCreateYear(filter: $filter) {
-      year_iotNameThing
-      ingredientName_weight
-      lastConnected
-      yearlySummary {
-        averageTime
-        portionsCompleted
-        accuracy
-        inventoryConsumed
-        overServed
-        underServed
-        perfect
-        year {
-          year_iotNameThing
-          ingredientName_weight
-          lastConnected
-          scaleActions
-          createdAt
-          updatedAt
-          ingredientYearIngredient_name
-          __typename
-        }
-        __typename
-      }
-      scaleActions
-      month {
-        items {
-          monthOfYear_iotNameThing
-          year_iotNameThing
-          scaleActions
-          createdAt
-          updatedAt
-          yearMonthYear_iotNameThing
-          __typename
-        }
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      ingredientYearIngredient_name
-      __typename
-    }
-  }
-`;
-export const onUpdateYear = /* GraphQL */ `
-  subscription OnUpdateYear($filter: ModelSubscriptionYearFilterInput) {
-    onUpdateYear(filter: $filter) {
-      year_iotNameThing
-      ingredientName_weight
-      lastConnected
-      yearlySummary {
-        averageTime
-        portionsCompleted
-        accuracy
-        inventoryConsumed
-        overServed
-        underServed
-        perfect
-        year {
-          year_iotNameThing
-          ingredientName_weight
-          lastConnected
-          scaleActions
-          createdAt
-          updatedAt
-          ingredientYearIngredient_name
-          __typename
-        }
-        __typename
-      }
-      scaleActions
-      month {
-        items {
-          monthOfYear_iotNameThing
-          year_iotNameThing
-          scaleActions
-          createdAt
-          updatedAt
-          yearMonthYear_iotNameThing
-          __typename
-        }
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      ingredientYearIngredient_name
-      __typename
-    }
-  }
-`;
-export const onDeleteYear = /* GraphQL */ `
-  subscription OnDeleteYear($filter: ModelSubscriptionYearFilterInput) {
-    onDeleteYear(filter: $filter) {
-      year_iotNameThing
-      ingredientName_weight
-      lastConnected
-      yearlySummary {
-        averageTime
-        portionsCompleted
-        accuracy
-        inventoryConsumed
-        overServed
-        underServed
-        perfect
-        year {
-          year_iotNameThing
-          ingredientName_weight
-          lastConnected
-          scaleActions
-          createdAt
-          updatedAt
-          ingredientYearIngredient_name
-          __typename
-        }
-        __typename
-      }
-      scaleActions
-      month {
-        items {
-          monthOfYear_iotNameThing
-          year_iotNameThing
-          scaleActions
-          createdAt
-          updatedAt
-          yearMonthYear_iotNameThing
-          __typename
-        }
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      ingredientYearIngredient_name
-      __typename
-    }
-  }
-`;
-export const onCreateMonth = /* GraphQL */ `
-  subscription OnCreateMonth($filter: ModelSubscriptionMonthFilterInput) {
-    onCreateMonth(filter: $filter) {
-      monthOfYear_iotNameThing
-      year_iotNameThing
-      monthlySummary {
-        averageTime
-        portionsCompleted
-        accuracy
-        inventoryConsumed
-        overServed
-        underServed
-        perfect
-        month {
-          monthOfYear_iotNameThing
-          year_iotNameThing
-          scaleActions
-          createdAt
-          updatedAt
-          yearMonthYear_iotNameThing
-          __typename
-        }
-        __typename
-      }
-      scaleActions
-      week {
-        items {
-          weekOfYear_iotNameThing
-          monthOfYear_iotNameThing
-          scaleActions
-          createdAt
-          updatedAt
-          monthWeekMonthOfYear_iotNameThing
-          __typename
-        }
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      yearMonthYear_iotNameThing
-      __typename
-    }
-  }
-`;
-export const onUpdateMonth = /* GraphQL */ `
-  subscription OnUpdateMonth($filter: ModelSubscriptionMonthFilterInput) {
-    onUpdateMonth(filter: $filter) {
-      monthOfYear_iotNameThing
-      year_iotNameThing
-      monthlySummary {
-        averageTime
-        portionsCompleted
-        accuracy
-        inventoryConsumed
-        overServed
-        underServed
-        perfect
-        month {
-          monthOfYear_iotNameThing
-          year_iotNameThing
-          scaleActions
-          createdAt
-          updatedAt
-          yearMonthYear_iotNameThing
-          __typename
-        }
-        __typename
-      }
-      scaleActions
-      week {
-        items {
-          weekOfYear_iotNameThing
-          monthOfYear_iotNameThing
-          scaleActions
-          createdAt
-          updatedAt
-          monthWeekMonthOfYear_iotNameThing
-          __typename
-        }
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      yearMonthYear_iotNameThing
-      __typename
-    }
-  }
-`;
-export const onDeleteMonth = /* GraphQL */ `
-  subscription OnDeleteMonth($filter: ModelSubscriptionMonthFilterInput) {
-    onDeleteMonth(filter: $filter) {
-      monthOfYear_iotNameThing
-      year_iotNameThing
-      monthlySummary {
-        averageTime
-        portionsCompleted
-        accuracy
-        inventoryConsumed
-        overServed
-        underServed
-        perfect
-        month {
-          monthOfYear_iotNameThing
-          year_iotNameThing
-          scaleActions
-          createdAt
-          updatedAt
-          yearMonthYear_iotNameThing
-          __typename
-        }
-        __typename
-      }
-      scaleActions
-      week {
-        items {
-          weekOfYear_iotNameThing
-          monthOfYear_iotNameThing
-          scaleActions
-          createdAt
-          updatedAt
-          monthWeekMonthOfYear_iotNameThing
-          __typename
-        }
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      yearMonthYear_iotNameThing
-      __typename
-    }
-  }
-`;
-export const onCreateWeek = /* GraphQL */ `
-  subscription OnCreateWeek($filter: ModelSubscriptionWeekFilterInput) {
-    onCreateWeek(filter: $filter) {
-      weekOfYear_iotNameThing
-      monthOfYear_iotNameThing
-      weeklySummary {
-        averageTime
-        portionsCompleted
-        accuracy
-        inventoryConsumed
-        overServed
-        underServed
-        perfect
-        week {
-          weekOfYear_iotNameThing
-          monthOfYear_iotNameThing
-          scaleActions
-          createdAt
-          updatedAt
-          monthWeekMonthOfYear_iotNameThing
-          __typename
-        }
-        __typename
-      }
-      scaleActions
-      day {
-        items {
-          dayOfYear_iotNameThing
-          weekOfYear_iotNameThing
-          monthOfYear_iotNameThing
-          year_iotNameThing
-          realTime
-          dashboardGraph
-          scaleActions
-          allPortionEvents
-          createdAt
-          updatedAt
-          weekDayWeekOfYear_iotNameThing
-          __typename
-        }
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      monthWeekMonthOfYear_iotNameThing
-      __typename
-    }
-  }
-`;
-export const onUpdateWeek = /* GraphQL */ `
-  subscription OnUpdateWeek($filter: ModelSubscriptionWeekFilterInput) {
-    onUpdateWeek(filter: $filter) {
-      weekOfYear_iotNameThing
-      monthOfYear_iotNameThing
-      weeklySummary {
-        averageTime
-        portionsCompleted
-        accuracy
-        inventoryConsumed
-        overServed
-        underServed
-        perfect
-        week {
-          weekOfYear_iotNameThing
-          monthOfYear_iotNameThing
-          scaleActions
-          createdAt
-          updatedAt
-          monthWeekMonthOfYear_iotNameThing
-          __typename
-        }
-        __typename
-      }
-      scaleActions
-      day {
-        items {
-          dayOfYear_iotNameThing
-          weekOfYear_iotNameThing
-          monthOfYear_iotNameThing
-          year_iotNameThing
-          realTime
-          dashboardGraph
-          scaleActions
-          allPortionEvents
-          createdAt
-          updatedAt
-          weekDayWeekOfYear_iotNameThing
-          __typename
-        }
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      monthWeekMonthOfYear_iotNameThing
-      __typename
-    }
-  }
-`;
-export const onDeleteWeek = /* GraphQL */ `
-  subscription OnDeleteWeek($filter: ModelSubscriptionWeekFilterInput) {
-    onDeleteWeek(filter: $filter) {
-      weekOfYear_iotNameThing
-      monthOfYear_iotNameThing
-      weeklySummary {
-        averageTime
-        portionsCompleted
-        accuracy
-        inventoryConsumed
-        overServed
-        underServed
-        perfect
-        week {
-          weekOfYear_iotNameThing
-          monthOfYear_iotNameThing
-          scaleActions
-          createdAt
-          updatedAt
-          monthWeekMonthOfYear_iotNameThing
-          __typename
-        }
-        __typename
-      }
-      scaleActions
-      day {
-        items {
-          dayOfYear_iotNameThing
-          weekOfYear_iotNameThing
-          monthOfYear_iotNameThing
-          year_iotNameThing
-          realTime
-          dashboardGraph
-          scaleActions
-          allPortionEvents
-          createdAt
-          updatedAt
-          weekDayWeekOfYear_iotNameThing
-          __typename
-        }
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      monthWeekMonthOfYear_iotNameThing
       __typename
     }
   }
@@ -780,7 +142,6 @@ export const onCreateDay = /* GraphQL */ `
           allPortionEvents
           createdAt
           updatedAt
-          weekDayWeekOfYear_iotNameThing
           __typename
         }
         precision
@@ -806,7 +167,6 @@ export const onCreateDay = /* GraphQL */ `
         __typename
       }
       updatedAt
-      weekDayWeekOfYear_iotNameThing
       __typename
     }
   }
@@ -837,7 +197,6 @@ export const onUpdateDay = /* GraphQL */ `
           allPortionEvents
           createdAt
           updatedAt
-          weekDayWeekOfYear_iotNameThing
           __typename
         }
         precision
@@ -863,7 +222,6 @@ export const onUpdateDay = /* GraphQL */ `
         __typename
       }
       updatedAt
-      weekDayWeekOfYear_iotNameThing
       __typename
     }
   }
@@ -894,7 +252,6 @@ export const onDeleteDay = /* GraphQL */ `
           allPortionEvents
           createdAt
           updatedAt
-          weekDayWeekOfYear_iotNameThing
           __typename
         }
         precision
@@ -920,7 +277,6 @@ export const onDeleteDay = /* GraphQL */ `
         __typename
       }
       updatedAt
-      weekDayWeekOfYear_iotNameThing
       __typename
     }
   }
