@@ -33,8 +33,8 @@ export default function YearUpdateForm(props) {
   const initialValues = {
     year_iotNameThing: "",
     ingredientName_weight: "",
-    lastConnected: "",
     scaleActions: "",
+    lastConnected: "",
   };
   const [year_iotNameThing, setYear_iotNameThing] = React.useState(
     initialValues.year_iotNameThing
@@ -42,11 +42,11 @@ export default function YearUpdateForm(props) {
   const [ingredientName_weight, setIngredientName_weight] = React.useState(
     initialValues.ingredientName_weight
   );
-  const [lastConnected, setLastConnected] = React.useState(
-    initialValues.lastConnected
-  );
   const [scaleActions, setScaleActions] = React.useState(
     initialValues.scaleActions
+  );
+  const [lastConnected, setLastConnected] = React.useState(
+    initialValues.lastConnected
   );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
@@ -55,13 +55,13 @@ export default function YearUpdateForm(props) {
       : initialValues;
     setYear_iotNameThing(cleanValues.year_iotNameThing);
     setIngredientName_weight(cleanValues.ingredientName_weight);
-    setLastConnected(cleanValues.lastConnected);
     setScaleActions(
       typeof cleanValues.scaleActions === "string" ||
         cleanValues.scaleActions === null
         ? cleanValues.scaleActions
         : JSON.stringify(cleanValues.scaleActions)
     );
+    setLastConnected(cleanValues.lastConnected);
     setErrors({});
   };
   const [yearRecord, setYearRecord] = React.useState(yearModelProp);
@@ -83,8 +83,8 @@ export default function YearUpdateForm(props) {
   const validations = {
     year_iotNameThing: [{ type: "Required" }],
     ingredientName_weight: [{ type: "Required" }],
-    lastConnected: [],
     scaleActions: [{ type: "JSON" }],
+    lastConnected: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -114,8 +114,8 @@ export default function YearUpdateForm(props) {
         let modelFields = {
           year_iotNameThing,
           ingredientName_weight,
-          lastConnected: lastConnected ?? null,
           scaleActions: scaleActions ?? null,
+          lastConnected: lastConnected ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -178,8 +178,8 @@ export default function YearUpdateForm(props) {
             const modelFields = {
               year_iotNameThing: value,
               ingredientName_weight,
-              lastConnected,
               scaleActions,
+              lastConnected,
             };
             const result = onChange(modelFields);
             value = result?.year_iotNameThing ?? value;
@@ -207,8 +207,8 @@ export default function YearUpdateForm(props) {
             const modelFields = {
               year_iotNameThing,
               ingredientName_weight: value,
-              lastConnected,
               scaleActions,
+              lastConnected,
             };
             const result = onChange(modelFields);
             value = result?.ingredientName_weight ?? value;
@@ -225,6 +225,33 @@ export default function YearUpdateForm(props) {
         hasError={errors.ingredientName_weight?.hasError}
         {...getOverrideProps(overrides, "ingredientName_weight")}
       ></TextField>
+      <TextAreaField
+        label="Scale actions"
+        isRequired={false}
+        isReadOnly={false}
+        value={scaleActions}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              year_iotNameThing,
+              ingredientName_weight,
+              scaleActions: value,
+              lastConnected,
+            };
+            const result = onChange(modelFields);
+            value = result?.scaleActions ?? value;
+          }
+          if (errors.scaleActions?.hasError) {
+            runValidationTasks("scaleActions", value);
+          }
+          setScaleActions(value);
+        }}
+        onBlur={() => runValidationTasks("scaleActions", scaleActions)}
+        errorMessage={errors.scaleActions?.errorMessage}
+        hasError={errors.scaleActions?.hasError}
+        {...getOverrideProps(overrides, "scaleActions")}
+      ></TextAreaField>
       <TextField
         label="Last connected"
         isRequired={false}
@@ -240,8 +267,8 @@ export default function YearUpdateForm(props) {
             const modelFields = {
               year_iotNameThing,
               ingredientName_weight,
-              lastConnected: value,
               scaleActions,
+              lastConnected: value,
             };
             const result = onChange(modelFields);
             value = result?.lastConnected ?? value;
@@ -256,33 +283,6 @@ export default function YearUpdateForm(props) {
         hasError={errors.lastConnected?.hasError}
         {...getOverrideProps(overrides, "lastConnected")}
       ></TextField>
-      <TextAreaField
-        label="Scale actions"
-        isRequired={false}
-        isReadOnly={false}
-        value={scaleActions}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              year_iotNameThing,
-              ingredientName_weight,
-              lastConnected,
-              scaleActions: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.scaleActions ?? value;
-          }
-          if (errors.scaleActions?.hasError) {
-            runValidationTasks("scaleActions", value);
-          }
-          setScaleActions(value);
-        }}
-        onBlur={() => runValidationTasks("scaleActions", scaleActions)}
-        errorMessage={errors.scaleActions?.errorMessage}
-        hasError={errors.scaleActions?.hasError}
-        {...getOverrideProps(overrides, "scaleActions")}
-      ></TextAreaField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
