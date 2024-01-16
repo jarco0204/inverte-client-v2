@@ -180,6 +180,6 @@ type YearlySummary {
     inventoryConsumed: Int!
     overServed: Int
     underServed: Int
-    perfect: Int
+    perfect: Int!
     year: Year
 }
