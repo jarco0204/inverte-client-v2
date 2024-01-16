@@ -11,15 +11,6 @@ type Restaurant @model {
     unitOfMass: String
     timeZone: String
     accessType: String
-    scale: [Scale] @hasMany(indexName: "byRestaurant")
-}
-type Scale @model {
-    iotNameThing: ID! @primaryKey
-    restaurant_id: ID! @index(name: "byRestaurant")
-    unitOfMass: String!
-    multiplier: Float!
-    firmwareVersion: String
-    ingredient: [Ingredient] @hasMany(indexName: "byScale")
 }
 type Ingredient @model {
     ingredient_name: ID! @primaryKey

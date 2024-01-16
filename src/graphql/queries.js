@@ -13,21 +13,6 @@ export const getRestaurant = /* GraphQL */ `
       unitOfMass
       timeZone
       accessType
-      scale {
-        items {
-          iotNameThing
-          restaurant_id
-          unitOfMass
-          multiplier
-          firmwareVersion
-          createdAt
-          updatedAt
-          restaurantScaleRestaurant_id
-          __typename
-        }
-        nextToken
-        __typename
-      }
       createdAt
       updatedAt
       __typename
@@ -59,74 +44,8 @@ export const listRestaurants = /* GraphQL */ `
         unitOfMass
         timeZone
         accessType
-        scale {
-          nextToken
-          __typename
-        }
         createdAt
         updatedAt
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
-export const getScale = /* GraphQL */ `
-  query GetScale($iotNameThing: ID!) {
-    getScale(iotNameThing: $iotNameThing) {
-      iotNameThing
-      restaurant_id
-      unitOfMass
-      multiplier
-      firmwareVersion
-      ingredient {
-        items {
-          ingredient_name
-          iotNameThing
-          createdAt
-          updatedAt
-          scaleIngredientIotNameThing
-          __typename
-        }
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      restaurantScaleRestaurant_id
-      __typename
-    }
-  }
-`;
-export const listScales = /* GraphQL */ `
-  query ListScales(
-    $iotNameThing: ID
-    $filter: ModelScaleFilterInput
-    $limit: Int
-    $nextToken: String
-    $sortDirection: ModelSortDirection
-  ) {
-    listScales(
-      iotNameThing: $iotNameThing
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      sortDirection: $sortDirection
-    ) {
-      items {
-        iotNameThing
-        restaurant_id
-        unitOfMass
-        multiplier
-        firmwareVersion
-        ingredient {
-          nextToken
-          __typename
-        }
-        createdAt
-        updatedAt
-        restaurantScaleRestaurant_id
         __typename
       }
       nextToken
@@ -155,7 +74,6 @@ export const getIngredient = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      scaleIngredientIotNameThing
       __typename
     }
   }
@@ -184,7 +102,6 @@ export const listIngredients = /* GraphQL */ `
         }
         createdAt
         updatedAt
-        scaleIngredientIotNameThing
         __typename
       }
       nextToken
@@ -648,41 +565,6 @@ export const listHours = /* GraphQL */ `
     }
   }
 `;
-export const scalesByRestaurant_id = /* GraphQL */ `
-  query ScalesByRestaurant_id(
-    $restaurant_id: ID!
-    $sortDirection: ModelSortDirection
-    $filter: ModelScaleFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    scalesByRestaurant_id(
-      restaurant_id: $restaurant_id
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        iotNameThing
-        restaurant_id
-        unitOfMass
-        multiplier
-        firmwareVersion
-        ingredient {
-          nextToken
-          __typename
-        }
-        createdAt
-        updatedAt
-        restaurantScaleRestaurant_id
-        __typename
-      }
-      nextToken
-      __typename
-    }
-  }
-`;
 export const ingredientsByIotNameThing = /* GraphQL */ `
   query IngredientsByIotNameThing(
     $iotNameThing: ID!
@@ -707,7 +589,6 @@ export const ingredientsByIotNameThing = /* GraphQL */ `
         }
         createdAt
         updatedAt
-        scaleIngredientIotNameThing
         __typename
       }
       nextToken

@@ -16,21 +16,6 @@ export const createRestaurant = /* GraphQL */ `
       unitOfMass
       timeZone
       accessType
-      scale {
-        items {
-          iotNameThing
-          restaurant_id
-          unitOfMass
-          multiplier
-          firmwareVersion
-          createdAt
-          updatedAt
-          restaurantScaleRestaurant_id
-          __typename
-        }
-        nextToken
-        __typename
-      }
       createdAt
       updatedAt
       __typename
@@ -52,21 +37,6 @@ export const updateRestaurant = /* GraphQL */ `
       unitOfMass
       timeZone
       accessType
-      scale {
-        items {
-          iotNameThing
-          restaurant_id
-          unitOfMass
-          multiplier
-          firmwareVersion
-          createdAt
-          updatedAt
-          restaurantScaleRestaurant_id
-          __typename
-        }
-        nextToken
-        __typename
-      }
       createdAt
       updatedAt
       __typename
@@ -88,113 +58,8 @@ export const deleteRestaurant = /* GraphQL */ `
       unitOfMass
       timeZone
       accessType
-      scale {
-        items {
-          iotNameThing
-          restaurant_id
-          unitOfMass
-          multiplier
-          firmwareVersion
-          createdAt
-          updatedAt
-          restaurantScaleRestaurant_id
-          __typename
-        }
-        nextToken
-        __typename
-      }
       createdAt
       updatedAt
-      __typename
-    }
-  }
-`;
-export const createScale = /* GraphQL */ `
-  mutation CreateScale(
-    $input: CreateScaleInput!
-    $condition: ModelScaleConditionInput
-  ) {
-    createScale(input: $input, condition: $condition) {
-      iotNameThing
-      restaurant_id
-      unitOfMass
-      multiplier
-      firmwareVersion
-      ingredient {
-        items {
-          ingredient_name
-          iotNameThing
-          createdAt
-          updatedAt
-          scaleIngredientIotNameThing
-          __typename
-        }
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      restaurantScaleRestaurant_id
-      __typename
-    }
-  }
-`;
-export const updateScale = /* GraphQL */ `
-  mutation UpdateScale(
-    $input: UpdateScaleInput!
-    $condition: ModelScaleConditionInput
-  ) {
-    updateScale(input: $input, condition: $condition) {
-      iotNameThing
-      restaurant_id
-      unitOfMass
-      multiplier
-      firmwareVersion
-      ingredient {
-        items {
-          ingredient_name
-          iotNameThing
-          createdAt
-          updatedAt
-          scaleIngredientIotNameThing
-          __typename
-        }
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      restaurantScaleRestaurant_id
-      __typename
-    }
-  }
-`;
-export const deleteScale = /* GraphQL */ `
-  mutation DeleteScale(
-    $input: DeleteScaleInput!
-    $condition: ModelScaleConditionInput
-  ) {
-    deleteScale(input: $input, condition: $condition) {
-      iotNameThing
-      restaurant_id
-      unitOfMass
-      multiplier
-      firmwareVersion
-      ingredient {
-        items {
-          ingredient_name
-          iotNameThing
-          createdAt
-          updatedAt
-          scaleIngredientIotNameThing
-          __typename
-        }
-        nextToken
-        __typename
-      }
-      createdAt
-      updatedAt
-      restaurantScaleRestaurant_id
       __typename
     }
   }
@@ -223,7 +88,6 @@ export const createIngredient = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      scaleIngredientIotNameThing
       __typename
     }
   }
@@ -252,7 +116,6 @@ export const updateIngredient = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      scaleIngredientIotNameThing
       __typename
     }
   }
@@ -281,7 +144,6 @@ export const deleteIngredient = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      scaleIngredientIotNameThing
       __typename
     }
   }
