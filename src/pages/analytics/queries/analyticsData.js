@@ -60,7 +60,6 @@ const getDay = /* GraphQL */ `
                 __typename
             }
             updatedAt
-            weekDayWeekOfYear_iotNameThing
             __typename
         }
     }

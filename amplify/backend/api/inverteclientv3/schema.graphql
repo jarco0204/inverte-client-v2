@@ -12,35 +12,6 @@ type Restaurant @model {
     timeZone: String
     accessType: String
 }
-type Ingredient @model {
-    ingredient_name: ID! @primaryKey
-    iotNameThing: ID! @index(name: "byScale")
-    year: [Year] @hasMany(indexName: "byIngredient")
-}
-type Year @model {
-    year_iotNameThing: ID! @primaryKey
-    ingredientName_weight: ID! @index(name: "byIngredient")
-    yearlySummary: YearlySummary
-    scaleActions: AWSJSON
-    lastConnected: Float
-    month: [Month] @hasMany(indexName: "byYear")
-}
-type Month @model {
-    monthOfYear_iotNameThing: ID! @primaryKey
-    year_iotNameThing: ID! @index(name: "byYear")
-    monthlySummary: MonthlySummary
-    scaleActions: AWSJSON
-    week: [Week] @hasMany(indexName: "byMonth")
-}
-
-type Week @model {
-    weekOfYear_iotNameThing: ID! @primaryKey
-    monthOfYear_iotNameThing: ID! @index(name: "byMonth")
-    weeklySummary: WeeklySummary
-    scaleActions: AWSJSON
-    day: [Day] @hasMany(indexName: "byWeek")
-}
-
 type Day @model {
     dayOfYear_iotNameThing: ID! @primaryKey
     weekOfYear_iotNameThing: ID! @index(name: "byWeek")
@@ -89,36 +60,6 @@ input DailySummaryInput {
     perfect: Int
     precision: Float
 }
-
-input WeeklySummaryInput {
-    averageTime: Float!
-    portionsCompleted: Int!
-    accuracy: Float!
-    inventoryConsumed: Int!
-    overServed: Int
-    underServed: Int
-    perfect: Int
-}
-
-input MonthlySummaryInput {
-    averageTime: Float!
-    portionsCompleted: Int!
-    accuracy: Float!
-    inventoryConsumed: Int!
-    overServed: Int
-    underServed: Int
-    perfect: Int
-}
-input YearlySummaryInput {
-    averageTime: Float!
-    portionsCompleted: Int!
-    accuracy: Float!
-    inventoryConsumed: Int!
-    overServed: Int
-    underServed: Int
-    perfect: Int
-}
-
 type HourlySummary {
     averageTime: Float!
     portionsCompleted: Int!
@@ -141,36 +82,4 @@ type DailySummary {
     perfect: Int
     day: Day
     precision: Float
-}
-
-type WeeklySummary {
-    averageTime: Float!
-    portionsCompleted: Int!
-    accuracy: Float!
-    inventoryConsumed: Int!
-    overServed: Int
-    underServed: Int
-    perfect: Int
-    week: Week
-}
-
-type MonthlySummary {
-    averageTime: Float!
-    portionsCompleted: Int!
-    accuracy: Float!
-    inventoryConsumed: Int!
-    overServed: Int
-    underServed: Int
-    perfect: Int
-    month: Month
-}
-type YearlySummary {
-    averageTime: Float!
-    portionsCompleted: Int!
-    accuracy: Float!
-    inventoryConsumed: Int!
-    overServed: Int
-    underServed: Int
-    perfect: Int!
-    year: Year
 }

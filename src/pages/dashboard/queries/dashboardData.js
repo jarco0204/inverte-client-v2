@@ -3,7 +3,6 @@ export const getDashboard = /* GraphQL */ `
     query GetDay($dayOfYear_iotNameThing: ID!) {
         getDay(dayOfYear_iotNameThing: $dayOfYear_iotNameThing) {
             dayOfYear_iotNameThing
-
             dailySummary {
                 averageTime
                 portionsCompleted
@@ -21,7 +20,6 @@ export const getDashboard = /* GraphQL */ `
                     scaleActions
                     createdAt
                     updatedAt
-                    weekDayWeekOfYear_iotNameThing
                     __typename
                 }
                 __typename
