@@ -118,7 +118,7 @@ export default function DayUpdateForm(props) {
     dayOfYear_iotNameThing: [{ type: "Required" }],
     weekOfYear_iotNameThing: [{ type: "Required" }],
     monthOfYear_iotNameThing: [{ type: "Required" }],
-    year_iotNameThing: [{ type: "Required" }],
+    year_iotNameThing: [],
     realTime: [{ type: "JSON" }],
     dashboardGraph: [{ type: "JSON" }],
     scaleActions: [{ type: "JSON" }],
@@ -154,7 +154,7 @@ export default function DayUpdateForm(props) {
           dayOfYear_iotNameThing,
           weekOfYear_iotNameThing,
           monthOfYear_iotNameThing,
-          year_iotNameThing,
+          year_iotNameThing: year_iotNameThing ?? null,
           realTime: realTime ?? null,
           dashboardGraph: dashboardGraph ?? null,
           scaleActions: scaleActions ?? null,
@@ -318,7 +318,7 @@ export default function DayUpdateForm(props) {
       ></TextField>
       <TextField
         label="Year iot name thing"
-        isRequired={true}
+        isRequired={false}
         isReadOnly={false}
         value={year_iotNameThing}
         onChange={(e) => {
