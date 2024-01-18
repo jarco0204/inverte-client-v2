@@ -24,7 +24,6 @@ const getDay = /* GraphQL */ `
                     allPortionEvents
                     createdAt
                     updatedAt
-                    weekDayWeekOfYear_iotNameThing
                     __typename
                 }
                 precision

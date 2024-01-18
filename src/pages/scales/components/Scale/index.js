@@ -109,19 +109,19 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
        @Comments
        @Coders:Rohan
     */
-    const getLastConnected = async () => {
-        const year = dayjs().year(); // Get the current year
-        const response = await API.graphql({
-            query: getYear,
-            variables: { year_iotNameThing: year.toString() + "_" + mainScaleData.iotNameThing }, // Provide the ID as a variable
-        });
-        let timestamp = response.data.getYear.lastConnected;
-        timestamp = dayjs
-            .unix(timestamp / 1000)
-            .tz(timeZone)
-            .format("MM-DD HH:mm");
-        setLastConnected(timestamp);
-    };
+    // const getLastConnected = async () => {
+    //     const year = dayjs().year(); // Get the current year
+    //     const response = await API.graphql({
+    //         query: getYear,
+    //         variables: { year_iotNameThing: year.toString() + "_" + mainScaleData.iotNameThing }, // Provide the ID as a variable
+    //     });
+    //     let timestamp = response.data.getYear.lastConnected;
+    //     timestamp = dayjs
+    //         .unix(timestamp / 1000)
+    //         .tz(timeZone)
+    //         .format("MM-DD HH:mm");
+    //     setLastConnected(timestamp);
+    // };
 
     /*!
         @description: Function to update the IoT Device Shadow by using PubSub Amplify MQTT Client
@@ -398,7 +398,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
             error: (error) => console.error("Error in GET/Accepted web socket of Timeseries...", error),
             complete: () => console.log("Web Socket Done"),
         });
-        getLastConnected();
+        //getLastConnected();
     }, [correctWeightIndex, unitOfMass, realTimeStatusLabel]);
 
     // @description: Hook to get Thing's Shadow by publishing to get topic and then listening after request is accepted.
