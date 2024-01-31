@@ -83,3 +83,26 @@ type DailySummary {
     day: Day
     precision: Float
 }
+type DayNahr7tobjjdgpgohp2eptkayfeStaging {
+    dayOfYear_iotNameThing: ID!
+    weekOfYear_iotNameThing: String
+    monthOfYear_iotNameThing: String!
+    year_iotNameThing: String!
+    dailySummary: DailySummary
+    realTime: AWSJSON
+    dashboardGraph: AWSJSON
+    scaleActions: AWSJSON
+    allPortionEvents: AWSJSON
+    createdAt: String!
+}
+type HourNahr7tobjjdgpgohp2eptkayfeStaging {
+    dayOfYear_hourOfDay_iotNameThing: ID!
+    dayOfYear_iotNameThing: ID
+    hourlySummary: HourlySummary
+    realTime: AWSJSON!
+    scaleActions: AWSJSON
+    createdAt: String!
+}
+type Query {
+    getDayNahr7tobjjdgpgohp2eptkayfeStaging(dayOfYear_iotNameThing: ID!): DayNahr7tobjjdgpgohp2eptkayfeStaging
+}

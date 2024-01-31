@@ -31,7 +31,7 @@ import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/Comple
 // AWS Imports
 import { API, graphqlOperation } from "aws-amplify";
 import getDay from "./queries/analyticsData";
-import { hoursByDayOfYear_iotNameThing } from "../../graphql/queries";
+import { getDayNahr7tobjjdgpgohp2eptkayfeStaging, hoursByDayOfYear_iotNameThing } from "../../graphql/queries";
 
 // User Components
 import PortionTimeLineChart from "./components/PortionTimeLineChart";
@@ -321,28 +321,46 @@ const AnalyticsContainer = () => {
             hourLabels = [],
             hourResponse,
             hours,
-            response;
+            response,
+            data;
         try {
             // Query GQL to pull hourly data
             // if (date[0].dayOfYear() == date[1].dayOfYear()) {
-            response = await API.graphql({
-                query: getDay,
-                //variables: { dayOfYear_iotNameThing: daysOfYear_iotNameThing[0] }, // Provide the ID as a variable
-                variables: {
-                    dayOfYear_iotNameThing: dayjs(date.$d).dayOfYear() + "_" + keys[selectedIndexRef.current],
-                },
-            });
+            if (dayjs(date.$d).year() == "2023") {
+                response = await API.graphql({
+                    query: getDayNahr7tobjjdgpgohp2eptkayfeStaging,
+                    //variables: { dayOfYear_iotNameThing: daysOfYear_iotNameThing[0] }, // Provide the ID as a variable
+                    variables: {
+                        dayOfYear_iotNameThing: dayjs(date.$d).dayOfYear() + "_" + keys[selectedIndexRef.current],
+                    },
+                });
+                data = response.data.getDayNahr7tobjjdgpgohp2eptkayfeStaging;
+            } else {
+                response = await API.graphql({
+                    query: getDay,
+                    //variables: { dayOfYear_iotNameThing: daysOfYear_iotNameThing[0] }, // Provide the ID as a variable
+                    variables: {
+                        dayOfYear_iotNameThing: dayjs(date.$d).dayOfYear() + "_" + keys[selectedIndexRef.current],
+                    },
+                });
+                data = response.data.getDay;
+            }
+
+            console.log("THE YEAR IS:", dayjs(date.$d).year());
             console.log("The Daily response is:", response);
-            if (response.data.getDay) {
-                precision = Math.abs(response.data.getDay.dailySummary.precision);
-                inventoryConsumed = response.data.getDay.dailySummary.inventoryConsumed;
-                timeSaved = response.data.getDay.dailySummary.averageTime;
-                portionsCompleted = response.data.getDay.dailySummary.portionsCompleted;
-                underPercent = Math.round((response.data.getDay.dailySummary.underServed / portionsCompleted) * 100);
-                perfectPercent = Math.round((response.data.getDay.dailySummary.perfect / portionsCompleted) * 100);
-                overPercent = Math.round((response.data.getDay.dailySummary.overServed / portionsCompleted) * 100);
+            if (data) {
+                precision = Math.abs(data.dailySummary.precision);
+                inventoryConsumed = data.dailySummary.inventoryConsumed;
+                timeSaved = data.dailySummary.averageTime;
+                portionsCompleted = data.dailySummary.portionsCompleted;
+                underPercent = Math.round((data.dailySummary.underServed / portionsCompleted) * 100);
+                perfectPercent = Math.round((data.dailySummary.perfect / portionsCompleted) * 100);
+                overPercent = Math.round((data.dailySummary.overServed / portionsCompleted) * 100);
                 const totalPercent = underPercent + overPercent + perfectPercent;
-                hours = response.data.getDay.hour.items;
+                if (dayjs(date.$d).year() != "2023") {
+                    hours = data.hour.items;
+                }
+
                 if (totalPercent != 100) {
                     if (100 - totalPercent == 1) {
                         perfectPercent++;
@@ -355,12 +373,12 @@ const AnalyticsContainer = () => {
                         perfectPercent++;
                     }
                 }
-                dashboardGraph = JSON.parse(response.data.getDay.allPortionEvents);
+                dashboardGraph = JSON.parse(data.allPortionEvents);
                 for (let portion in dashboardGraph) {
                     portionSizes.push(dashboardGraph[portion].correctWeight);
                 }
                 setPortionSizeArr(getMostUsedPortionSizes(portionSizes));
-                scaleActions = JSON.parse(response.data.getDay.scaleActions);
+                scaleActions = JSON.parse(data.scaleActions);
                 let action = Object.values(scaleActions);
                 let time = Object.keys(scaleActions);
                 // for (let i = 0; i < action.length; i++) {
@@ -378,31 +396,35 @@ const AnalyticsContainer = () => {
                 });
                 dashboardGraph = sortedObject;
                 setDashboardGraph(dashboardGraph);
+                if (hours != undefined) {
+                    for (let i = 0; i < hours.length; i++) {
+                        hourLabels.push(parseInt(hours[i].dayOfYear_hourOfDay_iotNameThing.split("_")[1]));
+                        hourPrecision.push(hours[i].hourlySummary.precision);
+                        hourInventoryConsumed.push(hours[i].hourlySummary.inventoryConsumed);
+                        hourPortionsCompleted.push(hours[i].hourlySummary.portionsCompleted);
+                        hourAccuracy.push(hours[i].hourlySummary.accuracy);
+                    }
+                    const indices = hourLabels.map((value, index) => ({ value, index }));
 
-                for (let i = 0; i < hours.length; i++) {
-                    hourLabels.push(parseInt(hours[i].dayOfYear_hourOfDay_iotNameThing.split("_")[1]));
-                    hourPrecision.push(hours[i].hourlySummary.precision);
-                    hourInventoryConsumed.push(hours[i].hourlySummary.inventoryConsumed);
-                    hourPortionsCompleted.push(hours[i].hourlySummary.portionsCompleted);
-                    hourAccuracy.push(hours[i].hourlySummary.accuracy);
+                    // Sort the indices based on the values of the original array
+                    indices.sort((a, b) => a.value - b.value);
+                    const sortedValues = indices.map((item) => item.value);
+                    const sortedIndices = indices.map((item) => item.index);
+                    // Use the sorted indices to rearrange other arrays
+                    hourLabels = sortedValues;
+                    hourPrecision = sortedIndices.map((index) => hourPrecision[index]);
+                    hourInventoryConsumed = sortedIndices.map((index) => hourInventoryConsumed[index]);
+                    hourPortionsCompleted = sortedIndices.map((index) => hourPortionsCompleted[index]);
+                    hourAccuracy = sortedIndices.map((index) => hourAccuracy[index]);
                 }
-                const indices = hourLabels.map((value, index) => ({ value, index }));
-
-                // Sort the indices based on the values of the original array
-                indices.sort((a, b) => a.value - b.value);
-                const sortedValues = indices.map((item) => item.value);
-                const sortedIndices = indices.map((item) => item.index);
-                // Use the sorted indices to rearrange other arrays
-                hourLabels = sortedValues;
-                hourPrecision = sortedIndices.map((index) => hourPrecision[index]);
-                hourInventoryConsumed = sortedIndices.map((index) => hourInventoryConsumed[index]);
-                hourPortionsCompleted = sortedIndices.map((index) => hourPortionsCompleted[index]);
-                hourAccuracy = sortedIndices.map((index) => hourAccuracy[index]);
             }
-            setBarChartData({ hourPrecision, hourInventoryConsumed, hourPortionsCompleted, hourAccuracy, hourLabels });
+            if (hours != undefined) {
+                setBarChartData({ hourPrecision, hourInventoryConsumed, hourPortionsCompleted, hourAccuracy, hourLabels });
+            }
+
             let demo = false;
             // If Demo, then display hard-coded data
-            if (response.data.getDay || response.data.listDays) {
+            if (response.data.getDay || response.data.listDays || response.data.getDayNahr7tobjjdgpgohp2eptkayfeStaging) {
                 // Set the Upper Summary Card Components
                 precision = precision == undefined ? "NA" : precision.toFixed(0) + "%";
                 inventoryConsumed = inventoryConsumed + "g";
