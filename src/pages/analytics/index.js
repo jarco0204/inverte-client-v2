@@ -31,7 +31,7 @@ import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/Comple
 // AWS Imports
 import { API, graphqlOperation } from "aws-amplify";
 import getDay from "./queries/analyticsData";
-import { hoursByDayOfYear_iotNameThing } from "../../graphql/queries";
+import { getDayNahr7tobjjdgpgohp2eptkayfeStaging, getPastDay, hoursByDayOfYear_iotNameThing } from "../../graphql/queries";
 
 // User Components
 import PortionTimeLineChart from "./components/PortionTimeLineChart";
@@ -326,10 +326,10 @@ const AnalyticsContainer = () => {
             // Query GQL to pull hourly data
             // if (date[0].dayOfYear() == date[1].dayOfYear()) {
             response = await API.graphql({
-                query: getDay,
+                query: getDayNahr7tobjjdgpgohp2eptkayfeStaging,
                 //variables: { dayOfYear_iotNameThing: daysOfYear_iotNameThing[0] }, // Provide the ID as a variable
                 variables: {
-                    dayOfYear_iotNameThing: dayjs(date.$d).dayOfYear() + "_" + keys[selectedIndexRef.current],
+                    dayOfYear_iotNameThing: dayjs(date.$d).dayOfYear() + "_" + "LittleCaesars-1-1",
                 },
             });
             console.log("The Daily response is:", response);

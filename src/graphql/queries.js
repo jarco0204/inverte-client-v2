@@ -1,6 +1,51 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getDayNahr7tobjjdgpgohp2eptkayfeStaging = /* GraphQL */ `
+  query GetDayNahr7tobjjdgpgohp2eptkayfeStaging(
+    $dayOfYear_iotNameThing: String!
+  ) {
+    getDayNahr7tobjjdgpgohp2eptkayfeStaging(
+      dayOfYear_iotNameThing: $dayOfYear_iotNameThing
+    ) {
+      dayOfYear_iotNameThing
+      weekOfYear_iotNameThing
+      monthOfYear_iotNameThing
+      year_iotNameThing
+      dailySummary {
+        averageTime
+        portionsCompleted
+        accuracy
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
+        day {
+          dayOfYear_iotNameThing
+          weekOfYear_iotNameThing
+          monthOfYear_iotNameThing
+          year_iotNameThing
+          realTime
+          dashboardGraph
+          scaleActions
+          allPortionEvents
+          createdAt
+          updatedAt
+          __typename
+        }
+        precision
+        __typename
+      }
+      realTime
+      dashboardGraph
+      scaleActions
+      allPortionEvents
+      createdAt
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const getRestaurant = /* GraphQL */ `
   query GetRestaurant($restaurant_id: ID!) {
     getRestaurant(restaurant_id: $restaurant_id) {

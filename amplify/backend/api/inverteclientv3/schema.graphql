@@ -16,7 +16,7 @@ type Day @model {
     dayOfYear_iotNameThing: ID! @primaryKey
     weekOfYear_iotNameThing: ID! @index(name: "byWeek")
     monthOfYear_iotNameThing: String!
-    year_iotNameThing: String
+    year_iotNameThing: String!
     dailySummary: DailySummary
     realTime: AWSJSON
     dashboardGraph: AWSJSON
@@ -25,7 +25,6 @@ type Day @model {
     createdAt: String!
     hour: [Hour] @hasMany(indexName: "byDay")
 }
-
 type Hour @model {
     dayOfYear_hourOfDay_iotNameThing: ID! @primaryKey
     dayOfYear_iotNameThing: ID! @index(name: "byDay")
@@ -82,4 +81,20 @@ type DailySummary {
     perfect: Int
     day: Day
     precision: Float
+}
+type DayNahr7tobjjdgpgohp2eptkayfeStaging {
+    dayOfYear_iotNameThing: String
+    weekOfYear_iotNameThing: String
+    monthOfYear_iotNameThing: String!
+    year_iotNameThing: String!
+    dailySummary: DailySummary
+    realTime: AWSJSON
+    dashboardGraph: AWSJSON
+    scaleActions: AWSJSON
+    allPortionEvents: AWSJSON
+    createdAt: String!
+    updatedAt: AWSDateTime!
+}
+type Query {
+    getDayNahr7tobjjdgpgohp2eptkayfeStaging(dayOfYear_iotNameThing: String!): DayNahr7tobjjdgpgohp2eptkayfeStaging
 }
