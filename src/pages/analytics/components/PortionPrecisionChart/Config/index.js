@@ -42,7 +42,7 @@ const PortionPrecisionLineChartConfig = (labels, datasets, pointColorsAR, datase
             },
             scales: {
                 y: {
-                    suggestedMin: -10, // Set the minimum value to 0
+                    beginAtZero: true,
                     grid: {
                         drawBorder: false,
                         display: true,
@@ -53,6 +53,7 @@ const PortionPrecisionLineChartConfig = (labels, datasets, pointColorsAR, datase
                     },
                     ticks: {
                         display: true,
+                        stepSize: 100,
                         color: "#f8f9fa",
                         padding: 10,
                         font: {
@@ -87,8 +88,6 @@ const PortionPrecisionLineChartConfig = (labels, datasets, pointColorsAR, datase
                     },
                     beginAtZero: false,
                     offset: true,
-                    maxPadding: 0.1, // Adjust as needed
-                    minPadding: 0.1, // Adjust as needed
                     grid: {
                         drawBorder: true,
                         display: true,

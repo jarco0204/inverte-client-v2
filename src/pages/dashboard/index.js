@@ -296,6 +296,7 @@ const DashboardContainer = () => {
                 query: getDashboard,
                 variables: { dayOfYear_iotNameThing: tempDate.dayOfYear().toString() + "_" + keys[selectedIndexRef.current] }, // Provide the ID as a variable
             });
+            console.log("The scale is:", keys[selectedIndexRef.current]);
             console.log("The daily data is:", response);
 
             // let demoData = getDemoData();
@@ -388,7 +389,7 @@ const DashboardContainer = () => {
                     tempCompletion += data[i].hourlySummary.averageTime;
                 }
             }
-            console.log("The temp precision is:", tempPrecision);
+
             setPortionsCompletedLastWeek(tempPortionCompleted);
             if (tempPrecision != 0) {
                 setPrecisionLastWeek(tempPrecision / data.length);
