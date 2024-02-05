@@ -41,6 +41,12 @@ export const getDayNahr7tobjjdgpgohp2eptkayfeStaging = /* GraphQL */ `
                 items {
                     dayOfYear_hourOfDay_iotNameThing
                     dayOfYear_iotNameThing
+                    hourlySummary {
+                        precision
+                        accuracy
+                        portionsCompleted
+                        inventoryConsumed
+                    }
                     __typename
                 }
                 nextToken

@@ -16,7 +16,7 @@ type Day @model {
     dayOfYear_iotNameThing: ID! @primaryKey
     weekOfYear_iotNameThing: ID! @index(name: "byWeek")
     monthOfYear_iotNameThing: String!
-    year_iotNameThing: String!
+    year_iotNameThing: String
     dailySummary: DailySummary
     realTime: AWSJSON
     dashboardGraph: AWSJSON
@@ -25,6 +25,7 @@ type Day @model {
     createdAt: String!
     hour: [Hour] @hasMany(indexName: "byDay")
 }
+
 type Hour @model {
     dayOfYear_hourOfDay_iotNameThing: ID! @primaryKey
     dayOfYear_iotNameThing: ID! @index(name: "byDay")
