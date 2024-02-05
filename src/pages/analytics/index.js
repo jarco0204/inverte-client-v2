@@ -31,7 +31,7 @@ import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/Comple
 // AWS Imports
 import { API, graphqlOperation } from "aws-amplify";
 import getDay from "./queries/analyticsData";
-import { getDayNahr7tobjjdgpgohp2eptkayfeStaging, getPastDay, hoursByDayOfYear_iotNameThing } from "../../graphql/queries";
+import { getDayNahr7tobjjdgpgohp2eptkayfeStaging, hoursByDayOfYear_iotNameThing } from "../../graphql/queries";
 
 // User Components
 import PortionTimeLineChart from "./components/PortionTimeLineChart";
@@ -326,18 +326,30 @@ const AnalyticsContainer = () => {
         try {
             // Query GQL to pull hourly data
             // if (date[0].dayOfYear() == date[1].dayOfYear()) {
-            response = await API.graphql({
-                query: getDay,
-                //variables: { dayOfYear_iotNameThing: daysOfYear_iotNameThing[0] }, // Provide the ID as a variable
-                variables: {
-                    dayOfYear_iotNameThing: dayjs(date.$d).dayOfYear() + "_" + keys[selectedIndexRef.current],
-                },
-            });
-            data = response.data.getDay;
+            if (dayjs(date.$d).year() == "2023") {
+                response = await API.graphql({
+                    query: getDayNahr7tobjjdgpgohp2eptkayfeStaging,
+                    //variables: { dayOfYear_iotNameThing: daysOfYear_iotNameThing[0] }, // Provide the ID as a variable
+                    variables: {
+                        dayOfYear_iotNameThing: dayjs(date.$d).dayOfYear() + "_" + keys[selectedIndexRef.current],
+                    },
+                });
+                data = response.data.getDayNahr7tobjjdgpgohp2eptkayfeStaging;
+            } else {
+                response = await API.graphql({
+                    query: getDay,
+                    //variables: { dayOfYear_iotNameThing: daysOfYear_iotNameThing[0] }, // Provide the ID as a variable
+                    variables: {
+                        dayOfYear_iotNameThing: dayjs(date.$d).dayOfYear() + "_" + keys[selectedIndexRef.current],
+                    },
+                });
+                data = response.data.getDay;
+            }
+
+            console.log("THE YEAR IS:", dayjs(date.$d).year());
             console.log("The Daily response is:", response);
             if (data) {
                 precision = Math.abs(data.dailySummary.precision);
-                console.log("The precision is", precision);
                 inventoryConsumed = data.dailySummary.inventoryConsumed;
                 timeSaved = data.dailySummary.averageTime;
                 portionsCompleted = data.dailySummary.portionsCompleted;
@@ -345,7 +357,10 @@ const AnalyticsContainer = () => {
                 perfectPercent = Math.round((data.dailySummary.perfect / portionsCompleted) * 100);
                 overPercent = Math.round((data.dailySummary.overServed / portionsCompleted) * 100);
                 const totalPercent = underPercent + overPercent + perfectPercent;
-                hours = data.hour.items;
+                if (dayjs(date.$d).year() != "2023") {
+                    hours = data.hour.items;
+                }
+
                 if (totalPercent != 100) {
                     if (100 - totalPercent == 1) {
                         perfectPercent++;
@@ -403,14 +418,14 @@ const AnalyticsContainer = () => {
                     hourAccuracy = sortedIndices.map((index) => hourAccuracy[index]);
                 }
             }
-
-            setBarChartData({ hourPrecision, hourInventoryConsumed, hourPortionsCompleted, hourAccuracy, hourLabels });
+            if (hours != undefined) {
+                setBarChartData({ hourPrecision, hourInventoryConsumed, hourPortionsCompleted, hourAccuracy, hourLabels });
+            }
 
             let demo = false;
             // If Demo, then display hard-coded data
             if (response.data.getDay || response.data.listDays || response.data.getDayNahr7tobjjdgpgohp2eptkayfeStaging) {
                 // Set the Upper Summary Card Components
-                console.log("waaaaa)");
                 precision = precision == undefined ? "NA" : precision.toFixed(0) + "%";
                 inventoryConsumed = inventoryConsumed + "g";
                 timeSaved = timeSaved.toFixed(1) + "s";
