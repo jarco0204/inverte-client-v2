@@ -30,8 +30,7 @@ import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/Comple
 
 // AWS Imports
 import { API, graphqlOperation } from "aws-amplify";
-import getDay from "./queries/analyticsData";
-import { getDayNahr7tobjjdgpgohp2eptkayfeStaging, hoursByDayOfYear_iotNameThing } from "../../graphql/queries";
+import { getDay, getDayNahr7tobjjdgpgohp2eptkayfeStaging } from "./queries/analyticsData";
 
 // User Components
 import PortionTimeLineChart from "./components/PortionTimeLineChart";
@@ -357,9 +356,7 @@ const AnalyticsContainer = () => {
                 perfectPercent = Math.round((data.dailySummary.perfect / portionsCompleted) * 100);
                 overPercent = Math.round((data.dailySummary.overServed / portionsCompleted) * 100);
                 const totalPercent = underPercent + overPercent + perfectPercent;
-                if (dayjs(date.$d).year() != "2023") {
-                    hours = data.hour.items;
-                }
+                hours = data.hour.items;
 
                 if (totalPercent != 100) {
                     if (100 - totalPercent == 1) {
@@ -418,9 +415,8 @@ const AnalyticsContainer = () => {
                     hourAccuracy = sortedIndices.map((index) => hourAccuracy[index]);
                 }
             }
-            if (hours != undefined) {
-                setBarChartData({ hourPrecision, hourInventoryConsumed, hourPortionsCompleted, hourAccuracy, hourLabels });
-            }
+
+            setBarChartData({ hourPrecision, hourInventoryConsumed, hourPortionsCompleted, hourAccuracy, hourLabels });
 
             let demo = false;
             // If Demo, then display hard-coded data
