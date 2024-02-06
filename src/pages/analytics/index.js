@@ -179,8 +179,8 @@ const AnalyticsContainer = () => {
     @Comments
     @Coders:
     */
-    const generateBarChartResponsive = (mobileViewFlag) => {
-        return <VerticalBarChart chart={barChartData} color="light" title="Hourly Accuracy and Precision" mobileViewFlag={mobileViewFlag} />;
+    const generateBarChartResponsive = (mobileViewFlag, unitOfMass) => {
+        return <VerticalBarChart chart={barChartData} color="light" title="Hourly Accuracy and Precision" mobileViewFlag={mobileViewFlag} unitOfMass={unitOfMass} />;
     };
 
     /*!
@@ -611,7 +611,7 @@ const AnalyticsContainer = () => {
                                     </Tooltip>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={10}>
-                                    <div style={{ width: "60%", height: "60%" }}>{generateBarChartResponsive(false)}</div>
+                                    <div style={{ width: "60%", height: "60%" }}>{generateBarChartResponsive(false, unitOfMass)}</div>
                                 </Grid>
                             </Grid>
                         </MDBox>

@@ -48,7 +48,7 @@ const barChartConfigs = (data) => {
                 data: data.hourPortionsCompleted,
             },
             {
-                label: "Inventory",
+                label: "Inventory Consumed",
                 backgroundColor: "#808080",
                 borderColor: "##808080",
                 borderWidth: 1,
