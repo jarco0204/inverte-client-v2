@@ -140,13 +140,20 @@ const ZoomableChart = (dataSet) => {
         chartConfig.options.scales.x.max = parseInt(Object.keys(data)[data.length - 1]);
     }
     if (dataSet.dataSet != null) {
+        console.log("The unit of mass is:", dataSet.unitOfMass);
         for (let i = 0; i < Object.keys(data).length; i++) {
             xArr.push(parseInt(Object.keys(data)[i]));
             weightArr.push(Object.values(data)[i].inventoryWeight);
             if (Object.values(data)[i].correctWeight == dataSet.radioButton || dataSet.radioButton == 0) {
-                cWArr.push(Object.values(data)[i].correctWeight);
-                fGArr.push(Object.values(data)[i].firstGrab);
-                fWArr.push(Object.values(data)[i].portionWeight);
+                if (dataSet.unitOfMass == "oz") {
+                    cWArr.push((Object.values(data)[i].correctWeight / 28.35).toFixed(2));
+                    fGArr.push((Object.values(data)[i].firstGrab / 28.35).toFixed(2));
+                    fWArr.push((Object.values(data)[i].portionWeight / 28.35).toFixed(2));
+                } else {
+                    cWArr.push(Object.values(data)[i].correctWeight);
+                    fGArr.push(Object.values(data)[i].firstGrab);
+                    fWArr.push(Object.values(data)[i].portionWeight);
+                }
             }
         }
         chartConfig.data.labels = xArr;

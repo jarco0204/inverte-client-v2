@@ -601,7 +601,7 @@ const AnalyticsContainer = () => {
                                                 </FormControl>
                                             </Stack>
 
-                                            <ZoomableChart dataSet={dashboardGraph == 0 ? null : dashboardGraph} chartData={chartData} radioButton={radioButton} />
+                                            <ZoomableChart dataSet={dashboardGraph == 0 ? null : dashboardGraph} chartData={chartData} radioButton={radioButton} unitOfMass={unitOfMass} />
                                         </div>
                                     </Tooltip>
                                 </Grid>
