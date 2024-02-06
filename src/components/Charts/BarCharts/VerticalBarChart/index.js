@@ -20,9 +20,13 @@ import barChartConfigs from "./configs/index";
 // Material Dashboard 2 React base styles
 import colors from "../../../../assets/theme/base/colors";
 
-function VerticalBarChart({ icon, title, description, height, chart, color }) {
+function VerticalBarChart({ icon, title, description, height, chart, color, unitOfMass }) {
     console.log("The dataset for bar chart is:", chart);
+
     const data = barChartConfigs(chart);
+    if (unitOfMass == "oz" && data.datasets[3].data) {
+        data.datasets[3].data = data.datasets[3].data.map((element) => (element / 28.35).toFixed(2));
+    }
 
     const renderChart = (
         <MDBox py={2} pr={2} pl={icon.component ? 1 : 2}>
