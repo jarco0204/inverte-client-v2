@@ -611,7 +611,7 @@ const AnalyticsContainer = () => {
                                     </Tooltip>
                                 </Grid>
                                 <Grid item xs={12} md={6} lg={10}>
-                                    <div style={{ width: "60%", height: "60%" }}>{generateBarChartResponsive(false, unitOfMass)}</div>
+                                    <div style={{ width: "100%", height: "60%" }}>{generateBarChartResponsive(false, unitOfMass)}</div>
                                 </Grid>
                             </Grid>
                         </MDBox>
