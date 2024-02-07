@@ -378,6 +378,7 @@ const DashboardContainer = () => {
             let tempPrecision = 0;
             let tempInventory = 0;
             let tempCompletion = 0;
+            let validHourCounter = 0;
             for (let i = 0; i < data.length; i++) {
                 const hour = data[i].dayOfYear_hourOfDay_iotNameThing.split("_");
                 if (parseInt(hour[1]) <= hourOfDay) {
@@ -385,16 +386,17 @@ const DashboardContainer = () => {
                     tempPrecision += data[i].hourlySummary.precision;
                     tempInventory += data[i].hourlySummary.inventoryConsumed;
                     tempCompletion += data[i].hourlySummary.averageTime;
+                    validHourCounter++;
                 }
             }
 
             setPortionsCompletedLastWeek(tempPortionCompleted);
             if (tempPrecision != 0) {
-                setPrecisionLastWeek(tempPrecision / data.length);
+                setPrecisionLastWeek(tempPrecision / validHourCounter);
             }
             setInventoryConsumedLastWeek(tempInventory);
             if (tempCompletion != 0) {
-                setCompletionTimeLastWeek(tempCompletion / data.length);
+                setCompletionTimeLastWeek(tempCompletion / validHourCounter);
             }
             //console.log("The number of portions completed last week is", portionsCompletedLastWeek);
         };
@@ -512,7 +514,7 @@ const DashboardContainer = () => {
                                             title={dashboardTitles.portionsPrecision}
                                             count={cardSummaryItems[1]}
                                             percentage={{
-                                                color: "success",
+                                                color: differencePrecision >= 0 ? "success" : "error",
                                                 amount: differencePrecision >= 0 ? "+" + differencePrecision.toFixed(0) + "%" : differencePrecision.toFixed(0) + "%",
                                                 label: "than last week at this time",
                                             }}
@@ -529,7 +531,7 @@ const DashboardContainer = () => {
                                             title={dashboardTitles.inventoryConsumed}
                                             count={unitOfMass == "g" ? cardSummaryItems[2] : parseInt(convertGsToOz(cardSummaryItems[2])) + "oz"}
                                             percentage={{
-                                                color: "success",
+                                                color: differenceInventory >= 0 ? "success" : "error",
                                                 amount: differenceInventory >= 0 ? "+" + differenceInventory : differenceInventory,
                                                 label: unitOfMass == "g" ? "g than last week at this time" : "oz than last week at this time",
                                             }}
@@ -546,7 +548,7 @@ const DashboardContainer = () => {
                                             title={dashboardTitles.portionsTime}
                                             count={cardSummaryItems[3]}
                                             percentage={{
-                                                color: "success",
+                                                color: differenceCompletionTime < 0 ? "success" : "error",
                                                 amount: differenceCompletionTime >= 0 ? "+" + differenceCompletionTime.toFixed(1) + "s" : differenceCompletionTime.toFixed(1) + "s",
                                                 label: "than last week at this time",
                                             }}

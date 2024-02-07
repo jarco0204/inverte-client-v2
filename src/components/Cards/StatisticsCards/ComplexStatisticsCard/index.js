@@ -67,7 +67,7 @@ ComplexStatisticsCard.propTypes = {
     title: PropTypes.string.isRequired,
     count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     percentage: PropTypes.shape({
-        color: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error", "dark", "white"]),
+        color: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error", "dark", "white", "red"]),
         amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         label: PropTypes.string,
     }),
