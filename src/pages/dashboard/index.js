@@ -296,8 +296,6 @@ const DashboardContainer = () => {
                 query: getDashboard,
                 variables: { dayOfYear_iotNameThing: tempDate.dayOfYear().toString() + "_" + keys[selectedIndexRef.current] }, // Provide the ID as a variable
             });
-            console.log("The scale is:", keys[selectedIndexRef.current]);
-            console.log("The daily data is:", response);
 
             // let demoData = getDemoData();
             // let demo = false;
@@ -384,7 +382,7 @@ const DashboardContainer = () => {
                 const hour = data[i].dayOfYear_hourOfDay_iotNameThing.split("_");
                 if (parseInt(hour[1]) <= hourOfDay) {
                     tempPortionCompleted += data[i].hourlySummary.portionsCompleted;
-                    tempPrecision += data[i].hourlySummary.accuracy;
+                    tempPrecision += data[i].hourlySummary.precision;
                     tempInventory += data[i].hourlySummary.inventoryConsumed;
                     tempCompletion += data[i].hourlySummary.averageTime;
                 }
