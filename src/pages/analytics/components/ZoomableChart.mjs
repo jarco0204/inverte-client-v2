@@ -168,10 +168,15 @@ const ZoomableChart = (dataSet) => {
     const chartContainer = useRef(null);
     const [chartInstance, setChartInstance] = useState(null);
     useEffect(() => {
-        console.log("Rendered");
+        console.log("Rendered:", data);
+        const newChartInstance = new Chart(chartContainer.current, chartConfig);
         if (chartContainer && chartContainer.current) {
-            const newChartInstance = new Chart(chartContainer.current, chartConfig);
             setChartInstance(newChartInstance);
+            return () => {
+                newChartInstance.destroy();
+            };
+        }
+        if (!data) {
             return () => {
                 newChartInstance.destroy();
             };
