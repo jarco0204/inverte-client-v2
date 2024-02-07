@@ -180,7 +180,7 @@ const AnalyticsContainer = () => {
     @Coders:
     */
     const generateBarChartResponsive = (mobileViewFlag, unitOfMass) => {
-        return <VerticalBarChart chart={barChartData} color="light" title="Hourly Accuracy and Precision" mobileViewFlag={mobileViewFlag} unitOfMass={unitOfMass} />;
+        return <VerticalBarChart chart={barChartData} color="light" title="Hourly metrics" mobileViewFlag={mobileViewFlag} unitOfMass={unitOfMass} />;
     };
 
     /*!
