@@ -318,17 +318,15 @@ const AnalyticsContainer = () => {
             hourPortionsCompleted = [],
             hourAccuracy = [],
             hourLabels = [],
-            hourResponse,
             hours,
             response,
             data;
         try {
             // Query GQL to pull hourly data
-            // if (date[0].dayOfYear() == date[1].dayOfYear()) {
+            // If data is before Jan 2024, pull from another table
             if (dayjs(date.$d).year() == "2023") {
                 response = await API.graphql({
                     query: getDayNahr7tobjjdgpgohp2eptkayfeStaging,
-                    //variables: { dayOfYear_iotNameThing: daysOfYear_iotNameThing[0] }, // Provide the ID as a variable
                     variables: {
                         dayOfYear_iotNameThing: dayjs(date.$d).dayOfYear() + "_" + keys[selectedIndexRef.current],
                     },
@@ -337,16 +335,12 @@ const AnalyticsContainer = () => {
             } else {
                 response = await API.graphql({
                     query: getDay,
-                    //variables: { dayOfYear_iotNameThing: daysOfYear_iotNameThing[0] }, // Provide the ID as a variable
                     variables: {
                         dayOfYear_iotNameThing: dayjs(date.$d).dayOfYear() + "_" + keys[selectedIndexRef.current],
                     },
                 });
                 data = response.data.getDay;
             }
-
-            console.log("THE YEAR IS:", dayjs(date.$d).year());
-            console.log("The Daily response is:", response);
             if (data) {
                 precision = Math.abs(data.dailySummary.precision);
                 inventoryConsumed = data.dailySummary.inventoryConsumed;
@@ -375,17 +369,6 @@ const AnalyticsContainer = () => {
                     portionSizes.push(dashboardGraph[portion].correctWeight);
                 }
                 setPortionSizeArr(getMostUsedPortionSizes(portionSizes));
-                scaleActions = JSON.parse(data.scaleActions);
-                let action = Object.values(scaleActions);
-                let time = Object.keys(scaleActions);
-                // for (let i = 0; i < action.length; i++) {
-                //     if (action[i].eventType == "StartAction") {
-                //         dashboardGraph[time[i]] = { inventoryWeight: action[i].inventoryWeight };
-                //     }
-                //     if (action[i].eventType == "disconnected") {
-                //         dashboardGraph[time[i]] = { inventoryWeight: action[i].inventoryWeight };
-                //     }
-                // }
                 const sortedKeys = Object.keys(dashboardGraph).sort((a, b) => parseInt(a) - parseInt(b));
                 const sortedObject = {};
                 sortedKeys.forEach((key) => {
@@ -454,7 +437,6 @@ const AnalyticsContainer = () => {
     */
     useEffect(() => {
         getDailyMetaRecords();
-        //getHourlyMetaRecords();
     }, [date, displayData]);
     useEffect(() => {
         const handleResize = () => {
@@ -508,173 +490,115 @@ const AnalyticsContainer = () => {
             <DropDownIngredientMenu options={options} titleForPage={"Past Inventory Report"} />
             <BasicDatePicker titleForPage={""} date={date} setDate={setDate} />
 
-            {!isMobileDevice && (
-                <div style={{ height: "85vh" }}>
-                    <MDBox py={3}>
-                        <Grid container spacing={1} display="flex" justifyContent="center">
-                            <Tooltip title="Portions Completed for Today" placement="bottom">
-                                <Grid item xs={12} md={6} lg={3}>
-                                    <ComplexStatisticsCard
-                                        color="dark"
-                                        title={portionCompleteTitle}
-                                        icon={<PanToolIcon />}
-                                        count={cardSummaryItems[0]}
-                                        percentage={{
-                                            color: "success",
-                                        }}
-                                    />
-                                </Grid>
-                            </Tooltip>
-                        </Grid>
-                    </MDBox>
-                    <MDBox py={2}>
-                        <Grid container spacing={3} display="flex" justifyContent="center">
-                            <Tooltip title="Average Portioning Precision for Today" placement="bottom">
-                                <Grid item xs={12} md={6} lg={3}>
-                                    <MDBox mb={1.5}>
-                                        <ComplexStatisticsCard
-                                            color="info"
-                                            icon={<PrecisionManufacturingRoundedIcon />}
-                                            title={portionPrecisionTitle}
-                                            count={cardSummaryItems[1]}
-                                            percentage={{
-                                                color: "success",
-                                                // amount: "+3%",
-                                                // label: "than yesterdays",
-                                            }}
-                                        />
-                                    </MDBox>
-                                </Grid>
-                            </Tooltip>
-                            <Tooltip title="Total Consumed Inventory for Today" placement="bottom">
-                                <Grid item xs={12} md={6} lg={3}>
-                                    <MDBox mb={1.5}>
-                                        <ComplexStatisticsCard
-                                            color="warning"
-                                            icon={<ScaleRoundedIcon />}
-                                            title={inventoryConsumedTitle}
-                                            count={unitOfMass == "g" ? cardSummaryItems[2] : (parseInt(cardSummaryItems[2]) / 28.35).toFixed(2).toString() + "oz"}
-                                            percentage={{
-                                                color: "success",
-                                            }}
-                                        />
-                                    </MDBox>
-                                </Grid>
-                            </Tooltip>
-                            <Tooltip title="Average Time Taken to Complete Portions " placement="bottom">
-                                <Grid item xs={12} md={6} lg={3}>
-                                    <MDBox mb={1.5}>
-                                        <ComplexStatisticsCard
-                                            color="success"
-                                            icon={<AccessTimeFilledRoundedIcon />}
-                                            title={portionTimeTitle}
-                                            count={cardSummaryItems[3]}
-                                            percentage={{
-                                                color: "success",
-                                            }}
-                                        />
-                                    </MDBox>
-                                </Grid>
-                            </Tooltip>
-                        </Grid>
-                        <MDBox mt={4.75}>
-                            <Grid container spacing={3} justifyContent={"center"}>
-                                <Grid item xs={12} md={4} lg={6}>
-                                    <Tooltip title="Inventory Usage" placement="bottom">
-                                        <div style={{ width: "100%", height: "100%" }}>
-                                            <Stack direction="row" spacing={1} alignItems="center" marginTop={-5}>
-                                                <Typography>Inventory</Typography>
-                                                <Switch checked={switchChecked} onChange={handleSwitchChange} inputProps={{ "aria-label": "ant design" }} />
-                                                <Typography>Portion</Typography>
-                                                <FormControl>
-                                                    <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group">
-                                                        {portionSizeArr.map((option) => (
-                                                            <FormControlLabel
-                                                                key={option}
-                                                                value={option}
-                                                                control={<Radio onChange={handleRadioButton} />}
-                                                                label={unitOfMass == "g" ? option : convertGsToOz(option)}
-                                                            />
-                                                        ))}
-                                                        <FormControlLabel defaultValue={0} control={<Radio onChange={handleRadioButton} />} label="All" />
-                                                    </RadioGroup>
-                                                </FormControl>
-                                            </Stack>
-
-                                            <ZoomableChart dataSet={dashboardGraph == 0 ? null : dashboardGraph} chartData={chartData} radioButton={radioButton} unitOfMass={unitOfMass} />
-                                        </div>
-                                    </Tooltip>
-                                </Grid>
-                                <Grid item xs={12} md={6} lg={4}>
-                                    <Tooltip title="Serving Tendency of Portions" placement="bottom">
-                                        <div style={{ width: "100%", height: "100%" }}>{generateDoughnutChartResponsive(false)}</div> {/* Adjust the height and width as needed */}
-                                    </Tooltip>
-                                </Grid>
-                                <Grid item xs={12} md={6} lg={10}>
-                                    <div style={{ width: "100%", height: "60%" }}>{generateBarChartResponsive(false, unitOfMass)}</div>
-                                </Grid>
-                            </Grid>
-                        </MDBox>
-                    </MDBox>
-                    <Footer />
-                </div>
-            )}
-            {isMobileDevice && (
-                <div>
-                    <MDBox py={3}>
-                        <Grid container spacing={1} direction="column" justifyContent="center">
+            <div style={{ height: "85vh" }}>
+                <MDBox py={3}>
+                    <Grid container spacing={1} display="flex" justifyContent="center">
+                        <Tooltip title="Portions Completed for Today" placement="bottom">
                             <Grid item xs={12} md={6} lg={3}>
                                 <ComplexStatisticsCard
                                     color="dark"
-                                    icon={<PanToolIcon />}
                                     title={portionCompleteTitle}
+                                    icon={<PanToolIcon />}
                                     count={cardSummaryItems[0]}
                                     percentage={{
                                         color: "success",
                                     }}
                                 />
                             </Grid>
+                        </Tooltip>
+                    </Grid>
+                </MDBox>
+                <MDBox py={2}>
+                    <Grid container spacing={3} display="flex" justifyContent="center">
+                        <Tooltip title="Average Portioning Precision for Today" placement="bottom">
                             <Grid item xs={12} md={6} lg={3}>
-                                <MobileComplexStatisticsCard
-                                    color="info"
-                                    icon={<PrecisionManufacturingRoundedIcon />}
-                                    title={portionPrecisionTitle}
-                                    count={cardSummaryItems[1]}
-                                    percentage={{
-                                        color: "success",
-                                    }}
-                                    generateChart={() => generatePrecisionChartResponsive(true)}
-                                />
+                                <MDBox mb={1.5}>
+                                    <ComplexStatisticsCard
+                                        color="info"
+                                        icon={<PrecisionManufacturingRoundedIcon />}
+                                        title={portionPrecisionTitle}
+                                        count={cardSummaryItems[1]}
+                                        percentage={{
+                                            color: "success",
+                                            // amount: "+3%",
+                                            // label: "than yesterdays",
+                                        }}
+                                    />
+                                </MDBox>
                             </Grid>
+                        </Tooltip>
+                        <Tooltip title="Total Consumed Inventory for Today" placement="bottom">
                             <Grid item xs={12} md={6} lg={3}>
-                                <MobileComplexStatisticsCard
-                                    color="success"
-                                    icon={<AccessTimeFilledRoundedIcon />}
-                                    title={portionTimeTitle}
-                                    count={cardSummaryItems[3]}
-                                    percentage={{
-                                        color: "success",
-                                    }}
-                                    generateChart={() => generateTimeLineChartResponsive(true)}
-                                />
+                                <MDBox mb={1.5}>
+                                    <ComplexStatisticsCard
+                                        color="warning"
+                                        icon={<ScaleRoundedIcon />}
+                                        title={inventoryConsumedTitle}
+                                        count={unitOfMass == "g" ? cardSummaryItems[2] : (parseInt(cardSummaryItems[2]) / 28.35).toFixed(2).toString() + "oz"}
+                                        percentage={{
+                                            color: "success",
+                                        }}
+                                    />
+                                </MDBox>
                             </Grid>
+                        </Tooltip>
+                        <Tooltip title="Average Time Taken to Complete Portions " placement="bottom">
                             <Grid item xs={12} md={6} lg={3}>
-                                <MobileComplexStatisticsCard
-                                    color="warning"
-                                    icon={<PrecisionManufacturingRoundedIcon />}
-                                    title={inventoryConsumedTitle}
-                                    count={cardSummaryItems[2]}
-                                    percentage={{
-                                        color: "success",
-                                    }}
-                                    generateChart={() => generateDoughnutChartResponsive(true)}
-                                />
+                                <MDBox mb={1.5}>
+                                    <ComplexStatisticsCard
+                                        color="success"
+                                        icon={<AccessTimeFilledRoundedIcon />}
+                                        title={portionTimeTitle}
+                                        count={cardSummaryItems[3]}
+                                        percentage={{
+                                            color: "success",
+                                        }}
+                                    />
+                                </MDBox>
+                            </Grid>
+                        </Tooltip>
+                    </Grid>
+                    <MDBox mt={4.75}>
+                        <Grid container spacing={3} justifyContent={"center"}>
+                            <Grid item xs={12} md={4} lg={6}>
+                                <Tooltip title="Inventory Usage" placement="bottom">
+                                    <div style={{ width: "100%", height: "100%" }}>
+                                        <Stack direction="row" spacing={1} alignItems="center" marginTop={-5}>
+                                            <Typography>Inventory</Typography>
+                                            <Switch checked={switchChecked} onChange={handleSwitchChange} inputProps={{ "aria-label": "ant design" }} />
+                                            <Typography>Portion</Typography>
+                                            <FormControl>
+                                                <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group">
+                                                    {portionSizeArr.map((option) => (
+                                                        <FormControlLabel
+                                                            key={option}
+                                                            value={option}
+                                                            control={<Radio onChange={handleRadioButton} />}
+                                                            label={unitOfMass == "g" ? option : convertGsToOz(option)}
+                                                        />
+                                                    ))}
+                                                    <FormControlLabel defaultValue={0} control={<Radio onChange={handleRadioButton} />} label="All" />
+                                                </RadioGroup>
+                                            </FormControl>
+                                        </Stack>
+
+                                        <ZoomableChart dataSet={dashboardGraph == 0 ? null : dashboardGraph} chartData={chartData} radioButton={radioButton} unitOfMass={unitOfMass} />
+                                    </div>
+                                </Tooltip>
+                            </Grid>
+                            <Grid item xs={12} md={6} lg={4}>
+                                <Tooltip title="Serving Tendency of Portions" placement="bottom">
+                                    <div style={{ width: "100%", height: "100%" }}>{generateDoughnutChartResponsive(false)}</div> {/* Adjust the height and width as needed */}
+                                </Tooltip>
+                            </Grid>
+                            <Grid item xs={12} md={6} lg={10}>
+                                <div style={{ width: "100%", height: "60%" }}>{generateBarChartResponsive(false, unitOfMass)}</div>
                             </Grid>
                         </Grid>
                     </MDBox>
-                    <Footer />
-                </div>
-            )}
+                </MDBox>
+                <Footer />
+            </div>
         </DashboardLayout>
     );
 };
