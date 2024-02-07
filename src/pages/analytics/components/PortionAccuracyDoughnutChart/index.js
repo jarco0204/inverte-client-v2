@@ -24,14 +24,20 @@ const PortionAccuracyDoughnutChart = ({ title, description, chart, mobileViewFla
        @Coders: ADNama
     */
     const genateDoughnutChart = () => {
+        let perfect = 0;
+        if (data.datasets[0].data) {
+            perfect = data.datasets[0].data[1];
+        }
+
         return (
-            <MDBox padding="1rem">
-                <MDBox py={0.1} mt={-5} height="14rem">
+            <MDBox>
+                <MDBox py={2} mt={-5} height="6%">
                     <Doughnut data={data} options={options} />
-                </MDBox>
-                <MDBox pt={3} pb={1} px={1}>
-                    <MDTypography variant="h6" textTransform="capitalize">
+                    <MDTypography variant="h6" textTransform="capitalize" marginTop="-0.5%">
                         {title}
+                    </MDTypography>
+                    <MDTypography variant="button" color="text" fontWeight="">
+                        The percentage of perfect portions is {perfect}% which means {(perfect / 10).toFixed(1)} portions out of 10 will naturally fall into the Perfect category.
                     </MDTypography>
                 </MDBox>
             </MDBox>
