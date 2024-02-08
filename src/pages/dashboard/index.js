@@ -529,7 +529,7 @@ const DashboardContainer = () => {
                                             color="success"
                                             icon={<ScaleRoundedIcon />}
                                             title={dashboardTitles.inventoryConsumed}
-                                            count={unitOfMass == "g" ? cardSummaryItems[2] : parseInt(convertGsToOz(cardSummaryItems[2])) + "oz"}
+                                            count={unitOfMass == "g" ? cardSummaryItems[2] : parseFloat(convertGsToOz(cardSummaryItems[2])) + "oz"}
                                             percentage={{
                                                 color: differenceInventory >= 0 ? "success" : "error",
                                                 amount: differenceInventory >= 0 ? "+" + differenceInventory : differenceInventory,
