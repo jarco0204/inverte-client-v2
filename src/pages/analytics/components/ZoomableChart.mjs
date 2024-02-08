@@ -140,7 +140,6 @@ const ZoomableChart = (dataSet) => {
         chartConfig.options.scales.x.max = parseInt(Object.keys(data)[data.length - 1]);
     }
     if (dataSet.dataSet != null) {
-        console.log("The unit of mass is:", dataSet.unitOfMass);
         for (let i = 0; i < Object.keys(data).length; i++) {
             xArr.push(parseInt(Object.keys(data)[i]));
             weightArr.push(Object.values(data)[i].inventoryWeight);
