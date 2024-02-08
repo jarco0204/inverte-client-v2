@@ -421,6 +421,7 @@ const AnalyticsContainer = () => {
                 setRealTimePrecisionGraph([]);
                 setRealTimeAccuracyGraph([]);
                 setRealTimeInventoryGraph([]);
+                setDashboardGraph([]);
                 return;
             }
         } catch (error) {
