@@ -11,6 +11,13 @@ type Restaurant @model {
     unitOfMass: String
     timeZone: String
     accessType: String
+    scale: [Scale] @hasMany(indexName: "byScale")
+}
+type Scale @model {
+    iotNameThing: ID! @primaryKey
+    restaurant_id: ID! @index(name: "byScale")
+    ingredient: String
+    lastConnected: String
 }
 type Day @model {
     dayOfYear_iotNameThing: ID! @primaryKey

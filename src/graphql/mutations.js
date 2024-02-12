@@ -16,6 +16,20 @@ export const createRestaurant = /* GraphQL */ `
       unitOfMass
       timeZone
       accessType
+      scale {
+        items {
+          scaleName
+          restaurant_id
+          ingredient
+          lastConnected
+          createdAt
+          updatedAt
+          restaurantScaleRestaurant_id
+          __typename
+        }
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -37,6 +51,20 @@ export const updateRestaurant = /* GraphQL */ `
       unitOfMass
       timeZone
       accessType
+      scale {
+        items {
+          scaleName
+          restaurant_id
+          ingredient
+          lastConnected
+          createdAt
+          updatedAt
+          restaurantScaleRestaurant_id
+          __typename
+        }
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -58,8 +86,73 @@ export const deleteRestaurant = /* GraphQL */ `
       unitOfMass
       timeZone
       accessType
+      scale {
+        items {
+          scaleName
+          restaurant_id
+          ingredient
+          lastConnected
+          createdAt
+          updatedAt
+          restaurantScaleRestaurant_id
+          __typename
+        }
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
+      __typename
+    }
+  }
+`;
+export const createScale = /* GraphQL */ `
+  mutation CreateScale(
+    $input: CreateScaleInput!
+    $condition: ModelScaleConditionInput
+  ) {
+    createScale(input: $input, condition: $condition) {
+      scaleName
+      restaurant_id
+      ingredient
+      lastConnected
+      createdAt
+      updatedAt
+      restaurantScaleRestaurant_id
+      __typename
+    }
+  }
+`;
+export const updateScale = /* GraphQL */ `
+  mutation UpdateScale(
+    $input: UpdateScaleInput!
+    $condition: ModelScaleConditionInput
+  ) {
+    updateScale(input: $input, condition: $condition) {
+      scaleName
+      restaurant_id
+      ingredient
+      lastConnected
+      createdAt
+      updatedAt
+      restaurantScaleRestaurant_id
+      __typename
+    }
+  }
+`;
+export const deleteScale = /* GraphQL */ `
+  mutation DeleteScale(
+    $input: DeleteScaleInput!
+    $condition: ModelScaleConditionInput
+  ) {
+    deleteScale(input: $input, condition: $condition) {
+      scaleName
+      restaurant_id
+      ingredient
+      lastConnected
+      createdAt
+      updatedAt
+      restaurantScaleRestaurant_id
       __typename
     }
   }

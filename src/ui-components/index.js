@@ -10,4 +10,6 @@ export { default as HourCreateForm } from "./HourCreateForm";
 export { default as HourUpdateForm } from "./HourUpdateForm";
 export { default as RestaurantCreateForm } from "./RestaurantCreateForm";
 export { default as RestaurantUpdateForm } from "./RestaurantUpdateForm";
+export { default as ScaleCreateForm } from "./ScaleCreateForm";
+export { default as ScaleUpdateForm } from "./ScaleUpdateForm";
 export { default as studioTheme } from "./studioTheme";

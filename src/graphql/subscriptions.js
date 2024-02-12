@@ -70,6 +70,20 @@ export const onCreateRestaurant = /* GraphQL */ `
       unitOfMass
       timeZone
       accessType
+      scale {
+        items {
+          scaleName
+          restaurant_id
+          ingredient
+          lastConnected
+          createdAt
+          updatedAt
+          restaurantScaleRestaurant_id
+          __typename
+        }
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -90,6 +104,20 @@ export const onUpdateRestaurant = /* GraphQL */ `
       unitOfMass
       timeZone
       accessType
+      scale {
+        items {
+          scaleName
+          restaurant_id
+          ingredient
+          lastConnected
+          createdAt
+          updatedAt
+          restaurantScaleRestaurant_id
+          __typename
+        }
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -110,8 +138,64 @@ export const onDeleteRestaurant = /* GraphQL */ `
       unitOfMass
       timeZone
       accessType
+      scale {
+        items {
+          scaleName
+          restaurant_id
+          ingredient
+          lastConnected
+          createdAt
+          updatedAt
+          restaurantScaleRestaurant_id
+          __typename
+        }
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
+      __typename
+    }
+  }
+`;
+export const onCreateScale = /* GraphQL */ `
+  subscription OnCreateScale($filter: ModelSubscriptionScaleFilterInput) {
+    onCreateScale(filter: $filter) {
+      scaleName
+      restaurant_id
+      ingredient
+      lastConnected
+      createdAt
+      updatedAt
+      restaurantScaleRestaurant_id
+      __typename
+    }
+  }
+`;
+export const onUpdateScale = /* GraphQL */ `
+  subscription OnUpdateScale($filter: ModelSubscriptionScaleFilterInput) {
+    onUpdateScale(filter: $filter) {
+      scaleName
+      restaurant_id
+      ingredient
+      lastConnected
+      createdAt
+      updatedAt
+      restaurantScaleRestaurant_id
+      __typename
+    }
+  }
+`;
+export const onDeleteScale = /* GraphQL */ `
+  subscription OnDeleteScale($filter: ModelSubscriptionScaleFilterInput) {
+    onDeleteScale(filter: $filter) {
+      scaleName
+      restaurant_id
+      ingredient
+      lastConnected
+      createdAt
+      updatedAt
+      restaurantScaleRestaurant_id
       __typename
     }
   }
