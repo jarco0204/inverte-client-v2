@@ -105,6 +105,12 @@ const createDoughnutChartObject = () => {
 */
 const AnalyticsContainer = () => {
     // Main Component State: Cards & Graphs
+    let iotNameThing = [];
+    let options = [];
+    for (let i = 0; i < useSelector((state) => state.meta.scale.items).length; i++) {
+        iotNameThing.push(useSelector((state) => state.meta.scale.items[i].scaleName));
+        options.push(useSelector((state) => state.meta.scale.items[i].ingredient));
+    }
     const clientDemo = useSelector((state) => state.meta.demo);
     const timeZone = useSelector((state) => state.meta.timeZone);
     const unitOfMass = useSelector((state) => state.meta.unitOfMass);
@@ -135,10 +141,8 @@ const AnalyticsContainer = () => {
     const { precisionGraph, inventoryGraph } = createReportLineChartObject();
 
     // Drop-Down Menu State
-    const options = Object.values(iotThingNames);
     const selectedIndexRef = { current: displayIngredientIndex.toString() };
     const selectedIndex = displayIngredientIndex;
-    const keys = Object.keys(iotThingNames);
 
     /*!
         @description:
@@ -328,7 +332,7 @@ const AnalyticsContainer = () => {
                 response = await API.graphql({
                     query: getDayNahr7tobjjdgpgohp2eptkayfeStaging,
                     variables: {
-                        dayOfYear_iotNameThing: dayjs(date.$d).dayOfYear() + "_" + keys[selectedIndexRef.current],
+                        dayOfYear_iotNameThing: dayjs(date.$d).dayOfYear() + "_" + iotNameThing[selectedIndexRef.current],
                     },
                 });
                 data = response.data.getDayNahr7tobjjdgpgohp2eptkayfeStaging;
@@ -336,7 +340,7 @@ const AnalyticsContainer = () => {
                 response = await API.graphql({
                     query: getDay,
                     variables: {
-                        dayOfYear_iotNameThing: dayjs(date.$d).dayOfYear() + "_" + keys[selectedIndexRef.current],
+                        dayOfYear_iotNameThing: dayjs(date.$d).dayOfYear() + "_" + iotNameThing[selectedIndexRef.current],
                     },
                 });
                 data = response.data.getDay;
