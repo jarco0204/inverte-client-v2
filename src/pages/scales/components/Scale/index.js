@@ -27,15 +27,13 @@ import { Radio } from "antd";
 import Grid from "@mui/material/Grid";
 import { Tooltip } from "@mui/material";
 import MDBox from "../../../../components/MDBox";
-import { getRestaurant, getYear } from "../../../../graphql/queries";
+import { getRestaurant } from "../../../../graphql/queries";
 import MDTypography from "../../../../components/MDTypography";
 import { updateRestaurant } from "../../../../graphql/mutations";
 import { TareButton, StartButton, ExpandMore } from "./ScaleButtons";
 
 // External Libraries
 import dayjs from "dayjs";
-import dayOfYear from "dayjs/plugin/dayOfYear.js";
-import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 dayjs.extend(timezone);
 
@@ -62,8 +60,11 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
     const [scaleAction2, setScaleAction2] = useState("g/oz");
 
     const accessType = useSelector((state) => state.meta.accessType);
-    const [lastConnected, setLastConnected] = useState(0);
     const timeZone = useSelector((state) => state.meta.timeZone);
+    const lastConnected = dayjs
+        .unix(mainScaleData.iotNameThing.lastConnected / 1000)
+        .tz(timeZone)
+        .format("MM-DD HH:mm");
 
     /*!
        @description:
@@ -103,27 +104,6 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
     };
 
     /*!
-       @description:Get the last time scale was connected
-       @params:
-       @return:
-       @Comments
-       @Coders:Rohan
-    */
-    // const getLastConnected = async () => {
-    //     const year = dayjs().year(); // Get the current year
-    //     const response = await API.graphql({
-    //         query: getYear,
-    //         variables: { year_iotNameThing: year.toString() + "_" + mainScaleData.iotNameThing }, // Provide the ID as a variable
-    //     });
-    //     let timestamp = response.data.getYear.lastConnected;
-    //     timestamp = dayjs
-    //         .unix(timestamp / 1000)
-    //         .tz(timeZone)
-    //         .format("MM-DD HH:mm");
-    //     setLastConnected(timestamp);
-    // };
-
-    /*!
         @description: Function to update the IoT Device Shadow by using PubSub Amplify MQTT Client
         @params:
         @return:
@@ -134,7 +114,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
         // Creae Variables
         console.log("The event is:", event);
         const updateThingShadowRequestInput = { state: { desired: {} } };
-        let shadowTopic = "$aws/things/" + mainScaleData.iotNameThing + "/shadow/update";
+        let shadowTopic = "$aws/things/" + mainScaleData.iotNameThing.scaleName + "/shadow/update";
 
         // Determine which property of shadow to update
         if (event.target.name === "ingredientNameField") {
@@ -171,7 +151,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
         // Create Variables
         console.log("The event is", event);
         const updateThingShadowRequestInput = { state: { desired: {} } };
-        let shadowTopic = "$aws/things/" + mainScaleData.iotNameThing + "/shadow/name/timeseries/update";
+        let shadowTopic = "$aws/things/" + mainScaleData.iotNameThing.scaleName + "/shadow/name/timeseries/update";
 
         if (event == "correctWeight1Field") {
             setCorrectWeightIndex(0); // NOTE Coding Convention, from smallest to biggest if there is no logical ordering
@@ -214,7 +194,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
         updateThingShadowRequestInput.state.desired["correctWeightIndex"] = parseInt(newIndex);
 
         // Update Shadow
-        let shadowTopic = "$aws/things/" + mainScaleData.iotNameThing + "/shadow/update";
+        let shadowTopic = "$aws/things/" + mainScaleData.iotNameThing.scaleName + "/shadow/update";
         console.log("your topic is...", shadowTopic);
         PubSub.publish(shadowTopic, updateThingShadowRequestInput);
         console.log("Updated correct weight index in Classic Shadow...", updateThingShadowRequestInput); // Debug Statement
@@ -255,7 +235,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                 variables: { restaurant_id: user.username },
             });
             let iotThingNames = JSON.parse(response.data.getRestaurant.iotThingNames);
-            iotThingNames[mainScaleData.iotNameThing] = nameIngredient;
+            iotThingNames[mainScaleData.iotNameThing.scaleName] = nameIngredient;
             iotThingNames = JSON.stringify(iotThingNames);
 
             // Perform GQL Query
@@ -300,7 +280,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
     // Hook to enable real-time communication from scale to client to display IoT Shadows
     useEffect(() => {
         // Subscribe to Topic after Get Request was accepted
-        const subscriptionClassicShadow = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing + "/shadow/get/accepted").subscribe({
+        const subscriptionClassicShadow = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing.scaleName + "/shadow/get/accepted").subscribe({
             next: (dataCloud) => {
                 dataCloud = dataCloud.value.state;
 
@@ -322,7 +302,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
             error: (error) => console.error("Error in Classic Shadow GET Request...", error),
             complete: () => console.log("Web Socket Done"),
         });
-        const subscriptionTimeSeriesShadow = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing + "/shadow/name/timeseries/get/accepted").subscribe({
+        const subscriptionTimeSeriesShadow = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing.scaleName + "/shadow/name/timeseries/get/accepted").subscribe({
             next: (dataCloud) => {
                 dataCloud = dataCloud.value.state.reported;
                 if (dataCloud != undefined) {
@@ -356,7 +336,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
             error: (error) => console.error("Error in GET/Accepted web socket of Timeseries...", error),
             complete: () => console.log("Web Socket Done"),
         });
-        const subscriptionClassicShadowPortionSize = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing + "/shadow/update/accepted").subscribe({
+        const subscriptionClassicShadowPortionSize = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing.scaleName + "/shadow/update/accepted").subscribe({
             next: (dataCloud) => {
                 dataCloud = dataCloud.value.state;
                 // Update Scale State Parameters
@@ -375,7 +355,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
         });
 
         //Listen for Updates in Timeseries shadow
-        const subscriptionTimeSeriesShadowInventoryWeight = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing + "/shadow/name/timeseries/update/accepted").subscribe({
+        const subscriptionTimeSeriesShadowInventoryWeight = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing.scaleName + "/shadow/name/timeseries/update/accepted").subscribe({
             next: (dataCloud) => {
                 dataCloud = dataCloud.value.state.reported;
                 if (dataCloud != undefined) {
@@ -407,8 +387,8 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
         const getClassicShadow = () => {
             setTimeout(async () => {
                 try {
-                    await PubSub.publish("$aws/things/" + mainScaleData.iotNameThing + "/shadow/get", {});
-                    await PubSub.publish("$aws/things/" + mainScaleData.iotNameThing + "/shadow/name/timeseries/get", {});
+                    await PubSub.publish("$aws/things/" + mainScaleData.iotNameThing.scaleName + "/shadow/get", {});
+                    await PubSub.publish("$aws/things/" + mainScaleData.iotNameThing.scaleName + "/shadow/name/timeseries/get", {});
                     console.log("Successfully queried your shadows...");
                 } catch (error) {
                     console.log("Failed to publish to your GET Classic Shadow...", error);
@@ -445,7 +425,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
             return;
         }
 
-        finalTopic = mainScaleData.topic + "/" + mainScaleData.iotNameThing + "/clientActions";
+        finalTopic = mainScaleData.topic + "/" + mainScaleData.iotNameThing.scaleName + "/clientActions";
         PubSub.publish(finalTopic, msg);
         console.log("Desired Client Action Published to Scale..."); // Debug Statement
     };
