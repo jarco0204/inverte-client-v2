@@ -153,8 +153,6 @@ export default function MainContainer() {
                         query: getRestaurant,
                         variables: { restaurant_id: user.username },
                     });
-                    console.log("The scale table has:", response.data.getRestaurant.scale.items);
-                    response.data.getRestaurant.iotThingNames = JSON.parse(response.data.getRestaurant.iotThingNames);
                     setMetaInformation(response.data.getRestaurant);
                     setUnitOfMass(response.data.getRestaurant.unitOfMass);
                     setAuthenticated(true);

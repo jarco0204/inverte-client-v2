@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, TextAreaFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
 } | null;
@@ -24,7 +24,6 @@ export declare type ValidationFunction<T> = (value: T, validationResponse: Valid
 export declare type RestaurantCreateFormInputValues = {
     restaurant_id?: string;
     demo?: string;
-    iotThingNames?: string;
     restaurantLocationNum?: string;
     displayIngredient?: number;
     restaurantName?: string;
@@ -35,7 +34,6 @@ export declare type RestaurantCreateFormInputValues = {
 export declare type RestaurantCreateFormValidationValues = {
     restaurant_id?: ValidationFunction<string>;
     demo?: ValidationFunction<string>;
-    iotThingNames?: ValidationFunction<string>;
     restaurantLocationNum?: ValidationFunction<string>;
     displayIngredient?: ValidationFunction<number>;
     restaurantName?: ValidationFunction<string>;
@@ -48,7 +46,6 @@ export declare type RestaurantCreateFormOverridesProps = {
     RestaurantCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
     restaurant_id?: PrimitiveOverrideProps<TextFieldProps>;
     demo?: PrimitiveOverrideProps<TextFieldProps>;
-    iotThingNames?: PrimitiveOverrideProps<TextAreaFieldProps>;
     restaurantLocationNum?: PrimitiveOverrideProps<TextFieldProps>;
     displayIngredient?: PrimitiveOverrideProps<TextFieldProps>;
     restaurantName?: PrimitiveOverrideProps<TextFieldProps>;

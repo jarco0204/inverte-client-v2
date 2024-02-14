@@ -4,7 +4,6 @@ input AMPLIFY {
 type Restaurant @model {
     restaurant_id: ID! @primaryKey
     demo: String
-    iotThingNames: AWSJSON
     restaurantLocationNum: String
     displayIngredient: Int
     restaurantName: String
@@ -14,7 +13,7 @@ type Restaurant @model {
     scale: [Scale] @hasMany(indexName: "byScale")
 }
 type Scale @model {
-    iotNameThing: ID! @primaryKey
+    scaleName: ID! @primaryKey
     restaurant_id: ID! @index(name: "byScale")
     ingredient: String
     lastConnected: String

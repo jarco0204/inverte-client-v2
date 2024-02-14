@@ -6,13 +6,7 @@
 
 /* eslint-disable */
 import * as React from "react";
-import {
-  Button,
-  Flex,
-  Grid,
-  TextAreaField,
-  TextField,
-} from "@aws-amplify/ui-react";
+import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
 import { createRestaurant } from "../graphql/mutations";
@@ -31,7 +25,6 @@ export default function RestaurantCreateForm(props) {
   const initialValues = {
     restaurant_id: "",
     demo: "",
-    iotThingNames: "",
     restaurantLocationNum: "",
     displayIngredient: "",
     restaurantName: "",
@@ -43,9 +36,6 @@ export default function RestaurantCreateForm(props) {
     initialValues.restaurant_id
   );
   const [demo, setDemo] = React.useState(initialValues.demo);
-  const [iotThingNames, setIotThingNames] = React.useState(
-    initialValues.iotThingNames
-  );
   const [restaurantLocationNum, setRestaurantLocationNum] = React.useState(
     initialValues.restaurantLocationNum
   );
@@ -62,7 +52,6 @@ export default function RestaurantCreateForm(props) {
   const resetStateValues = () => {
     setRestaurant_id(initialValues.restaurant_id);
     setDemo(initialValues.demo);
-    setIotThingNames(initialValues.iotThingNames);
     setRestaurantLocationNum(initialValues.restaurantLocationNum);
     setDisplayIngredient(initialValues.displayIngredient);
     setRestaurantName(initialValues.restaurantName);
@@ -74,7 +63,6 @@ export default function RestaurantCreateForm(props) {
   const validations = {
     restaurant_id: [{ type: "Required" }],
     demo: [],
-    iotThingNames: [{ type: "JSON" }],
     restaurantLocationNum: [],
     displayIngredient: [],
     restaurantName: [],
@@ -110,7 +98,6 @@ export default function RestaurantCreateForm(props) {
         let modelFields = {
           restaurant_id,
           demo,
-          iotThingNames,
           restaurantLocationNum,
           displayIngredient,
           restaurantName,
@@ -181,7 +168,6 @@ export default function RestaurantCreateForm(props) {
             const modelFields = {
               restaurant_id: value,
               demo,
-              iotThingNames,
               restaurantLocationNum,
               displayIngredient,
               restaurantName,
@@ -213,7 +199,6 @@ export default function RestaurantCreateForm(props) {
             const modelFields = {
               restaurant_id,
               demo: value,
-              iotThingNames,
               restaurantLocationNum,
               displayIngredient,
               restaurantName,
@@ -234,37 +219,6 @@ export default function RestaurantCreateForm(props) {
         hasError={errors.demo?.hasError}
         {...getOverrideProps(overrides, "demo")}
       ></TextField>
-      <TextAreaField
-        label="Iot thing names"
-        isRequired={false}
-        isReadOnly={false}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              restaurant_id,
-              demo,
-              iotThingNames: value,
-              restaurantLocationNum,
-              displayIngredient,
-              restaurantName,
-              unitOfMass,
-              timeZone,
-              accessType,
-            };
-            const result = onChange(modelFields);
-            value = result?.iotThingNames ?? value;
-          }
-          if (errors.iotThingNames?.hasError) {
-            runValidationTasks("iotThingNames", value);
-          }
-          setIotThingNames(value);
-        }}
-        onBlur={() => runValidationTasks("iotThingNames", iotThingNames)}
-        errorMessage={errors.iotThingNames?.errorMessage}
-        hasError={errors.iotThingNames?.hasError}
-        {...getOverrideProps(overrides, "iotThingNames")}
-      ></TextAreaField>
       <TextField
         label="Restaurant location num"
         isRequired={false}
@@ -276,7 +230,6 @@ export default function RestaurantCreateForm(props) {
             const modelFields = {
               restaurant_id,
               demo,
-              iotThingNames,
               restaurantLocationNum: value,
               displayIngredient,
               restaurantName,
@@ -314,7 +267,6 @@ export default function RestaurantCreateForm(props) {
             const modelFields = {
               restaurant_id,
               demo,
-              iotThingNames,
               restaurantLocationNum,
               displayIngredient: value,
               restaurantName,
@@ -348,7 +300,6 @@ export default function RestaurantCreateForm(props) {
             const modelFields = {
               restaurant_id,
               demo,
-              iotThingNames,
               restaurantLocationNum,
               displayIngredient,
               restaurantName: value,
@@ -380,7 +331,6 @@ export default function RestaurantCreateForm(props) {
             const modelFields = {
               restaurant_id,
               demo,
-              iotThingNames,
               restaurantLocationNum,
               displayIngredient,
               restaurantName,
@@ -412,7 +362,6 @@ export default function RestaurantCreateForm(props) {
             const modelFields = {
               restaurant_id,
               demo,
-              iotThingNames,
               restaurantLocationNum,
               displayIngredient,
               restaurantName,
@@ -444,7 +393,6 @@ export default function RestaurantCreateForm(props) {
             const modelFields = {
               restaurant_id,
               demo,
-              iotThingNames,
               restaurantLocationNum,
               displayIngredient,
               restaurantName,

@@ -57,7 +57,6 @@ export const getRestaurant = /* GraphQL */ `
     getRestaurant(restaurant_id: $restaurant_id) {
       restaurant_id
       demo
-      iotThingNames
       restaurantLocationNum
       displayIngredient
       restaurantName
@@ -102,7 +101,6 @@ export const listRestaurants = /* GraphQL */ `
       items {
         restaurant_id
         demo
-        iotThingNames
         restaurantLocationNum
         displayIngredient
         restaurantName

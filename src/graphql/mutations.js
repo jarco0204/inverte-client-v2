@@ -9,7 +9,6 @@ export const createRestaurant = /* GraphQL */ `
     createRestaurant(input: $input, condition: $condition) {
       restaurant_id
       demo
-      iotThingNames
       restaurantLocationNum
       displayIngredient
       restaurantName
@@ -44,7 +43,6 @@ export const updateRestaurant = /* GraphQL */ `
     updateRestaurant(input: $input, condition: $condition) {
       restaurant_id
       demo
-      iotThingNames
       restaurantLocationNum
       displayIngredient
       restaurantName
@@ -79,7 +77,6 @@ export const deleteRestaurant = /* GraphQL */ `
     deleteRestaurant(input: $input, condition: $condition) {
       restaurant_id
       demo
-      iotThingNames
       restaurantLocationNum
       displayIngredient
       restaurantName

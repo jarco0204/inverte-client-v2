@@ -63,7 +63,6 @@ export const onCreateRestaurant = /* GraphQL */ `
     onCreateRestaurant(filter: $filter) {
       restaurant_id
       demo
-      iotThingNames
       restaurantLocationNum
       displayIngredient
       restaurantName
@@ -97,7 +96,6 @@ export const onUpdateRestaurant = /* GraphQL */ `
     onUpdateRestaurant(filter: $filter) {
       restaurant_id
       demo
-      iotThingNames
       restaurantLocationNum
       displayIngredient
       restaurantName
@@ -131,7 +129,6 @@ export const onDeleteRestaurant = /* GraphQL */ `
     onDeleteRestaurant(filter: $filter) {
       restaurant_id
       demo
-      iotThingNames
       restaurantLocationNum
       displayIngredient
       restaurantName
