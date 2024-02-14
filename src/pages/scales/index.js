@@ -39,6 +39,7 @@ const CustomizedGrid = styled(Grid)`
 */
 const ScalesContainer = () => {
     // Variable Definition
+    const scales = useSelector((state) => state.meta.scale.items);
     const iotThingNames = useSelector((state) => state.meta.iotThingNames);
     const restaurantName = useSelector((state) => state.meta.restaurantName);
     const restaurantLocationNum = useSelector((state) => state.meta.restaurantLocationNum);
@@ -46,6 +47,11 @@ const ScalesContainer = () => {
     const [scalesMetaArr, setScalesMetaArr] = useState([]);
     const [scaleCardsReady, setScaleCardsReady] = useState(false);
     const isMobileDevice = false;
+    console.log(
+        "The scale state scale",
+        useSelector((state) => state.meta.scale.items)
+    );
+
     /*!
         @description: React Hook to Create the Scale Card Components based on the number of IoT Things are associated with RestaurantID
         @params:
@@ -56,16 +62,17 @@ const ScalesContainer = () => {
     useEffect(() => {
         const createScaleCardList = () => {
             const tempScalesMetaArr = [];
-            for (let i = 0; i < keys.length; i++) {
+            for (let i = 0; i < scales.length; i++) {
                 let scaleRootTopic = restaurantName + "/" + restaurantLocationNum;
-                tempScalesMetaArr.push({ topic: scaleRootTopic, iotNameThing: keys[i] });
+                tempScalesMetaArr.push({ topic: scaleRootTopic, iotNameThing: scales[i] });
             }
             setScalesMetaArr(tempScalesMetaArr);
+
             setScaleCardsReady(true);
         };
         createScaleCardList();
     }, []);
-
+    console.log("Scale Meta Arr", scalesMetaArr);
     return (
         <DashboardLayout>
             <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>

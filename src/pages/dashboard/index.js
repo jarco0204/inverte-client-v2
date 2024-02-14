@@ -127,7 +127,12 @@ const createDoughnutChartObject = () => {
 */
 const DashboardContainer = () => {
     // Main Component State: Cards & Graphs
-    const iotThingNames = useSelector((state) => state.meta.iotThingNames);
+    let iotNameThing = [];
+    let options = [];
+    for (let i = 0; i < useSelector((state) => state.meta.scale.items).length; i++) {
+        iotNameThing.push(useSelector((state) => state.meta.scale.items[i].scaleName));
+        options.push(useSelector((state) => state.meta.scale.items[i].ingredient));
+    }
     const unitOfMass = useSelector((state) => state.meta.unitOfMass);
     const displayIngredientIndex = useSelector((state) => state.meta.displayIngredient);
     const timeZone = useSelector((state) => state.meta.timeZone);
@@ -148,10 +153,9 @@ const DashboardContainer = () => {
     const accuracyGraph = createDoughnutChartObject();
 
     // Drop-Down Menu State
-    const options = Object.values(iotThingNames);
     const selectedIndexRef = { current: displayIngredientIndex.toString() };
     const selectedIndex = displayIngredientIndex;
-    const keys = Object.keys(iotThingNames);
+    //const keys = Object.keys(iotThingNames);
 
     //Data from last week
     const [portionsCompletedLastWeek, setPortionsCompletedLastWeek] = useState(null);
@@ -294,8 +298,9 @@ const DashboardContainer = () => {
             let tempDate = dayjs().tz(timeZone);
             const response = await API.graphql({
                 query: getDashboard,
-                variables: { dayOfYear_iotNameThing: tempDate.dayOfYear().toString() + "_" + keys[selectedIndexRef.current] }, // Provide the ID as a variable
+                variables: { dayOfYear_iotNameThing: tempDate.dayOfYear().toString() + "_" + iotNameThing[selectedIndexRef.current] }, // Provide the ID as a variable
             });
+            console.log("Daily Meta Response", iotNameThing[selectedIndexRef.current]);
 
             // let demoData = getDemoData();
             // let demo = false;
@@ -370,7 +375,7 @@ const DashboardContainer = () => {
             const response = await API.graphql({
                 query: hoursByDayOfYear_iotNameThing,
                 variables: {
-                    dayOfYear_iotNameThing: (tempDate.dayOfYear() - 7).toString() + "_" + keys[selectedIndexRef.current],
+                    dayOfYear_iotNameThing: (tempDate.dayOfYear() - 7).toString() + "_" + iotNameThing[selectedIndexRef.current],
                 }, // Provide the ID as a variable
             });
             const data = response.data.hoursByDayOfYear_iotNameThing.items;

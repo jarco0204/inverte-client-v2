@@ -72,7 +72,6 @@ export default function MainContainer() {
     const reduxDispatch = useDispatch();
 
     const setMetaInformation = (data) => {
-        console.log(data);
         reduxDispatch(updateMetaInformation(data));
     };
     useEffect(() => {
@@ -154,7 +153,6 @@ export default function MainContainer() {
                         query: getRestaurant,
                         variables: { restaurant_id: user.username },
                     });
-                    response.data.getRestaurant.iotThingNames = JSON.parse(response.data.getRestaurant.iotThingNames);
                     setMetaInformation(response.data.getRestaurant);
                     setUnitOfMass(response.data.getRestaurant.unitOfMass);
                     setAuthenticated(true);

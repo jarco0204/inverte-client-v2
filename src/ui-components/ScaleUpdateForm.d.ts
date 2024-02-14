@@ -22,32 +22,29 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type ScaleUpdateFormInputValues = {
-    iotNameThing?: string;
+    scaleName?: string;
     restaurant_id?: string;
-    unitOfMass?: string;
-    multiplier?: number;
-    firmwareVersion?: string;
+    ingredient?: string;
+    lastConnected?: string;
 };
 export declare type ScaleUpdateFormValidationValues = {
-    iotNameThing?: ValidationFunction<string>;
+    scaleName?: ValidationFunction<string>;
     restaurant_id?: ValidationFunction<string>;
-    unitOfMass?: ValidationFunction<string>;
-    multiplier?: ValidationFunction<number>;
-    firmwareVersion?: ValidationFunction<string>;
+    ingredient?: ValidationFunction<string>;
+    lastConnected?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type ScaleUpdateFormOverridesProps = {
     ScaleUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    iotNameThing?: PrimitiveOverrideProps<TextFieldProps>;
+    scaleName?: PrimitiveOverrideProps<TextFieldProps>;
     restaurant_id?: PrimitiveOverrideProps<TextFieldProps>;
-    unitOfMass?: PrimitiveOverrideProps<TextFieldProps>;
-    multiplier?: PrimitiveOverrideProps<TextFieldProps>;
-    firmwareVersion?: PrimitiveOverrideProps<TextFieldProps>;
+    ingredient?: PrimitiveOverrideProps<TextFieldProps>;
+    lastConnected?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type ScaleUpdateFormProps = React.PropsWithChildren<{
     overrides?: ScaleUpdateFormOverridesProps | undefined | null;
 } & {
-    iotNameThing?: string;
+    scaleName?: string;
     scale?: any;
     onSubmit?: (fields: ScaleUpdateFormInputValues) => ScaleUpdateFormInputValues;
     onSuccess?: (fields: ScaleUpdateFormInputValues) => void;

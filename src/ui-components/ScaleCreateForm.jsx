@@ -23,38 +23,32 @@ export default function ScaleCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    iotNameThing: "",
+    scaleName: "",
     restaurant_id: "",
-    unitOfMass: "",
-    multiplier: "",
-    firmwareVersion: "",
+    ingredient: "",
+    lastConnected: "",
   };
-  const [iotNameThing, setIotNameThing] = React.useState(
-    initialValues.iotNameThing
-  );
+  const [scaleName, setScaleName] = React.useState(initialValues.scaleName);
   const [restaurant_id, setRestaurant_id] = React.useState(
     initialValues.restaurant_id
   );
-  const [unitOfMass, setUnitOfMass] = React.useState(initialValues.unitOfMass);
-  const [multiplier, setMultiplier] = React.useState(initialValues.multiplier);
-  const [firmwareVersion, setFirmwareVersion] = React.useState(
-    initialValues.firmwareVersion
+  const [ingredient, setIngredient] = React.useState(initialValues.ingredient);
+  const [lastConnected, setLastConnected] = React.useState(
+    initialValues.lastConnected
   );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setIotNameThing(initialValues.iotNameThing);
+    setScaleName(initialValues.scaleName);
     setRestaurant_id(initialValues.restaurant_id);
-    setUnitOfMass(initialValues.unitOfMass);
-    setMultiplier(initialValues.multiplier);
-    setFirmwareVersion(initialValues.firmwareVersion);
+    setIngredient(initialValues.ingredient);
+    setLastConnected(initialValues.lastConnected);
     setErrors({});
   };
   const validations = {
-    iotNameThing: [{ type: "Required" }],
+    scaleName: [{ type: "Required" }],
     restaurant_id: [{ type: "Required" }],
-    unitOfMass: [{ type: "Required" }],
-    multiplier: [{ type: "Required" }],
-    firmwareVersion: [],
+    ingredient: [],
+    lastConnected: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -82,11 +76,10 @@ export default function ScaleCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          iotNameThing,
+          scaleName,
           restaurant_id,
-          unitOfMass,
-          multiplier,
-          firmwareVersion,
+          ingredient,
+          lastConnected,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -141,32 +134,31 @@ export default function ScaleCreateForm(props) {
       {...rest}
     >
       <TextField
-        label="Iot name thing"
+        label="Scale name"
         isRequired={true}
         isReadOnly={false}
-        value={iotNameThing}
+        value={scaleName}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              iotNameThing: value,
+              scaleName: value,
               restaurant_id,
-              unitOfMass,
-              multiplier,
-              firmwareVersion,
+              ingredient,
+              lastConnected,
             };
             const result = onChange(modelFields);
-            value = result?.iotNameThing ?? value;
+            value = result?.scaleName ?? value;
           }
-          if (errors.iotNameThing?.hasError) {
-            runValidationTasks("iotNameThing", value);
+          if (errors.scaleName?.hasError) {
+            runValidationTasks("scaleName", value);
           }
-          setIotNameThing(value);
+          setScaleName(value);
         }}
-        onBlur={() => runValidationTasks("iotNameThing", iotNameThing)}
-        errorMessage={errors.iotNameThing?.errorMessage}
-        hasError={errors.iotNameThing?.hasError}
-        {...getOverrideProps(overrides, "iotNameThing")}
+        onBlur={() => runValidationTasks("scaleName", scaleName)}
+        errorMessage={errors.scaleName?.errorMessage}
+        hasError={errors.scaleName?.hasError}
+        {...getOverrideProps(overrides, "scaleName")}
       ></TextField>
       <TextField
         label="Restaurant id"
@@ -177,11 +169,10 @@ export default function ScaleCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              iotNameThing,
+              scaleName,
               restaurant_id: value,
-              unitOfMass,
-              multiplier,
-              firmwareVersion,
+              ingredient,
+              lastConnected,
             };
             const result = onChange(modelFields);
             value = result?.restaurant_id ?? value;
@@ -197,92 +188,58 @@ export default function ScaleCreateForm(props) {
         {...getOverrideProps(overrides, "restaurant_id")}
       ></TextField>
       <TextField
-        label="Unit of mass"
-        isRequired={true}
-        isReadOnly={false}
-        value={unitOfMass}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              iotNameThing,
-              restaurant_id,
-              unitOfMass: value,
-              multiplier,
-              firmwareVersion,
-            };
-            const result = onChange(modelFields);
-            value = result?.unitOfMass ?? value;
-          }
-          if (errors.unitOfMass?.hasError) {
-            runValidationTasks("unitOfMass", value);
-          }
-          setUnitOfMass(value);
-        }}
-        onBlur={() => runValidationTasks("unitOfMass", unitOfMass)}
-        errorMessage={errors.unitOfMass?.errorMessage}
-        hasError={errors.unitOfMass?.hasError}
-        {...getOverrideProps(overrides, "unitOfMass")}
-      ></TextField>
-      <TextField
-        label="Multiplier"
-        isRequired={true}
-        isReadOnly={false}
-        type="number"
-        step="any"
-        value={multiplier}
-        onChange={(e) => {
-          let value = isNaN(parseFloat(e.target.value))
-            ? e.target.value
-            : parseFloat(e.target.value);
-          if (onChange) {
-            const modelFields = {
-              iotNameThing,
-              restaurant_id,
-              unitOfMass,
-              multiplier: value,
-              firmwareVersion,
-            };
-            const result = onChange(modelFields);
-            value = result?.multiplier ?? value;
-          }
-          if (errors.multiplier?.hasError) {
-            runValidationTasks("multiplier", value);
-          }
-          setMultiplier(value);
-        }}
-        onBlur={() => runValidationTasks("multiplier", multiplier)}
-        errorMessage={errors.multiplier?.errorMessage}
-        hasError={errors.multiplier?.hasError}
-        {...getOverrideProps(overrides, "multiplier")}
-      ></TextField>
-      <TextField
-        label="Firmware version"
+        label="Ingredient"
         isRequired={false}
         isReadOnly={false}
-        value={firmwareVersion}
+        value={ingredient}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              iotNameThing,
+              scaleName,
               restaurant_id,
-              unitOfMass,
-              multiplier,
-              firmwareVersion: value,
+              ingredient: value,
+              lastConnected,
             };
             const result = onChange(modelFields);
-            value = result?.firmwareVersion ?? value;
+            value = result?.ingredient ?? value;
           }
-          if (errors.firmwareVersion?.hasError) {
-            runValidationTasks("firmwareVersion", value);
+          if (errors.ingredient?.hasError) {
+            runValidationTasks("ingredient", value);
           }
-          setFirmwareVersion(value);
+          setIngredient(value);
         }}
-        onBlur={() => runValidationTasks("firmwareVersion", firmwareVersion)}
-        errorMessage={errors.firmwareVersion?.errorMessage}
-        hasError={errors.firmwareVersion?.hasError}
-        {...getOverrideProps(overrides, "firmwareVersion")}
+        onBlur={() => runValidationTasks("ingredient", ingredient)}
+        errorMessage={errors.ingredient?.errorMessage}
+        hasError={errors.ingredient?.hasError}
+        {...getOverrideProps(overrides, "ingredient")}
+      ></TextField>
+      <TextField
+        label="Last connected"
+        isRequired={false}
+        isReadOnly={false}
+        value={lastConnected}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              scaleName,
+              restaurant_id,
+              ingredient,
+              lastConnected: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.lastConnected ?? value;
+          }
+          if (errors.lastConnected?.hasError) {
+            runValidationTasks("lastConnected", value);
+          }
+          setLastConnected(value);
+        }}
+        onBlur={() => runValidationTasks("lastConnected", lastConnected)}
+        errorMessage={errors.lastConnected?.errorMessage}
+        hasError={errors.lastConnected?.hasError}
+        {...getOverrideProps(overrides, "lastConnected")}
       ></TextField>
       <Flex
         justifyContent="space-between"
