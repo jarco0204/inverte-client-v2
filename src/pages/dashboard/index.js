@@ -521,7 +521,7 @@ const DashboardContainer = () => {
                                             percentage={{
                                                 color: differencePrecision >= 0 ? "success" : "error",
                                                 amount: differencePrecision >= 0 ? "+" + differencePrecision.toFixed(0) + "%" : differencePrecision.toFixed(0) + "%",
-                                                //label: "than last week at this time",
+                                                label: "than last week at this time",
                                             }}
                                         />
                                     </MDBox>
