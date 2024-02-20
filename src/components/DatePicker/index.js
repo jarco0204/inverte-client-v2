@@ -6,7 +6,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
-const BasicDatePicker = ({ titleForPage, date, setDate }) => {
+const MultipleDatePicker = ({ titleForPage, date, setDate }) => {
     console.log("The date is:", date);
     const { RangePicker } = DatePicker;
     const [value, setStartDate] = useState(null);
@@ -22,12 +22,13 @@ const BasicDatePicker = ({ titleForPage, date, setDate }) => {
 
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={["DateRangePicker"]}>
-                        <DatePicker
-                            value={date || value}
+                        <RangePicker
                             disabledDate={disabledDate}
-                            onCalendarChange={(start) => {
-                                setStartDate(start);
+                            showTime={{
+                                hideDisabledOptions: true,
+                                defaultValue: [dayjs("00:00:00", "HH:mm:ss"), dayjs("11:59:59", "HH:mm:ss")],
                             }}
+                            format="YYYY-MM-DD"
                             onChange={(val) => {
                                 setDate1(val);
                             }}
@@ -39,4 +40,4 @@ const BasicDatePicker = ({ titleForPage, date, setDate }) => {
         </>
     );
 };
-export default BasicDatePicker;
+export default MultipleDatePicker;
