@@ -23,7 +23,6 @@ export const getDayNahr7tobjjdgpgohp2eptkayfeStaging = /* GraphQL */ `
           weekOfYear_iotNameThing
           monthOfYear_iotNameThing
           year_iotNameThing
-          realTime
           dashboardGraph
           scaleActions
           allPortionEvents
@@ -184,7 +183,6 @@ export const getDay = /* GraphQL */ `
           weekOfYear_iotNameThing
           monthOfYear_iotNameThing
           year_iotNameThing
-          realTime
           dashboardGraph
           scaleActions
           allPortionEvents
@@ -195,7 +193,6 @@ export const getDay = /* GraphQL */ `
         precision
         __typename
       }
-      realTime
       dashboardGraph
       scaleActions
       allPortionEvents
@@ -250,7 +247,6 @@ export const listDays = /* GraphQL */ `
           precision
           __typename
         }
-        realTime
         dashboardGraph
         scaleActions
         allPortionEvents
@@ -406,7 +402,6 @@ export const daysByWeekOfYear_iotNameThing = /* GraphQL */ `
           precision
           __typename
         }
-        realTime
         dashboardGraph
         scaleActions
         allPortionEvents

@@ -17,9 +17,6 @@
       },
       "api": {
         "inverteclientv3": {}
-      },
-      "function": {
-        "inVerteClientV3GetAndProcessMultipleDayAnalytics": {}
       }
     }
   }

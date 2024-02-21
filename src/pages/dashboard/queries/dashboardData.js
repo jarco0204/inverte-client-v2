@@ -15,7 +15,6 @@ export const getDashboard = /* GraphQL */ `
                 day {
                     dayOfYear_iotNameThing
                     weekOfYear_iotNameThing
-                    realTime
                     dashboardGraph
                     scaleActions
                     createdAt
