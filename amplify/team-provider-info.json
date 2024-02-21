@@ -17,6 +17,12 @@
       },
       "api": {
         "inverteclientv3": {}
+      },
+      "function": {
+        "inverteClientV3MultipleDaysAnalytics": {
+          "deploymentBucketName": "amplify-inverteclientv3-invertedev-105538-deployment",
+          "s3Key": "amplify-builds/inverteClientV3MultipleDaysAnalytics-48312b4d5271566a2f42-build.zip"
+        }
       }
     }
   }
