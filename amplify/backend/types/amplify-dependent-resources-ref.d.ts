@@ -1,5 +1,10 @@
 export type AmplifyDependentResourcesAttributes = {
   "api": {
+    "inverteClientAmplifyAPIv2": {
+      "ApiId": "string",
+      "ApiName": "string",
+      "RootUrl": "string"
+    },
     "inverteclientv3": {
       "GraphQLAPIEndpointOutput": "string",
       "GraphQLAPIIdOutput": "string",

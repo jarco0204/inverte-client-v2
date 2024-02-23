@@ -1,5 +1,19 @@
 {
   "api": {
+    "inverteClientAmplifyAPIv2": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "inverteClientV3MultipleDaysAnalytics"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    },
     "inverteclientv3": {
       "dependsOn": [
         {

@@ -29,7 +29,7 @@ import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
 
 // AWS Imports
-import { API, graphqlOperation } from "aws-amplify";
+import { API, graphqlOperation, Auth } from "aws-amplify";
 import { getDay, getDayNahr7tobjjdgpgohp2eptkayfeStaging } from "./queries/analyticsData";
 import { listDays } from "../../graphql/queries";
 
@@ -300,6 +300,32 @@ const MultipleDaysAnalyticsContainer = () => {
         const topThreeSizes = sortedPortionSizes.slice(0, 3);
         return topThreeSizes;
     };
+    const callApi = async () => {
+        const user = await Auth.currentAuthenticatedUser();
+        try {
+            const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
+            const path = "/multipleDays/";
+            const finalAPIRoute = path + user.username;
+            let newEndDate = new Date(date[1]);
+            newEndDate.setDate(newEndDate.getDate() + 1);
+            console.log("The day of year for start date is:", newEndDate);
+            await API.get(AMPLIFY_API, finalAPIRoute, {
+                queryStringParameters: {
+                    startDate: new Date(date[0]).toISOString().split("T")[0],
+                    endDate: new Date(newEndDate).toISOString().split("T")[0],
+                    iotName: iotNameThing[selectedIndexRef.current],
+                },
+            }).then((response) => {
+                console.log("The meta that we pull from analytics: ", response); //Debug statement
+
+                if (response.item.Item == undefined) {
+                    throw new Error("No Response from API");
+                }
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    };
     /*!
        @description:
        @params:
@@ -339,6 +365,7 @@ const MultipleDaysAnalyticsContainer = () => {
                 data = response.data.getDayNahr7tobjjdgpgohp2eptkayfeStaging;
             } else {
                 console.log("The day sending to backend is:", new Date(date[0]).toISOString().split("T")[0]);
+                callApi();
                 response = await API.graphql({
                     query: listDays,
                     variables: {
@@ -346,6 +373,9 @@ const MultipleDaysAnalyticsContainer = () => {
                             createdAt: {
                                 between: [new Date(date[0]).toISOString().split("T")[0], new Date(date[1]).toISOString().split("T")[0]],
                             },
+                            // dayOfYear_iotNameThing: {
+                            //     contains: iotNameThing[selectedIndexRef.current],
+                            // },
                         },
                     },
                 });

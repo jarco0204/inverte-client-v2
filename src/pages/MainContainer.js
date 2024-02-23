@@ -37,10 +37,6 @@ Amplify.addPluggable(
     })
 );
 Amplify.configure(awsmobile);
-
-// Global Variables
-let DEBUG_FLAG = false;
-
 /*!
    @description:
    @params:
@@ -135,18 +131,18 @@ export default function MainContainer() {
                 setSpinnerLoader(true);
 
                 // Block to Help Debugging
-                if (DEBUG_FLAG) {
-                    Amplify.Logger.LOG_LEVEL = "DEBUG";
-                    console.log("My session is:", session);
-                    console.log("My user is:", user);
-                    console.log("The metaInformation is", metaInformation);
-                    // To Use IoT, you must attach an IoT Policy to this CognitoIdentityID
-                    Auth.currentCredentials().then((info) => {
-                        const cognitoIdentityId = info.identityId;
-                        console.log("pp read this : ", cognitoIdentityId);
-                    });
-                    console.log("Your Version of Deployment is: ", process.env.REACT_APP_DEPLOYMENT_VERSION);
-                }
+                // if (DEBUG_FLAG) {
+                //     Amplify.Logger.LOG_LEVEL = "DEBUG";
+                //     console.log("My session is:", session);
+                //     console.log("My user is:", user);
+                //     console.log("The metaInformation is", metaInformation);
+                //     // To Use IoT, you must attach an IoT Policy to this CognitoIdentityID
+                //     Auth.currentCredentials().then((info) => {
+                //         const cognitoIdentityId = info.identityId;
+                //         console.log("pp read this : ", cognitoIdentityId);
+                //     });
+                //     console.log("Your Version of Deployment is: ", process.env.REACT_APP_DEPLOYMENT_VERSION);
+                // }
 
                 try {
                     const response = await API.graphql({
