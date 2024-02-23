@@ -185,7 +185,7 @@ const MultipleDaysAnalyticsContainer = () => {
     @Coders:
     */
     const generateBarChartResponsive = (mobileViewFlag, unitOfMass) => {
-        return <VerticalBarChart chart={barChartData} color="light" title="Hourly metrics" mobileViewFlag={mobileViewFlag} unitOfMass={unitOfMass} />;
+        return <VerticalBarChart chart={barChartData} color="light" title="Daily metrics" mobileViewFlag={mobileViewFlag} unitOfMass={unitOfMass} />;
     };
 
     /*!
@@ -300,32 +300,7 @@ const MultipleDaysAnalyticsContainer = () => {
         const topThreeSizes = sortedPortionSizes.slice(0, 3);
         return topThreeSizes;
     };
-    const callApi = async () => {
-        const user = await Auth.currentAuthenticatedUser();
-        try {
-            const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
-            const path = "/multipleDays/";
-            const finalAPIRoute = path + user.username;
-            let newEndDate = new Date(date[1]);
-            newEndDate.setDate(newEndDate.getDate() + 1);
-            console.log("The day of year for start date is:", newEndDate);
-            await API.get(AMPLIFY_API, finalAPIRoute, {
-                queryStringParameters: {
-                    startDate: new Date(date[0]).toISOString().split("T")[0],
-                    endDate: new Date(newEndDate).toISOString().split("T")[0],
-                    iotName: iotNameThing[selectedIndexRef.current],
-                },
-            }).then((response) => {
-                console.log("The meta that we pull from analytics: ", response); //Debug statement
-
-                if (response.item.Item == undefined) {
-                    throw new Error("No Response from API");
-                }
-            });
-        } catch (err) {
-            console.log(err);
-        }
-    };
+    const callApi = async () => {};
     /*!
        @description:
        @params:
@@ -351,6 +326,7 @@ const MultipleDaysAnalyticsContainer = () => {
             hourLabels = [],
             hours,
             response,
+            response1,
             data;
         try {
             // Query GQL to pull hourly data
@@ -364,92 +340,42 @@ const MultipleDaysAnalyticsContainer = () => {
                 });
                 data = response.data.getDayNahr7tobjjdgpgohp2eptkayfeStaging;
             } else {
-                console.log("The day sending to backend is:", new Date(date[0]).toISOString().split("T")[0]);
-                callApi();
-                response = await API.graphql({
-                    query: listDays,
-                    variables: {
-                        filter: {
-                            createdAt: {
-                                between: [new Date(date[0]).toISOString().split("T")[0], new Date(date[1]).toISOString().split("T")[0]],
-                            },
-                            // dayOfYear_iotNameThing: {
-                            //     contains: iotNameThing[selectedIndexRef.current],
-                            // },
+                const user = await Auth.currentAuthenticatedUser();
+                try {
+                    const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
+                    const path = "/multipleDays/";
+                    const finalAPIRoute = path + user.username;
+                    let newEndDate = new Date(date[1]);
+                    newEndDate.setDate(newEndDate.getDate() + 1);
+                    console.log("The day of year for start date is:", newEndDate);
+                    await API.get(AMPLIFY_API, finalAPIRoute, {
+                        queryStringParameters: {
+                            startDate: new Date(date[0]).toISOString().split("T")[0],
+                            endDate: new Date(newEndDate).toISOString().split("T")[0],
+                            iotName: iotNameThing[selectedIndexRef.current],
                         },
-                    },
-                });
-                console.log("The data we get from backend is:", response);
-                data = response.data.getDay;
-            }
-            if (data) {
-                precision = Math.abs(data.dailySummary.precision);
-                inventoryConsumed = data.dailySummary.inventoryConsumed;
-                timeSaved = data.dailySummary.averageTime;
-                portionsCompleted = data.dailySummary.portionsCompleted;
-                underPercent = Math.round((data.dailySummary.underServed / portionsCompleted) * 100);
-                perfectPercent = Math.round((data.dailySummary.perfect / portionsCompleted) * 100);
-                overPercent = Math.round((data.dailySummary.overServed / portionsCompleted) * 100);
-                const totalPercent = underPercent + overPercent + perfectPercent;
-                hours = data.hour.items;
-
-                if (totalPercent != 100) {
-                    if (100 - totalPercent == 1) {
-                        perfectPercent++;
-                    } else if (100 - totalPercent == 2) {
-                        underPercent++;
-                        overPercent++;
-                    } else if (100 - totalPercent == 3) {
-                        underPercent++;
-                        overPercent++;
-                        perfectPercent++;
-                    }
-                }
-                dashboardGraph = JSON.parse(data.allPortionEvents);
-                for (let portion in dashboardGraph) {
-                    portionSizes.push(dashboardGraph[portion].correctWeight);
-                }
-                setPortionSizeArr(getMostUsedPortionSizes(portionSizes));
-                const sortedKeys = Object.keys(dashboardGraph).sort((a, b) => parseInt(a) - parseInt(b));
-                const sortedObject = {};
-                sortedKeys.forEach((key) => {
-                    sortedObject[key] = dashboardGraph[key];
-                });
-                dashboardGraph = sortedObject;
-                setDashboardGraph(dashboardGraph);
-                if (hours != undefined) {
-                    for (let i = 0; i < hours.length; i++) {
-                        hourLabels.push(parseInt(hours[i].dayOfYear_hourOfDay_iotNameThing.split("_")[1]));
-                        hourPrecision.push(hours[i].hourlySummary.precision);
-                        hourInventoryConsumed.push(hours[i].hourlySummary.inventoryConsumed);
-                        hourPortionsCompleted.push(hours[i].hourlySummary.portionsCompleted);
-                        hourAccuracy.push(hours[i].hourlySummary.accuracy);
-                    }
-                    const indices = hourLabels.map((value, index) => ({ value, index }));
-
-                    // Sort the indices based on the values of the original array
-                    indices.sort((a, b) => a.value - b.value);
-                    const sortedValues = indices.map((item) => item.value);
-                    const sortedIndices = indices.map((item) => item.index);
-                    // Use the sorted indices to rearrange other arrays
-                    hourLabels = sortedValues;
-                    hourPrecision = sortedIndices.map((index) => hourPrecision[index]);
-                    hourInventoryConsumed = sortedIndices.map((index) => hourInventoryConsumed[index]);
-                    hourPortionsCompleted = sortedIndices.map((index) => hourPortionsCompleted[index]);
-                    hourAccuracy = sortedIndices.map((index) => hourAccuracy[index]);
+                    }).then((response) => {
+                        console.log("The meta that we pull from analytics: ", response); //Debug statement
+                        response1 = response;
+                        if (response.item.Item == undefined) {
+                            throw new Error("No Response from API");
+                        }
+                    });
+                } catch (err) {
+                    console.log(err);
                 }
             }
 
-            setBarChartData({ hourPrecision, hourInventoryConsumed, hourPortionsCompleted, hourAccuracy, hourLabels });
+            setBarChartData(response1[4]);
 
             let demo = false;
             // If Demo, then display hard-coded data
-            if (response.data.getDay || response.data.listDays || response.data.getDayNahr7tobjjdgpgohp2eptkayfeStaging) {
+            if (response1) {
                 // Set the Upper Summary Card Components
                 precision = precision == undefined ? "NA" : precision.toFixed(0) + "%";
                 inventoryConsumed = inventoryConsumed + "g";
                 timeSaved = timeSaved.toFixed(1) + "s";
-                setCardSummaryItems([portionsCompleted, precision, inventoryConsumed, timeSaved]);
+                setCardSummaryItems(response1);
 
                 // Add Percentages
                 underPercent = parseInt(underPercent);
@@ -602,39 +528,13 @@ const MultipleDaysAnalyticsContainer = () => {
                     </Grid>
                     <MDBox mt={4.75}>
                         <Grid container spacing={3} justifyContent={"center"}>
-                            <Grid item xs={12} md={4} lg={6}>
-                                <Tooltip title="Inventory Usage" placement="bottom">
-                                    <div style={{ width: "100%", height: "100%" }}>
-                                        <Stack direction="row" spacing={1} alignItems="center" marginTop={-5}>
-                                            <Typography>Inventory</Typography>
-                                            <Switch checked={switchChecked} onChange={handleSwitchChange} inputProps={{ "aria-label": "ant design" }} />
-                                            <Typography>Portion</Typography>
-                                            <FormControl>
-                                                <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group">
-                                                    {portionSizeArr.map((option) => (
-                                                        <FormControlLabel
-                                                            key={option}
-                                                            value={option}
-                                                            control={<Radio onChange={handleRadioButton} />}
-                                                            label={unitOfMass == "g" ? option : convertGsToOz(option)}
-                                                        />
-                                                    ))}
-                                                    <FormControlLabel defaultValue={0} control={<Radio onChange={handleRadioButton} />} label="All" />
-                                                </RadioGroup>
-                                            </FormControl>
-                                        </Stack>
-
-                                        <ZoomableChart dataSet={dashboardGraph == 0 ? null : dashboardGraph} chartData={chartData} radioButton={radioButton} unitOfMass={unitOfMass} />
-                                    </div>
-                                </Tooltip>
+                            <Grid item xs={12} md={6} lg={10}>
+                                <div style={{ width: "100%", height: "60%" }}>{generateBarChartResponsive(false, unitOfMass)}</div>
                             </Grid>
                             <Grid item xs={12} md={6} lg={4}>
                                 <Tooltip title="Serving Tendency of Portions" placement="bottom">
                                     <div style={{ width: "100%", height: "100%" }}>{generateDoughnutChartResponsive(false)}</div> {/* Adjust the height and width as needed */}
                                 </Tooltip>
-                            </Grid>
-                            <Grid item xs={12} md={6} lg={10}>
-                                <div style={{ width: "100%", height: "60%" }}>{generateBarChartResponsive(false, unitOfMass)}</div>
                             </Grid>
                         </Grid>
                     </MDBox>

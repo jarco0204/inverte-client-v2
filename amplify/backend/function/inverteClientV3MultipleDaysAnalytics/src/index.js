@@ -25,7 +25,13 @@ exports.handler = async (event) => {
         portionsCompleted = 0,
         underPercent = 0,
         overPercent = 0,
-        perfectPercent = 0;
+        perfectPercent = 0,
+        labels = [],
+        precisionArray = [],
+        inventoryArray = [],
+        timeArray = [],
+        portionsArray = [],
+        accuracyArray = [];
     const query = listDays;
     const options = {
         method: "POST",
@@ -62,17 +68,48 @@ exports.handler = async (event) => {
         console.log("Error is", error);
     }
     for (let i = 0; i < pastData.length; i++) {
-        console.log("The data is", pastData[i].dailySummary);
+        console.log("The day is:", dayOfYearToDayOfWeek(pastData[i].dayOfYear_iotNameThing.split("_")[0]));
         portionsCompleted += pastData[i].dailySummary.portionsCompleted;
         precision += pastData[i].dailySummary.precision;
         inventoryConsumed += pastData[i].dailySummary.inventoryConsumed;
         timeSaved += pastData[i].dailySummary.averageTime;
+        labels.push(parseInt(pastData[i].dayOfYear_iotNameThing.split("_")[0]));
+        precisionArray.push(pastData[i].dailySummary.precision);
+        inventoryArray.push(pastData[i].dailySummary.inventoryConsumed);
+        timeArray.push(pastData[i].dailySummary.averageTime);
+        portionsArray.push(pastData[i].dailySummary.portionsCompleted);
+        accuracyArray.push(pastData[i].dailySummary.accuracy);
+        underPercent += pastData[i].dailySummary.underServed;
+        overPercent += pastData[i].dailySummary.overServed;
+        perfectPercent += pastData[i].dailySummary.perfect;
     }
-    portionsCompleted = Math.round(portionsCompleted / pastData.length);
+    underPercent = (underPercent / portionsCompleted) * 100;
+    overPercent = (overPercent / portionsCompleted) * 100;
+    perfectPercent = (perfectPercent / portionsCompleted) * 100;
+    const indices = labels.map((value, index) => ({ value, index }));
+    // Sort the indices based on the values of the original array
+    indices.sort((a, b) => a.value - b.value);
+    const sortedValues = indices.map((item) => item.value);
+    const sortedIndices = indices.map((item) => item.index);
+    // Use the sorted indices to rearrange other arrays
+    labels = sortedValues;
+    for (let i = 0; i < labels.length; i++) {
+        labels[i] = dayOfYearToDayOfWeek(labels[i]);
+    }
+    precisionArray = sortedIndices.map((index) => precisionArray[index]);
+    inventoryArray = sortedIndices.map((index) => inventoryArray[index]);
+    timeArray = sortedIndices.map((index) => timeArray[index]);
+    portionsArray = sortedIndices.map((index) => portionsArray[index]);
+    accuracyArray = sortedIndices.map((index) => accuracyArray[index]);
+    let barChartData = { precisionArray, inventoryArray, portionsArray, accuracyArray, labels };
+    console.log("The bar chart data is:", barChartData);
+
     precision = Math.round(precision / pastData.length);
-    inventoryConsumed = Math.round(inventoryConsumed / pastData.length);
     timeSaved = Math.round(timeSaved / pastData.length);
-    let cardData = [portionsCompleted, precision, inventoryConsumed, timeSaved];
+    let frontEndData = [portionsCompleted, precision, inventoryConsumed, timeSaved, barChartData, underPercent, overPercent, perfectPercent];
+
+    // Compute Bar Chart Data
+
     return {
         statusCode: 200,
         //  Uncomment below to enable CORS requests
@@ -80,13 +117,32 @@ exports.handler = async (event) => {
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Headers": "*",
         },
-        body: JSON.stringify(cardData),
+        body: JSON.stringify(frontEndData),
     };
+};
+// Function to convert day of the year to day of the week
+const dayOfYearToDayOfWeek = (dayOfYear) => {
+    // Create a new Date object for the given year and day of the year
+
+    const date = new Date(new Date().getFullYear(), 0); // Assuming the current year
+
+    // Add the number of days to the date
+    date.setDate(dayOfYear);
+
+    // Get the day of the week (0 is Sunday, 1 is Monday, ..., 6 is Saturday)
+    const dayOfWeekIndex = date.getDay();
+
+    // Array of day names
+    const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+    // Return the corresponding day name
+    return dayNames[dayOfWeekIndex];
 };
 const listDays = /* GraphQL */ `
     query ListDays($dayOfYear_iotNameThing: ID, $filter: ModelDayFilterInput, $limit: Int, $nextToken: String, $sortDirection: ModelSortDirection) {
         listDays(dayOfYear_iotNameThing: $dayOfYear_iotNameThing, filter: $filter, limit: $limit, nextToken: $nextToken, sortDirection: $sortDirection) {
             items {
+                dayOfYear_iotNameThing
                 dailySummary {
                     averageTime
                     portionsCompleted
