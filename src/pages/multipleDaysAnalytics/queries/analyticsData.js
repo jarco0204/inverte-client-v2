@@ -18,7 +18,7 @@ export const getDay = /* GraphQL */ `
                     weekOfYear_iotNameThing
                     monthOfYear_iotNameThing
                     year_iotNameThing
-
+                    realTime
                     dashboardGraph
                     scaleActions
                     allPortionEvents
@@ -29,7 +29,7 @@ export const getDay = /* GraphQL */ `
                 precision
                 __typename
             }
-
+            realTime
             dashboardGraph
             scaleActions
             allPortionEvents

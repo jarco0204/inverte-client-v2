@@ -9,41 +9,22 @@
       "UnauthRoleName": "amplify-inverteclientv3-invertedev-105538-unauthRole",
       "StackName": "amplify-inverteclientv3-invertedev-105538",
       "StackId": "arn:aws:cloudformation:ca-central-1:084619430748:stack/amplify-inverteclientv3-invertedev-105538/767e41c0-b60d-11ee-83ac-0266ca99af7e",
-      "AmplifyAppId": "d1n1lwyzmz6bqx"
+      "AmplifyAppId": "d1n1lwyzmz6bqx",
+      "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-inverteclientv3-invertedev-105538-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
     },
     "categories": {
       "auth": {
         "inverteclientv30db036de": {}
       },
       "function": {
-        "createMetaRecordAmplifyAPIv3": {
+        "inverteClientV3MultipleDaysAnalytics": {
           "deploymentBucketName": "amplify-inverteclientv3-invertedev-105538-deployment",
-          "s3Key": "amplify-builds/createMetaRecordAmplifyAPIv3-3279644d584367757731-build.zip"
-        },
-        "getAnalyticsAmplifyAPIv3": {
-          "deploymentBucketName": "amplify-inverteclientv3-invertedev-105538-deployment",
-          "s3Key": "amplify-builds/getAnalyticsAmplifyAPIv3-736561546f5250473878-build.zip"
-        },
-        "getDailyMetaRecordAmplifyAPIv3": {
-          "deploymentBucketName": "amplify-inverteclientv3-invertedev-105538-deployment",
-          "s3Key": "amplify-builds/getDailyMetaRecordAmplifyAPIv3-2f725172774d764a6664-build.zip"
-        },
-        "getRestaurantMetaAmplifyAPIv3": {
-          "deploymentBucketName": "amplify-inverteclientv3-invertedev-105538-deployment",
-          "s3Key": "amplify-builds/getRestaurantMetaAmplifyAPIv3-427039374d7666764258-build.zip"
-        },
-        "updateDisplayIngredientIndexAmplifyAPIv3": {
-          "deploymentBucketName": "amplify-inverteclientv3-invertedev-105538-deployment",
-          "s3Key": "amplify-builds/updateDisplayIngredientIndexAmplifyAPIv3-7a475a5262734d58784d-build.zip"
-        },
-        "updateIngredientNameAmplifyAPIv3": {
-          "deploymentBucketName": "amplify-inverteclientv3-invertedev-105538-deployment",
-          "s3Key": "amplify-builds/updateIngredientNameAmplifyAPIv3-796f424c3269546b7a6a-build.zip"
-        },
-        "updateUnitOfMassAmplifyAPIv3": {
-          "deploymentBucketName": "amplify-inverteclientv3-invertedev-105538-deployment",
-          "s3Key": "amplify-builds/updateUnitOfMassAmplifyAPIv3-73744845336c4d636e51-build.zip"
+          "s3Key": "amplify-builds/inverteClientV3MultipleDaysAnalytics-54796a6d527233796c62-build.zip"
         }
+      },
+      "api": {
+        "inverteclientv3": {},
+        "inverteClientAmplifyAPIv2": {}
       }
     }
   }

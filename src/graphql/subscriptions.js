@@ -21,7 +21,6 @@ export const onNewPortionEvent = /* GraphQL */ `
           weekOfYear_iotNameThing
           monthOfYear_iotNameThing
           year_iotNameThing
-          realTime
           dashboardGraph
           scaleActions
           allPortionEvents
@@ -32,7 +31,6 @@ export const onNewPortionEvent = /* GraphQL */ `
         precision
         __typename
       }
-      realTime
       dashboardGraph
       scaleActions
       allPortionEvents
@@ -217,7 +215,6 @@ export const onCreateDay = /* GraphQL */ `
           weekOfYear_iotNameThing
           monthOfYear_iotNameThing
           year_iotNameThing
-          realTime
           dashboardGraph
           scaleActions
           allPortionEvents
@@ -228,7 +225,6 @@ export const onCreateDay = /* GraphQL */ `
         precision
         __typename
       }
-      realTime
       dashboardGraph
       scaleActions
       allPortionEvents
@@ -272,7 +268,6 @@ export const onUpdateDay = /* GraphQL */ `
           weekOfYear_iotNameThing
           monthOfYear_iotNameThing
           year_iotNameThing
-          realTime
           dashboardGraph
           scaleActions
           allPortionEvents
@@ -283,7 +278,6 @@ export const onUpdateDay = /* GraphQL */ `
         precision
         __typename
       }
-      realTime
       dashboardGraph
       scaleActions
       allPortionEvents
@@ -327,7 +321,6 @@ export const onDeleteDay = /* GraphQL */ `
           weekOfYear_iotNameThing
           monthOfYear_iotNameThing
           year_iotNameThing
-          realTime
           dashboardGraph
           scaleActions
           allPortionEvents
@@ -338,7 +331,6 @@ export const onDeleteDay = /* GraphQL */ `
         precision
         __typename
       }
-      realTime
       dashboardGraph
       scaleActions
       allPortionEvents

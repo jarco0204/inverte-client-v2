@@ -31,13 +31,13 @@ const PortionAccuracyDoughnutChart = ({ title, description, chart, mobileViewFla
 
         return (
             <MDBox>
-                <MDBox py={2} mt={-5} height="6%">
-                    <Doughnut data={data} options={options} />
-                    <MDTypography variant="h6" textTransform="capitalize" marginTop="-0.5%">
+                <MDBox py={5} mt={-2} height="1%">
+                    <Doughnut data={data} options={options} style={{ marginBottom: "1rem" }} />
+                    <MDTypography variant="h6" textTransform="capitalize" marginTop="5rem">
                         {title}
                     </MDTypography>
-                    <MDTypography variant="button" color="text" fontWeight="">
-                        The percentage of perfect portions is {perfect}% indicating taht {(perfect / 10).toFixed(1)} out of 10 portions are accurate and complete immediately.
+                    <MDTypography variant="button" color="text" marginTop="3rem">
+                        The percentage of perfect portions is {perfect}%, indicating {(perfect / 10).toFixed(1)} out of 10 portions are accurate and complete immediately.
                     </MDTypography>
                 </MDBox>
             </MDBox>

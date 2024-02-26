@@ -26,7 +26,6 @@ export declare type DayCreateFormInputValues = {
     weekOfYear_iotNameThing?: string;
     monthOfYear_iotNameThing?: string;
     year_iotNameThing?: string;
-    realTime?: string;
     dashboardGraph?: string;
     scaleActions?: string;
     allPortionEvents?: string;
@@ -37,7 +36,6 @@ export declare type DayCreateFormValidationValues = {
     weekOfYear_iotNameThing?: ValidationFunction<string>;
     monthOfYear_iotNameThing?: ValidationFunction<string>;
     year_iotNameThing?: ValidationFunction<string>;
-    realTime?: ValidationFunction<string>;
     dashboardGraph?: ValidationFunction<string>;
     scaleActions?: ValidationFunction<string>;
     allPortionEvents?: ValidationFunction<string>;
@@ -50,7 +48,6 @@ export declare type DayCreateFormOverridesProps = {
     weekOfYear_iotNameThing?: PrimitiveOverrideProps<TextFieldProps>;
     monthOfYear_iotNameThing?: PrimitiveOverrideProps<TextFieldProps>;
     year_iotNameThing?: PrimitiveOverrideProps<TextFieldProps>;
-    realTime?: PrimitiveOverrideProps<TextAreaFieldProps>;
     dashboardGraph?: PrimitiveOverrideProps<TextAreaFieldProps>;
     scaleActions?: PrimitiveOverrideProps<TextAreaFieldProps>;
     allPortionEvents?: PrimitiveOverrideProps<TextAreaFieldProps>;
