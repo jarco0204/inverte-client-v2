@@ -29,7 +29,7 @@ function VerticalBarChart({ icon, title, description, height, chart, color, unit
     }
 
     const renderChart = (
-        <MDBox py={2} pr={2} pl={icon.component ? 1 : 2}>
+        <MDBox py={2} pr={2} pl={icon.component ? 0 : 1} variant="gradient" bgColor={color} coloredShadow={color}>
             {title || description ? (
                 <MDBox display="flex" px={description ? 1 : 0} pt={description ? 1 : 0} height="25%" width="100%">
                     {icon.component && (
@@ -45,7 +45,7 @@ function VerticalBarChart({ icon, title, description, height, chart, color, unit
                             alignItems="center"
                             color="white"
                             mt={-5}
-                            mr={2}
+                            mr={3}
                         >
                             <Icon fontSize="medium">{icon.component}</Icon>
                         </MDBox>
@@ -54,9 +54,7 @@ function VerticalBarChart({ icon, title, description, height, chart, color, unit
             ) : null}
             {useMemo(
                 () => (
-                    <MDBox variant="gradient" bgColor={color} borderRadius="lg" coloredShadow={color} width="100%" height="20rem" paddingLeft="15%">
-                        <Bar data={data} />
-                    </MDBox>
+                    <Bar data={data} />
                 ),
                 [chart, height]
             )}
