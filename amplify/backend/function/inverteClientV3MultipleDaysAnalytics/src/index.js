@@ -52,7 +52,7 @@ exports.handler = async (event) => {
     let response;
     try {
         response = await fetch(request);
-        console.log("Data we got from dailymeta table is...", response);
+        console.log("Data we got from dailymeta table is..", response);
         body = await response.json();
         console.log("Body of data we got from dailymeta table is...", body.data.listDays.items);
         pastData = body.data.listDays.items;
