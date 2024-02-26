@@ -48,8 +48,8 @@ const RouterContainer = (metaInformation, isMobileDevice) => {
         !isMobileDevice
             ? {
                   type: "collapse",
-                  name: "Multiple  Days Analytics ",
-                  key: "multiple days",
+                  name: "Past Period ",
+                  key: "past period",
                   icon: (
                       <Icon fontSize="small">
                           <InsightsIcon />
