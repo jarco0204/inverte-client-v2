@@ -19,11 +19,9 @@ import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
 
 // AWS Imports
-import { API, graphqlOperation, Auth } from "aws-amplify";
+import { API, Auth } from "aws-amplify";
 
 // User Components
-import PortionTimeLineChart from "./components/PortionTimeLineChart";
-import PortionPrecisionChart from "./components/PortionPrecisionChart";
 import PortionAccuracyDoughnutChart from "./components/PortionAccuracyDoughnutChart";
 
 // External Libraries
@@ -111,7 +109,7 @@ const MultipleDaysAnalyticsContainer = () => {
     const inventoryConsumedTitle = "Inventory Consumed";
 
     const [date, setDate] = useState(dayjs(""));
-    const [cardSummaryItems, setCardSummaryItems] = useState([]);
+    const [cardSummaryItems, setCardSummaryItems] = useState(["0", "NA", "0", "NA"]);
     const [isMobileDevice, setIsMobileDevice] = useState(false);
     const [realTimeAccuracyGraph, setRealTimeAccuracyGraph] = useState([]);
     const [realTimePrecisionGraph, setRealTimePrecisionGraph] = useState([]);
@@ -226,11 +224,13 @@ const MultipleDaysAnalyticsContainer = () => {
        @params:
        @return:
        @Comments
-       @Coders: Jungler333
+       @Coders: Rohan-16
     */
     const getMultipleDayMetaRecords = async () => {
         let dashboardGraph = {},
-            response1;
+            cardData = [],
+            barChartData,
+            doughnutData;
         try {
             // Query GQL to pull hourly data
             // If data is before Jan 2024, pull from another table
@@ -251,26 +251,18 @@ const MultipleDaysAnalyticsContainer = () => {
                     },
                 }).then((response) => {
                     console.log("The meta that we pull from analytics: ", response); //Debug statement
-                    response1 = response;
+                    barChartData = response[4];
+                    doughnutData = [response[5], response[6], response[7]];
+                    cardData = [response[0], response[1], response[2], response[3]];
+                    setCardSummaryItems(cardData);
+                    setBarChartData(barChartData);
+                    generateLowerRealTimeGraphs(dashboardGraph, doughnutData);
                     if (response.item.Item == undefined) {
                         throw new Error("No Response from API");
                     }
                 });
             } catch (err) {
                 console.log(err);
-            }
-            setBarChartData(response1[4]);
-            if (response1) {
-                // Set the Upper Summary Card Components and Doughnut chart
-                setCardSummaryItems(response1);
-                generateLowerRealTimeGraphs(dashboardGraph, [response1[5], response1[6], response1[7]]);
-            } else {
-                // There is no hourly response so add placeholders
-                setCardSummaryItems(["0", "NA", "0", "NA"]);
-                setRealTimePrecisionGraph([]);
-                setRealTimeAccuracyGraph([]);
-                setRealTimeInventoryGraph([]);
-                return;
             }
         } catch (error) {
             console.error("Error fetching from GQL or Generating Charts... ", error);
