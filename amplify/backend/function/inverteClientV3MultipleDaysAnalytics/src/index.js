@@ -83,9 +83,16 @@ exports.handler = async (event) => {
         overPercent += pastData[i].dailySummary.overServed;
         perfectPercent += pastData[i].dailySummary.perfect;
     }
-    underPercent = (underPercent / portionsCompleted) * 100;
-    overPercent = (overPercent / portionsCompleted) * 100;
-    perfectPercent = (perfectPercent / portionsCompleted) * 100;
+    underPercent = Math.round((underPercent / portionsCompleted) * 100);
+    overPercent = Math.round((overPercent / portionsCompleted) * 100);
+    perfectPercent = Math.round((perfectPercent / portionsCompleted) * 100);
+    let totalPercent = underPercent + overPercent + perfectPercent;
+    if (totalPercent > 100) {
+        while (totalPercent > 100) {
+            underPercent--;
+            totalPercent--;
+        }
+    }
     const indices = labels.map((value, index) => ({ value, index }));
     // Sort the indices based on the values of the original array
     indices.sort((a, b) => a.value - b.value);
