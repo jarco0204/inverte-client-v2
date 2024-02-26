@@ -6,6 +6,8 @@ const fetch = require("node-fetch");
 const { Request } = require("node-fetch");
 exports.handler = async (event) => {
     console.log("The data from backend is:", event.queryStringParameters);
+
+    //GQL variables with filters to query data from DynamoDB
     const variables = {
         filter: {
             createdAt: {
@@ -68,6 +70,8 @@ exports.handler = async (event) => {
         };
         console.log("Error is", error);
     }
+
+    //Processing the data that we got from backend
     for (let i = 0; i < pastData.length; i++) {
         console.log("The day is:", dayOfYearToDayOfWeek(pastData[i].dayOfYear_iotNameThing.split("_")[0]));
         portionsCompleted += pastData[i].dailySummary.portionsCompleted;
@@ -88,6 +92,7 @@ exports.handler = async (event) => {
     overPercent = Math.round((overPercent / portionsCompleted) * 100);
     perfectPercent = Math.round((perfectPercent / portionsCompleted) * 100);
     let totalPercent = underPercent + overPercent + perfectPercent;
+    // If the percentage is greater than 100, reduce the underPercent by 1 until it is equal to 100
     if (totalPercent > 100) {
         while (totalPercent > 100) {
             underPercent--;
@@ -109,15 +114,12 @@ exports.handler = async (event) => {
     timeArray = sortedIndices.map((index) => timeArray[index]);
     portionsArray = sortedIndices.map((index) => portionsArray[index]);
     accuracyArray = sortedIndices.map((index) => accuracyArray[index]);
+    // Compute Bar Chart Data
     let barChartData = { precisionArray, inventoryArray, portionsArray, accuracyArray, labels };
-    console.log("The bar chart data is:", barChartData);
-
+    //Average the precision and the time saved for the whole range
     precision = Math.round(precision / pastData.length);
     timeSaved = Math.round(timeSaved / pastData.length);
     let frontEndData = [portionsCompleted, precision, inventoryConsumed, timeSaved, barChartData, underPercent, overPercent, perfectPercent];
-
-    // Compute Bar Chart Data
-
     return {
         statusCode: 200,
         //  Uncomment below to enable CORS requests
@@ -128,6 +130,7 @@ exports.handler = async (event) => {
         body: JSON.stringify(frontEndData),
     };
 };
+
 // Function to convert day of the year to day of the week
 const dayOfYearToDayOfWeek = (dayOfYear) => {
     // Create a new Date object for the given year and day of the year
@@ -146,6 +149,7 @@ const dayOfYearToDayOfWeek = (dayOfYear) => {
     // Return the corresponding day name
     return dayNames[dayOfWeekIndex];
 };
+
 const listDays = /* GraphQL */ `
     query ListDays($dayOfYear_iotNameThing: ID, $filter: ModelDayFilterInput, $limit: Int, $nextToken: String, $sortDirection: ModelSortDirection) {
         listDays(dayOfYear_iotNameThing: $dayOfYear_iotNameThing, filter: $filter, limit: $limit, nextToken: $nextToken, sortDirection: $sortDirection) {
