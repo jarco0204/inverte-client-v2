@@ -35,6 +35,13 @@ const PortionDoughnutChartConfig = (labels, datasets, backgroundColors) => {
                 },
             },
         },
+        elements: {
+            arc: {
+                borderWidth: 2,
+                borderRadius: 4,
+            },
+        },
+        cutout: "70%", // Adjust the cutout percentage to control the radius
     };
 };
 

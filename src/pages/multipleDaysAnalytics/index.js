@@ -11,33 +11,20 @@ import PrecisionManufacturingRoundedIcon from "@mui/icons-material/PrecisionManu
 
 // Material Dashboard
 import { Tooltip } from "@mui/material";
-import Stack from "@mui/material/Stack";
-import Radio from "@mui/material/Radio";
-import Switch from "@mui/material/Switch";
 import MDBox from "../../components/MDBox";
-import Dropdown from "./components/Dropdown";
 import Footer from "../../components/Footer";
-import FormLabel from "@mui/material/FormLabel";
-import RadioGroup from "@mui/material/RadioGroup";
-import Typography from "@mui/material/Typography";
-import FormControl from "@mui/material/FormControl";
-import MultipleDatePicker from "../../components/DatePicker";
-import ZoomableChart from "./components/ZoomableChart.mjs";
-import FormControlLabel from "@mui/material/FormControlLabel";
+import MultipleDatePicker from "../../components/RangePicker";
 import DropDownIngredientMenu from "../../components/DropDownIngredientMenu";
 import DashboardLayout from "../../components/LayoutContainers/DashboardLayout";
 import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/ComplexStatisticsCard";
 
 // AWS Imports
 import { API, graphqlOperation, Auth } from "aws-amplify";
-import { getDay, getDayNahr7tobjjdgpgohp2eptkayfeStaging } from "./queries/analyticsData";
-import { listDays } from "../../graphql/queries";
 
 // User Components
 import PortionTimeLineChart from "./components/PortionTimeLineChart";
 import PortionPrecisionChart from "./components/PortionPrecisionChart";
 import PortionAccuracyDoughnutChart from "./components/PortionAccuracyDoughnutChart";
-import MobileComplexStatisticsCard from "./components/MobileComplexStatisticsCard";
 
 // External Libraries
 import dayjs from "dayjs";
@@ -129,11 +116,6 @@ const MultipleDaysAnalyticsContainer = () => {
     const [realTimeAccuracyGraph, setRealTimeAccuracyGraph] = useState([]);
     const [realTimePrecisionGraph, setRealTimePrecisionGraph] = useState([]);
     const [realTimeInventoryGraph, setRealTimeInventoryGraph] = useState([]);
-    const [radioButton, setRadioButton] = useState(0);
-    const [chartData, setChartData] = useState("Portion");
-    const [switchChecked, setSwitchChecked] = useState(true);
-    const [dashboardGraph, setDashboardGraph] = useState([]);
-    const [portionSizeArr, setPortionSizeArr] = useState([]);
     const [barChartData, setBarChartData] = useState([]);
     const [displayData, setDisplayData] = useState([]);
 
@@ -146,17 +128,6 @@ const MultipleDaysAnalyticsContainer = () => {
     const selectedIndex = displayIngredientIndex;
 
     /*!
-        @description:
-        @params:
-        @return:
-        @Comments
-        @Coders: TheBestCoderInAmerica
-    */
-    const generatePrecisionChartResponsive = (mobileViewFlag) => {
-        return <PortionPrecisionChart color="info" title="Inventory Usage" chart={realTimePrecisionGraph} mobileViewFlag={mobileViewFlag} />;
-    };
-
-    /*!
        @description:
        @params:
        @return:
@@ -165,17 +136,6 @@ const MultipleDaysAnalyticsContainer = () => {
     */
     const generateDoughnutChartResponsive = (mobileViewFlag) => {
         return <PortionAccuracyDoughnutChart title="Accuracy of Portioning" chart={realTimeAccuracyGraph} mobileViewFlag={mobileViewFlag} />;
-    };
-
-    /*!
-       @description:
-       @params:
-       @return:
-       @Comments
-       @Coders: SashaGris
-    */
-    const generateTimeLineChartResponsive = (mobileViewFlag) => {
-        return <PortionTimeLineChart color="success" title="Portion Completion Times" chart={realTimeInventoryGraph} mobileViewFlag={mobileViewFlag} />;
     };
     /*!
     @description:
@@ -237,9 +197,6 @@ const MultipleDaysAnalyticsContainer = () => {
         // Precision Chart made up of 3 lines
         precisionGraph.labels = keys;
         precisionGraph.portionEvent.data = tempWeightAR;
-        //precisionGraph.correctWeight.data = correctWeightAR;
-        //precisionGraph.upperLimit.data = upperLimitAR;
-        //precisionGraph.lowerLimit.data = lowerLimitAR;
         precisionGraph.pointBackgroundColorAR = pointBackgroundColorAR;
 
         // Accuracy Chart (Doughnut)
@@ -264,43 +221,6 @@ const MultipleDaysAnalyticsContainer = () => {
         setRealTimeInventoryGraph(inventoryGraph);
         setRealTimeAccuracyGraph(accuracyGraph);
     };
-
-    /*!
-       @description:Getting the last key of an object and adding millisecond  to create an event with inventory weight of zero
-       @params:
-       @return:
-       @Comments
-       @Coders:Rohan
-    */
-    const getNewKey = (portionEvents) => {
-        const sortedKeys = Object.keys(portionEvents)
-            .map(Number)
-            .sort((a, b) => a - b);
-        let newKey = parseInt(sortedKeys[sortedKeys.length - 1]) + 200000;
-        let keyBefore = parseInt(sortedKeys[0]) - 200000;
-        return [keyBefore.toString(), newKey.toString()];
-    };
-    /*!
-    @description:Find the 3 most used portion sizes
-    @params:
-    @return:
-    @Comments
-    @Coders:Rohan-16
-    */
-    const getMostUsedPortionSizes = (portionSizes) => {
-        const countMap = new Map();
-        // Count occurrences of each number
-        portionSizes.forEach((num) => {
-            countMap.set(num, (countMap.get(num) || 0) + 1);
-        });
-        // Sort the unique numbers by their occurrences in descending order
-        const sortedPortionSizes = Array.from(new Set(portionSizes)).sort((a, b) => countMap.get(b) - countMap.get(a));
-
-        // Get the top 3 numbers with the highest occurrences
-        const topThreeSizes = sortedPortionSizes.slice(0, 3);
-        return topThreeSizes;
-    };
-    const callApi = async () => {};
     /*!
        @description:
        @params:
@@ -308,87 +228,48 @@ const MultipleDaysAnalyticsContainer = () => {
        @Comments
        @Coders: Jungler333
     */
-    const getDailyMetaRecords = async () => {
-        let precision = 0,
-            inventoryConsumed = 0,
-            timeSaved = 0,
-            portionsCompleted = 0,
-            underPercent = 0,
-            overPercent = 0,
-            perfectPercent = 0,
-            dashboardGraph = {},
-            scaleActions = {},
-            portionSizes = [],
-            hourPrecision = [],
-            hourInventoryConsumed = [],
-            hourPortionsCompleted = [],
-            hourAccuracy = [],
-            hourLabels = [],
-            hours,
-            response,
-            response1,
-            data;
+    const getMultipleDayMetaRecords = async () => {
+        let dashboardGraph = {},
+            response1;
         try {
             // Query GQL to pull hourly data
             // If data is before Jan 2024, pull from another table
-            if (dayjs(date[0].$d).year() == "2023") {
-                response = await API.graphql({
-                    query: getDayNahr7tobjjdgpgohp2eptkayfeStaging,
-                    variables: {
-                        dayOfYear_iotNameThing: dayjs(date.$d).dayOfYear() + "_" + iotNameThing[selectedIndexRef.current],
+
+            const user = await Auth.currentAuthenticatedUser();
+            try {
+                const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
+                const path = "/multipleDays/";
+                const finalAPIRoute = path + user.username;
+                let newEndDate = new Date(date[1]);
+                newEndDate.setDate(newEndDate.getDate() + 1);
+                console.log("The day of year for start date is:", newEndDate);
+                await API.get(AMPLIFY_API, finalAPIRoute, {
+                    queryStringParameters: {
+                        startDate: new Date(date[0]).toISOString().split("T")[0],
+                        endDate: new Date(newEndDate).toISOString().split("T")[0],
+                        iotName: iotNameThing[selectedIndexRef.current],
                     },
+                }).then((response) => {
+                    console.log("The meta that we pull from analytics: ", response); //Debug statement
+                    response1 = response;
+                    if (response.item.Item == undefined) {
+                        throw new Error("No Response from API");
+                    }
                 });
-                data = response.data.getDayNahr7tobjjdgpgohp2eptkayfeStaging;
-            } else {
-                const user = await Auth.currentAuthenticatedUser();
-                try {
-                    const AMPLIFY_API = process.env.REACT_APP_AMPLIFY_API_NAME;
-                    const path = "/multipleDays/";
-                    const finalAPIRoute = path + user.username;
-                    let newEndDate = new Date(date[1]);
-                    newEndDate.setDate(newEndDate.getDate() + 1);
-                    console.log("The day of year for start date is:", newEndDate);
-                    await API.get(AMPLIFY_API, finalAPIRoute, {
-                        queryStringParameters: {
-                            startDate: new Date(date[0]).toISOString().split("T")[0],
-                            endDate: new Date(newEndDate).toISOString().split("T")[0],
-                            iotName: iotNameThing[selectedIndexRef.current],
-                        },
-                    }).then((response) => {
-                        console.log("The meta that we pull from analytics: ", response); //Debug statement
-                        response1 = response;
-                        if (response.item.Item == undefined) {
-                            throw new Error("No Response from API");
-                        }
-                    });
-                } catch (err) {
-                    console.log(err);
-                }
+            } catch (err) {
+                console.log(err);
             }
-
             setBarChartData(response1[4]);
-
-            let demo = false;
-            // If Demo, then display hard-coded data
             if (response1) {
-                // Set the Upper Summary Card Components
-                precision = precision == undefined ? "NA" : precision.toFixed(0) + "%";
-                inventoryConsumed = inventoryConsumed + "g";
-                timeSaved = timeSaved.toFixed(1) + "s";
+                // Set the Upper Summary Card Components and Doughnut chart
                 setCardSummaryItems(response1);
-
-                // Add Percentages
-                underPercent = parseInt(underPercent);
-                perfectPercent = parseInt(perfectPercent);
-                overPercent = parseInt(overPercent);
-                generateLowerRealTimeGraphs(dashboardGraph, [underPercent, perfectPercent, overPercent]);
+                generateLowerRealTimeGraphs(dashboardGraph, [response1[5], response1[6], response1[7]]);
             } else {
                 // There is no hourly response so add placeholders
                 setCardSummaryItems(["0", "NA", "0", "NA"]);
                 setRealTimePrecisionGraph([]);
                 setRealTimeAccuracyGraph([]);
                 setRealTimeInventoryGraph([]);
-                setDashboardGraph([]);
                 return;
             }
         } catch (error) {
@@ -404,7 +285,7 @@ const MultipleDaysAnalyticsContainer = () => {
        @Coders: Mohan
     */
     useEffect(() => {
-        getDailyMetaRecords();
+        getMultipleDayMetaRecords();
     }, [date, displayData]);
     useEffect(() => {
         const handleResize = () => {
@@ -422,36 +303,6 @@ const MultipleDaysAnalyticsContainer = () => {
             window.removeEventListener("resize", handleResize);
         };
     }, []);
-
-    const convertGsToOz = (val) => {
-        return (parseInt(val) / 28.35).toFixed(2).toString();
-    };
-    /*!
-        @description: Switch between Portion and inventory for zoomable chart
-        @params:
-        @return:
-        @Comments
-        @Coders:Rohan-16
-    */
-    const handleSwitchChange = () => {
-        setSwitchChecked((prevChecked) => !prevChecked);
-        if (switchChecked) {
-            setChartData("Inventory");
-        } else {
-            setChartData("Portion");
-        }
-    };
-    /*!
-       @description:Handle radio button updates
-       @params:
-       @return:
-       @Comments
-       @Coders: Rohan-16
-    */
-    const handleRadioButton = (event) => {
-        setRadioButton(event.target.value);
-    };
-
     return (
         <DashboardLayout>
             {/* TODO: ADD Style such that title gets centered with media query (textAlign) */}
@@ -528,10 +379,10 @@ const MultipleDaysAnalyticsContainer = () => {
                     </Grid>
                     <MDBox mt={4.75}>
                         <Grid container spacing={3} justifyContent={"center"}>
-                            <Grid item xs={12} md={6} lg={10}>
+                            <Grid item xs={12} md={6} lg={8}>
                                 <div style={{ width: "100%", height: "60%" }}>{generateBarChartResponsive(false, unitOfMass)}</div>
                             </Grid>
-                            <Grid item xs={12} md={6} lg={4}>
+                            <Grid item xs={12} md={6} lg={3}>
                                 <Tooltip title="Serving Tendency of Portions" placement="bottom">
                                     <div style={{ width: "100%", height: "100%" }}>{generateDoughnutChartResponsive(false)}</div> {/* Adjust the height and width as needed */}
                                 </Tooltip>
