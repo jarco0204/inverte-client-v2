@@ -33,10 +33,11 @@ exports.handler = async (event) => {
         portionsArray = [],
         accuracyArray = [];
     const query = listDays;
+    console.log("The graphql api key");
     const options = {
         method: "POST",
         headers: {
-            "x-api-key": "da2-sohavfnf3rcgnmxvkkwchal7w4",
+            "x-api-key": process.env.REACT_APP_GRAPHQL_API_KEY,
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -44,7 +45,7 @@ exports.handler = async (event) => {
             variables,
         }),
     };
-    request = new Request("https://nmvtwlrgs5hghnpiro5zsslp3e.appsync-api.ca-central-1.amazonaws.com/graphql", options);
+    request = new Request(process.env.REACT_APP_GRAPHQL_ENDPOINT, options);
     let statusCode = 200;
     let response;
     try {
