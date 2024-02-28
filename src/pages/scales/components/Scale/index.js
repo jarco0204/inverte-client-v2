@@ -29,7 +29,7 @@ import { Tooltip } from "@mui/material";
 import MDBox from "../../../../components/MDBox";
 import { getRestaurant } from "../../../../graphql/queries";
 import MDTypography from "../../../../components/MDTypography";
-import { updateRestaurant } from "../../../../graphql/mutations";
+import { updateRestaurant, updateScale } from "../../../../graphql/mutations";
 import { TareButton, StartButton, ExpandMore } from "./ScaleButtons";
 
 // External Libraries
@@ -119,7 +119,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
         // Determine which property of shadow to update
         if (event.target.name === "ingredientNameField") {
             updateThingShadowRequestInput.state.desired["nameIngredient"] = nameIngredient;
-            updateIngredientName(); // Update the ingredient name in the database
+            updateIngredientName(mainScaleData.iotNameThing.scaleName, nameIngredient); // Update the ingredient name in the database
         } else if (event.target.name === "minOffsetField") {
             if (unitOfMass == "g") {
                 updateThingShadowRequestInput.state.desired["lowerErrorLimit"] = minOffset;
@@ -227,21 +227,13 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
         @Comments
         @Coders: Rohan-16
     */
-    const updateIngredientName = async () => {
+    const updateIngredientName = async (iotNameThing, ingredient) => {
         const user = await Auth.currentAuthenticatedUser();
         try {
-            const response = await API.graphql({
-                query: getRestaurant,
-                variables: { restaurant_id: user.username },
-            });
-            let iotThingNames = JSON.parse(response.data.getRestaurant.iotThingNames);
-            iotThingNames[mainScaleData.iotNameThing.scaleName] = nameIngredient;
-            iotThingNames = JSON.stringify(iotThingNames);
-
             // Perform GQL Query
-            const inputData = { restaurant_id: user.username, iotThingNames: iotThingNames };
+            const inputData = { scaleName: iotNameThing, ingredient: ingredient };
             const response1 = await API.graphql({
-                query: updateRestaurant,
+                query: updateScale,
                 variables: { input: inputData },
             });
             console.log("The response from the updateRestaurant API is:", response1);
@@ -343,7 +335,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                 if (dataCloud.desired == undefined && dataCloud.reported.correctWeightIndex != undefined) {
                     setCorrectWeightIndex(dataCloud.reported.correctWeightIndex);
                 }
-                if (dataCloud.reported.unitOfMass != undefined) {
+                if (dataCloud.desired.unitOfMass != undefined) {
                     setUnitOfMass(dataCloud.reported.unitOfMass);
                 }
 
