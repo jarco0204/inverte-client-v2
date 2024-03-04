@@ -34,7 +34,6 @@ export default function DayUpdateForm(props) {
     weekOfYear_iotNameThing: "",
     monthOfYear_iotNameThing: "",
     year_iotNameThing: "",
-    realTime: "",
     dashboardGraph: "",
     scaleActions: "",
     allPortionEvents: "",
@@ -51,7 +50,6 @@ export default function DayUpdateForm(props) {
   const [year_iotNameThing, setYear_iotNameThing] = React.useState(
     initialValues.year_iotNameThing
   );
-  const [realTime, setRealTime] = React.useState(initialValues.realTime);
   const [dashboardGraph, setDashboardGraph] = React.useState(
     initialValues.dashboardGraph
   );
@@ -71,11 +69,6 @@ export default function DayUpdateForm(props) {
     setWeekOfYear_iotNameThing(cleanValues.weekOfYear_iotNameThing);
     setMonthOfYear_iotNameThing(cleanValues.monthOfYear_iotNameThing);
     setYear_iotNameThing(cleanValues.year_iotNameThing);
-    setRealTime(
-      typeof cleanValues.realTime === "string" || cleanValues.realTime === null
-        ? cleanValues.realTime
-        : JSON.stringify(cleanValues.realTime)
-    );
     setDashboardGraph(
       typeof cleanValues.dashboardGraph === "string" ||
         cleanValues.dashboardGraph === null
@@ -118,7 +111,6 @@ export default function DayUpdateForm(props) {
     weekOfYear_iotNameThing: [{ type: "Required" }],
     monthOfYear_iotNameThing: [{ type: "Required" }],
     year_iotNameThing: [],
-    realTime: [{ type: "JSON" }],
     dashboardGraph: [{ type: "JSON" }],
     scaleActions: [{ type: "JSON" }],
     allPortionEvents: [{ type: "JSON" }],
@@ -154,7 +146,6 @@ export default function DayUpdateForm(props) {
           weekOfYear_iotNameThing,
           monthOfYear_iotNameThing,
           year_iotNameThing: year_iotNameThing ?? null,
-          realTime: realTime ?? null,
           dashboardGraph: dashboardGraph ?? null,
           scaleActions: scaleActions ?? null,
           allPortionEvents: allPortionEvents ?? null,
@@ -223,7 +214,6 @@ export default function DayUpdateForm(props) {
               weekOfYear_iotNameThing,
               monthOfYear_iotNameThing,
               year_iotNameThing,
-              realTime,
               dashboardGraph,
               scaleActions,
               allPortionEvents,
@@ -257,7 +247,6 @@ export default function DayUpdateForm(props) {
               weekOfYear_iotNameThing: value,
               monthOfYear_iotNameThing,
               year_iotNameThing,
-              realTime,
               dashboardGraph,
               scaleActions,
               allPortionEvents,
@@ -291,7 +280,6 @@ export default function DayUpdateForm(props) {
               weekOfYear_iotNameThing,
               monthOfYear_iotNameThing: value,
               year_iotNameThing,
-              realTime,
               dashboardGraph,
               scaleActions,
               allPortionEvents,
@@ -328,7 +316,6 @@ export default function DayUpdateForm(props) {
               weekOfYear_iotNameThing,
               monthOfYear_iotNameThing,
               year_iotNameThing: value,
-              realTime,
               dashboardGraph,
               scaleActions,
               allPortionEvents,
@@ -350,38 +337,6 @@ export default function DayUpdateForm(props) {
         {...getOverrideProps(overrides, "year_iotNameThing")}
       ></TextField>
       <TextAreaField
-        label="Real time"
-        isRequired={false}
-        isReadOnly={false}
-        value={realTime}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              dayOfYear_iotNameThing,
-              weekOfYear_iotNameThing,
-              monthOfYear_iotNameThing,
-              year_iotNameThing,
-              realTime: value,
-              dashboardGraph,
-              scaleActions,
-              allPortionEvents,
-              createdAt,
-            };
-            const result = onChange(modelFields);
-            value = result?.realTime ?? value;
-          }
-          if (errors.realTime?.hasError) {
-            runValidationTasks("realTime", value);
-          }
-          setRealTime(value);
-        }}
-        onBlur={() => runValidationTasks("realTime", realTime)}
-        errorMessage={errors.realTime?.errorMessage}
-        hasError={errors.realTime?.hasError}
-        {...getOverrideProps(overrides, "realTime")}
-      ></TextAreaField>
-      <TextAreaField
         label="Dashboard graph"
         isRequired={false}
         isReadOnly={false}
@@ -394,7 +349,6 @@ export default function DayUpdateForm(props) {
               weekOfYear_iotNameThing,
               monthOfYear_iotNameThing,
               year_iotNameThing,
-              realTime,
               dashboardGraph: value,
               scaleActions,
               allPortionEvents,
@@ -426,7 +380,6 @@ export default function DayUpdateForm(props) {
               weekOfYear_iotNameThing,
               monthOfYear_iotNameThing,
               year_iotNameThing,
-              realTime,
               dashboardGraph,
               scaleActions: value,
               allPortionEvents,
@@ -458,7 +411,6 @@ export default function DayUpdateForm(props) {
               weekOfYear_iotNameThing,
               monthOfYear_iotNameThing,
               year_iotNameThing,
-              realTime,
               dashboardGraph,
               scaleActions,
               allPortionEvents: value,
@@ -490,7 +442,6 @@ export default function DayUpdateForm(props) {
               weekOfYear_iotNameThing,
               monthOfYear_iotNameThing,
               year_iotNameThing,
-              realTime,
               dashboardGraph,
               scaleActions,
               allPortionEvents,

@@ -8,7 +8,6 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 const BasicDatePicker = ({ titleForPage, date, setDate }) => {
     console.log("The date is:", date);
-    const { RangePicker } = DatePicker;
     const [value, setStartDate] = useState(null);
     const [date1, setDate1] = useState(null);
     const disabledDate = (current) => {
@@ -21,7 +20,7 @@ const BasicDatePicker = ({ titleForPage, date, setDate }) => {
                 <h2 style={{ margin: "9px 10px", fontSize: "24px" }}>{titleForPage} </h2>
 
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={["DateRangePicker"]}>
+                    <DemoContainer components={["DateRangePicke"]}>
                         <DatePicker
                             value={date || value}
                             disabledDate={disabledDate}

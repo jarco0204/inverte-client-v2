@@ -21,7 +21,7 @@ import FormLabel from "@mui/material/FormLabel";
 import RadioGroup from "@mui/material/RadioGroup";
 import Typography from "@mui/material/Typography";
 import FormControl from "@mui/material/FormControl";
-import BasicDatePicker from "../../components/DatePicker";
+import BasicDatePicker from "../../components/DatePicker/index";
 import ZoomableChart from "./components/ZoomableChart.mjs";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import DropDownIngredientMenu from "../../components/DropDownIngredientMenu";
@@ -46,6 +46,7 @@ import timezone from "dayjs/plugin/timezone";
 import toObject from "dayjs/plugin/toObject.js";
 import dayOfYear from "dayjs/plugin/dayOfYear.js";
 import VerticalBarChart from "../../components/Charts/BarCharts/VerticalBarChart/index";
+
 // import { setSelectedIndex } from "../../redux/metaSlice";
 // import { difference, sum } from "d3-array";
 // import { ListItemIcon } from "@mui/material";
@@ -317,11 +318,11 @@ const AnalyticsContainer = () => {
             dashboardGraph = {},
             scaleActions = {},
             portionSizes = [],
-            hourPrecision = [],
-            hourInventoryConsumed = [],
-            hourPortionsCompleted = [],
-            hourAccuracy = [],
-            hourLabels = [],
+            precisionArray = [],
+            inventoryArray = [],
+            portionsArray = [],
+            accuracyArray = [],
+            labels = [],
             hours,
             response,
             data;
@@ -382,28 +383,28 @@ const AnalyticsContainer = () => {
                 setDashboardGraph(dashboardGraph);
                 if (hours != undefined) {
                     for (let i = 0; i < hours.length; i++) {
-                        hourLabels.push(parseInt(hours[i].dayOfYear_hourOfDay_iotNameThing.split("_")[1]));
-                        hourPrecision.push(hours[i].hourlySummary.precision);
-                        hourInventoryConsumed.push(hours[i].hourlySummary.inventoryConsumed);
-                        hourPortionsCompleted.push(hours[i].hourlySummary.portionsCompleted);
-                        hourAccuracy.push(hours[i].hourlySummary.accuracy);
+                        labels.push(parseInt(hours[i].dayOfYear_hourOfDay_iotNameThing.split("_")[1]));
+                        precisionArray.push(hours[i].hourlySummary.precision);
+                        inventoryArray.push(hours[i].hourlySummary.inventoryConsumed);
+                        portionsArray.push(hours[i].hourlySummary.portionsCompleted);
+                        accuracyArray.push(hours[i].hourlySummary.accuracy);
                     }
-                    const indices = hourLabels.map((value, index) => ({ value, index }));
+                    const indices = labels.map((value, index) => ({ value, index }));
 
                     // Sort the indices based on the values of the original array
                     indices.sort((a, b) => a.value - b.value);
                     const sortedValues = indices.map((item) => item.value);
                     const sortedIndices = indices.map((item) => item.index);
                     // Use the sorted indices to rearrange other arrays
-                    hourLabels = sortedValues;
-                    hourPrecision = sortedIndices.map((index) => hourPrecision[index]);
-                    hourInventoryConsumed = sortedIndices.map((index) => hourInventoryConsumed[index]);
-                    hourPortionsCompleted = sortedIndices.map((index) => hourPortionsCompleted[index]);
-                    hourAccuracy = sortedIndices.map((index) => hourAccuracy[index]);
+                    labels = sortedValues;
+                    precisionArray = sortedIndices.map((index) => precisionArray[index]);
+                    inventoryArray = sortedIndices.map((index) => inventoryArray[index]);
+                    portionsArray = sortedIndices.map((index) => portionsArray[index]);
+                    accuracyArray = sortedIndices.map((index) => accuracyArray[index]);
                 }
             }
 
-            setBarChartData({ hourPrecision, hourInventoryConsumed, hourPortionsCompleted, hourAccuracy, hourLabels });
+            setBarChartData({ precisionArray, inventoryArray, portionsArray, accuracyArray, labels });
 
             let demo = false;
             // If Demo, then display hard-coded data

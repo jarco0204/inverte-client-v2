@@ -19,7 +19,6 @@ export const onNewPortionEvent = /* GraphQL */ `
         precision
         __typename
       }
-      realTime
       dashboardGraph
       scaleActions
       allPortionEvents
@@ -162,7 +161,6 @@ export const onCreateDay = /* GraphQL */ `
         precision
         __typename
       }
-      realTime
       dashboardGraph
       scaleActions
       allPortionEvents
@@ -194,7 +192,6 @@ export const onUpdateDay = /* GraphQL */ `
         precision
         __typename
       }
-      realTime
       dashboardGraph
       scaleActions
       allPortionEvents
@@ -226,7 +223,6 @@ export const onDeleteDay = /* GraphQL */ `
         precision
         __typename
       }
-      realTime
       dashboardGraph
       scaleActions
       allPortionEvents
