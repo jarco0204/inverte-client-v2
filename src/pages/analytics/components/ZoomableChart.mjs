@@ -24,7 +24,14 @@ const chartConfig = {
     options: {
         responsive: true,
         // maintainAspectRatio: false,
+        time: {
+            //unit: "hour", // or "month" depending on your data
 
+            displayFormats: {
+                hour: "HH:mm", // Adjust display format as needed
+            },
+            parser: "timestamp",
+        },
         elements: {
             point: {
                 radius: 2.5,
@@ -33,13 +40,12 @@ const chartConfig = {
         scales: {
             x: {
                 type: "time",
-                time: {
-                    unit: "hour",
-                    displayFormats: {
-                        hour: "HH:mm",
-                    },
-                },
-
+                // time: {
+                //     unit: "hour",
+                //     displayFormats: {
+                //         hour: "HH:MM",
+                //     },
+                // },
                 offset: false,
                 grid: {
                     display: false,
@@ -51,16 +57,17 @@ const chartConfig = {
                     size: 8,
                 },
             },
-            x1: {
-                type: "time",
-                time: {
-                    unit: "day",
-                    displayFormats: {
-                        hour: "DD",
-                    },
+
+            y: {
+                // Configuration for the y-axis
+                title: {
+                    display: true,
+                },
+                ticks: {
+                    beginAtZero: true, // Start the y-axis at zero
+                    // Other tick configurations as needed
                 },
             },
-            y: {},
         },
         plugins: {
             zoom: {
@@ -72,12 +79,11 @@ const chartConfig = {
                         enabled: true,
                     },
                     mode: "x",
-                    speed: 100,
+                    speed: 0.1,
                 },
                 pan: {
                     enabled: true,
                     mode: "x",
-                    speed: 0.5,
                 },
             },
         },
@@ -86,6 +92,7 @@ const chartConfig = {
 
 const ZoomableChart = (dataSet) => {
     console.log("DataSet is:", dataSet);
+
     if (dataSet.chartData == "Inventory") {
         chartConfig.data.datasets = [
             {
@@ -135,10 +142,6 @@ const ZoomableChart = (dataSet) => {
         fGArr = [],
         fWArr = [];
 
-    if (dataSet.dataSet != null) {
-        chartConfig.options.scales.x.min = parseInt(Object.keys(data)[1]);
-        chartConfig.options.scales.x.max = parseInt(Object.keys(data)[data.length - 1]);
-    }
     if (dataSet.dataSet != null) {
         for (let i = 0; i < Object.keys(data).length; i++) {
             xArr.push(parseInt(Object.keys(data)[i]));
