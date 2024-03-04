@@ -18,19 +18,6 @@ export const getDayNahr7tobjjdgpgohp2eptkayfeStaging = /* GraphQL */ `
         overServed
         underServed
         perfect
-        day {
-          dayOfYear_iotNameThing
-          weekOfYear_iotNameThing
-          monthOfYear_iotNameThing
-          year_iotNameThing
-          realTime
-          dashboardGraph
-          scaleActions
-          allPortionEvents
-          createdAt
-          updatedAt
-          __typename
-        }
         precision
         __typename
       }
@@ -40,11 +27,6 @@ export const getDayNahr7tobjjdgpgohp2eptkayfeStaging = /* GraphQL */ `
       allPortionEvents
       createdAt
       hour {
-        items {
-          dayOfYear_hourOfDay_iotNameThing
-          dayOfYear_iotNameThing
-          __typename
-        }
         nextToken
         __typename
       }
@@ -64,16 +46,6 @@ export const getRestaurant = /* GraphQL */ `
       timeZone
       accessType
       scale {
-        items {
-          scaleName
-          restaurant_id
-          ingredient
-          lastConnected
-          createdAt
-          updatedAt
-          restaurantScaleRestaurant_id
-          __typename
-        }
         nextToken
         __typename
       }
@@ -107,10 +79,6 @@ export const listRestaurants = /* GraphQL */ `
         unitOfMass
         timeZone
         accessType
-        scale {
-          nextToken
-          __typename
-        }
         createdAt
         updatedAt
         __typename
@@ -179,19 +147,6 @@ export const getDay = /* GraphQL */ `
         overServed
         underServed
         perfect
-        day {
-          dayOfYear_iotNameThing
-          weekOfYear_iotNameThing
-          monthOfYear_iotNameThing
-          year_iotNameThing
-          realTime
-          dashboardGraph
-          scaleActions
-          allPortionEvents
-          createdAt
-          updatedAt
-          __typename
-        }
         precision
         __typename
       }
@@ -201,16 +156,6 @@ export const getDay = /* GraphQL */ `
       allPortionEvents
       createdAt
       hour {
-        items {
-          dayOfYear_hourOfDay_iotNameThing
-          dayOfYear_iotNameThing
-          realTime
-          scaleActions
-          createdAt
-          updatedAt
-          dayHourDayOfYear_iotNameThing
-          __typename
-        }
         nextToken
         __typename
       }
@@ -239,26 +184,11 @@ export const listDays = /* GraphQL */ `
         weekOfYear_iotNameThing
         monthOfYear_iotNameThing
         year_iotNameThing
-        dailySummary {
-          averageTime
-          portionsCompleted
-          accuracy
-          inventoryConsumed
-          overServed
-          underServed
-          perfect
-          precision
-          __typename
-        }
         realTime
         dashboardGraph
         scaleActions
         allPortionEvents
         createdAt
-        hour {
-          nextToken
-          __typename
-        }
         updatedAt
         __typename
       }
@@ -283,16 +213,6 @@ export const getHour = /* GraphQL */ `
         underServed
         perfect
         precision
-        hour {
-          dayOfYear_hourOfDay_iotNameThing
-          dayOfYear_iotNameThing
-          realTime
-          scaleActions
-          createdAt
-          updatedAt
-          dayHourDayOfYear_iotNameThing
-          __typename
-        }
         __typename
       }
       realTime
@@ -322,17 +242,6 @@ export const listHours = /* GraphQL */ `
       items {
         dayOfYear_hourOfDay_iotNameThing
         dayOfYear_iotNameThing
-        hourlySummary {
-          averageTime
-          portionsCompleted
-          accuracy
-          inventoryConsumed
-          overServed
-          underServed
-          perfect
-          precision
-          __typename
-        }
         realTime
         scaleActions
         createdAt
@@ -395,26 +304,11 @@ export const daysByWeekOfYear_iotNameThing = /* GraphQL */ `
         weekOfYear_iotNameThing
         monthOfYear_iotNameThing
         year_iotNameThing
-        dailySummary {
-          averageTime
-          portionsCompleted
-          accuracy
-          inventoryConsumed
-          overServed
-          underServed
-          perfect
-          precision
-          __typename
-        }
         realTime
         dashboardGraph
         scaleActions
         allPortionEvents
         createdAt
-        hour {
-          nextToken
-          __typename
-        }
         updatedAt
         __typename
       }
@@ -441,17 +335,6 @@ export const hoursByDayOfYear_iotNameThing = /* GraphQL */ `
       items {
         dayOfYear_hourOfDay_iotNameThing
         dayOfYear_iotNameThing
-        hourlySummary {
-          averageTime
-          portionsCompleted
-          accuracy
-          inventoryConsumed
-          overServed
-          underServed
-          perfect
-          precision
-          __typename
-        }
         realTime
         scaleActions
         createdAt

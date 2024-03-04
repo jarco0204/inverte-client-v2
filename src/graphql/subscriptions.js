@@ -16,19 +16,6 @@ export const onNewPortionEvent = /* GraphQL */ `
         overServed
         underServed
         perfect
-        day {
-          dayOfYear_iotNameThing
-          weekOfYear_iotNameThing
-          monthOfYear_iotNameThing
-          year_iotNameThing
-          realTime
-          dashboardGraph
-          scaleActions
-          allPortionEvents
-          createdAt
-          updatedAt
-          __typename
-        }
         precision
         __typename
       }
@@ -38,16 +25,6 @@ export const onNewPortionEvent = /* GraphQL */ `
       allPortionEvents
       createdAt
       hour {
-        items {
-          dayOfYear_hourOfDay_iotNameThing
-          dayOfYear_iotNameThing
-          realTime
-          scaleActions
-          createdAt
-          updatedAt
-          dayHourDayOfYear_iotNameThing
-          __typename
-        }
         nextToken
         __typename
       }
@@ -70,16 +47,6 @@ export const onCreateRestaurant = /* GraphQL */ `
       timeZone
       accessType
       scale {
-        items {
-          scaleName
-          restaurant_id
-          ingredient
-          lastConnected
-          createdAt
-          updatedAt
-          restaurantScaleRestaurant_id
-          __typename
-        }
         nextToken
         __typename
       }
@@ -103,16 +70,6 @@ export const onUpdateRestaurant = /* GraphQL */ `
       timeZone
       accessType
       scale {
-        items {
-          scaleName
-          restaurant_id
-          ingredient
-          lastConnected
-          createdAt
-          updatedAt
-          restaurantScaleRestaurant_id
-          __typename
-        }
         nextToken
         __typename
       }
@@ -136,16 +93,6 @@ export const onDeleteRestaurant = /* GraphQL */ `
       timeZone
       accessType
       scale {
-        items {
-          scaleName
-          restaurant_id
-          ingredient
-          lastConnected
-          createdAt
-          updatedAt
-          restaurantScaleRestaurant_id
-          __typename
-        }
         nextToken
         __typename
       }
@@ -212,19 +159,6 @@ export const onCreateDay = /* GraphQL */ `
         overServed
         underServed
         perfect
-        day {
-          dayOfYear_iotNameThing
-          weekOfYear_iotNameThing
-          monthOfYear_iotNameThing
-          year_iotNameThing
-          realTime
-          dashboardGraph
-          scaleActions
-          allPortionEvents
-          createdAt
-          updatedAt
-          __typename
-        }
         precision
         __typename
       }
@@ -234,16 +168,6 @@ export const onCreateDay = /* GraphQL */ `
       allPortionEvents
       createdAt
       hour {
-        items {
-          dayOfYear_hourOfDay_iotNameThing
-          dayOfYear_iotNameThing
-          realTime
-          scaleActions
-          createdAt
-          updatedAt
-          dayHourDayOfYear_iotNameThing
-          __typename
-        }
         nextToken
         __typename
       }
@@ -267,19 +191,6 @@ export const onUpdateDay = /* GraphQL */ `
         overServed
         underServed
         perfect
-        day {
-          dayOfYear_iotNameThing
-          weekOfYear_iotNameThing
-          monthOfYear_iotNameThing
-          year_iotNameThing
-          realTime
-          dashboardGraph
-          scaleActions
-          allPortionEvents
-          createdAt
-          updatedAt
-          __typename
-        }
         precision
         __typename
       }
@@ -289,16 +200,6 @@ export const onUpdateDay = /* GraphQL */ `
       allPortionEvents
       createdAt
       hour {
-        items {
-          dayOfYear_hourOfDay_iotNameThing
-          dayOfYear_iotNameThing
-          realTime
-          scaleActions
-          createdAt
-          updatedAt
-          dayHourDayOfYear_iotNameThing
-          __typename
-        }
         nextToken
         __typename
       }
@@ -322,19 +223,6 @@ export const onDeleteDay = /* GraphQL */ `
         overServed
         underServed
         perfect
-        day {
-          dayOfYear_iotNameThing
-          weekOfYear_iotNameThing
-          monthOfYear_iotNameThing
-          year_iotNameThing
-          realTime
-          dashboardGraph
-          scaleActions
-          allPortionEvents
-          createdAt
-          updatedAt
-          __typename
-        }
         precision
         __typename
       }
@@ -344,16 +232,6 @@ export const onDeleteDay = /* GraphQL */ `
       allPortionEvents
       createdAt
       hour {
-        items {
-          dayOfYear_hourOfDay_iotNameThing
-          dayOfYear_iotNameThing
-          realTime
-          scaleActions
-          createdAt
-          updatedAt
-          dayHourDayOfYear_iotNameThing
-          __typename
-        }
         nextToken
         __typename
       }
@@ -376,16 +254,6 @@ export const onCreateHour = /* GraphQL */ `
         underServed
         perfect
         precision
-        hour {
-          dayOfYear_hourOfDay_iotNameThing
-          dayOfYear_iotNameThing
-          realTime
-          scaleActions
-          createdAt
-          updatedAt
-          dayHourDayOfYear_iotNameThing
-          __typename
-        }
         __typename
       }
       realTime
@@ -411,16 +279,6 @@ export const onUpdateHour = /* GraphQL */ `
         underServed
         perfect
         precision
-        hour {
-          dayOfYear_hourOfDay_iotNameThing
-          dayOfYear_iotNameThing
-          realTime
-          scaleActions
-          createdAt
-          updatedAt
-          dayHourDayOfYear_iotNameThing
-          __typename
-        }
         __typename
       }
       realTime
@@ -446,16 +304,6 @@ export const onDeleteHour = /* GraphQL */ `
         underServed
         perfect
         precision
-        hour {
-          dayOfYear_hourOfDay_iotNameThing
-          dayOfYear_iotNameThing
-          realTime
-          scaleActions
-          createdAt
-          updatedAt
-          dayHourDayOfYear_iotNameThing
-          __typename
-        }
         __typename
       }
       realTime
