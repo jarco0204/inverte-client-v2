@@ -335,9 +335,6 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                 if (dataCloud.desired == undefined && dataCloud.reported.correctWeightIndex != undefined) {
                     setCorrectWeightIndex(dataCloud.reported.correctWeightIndex);
                 }
-                if (dataCloud.desired.unitOfMass != undefined) {
-                    setUnitOfMass(dataCloud.reported.unitOfMass);
-                }
 
                 console.log("Successfully handled your UPDATE Classic Shadow...");
                 // subscriptionClassicShadow.unsubscribe(); //Unsubcribe to topic after fething and updating parameters
