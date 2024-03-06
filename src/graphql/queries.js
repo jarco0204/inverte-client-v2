@@ -54,8 +54,6 @@ export const getRestaurant = /* GraphQL */ `
                     restaurantScaleRestaurant_id
                     __typename
                 }
-                nextToken
-                __typename
             }
             createdAt
             updatedAt
@@ -139,16 +137,6 @@ export const getDay = /* GraphQL */ `
             allPortionEvents
             createdAt
             hour {
-                items {
-                    dayOfYear_hourOfDay_iotNameThing
-                    dayOfYear_iotNameThing
-                    realTime
-                    scaleActions
-                    createdAt
-                    updatedAt
-                    dayHourDayOfYear_iotNameThing
-                    __typename
-                }
                 nextToken
                 __typename
             }
@@ -208,17 +196,6 @@ export const listHours = /* GraphQL */ `
             items {
                 dayOfYear_hourOfDay_iotNameThing
                 dayOfYear_iotNameThing
-                hourlySummary {
-                    averageTime
-                    portionsCompleted
-                    accuracy
-                    inventoryConsumed
-                    overServed
-                    underServed
-                    perfect
-                    precision
-                    __typename
-                }
                 realTime
                 scaleActions
                 createdAt
@@ -275,6 +252,10 @@ export const hoursByDayOfYear_iotNameThing = /* GraphQL */ `
             items {
                 dayOfYear_hourOfDay_iotNameThing
                 dayOfYear_iotNameThing
+                realTime
+                scaleActions
+                createdAt
+                updatedAt
                 hourlySummary {
                     averageTime
                     portionsCompleted
@@ -286,10 +267,6 @@ export const hoursByDayOfYear_iotNameThing = /* GraphQL */ `
                     precision
                     __typename
                 }
-                realTime
-                scaleActions
-                createdAt
-                updatedAt
                 dayHourDayOfYear_iotNameThing
                 __typename
             }

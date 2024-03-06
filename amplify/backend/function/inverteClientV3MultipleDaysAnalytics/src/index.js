@@ -5,7 +5,7 @@
 const fetch = require("node-fetch");
 const { Request } = require("node-fetch");
 exports.handler = async (event) => {
-    console.log("The data from backend is:", event.queryStringParameters);
+    console.log("The data from backend i:", event.queryStringParameters);
 
     //GQL variables with filters to query data from DynamoDB
     const variables = {
@@ -54,7 +54,7 @@ exports.handler = async (event) => {
         response = await fetch(request);
         console.log("Data we got from dailymeta table is..", response);
         body = await response.json();
-        console.log("Body of data we got from dailymeta table is...", body.data.listDays.items);
+        console.log("Body of data we got from dailymeta table is...", body.data);
         pastData = body.data.listDays.items;
         if (body.errors) statusCode = 400;
     } catch (error) {
@@ -166,9 +166,6 @@ const listDays = /* GraphQL */ `
                     precision
                     __typename
                 }
-                allPortionEvents
-                updatedAt
-                __typename
             }
             nextToken
             __typename

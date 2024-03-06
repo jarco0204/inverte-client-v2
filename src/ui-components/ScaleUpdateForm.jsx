@@ -67,7 +67,7 @@ export default function ScaleUpdateForm(props) {
   const validations = {
     scaleName: [{ type: "Required" }],
     restaurant_id: [{ type: "Required" }],
-    ingredient: [],
+    ingredient: [{ type: "Required" }],
     lastConnected: [],
   };
   const runValidationTasks = async (
@@ -98,7 +98,7 @@ export default function ScaleUpdateForm(props) {
         let modelFields = {
           scaleName,
           restaurant_id,
-          ingredient: ingredient ?? null,
+          ingredient,
           lastConnected: lastConnected ?? null,
         };
         const validationResponses = await Promise.all(
@@ -207,7 +207,7 @@ export default function ScaleUpdateForm(props) {
       ></TextField>
       <TextField
         label="Ingredient"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={ingredient}
         onChange={(e) => {

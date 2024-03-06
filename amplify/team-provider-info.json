@@ -9,17 +9,22 @@
       "UnauthRoleName": "amplify-inverteclientv3-staging-133138-unauthRole",
       "StackName": "amplify-inverteclientv3-staging-133138",
       "StackId": "arn:aws:cloudformation:ca-central-1:084619430748:stack/amplify-inverteclientv3-staging-133138/1ddb12c0-1101-11ee-8fa8-0e0bbf88b664",
-      "AmplifyAppId": "d1n1lwyzmz6bqx"
+      "AmplifyAppId": "d1n1lwyzmz6bqx",
+      "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-inverteclientv3-staging-133138-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json"
     },
     "categories": {
       "auth": {
         "inverteclientv30db036de": {}
       },
       "function": {
-        "inverteClientV3MultipleDaysAnalytics": {}
+        "inverteClientV3MultipleDaysAnalytics": {
+          "deploymentBucketName": "amplify-inverteclientv3-staging-133138-deployment",
+          "s3Key": "amplify-builds/inverteClientV3MultipleDaysAnalytics-37784f6679312f2f314a-build.zip"
+        }
       },
       "api": {
-        "inverteclientv3": {}
+        "inverteclientv3": {},
+        "inverteClientAmplifyAPIv2": {}
       }
     }
   }

@@ -46,7 +46,7 @@ export default function ScaleCreateForm(props) {
   const validations = {
     scaleName: [{ type: "Required" }],
     restaurant_id: [{ type: "Required" }],
-    ingredient: [],
+    ingredient: [{ type: "Required" }],
     lastConnected: [],
   };
   const runValidationTasks = async (
@@ -188,7 +188,7 @@ export default function ScaleCreateForm(props) {
       ></TextField>
       <TextField
         label="Ingredient"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={ingredient}
         onChange={(e) => {
