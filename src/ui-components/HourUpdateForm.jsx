@@ -14,10 +14,9 @@ import {
   TextField,
 } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
-import { generateClient } from "aws-amplify/api";
+import { API } from "aws-amplify";
 import { getHour } from "../graphql/queries";
 import { updateHour } from "../graphql/mutations";
-const client = generateClient();
 export default function HourUpdateForm(props) {
   const {
     dayOfYear_hourOfDay_iotNameThing: dayOfYear_hourOfDay_iotNameThingProp,
@@ -77,7 +76,7 @@ export default function HourUpdateForm(props) {
     const queryData = async () => {
       const record = dayOfYear_hourOfDay_iotNameThingProp
         ? (
-            await client.graphql({
+            await API.graphql({
               query: getHour.replaceAll("__typename", ""),
               variables: {
                 dayOfYear_hourOfDay_iotNameThing:
@@ -158,7 +157,7 @@ export default function HourUpdateForm(props) {
               modelFields[key] = null;
             }
           });
-          await client.graphql({
+          await API.graphql({
             query: updateHour.replaceAll("__typename", ""),
             variables: {
               input: {

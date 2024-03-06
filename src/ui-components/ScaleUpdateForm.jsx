@@ -8,10 +8,9 @@
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
-import { generateClient } from "aws-amplify/api";
+import { API } from "aws-amplify";
 import { getScale } from "../graphql/queries";
 import { updateScale } from "../graphql/mutations";
-const client = generateClient();
 export default function ScaleUpdateForm(props) {
   const {
     scaleName: scaleNameProp,
@@ -54,7 +53,7 @@ export default function ScaleUpdateForm(props) {
     const queryData = async () => {
       const record = scaleNameProp
         ? (
-            await client.graphql({
+            await API.graphql({
               query: getScale.replaceAll("__typename", ""),
               variables: { scaleName: scaleNameProp },
             })
@@ -130,7 +129,7 @@ export default function ScaleUpdateForm(props) {
               modelFields[key] = null;
             }
           });
-          await client.graphql({
+          await API.graphql({
             query: updateScale.replaceAll("__typename", ""),
             variables: {
               input: {
