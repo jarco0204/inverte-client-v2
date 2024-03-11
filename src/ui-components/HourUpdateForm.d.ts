@@ -22,15 +22,15 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type HourUpdateFormInputValues = {
-    dayOfYear_hourOfDay_iotNameThing?: string;
-    dayOfYear_iotNameThing?: string;
+    year_dayOfYear_hourOfDay_iotNameThing_ingredientName?: string;
+    year_dayOfYear_iotNameThing_ingredientName?: string;
     realTime?: string;
     scaleActions?: string;
     createdAt?: string;
 };
 export declare type HourUpdateFormValidationValues = {
-    dayOfYear_hourOfDay_iotNameThing?: ValidationFunction<string>;
-    dayOfYear_iotNameThing?: ValidationFunction<string>;
+    year_dayOfYear_hourOfDay_iotNameThing_ingredientName?: ValidationFunction<string>;
+    year_dayOfYear_iotNameThing_ingredientName?: ValidationFunction<string>;
     realTime?: ValidationFunction<string>;
     scaleActions?: ValidationFunction<string>;
     createdAt?: ValidationFunction<string>;
@@ -38,8 +38,8 @@ export declare type HourUpdateFormValidationValues = {
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type HourUpdateFormOverridesProps = {
     HourUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    dayOfYear_hourOfDay_iotNameThing?: PrimitiveOverrideProps<TextFieldProps>;
-    dayOfYear_iotNameThing?: PrimitiveOverrideProps<TextFieldProps>;
+    year_dayOfYear_hourOfDay_iotNameThing_ingredientName?: PrimitiveOverrideProps<TextFieldProps>;
+    year_dayOfYear_iotNameThing_ingredientName?: PrimitiveOverrideProps<TextFieldProps>;
     realTime?: PrimitiveOverrideProps<TextAreaFieldProps>;
     scaleActions?: PrimitiveOverrideProps<TextAreaFieldProps>;
     createdAt?: PrimitiveOverrideProps<TextFieldProps>;
@@ -47,7 +47,7 @@ export declare type HourUpdateFormOverridesProps = {
 export declare type HourUpdateFormProps = React.PropsWithChildren<{
     overrides?: HourUpdateFormOverridesProps | undefined | null;
 } & {
-    dayOfYear_hourOfDay_iotNameThing?: string;
+    year_dayOfYear_hourOfDay_iotNameThing_ingredientName?: string;
     hour?: any;
     onSubmit?: (fields: HourUpdateFormInputValues) => HourUpdateFormInputValues;
     onSuccess?: (fields: HourUpdateFormInputValues) => void;

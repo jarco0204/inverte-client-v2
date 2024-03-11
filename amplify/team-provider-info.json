@@ -21,6 +21,10 @@
           "deploymentBucketName": "amplify-inverteclientv3-invertedev-105538-deployment",
           "s3Key": "amplify-builds/inverteClientV3MultipleDaysAnalytics-7636433374715574305a-build.zip"
         }
+      },
+      "api": {
+        "inverteClientAmplifyAPIv2": {},
+        "inverteclientv3": {}
       }
     }
   }

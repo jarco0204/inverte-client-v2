@@ -15,11 +15,12 @@ import {
 } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { API } from "aws-amplify";
-import { getDay } from "../graphql/queries";
-import { updateDay } from "../graphql/mutations";
+import { getDay } from "../../amplify/backend/gql/queries";
+import { updateDay } from "../../amplify/backend/gql/mutations";
 export default function DayUpdateForm(props) {
   const {
-    dayOfYear_iotNameThing: dayOfYear_iotNameThingProp,
+    year_dayOfYear_iotNameThing_ingredientName:
+      year_dayOfYear_iotNameThing_ingredientNameProp,
     day: dayModelProp,
     onSuccess,
     onError,
@@ -30,26 +31,31 @@ export default function DayUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    dayOfYear_iotNameThing: "",
-    weekOfYear_iotNameThing: "",
-    monthOfYear_iotNameThing: "",
-    year_iotNameThing: "",
+    year_dayOfYear_iotNameThing_ingredientName: "",
+    weekOfYear_iotNameThing_ingredientName: "",
+    monthOfYear_iotNameThing_ingredientName: "",
+    year_iotNameThing_ingredientName: "",
     dashboardGraph: "",
     scaleActions: "",
     allPortionEvents: "",
     createdAt: "",
   };
-  const [dayOfYear_iotNameThing, setDayOfYear_iotNameThing] = React.useState(
-    initialValues.dayOfYear_iotNameThing
-  );
-  const [weekOfYear_iotNameThing, setWeekOfYear_iotNameThing] = React.useState(
-    initialValues.weekOfYear_iotNameThing
-  );
-  const [monthOfYear_iotNameThing, setMonthOfYear_iotNameThing] =
-    React.useState(initialValues.monthOfYear_iotNameThing);
-  const [year_iotNameThing, setYear_iotNameThing] = React.useState(
-    initialValues.year_iotNameThing
-  );
+  const [
+    year_dayOfYear_iotNameThing_ingredientName,
+    setYear_dayOfYear_iotNameThing_ingredientName,
+  ] = React.useState(initialValues.year_dayOfYear_iotNameThing_ingredientName);
+  const [
+    weekOfYear_iotNameThing_ingredientName,
+    setWeekOfYear_iotNameThing_ingredientName,
+  ] = React.useState(initialValues.weekOfYear_iotNameThing_ingredientName);
+  const [
+    monthOfYear_iotNameThing_ingredientName,
+    setMonthOfYear_iotNameThing_ingredientName,
+  ] = React.useState(initialValues.monthOfYear_iotNameThing_ingredientName);
+  const [
+    year_iotNameThing_ingredientName,
+    setYear_iotNameThing_ingredientName,
+  ] = React.useState(initialValues.year_iotNameThing_ingredientName);
   const [dashboardGraph, setDashboardGraph] = React.useState(
     initialValues.dashboardGraph
   );
@@ -65,10 +71,18 @@ export default function DayUpdateForm(props) {
     const cleanValues = dayRecord
       ? { ...initialValues, ...dayRecord }
       : initialValues;
-    setDayOfYear_iotNameThing(cleanValues.dayOfYear_iotNameThing);
-    setWeekOfYear_iotNameThing(cleanValues.weekOfYear_iotNameThing);
-    setMonthOfYear_iotNameThing(cleanValues.monthOfYear_iotNameThing);
-    setYear_iotNameThing(cleanValues.year_iotNameThing);
+    setYear_dayOfYear_iotNameThing_ingredientName(
+      cleanValues.year_dayOfYear_iotNameThing_ingredientName
+    );
+    setWeekOfYear_iotNameThing_ingredientName(
+      cleanValues.weekOfYear_iotNameThing_ingredientName
+    );
+    setMonthOfYear_iotNameThing_ingredientName(
+      cleanValues.monthOfYear_iotNameThing_ingredientName
+    );
+    setYear_iotNameThing_ingredientName(
+      cleanValues.year_iotNameThing_ingredientName
+    );
     setDashboardGraph(
       typeof cleanValues.dashboardGraph === "string" ||
         cleanValues.dashboardGraph === null
@@ -93,24 +107,27 @@ export default function DayUpdateForm(props) {
   const [dayRecord, setDayRecord] = React.useState(dayModelProp);
   React.useEffect(() => {
     const queryData = async () => {
-      const record = dayOfYear_iotNameThingProp
+      const record = year_dayOfYear_iotNameThing_ingredientNameProp
         ? (
             await API.graphql({
               query: getDay.replaceAll("__typename", ""),
-              variables: { dayOfYear_iotNameThing: dayOfYear_iotNameThingProp },
+              variables: {
+                year_dayOfYear_iotNameThing_ingredientName:
+                  year_dayOfYear_iotNameThing_ingredientNameProp,
+              },
             })
           )?.data?.getDay
         : dayModelProp;
       setDayRecord(record);
     };
     queryData();
-  }, [dayOfYear_iotNameThingProp, dayModelProp]);
+  }, [year_dayOfYear_iotNameThing_ingredientNameProp, dayModelProp]);
   React.useEffect(resetStateValues, [dayRecord]);
   const validations = {
-    dayOfYear_iotNameThing: [{ type: "Required" }],
-    weekOfYear_iotNameThing: [{ type: "Required" }],
-    monthOfYear_iotNameThing: [{ type: "Required" }],
-    year_iotNameThing: [],
+    year_dayOfYear_iotNameThing_ingredientName: [{ type: "Required" }],
+    weekOfYear_iotNameThing_ingredientName: [{ type: "Required" }],
+    monthOfYear_iotNameThing_ingredientName: [{ type: "Required" }],
+    year_iotNameThing_ingredientName: [{ type: "Required" }],
     dashboardGraph: [{ type: "JSON" }],
     scaleActions: [{ type: "JSON" }],
     allPortionEvents: [{ type: "JSON" }],
@@ -142,10 +159,10 @@ export default function DayUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          dayOfYear_iotNameThing,
-          weekOfYear_iotNameThing,
-          monthOfYear_iotNameThing,
-          year_iotNameThing: year_iotNameThing ?? null,
+          year_dayOfYear_iotNameThing_ingredientName,
+          weekOfYear_iotNameThing_ingredientName,
+          monthOfYear_iotNameThing_ingredientName,
+          year_iotNameThing_ingredientName,
           dashboardGraph: dashboardGraph ?? null,
           scaleActions: scaleActions ?? null,
           allPortionEvents: allPortionEvents ?? null,
@@ -183,7 +200,8 @@ export default function DayUpdateForm(props) {
             query: updateDay.replaceAll("__typename", ""),
             variables: {
               input: {
-                dayOfYear_iotNameThing: dayRecord.dayOfYear_iotNameThing,
+                year_dayOfYear_iotNameThing_ingredientName:
+                  dayRecord.year_dayOfYear_iotNameThing_ingredientName,
                 ...modelFields,
               },
             },
@@ -202,139 +220,169 @@ export default function DayUpdateForm(props) {
       {...rest}
     >
       <TextField
-        label="Day of year iot name thing"
+        label="Year day of year iot name thing ingredient name"
         isRequired={true}
         isReadOnly={true}
-        value={dayOfYear_iotNameThing}
+        value={year_dayOfYear_iotNameThing_ingredientName}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              dayOfYear_iotNameThing: value,
-              weekOfYear_iotNameThing,
-              monthOfYear_iotNameThing,
-              year_iotNameThing,
+              year_dayOfYear_iotNameThing_ingredientName: value,
+              weekOfYear_iotNameThing_ingredientName,
+              monthOfYear_iotNameThing_ingredientName,
+              year_iotNameThing_ingredientName,
               dashboardGraph,
               scaleActions,
               allPortionEvents,
               createdAt,
             };
             const result = onChange(modelFields);
-            value = result?.dayOfYear_iotNameThing ?? value;
+            value = result?.year_dayOfYear_iotNameThing_ingredientName ?? value;
           }
-          if (errors.dayOfYear_iotNameThing?.hasError) {
-            runValidationTasks("dayOfYear_iotNameThing", value);
+          if (errors.year_dayOfYear_iotNameThing_ingredientName?.hasError) {
+            runValidationTasks(
+              "year_dayOfYear_iotNameThing_ingredientName",
+              value
+            );
           }
-          setDayOfYear_iotNameThing(value);
-        }}
-        onBlur={() =>
-          runValidationTasks("dayOfYear_iotNameThing", dayOfYear_iotNameThing)
-        }
-        errorMessage={errors.dayOfYear_iotNameThing?.errorMessage}
-        hasError={errors.dayOfYear_iotNameThing?.hasError}
-        {...getOverrideProps(overrides, "dayOfYear_iotNameThing")}
-      ></TextField>
-      <TextField
-        label="Week of year iot name thing"
-        isRequired={true}
-        isReadOnly={false}
-        value={weekOfYear_iotNameThing}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              dayOfYear_iotNameThing,
-              weekOfYear_iotNameThing: value,
-              monthOfYear_iotNameThing,
-              year_iotNameThing,
-              dashboardGraph,
-              scaleActions,
-              allPortionEvents,
-              createdAt,
-            };
-            const result = onChange(modelFields);
-            value = result?.weekOfYear_iotNameThing ?? value;
-          }
-          if (errors.weekOfYear_iotNameThing?.hasError) {
-            runValidationTasks("weekOfYear_iotNameThing", value);
-          }
-          setWeekOfYear_iotNameThing(value);
-        }}
-        onBlur={() =>
-          runValidationTasks("weekOfYear_iotNameThing", weekOfYear_iotNameThing)
-        }
-        errorMessage={errors.weekOfYear_iotNameThing?.errorMessage}
-        hasError={errors.weekOfYear_iotNameThing?.hasError}
-        {...getOverrideProps(overrides, "weekOfYear_iotNameThing")}
-      ></TextField>
-      <TextField
-        label="Month of year iot name thing"
-        isRequired={true}
-        isReadOnly={false}
-        value={monthOfYear_iotNameThing}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              dayOfYear_iotNameThing,
-              weekOfYear_iotNameThing,
-              monthOfYear_iotNameThing: value,
-              year_iotNameThing,
-              dashboardGraph,
-              scaleActions,
-              allPortionEvents,
-              createdAt,
-            };
-            const result = onChange(modelFields);
-            value = result?.monthOfYear_iotNameThing ?? value;
-          }
-          if (errors.monthOfYear_iotNameThing?.hasError) {
-            runValidationTasks("monthOfYear_iotNameThing", value);
-          }
-          setMonthOfYear_iotNameThing(value);
+          setYear_dayOfYear_iotNameThing_ingredientName(value);
         }}
         onBlur={() =>
           runValidationTasks(
-            "monthOfYear_iotNameThing",
-            monthOfYear_iotNameThing
+            "year_dayOfYear_iotNameThing_ingredientName",
+            year_dayOfYear_iotNameThing_ingredientName
           )
         }
-        errorMessage={errors.monthOfYear_iotNameThing?.errorMessage}
-        hasError={errors.monthOfYear_iotNameThing?.hasError}
-        {...getOverrideProps(overrides, "monthOfYear_iotNameThing")}
+        errorMessage={
+          errors.year_dayOfYear_iotNameThing_ingredientName?.errorMessage
+        }
+        hasError={errors.year_dayOfYear_iotNameThing_ingredientName?.hasError}
+        {...getOverrideProps(
+          overrides,
+          "year_dayOfYear_iotNameThing_ingredientName"
+        )}
       ></TextField>
       <TextField
-        label="Year iot name thing"
-        isRequired={false}
+        label="Week of year iot name thing ingredient name"
+        isRequired={true}
         isReadOnly={false}
-        value={year_iotNameThing}
+        value={weekOfYear_iotNameThing_ingredientName}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              dayOfYear_iotNameThing,
-              weekOfYear_iotNameThing,
-              monthOfYear_iotNameThing,
-              year_iotNameThing: value,
+              year_dayOfYear_iotNameThing_ingredientName,
+              weekOfYear_iotNameThing_ingredientName: value,
+              monthOfYear_iotNameThing_ingredientName,
+              year_iotNameThing_ingredientName,
               dashboardGraph,
               scaleActions,
               allPortionEvents,
               createdAt,
             };
             const result = onChange(modelFields);
-            value = result?.year_iotNameThing ?? value;
+            value = result?.weekOfYear_iotNameThing_ingredientName ?? value;
           }
-          if (errors.year_iotNameThing?.hasError) {
-            runValidationTasks("year_iotNameThing", value);
+          if (errors.weekOfYear_iotNameThing_ingredientName?.hasError) {
+            runValidationTasks("weekOfYear_iotNameThing_ingredientName", value);
           }
-          setYear_iotNameThing(value);
+          setWeekOfYear_iotNameThing_ingredientName(value);
         }}
         onBlur={() =>
-          runValidationTasks("year_iotNameThing", year_iotNameThing)
+          runValidationTasks(
+            "weekOfYear_iotNameThing_ingredientName",
+            weekOfYear_iotNameThing_ingredientName
+          )
         }
-        errorMessage={errors.year_iotNameThing?.errorMessage}
-        hasError={errors.year_iotNameThing?.hasError}
-        {...getOverrideProps(overrides, "year_iotNameThing")}
+        errorMessage={
+          errors.weekOfYear_iotNameThing_ingredientName?.errorMessage
+        }
+        hasError={errors.weekOfYear_iotNameThing_ingredientName?.hasError}
+        {...getOverrideProps(
+          overrides,
+          "weekOfYear_iotNameThing_ingredientName"
+        )}
+      ></TextField>
+      <TextField
+        label="Month of year iot name thing ingredient name"
+        isRequired={true}
+        isReadOnly={false}
+        value={monthOfYear_iotNameThing_ingredientName}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              year_dayOfYear_iotNameThing_ingredientName,
+              weekOfYear_iotNameThing_ingredientName,
+              monthOfYear_iotNameThing_ingredientName: value,
+              year_iotNameThing_ingredientName,
+              dashboardGraph,
+              scaleActions,
+              allPortionEvents,
+              createdAt,
+            };
+            const result = onChange(modelFields);
+            value = result?.monthOfYear_iotNameThing_ingredientName ?? value;
+          }
+          if (errors.monthOfYear_iotNameThing_ingredientName?.hasError) {
+            runValidationTasks(
+              "monthOfYear_iotNameThing_ingredientName",
+              value
+            );
+          }
+          setMonthOfYear_iotNameThing_ingredientName(value);
+        }}
+        onBlur={() =>
+          runValidationTasks(
+            "monthOfYear_iotNameThing_ingredientName",
+            monthOfYear_iotNameThing_ingredientName
+          )
+        }
+        errorMessage={
+          errors.monthOfYear_iotNameThing_ingredientName?.errorMessage
+        }
+        hasError={errors.monthOfYear_iotNameThing_ingredientName?.hasError}
+        {...getOverrideProps(
+          overrides,
+          "monthOfYear_iotNameThing_ingredientName"
+        )}
+      ></TextField>
+      <TextField
+        label="Year iot name thing ingredient name"
+        isRequired={true}
+        isReadOnly={false}
+        value={year_iotNameThing_ingredientName}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              year_dayOfYear_iotNameThing_ingredientName,
+              weekOfYear_iotNameThing_ingredientName,
+              monthOfYear_iotNameThing_ingredientName,
+              year_iotNameThing_ingredientName: value,
+              dashboardGraph,
+              scaleActions,
+              allPortionEvents,
+              createdAt,
+            };
+            const result = onChange(modelFields);
+            value = result?.year_iotNameThing_ingredientName ?? value;
+          }
+          if (errors.year_iotNameThing_ingredientName?.hasError) {
+            runValidationTasks("year_iotNameThing_ingredientName", value);
+          }
+          setYear_iotNameThing_ingredientName(value);
+        }}
+        onBlur={() =>
+          runValidationTasks(
+            "year_iotNameThing_ingredientName",
+            year_iotNameThing_ingredientName
+          )
+        }
+        errorMessage={errors.year_iotNameThing_ingredientName?.errorMessage}
+        hasError={errors.year_iotNameThing_ingredientName?.hasError}
+        {...getOverrideProps(overrides, "year_iotNameThing_ingredientName")}
       ></TextField>
       <TextAreaField
         label="Dashboard graph"
@@ -345,10 +393,10 @@ export default function DayUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              dayOfYear_iotNameThing,
-              weekOfYear_iotNameThing,
-              monthOfYear_iotNameThing,
-              year_iotNameThing,
+              year_dayOfYear_iotNameThing_ingredientName,
+              weekOfYear_iotNameThing_ingredientName,
+              monthOfYear_iotNameThing_ingredientName,
+              year_iotNameThing_ingredientName,
               dashboardGraph: value,
               scaleActions,
               allPortionEvents,
@@ -376,10 +424,10 @@ export default function DayUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              dayOfYear_iotNameThing,
-              weekOfYear_iotNameThing,
-              monthOfYear_iotNameThing,
-              year_iotNameThing,
+              year_dayOfYear_iotNameThing_ingredientName,
+              weekOfYear_iotNameThing_ingredientName,
+              monthOfYear_iotNameThing_ingredientName,
+              year_iotNameThing_ingredientName,
               dashboardGraph,
               scaleActions: value,
               allPortionEvents,
@@ -407,10 +455,10 @@ export default function DayUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              dayOfYear_iotNameThing,
-              weekOfYear_iotNameThing,
-              monthOfYear_iotNameThing,
-              year_iotNameThing,
+              year_dayOfYear_iotNameThing_ingredientName,
+              weekOfYear_iotNameThing_ingredientName,
+              monthOfYear_iotNameThing_ingredientName,
+              year_iotNameThing_ingredientName,
               dashboardGraph,
               scaleActions,
               allPortionEvents: value,
@@ -438,10 +486,10 @@ export default function DayUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              dayOfYear_iotNameThing,
-              weekOfYear_iotNameThing,
-              monthOfYear_iotNameThing,
-              year_iotNameThing,
+              year_dayOfYear_iotNameThing_ingredientName,
+              weekOfYear_iotNameThing_ingredientName,
+              monthOfYear_iotNameThing_ingredientName,
+              year_iotNameThing_ingredientName,
               dashboardGraph,
               scaleActions,
               allPortionEvents,
@@ -471,7 +519,9 @@ export default function DayUpdateForm(props) {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(dayOfYear_iotNameThingProp || dayModelProp)}
+          isDisabled={
+            !(year_dayOfYear_iotNameThing_ingredientNameProp || dayModelProp)
+          }
           {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
@@ -483,8 +533,9 @@ export default function DayUpdateForm(props) {
             type="submit"
             variation="primary"
             isDisabled={
-              !(dayOfYear_iotNameThingProp || dayModelProp) ||
-              Object.values(errors).some((e) => e?.hasError)
+              !(
+                year_dayOfYear_iotNameThing_ingredientNameProp || dayModelProp
+              ) || Object.values(errors).some((e) => e?.hasError)
             }
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>

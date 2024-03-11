@@ -1,42 +1,12 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onNewPortionEvent = /* GraphQL */ `
-  subscription OnNewPortionEvent {
-    onNewPortionEvent {
-      dayOfYear_iotNameThing
-      weekOfYear_iotNameThing
-      monthOfYear_iotNameThing
-      year_iotNameThing
-      dailySummary {
-        averageTime
-        portionsCompleted
-        accuracy
-        inventoryConsumed
-        overServed
-        underServed
-        perfect
-        precision
-        __typename
-      }
-      dashboardGraph
-      scaleActions
-      allPortionEvents
-      createdAt
-      hour {
-        nextToken
-        __typename
-      }
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const onCreateRestaurant = /* GraphQL */ `
-  subscription OnCreateRestaurant(
-    $filter: ModelSubscriptionRestaurantFilterInput
+export const createRestaurant = /* GraphQL */ `
+  mutation CreateRestaurant(
+    $input: CreateRestaurantInput!
+    $condition: ModelRestaurantConditionInput
   ) {
-    onCreateRestaurant(filter: $filter) {
+    createRestaurant(input: $input, condition: $condition) {
       restaurant_id
       demo
       restaurantLocationNum
@@ -55,11 +25,12 @@ export const onCreateRestaurant = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateRestaurant = /* GraphQL */ `
-  subscription OnUpdateRestaurant(
-    $filter: ModelSubscriptionRestaurantFilterInput
+export const updateRestaurant = /* GraphQL */ `
+  mutation UpdateRestaurant(
+    $input: UpdateRestaurantInput!
+    $condition: ModelRestaurantConditionInput
   ) {
-    onUpdateRestaurant(filter: $filter) {
+    updateRestaurant(input: $input, condition: $condition) {
       restaurant_id
       demo
       restaurantLocationNum
@@ -78,11 +49,12 @@ export const onUpdateRestaurant = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteRestaurant = /* GraphQL */ `
-  subscription OnDeleteRestaurant(
-    $filter: ModelSubscriptionRestaurantFilterInput
+export const deleteRestaurant = /* GraphQL */ `
+  mutation DeleteRestaurant(
+    $input: DeleteRestaurantInput!
+    $condition: ModelRestaurantConditionInput
   ) {
-    onDeleteRestaurant(filter: $filter) {
+    deleteRestaurant(input: $input, condition: $condition) {
       restaurant_id
       demo
       restaurantLocationNum
@@ -101,9 +73,12 @@ export const onDeleteRestaurant = /* GraphQL */ `
     }
   }
 `;
-export const onCreateScale = /* GraphQL */ `
-  subscription OnCreateScale($filter: ModelSubscriptionScaleFilterInput) {
-    onCreateScale(filter: $filter) {
+export const createScale = /* GraphQL */ `
+  mutation CreateScale(
+    $input: CreateScaleInput!
+    $condition: ModelScaleConditionInput
+  ) {
+    createScale(input: $input, condition: $condition) {
       scaleName
       restaurant_id
       ingredient
@@ -115,9 +90,12 @@ export const onCreateScale = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateScale = /* GraphQL */ `
-  subscription OnUpdateScale($filter: ModelSubscriptionScaleFilterInput) {
-    onUpdateScale(filter: $filter) {
+export const updateScale = /* GraphQL */ `
+  mutation UpdateScale(
+    $input: UpdateScaleInput!
+    $condition: ModelScaleConditionInput
+  ) {
+    updateScale(input: $input, condition: $condition) {
       scaleName
       restaurant_id
       ingredient
@@ -129,9 +107,12 @@ export const onUpdateScale = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteScale = /* GraphQL */ `
-  subscription OnDeleteScale($filter: ModelSubscriptionScaleFilterInput) {
-    onDeleteScale(filter: $filter) {
+export const deleteScale = /* GraphQL */ `
+  mutation DeleteScale(
+    $input: DeleteScaleInput!
+    $condition: ModelScaleConditionInput
+  ) {
+    deleteScale(input: $input, condition: $condition) {
       scaleName
       restaurant_id
       ingredient
@@ -143,13 +124,16 @@ export const onDeleteScale = /* GraphQL */ `
     }
   }
 `;
-export const onCreateDay = /* GraphQL */ `
-  subscription OnCreateDay($filter: ModelSubscriptionDayFilterInput) {
-    onCreateDay(filter: $filter) {
-      dayOfYear_iotNameThing
-      weekOfYear_iotNameThing
-      monthOfYear_iotNameThing
-      year_iotNameThing
+export const createDay = /* GraphQL */ `
+  mutation CreateDay(
+    $input: CreateDayInput!
+    $condition: ModelDayConditionInput
+  ) {
+    createDay(input: $input, condition: $condition) {
+      year_dayOfYear_iotNameThing_ingredientName
+      weekOfYear_iotNameThing_ingredientName
+      monthOfYear_iotNameThing_ingredientName
+      year_iotNameThing_ingredientName
       dailySummary {
         averageTime
         portionsCompleted
@@ -174,13 +158,16 @@ export const onCreateDay = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateDay = /* GraphQL */ `
-  subscription OnUpdateDay($filter: ModelSubscriptionDayFilterInput) {
-    onUpdateDay(filter: $filter) {
-      dayOfYear_iotNameThing
-      weekOfYear_iotNameThing
-      monthOfYear_iotNameThing
-      year_iotNameThing
+export const updateDay = /* GraphQL */ `
+  mutation UpdateDay(
+    $input: UpdateDayInput!
+    $condition: ModelDayConditionInput
+  ) {
+    updateDay(input: $input, condition: $condition) {
+      year_dayOfYear_iotNameThing_ingredientName
+      weekOfYear_iotNameThing_ingredientName
+      monthOfYear_iotNameThing_ingredientName
+      year_iotNameThing_ingredientName
       dailySummary {
         averageTime
         portionsCompleted
@@ -205,13 +192,16 @@ export const onUpdateDay = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteDay = /* GraphQL */ `
-  subscription OnDeleteDay($filter: ModelSubscriptionDayFilterInput) {
-    onDeleteDay(filter: $filter) {
-      dayOfYear_iotNameThing
-      weekOfYear_iotNameThing
-      monthOfYear_iotNameThing
-      year_iotNameThing
+export const deleteDay = /* GraphQL */ `
+  mutation DeleteDay(
+    $input: DeleteDayInput!
+    $condition: ModelDayConditionInput
+  ) {
+    deleteDay(input: $input, condition: $condition) {
+      year_dayOfYear_iotNameThing_ingredientName
+      weekOfYear_iotNameThing_ingredientName
+      monthOfYear_iotNameThing_ingredientName
+      year_iotNameThing_ingredientName
       dailySummary {
         averageTime
         portionsCompleted
@@ -236,11 +226,14 @@ export const onDeleteDay = /* GraphQL */ `
     }
   }
 `;
-export const onCreateHour = /* GraphQL */ `
-  subscription OnCreateHour($filter: ModelSubscriptionHourFilterInput) {
-    onCreateHour(filter: $filter) {
-      dayOfYear_hourOfDay_iotNameThing
-      dayOfYear_iotNameThing
+export const createHour = /* GraphQL */ `
+  mutation CreateHour(
+    $input: CreateHourInput!
+    $condition: ModelHourConditionInput
+  ) {
+    createHour(input: $input, condition: $condition) {
+      year_dayOfYear_hourOfDay_iotNameThing_ingredientName
+      year_dayOfYear_iotNameThing_ingredientName
       hourlySummary {
         averageTime
         portionsCompleted
@@ -256,16 +249,19 @@ export const onCreateHour = /* GraphQL */ `
       scaleActions
       createdAt
       updatedAt
-      dayHourDayOfYear_iotNameThing
+      dayHourYear_dayOfYear_iotNameThing_ingredientName
       __typename
     }
   }
 `;
-export const onUpdateHour = /* GraphQL */ `
-  subscription OnUpdateHour($filter: ModelSubscriptionHourFilterInput) {
-    onUpdateHour(filter: $filter) {
-      dayOfYear_hourOfDay_iotNameThing
-      dayOfYear_iotNameThing
+export const updateHour = /* GraphQL */ `
+  mutation UpdateHour(
+    $input: UpdateHourInput!
+    $condition: ModelHourConditionInput
+  ) {
+    updateHour(input: $input, condition: $condition) {
+      year_dayOfYear_hourOfDay_iotNameThing_ingredientName
+      year_dayOfYear_iotNameThing_ingredientName
       hourlySummary {
         averageTime
         portionsCompleted
@@ -281,16 +277,19 @@ export const onUpdateHour = /* GraphQL */ `
       scaleActions
       createdAt
       updatedAt
-      dayHourDayOfYear_iotNameThing
+      dayHourYear_dayOfYear_iotNameThing_ingredientName
       __typename
     }
   }
 `;
-export const onDeleteHour = /* GraphQL */ `
-  subscription OnDeleteHour($filter: ModelSubscriptionHourFilterInput) {
-    onDeleteHour(filter: $filter) {
-      dayOfYear_hourOfDay_iotNameThing
-      dayOfYear_iotNameThing
+export const deleteHour = /* GraphQL */ `
+  mutation DeleteHour(
+    $input: DeleteHourInput!
+    $condition: ModelHourConditionInput
+  ) {
+    deleteHour(input: $input, condition: $condition) {
+      year_dayOfYear_hourOfDay_iotNameThing_ingredientName
+      year_dayOfYear_iotNameThing_ingredientName
       hourlySummary {
         averageTime
         portionsCompleted
@@ -306,7 +305,7 @@ export const onDeleteHour = /* GraphQL */ `
       scaleActions
       createdAt
       updatedAt
-      dayHourDayOfYear_iotNameThing
+      dayHourYear_dayOfYear_iotNameThing_ingredientName
       __typename
     }
   }

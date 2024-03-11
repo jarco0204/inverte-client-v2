@@ -9,7 +9,7 @@ import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { API } from "aws-amplify";
-import { createScale } from "../graphql/mutations";
+import { createScale } from "../../amplify/backend/gql/mutations";
 export default function ScaleCreateForm(props) {
   const {
     clearOnSuccess = true,

@@ -2,36 +2,14 @@ projects:
   inverteclientv3:
     schemaPath: src/graphql/schema.json
     includes:
-      - src/graphql/**/*.js
+      - amplify/backend/gql/*
     excludes:
       - ./amplify/**
     extensions:
       amplify:
         codeGenTarget: javascript
         generatedFileName: ''
-        docsFilePath: src/graphql
-  inverteclientv4:
-    schemaPath: src/graphql/schema.json
-    includes:
-      - src/graphql/**/*.js
-    excludes:
-      - ./amplify/**
-    extensions:
-      amplify:
-        codeGenTarget: javascript
-        generatedFileName: ''
-        docsFilePath: src/graphql
-  invertedev2:
-    schemaPath: src/graphql/schema.json
-    includes:
-      - src/graphql/**/*.js
-    excludes:
-      - ./amplify/**
-    extensions:
-      amplify:
-        codeGenTarget: javascript
-        generatedFileName: ''
-        docsFilePath: src/graphql
+        docsFilePath: amplify/backend/gql
 extensions:
   amplify:
     version: 3

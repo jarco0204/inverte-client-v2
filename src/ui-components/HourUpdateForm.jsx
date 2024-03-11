@@ -15,11 +15,12 @@ import {
 } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { API } from "aws-amplify";
-import { getHour } from "../graphql/queries";
-import { updateHour } from "../graphql/mutations";
+import { getHour } from "../../amplify/backend/gql/queries";
+import { updateHour } from "../../amplify/backend/gql/mutations";
 export default function HourUpdateForm(props) {
   const {
-    dayOfYear_hourOfDay_iotNameThing: dayOfYear_hourOfDay_iotNameThingProp,
+    year_dayOfYear_hourOfDay_iotNameThing_ingredientName:
+      year_dayOfYear_hourOfDay_iotNameThing_ingredientNameProp,
     hour: hourModelProp,
     onSuccess,
     onError,
@@ -30,19 +31,22 @@ export default function HourUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    dayOfYear_hourOfDay_iotNameThing: "",
-    dayOfYear_iotNameThing: "",
+    year_dayOfYear_hourOfDay_iotNameThing_ingredientName: "",
+    year_dayOfYear_iotNameThing_ingredientName: "",
     realTime: "",
     scaleActions: "",
     createdAt: "",
   };
   const [
-    dayOfYear_hourOfDay_iotNameThing,
-    setDayOfYear_hourOfDay_iotNameThing,
-  ] = React.useState(initialValues.dayOfYear_hourOfDay_iotNameThing);
-  const [dayOfYear_iotNameThing, setDayOfYear_iotNameThing] = React.useState(
-    initialValues.dayOfYear_iotNameThing
+    year_dayOfYear_hourOfDay_iotNameThing_ingredientName,
+    setYear_dayOfYear_hourOfDay_iotNameThing_ingredientName,
+  ] = React.useState(
+    initialValues.year_dayOfYear_hourOfDay_iotNameThing_ingredientName
   );
+  const [
+    year_dayOfYear_iotNameThing_ingredientName,
+    setYear_dayOfYear_iotNameThing_ingredientName,
+  ] = React.useState(initialValues.year_dayOfYear_iotNameThing_ingredientName);
   const [realTime, setRealTime] = React.useState(initialValues.realTime);
   const [scaleActions, setScaleActions] = React.useState(
     initialValues.scaleActions
@@ -53,10 +57,12 @@ export default function HourUpdateForm(props) {
     const cleanValues = hourRecord
       ? { ...initialValues, ...hourRecord }
       : initialValues;
-    setDayOfYear_hourOfDay_iotNameThing(
-      cleanValues.dayOfYear_hourOfDay_iotNameThing
+    setYear_dayOfYear_hourOfDay_iotNameThing_ingredientName(
+      cleanValues.year_dayOfYear_hourOfDay_iotNameThing_ingredientName
     );
-    setDayOfYear_iotNameThing(cleanValues.dayOfYear_iotNameThing);
+    setYear_dayOfYear_iotNameThing_ingredientName(
+      cleanValues.year_dayOfYear_iotNameThing_ingredientName
+    );
     setRealTime(
       typeof cleanValues.realTime === "string" || cleanValues.realTime === null
         ? cleanValues.realTime
@@ -74,13 +80,13 @@ export default function HourUpdateForm(props) {
   const [hourRecord, setHourRecord] = React.useState(hourModelProp);
   React.useEffect(() => {
     const queryData = async () => {
-      const record = dayOfYear_hourOfDay_iotNameThingProp
+      const record = year_dayOfYear_hourOfDay_iotNameThing_ingredientNameProp
         ? (
             await API.graphql({
               query: getHour.replaceAll("__typename", ""),
               variables: {
-                dayOfYear_hourOfDay_iotNameThing:
-                  dayOfYear_hourOfDay_iotNameThingProp,
+                year_dayOfYear_hourOfDay_iotNameThing_ingredientName:
+                  year_dayOfYear_hourOfDay_iotNameThing_ingredientNameProp,
               },
             })
           )?.data?.getHour
@@ -88,11 +94,13 @@ export default function HourUpdateForm(props) {
       setHourRecord(record);
     };
     queryData();
-  }, [dayOfYear_hourOfDay_iotNameThingProp, hourModelProp]);
+  }, [year_dayOfYear_hourOfDay_iotNameThing_ingredientNameProp, hourModelProp]);
   React.useEffect(resetStateValues, [hourRecord]);
   const validations = {
-    dayOfYear_hourOfDay_iotNameThing: [{ type: "Required" }],
-    dayOfYear_iotNameThing: [{ type: "Required" }],
+    year_dayOfYear_hourOfDay_iotNameThing_ingredientName: [
+      { type: "Required" },
+    ],
+    year_dayOfYear_iotNameThing_ingredientName: [{ type: "Required" }],
     realTime: [{ type: "Required" }, { type: "JSON" }],
     scaleActions: [{ type: "JSON" }],
     createdAt: [{ type: "Required" }],
@@ -123,8 +131,8 @@ export default function HourUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          dayOfYear_hourOfDay_iotNameThing,
-          dayOfYear_iotNameThing,
+          year_dayOfYear_hourOfDay_iotNameThing_ingredientName,
+          year_dayOfYear_iotNameThing_ingredientName,
           realTime,
           scaleActions: scaleActions ?? null,
           createdAt,
@@ -161,8 +169,8 @@ export default function HourUpdateForm(props) {
             query: updateHour.replaceAll("__typename", ""),
             variables: {
               input: {
-                dayOfYear_hourOfDay_iotNameThing:
-                  hourRecord.dayOfYear_hourOfDay_iotNameThing,
+                year_dayOfYear_hourOfDay_iotNameThing_ingredientName:
+                  hourRecord.year_dayOfYear_hourOfDay_iotNameThing_ingredientName,
                 ...modelFields,
               },
             },
@@ -181,67 +189,94 @@ export default function HourUpdateForm(props) {
       {...rest}
     >
       <TextField
-        label="Day of year hour of day iot name thing"
+        label="Year day of year hour of day iot name thing ingredient name"
         isRequired={true}
         isReadOnly={true}
-        value={dayOfYear_hourOfDay_iotNameThing}
+        value={year_dayOfYear_hourOfDay_iotNameThing_ingredientName}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              dayOfYear_hourOfDay_iotNameThing: value,
-              dayOfYear_iotNameThing,
+              year_dayOfYear_hourOfDay_iotNameThing_ingredientName: value,
+              year_dayOfYear_iotNameThing_ingredientName,
               realTime,
               scaleActions,
               createdAt,
             };
             const result = onChange(modelFields);
-            value = result?.dayOfYear_hourOfDay_iotNameThing ?? value;
+            value =
+              result?.year_dayOfYear_hourOfDay_iotNameThing_ingredientName ??
+              value;
           }
-          if (errors.dayOfYear_hourOfDay_iotNameThing?.hasError) {
-            runValidationTasks("dayOfYear_hourOfDay_iotNameThing", value);
+          if (
+            errors.year_dayOfYear_hourOfDay_iotNameThing_ingredientName
+              ?.hasError
+          ) {
+            runValidationTasks(
+              "year_dayOfYear_hourOfDay_iotNameThing_ingredientName",
+              value
+            );
           }
-          setDayOfYear_hourOfDay_iotNameThing(value);
+          setYear_dayOfYear_hourOfDay_iotNameThing_ingredientName(value);
         }}
         onBlur={() =>
           runValidationTasks(
-            "dayOfYear_hourOfDay_iotNameThing",
-            dayOfYear_hourOfDay_iotNameThing
+            "year_dayOfYear_hourOfDay_iotNameThing_ingredientName",
+            year_dayOfYear_hourOfDay_iotNameThing_ingredientName
           )
         }
-        errorMessage={errors.dayOfYear_hourOfDay_iotNameThing?.errorMessage}
-        hasError={errors.dayOfYear_hourOfDay_iotNameThing?.hasError}
-        {...getOverrideProps(overrides, "dayOfYear_hourOfDay_iotNameThing")}
+        errorMessage={
+          errors.year_dayOfYear_hourOfDay_iotNameThing_ingredientName
+            ?.errorMessage
+        }
+        hasError={
+          errors.year_dayOfYear_hourOfDay_iotNameThing_ingredientName?.hasError
+        }
+        {...getOverrideProps(
+          overrides,
+          "year_dayOfYear_hourOfDay_iotNameThing_ingredientName"
+        )}
       ></TextField>
       <TextField
-        label="Day of year iot name thing"
+        label="Year day of year iot name thing ingredient name"
         isRequired={true}
         isReadOnly={false}
-        value={dayOfYear_iotNameThing}
+        value={year_dayOfYear_iotNameThing_ingredientName}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              dayOfYear_hourOfDay_iotNameThing,
-              dayOfYear_iotNameThing: value,
+              year_dayOfYear_hourOfDay_iotNameThing_ingredientName,
+              year_dayOfYear_iotNameThing_ingredientName: value,
               realTime,
               scaleActions,
               createdAt,
             };
             const result = onChange(modelFields);
-            value = result?.dayOfYear_iotNameThing ?? value;
+            value = result?.year_dayOfYear_iotNameThing_ingredientName ?? value;
           }
-          if (errors.dayOfYear_iotNameThing?.hasError) {
-            runValidationTasks("dayOfYear_iotNameThing", value);
+          if (errors.year_dayOfYear_iotNameThing_ingredientName?.hasError) {
+            runValidationTasks(
+              "year_dayOfYear_iotNameThing_ingredientName",
+              value
+            );
           }
-          setDayOfYear_iotNameThing(value);
+          setYear_dayOfYear_iotNameThing_ingredientName(value);
         }}
         onBlur={() =>
-          runValidationTasks("dayOfYear_iotNameThing", dayOfYear_iotNameThing)
+          runValidationTasks(
+            "year_dayOfYear_iotNameThing_ingredientName",
+            year_dayOfYear_iotNameThing_ingredientName
+          )
         }
-        errorMessage={errors.dayOfYear_iotNameThing?.errorMessage}
-        hasError={errors.dayOfYear_iotNameThing?.hasError}
-        {...getOverrideProps(overrides, "dayOfYear_iotNameThing")}
+        errorMessage={
+          errors.year_dayOfYear_iotNameThing_ingredientName?.errorMessage
+        }
+        hasError={errors.year_dayOfYear_iotNameThing_ingredientName?.hasError}
+        {...getOverrideProps(
+          overrides,
+          "year_dayOfYear_iotNameThing_ingredientName"
+        )}
       ></TextField>
       <TextAreaField
         label="Real time"
@@ -252,8 +287,8 @@ export default function HourUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              dayOfYear_hourOfDay_iotNameThing,
-              dayOfYear_iotNameThing,
+              year_dayOfYear_hourOfDay_iotNameThing_ingredientName,
+              year_dayOfYear_iotNameThing_ingredientName,
               realTime: value,
               scaleActions,
               createdAt,
@@ -280,8 +315,8 @@ export default function HourUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              dayOfYear_hourOfDay_iotNameThing,
-              dayOfYear_iotNameThing,
+              year_dayOfYear_hourOfDay_iotNameThing_ingredientName,
+              year_dayOfYear_iotNameThing_ingredientName,
               realTime,
               scaleActions: value,
               createdAt,
@@ -308,8 +343,8 @@ export default function HourUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              dayOfYear_hourOfDay_iotNameThing,
-              dayOfYear_iotNameThing,
+              year_dayOfYear_hourOfDay_iotNameThing_ingredientName,
+              year_dayOfYear_iotNameThing_ingredientName,
               realTime,
               scaleActions,
               createdAt: value,
@@ -338,7 +373,12 @@ export default function HourUpdateForm(props) {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(dayOfYear_hourOfDay_iotNameThingProp || hourModelProp)}
+          isDisabled={
+            !(
+              year_dayOfYear_hourOfDay_iotNameThing_ingredientNameProp ||
+              hourModelProp
+            )
+          }
           {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
@@ -350,8 +390,10 @@ export default function HourUpdateForm(props) {
             type="submit"
             variation="primary"
             isDisabled={
-              !(dayOfYear_hourOfDay_iotNameThingProp || hourModelProp) ||
-              Object.values(errors).some((e) => e?.hasError)
+              !(
+                year_dayOfYear_hourOfDay_iotNameThing_ingredientNameProp ||
+                hourModelProp
+              ) || Object.values(errors).some((e) => e?.hasError)
             }
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>

@@ -9,8 +9,8 @@ import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { API } from "aws-amplify";
-import { getRestaurant } from "../graphql/queries";
-import { updateRestaurant } from "../graphql/mutations";
+import { getRestaurant } from "../../amplify/backend/gql/queries";
+import { updateRestaurant } from "../../amplify/backend/gql/mutations";
 export default function RestaurantUpdateForm(props) {
   const {
     restaurant_id: restaurant_idProp,
