@@ -143,12 +143,14 @@ export default function MainContainer() {
                 //     });
                 //     console.log("Your Version of Deployment is: ", process.env.REACT_APP_DEPLOYMENT_VERSION);
                 // }
+                console.log("Username is:", user.username);
 
                 try {
                     const response = await API.graphql({
                         query: getRestaurant,
                         variables: { restaurant_id: user.username },
                     });
+                    console.log("Restaurent data:", response);
                     setMetaInformation(response.data.getRestaurant);
                     setUnitOfMass(response.data.getRestaurant.unitOfMass);
                     setAuthenticated(true);

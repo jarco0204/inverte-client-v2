@@ -30,7 +30,7 @@ import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/Comple
 
 // AWS Imports
 import { API, graphqlOperation } from "aws-amplify";
-import { getDay, getDayNahr7tobjjdgpgohp2eptkayfeStaging } from "./queries/analyticsData";
+import { getDay } from "../../graphql/queries";
 
 // User Components
 import PortionTimeLineChart from "./components/PortionTimeLineChart";
@@ -329,23 +329,16 @@ const AnalyticsContainer = () => {
         try {
             // Query GQL to pull hourly data
             // If data is before Jan 2024, pull from another table
-            if (dayjs(date.$d).year() == "2023") {
-                response = await API.graphql({
-                    query: getDayNahr7tobjjdgpgohp2eptkayfeStaging,
-                    variables: {
-                        dayOfYear_iotNameThing: dayjs(date.$d).dayOfYear() + "_" + iotNameThing[selectedIndexRef.current],
-                    },
-                });
-                data = response.data.getDayNahr7tobjjdgpgohp2eptkayfeStaging;
-            } else {
-                response = await API.graphql({
-                    query: getDay,
-                    variables: {
-                        dayOfYear_iotNameThing: dayjs(date.$d).dayOfYear() + "_" + iotNameThing[selectedIndexRef.current],
-                    },
-                });
-                data = response.data.getDay;
-            }
+
+            response = await API.graphql({
+                query: getDay,
+                variables: {
+                    year_dayOfYear_iotNameThing_ingredientName:
+                        dayjs(date.$d).year() + "_" + dayjs(date.$d).dayOfYear() + "_" + iotNameThing[selectedIndexRef.current] + "_" + options[selectedIndexRef.current],
+                },
+            });
+            data = response.data.getDay;
+
             if (data) {
                 precision = Math.abs(data.dailySummary.precision);
                 inventoryConsumed = data.dailySummary.inventoryConsumed;
@@ -383,7 +376,7 @@ const AnalyticsContainer = () => {
                 setDashboardGraph(dashboardGraph);
                 if (hours != undefined) {
                     for (let i = 0; i < hours.length; i++) {
-                        labels.push(parseInt(hours[i].dayOfYear_hourOfDay_iotNameThing.split("_")[1]));
+                        labels.push(parseInt(hours[i].year_dayOfYear_hourOfDay_iotNameThing_ingredientName.split("_")[2]));
                         precisionArray.push(hours[i].hourlySummary.precision);
                         inventoryArray.push(hours[i].hourlySummary.inventoryConsumed);
                         portionsArray.push(hours[i].hourlySummary.portionsCompleted);

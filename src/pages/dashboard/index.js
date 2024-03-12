@@ -33,10 +33,10 @@ import PortionAccuracyDoughnutChart from "./components/PortionAccuracyDoughnutCh
 // AWS Imports
 import { API, graphqlOperation } from "aws-amplify";
 import { onNewPortionEvent } from "../../graphql/subscriptions";
-import { hoursByDayOfYear_iotNameThing } from "../../graphql/queries";
+import { hoursByYear_dayOfYear_iotNameThing_ingredientName } from "../../graphql/queries";
 
 //Queries
-import { getDashboard } from "./queries/dashboardData";
+import { getDay } from "../../graphql/queries";
 import { setSelectedIndex } from "../../redux/metaSlice"; // Todo: Why do we have this here?
 
 // DayJS Configuration
@@ -297,8 +297,11 @@ const DashboardContainer = () => {
             //  Query GQL to pull hourly data by using local time
             let tempDate = dayjs().tz(timeZone);
             const response = await API.graphql({
-                query: getDashboard,
-                variables: { dayOfYear_iotNameThing: tempDate.dayOfYear().toString() + "_" + iotNameThing[selectedIndexRef.current] }, // Provide the ID as a variable
+                query: getDay,
+                variables: {
+                    year_dayOfYear_iotNameThing_ingredientName:
+                        tempDate.year() + "_" + tempDate.dayOfYear().toString() + "_" + iotNameThing[selectedIndexRef.current] + "_" + options[selectedIndexRef.current],
+                }, // Provide the ID as a variable
             });
             console.log("Daily Meta Response", iotNameThing[selectedIndexRef.current]);
 
@@ -373,12 +376,12 @@ const DashboardContainer = () => {
     useEffect(() => {
         const getHourlyMetaRecords = async () => {
             const response = await API.graphql({
-                query: hoursByDayOfYear_iotNameThing,
+                query: hoursByYear_dayOfYear_iotNameThing_ingredientName,
                 variables: {
-                    dayOfYear_iotNameThing: (tempDate.dayOfYear() - 7).toString() + "_" + iotNameThing[selectedIndexRef.current],
+                    year_dayOfYear_iotNameThing_ingredientName: (tempDate.dayOfYear() - 7).toString() + "_" + iotNameThing[selectedIndexRef.current],
                 }, // Provide the ID as a variable
             });
-            const data = response.data.hoursByDayOfYear_iotNameThing.items;
+            const data = response.data.hoursByYear_dayOfYear_iotNameThing_ingredientName.items;
             let tempPortionCompleted = 0;
             let tempPrecision = 0;
             let tempInventory = 0;
