@@ -13,7 +13,7 @@ exports.handler = async (event) => {
             createdAt: {
                 between: [event.queryStringParameters.startDate, event.queryStringParameters.endDate],
             },
-            dayOfYear_iotNameThing: {
+            year_dayOfYear_iotNameThing_ingredientName: {
                 contains: event.queryStringParameters.iotName,
             },
         },
@@ -73,12 +73,12 @@ exports.handler = async (event) => {
 
     //Processing the data that we got from backend
     for (let i = 0; i < pastData.length; i++) {
-        console.log("The day is:", dayOfYearToDayOfWeek(pastData[i].dayOfYear_iotNameThing.split("_")[0]));
+        console.log("The day is:", dayOfYearToDayOfWeek(pastData[i].year_dayOfYear_iotNameThing_ingredientName.split("_")[1]));
         portionsCompleted += pastData[i].dailySummary.portionsCompleted;
         precision += pastData[i].dailySummary.precision;
         inventoryConsumed += pastData[i].dailySummary.inventoryConsumed;
         timeSaved += pastData[i].dailySummary.averageTime;
-        labels.push(parseInt(pastData[i].dayOfYear_iotNameThing.split("_")[0]));
+        labels.push(parseInt(pastData[i].year_dayOfYear_iotNameThing_ingredientName.split("_")[1]));
         precisionArray.push(pastData[i].dailySummary.precision);
         inventoryArray.push(pastData[i].dailySummary.inventoryConsumed);
         timeArray.push(pastData[i].dailySummary.averageTime);
@@ -151,10 +151,13 @@ const dayOfYearToDayOfWeek = (dayOfYear) => {
 };
 
 const listDays = /* GraphQL */ `
-    query ListDays($dayOfYear_iotNameThing: ID, $filter: ModelDayFilterInput, $limit: Int, $nextToken: String, $sortDirection: ModelSortDirection) {
-        listDays(dayOfYear_iotNameThing: $dayOfYear_iotNameThing, filter: $filter, limit: $limit, nextToken: $nextToken, sortDirection: $sortDirection) {
+    query ListDays($year_dayOfYear_iotNameThing_ingredientName: ID, $filter: ModelDayFilterInput, $limit: Int, $nextToken: String, $sortDirection: ModelSortDirection) {
+        listDays(year_dayOfYear_iotNameThing_ingredientName: $year_dayOfYear_iotNameThing_ingredientName, filter: $filter, limit: $limit, nextToken: $nextToken, sortDirection: $sortDirection) {
             items {
-                dayOfYear_iotNameThing
+                year_dayOfYear_iotNameThing_ingredientName
+                weekOfYear_iotNameThing_ingredientName
+                monthOfYear_iotNameThing_ingredientName
+                year_iotNameThing_ingredientName
                 dailySummary {
                     averageTime
                     portionsCompleted
@@ -166,7 +169,10 @@ const listDays = /* GraphQL */ `
                     precision
                     __typename
                 }
+                dashboardGraph
+                scaleActions
                 allPortionEvents
+                createdAt
                 updatedAt
                 __typename
             }
