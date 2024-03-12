@@ -39,6 +39,16 @@ export const listRestaurants = /* GraphQL */ `
                 restaurantName
                 unitOfMass
                 timeZone
+                scale {
+                    items {
+                        scaleName
+                        restaurant_id
+                        ingredient
+                        lastConnected
+
+                        __typename
+                    }
+                }
                 accessType
                 createdAt
                 updatedAt
