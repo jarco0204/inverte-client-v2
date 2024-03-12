@@ -15,8 +15,8 @@ import {
 } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { API } from "aws-amplify";
-import { getDay } from "../../amplify/backend/gql/queries";
-import { updateDay } from "../../amplify/backend/gql/mutations";
+import { getDay } from "../graphql/queries";
+import { updateDay } from "../graphql/mutations";
 export default function DayUpdateForm(props) {
   const {
     year_dayOfYear_iotNameThing_ingredientName:

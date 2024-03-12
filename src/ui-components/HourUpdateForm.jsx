@@ -15,8 +15,8 @@ import {
 } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { API } from "aws-amplify";
-import { getHour } from "../../amplify/backend/gql/queries";
-import { updateHour } from "../../amplify/backend/gql/mutations";
+import { getHour } from "../graphql/queries";
+import { updateHour } from "../graphql/mutations";
 export default function HourUpdateForm(props) {
   const {
     year_dayOfYear_hourOfDay_iotNameThing_ingredientName:
