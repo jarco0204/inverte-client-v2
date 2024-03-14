@@ -22,20 +22,20 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type DayCreateFormInputValues = {
-    dayOfYear_iotNameThing?: string;
-    weekOfYear_iotNameThing?: string;
-    monthOfYear_iotNameThing?: string;
-    year_iotNameThing?: string;
+    year_dayOfYear_iotNameThing_ingredientName?: string;
+    weekOfYear_iotNameThing_ingredientName?: string;
+    monthOfYear_iotNameThing_ingredientName?: string;
+    year_iotNameThing_ingredientName?: string;
     dashboardGraph?: string;
     scaleActions?: string;
     allPortionEvents?: string;
     createdAt?: string;
 };
 export declare type DayCreateFormValidationValues = {
-    dayOfYear_iotNameThing?: ValidationFunction<string>;
-    weekOfYear_iotNameThing?: ValidationFunction<string>;
-    monthOfYear_iotNameThing?: ValidationFunction<string>;
-    year_iotNameThing?: ValidationFunction<string>;
+    year_dayOfYear_iotNameThing_ingredientName?: ValidationFunction<string>;
+    weekOfYear_iotNameThing_ingredientName?: ValidationFunction<string>;
+    monthOfYear_iotNameThing_ingredientName?: ValidationFunction<string>;
+    year_iotNameThing_ingredientName?: ValidationFunction<string>;
     dashboardGraph?: ValidationFunction<string>;
     scaleActions?: ValidationFunction<string>;
     allPortionEvents?: ValidationFunction<string>;
@@ -44,10 +44,10 @@ export declare type DayCreateFormValidationValues = {
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type DayCreateFormOverridesProps = {
     DayCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    dayOfYear_iotNameThing?: PrimitiveOverrideProps<TextFieldProps>;
-    weekOfYear_iotNameThing?: PrimitiveOverrideProps<TextFieldProps>;
-    monthOfYear_iotNameThing?: PrimitiveOverrideProps<TextFieldProps>;
-    year_iotNameThing?: PrimitiveOverrideProps<TextFieldProps>;
+    year_dayOfYear_iotNameThing_ingredientName?: PrimitiveOverrideProps<TextFieldProps>;
+    weekOfYear_iotNameThing_ingredientName?: PrimitiveOverrideProps<TextFieldProps>;
+    monthOfYear_iotNameThing_ingredientName?: PrimitiveOverrideProps<TextFieldProps>;
+    year_iotNameThing_ingredientName?: PrimitiveOverrideProps<TextFieldProps>;
     dashboardGraph?: PrimitiveOverrideProps<TextAreaFieldProps>;
     scaleActions?: PrimitiveOverrideProps<TextAreaFieldProps>;
     allPortionEvents?: PrimitiveOverrideProps<TextAreaFieldProps>;

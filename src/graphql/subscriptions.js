@@ -4,10 +4,10 @@
 export const onNewPortionEvent = /* GraphQL */ `
   subscription OnNewPortionEvent {
     onNewPortionEvent {
-      dayOfYear_iotNameThing
-      weekOfYear_iotNameThing
-      monthOfYear_iotNameThing
-      year_iotNameThing
+      year_dayOfYear_iotNameThing_ingredientName
+      weekOfYear_iotNameThing_ingredientName
+      monthOfYear_iotNameThing_ingredientName
+      year_iotNameThing_ingredientName
       dailySummary {
         averageTime
         portionsCompleted
@@ -146,10 +146,10 @@ export const onDeleteScale = /* GraphQL */ `
 export const onCreateDay = /* GraphQL */ `
   subscription OnCreateDay($filter: ModelSubscriptionDayFilterInput) {
     onCreateDay(filter: $filter) {
-      dayOfYear_iotNameThing
-      weekOfYear_iotNameThing
-      monthOfYear_iotNameThing
-      year_iotNameThing
+      year_dayOfYear_iotNameThing_ingredientName
+      weekOfYear_iotNameThing_ingredientName
+      monthOfYear_iotNameThing_ingredientName
+      year_iotNameThing_ingredientName
       dailySummary {
         averageTime
         portionsCompleted
@@ -177,10 +177,10 @@ export const onCreateDay = /* GraphQL */ `
 export const onUpdateDay = /* GraphQL */ `
   subscription OnUpdateDay($filter: ModelSubscriptionDayFilterInput) {
     onUpdateDay(filter: $filter) {
-      dayOfYear_iotNameThing
-      weekOfYear_iotNameThing
-      monthOfYear_iotNameThing
-      year_iotNameThing
+      year_dayOfYear_iotNameThing_ingredientName
+      weekOfYear_iotNameThing_ingredientName
+      monthOfYear_iotNameThing_ingredientName
+      year_iotNameThing_ingredientName
       dailySummary {
         averageTime
         portionsCompleted
@@ -208,10 +208,10 @@ export const onUpdateDay = /* GraphQL */ `
 export const onDeleteDay = /* GraphQL */ `
   subscription OnDeleteDay($filter: ModelSubscriptionDayFilterInput) {
     onDeleteDay(filter: $filter) {
-      dayOfYear_iotNameThing
-      weekOfYear_iotNameThing
-      monthOfYear_iotNameThing
-      year_iotNameThing
+      year_dayOfYear_iotNameThing_ingredientName
+      weekOfYear_iotNameThing_ingredientName
+      monthOfYear_iotNameThing_ingredientName
+      year_iotNameThing_ingredientName
       dailySummary {
         averageTime
         portionsCompleted
@@ -239,8 +239,8 @@ export const onDeleteDay = /* GraphQL */ `
 export const onCreateHour = /* GraphQL */ `
   subscription OnCreateHour($filter: ModelSubscriptionHourFilterInput) {
     onCreateHour(filter: $filter) {
-      dayOfYear_hourOfDay_iotNameThing
-      dayOfYear_iotNameThing
+      year_dayOfYear_hourOfDay_iotNameThing_ingredientName
+      year_dayOfYear_iotNameThing_ingredientName
       hourlySummary {
         averageTime
         portionsCompleted
@@ -256,7 +256,7 @@ export const onCreateHour = /* GraphQL */ `
       scaleActions
       createdAt
       updatedAt
-      dayHourDayOfYear_iotNameThing
+      dayHourYear_dayOfYear_iotNameThing_ingredientName
       __typename
     }
   }
@@ -264,8 +264,8 @@ export const onCreateHour = /* GraphQL */ `
 export const onUpdateHour = /* GraphQL */ `
   subscription OnUpdateHour($filter: ModelSubscriptionHourFilterInput) {
     onUpdateHour(filter: $filter) {
-      dayOfYear_hourOfDay_iotNameThing
-      dayOfYear_iotNameThing
+      year_dayOfYear_hourOfDay_iotNameThing_ingredientName
+      year_dayOfYear_iotNameThing_ingredientName
       hourlySummary {
         averageTime
         portionsCompleted
@@ -281,7 +281,7 @@ export const onUpdateHour = /* GraphQL */ `
       scaleActions
       createdAt
       updatedAt
-      dayHourDayOfYear_iotNameThing
+      dayHourYear_dayOfYear_iotNameThing_ingredientName
       __typename
     }
   }
@@ -289,8 +289,8 @@ export const onUpdateHour = /* GraphQL */ `
 export const onDeleteHour = /* GraphQL */ `
   subscription OnDeleteHour($filter: ModelSubscriptionHourFilterInput) {
     onDeleteHour(filter: $filter) {
-      dayOfYear_hourOfDay_iotNameThing
-      dayOfYear_iotNameThing
+      year_dayOfYear_hourOfDay_iotNameThing_ingredientName
+      year_dayOfYear_iotNameThing_ingredientName
       hourlySummary {
         averageTime
         portionsCompleted
@@ -306,7 +306,7 @@ export const onDeleteHour = /* GraphQL */ `
       scaleActions
       createdAt
       updatedAt
-      dayHourDayOfYear_iotNameThing
+      dayHourYear_dayOfYear_iotNameThing_ingredientName
       __typename
     }
   }

@@ -1,37 +1,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getDayNahr7tobjjdgpgohp2eptkayfeStaging = /* GraphQL */ `
-    query GetDayNahr7tobjjdgpgohp2eptkayfeStaging($dayOfYear_iotNameThing: ID!) {
-        getDayNahr7tobjjdgpgohp2eptkayfeStaging(dayOfYear_iotNameThing: $dayOfYear_iotNameThing) {
-            dayOfYear_iotNameThing
-            weekOfYear_iotNameThing
-            monthOfYear_iotNameThing
-            year_iotNameThing
-            dailySummary {
-                averageTime
-                portionsCompleted
-                accuracy
-                inventoryConsumed
-                overServed
-                underServed
-                perfect
-                precision
-                __typename
-            }
-            realTime
-            dashboardGraph
-            scaleActions
-            allPortionEvents
-            createdAt
-            hour {
-                nextToken
-                __typename
-            }
-            __typename
-        }
-    }
-`;
 export const getRestaurant = /* GraphQL */ `
     query GetRestaurant($restaurant_id: ID!) {
         getRestaurant(restaurant_id: $restaurant_id) {
@@ -49,11 +18,9 @@ export const getRestaurant = /* GraphQL */ `
                     restaurant_id
                     ingredient
                     lastConnected
-                    createdAt
-                    updatedAt
-                    restaurantScaleRestaurant_id
-                    __typename
                 }
+                nextToken
+                __typename
             }
             createdAt
             updatedAt
@@ -115,12 +82,12 @@ export const listScales = /* GraphQL */ `
     }
 `;
 export const getDay = /* GraphQL */ `
-    query GetDay($dayOfYear_iotNameThing: ID!) {
-        getDay(dayOfYear_iotNameThing: $dayOfYear_iotNameThing) {
-            dayOfYear_iotNameThing
-            weekOfYear_iotNameThing
-            monthOfYear_iotNameThing
-            year_iotNameThing
+    query GetDay($year_dayOfYear_iotNameThing_ingredientName: ID!) {
+        getDay(year_dayOfYear_iotNameThing_ingredientName: $year_dayOfYear_iotNameThing_ingredientName) {
+            year_dayOfYear_iotNameThing_ingredientName
+            weekOfYear_iotNameThing_ingredientName
+            monthOfYear_iotNameThing_ingredientName
+            year_iotNameThing_ingredientName
             dailySummary {
                 averageTime
                 portionsCompleted
@@ -137,6 +104,24 @@ export const getDay = /* GraphQL */ `
             allPortionEvents
             createdAt
             hour {
+                items {
+                    year_dayOfYear_hourOfDay_iotNameThing_ingredientName
+                    year_dayOfYear_iotNameThing_ingredientName
+                    hourlySummary {
+                        averageTime
+                        portionsCompleted
+                        accuracy
+                        inventoryConsumed
+                        overServed
+                        underServed
+                        perfect
+                        precision
+                        __typename
+                    }
+                    realTime
+                    scaleActions
+                    createdAt
+                }
                 nextToken
                 __typename
             }
@@ -146,13 +131,13 @@ export const getDay = /* GraphQL */ `
     }
 `;
 export const listDays = /* GraphQL */ `
-    query ListDays($dayOfYear_iotNameThing: ID, $filter: ModelDayFilterInput, $limit: Int, $nextToken: String, $sortDirection: ModelSortDirection) {
-        listDays(dayOfYear_iotNameThing: $dayOfYear_iotNameThing, filter: $filter, limit: $limit, nextToken: $nextToken, sortDirection: $sortDirection) {
+    query ListDays($year_dayOfYear_iotNameThing_ingredientName: ID, $filter: ModelDayFilterInput, $limit: Int, $nextToken: String, $sortDirection: ModelSortDirection) {
+        listDays(year_dayOfYear_iotNameThing_ingredientName: $year_dayOfYear_iotNameThing_ingredientName, filter: $filter, limit: $limit, nextToken: $nextToken, sortDirection: $sortDirection) {
             items {
-                dayOfYear_iotNameThing
-                weekOfYear_iotNameThing
-                monthOfYear_iotNameThing
-                year_iotNameThing
+                year_dayOfYear_iotNameThing_ingredientName
+                weekOfYear_iotNameThing_ingredientName
+                monthOfYear_iotNameThing_ingredientName
+                year_iotNameThing_ingredientName
                 dashboardGraph
                 scaleActions
                 allPortionEvents
@@ -166,10 +151,10 @@ export const listDays = /* GraphQL */ `
     }
 `;
 export const getHour = /* GraphQL */ `
-    query GetHour($dayOfYear_hourOfDay_iotNameThing: ID!) {
-        getHour(dayOfYear_hourOfDay_iotNameThing: $dayOfYear_hourOfDay_iotNameThing) {
-            dayOfYear_hourOfDay_iotNameThing
-            dayOfYear_iotNameThing
+    query GetHour($year_dayOfYear_hourOfDay_iotNameThing_ingredientName: ID!) {
+        getHour(year_dayOfYear_hourOfDay_iotNameThing_ingredientName: $year_dayOfYear_hourOfDay_iotNameThing_ingredientName) {
+            year_dayOfYear_hourOfDay_iotNameThing_ingredientName
+            year_dayOfYear_iotNameThing_ingredientName
             hourlySummary {
                 averageTime
                 portionsCompleted
@@ -185,22 +170,28 @@ export const getHour = /* GraphQL */ `
             scaleActions
             createdAt
             updatedAt
-            dayHourDayOfYear_iotNameThing
+            dayHourYear_dayOfYear_iotNameThing_ingredientName
             __typename
         }
     }
 `;
 export const listHours = /* GraphQL */ `
-    query ListHours($dayOfYear_hourOfDay_iotNameThing: ID, $filter: ModelHourFilterInput, $limit: Int, $nextToken: String, $sortDirection: ModelSortDirection) {
-        listHours(dayOfYear_hourOfDay_iotNameThing: $dayOfYear_hourOfDay_iotNameThing, filter: $filter, limit: $limit, nextToken: $nextToken, sortDirection: $sortDirection) {
+    query ListHours($year_dayOfYear_hourOfDay_iotNameThing_ingredientName: ID, $filter: ModelHourFilterInput, $limit: Int, $nextToken: String, $sortDirection: ModelSortDirection) {
+        listHours(
+            year_dayOfYear_hourOfDay_iotNameThing_ingredientName: $year_dayOfYear_hourOfDay_iotNameThing_ingredientName
+            filter: $filter
+            limit: $limit
+            nextToken: $nextToken
+            sortDirection: $sortDirection
+        ) {
             items {
-                dayOfYear_hourOfDay_iotNameThing
-                dayOfYear_iotNameThing
+                year_dayOfYear_hourOfDay_iotNameThing_ingredientName
+                year_dayOfYear_iotNameThing_ingredientName
                 realTime
                 scaleActions
                 createdAt
                 updatedAt
-                dayHourDayOfYear_iotNameThing
+                dayHourYear_dayOfYear_iotNameThing_ingredientName
                 __typename
             }
             nextToken
@@ -226,14 +217,26 @@ export const scalesByRestaurant_id = /* GraphQL */ `
         }
     }
 `;
-export const daysByWeekOfYear_iotNameThing = /* GraphQL */ `
-    query DaysByWeekOfYear_iotNameThing($weekOfYear_iotNameThing: ID!, $sortDirection: ModelSortDirection, $filter: ModelDayFilterInput, $limit: Int, $nextToken: String) {
-        daysByWeekOfYear_iotNameThing(weekOfYear_iotNameThing: $weekOfYear_iotNameThing, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {
+export const daysByWeekOfYear_iotNameThing_ingredientName = /* GraphQL */ `
+    query DaysByWeekOfYear_iotNameThing_ingredientName(
+        $weekOfYear_iotNameThing_ingredientName: ID!
+        $sortDirection: ModelSortDirection
+        $filter: ModelDayFilterInput
+        $limit: Int
+        $nextToken: String
+    ) {
+        daysByWeekOfYear_iotNameThing_ingredientName(
+            weekOfYear_iotNameThing_ingredientName: $weekOfYear_iotNameThing_ingredientName
+            sortDirection: $sortDirection
+            filter: $filter
+            limit: $limit
+            nextToken: $nextToken
+        ) {
             items {
-                dayOfYear_iotNameThing
-                weekOfYear_iotNameThing
-                monthOfYear_iotNameThing
-                year_iotNameThing
+                year_dayOfYear_iotNameThing_ingredientName
+                weekOfYear_iotNameThing_ingredientName
+                monthOfYear_iotNameThing_ingredientName
+                year_iotNameThing_ingredientName
                 dashboardGraph
                 scaleActions
                 allPortionEvents
@@ -246,28 +249,29 @@ export const daysByWeekOfYear_iotNameThing = /* GraphQL */ `
         }
     }
 `;
-export const hoursByDayOfYear_iotNameThing = /* GraphQL */ `
-    query HoursByDayOfYear_iotNameThing($dayOfYear_iotNameThing: ID!, $sortDirection: ModelSortDirection, $filter: ModelHourFilterInput, $limit: Int, $nextToken: String) {
-        hoursByDayOfYear_iotNameThing(dayOfYear_iotNameThing: $dayOfYear_iotNameThing, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {
+export const hoursByYear_dayOfYear_iotNameThing_ingredientName = /* GraphQL */ `
+    query HoursByYear_dayOfYear_iotNameThing_ingredientName(
+        $year_dayOfYear_iotNameThing_ingredientName: ID!
+        $sortDirection: ModelSortDirection
+        $filter: ModelHourFilterInput
+        $limit: Int
+        $nextToken: String
+    ) {
+        hoursByYear_dayOfYear_iotNameThing_ingredientName(
+            year_dayOfYear_iotNameThing_ingredientName: $year_dayOfYear_iotNameThing_ingredientName
+            sortDirection: $sortDirection
+            filter: $filter
+            limit: $limit
+            nextToken: $nextToken
+        ) {
             items {
-                dayOfYear_hourOfDay_iotNameThing
-                dayOfYear_iotNameThing
+                year_dayOfYear_hourOfDay_iotNameThing_ingredientName
+                year_dayOfYear_iotNameThing_ingredientName
                 realTime
                 scaleActions
                 createdAt
                 updatedAt
-                hourlySummary {
-                    averageTime
-                    portionsCompleted
-                    accuracy
-                    inventoryConsumed
-                    overServed
-                    underServed
-                    perfect
-                    precision
-                    __typename
-                }
-                dayHourDayOfYear_iotNameThing
+                dayHourYear_dayOfYear_iotNameThing_ingredientName
                 __typename
             }
             nextToken

@@ -23,8 +23,8 @@
         }
       },
       "api": {
-        "inverteclientv3": {},
-        "inverteClientAmplifyAPIv2": {}
+        "inverteClientAmplifyAPIv2": {},
+        "inverteclientv3": {}
       }
     }
   }

@@ -12,25 +12,25 @@ type Restaurant @model @auth(rules: [{ allow: public, operations: [read, update]
 type Scale @model @auth(rules: [{ allow: public, operations: [read, update] }]) {
     scaleName: ID! @primaryKey
     restaurant_id: ID! @index(name: "byScale")
-    ingredient: String!
+    ingredient: String
     lastConnected: String
 }
 type Day @model @auth(rules: [{ allow: public, operations: [read, create, update] }]) {
-    dayOfYear_iotNameThing: ID! @primaryKey
-    weekOfYear_iotNameThing: ID! @index(name: "byWeek")
-    monthOfYear_iotNameThing: String!
-    year_iotNameThing: String
+    year_dayOfYear_iotNameThing_ingredientName: ID! @primaryKey
+    weekOfYear_iotNameThing_ingredientName: ID! @index(name: "byWeek")
+    monthOfYear_iotNameThing_ingredientName: String!
+    year_iotNameThing_ingredientName: String!
     dailySummary: DailySummary
     dashboardGraph: AWSJSON
     scaleActions: AWSJSON
     allPortionEvents: AWSJSON
-    createdAt: AWSDateTime!
+    createdAt: String!
     hour: [Hour] @hasMany(indexName: "byDay")
 }
 
 type Hour @model @auth(rules: [{ allow: public, operations: [read, create, update] }]) {
-    dayOfYear_hourOfDay_iotNameThing: ID! @primaryKey
-    dayOfYear_iotNameThing: ID! @index(name: "byDay")
+    year_dayOfYear_hourOfDay_iotNameThing_ingredientName: ID! @primaryKey
+    year_dayOfYear_iotNameThing_ingredientName: ID! @index(name: "byDay")
     hourlySummary: HourlySummary
     realTime: AWSJSON!
     scaleActions: AWSJSON
@@ -84,95 +84,4 @@ type DailySummary {
     perfect: Int
     day: Day
     precision: Float
-}
-type DayNahr7tobjjdgpgohp2eptkayfeStaging {
-    dayOfYear_iotNameThing: String!
-    weekOfYear_iotNameThing: String
-    monthOfYear_iotNameThing: String!
-    year_iotNameThing: String
-    dailySummary: DailySummary
-    realTime: AWSJSON
-    dashboardGraph: AWSJSON
-    scaleActions: AWSJSON
-    allPortionEvents: AWSJSON
-    createdAt: String!
-    hour(filter: ModelHourFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelHourConnection1
-}
-type HourNahr7tobjjdgpgohp2eptkayfeStaging {
-    dayOfYear_hourOfDay_iotNameThing: String!
-    dayOfYear_iotNameThing: String
-    hourlySummary: HourlySummary
-}
-type ModelHourConnection1 {
-    items: [HourNahr7tobjjdgpgohp2eptkayfeStaging]!
-    nextToken: String
-}
-input ModelHourFilterInput {
-    dayOfYear_hourOfDay_iotNameThing: ModelIDInput
-    dayOfYear_iotNameThing: ModelIDInput
-    realTime: ModelStringInput
-    scaleActions: ModelStringInput
-    createdAt: ModelStringInput
-    and: [ModelHourFilterInput]
-    or: [ModelHourFilterInput]
-    not: ModelHourFilterInput
-    dayHourDayOfYear_iotNameThing: ModelIDInput
-}
-enum ModelSortDirection {
-    ASC
-    DESC
-}
-input ModelIDInput {
-    ne: ID
-    eq: ID
-    le: ID
-    lt: ID
-    ge: ID
-    gt: ID
-    contains: ID
-    notContains: ID
-    between: [ID]
-    beginsWith: ID
-    attributeExists: Boolean
-    attributeType: ModelAttributeTypes
-    size: ModelSizeInput
-}
-input ModelSizeInput {
-    ne: Int
-    eq: Int
-    le: Int
-    lt: Int
-    ge: Int
-    gt: Int
-    between: [Int]
-}
-input ModelStringInput {
-    ne: String
-    eq: String
-    le: String
-    lt: String
-    ge: String
-    gt: String
-    contains: String
-    notContains: String
-    between: [String]
-    beginsWith: String
-    attributeExists: Boolean
-    attributeType: ModelAttributeTypes
-    size: ModelSizeInput
-}
-enum ModelAttributeTypes {
-    binary
-    binarySet
-    bool
-    list
-    map
-    number
-    numberSet
-    string
-    stringSet
-    _null
-}
-type Query {
-    getDayNahr7tobjjdgpgohp2eptkayfeStaging(dayOfYear_iotNameThing: ID!): DayNahr7tobjjdgpgohp2eptkayfeStaging
 }

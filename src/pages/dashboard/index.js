@@ -33,7 +33,7 @@ import PortionAccuracyDoughnutChart from "./components/PortionAccuracyDoughnutCh
 // AWS Imports
 import { API, graphqlOperation } from "aws-amplify";
 import { onNewPortionEvent } from "../../graphql/subscriptions";
-import { hoursByDayOfYear_iotNameThing } from "../../graphql/queries";
+import { hoursByYear_dayOfYear_iotNameThing_ingredientName } from "../../graphql/queries";
 
 //Queries
 import { getDashboard } from "./queries/dashboardData";
@@ -377,12 +377,12 @@ const DashboardContainer = () => {
     useEffect(() => {
         const getHourlyMetaRecords = async () => {
             const response = await API.graphql({
-                query: hoursByDayOfYear_iotNameThing,
+                query: hoursByYear_dayOfYear_iotNameThing_ingredientName,
                 variables: {
                     dayOfYear_iotNameThing: (tempDate.dayOfYear() - 7).toString() + "_" + iotNameThing[selectedIndexRef.current],
                 }, // Provide the ID as a variable
             });
-            const data = response.data.hoursByDayOfYear_iotNameThing.items;
+            const data = response.data.hoursByYear_dayOfYear_iotNameThing_ingredientName.items;
             let tempPortionCompleted = 0;
             let tempPrecision = 0;
             let tempInventory = 0;

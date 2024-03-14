@@ -130,10 +130,10 @@ export const createDay = /* GraphQL */ `
     $condition: ModelDayConditionInput
   ) {
     createDay(input: $input, condition: $condition) {
-      dayOfYear_iotNameThing
-      weekOfYear_iotNameThing
-      monthOfYear_iotNameThing
-      year_iotNameThing
+      year_dayOfYear_iotNameThing_ingredientName
+      weekOfYear_iotNameThing_ingredientName
+      monthOfYear_iotNameThing_ingredientName
+      year_iotNameThing_ingredientName
       dailySummary {
         averageTime
         portionsCompleted
@@ -164,10 +164,10 @@ export const updateDay = /* GraphQL */ `
     $condition: ModelDayConditionInput
   ) {
     updateDay(input: $input, condition: $condition) {
-      dayOfYear_iotNameThing
-      weekOfYear_iotNameThing
-      monthOfYear_iotNameThing
-      year_iotNameThing
+      year_dayOfYear_iotNameThing_ingredientName
+      weekOfYear_iotNameThing_ingredientName
+      monthOfYear_iotNameThing_ingredientName
+      year_iotNameThing_ingredientName
       dailySummary {
         averageTime
         portionsCompleted
@@ -198,10 +198,10 @@ export const deleteDay = /* GraphQL */ `
     $condition: ModelDayConditionInput
   ) {
     deleteDay(input: $input, condition: $condition) {
-      dayOfYear_iotNameThing
-      weekOfYear_iotNameThing
-      monthOfYear_iotNameThing
-      year_iotNameThing
+      year_dayOfYear_iotNameThing_ingredientName
+      weekOfYear_iotNameThing_ingredientName
+      monthOfYear_iotNameThing_ingredientName
+      year_iotNameThing_ingredientName
       dailySummary {
         averageTime
         portionsCompleted
@@ -232,8 +232,8 @@ export const createHour = /* GraphQL */ `
     $condition: ModelHourConditionInput
   ) {
     createHour(input: $input, condition: $condition) {
-      dayOfYear_hourOfDay_iotNameThing
-      dayOfYear_iotNameThing
+      year_dayOfYear_hourOfDay_iotNameThing_ingredientName
+      year_dayOfYear_iotNameThing_ingredientName
       hourlySummary {
         averageTime
         portionsCompleted
@@ -249,7 +249,7 @@ export const createHour = /* GraphQL */ `
       scaleActions
       createdAt
       updatedAt
-      dayHourDayOfYear_iotNameThing
+      dayHourYear_dayOfYear_iotNameThing_ingredientName
       __typename
     }
   }
@@ -260,8 +260,8 @@ export const updateHour = /* GraphQL */ `
     $condition: ModelHourConditionInput
   ) {
     updateHour(input: $input, condition: $condition) {
-      dayOfYear_hourOfDay_iotNameThing
-      dayOfYear_iotNameThing
+      year_dayOfYear_hourOfDay_iotNameThing_ingredientName
+      year_dayOfYear_iotNameThing_ingredientName
       hourlySummary {
         averageTime
         portionsCompleted
@@ -277,7 +277,7 @@ export const updateHour = /* GraphQL */ `
       scaleActions
       createdAt
       updatedAt
-      dayHourDayOfYear_iotNameThing
+      dayHourYear_dayOfYear_iotNameThing_ingredientName
       __typename
     }
   }
@@ -288,8 +288,8 @@ export const deleteHour = /* GraphQL */ `
     $condition: ModelHourConditionInput
   ) {
     deleteHour(input: $input, condition: $condition) {
-      dayOfYear_hourOfDay_iotNameThing
-      dayOfYear_iotNameThing
+      year_dayOfYear_hourOfDay_iotNameThing_ingredientName
+      year_dayOfYear_iotNameThing_ingredientName
       hourlySummary {
         averageTime
         portionsCompleted
@@ -305,7 +305,7 @@ export const deleteHour = /* GraphQL */ `
       scaleActions
       createdAt
       updatedAt
-      dayHourDayOfYear_iotNameThing
+      dayHourYear_dayOfYear_iotNameThing_ingredientName
       __typename
     }
   }

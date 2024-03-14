@@ -28,19 +28,22 @@ export default function HourCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    dayOfYear_hourOfDay_iotNameThing: "",
-    dayOfYear_iotNameThing: "",
+    year_dayOfYear_hourOfDay_iotNameThing_ingredientName: "",
+    year_dayOfYear_iotNameThing_ingredientName: "",
     realTime: "",
     scaleActions: "",
     createdAt: "",
   };
   const [
-    dayOfYear_hourOfDay_iotNameThing,
-    setDayOfYear_hourOfDay_iotNameThing,
-  ] = React.useState(initialValues.dayOfYear_hourOfDay_iotNameThing);
-  const [dayOfYear_iotNameThing, setDayOfYear_iotNameThing] = React.useState(
-    initialValues.dayOfYear_iotNameThing
+    year_dayOfYear_hourOfDay_iotNameThing_ingredientName,
+    setYear_dayOfYear_hourOfDay_iotNameThing_ingredientName,
+  ] = React.useState(
+    initialValues.year_dayOfYear_hourOfDay_iotNameThing_ingredientName
   );
+  const [
+    year_dayOfYear_iotNameThing_ingredientName,
+    setYear_dayOfYear_iotNameThing_ingredientName,
+  ] = React.useState(initialValues.year_dayOfYear_iotNameThing_ingredientName);
   const [realTime, setRealTime] = React.useState(initialValues.realTime);
   const [scaleActions, setScaleActions] = React.useState(
     initialValues.scaleActions
@@ -48,18 +51,22 @@ export default function HourCreateForm(props) {
   const [createdAt, setCreatedAt] = React.useState(initialValues.createdAt);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setDayOfYear_hourOfDay_iotNameThing(
-      initialValues.dayOfYear_hourOfDay_iotNameThing
+    setYear_dayOfYear_hourOfDay_iotNameThing_ingredientName(
+      initialValues.year_dayOfYear_hourOfDay_iotNameThing_ingredientName
     );
-    setDayOfYear_iotNameThing(initialValues.dayOfYear_iotNameThing);
+    setYear_dayOfYear_iotNameThing_ingredientName(
+      initialValues.year_dayOfYear_iotNameThing_ingredientName
+    );
     setRealTime(initialValues.realTime);
     setScaleActions(initialValues.scaleActions);
     setCreatedAt(initialValues.createdAt);
     setErrors({});
   };
   const validations = {
-    dayOfYear_hourOfDay_iotNameThing: [{ type: "Required" }],
-    dayOfYear_iotNameThing: [{ type: "Required" }],
+    year_dayOfYear_hourOfDay_iotNameThing_ingredientName: [
+      { type: "Required" },
+    ],
+    year_dayOfYear_iotNameThing_ingredientName: [{ type: "Required" }],
     realTime: [{ type: "Required" }, { type: "JSON" }],
     scaleActions: [{ type: "JSON" }],
     createdAt: [{ type: "Required" }],
@@ -90,8 +97,8 @@ export default function HourCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          dayOfYear_hourOfDay_iotNameThing,
-          dayOfYear_iotNameThing,
+          year_dayOfYear_hourOfDay_iotNameThing_ingredientName,
+          year_dayOfYear_iotNameThing_ingredientName,
           realTime,
           scaleActions,
           createdAt,
@@ -149,67 +156,94 @@ export default function HourCreateForm(props) {
       {...rest}
     >
       <TextField
-        label="Day of year hour of day iot name thing"
+        label="Year day of year hour of day iot name thing ingredient name"
         isRequired={true}
         isReadOnly={false}
-        value={dayOfYear_hourOfDay_iotNameThing}
+        value={year_dayOfYear_hourOfDay_iotNameThing_ingredientName}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              dayOfYear_hourOfDay_iotNameThing: value,
-              dayOfYear_iotNameThing,
+              year_dayOfYear_hourOfDay_iotNameThing_ingredientName: value,
+              year_dayOfYear_iotNameThing_ingredientName,
               realTime,
               scaleActions,
               createdAt,
             };
             const result = onChange(modelFields);
-            value = result?.dayOfYear_hourOfDay_iotNameThing ?? value;
+            value =
+              result?.year_dayOfYear_hourOfDay_iotNameThing_ingredientName ??
+              value;
           }
-          if (errors.dayOfYear_hourOfDay_iotNameThing?.hasError) {
-            runValidationTasks("dayOfYear_hourOfDay_iotNameThing", value);
+          if (
+            errors.year_dayOfYear_hourOfDay_iotNameThing_ingredientName
+              ?.hasError
+          ) {
+            runValidationTasks(
+              "year_dayOfYear_hourOfDay_iotNameThing_ingredientName",
+              value
+            );
           }
-          setDayOfYear_hourOfDay_iotNameThing(value);
+          setYear_dayOfYear_hourOfDay_iotNameThing_ingredientName(value);
         }}
         onBlur={() =>
           runValidationTasks(
-            "dayOfYear_hourOfDay_iotNameThing",
-            dayOfYear_hourOfDay_iotNameThing
+            "year_dayOfYear_hourOfDay_iotNameThing_ingredientName",
+            year_dayOfYear_hourOfDay_iotNameThing_ingredientName
           )
         }
-        errorMessage={errors.dayOfYear_hourOfDay_iotNameThing?.errorMessage}
-        hasError={errors.dayOfYear_hourOfDay_iotNameThing?.hasError}
-        {...getOverrideProps(overrides, "dayOfYear_hourOfDay_iotNameThing")}
+        errorMessage={
+          errors.year_dayOfYear_hourOfDay_iotNameThing_ingredientName
+            ?.errorMessage
+        }
+        hasError={
+          errors.year_dayOfYear_hourOfDay_iotNameThing_ingredientName?.hasError
+        }
+        {...getOverrideProps(
+          overrides,
+          "year_dayOfYear_hourOfDay_iotNameThing_ingredientName"
+        )}
       ></TextField>
       <TextField
-        label="Day of year iot name thing"
+        label="Year day of year iot name thing ingredient name"
         isRequired={true}
         isReadOnly={false}
-        value={dayOfYear_iotNameThing}
+        value={year_dayOfYear_iotNameThing_ingredientName}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              dayOfYear_hourOfDay_iotNameThing,
-              dayOfYear_iotNameThing: value,
+              year_dayOfYear_hourOfDay_iotNameThing_ingredientName,
+              year_dayOfYear_iotNameThing_ingredientName: value,
               realTime,
               scaleActions,
               createdAt,
             };
             const result = onChange(modelFields);
-            value = result?.dayOfYear_iotNameThing ?? value;
+            value = result?.year_dayOfYear_iotNameThing_ingredientName ?? value;
           }
-          if (errors.dayOfYear_iotNameThing?.hasError) {
-            runValidationTasks("dayOfYear_iotNameThing", value);
+          if (errors.year_dayOfYear_iotNameThing_ingredientName?.hasError) {
+            runValidationTasks(
+              "year_dayOfYear_iotNameThing_ingredientName",
+              value
+            );
           }
-          setDayOfYear_iotNameThing(value);
+          setYear_dayOfYear_iotNameThing_ingredientName(value);
         }}
         onBlur={() =>
-          runValidationTasks("dayOfYear_iotNameThing", dayOfYear_iotNameThing)
+          runValidationTasks(
+            "year_dayOfYear_iotNameThing_ingredientName",
+            year_dayOfYear_iotNameThing_ingredientName
+          )
         }
-        errorMessage={errors.dayOfYear_iotNameThing?.errorMessage}
-        hasError={errors.dayOfYear_iotNameThing?.hasError}
-        {...getOverrideProps(overrides, "dayOfYear_iotNameThing")}
+        errorMessage={
+          errors.year_dayOfYear_iotNameThing_ingredientName?.errorMessage
+        }
+        hasError={errors.year_dayOfYear_iotNameThing_ingredientName?.hasError}
+        {...getOverrideProps(
+          overrides,
+          "year_dayOfYear_iotNameThing_ingredientName"
+        )}
       ></TextField>
       <TextAreaField
         label="Real time"
@@ -219,8 +253,8 @@ export default function HourCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              dayOfYear_hourOfDay_iotNameThing,
-              dayOfYear_iotNameThing,
+              year_dayOfYear_hourOfDay_iotNameThing_ingredientName,
+              year_dayOfYear_iotNameThing_ingredientName,
               realTime: value,
               scaleActions,
               createdAt,
@@ -246,8 +280,8 @@ export default function HourCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              dayOfYear_hourOfDay_iotNameThing,
-              dayOfYear_iotNameThing,
+              year_dayOfYear_hourOfDay_iotNameThing_ingredientName,
+              year_dayOfYear_iotNameThing_ingredientName,
               realTime,
               scaleActions: value,
               createdAt,
@@ -274,8 +308,8 @@ export default function HourCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              dayOfYear_hourOfDay_iotNameThing,
-              dayOfYear_iotNameThing,
+              year_dayOfYear_hourOfDay_iotNameThing_ingredientName,
+              year_dayOfYear_iotNameThing_ingredientName,
               realTime,
               scaleActions,
               createdAt: value,
