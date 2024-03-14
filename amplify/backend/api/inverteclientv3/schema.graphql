@@ -31,6 +31,8 @@ type Day @model @auth(rules: [{ allow: public, operations: [read, create, update
 type Hour @model @auth(rules: [{ allow: public, operations: [read, create, update] }]) {
     year_dayOfYear_hourOfDay_iotNameThing_ingredientName: ID! @primaryKey
     year_dayOfYear_iotNameThing_ingredientName: ID! @index(name: "byDay")
+    year_dayOfYear_hourOfDay_iotNameThing_ingredientName: ID! @primaryKey
+    year_dayOfYear_iotNameThing_ingredientName: ID! @index(name: "byDay")
     hourlySummary: HourlySummary
     realTime: AWSJSON!
     scaleActions: AWSJSON
