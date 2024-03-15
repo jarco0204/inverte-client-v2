@@ -5,22 +5,12 @@
 const fetch = require("node-fetch");
 const { Request } = require("node-fetch");
 exports.handler = async (event) => {
-    console.log("The data from backend is:", event.queryStringParameters);
-
-    //GQL variables with filters to query data from DynamoDB
-    const variables = {
-        filter: {
-            createdAt: {
-                between: [event.queryStringParameters.startDate, event.queryStringParameters.endDate],
-            },
-            year_dayOfYear_iotNameThing_ingredientName: {
-                contains: event.queryStringParameters.iotName,
-            },
-        },
-    };
+    console.log("The data from backend i:", event.queryStringParameters);
 
     // GQL Query
-    let body, request, pastData;
+    let body, request;
+    let pastData = [];
+    let nextToken = null;
     let precision = 0,
         inventoryConsumed = 0,
         timeSaved = 0,
@@ -34,42 +24,60 @@ exports.handler = async (event) => {
         timeArray = [],
         portionsArray = [],
         accuracyArray = [];
-    const query = listDays;
-    console.log("The graphql api key");
-    const options = {
-        method: "POST",
-        headers: {
-            "x-api-key": process.env.REACT_APP_GRAPHQL_API_KEY,
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            query,
-            variables,
-        }),
-    };
-    request = new Request(process.env.REACT_APP_GRAPHQL_ENDPOINT, options);
-    let statusCode = 200;
-    let response;
-    try {
-        response = await fetch(request);
-        console.log("Data we got from dailymeta table is..", response);
-        body = await response.json();
-        console.log("Body of data we got from dailymeta table is...", body.data.listDays.items);
-        pastData = body.data.listDays.items;
-        if (body.errors) statusCode = 400;
-    } catch (error) {
-        statusCode = 400;
-        body = {
-            errors: [
-                {
-                    status: response,
-                    message: error,
-                    stack: error,
+    const getDays = async () => {
+        //GQL variables with filters to query data from DynamoDB
+        const variables = {
+            filter: {
+                createdAt: {
+                    between: [event.queryStringParameters.startDate, event.queryStringParameters.endDate],
                 },
-            ],
+                year_dayOfYear_iotNameThing_ingredientName: {
+                    contains: event.queryStringParameters.iotName,
+                },
+            },
+            nextToken: nextToken,
         };
-        console.log("Error is", error);
-    }
+        const query = listDays;
+        console.log("The graphql api key");
+        const options = {
+            method: "POST",
+            headers: {
+                "x-api-key": process.env.REACT_APP_GRAPHQL_API_KEY,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                query,
+                variables,
+            }),
+        };
+        request = new Request(process.env.REACT_APP_GRAPHQL_ENDPOINT, options);
+        let statusCode = 200;
+        let response;
+        try {
+            response = await fetch(request);
+            console.log("Data we got from dailymeta table is..", response);
+            body = await response.json();
+            console.log("Body of data we got from dailymeta table is...", body.data);
+            pastData.push(...body.data.listDays.items);
+            nextToken = body.data.listDays.nextToken;
+            if (body.errors) statusCode = 400;
+        } catch (error) {
+            statusCode = 400;
+            body = {
+                errors: [
+                    {
+                        status: response,
+                        message: error,
+                        stack: error,
+                    },
+                ],
+            };
+            console.log("Error is", error);
+        }
+    };
+    do {
+        await getDays();
+    } while (nextToken != null);
 
     //Processing the data that we got from backend
     for (let i = 0; i < pastData.length; i++) {
@@ -149,7 +157,6 @@ const dayOfYearToDayOfWeek = (dayOfYear) => {
     // Return the corresponding day name
     return dayNames[dayOfWeekIndex];
 };
-
 const listDays = /* GraphQL */ `
     query ListDays($year_dayOfYear_iotNameThing_ingredientName: ID, $filter: ModelDayFilterInput, $limit: Int, $nextToken: String, $sortDirection: ModelSortDirection) {
         listDays(year_dayOfYear_iotNameThing_ingredientName: $year_dayOfYear_iotNameThing_ingredientName, filter: $filter, limit: $limit, nextToken: $nextToken, sortDirection: $sortDirection) {
@@ -158,6 +165,7 @@ const listDays = /* GraphQL */ `
                 weekOfYear_iotNameThing_ingredientName
                 monthOfYear_iotNameThing_ingredientName
                 year_iotNameThing_ingredientName
+                dashboardGraph
                 dailySummary {
                     averageTime
                     portionsCompleted
@@ -167,9 +175,7 @@ const listDays = /* GraphQL */ `
                     underServed
                     perfect
                     precision
-                    __typename
                 }
-                dashboardGraph
                 scaleActions
                 allPortionEvents
                 createdAt

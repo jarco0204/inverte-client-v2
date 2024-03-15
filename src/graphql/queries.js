@@ -18,9 +18,9 @@ export const getRestaurant = /* GraphQL */ `
                     restaurant_id
                     ingredient
                     lastConnected
-
-                    __typename
                 }
+                nextToken
+                __typename
             }
             createdAt
             updatedAt
@@ -118,6 +118,9 @@ export const getDay = /* GraphQL */ `
                         precision
                         __typename
                     }
+                    realTime
+                    scaleActions
+                    createdAt
                 }
                 nextToken
                 __typename

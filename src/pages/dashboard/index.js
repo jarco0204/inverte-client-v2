@@ -129,6 +129,10 @@ const DashboardContainer = () => {
     // Main Component State: Cards & Graphs
     let iotNameThing = [];
     let options = [];
+    console.log(
+        "The selected index is",
+        useSelector((state) => state.meta)
+    );
     for (let i = 0; i < useSelector((state) => state.meta.scale.items).length; i++) {
         iotNameThing.push(useSelector((state) => state.meta.scale.items[i].scaleName));
         options.push(useSelector((state) => state.meta.scale.items[i].ingredient));
