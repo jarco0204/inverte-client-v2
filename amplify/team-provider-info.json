@@ -23,5 +23,12 @@
         }
       }
     }
+  },
+  "invertedev": {
+    "categories": {
+      "auth": {
+        "inverteclientv30db036de": {}
+      }
+    }
   }
 }

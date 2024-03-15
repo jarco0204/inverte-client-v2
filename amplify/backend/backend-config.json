@@ -65,23 +65,5 @@
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
-  },
-  "parameters": {
-    "AMPLIFY_function_inverteClientV3MultipleDaysAnalytics_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "inverteClientV3MultipleDaysAnalytics"
-        }
-      ]
-    },
-    "AMPLIFY_function_inverteClientV3MultipleDaysAnalytics_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "inverteClientV3MultipleDaysAnalytics"
-        }
-      ]
-    }
   }
 }
