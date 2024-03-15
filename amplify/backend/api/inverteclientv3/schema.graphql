@@ -18,7 +18,7 @@ type Scale @model @auth(rules: [{ allow: public, operations: [read, update] }]) 
 type Day @model @auth(rules: [{ allow: public, operations: [read, create, update] }]) {
     year_dayOfYear_iotNameThing_ingredientName: ID! @primaryKey
     weekOfYear_iotNameThing_ingredientName: ID! @index(name: "byWeek")
-    monthOfYear_iotNameThing_ingredientName: String!
+    monthOfYear_iotNameThing_ingredientName: ID! @index(name: "byMonth")
     year_iotNameThing_ingredientName: String!
     dailySummary: DailySummary
     dashboardGraph: AWSJSON
