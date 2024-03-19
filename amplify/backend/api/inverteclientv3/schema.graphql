@@ -8,6 +8,13 @@ type Restaurant @model @auth(rules: [{ allow: public, operations: [read, update]
     timeZone: String
     accessType: String
     scale: [Scale] @hasMany(indexName: "byScale")
+    user: [User] @hasMany(indexName: "byUser")
+}
+type User @model @auth(rules: [{ allow: public, operations: [read, update] }]) {
+    user_id: ID! @primaryKey
+    restaurant_id: ID! @index(name: "byUser")
+    firstName: String!
+    lastName: String!
 }
 type Scale @model @auth(rules: [{ allow: public, operations: [read, update] }]) {
     scaleName: ID! @primaryKey

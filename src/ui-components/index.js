@@ -12,4 +12,6 @@ export { default as RestaurantCreateForm } from "./RestaurantCreateForm";
 export { default as RestaurantUpdateForm } from "./RestaurantUpdateForm";
 export { default as ScaleCreateForm } from "./ScaleCreateForm";
 export { default as ScaleUpdateForm } from "./ScaleUpdateForm";
+export { default as UserCreateForm } from "./UserCreateForm";
+export { default as UserUpdateForm } from "./UserUpdateForm";
 export { default as studioTheme } from "./studioTheme";

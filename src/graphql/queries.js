@@ -18,7 +18,11 @@ export const getRestaurant = /* GraphQL */ `
                     restaurant_id
                     ingredient
                     lastConnected
+                    createdAt
+                    updatedAt
                 }
+            }
+            user {
                 nextToken
                 __typename
             }
@@ -42,6 +46,38 @@ export const listRestaurants = /* GraphQL */ `
                 accessType
                 createdAt
                 updatedAt
+                __typename
+            }
+            nextToken
+            __typename
+        }
+    }
+`;
+export const getUser = /* GraphQL */ `
+    query GetUser($user_id: ID!) {
+        getUser(user_id: $user_id) {
+            user_id
+            restaurant_id
+            firstName
+            lastName
+            createdAt
+            updatedAt
+            restaurantUserRestaurant_id
+            __typename
+        }
+    }
+`;
+export const listUsers = /* GraphQL */ `
+    query ListUsers($user_id: ID, $filter: ModelUserFilterInput, $limit: Int, $nextToken: String, $sortDirection: ModelSortDirection) {
+        listUsers(user_id: $user_id, filter: $filter, limit: $limit, nextToken: $nextToken, sortDirection: $sortDirection) {
+            items {
+                user_id
+                restaurant_id
+                firstName
+                lastName
+                createdAt
+                updatedAt
+                restaurantUserRestaurant_id
                 __typename
             }
             nextToken
@@ -116,11 +152,7 @@ export const getDay = /* GraphQL */ `
                         underServed
                         perfect
                         precision
-                        __typename
                     }
-                    realTime
-                    scaleActions
-                    createdAt
                 }
                 nextToken
                 __typename
@@ -199,6 +231,24 @@ export const listHours = /* GraphQL */ `
         }
     }
 `;
+export const usersByRestaurant_id = /* GraphQL */ `
+    query UsersByRestaurant_id($restaurant_id: ID!, $sortDirection: ModelSortDirection, $filter: ModelUserFilterInput, $limit: Int, $nextToken: String) {
+        usersByRestaurant_id(restaurant_id: $restaurant_id, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {
+            items {
+                user_id
+                restaurant_id
+                firstName
+                lastName
+                createdAt
+                updatedAt
+                restaurantUserRestaurant_id
+                __typename
+            }
+            nextToken
+            __typename
+        }
+    }
+`;
 export const scalesByRestaurant_id = /* GraphQL */ `
     query ScalesByRestaurant_id($restaurant_id: ID!, $sortDirection: ModelSortDirection, $filter: ModelScaleFilterInput, $limit: Int, $nextToken: String) {
         scalesByRestaurant_id(restaurant_id: $restaurant_id, sortDirection: $sortDirection, filter: $filter, limit: $limit, nextToken: $nextToken) {
@@ -227,6 +277,38 @@ export const daysByWeekOfYear_iotNameThing_ingredientName = /* GraphQL */ `
     ) {
         daysByWeekOfYear_iotNameThing_ingredientName(
             weekOfYear_iotNameThing_ingredientName: $weekOfYear_iotNameThing_ingredientName
+            sortDirection: $sortDirection
+            filter: $filter
+            limit: $limit
+            nextToken: $nextToken
+        ) {
+            items {
+                year_dayOfYear_iotNameThing_ingredientName
+                weekOfYear_iotNameThing_ingredientName
+                monthOfYear_iotNameThing_ingredientName
+                year_iotNameThing_ingredientName
+                dashboardGraph
+                scaleActions
+                allPortionEvents
+                createdAt
+                updatedAt
+                __typename
+            }
+            nextToken
+            __typename
+        }
+    }
+`;
+export const daysByMonthOfYear_iotNameThing_ingredientName = /* GraphQL */ `
+    query DaysByMonthOfYear_iotNameThing_ingredientName(
+        $monthOfYear_iotNameThing_ingredientName: ID!
+        $sortDirection: ModelSortDirection
+        $filter: ModelDayFilterInput
+        $limit: Int
+        $nextToken: String
+    ) {
+        daysByMonthOfYear_iotNameThing_ingredientName(
+            monthOfYear_iotNameThing_ingredientName: $monthOfYear_iotNameThing_ingredientName
             sortDirection: $sortDirection
             filter: $filter
             limit: $limit
