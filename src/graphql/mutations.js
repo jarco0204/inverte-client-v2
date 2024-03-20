@@ -19,6 +19,10 @@ export const createRestaurant = /* GraphQL */ `
         nextToken
         __typename
       }
+      user {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -40,6 +44,10 @@ export const updateRestaurant = /* GraphQL */ `
       timeZone
       accessType
       scale {
+        nextToken
+        __typename
+      }
+      user {
         nextToken
         __typename
       }
@@ -67,8 +75,63 @@ export const deleteRestaurant = /* GraphQL */ `
         nextToken
         __typename
       }
+      user {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
+      __typename
+    }
+  }
+`;
+export const createUser = /* GraphQL */ `
+  mutation CreateUser(
+    $input: CreateUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    createUser(input: $input, condition: $condition) {
+      user_id
+      restaurant_id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+      restaurantUserRestaurant_id
+      __typename
+    }
+  }
+`;
+export const updateUser = /* GraphQL */ `
+  mutation UpdateUser(
+    $input: UpdateUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    updateUser(input: $input, condition: $condition) {
+      user_id
+      restaurant_id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+      restaurantUserRestaurant_id
+      __typename
+    }
+  }
+`;
+export const deleteUser = /* GraphQL */ `
+  mutation DeleteUser(
+    $input: DeleteUserInput!
+    $condition: ModelUserConditionInput
+  ) {
+    deleteUser(input: $input, condition: $condition) {
+      user_id
+      restaurant_id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+      restaurantUserRestaurant_id
       __typename
     }
   }

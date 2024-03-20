@@ -49,6 +49,10 @@ export const onCreateRestaurant = /* GraphQL */ `
         nextToken
         __typename
       }
+      user {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
       __typename
@@ -69,6 +73,10 @@ export const onUpdateRestaurant = /* GraphQL */ `
       timeZone
       accessType
       scale {
+        nextToken
+        __typename
+      }
+      user {
         nextToken
         __typename
       }
@@ -95,8 +103,54 @@ export const onDeleteRestaurant = /* GraphQL */ `
         nextToken
         __typename
       }
+      user {
+        nextToken
+        __typename
+      }
       createdAt
       updatedAt
+      __typename
+    }
+  }
+`;
+export const onCreateUser = /* GraphQL */ `
+  subscription OnCreateUser($filter: ModelSubscriptionUserFilterInput) {
+    onCreateUser(filter: $filter) {
+      user_id
+      restaurant_id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+      restaurantUserRestaurant_id
+      __typename
+    }
+  }
+`;
+export const onUpdateUser = /* GraphQL */ `
+  subscription OnUpdateUser($filter: ModelSubscriptionUserFilterInput) {
+    onUpdateUser(filter: $filter) {
+      user_id
+      restaurant_id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+      restaurantUserRestaurant_id
+      __typename
+    }
+  }
+`;
+export const onDeleteUser = /* GraphQL */ `
+  subscription OnDeleteUser($filter: ModelSubscriptionUserFilterInput) {
+    onDeleteUser(filter: $filter) {
+      user_id
+      restaurant_id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+      restaurantUserRestaurant_id
       __typename
     }
   }
