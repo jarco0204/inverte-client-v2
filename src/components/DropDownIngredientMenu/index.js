@@ -53,10 +53,6 @@ const StyledMenu = styled((props) => (
    @Coders: PP111
 */
 const DropDownIngredientMenu = ({ options, titleForPage }) => {
-    console.log(
-        "test",
-        useSelector((state) => state.meta.restaurant_id)
-    );
     const [anchorEl, setAnchorEl] = useState(null);
     const selectedIndexRef = { current: useSelector((state) => state.meta.displayIngredient).toString() };
     const selectedIndex = useSelector((state) => state.meta.displayIngredient);
