@@ -37,6 +37,7 @@ const createReportLineChartObject = () => {
 */
 const LivePortionWeightComponent = ({ clientRestaurantLocationNum, clientRestaurantName, timeZone }) => {
     // Portion Sequence UseState
+    console.log("clientRestaurantLocationNum is", clientRestaurantLocationNum);
     const [realTimeStampAR, setRealTimeStampAR] = useState([]);
     const [realTimePortionWeightAR, setRealTimePortionWeightAR] = useState([]);
 

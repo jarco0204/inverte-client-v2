@@ -8,6 +8,7 @@ import Icon from "@mui/material/Icon";
 import ScaleIcon from "@mui/icons-material/Scale";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
 import InsightsIcon from "@mui/icons-material/Insights";
+import TableChartIcon from "@mui/icons-material/TableChart";
 import MultipleDaysAnalyticsContainer from "./multipleDaysAnalytics";
 
 /*!
@@ -52,7 +53,7 @@ const RouterContainer = (metaInformation, isMobileDevice) => {
                   key: "past period",
                   icon: (
                       <Icon fontSize="small">
-                          <InsightsIcon />
+                          <TableChartIcon />
                       </Icon>
                   ),
                   route: "/multipleDays",

@@ -54,14 +54,15 @@ const StyledMenu = styled((props) => (
 */
 const DropDownIngredientMenu = ({ options, titleForPage }) => {
     const [anchorEl, setAnchorEl] = useState(null);
-    const selectedIndexRef = {current: useSelector(state => state.meta.displayIngredient).toString()}
-    const selectedIndex = useSelector(state => state.meta.displayIngredient)
-    const reduxDispatch = useDispatch()
+    const selectedIndexRef = { current: useSelector((state) => state.meta.displayIngredient).toString() };
+    const selectedIndex = useSelector((state) => state.meta.displayIngredient);
+    const reduxDispatch = useDispatch();
     const open = Boolean(anchorEl);
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
+    const restaurant_id = useSelector((state) => state.meta.restaurant_id);
 
     /*!
        @description: 
@@ -82,9 +83,8 @@ const DropDownIngredientMenu = ({ options, titleForPage }) => {
         @Coders: Rohan-16
     */
     const updateIngredient = async (index) => {
-        const user = await Auth.currentAuthenticatedUser();
         try {
-            const inputData = { restaurant_id: user.username, displayIngredient: index };
+            const inputData = { restaurant_id: restaurant_id, displayIngredient: index };
             const response = await API.graphql({
                 query: updateRestaurant,
                 variables: { input: inputData },
@@ -106,7 +106,7 @@ const DropDownIngredientMenu = ({ options, titleForPage }) => {
         selectedIndexRef.current = index;
         setAnchorEl(null);
         updateIngredient(index);
-        reduxDispatch(setSelectedIndex(index.toString()))
+        reduxDispatch(setSelectedIndex(index.toString()));
     };
 
     /*!

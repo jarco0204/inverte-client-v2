@@ -14,7 +14,7 @@ import ButtonConfig from "../components/ButtonConfig";
 import SpinnerLoader from "../components/SpinnerLoader";
 import { handleOnMouseEnter, handleOnMouseLeave } from "../components/Sidenav/SidenavBehaviour";
 import DashboardNavbar from "../components/Navbars/DashboardNavbar";
-import { getRestaurant } from "../graphql/queries";
+import { getRestaurant, getUser } from "../graphql/queries";
 import { useDispatch, useSelector } from "react-redux";
 import { updateMetaInformation } from "../redux/metaSlice";
 import { setUnitOfMass } from "../redux/metaSlice";
@@ -147,12 +147,16 @@ export default function MainContainer() {
 
                 try {
                     const response = await API.graphql({
-                        query: getRestaurant,
-                        variables: { restaurant_id: user.username },
+                        query: getUser,
+                        variables: { user_id: user.username },
                     });
-                    console.log("Restaurent data:", response);
-                    setMetaInformation(response.data.getRestaurant);
-                    setUnitOfMass(response.data.getRestaurant.unitOfMass);
+                    const response1 = await API.graphql({
+                        query: getRestaurant,
+                        variables: { restaurant_id: response.data.getUser.restaurant_id },
+                    });
+                    console.log("Restaurent data:", response1);
+                    setMetaInformation(response1.data.getRestaurant);
+                    setUnitOfMass(response1.data.getRestaurant.unitOfMass);
                     setAuthenticated(true);
                     setSpinnerLoader(false);
                 } catch (err) {
