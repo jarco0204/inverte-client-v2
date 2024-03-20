@@ -37,7 +37,6 @@ import { hoursByYear_dayOfYear_iotNameThing_ingredientName } from "../../graphql
 
 //Queries
 import { getDay } from "../../graphql/queries";
-import { setSelectedIndex } from "../../redux/metaSlice"; // Todo: Why do we have this here?
 
 // DayJS Configuration
 dayjs.extend(dayOfYear);
@@ -141,7 +140,7 @@ const DashboardContainer = () => {
     const displayIngredientIndex = useSelector((state) => state.meta.displayIngredient);
     const timeZone = useSelector((state) => state.meta.timeZone);
     const clientRestaurantLocationNum = useSelector((state) => state.meta.restaurantLocationNum);
-    const clientRestaurantName = useSelector((state) => state.meta.restaurantName);
+    const clientRestaurantName = useSelector((state) => state.meta.scale.items[displayIngredientIndex].restaurantName);
 
     const tempDate = dayjs().tz(timeZone); // Local time of Client
     const hourOfDay = tempDate.hour();

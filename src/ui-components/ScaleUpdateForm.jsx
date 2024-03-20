@@ -26,12 +26,16 @@ export default function ScaleUpdateForm(props) {
   const initialValues = {
     scaleName: "",
     restaurant_id: "",
+    restaurantName: "",
     ingredient: "",
     lastConnected: "",
   };
   const [scaleName, setScaleName] = React.useState(initialValues.scaleName);
   const [restaurant_id, setRestaurant_id] = React.useState(
     initialValues.restaurant_id
+  );
+  const [restaurantName, setRestaurantName] = React.useState(
+    initialValues.restaurantName
   );
   const [ingredient, setIngredient] = React.useState(initialValues.ingredient);
   const [lastConnected, setLastConnected] = React.useState(
@@ -44,6 +48,7 @@ export default function ScaleUpdateForm(props) {
       : initialValues;
     setScaleName(cleanValues.scaleName);
     setRestaurant_id(cleanValues.restaurant_id);
+    setRestaurantName(cleanValues.restaurantName);
     setIngredient(cleanValues.ingredient);
     setLastConnected(cleanValues.lastConnected);
     setErrors({});
@@ -67,6 +72,7 @@ export default function ScaleUpdateForm(props) {
   const validations = {
     scaleName: [{ type: "Required" }],
     restaurant_id: [{ type: "Required" }],
+    restaurantName: [],
     ingredient: [],
     lastConnected: [],
   };
@@ -98,6 +104,7 @@ export default function ScaleUpdateForm(props) {
         let modelFields = {
           scaleName,
           restaurant_id,
+          restaurantName: restaurantName ?? null,
           ingredient: ingredient ?? null,
           lastConnected: lastConnected ?? null,
         };
@@ -162,6 +169,7 @@ export default function ScaleUpdateForm(props) {
             const modelFields = {
               scaleName: value,
               restaurant_id,
+              restaurantName,
               ingredient,
               lastConnected,
             };
@@ -189,6 +197,7 @@ export default function ScaleUpdateForm(props) {
             const modelFields = {
               scaleName,
               restaurant_id: value,
+              restaurantName,
               ingredient,
               lastConnected,
             };
@@ -206,6 +215,34 @@ export default function ScaleUpdateForm(props) {
         {...getOverrideProps(overrides, "restaurant_id")}
       ></TextField>
       <TextField
+        label="Restaurant name"
+        isRequired={false}
+        isReadOnly={false}
+        value={restaurantName}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              scaleName,
+              restaurant_id,
+              restaurantName: value,
+              ingredient,
+              lastConnected,
+            };
+            const result = onChange(modelFields);
+            value = result?.restaurantName ?? value;
+          }
+          if (errors.restaurantName?.hasError) {
+            runValidationTasks("restaurantName", value);
+          }
+          setRestaurantName(value);
+        }}
+        onBlur={() => runValidationTasks("restaurantName", restaurantName)}
+        errorMessage={errors.restaurantName?.errorMessage}
+        hasError={errors.restaurantName?.hasError}
+        {...getOverrideProps(overrides, "restaurantName")}
+      ></TextField>
+      <TextField
         label="Ingredient"
         isRequired={false}
         isReadOnly={false}
@@ -216,6 +253,7 @@ export default function ScaleUpdateForm(props) {
             const modelFields = {
               scaleName,
               restaurant_id,
+              restaurantName,
               ingredient: value,
               lastConnected,
             };
@@ -243,6 +281,7 @@ export default function ScaleUpdateForm(props) {
             const modelFields = {
               scaleName,
               restaurant_id,
+              restaurantName,
               ingredient,
               lastConnected: value,
             };

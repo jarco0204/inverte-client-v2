@@ -18,6 +18,7 @@ export const getRestaurant = /* GraphQL */ `
                     restaurant_id
                     ingredient
                     lastConnected
+                    restaurantName
                     createdAt
                     updatedAt
                 }
@@ -91,6 +92,7 @@ export const getScale = /* GraphQL */ `
             scaleName
             restaurant_id
             ingredient
+            restaurantName
             lastConnected
             createdAt
             updatedAt
@@ -107,6 +109,7 @@ export const listScales = /* GraphQL */ `
                 restaurant_id
                 ingredient
                 lastConnected
+                restaurantName
                 createdAt
                 updatedAt
                 restaurantScaleRestaurant_id
