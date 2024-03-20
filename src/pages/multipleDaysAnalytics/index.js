@@ -298,7 +298,7 @@ const MultipleDaysAnalyticsContainer = () => {
     return (
         <DashboardLayout>
             {/* TODO: ADD Style such that title gets centered with media query (textAlign) */}
-            <DropDownIngredientMenu options={options} titleForPage={"Past Inventory Report"} />
+            <DropDownIngredientMenu options={options} titleForPage={"Past Period Inventory Report"} />
             <MultipleDatePicker titleForPage={""} date={date} setDate={setDate} />
 
             <div style={{ height: "85vh" }}>
