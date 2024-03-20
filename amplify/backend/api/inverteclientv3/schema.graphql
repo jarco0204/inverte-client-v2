@@ -19,6 +19,7 @@ type User @model @auth(rules: [{ allow: public, operations: [read, update] }]) {
 type Scale @model @auth(rules: [{ allow: public, operations: [read, update] }]) {
     scaleName: ID! @primaryKey
     restaurant_id: ID! @index(name: "byScale")
+    restaurantName: String
     ingredient: String
     lastConnected: String
 }

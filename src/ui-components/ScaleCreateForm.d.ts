@@ -24,12 +24,14 @@ export declare type ValidationFunction<T> = (value: T, validationResponse: Valid
 export declare type ScaleCreateFormInputValues = {
     scaleName?: string;
     restaurant_id?: string;
+    restaurantName?: string;
     ingredient?: string;
     lastConnected?: string;
 };
 export declare type ScaleCreateFormValidationValues = {
     scaleName?: ValidationFunction<string>;
     restaurant_id?: ValidationFunction<string>;
+    restaurantName?: ValidationFunction<string>;
     ingredient?: ValidationFunction<string>;
     lastConnected?: ValidationFunction<string>;
 };
@@ -38,6 +40,7 @@ export declare type ScaleCreateFormOverridesProps = {
     ScaleCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
     scaleName?: PrimitiveOverrideProps<TextFieldProps>;
     restaurant_id?: PrimitiveOverrideProps<TextFieldProps>;
+    restaurantName?: PrimitiveOverrideProps<TextFieldProps>;
     ingredient?: PrimitiveOverrideProps<TextFieldProps>;
     lastConnected?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
