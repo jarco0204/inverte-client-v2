@@ -113,6 +113,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
     const updateClassicShadow = (event) => {
         // Creae Variables
         console.log("The event is:", event);
+        console.log("Main scale data is:", mainScaleData);
         const updateThingShadowRequestInput = { state: { desired: {} } };
         let shadowTopic = "$aws/things/" + mainScaleData.iotNameThing.scaleName + "/shadow/update";
 
