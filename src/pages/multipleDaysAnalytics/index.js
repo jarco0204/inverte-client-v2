@@ -76,9 +76,9 @@ const createReportLineChartObject = () => {
 */
 const createDoughnutChartObject = () => {
     return {
-        labels: ["Under Serving", "Perfect", "Over Serving"],
+        labels: ["Under Serving", "Over Serving", "Perfect"],
         datasets: { label: "Percent (%)", data: [] },
-        pointBackgroundColorAR: ["#0693e3", "rgba(83, 212, 88, 1)", "rgba(236,65,1,1)"],
+        pointBackgroundColorAR: ["#0693e3", "rgba(236,65,1,1)", "rgba(83, 212, 88, 1)"],
     };
 };
 

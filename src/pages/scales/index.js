@@ -51,6 +51,7 @@ const ScalesContainer = () => {
         "The scale state scale",
         useSelector((state) => state.meta.scale.items)
     );
+    console.log("The scales are:", scales);
 
     /*!
         @description: React Hook to Create the Scale Card Components based on the number of IoT Things are associated with RestaurantID
@@ -63,7 +64,7 @@ const ScalesContainer = () => {
         const createScaleCardList = () => {
             const tempScalesMetaArr = [];
             for (let i = 0; i < scales.length; i++) {
-                let scaleRootTopic = restaurantName + "/" + restaurantLocationNum;
+                let scaleRootTopic = scales[i].restaurantName + "/" + restaurantLocationNum;
                 tempScalesMetaArr.push({ topic: scaleRootTopic, iotNameThing: scales[i] });
             }
             setScalesMetaArr(tempScalesMetaArr);

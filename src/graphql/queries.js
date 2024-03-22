@@ -22,8 +22,6 @@ export const getRestaurant = /* GraphQL */ `
                     createdAt
                     updatedAt
                 }
-            }
-            user {
                 nextToken
                 __typename
             }
