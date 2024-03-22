@@ -376,7 +376,7 @@ const MultipleDaysAnalyticsContainer = () => {
                             </Grid>
                             <Grid item xs={12} md={6} lg={3}>
                                 <Tooltip title="Serving Tendency of Portions" placement="bottom">
-                                    <div style={{ width: "100%", height: "100%" }}>{generateDoughnutChartResponsive(false)}</div> {/* Adjust the height and width as needed */}
+                                    <div style={{ width: "100%", height: "100%" }}>{generateDoughnutChartResponsive(false)}</div>
                                 </Tooltip>
                             </Grid>
                         </Grid>
