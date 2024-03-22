@@ -328,7 +328,7 @@ const MultipleDaysAnalyticsContainer = () => {
                                         color="info"
                                         icon={<PrecisionManufacturingRoundedIcon />}
                                         title={portionPrecisionTitle}
-                                        count={cardSummaryItems[1]}
+                                        count={cardSummaryItems[1] + "%"}
                                         percentage={{
                                             color: "success",
                                             // amount: "+3%",
@@ -360,7 +360,7 @@ const MultipleDaysAnalyticsContainer = () => {
                                         color="success"
                                         icon={<AccessTimeFilledRoundedIcon />}
                                         title={portionTimeTitle}
-                                        count={cardSummaryItems[3]}
+                                        count={cardSummaryItems[3] + "s"}
                                         percentage={{
                                             color: "success",
                                         }}
