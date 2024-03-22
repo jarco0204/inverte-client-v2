@@ -35,7 +35,7 @@ const createReportLineChartObject = () => {
    @Comments
    @Coders: Fu€g0001
 */
-const LivePortionWeightComponent = ({ clientRestaurantLocationNum, clientRestaurantName, timeZone }) => {
+const LivePortionWeightComponent = ({ clientRestaurantLocationNum, clientRestaurantName, timeZone, unitOfMass }) => {
     // Portion Sequence UseState
     console.log("clientRestaurantName is", clientRestaurantName);
     const [realTimeStampAR, setRealTimeStampAR] = useState([]);
@@ -49,6 +49,7 @@ const LivePortionWeightComponent = ({ clientRestaurantLocationNum, clientRestaur
     useEffect(() => {
         const finalTopicRoute = clientRestaurantName + "/" + clientRestaurantLocationNum + "/weight";
         console.log("finalTopicRouter is", finalTopicRoute);
+        let updatedData = [];
         const subs = PubSub.subscribe(finalTopicRoute).subscribe({
             next: (data) => {
                 data.value.timestamp = dayjs
@@ -57,7 +58,11 @@ const LivePortionWeightComponent = ({ clientRestaurantLocationNum, clientRestaur
                     .format("MM-DD HH:mm");
 
                 setRealTimePortionWeightAR((prevData) => {
-                    const updatedData = [...prevData, data.value.portionWeight].slice(-10);
+                    if (unitOfMass == "g") {
+                        updatedData = [...prevData, data.value.portionWeight].slice(-10);
+                    } else {
+                        updatedData = [...prevData, data.value.portionWeight / 28.35].slice(-10);
+                    }
                     realTimePortionEventChartObject.datasets.data = updatedData;
                     return updatedData;
                 });
