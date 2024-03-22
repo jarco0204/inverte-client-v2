@@ -590,7 +590,7 @@ const DashboardContainer = () => {
                     </MDBox>
                 </>
             )}
-            <LivePortionWeightComponent clientRestaurantLocationNum={clientRestaurantLocationNum} clientRestaurantName={clientRestaurantName} timeZone={timeZone} />
+            <LivePortionWeightComponent clientRestaurantLocationNum={clientRestaurantLocationNum} clientRestaurantName={clientRestaurantName} timeZone={timeZone} unitOfMass={unitOfMass} />
             <Footer />
         </DashboardLayout>
     );
