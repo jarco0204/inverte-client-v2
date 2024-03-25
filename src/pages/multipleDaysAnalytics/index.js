@@ -100,7 +100,6 @@ const MultipleDaysAnalyticsContainer = () => {
     const clientDemo = useSelector((state) => state.meta.demo);
     const timeZone = useSelector((state) => state.meta.timeZone);
     const unitOfMass = useSelector((state) => state.meta.unitOfMass);
-    const iotThingNames = useSelector((state) => state.meta.iotThingNames);
     const displayIngredientIndex = useSelector((state) => state.meta.displayIngredient);
 
     const portionPrecisionTitle = "Precision Levels";
@@ -242,7 +241,6 @@ const MultipleDaysAnalyticsContainer = () => {
                 const finalAPIRoute = path + user.username;
                 let newEndDate = new Date(date[1]);
                 newEndDate.setDate(newEndDate.getDate() + 1);
-                console.log("The day of year for start date is:", newEndDate);
                 await API.get(AMPLIFY_API, finalAPIRoute, {
                     queryStringParameters: {
                         startDate: new Date(date[0]).toISOString().split("T")[0],
@@ -250,7 +248,6 @@ const MultipleDaysAnalyticsContainer = () => {
                         iotName: iotNameThing[selectedIndexRef.current],
                     },
                 }).then((response) => {
-                    console.log("The meta that we pull from analytics: ", response); //Debug statement
                     barChartData = response[4];
                     doughnutData = [response[5], response[6], response[7]];
                     cardData = [response[0], response[1], response[2], response[3]];
@@ -345,7 +342,7 @@ const MultipleDaysAnalyticsContainer = () => {
                                         color="warning"
                                         icon={<ScaleRoundedIcon />}
                                         title={inventoryConsumedTitle}
-                                        count={unitOfMass == "g" ? cardSummaryItems[2] : (parseInt(cardSummaryItems[2]) / 28.35).toFixed(2).toString() + "oz"}
+                                        count={(unitOfMass == "g" ? cardSummaryItems[2] : (parseInt(cardSummaryItems[2]) / 28.35).toFixed(2).toString()) + unitOfMass}
                                         percentage={{
                                             color: "success",
                                         }}
@@ -389,7 +386,6 @@ const MultipleDaysAnalyticsContainer = () => {
 };
 
 MultipleDaysAnalyticsContainer.propTypes = {
-    iotThingNames: PropTypes.object,
     unitOfMass: PropTypes.string,
     displayIngredientIndex: PropTypes.number,
     timeZone: PropTypes.string,

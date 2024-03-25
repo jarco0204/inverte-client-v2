@@ -11,8 +11,13 @@ const BasicDatePicker = ({ titleForPage, date, setDate }) => {
     const [value, setStartDate] = useState(null);
     const [date1, setDate1] = useState(null);
     const disabledDate = (current) => {
-        // Disable dates before December 8th, 2023
-        return current && current < dayjs("2023-11-30");
+        // Disable dates before "2023-11-30"
+        if (current.isBefore("2023-11-30")) {
+            return true;
+        }
+
+        // Disable dates after today (using default getNow)
+        return current.isAfter(new Date());
     };
     return (
         <>
