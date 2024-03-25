@@ -145,7 +145,11 @@ const ZoomableChart = (dataSet) => {
     if (dataSet.dataSet != null) {
         for (let i = 0; i < Object.keys(data).length; i++) {
             xArr.push(parseInt(Object.keys(data)[i]));
-            weightArr.push(Object.values(data)[i].inventoryWeight);
+            if (dataSet.unitOfMass == "g") {
+                weightArr.push(Object.values(data)[i].inventoryWeight);
+            } else {
+                weightArr.push(Object.values(data)[i].inventoryWeight / 28.35).toFixed(2);
+            }
             if (Object.values(data)[i].correctWeight == dataSet.radioButton || dataSet.radioButton == 0) {
                 if (dataSet.unitOfMass == "oz") {
                     cWArr.push((Object.values(data)[i].correctWeight / 28.35).toFixed(2));

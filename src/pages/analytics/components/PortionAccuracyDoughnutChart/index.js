@@ -37,7 +37,7 @@ const PortionAccuracyDoughnutChart = ({ title, description, chart, mobileViewFla
                         {title}
                     </MDTypography>
                     <MDTypography variant="button" color="text" fontWeight="">
-                        The percentage of perfect portions is {perfect}% indicating taht {(perfect / 10).toFixed(1)} out of 10 portions are accurate and complete immediately.
+                        The percentage of perfect portions is {perfect}% indicating that {(perfect / 10).toFixed(1)} out of 10 portions are accurate and complete immediately.
                     </MDTypography>
                 </MDBox>
             </MDBox>

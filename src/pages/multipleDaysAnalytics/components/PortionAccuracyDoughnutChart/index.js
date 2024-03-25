@@ -26,7 +26,7 @@ const PortionAccuracyDoughnutChart = ({ title, description, chart, mobileViewFla
     const genateDoughnutChart = () => {
         let perfect = 0;
         if (data.datasets[0].data) {
-            perfect = data.datasets[0].data[1];
+            perfect = data.datasets[0].data[2];
         }
 
         return (
