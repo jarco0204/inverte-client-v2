@@ -160,6 +160,7 @@ export const onCreateScale = /* GraphQL */ `
     onCreateScale(filter: $filter) {
       scaleName
       restaurant_id
+      restaurantName
       ingredient
       lastConnected
       createdAt
@@ -174,6 +175,7 @@ export const onUpdateScale = /* GraphQL */ `
     onUpdateScale(filter: $filter) {
       scaleName
       restaurant_id
+      restaurantName
       ingredient
       lastConnected
       createdAt
@@ -188,6 +190,7 @@ export const onDeleteScale = /* GraphQL */ `
     onDeleteScale(filter: $filter) {
       scaleName
       restaurant_id
+      restaurantName
       ingredient
       lastConnected
       createdAt
