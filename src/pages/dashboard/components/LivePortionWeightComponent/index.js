@@ -47,7 +47,7 @@ const LivePortionWeightComponent = ({ clientRestaurantLocationNum, clientRestaur
 
     //Use Effects
     useEffect(() => {
-        const finalTopicRoute = clientRestaurantName + "/" + clientRestaurantLocationNum + "/weight";
+        const finalTopicRoute = clientRestaurantName + "/" + clientRestaurantLocationNum + "/realTime";
         console.log("finalTopicRouter is", finalTopicRoute);
         let updatedData = [];
         const subs = PubSub.subscribe(finalTopicRoute).subscribe({
