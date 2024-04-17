@@ -306,8 +306,6 @@ const DashboardContainer = () => {
                         tempDate.year() + "_" + tempDate.dayOfYear().toString() + "_" + iotNameThing[selectedIndexRef.current] + "_" + options[selectedIndexRef.current],
                 }, // Provide the ID as a variable
             });
-            console.log("Daily Meta Response", iotNameThing[selectedIndexRef.current]);
-
             // let demoData = getDemoData();
             // let demo = false;
             // Demo, then display hard-coded data
@@ -324,44 +322,47 @@ const DashboardContainer = () => {
 
             const day = response.data;
             if (day.getDay) {
-                // Set the Upper Summary Card Components
-                let precision = Math.abs(day.getDay.dailySummary.precision.toFixed(0)) + "%";
-                let inventoryWeight = day.getDay.dailySummary.inventoryConsumed + "g";
-                let timeSaved = day.getDay.dailySummary.averageTime.toFixed(1) + "s";
-                setCardSummaryItems([day.getDay.dailySummary.portionsCompleted, precision, inventoryWeight, timeSaved]);
-
-                // Add Percentages
-                let underPercent = Math.round((day.getDay.dailySummary.underServed / day.getDay.dailySummary.portionsCompleted) * 100);
-                let perfectPercent = Math.round((day.getDay.dailySummary.perfect / day.getDay.dailySummary.portionsCompleted) * 100);
-                let overPercent = Math.round((day.getDay.dailySummary.overServed / day.getDay.dailySummary.portionsCompleted) * 100);
-                const totalPercent = underPercent + overPercent + perfectPercent;
-                if (totalPercent != 100) {
-                    if (100 - totalPercent == 1) {
-                        perfectPercent++;
-                    } else if (100 - totalPercent == 2) {
-                        underPercent++;
-                        overPercent++;
-                    } else if (100 - totalPercent == 3) {
-                        underPercent++;
-                        overPercent++;
-                        perfectPercent++;
+                if (day.getDay.dailySummary.portionsCompleted != 0) {
+                    // Set the Upper Summary Card Components
+                    let precision = Math.abs(day.getDay.dailySummary.precision.toFixed(0)) + "%";
+                    let inventoryWeight = day.getDay.dailySummary.inventoryConsumed + "g";
+                    let timeSaved = day.getDay.dailySummary.averageTime.toFixed(1) + "s";
+                    setCardSummaryItems([day.getDay.dailySummary.portionsCompleted, precision, inventoryWeight, timeSaved]);
+                    // Add Percentages
+                    let underPercent = Math.round((day.getDay.dailySummary.underServed / day.getDay.dailySummary.portionsCompleted) * 100);
+                    let perfectPercent = Math.round((day.getDay.dailySummary.perfect / day.getDay.dailySummary.portionsCompleted) * 100);
+                    let overPercent = Math.round((day.getDay.dailySummary.overServed / day.getDay.dailySummary.portionsCompleted) * 100);
+                    const totalPercent = underPercent + overPercent + perfectPercent;
+                    if (totalPercent != 100) {
+                        if (100 - totalPercent == 1) {
+                            perfectPercent++;
+                        } else if (100 - totalPercent == 2) {
+                            underPercent++;
+                            overPercent++;
+                        } else if (100 - totalPercent == 3) {
+                            underPercent++;
+                            overPercent++;
+                            perfectPercent++;
+                        }
                     }
+                    generateLowerRealTimeGraphs(JSON.parse(day.getDay.dashboardGraph), [underPercent, perfectPercent, overPercent]);
+                    setDifferencePrecision(Math.abs(day.getDay.dailySummary.precision) - precisionLastWeek);
+                    if (unitOfMass == "g") {
+                        setDifferenceInventory(day.getDay.dailySummary.inventoryConsumed - inventoryConsumedLastWeek);
+                    } else {
+                        setDifferenceInventory(((day.getDay.dailySummary.inventoryConsumed - inventoryConsumedLastWeek) / 28.35).toFixed(2));
+                    }
+                    setDifferenceCompletionTime(day.getDay.dailySummary.averageTime - completionTimeLastWeek);
                 }
-                generateLowerRealTimeGraphs(JSON.parse(day.getDay.dashboardGraph), [underPercent, perfectPercent, overPercent]);
-                setDifferencePrecision(Math.abs(day.getDay.dailySummary.precision) - precisionLastWeek);
-                if (unitOfMass == "g") {
-                    setDifferenceInventory(day.getDay.dailySummary.inventoryConsumed - inventoryConsumedLastWeek);
-                } else {
-                    setDifferenceInventory(((day.getDay.dailySummary.inventoryConsumed - inventoryConsumedLastWeek) / 28.35).toFixed(2));
-                }
-
-                setDifferenceCompletionTime(day.getDay.dailySummary.averageTime - completionTimeLastWeek);
             } else {
                 // There is no hourly response so add placeholders
                 setCardSummaryItems(["0", "NA", "0", "NA"]);
                 setRealTimePrecisionGraph([]);
                 setRealTimeAccuracyGraph([]);
                 setRealTimeInventoryGraph([]);
+                setDifferenceCompletionTime(0);
+                setDifferenceInventory(0);
+                setDifferencePrecision(0);
                 return;
             }
         } catch (error) {
@@ -400,7 +401,6 @@ const DashboardContainer = () => {
                     validHourCounter++;
                 }
             }
-
             setPortionsCompletedLastWeek(tempPortionCompleted);
             if (tempPrecision != 0) {
                 setPrecisionLastWeek(tempPrecision / validHourCounter);
@@ -412,7 +412,7 @@ const DashboardContainer = () => {
             //console.log("The number of portions completed last week is", portionsCompletedLastWeek);
         };
         getHourlyMetaRecords();
-    }, [hourOfDay]);
+    }, [hourOfDay, displayIngredientIndex]);
 
     /*!
        @description:Use effect that fecthes the data whenever new data is added to PE table

@@ -89,6 +89,7 @@ const DropDownIngredientMenu = ({ options, titleForPage }) => {
                 query: updateRestaurant,
                 variables: { input: inputData },
             });
+            window.location.reload();
         } catch (err) {
             console.log("Error when updating selected ingredient index in dashboard page...", err);
         }
