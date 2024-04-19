@@ -15,7 +15,7 @@ const PortionWeightLineChartConfig = (labels, datasets) => {
                     tension: 0.07,
                     pointRadius: 10,
                     pointBorderColor: "transparent",
-                    pointBackgroundColor: "rgba(1, 1, 164, 0.5)",
+                    pointBackgroundColor: datasets.color,
                     borderColor: "rgba(255, 255, 255, .75)",
                     borderWidth: 4,
                     backgroundColor: "transparent",
