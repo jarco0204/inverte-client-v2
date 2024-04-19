@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import Queue from "./QueueStructure";
 import MDBox from "../../../../components/MDBox";
 import PortionWeightLineChart from "./components/PortionWeightLineChart";
+import { color } from "chart.js/helpers";
 
 /*!
    @description: Helper function ton create an object to store the portion event data.
@@ -24,7 +25,7 @@ import PortionWeightLineChart from "./components/PortionWeightLineChart";
 const createReportLineChartObject = () => {
     return {
         labels: [],
-        datasets: { label: "Portion Weight", data: [], yAxisLabel: "Portion Weight" },
+        datasets: { label: "Portion Weight", data: [], yAxisLabel: "Portion Weight", color: [] },
     };
 };
 
@@ -50,8 +51,10 @@ const LivePortionWeightComponent = ({ clientRestaurantLocationNum, clientRestaur
         const finalTopicRoute = clientRestaurantName + "/" + clientRestaurantLocationNum + "/realTime";
         console.log("finalTopicRouter is", finalTopicRoute);
         let updatedData = [];
+        let colorArray = [];
         const subs = PubSub.subscribe(finalTopicRoute).subscribe({
             next: (data) => {
+                console.log("The data for real chart is:", data);
                 data.value.timestamp = dayjs
                     .unix(data.value.timestamp / 1000)
                     .tz(timeZone)
@@ -59,11 +62,37 @@ const LivePortionWeightComponent = ({ clientRestaurantLocationNum, clientRestaur
 
                 setRealTimePortionWeightAR((prevData) => {
                     if (unitOfMass == "g") {
-                        updatedData = [...prevData, data.value.portionWeight].slice(-10);
+                        if (data.value.portionWeight == undefined) {
+                            updatedData = [...prevData, data.value.correctWeight].slice(-10);
+                            colorArray = [...colorArray, "rgba(255, 0, 250, .75)"].slice(-10);
+                        } else {
+                            if (data.value.portionWeight >= 0 && data.value.portionStatus == 3) {
+                                colorArray = [...colorArray, "rgba(0, 224, 0, 1)"].slice(-10);
+                            } else if (data.value.portionWeight < 0) {
+                                colorArray = [...colorArray, "rgba(255, 223, 0, .75)"].slice(-10);
+                            } else {
+                                colorArray = [...colorArray, "rgba(255, 255, 255, .75)"].slice(-10);
+                            }
+                            updatedData = [...prevData, data.value.portionWeight].slice(-10);
+                        }
                     } else {
-                        updatedData = [...prevData, data.value.portionWeight / 28.35].slice(-10);
+                        if (data.value.portionWeight == undefined) {
+                            updatedData = [...prevData, data.value.correctWeight].slice(-10);
+                            colorArray = [...colorArray, "rgba(255, 0, 250, .75)"].slice(-10);
+                        } else {
+                            if (data.value.portionWeight >= 0 && data.value.portionStatus == 3) {
+                                colorArray = [...colorArray, "rgba(0, 224, 0, 1)"].slice(-10);
+                            } else if (data.value.portionWeight < 0) {
+                                colorArray = [...colorArray, "rgba(255, 223, 0, .75)"].slice(-10);
+                            } else {
+                                colorArray = [...colorArray, "rgba(255, 255, 255, .75)"].slice(-10);
+                            }
+                            updatedData = [...prevData, data.value.portionWeight / 28.35].slice(-10);
+                        }
                     }
                     realTimePortionEventChartObject.datasets.data = updatedData;
+                    realTimePortionEventChartObject.datasets.color = colorArray;
+
                     return updatedData;
                 });
 
