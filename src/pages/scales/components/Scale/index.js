@@ -305,7 +305,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                         setRealTimeStatusLabel("Off");
                     } else if (dataCloud.scaleState === 1) {
                         setRealTimeStatusLabel("Idle");
-                    } else if (dataCloud.scaleState === 2) {
+                    } else if (dataCloud.scaleState === 2 || dataCloud.scaleState === 3) {
                         setRealTimeStatusLabel("On");
                         setRealTimeWeight(dataCloud.inventoryWeight);
                         setScaleAction1("Tare");
@@ -354,7 +354,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                         setRealTimeStatusLabel("Off");
                     } else if (dataCloud.scaleState == 1) {
                         setRealTimeStatusLabel("Idle");
-                    } else if (dataCloud.scaleState === 2) {
+                    } else if (dataCloud.scaleState === 2 || dataCloud.scaleState == 3) {
                         setRealTimeStatusLabel("On");
                         setRealTimeWeight(dataCloud.inventoryWeight);
                         setScaleAction1("Tare");
@@ -485,7 +485,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                         style: { fontSize: "18px" },
                     }}
                     variant="standard"
-                    value={unitOfMass == "g" ? (realTimeWeight == -1 ? 0 : realTimeWeight) : ((realTimeWeight == -1 ? 0 : realTimeWeight) / 28.35).toFixed(2)}
+                    value={unitOfMass == "g" ? (realTimeStatusLabel == "Off" ? 0 : realTimeWeight) : ((realTimeStatusLabel == "Off" ? 0 : realTimeWeight) / 28.35).toFixed(2)}
                     focused={scaleStateReported == 1 ? false : true}
                 />
             </FormControl>
