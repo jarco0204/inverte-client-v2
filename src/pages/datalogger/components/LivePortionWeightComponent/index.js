@@ -48,7 +48,7 @@ const LivePortionWeightComponent = ({ clientRestaurantLocationNum, clientRestaur
 
     //Use Effects
     useEffect(() => {
-        const finalTopicRoute = clientRestaurantName + "/" + clientRestaurantLocationNum + "/realTime";
+        const finalTopicRoute = "Inverte/1/1/dataLogger";
         console.log("finalTopicRouter is", finalTopicRoute);
         let updatedData = [];
         let colorArray = [];
@@ -61,47 +61,9 @@ const LivePortionWeightComponent = ({ clientRestaurantLocationNum, clientRestaur
                     .format("MM-DD HH:mm");
 
                 setRealTimePortionWeightAR((prevData) => {
-                    if (unitOfMass == "g") {
-                        if (data.value.portionWeight == undefined) {
-                            updatedData = [...prevData, data.value.correctWeight].slice(-10);
-                            colorArray = [...colorArray, "rgba(255, 0, 250, .75)"].slice(-10);
-                        } else {
-                            if (data.value.portionWeight > 0 && data.value.portionStatus == 3) {
-                                colorArray = [...colorArray, "rgba(0, 224, 0, 1)"].slice(-10);
-                            } else if (data.value.portionWeight > 0 && data.value.scaleAction == 0) {
-                                colorArray = [...colorArray, "rgba(255, 0, 0, .75)"].slice(-10);
-                            } else if (data.value.portionWeight < 0) {
-                                if (data.value.scaleAction == 11) {
-                                    colorArray = [...colorArray, "rgba(0, 0, 255, .8)"].slice(-10);
-                                } else {
-                                    console.log("Testtttt");
-                                    colorArray = [...colorArray, "rgba(255, 223, 0, .75)"].slice(-10);
-                                }
-                            } else if (data.value.portionWeight == 0) {
-                                colorArray = [...colorArray, "rgba(255, 255, 255, .75)"].slice(-10);
-                            }
-                            updatedData = [...prevData, data.value.portionWeight].slice(-10);
-                        }
-                    } else {
-                        if (data.value.portionWeight == undefined) {
-                            updatedData = [...prevData, data.value.correctWeight].slice(-10);
-                            colorArray = [...colorArray, "rgba(255, 0, 250, .75)"].slice(-10);
-                        } else {
-                            if (data.value.portionWeight >= 0 && data.value.portionStatus == 3) {
-                                colorArray = [...colorArray, "rgba(0, 224, 0, 1)"].slice(-10);
-                            } else if (data.value.portionWeight < 0) {
-                                if (data.value.scaleAction == 11) {
-                                    colorArray = [...colorArray, "rgba(0, 0, 255, .8)"].slice(-10);
-                                } else {
-                                    console.log("Testtttt");
-                                    colorArray = [...colorArray, "rgba(255, 223, 0, .75)"].slice(-10);
-                                }
-                            } else {
-                                colorArray = [...colorArray, "rgba(255, 255, 255, .75)"].slice(-10);
-                            }
-                            updatedData = [...prevData, data.value.portionWeight / 28.35].slice(-10);
-                        }
-                    }
+                    updatedData = [...prevData, data.value.currentWR].slice(-10);
+                    colorArray = [...colorArray, "rgba(255, 0, 250, .75)"].slice(-10);
+
                     realTimePortionEventChartObject.datasets.data = updatedData;
                     realTimePortionEventChartObject.datasets.color = colorArray;
 

@@ -2,6 +2,7 @@
 import DashboardContainer from "./dashboard";
 import ScalesContainer from "./scales";
 import AnalyticsContainer from "./analytics";
+import DataLogger from "./datalogger";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -71,6 +72,18 @@ const RouterContainer = (metaInformation, isMobileDevice) => {
             ),
             route: "/scales",
             component: <ScalesContainer />,
+        },
+        {
+            type: "collapse",
+            name: "DataLogger",
+            key: "DataLogger",
+            icon: (
+                <Icon fontSize="small">
+                    <ScaleIcon />
+                </Icon>
+            ),
+            route: "/dataLogger",
+            component: <DataLogger />,
         },
     ];
 };
