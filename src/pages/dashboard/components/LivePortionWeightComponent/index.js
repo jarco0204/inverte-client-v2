@@ -36,9 +36,8 @@ const createReportLineChartObject = () => {
    @Comments
    @Coders: Fu€g0001
 */
-const LivePortionWeightComponent = ({ clientRestaurantLocationNum, clientRestaurantName, timeZone, unitOfMass }) => {
+const LivePortionWeightComponent = ({ iotNameThing, timeZone, unitOfMass }) => {
     // Portion Sequence UseState
-    console.log("clientRestaurantName is", clientRestaurantName);
     const [realTimeStampAR, setRealTimeStampAR] = useState([]);
     const [realTimePortionWeightAR, setRealTimePortionWeightAR] = useState([]);
 
@@ -46,9 +45,13 @@ const LivePortionWeightComponent = ({ clientRestaurantLocationNum, clientRestaur
     const realTimePortionEventChartObject = createReportLineChartObject();
     const [realTimePortionEventChart, setRealTimePortionEventChart] = useState([]);
 
+    //Separate iotNameThing
+    const iotData = iotNameThing.split("-");
+    console.log("The iotData is", iotData);
+
     //Use Effects
     useEffect(() => {
-        const finalTopicRoute = clientRestaurantName + "/" + clientRestaurantLocationNum + "/realTime";
+        const finalTopicRoute = `${iotData[0]}/${iotData[1]}/${iotData[2]}/realTime`;
         console.log("finalTopicRouter is", finalTopicRoute);
         let updatedData = [];
         let colorArray = [];
@@ -62,8 +65,8 @@ const LivePortionWeightComponent = ({ clientRestaurantLocationNum, clientRestaur
 
                 setRealTimePortionWeightAR((prevData) => {
                     if (unitOfMass == "g") {
-                        if (data.value.portionWeight == undefined) {
-                            updatedData = [...prevData, data.value.correctWeight].slice(-10);
+                        if (data.value.currentWeight == undefined) {
+                            updatedData = [...prevData, data.value.currentWeight].slice(-10);
                             colorArray = [...colorArray, "rgba(255, 0, 250, .75)"].slice(-10);
                         } else {
                             if (data.value.portionWeight >= 0 && data.value.portionStatus == 3) {

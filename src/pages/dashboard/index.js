@@ -296,6 +296,7 @@ const DashboardContainer = () => {
        @Coders: Jungler333
     */
     const getDailyMetaRecords = async () => {
+        console.log("The iot is", iotNameThing[selectedIndexRef.current]);
         try {
             //  Query GQL to pull hourly data by using local time
             let tempDate = dayjs().tz(timeZone);
@@ -590,7 +591,7 @@ const DashboardContainer = () => {
                     </MDBox>
                 </>
             )}
-            <LivePortionWeightComponent clientRestaurantLocationNum={clientRestaurantLocationNum} clientRestaurantName={clientRestaurantName} timeZone={timeZone} unitOfMass={unitOfMass} />
+            <LivePortionWeightComponent iotNameThing={iotNameThing[selectedIndexRef.current]} timeZone={timeZone} unitOfMass={unitOfMass} />
             <Footer />
         </DashboardLayout>
     );
