@@ -157,23 +157,23 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
         if (event == "correctWeight1Field") {
             setCorrectWeightIndex(0); // NOTE Coding Convention, from smallest to biggest if there is no logical ordering
             if (unitOfMass == "g") {
-                updateThingShadowRequestInput.state.desired["correctWeight1"] = parseInt(correctWeight1); // NOTE: MUST Be Careful with Types (Unit Test)
+                updateThingShadowRequestInput.state.desired["correctWeight1"] = correctWeight1; // NOTE: MUST Be Careful with Types (Unit Test)
             } else {
-                updateThingShadowRequestInput.state.desired["correctWeight1"] = Math.round((correctWeight1 * 28.35 * 10) / 10);
+                updateThingShadowRequestInput.state.desired["correctWeight1"] = Math.round((correctWeight1 * 28.35 * 10) / 10).toString();
             }
         } else if (event === "correctWeight2Field") {
             setCorrectWeightIndex(1);
             if (unitOfMass == "g") {
-                updateThingShadowRequestInput.state.desired["correctWeight2"] = parseInt(correctWeight2); // NOTE: MUST Be Careful with Types (Unit Test)
+                updateThingShadowRequestInput.state.desired["correctWeight2"] = correctWeight2; // NOTE: MUST Be Careful with Types (Unit Test)
             } else {
-                updateThingShadowRequestInput.state.desired["correctWeight2"] = Math.round((correctWeight2 * 28.35 * 10) / 10);
+                updateThingShadowRequestInput.state.desired["correctWeight2"] = Math.round((correctWeight2 * 28.35 * 10) / 10).toString();
             }
         } else if (event === "correctWeight3Field") {
             setCorrectWeightIndex(2);
             if (unitOfMass == "g") {
                 updateThingShadowRequestInput.state.desired["correctWeight3"] = correctWeight3; // NOTE: MUST Be Careful with Types (Unit Test)
             } else {
-                updateThingShadowRequestInput.state.desired["correctWeight3"] = Math.round((correctWeight3 * 28.35 * 10) / 10);
+                updateThingShadowRequestInput.state.desired["correctWeight3"] = Math.round((correctWeight3 * 28.35 * 10) / 10).toString();
             }
         }
 
@@ -372,20 +372,11 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
         });
 
         //Listen for Updates in Timeseries shadow
-        const subscriptionTimeSeriesShadowInventoryWeight = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing.scaleName + "/shadow/name/timeseries/update/accepted").subscribe({
+        const subscriptionTimeSeriesShadowInventoryWeight = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing.scaleName + "/shadow/name/time-series/update/accepted").subscribe({
             next: (dataCloud) => {
                 dataCloud = dataCloud.value.state.reported;
                 if (dataCloud != undefined) {
                     setRealTimeWeight(dataCloud.inventoryWeight);
-                    if (dataCloud.scaleState === 0) {
-                        setRealTimeStatusLabel("Off");
-                    } else if (dataCloud.scaleState == 1) {
-                        setRealTimeStatusLabel("Idle");
-                    } else if (dataCloud.scaleState === 2 || dataCloud.scaleState == 3) {
-                        setRealTimeStatusLabel("On");
-                        setRealTimeWeight(dataCloud.inventoryWeight);
-                        setScaleAction1("Tare");
-                    }
                 } else {
                     console.log("Scale is off");
                 }
