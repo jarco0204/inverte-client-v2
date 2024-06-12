@@ -333,23 +333,23 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                     setCorrectWeightIndex(dataCloud.reported.indexCorrectWeightSelected);
                     setNameIngredient(dataCloud.reported.ingredientName);
                     if (unitOfMass === "g") {
-                        setCorrectWeight1(dataCloud.correctWeight1);
-                        setCorrectWeight2(dataCloud.correctWeight2);
-                        setCorrectWeight3(dataCloud.correctWeight3);
+                        setCorrectWeight1(dataCloud.reported.correctWeight1);
+                        setCorrectWeight2(dataCloud.reported.correctWeight2);
+                        setCorrectWeight3(dataCloud.reported.correctWeight3);
                         setMinOffset(dataCloud.reported.lowerErrorLimit);
                         setMaxOffset(dataCloud.reported.upperErrorLimit);
-                    } else if (unitOfMass === "ounces") {
+                    } else if (unitOfMass === "oz") {
                         console.log("The unit of mass is:", unitOfMass);
-                        setCorrectWeight1(Math.round((dataCloud.correctWeight1 / 28.35) * 10) / 10);
-                        setCorrectWeight2(Math.round((dataCloud.correctWeight2 / 28.35) * 10) / 10);
-                        setCorrectWeight3(Math.round((dataCloud.correctWeight3 / 28.35) * 10) / 10);
+                        setCorrectWeight1(Math.round((dataCloud.reported.correctWeight1 / 28.35) * 10) / 10);
+                        setCorrectWeight2(Math.round((dataCloud.reported.correctWeight2 / 28.35) * 10) / 10);
+                        setCorrectWeight3(Math.round((dataCloud.reported.correctWeight3 / 28.35) * 10) / 10);
                         setMinOffset(Math.round((dataCloud.reported.lowerErrorLimit / 28.35) * 10) / 10);
                         setMaxOffset(Math.round((dataCloud.reported.upperErrorLimit / 28.35) * 10) / 10);
                     }
                 } else {
                     console.log("Scale is offfffffff");
                 }
-                console.log("Successfully handled your GET Time-Series Shadow...");
+                console.log("Successfully handled your GET Portion-Control Shadow...");
                 // subscriptionTimeSeriesShadow.unsubscribe(); //Unsubcribe to topic after fething and updating parameters
             },
             error: (error) => console.error("Error in GET/Accepted web socket of Timeseries...", error),
@@ -375,13 +375,15 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
         const subscriptionTimeSeriesShadowInventoryWeight = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing.scaleName + "/shadow/name/time-series/update/accepted").subscribe({
             next: (dataCloud) => {
                 dataCloud = dataCloud.value.state.reported;
-                if (dataCloud != undefined) {
-                    setRealTimeWeight(dataCloud.inventoryWeight);
+                console.log("The datacloud issssssssssssssssss", dataCloud);
+                if (dataCloud.inventoryWeight != undefined) {
+                    console.log("The inventory weight is", dataCloud.inventoryWeight);
+                    setRealTimeWeight(Math.abs(dataCloud.inventoryWeight));
                 } else {
                     console.log("Scale is off");
                 }
 
-                console.log("Successfully handled your UPDATE Time Series Shadow...");
+                console.log("Successfully handled your UPDATE Time-Series Shadow...");
             },
             error: (error) => console.error("Error in GET/Accepted web socket of Timeseries...", error),
             complete: () => console.log("Web Socket Done"),
@@ -526,7 +528,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                 <Divider />
                 <MDBox textAlign="center" style={{ margin: "10px 0" }}>
                     <MDTypography fontWeight="medium" color="dark" fontSize="15px">
-                        Accuracy Settings: ({unitOfMass == "g" ? "Grams" : "Ounces"})
+                        Accuracy Settings: ({unitOfMass == "g" ? "Grams" : "oz"})
                     </MDTypography>
                 </MDBox>
                 <MDBox textAlign="center" lineHeight={1.3}>
