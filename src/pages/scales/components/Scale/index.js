@@ -119,8 +119,8 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
 
         // Determine which property of shadow to update
         if (event.target.name === "ingredientNameField") {
-            updateThingShadowRequestInput.state.desired["nameIngredient"] = nameIngredient;
-            updateIngredientName(mainScaleData.iotNameThing.scaleName, nameIngredient); // Update the ingredient name in the database
+            //updateThingShadowRequestInput.state.desired["nameIngredient"] = nameIngredient;
+            // Update the ingredient name in the database
         } else if (event.target.name === "minOffsetField") {
             if (unitOfMass == "g") {
                 updateThingShadowRequestInput.state.desired["lowerErrorLimit"] = minOffset;
@@ -175,6 +175,9 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
             } else {
                 updateThingShadowRequestInput.state.desired["correctWeight3"] = Math.round((correctWeight3 * 28.35 * 10) / 10).toString();
             }
+        } else if (event.target.name === "ingredientNameField") {
+            updateIngredientName(mainScaleData.iotNameThing.scaleName, nameIngredient);
+            updateThingShadowRequestInput.state.desired["ingredientName"] = nameIngredient;
         }
 
         // Update Shadow
@@ -490,7 +493,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                             "aria-label": "weight",
                         }}
                         onChange={(e) => setNameIngredient(e.target.value)}
-                        onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updateClassicShadow(e))}
+                        onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updatePortionControlShadow(e))}
                     />
                 </FormControl>
             </MDBox>
