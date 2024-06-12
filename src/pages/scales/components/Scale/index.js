@@ -117,24 +117,6 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
         const updateThingShadowRequestInput = { state: { desired: {} } };
         let shadowTopic = "$aws/things/" + mainScaleData.iotNameThing.scaleName + "/shadow/update";
 
-        // Determine which property of shadow to update
-        if (event.target.name === "ingredientNameField") {
-            //updateThingShadowRequestInput.state.desired["nameIngredient"] = nameIngredient;
-            // Update the ingredient name in the database
-        } else if (event.target.name === "minOffsetField") {
-            if (unitOfMass == "g") {
-                updateThingShadowRequestInput.state.desired["lowerErrorLimit"] = minOffset;
-            } else {
-                updateThingShadowRequestInput.state.desired["lowerErrorLimit"] = Math.round((minOffset * 28.35 * 10) / 10).toString();
-            }
-        } else if (event.target.name === "maxOffsetField") {
-            if (unitOfMass == "g") {
-                updateThingShadowRequestInput.state.desired["upperErrorLimit"] = maxOffset;
-            } else {
-                updateThingShadowRequestInput.state.desired["upperErrorLimit"] = Math.round((maxOffset * 28.35 * 10) / 10).toString();
-            }
-        }
-
         // Update Shadow
         console.log("your topic is...", shadowTopic);
         PubSub.publish(shadowTopic, updateThingShadowRequestInput);
@@ -178,6 +160,18 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
         } else if (event.target.name === "ingredientNameField") {
             updateIngredientName(mainScaleData.iotNameThing.scaleName, nameIngredient);
             updateThingShadowRequestInput.state.desired["ingredientName"] = nameIngredient;
+        } else if (event.target.name === "minOffsetField") {
+            if (unitOfMass == "g") {
+                updateThingShadowRequestInput.state.desired["lowerErrorLimit"] = minOffset;
+            } else {
+                updateThingShadowRequestInput.state.desired["lowerErrorLimit"] = Math.round((minOffset * 28.35 * 10) / 10).toString();
+            }
+        } else if (event.target.name === "maxOffsetField") {
+            if (unitOfMass == "g") {
+                updateThingShadowRequestInput.state.desired["upperErrorLimit"] = maxOffset;
+            } else {
+                updateThingShadowRequestInput.state.desired["upperErrorLimit"] = Math.round((maxOffset * 28.35 * 10) / 10).toString();
+            }
         }
 
         // Update Shadow
@@ -666,7 +660,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                             }}
                             //onKeyDown={!isMobileDevice ? handleKeyDown : null} // Prevent keyboard Inputs
                             onChange={(e) => (unitOfMass == "g" ? setMinOffset(e.target.value == 1 ? 2 : e.target.value) : setMinOffset(e.target.value))}
-                            onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updateClassicShadow(e))}
+                            onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updatePortionControlShadow(e))}
                         />
                     </FormControl>
                     <FormControl id={"max-limit"} sx={{ m: 1, width: 100 }} variant="outlined">
@@ -693,7 +687,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                             }}
                             //onKeyDown={!isMobileDevice ? handleKeyDown : null} // Prevent keyboard Inputs
                             onChange={(e) => (unitOfMass == "g" ? setMaxOffset(e.target.value == 1 ? 2 : e.target.value) : setMaxOffset(e.target.value))}
-                            onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updateClassicShadow(e))}
+                            onBlur={(e) => (e.target.value == "" ? console.log("Invalid") : updatePortionControlShadow(e))}
                         />
                     </FormControl>
                 </MDBox>
