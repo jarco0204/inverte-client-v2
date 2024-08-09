@@ -283,36 +283,22 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
             error: (error) => console.error("Error in Classic Shadow GET Request...", error),
             complete: () => console.log("Web Socket Done"),
         });
-        const subscriptionTimeSeriesShadow = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing.scaleName + "/shadow/name/timeseries/get/accepted").subscribe({
-            next: (dataCloud) => {
-                dataCloud = dataCloud.value.state.reported;
-                console.log("The timeseries shadow is", dataCloud);
-                if (dataCloud != undefined) {
-                    setScaleState(dataCloud.scaleState);
-                    if (dataCloud.scaleState === 0) {
-                        setRealTimeStatusLabel("Off");
-                    } else if (dataCloud.scaleState === 1) {
-                        setRealTimeStatusLabel("Idle");
-                    } else if (dataCloud.scaleState === 2 || dataCloud.scaleState === 3) {
-                        setRealTimeStatusLabel("On");
-                        //setRealTimeWeight(dataCloud.inventoryWeight);
-                        setScaleAction1("Tare");
-                    }
-                } else {
-                    console.log("Scale is off");
-                }
-                console.log("Successfully handled your GET Time Series Shadow...");
-                // subscriptionTimeSeriesShadow.unsubscribe(); //Unsubcribe to topic after fething and updating parameters
-            },
-            error: (error) => console.error("Error in GET/Accepted web socket of Timeseries...", error),
-            complete: () => console.log("Web Socket Done"),
-        });
         const subscriptionTime_SeriesShadow = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing.scaleName + "/shadow/name/time-series/get/accepted").subscribe({
             next: (dataCloud) => {
                 dataCloud = dataCloud.value.state.reported;
                 console.log("The time-series shadow is", dataCloud);
                 if (dataCloud != undefined) {
                     setRealTimeWeight(Math.abs(dataCloud.inventoryWeight));
+                    setScaleState(dataCloud.scaleState);
+                    if (dataCloud.scaleState === 0) {
+                        setRealTimeStatusLabel("Idle");
+                    } else if (dataCloud.scaleState === 1) {
+                        setRealTimeStatusLabel("On");
+                        setScaleAction1("Tare");
+                    } else {
+                        setRealTimeStatusLabel("Off");
+                        //setRealTimeWeight(dataCloud.inventoryWeight);
+                    }
                 } else {
                     console.log("Scale is offfffffff");
                 }
@@ -372,7 +358,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
         const subscriptionTimeSeriesShadowInventoryWeight = PubSub.subscribe("$aws/things/" + mainScaleData.iotNameThing.scaleName + "/shadow/name/time-series/update/accepted").subscribe({
             next: (dataCloud) => {
                 dataCloud = dataCloud.value.state.reported;
-                console.log("The datacloud issssssssssssssssss", dataCloud);
+                console.log("The datacloud is", dataCloud);
                 if (dataCloud.inventoryWeight != undefined) {
                     console.log("The inventory weight is", dataCloud.inventoryWeight);
                     setRealTimeWeight(Math.abs(dataCloud.inventoryWeight));
@@ -395,7 +381,6 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
             setTimeout(async () => {
                 try {
                     await PubSub.publish("$aws/things/" + mainScaleData.iotNameThing.scaleName + "/shadow/get", {});
-                    await PubSub.publish("$aws/things/" + mainScaleData.iotNameThing.scaleName + "/shadow/name/timeseries/get", {});
                     await PubSub.publish("$aws/things/" + mainScaleData.iotNameThing.scaleName + "/shadow/name/time-series/get", {});
                     await PubSub.publish("$aws/things/" + mainScaleData.iotNameThing.scaleName + "/shadow/name/portion-control/get", {});
                     console.log("Successfully queried your shadows...");
