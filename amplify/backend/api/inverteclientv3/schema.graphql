@@ -22,6 +22,7 @@ type Scale @model @auth(rules: [{ allow: public, operations: [read, update] }]) 
     restaurantName: String
     ingredient: String
     lastConnected: String
+    inventoryWeight: Int
 }
 type Day @model @auth(rules: [{ allow: public, operations: [read, create, update] }]) {
     year_dayOfYear_iotNameThing_ingredientName: ID! @primaryKey
@@ -29,6 +30,9 @@ type Day @model @auth(rules: [{ allow: public, operations: [read, create, update
     monthOfYear_iotNameThing_ingredientName: ID! @index(name: "byMonth")
     year_iotNameThing_ingredientName: String!
     dailySummary: DailySummary
+    portionSize1: DailySummary
+    portionSize2: DailySummary
+    portionSize3: DailySummary
     dashboardGraph: AWSJSON
     scaleActions: AWSJSON
     allPortionEvents: AWSJSON
@@ -39,6 +43,9 @@ type Hour @model @auth(rules: [{ allow: public, operations: [read, create, updat
     year_dayOfYear_hourOfDay_iotNameThing_ingredientName: ID! @primaryKey
     year_dayOfYear_iotNameThing_ingredientName: ID! @index(name: "byDay")
     hourlySummary: HourlySummary
+    portionSize1: HourlySummary
+    portionSize2: HourlySummary
+    portionSize3: HourlySummary
     realTime: AWSJSON!
     scaleActions: AWSJSON
     createdAt: String!
@@ -46,6 +53,9 @@ type Hour @model @auth(rules: [{ allow: public, operations: [read, create, updat
 
 type Subscription {
     onNewPortionEvent: Day @aws_subscribe(mutations: ["updateDay"])
+}
+type scaleSubscription {
+    updateInventoryWeight: Scale @aws_subscribe(mutations: ["updateScale"])
 }
 
 input HourlySummaryInput {

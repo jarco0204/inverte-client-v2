@@ -29,6 +29,7 @@ export default function ScaleUpdateForm(props) {
     restaurantName: "",
     ingredient: "",
     lastConnected: "",
+    inventoryWeight: "",
   };
   const [scaleName, setScaleName] = React.useState(initialValues.scaleName);
   const [restaurant_id, setRestaurant_id] = React.useState(
@@ -41,6 +42,9 @@ export default function ScaleUpdateForm(props) {
   const [lastConnected, setLastConnected] = React.useState(
     initialValues.lastConnected
   );
+  const [inventoryWeight, setInventoryWeight] = React.useState(
+    initialValues.inventoryWeight
+  );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = scaleRecord
@@ -51,6 +55,7 @@ export default function ScaleUpdateForm(props) {
     setRestaurantName(cleanValues.restaurantName);
     setIngredient(cleanValues.ingredient);
     setLastConnected(cleanValues.lastConnected);
+    setInventoryWeight(cleanValues.inventoryWeight);
     setErrors({});
   };
   const [scaleRecord, setScaleRecord] = React.useState(scaleModelProp);
@@ -75,6 +80,7 @@ export default function ScaleUpdateForm(props) {
     restaurantName: [],
     ingredient: [],
     lastConnected: [],
+    inventoryWeight: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -107,6 +113,7 @@ export default function ScaleUpdateForm(props) {
           restaurantName: restaurantName ?? null,
           ingredient: ingredient ?? null,
           lastConnected: lastConnected ?? null,
+          inventoryWeight: inventoryWeight ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -172,6 +179,7 @@ export default function ScaleUpdateForm(props) {
               restaurantName,
               ingredient,
               lastConnected,
+              inventoryWeight,
             };
             const result = onChange(modelFields);
             value = result?.scaleName ?? value;
@@ -200,6 +208,7 @@ export default function ScaleUpdateForm(props) {
               restaurantName,
               ingredient,
               lastConnected,
+              inventoryWeight,
             };
             const result = onChange(modelFields);
             value = result?.restaurant_id ?? value;
@@ -228,6 +237,7 @@ export default function ScaleUpdateForm(props) {
               restaurantName: value,
               ingredient,
               lastConnected,
+              inventoryWeight,
             };
             const result = onChange(modelFields);
             value = result?.restaurantName ?? value;
@@ -256,6 +266,7 @@ export default function ScaleUpdateForm(props) {
               restaurantName,
               ingredient: value,
               lastConnected,
+              inventoryWeight,
             };
             const result = onChange(modelFields);
             value = result?.ingredient ?? value;
@@ -284,6 +295,7 @@ export default function ScaleUpdateForm(props) {
               restaurantName,
               ingredient,
               lastConnected: value,
+              inventoryWeight,
             };
             const result = onChange(modelFields);
             value = result?.lastConnected ?? value;
@@ -297,6 +309,39 @@ export default function ScaleUpdateForm(props) {
         errorMessage={errors.lastConnected?.errorMessage}
         hasError={errors.lastConnected?.hasError}
         {...getOverrideProps(overrides, "lastConnected")}
+      ></TextField>
+      <TextField
+        label="Inventory weight"
+        isRequired={false}
+        isReadOnly={false}
+        type="number"
+        step="any"
+        value={inventoryWeight}
+        onChange={(e) => {
+          let value = isNaN(parseInt(e.target.value))
+            ? e.target.value
+            : parseInt(e.target.value);
+          if (onChange) {
+            const modelFields = {
+              scaleName,
+              restaurant_id,
+              restaurantName,
+              ingredient,
+              lastConnected,
+              inventoryWeight: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.inventoryWeight ?? value;
+          }
+          if (errors.inventoryWeight?.hasError) {
+            runValidationTasks("inventoryWeight", value);
+          }
+          setInventoryWeight(value);
+        }}
+        onBlur={() => runValidationTasks("inventoryWeight", inventoryWeight)}
+        errorMessage={errors.inventoryWeight?.errorMessage}
+        hasError={errors.inventoryWeight?.hasError}
+        {...getOverrideProps(overrides, "inventoryWeight")}
       ></TextField>
       <Flex
         justifyContent="space-between"

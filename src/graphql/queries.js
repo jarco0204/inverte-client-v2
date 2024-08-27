@@ -92,6 +92,7 @@ export const getScale = /* GraphQL */ `
             ingredient
             restaurantName
             lastConnected
+            inventoryWeight
             createdAt
             updatedAt
             restaurantScaleRestaurant_id
@@ -126,6 +127,39 @@ export const getDay = /* GraphQL */ `
             monthOfYear_iotNameThing_ingredientName
             year_iotNameThing_ingredientName
             dailySummary {
+                averageTime
+                portionsCompleted
+                accuracy
+                inventoryConsumed
+                overServed
+                underServed
+                perfect
+                precision
+                __typename
+            }
+            portionSize1 {
+                averageTime
+                portionsCompleted
+                accuracy
+                inventoryConsumed
+                overServed
+                underServed
+                perfect
+                precision
+                __typename
+            }
+            portionSize2 {
+                averageTime
+                portionsCompleted
+                accuracy
+                inventoryConsumed
+                overServed
+                underServed
+                perfect
+                precision
+                __typename
+            }
+            portionSize3 {
                 averageTime
                 portionsCompleted
                 accuracy
@@ -189,6 +223,39 @@ export const getHour = /* GraphQL */ `
             year_dayOfYear_hourOfDay_iotNameThing_ingredientName
             year_dayOfYear_iotNameThing_ingredientName
             hourlySummary {
+                averageTime
+                portionsCompleted
+                accuracy
+                inventoryConsumed
+                overServed
+                underServed
+                perfect
+                precision
+                __typename
+            }
+            portionSize1 {
+                averageTime
+                portionsCompleted
+                accuracy
+                inventoryConsumed
+                overServed
+                underServed
+                perfect
+                precision
+                __typename
+            }
+            portionSize2 {
+                averageTime
+                portionsCompleted
+                accuracy
+                inventoryConsumed
+                overServed
+                underServed
+                perfect
+                precision
+                __typename
+            }
+            portionSize3 {
                 averageTime
                 portionsCompleted
                 accuracy

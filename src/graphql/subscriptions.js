@@ -19,6 +19,39 @@ export const onNewPortionEvent = /* GraphQL */ `
         precision
         __typename
       }
+      portionSize1 {
+        averageTime
+        portionsCompleted
+        accuracy
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
+        precision
+        __typename
+      }
+      portionSize2 {
+        averageTime
+        portionsCompleted
+        accuracy
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
+        precision
+        __typename
+      }
+      portionSize3 {
+        averageTime
+        portionsCompleted
+        accuracy
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
+        precision
+        __typename
+      }
       dashboardGraph
       scaleActions
       allPortionEvents
@@ -163,6 +196,7 @@ export const onCreateScale = /* GraphQL */ `
       restaurantName
       ingredient
       lastConnected
+      inventoryWeight
       createdAt
       updatedAt
       restaurantScaleRestaurant_id
@@ -178,6 +212,7 @@ export const onUpdateScale = /* GraphQL */ `
       restaurantName
       ingredient
       lastConnected
+      inventoryWeight
       createdAt
       updatedAt
       restaurantScaleRestaurant_id
@@ -193,6 +228,7 @@ export const onDeleteScale = /* GraphQL */ `
       restaurantName
       ingredient
       lastConnected
+      inventoryWeight
       createdAt
       updatedAt
       restaurantScaleRestaurant_id
@@ -208,6 +244,39 @@ export const onCreateDay = /* GraphQL */ `
       monthOfYear_iotNameThing_ingredientName
       year_iotNameThing_ingredientName
       dailySummary {
+        averageTime
+        portionsCompleted
+        accuracy
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
+        precision
+        __typename
+      }
+      portionSize1 {
+        averageTime
+        portionsCompleted
+        accuracy
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
+        precision
+        __typename
+      }
+      portionSize2 {
+        averageTime
+        portionsCompleted
+        accuracy
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
+        precision
+        __typename
+      }
+      portionSize3 {
         averageTime
         portionsCompleted
         accuracy
@@ -249,6 +318,39 @@ export const onUpdateDay = /* GraphQL */ `
         precision
         __typename
       }
+      portionSize1 {
+        averageTime
+        portionsCompleted
+        accuracy
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
+        precision
+        __typename
+      }
+      portionSize2 {
+        averageTime
+        portionsCompleted
+        accuracy
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
+        precision
+        __typename
+      }
+      portionSize3 {
+        averageTime
+        portionsCompleted
+        accuracy
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
+        precision
+        __typename
+      }
       dashboardGraph
       scaleActions
       allPortionEvents
@@ -270,6 +372,39 @@ export const onDeleteDay = /* GraphQL */ `
       monthOfYear_iotNameThing_ingredientName
       year_iotNameThing_ingredientName
       dailySummary {
+        averageTime
+        portionsCompleted
+        accuracy
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
+        precision
+        __typename
+      }
+      portionSize1 {
+        averageTime
+        portionsCompleted
+        accuracy
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
+        precision
+        __typename
+      }
+      portionSize2 {
+        averageTime
+        portionsCompleted
+        accuracy
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
+        precision
+        __typename
+      }
+      portionSize3 {
         averageTime
         portionsCompleted
         accuracy
@@ -309,6 +444,39 @@ export const onCreateHour = /* GraphQL */ `
         precision
         __typename
       }
+      portionSize1 {
+        averageTime
+        portionsCompleted
+        accuracy
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
+        precision
+        __typename
+      }
+      portionSize2 {
+        averageTime
+        portionsCompleted
+        accuracy
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
+        precision
+        __typename
+      }
+      portionSize3 {
+        averageTime
+        portionsCompleted
+        accuracy
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
+        precision
+        __typename
+      }
       realTime
       scaleActions
       createdAt
@@ -334,6 +502,39 @@ export const onUpdateHour = /* GraphQL */ `
         precision
         __typename
       }
+      portionSize1 {
+        averageTime
+        portionsCompleted
+        accuracy
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
+        precision
+        __typename
+      }
+      portionSize2 {
+        averageTime
+        portionsCompleted
+        accuracy
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
+        precision
+        __typename
+      }
+      portionSize3 {
+        averageTime
+        portionsCompleted
+        accuracy
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
+        precision
+        __typename
+      }
       realTime
       scaleActions
       createdAt
@@ -349,6 +550,39 @@ export const onDeleteHour = /* GraphQL */ `
       year_dayOfYear_hourOfDay_iotNameThing_ingredientName
       year_dayOfYear_iotNameThing_ingredientName
       hourlySummary {
+        averageTime
+        portionsCompleted
+        accuracy
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
+        precision
+        __typename
+      }
+      portionSize1 {
+        averageTime
+        portionsCompleted
+        accuracy
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
+        precision
+        __typename
+      }
+      portionSize2 {
+        averageTime
+        portionsCompleted
+        accuracy
+        inventoryConsumed
+        overServed
+        underServed
+        perfect
+        precision
+        __typename
+      }
+      portionSize3 {
         averageTime
         portionsCompleted
         accuracy

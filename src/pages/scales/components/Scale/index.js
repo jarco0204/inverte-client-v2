@@ -300,7 +300,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                         //setRealTimeWeight(dataCloud.inventoryWeight);
                     }
                 } else {
-                    console.log("Scale is offfffffff");
+                    console.log("Scale is of");
                 }
                 console.log("Successfully handled your GET Time-Series Shadow...");
                 // subscriptionTimeSeriesShadow.unsubscribe(); //Unsubcribe to topic after fething and updating parameters
@@ -363,7 +363,7 @@ const Scale = ({ mainScaleData, isMobileDevice }) => {
                     console.log("The inventory weight is", dataCloud.inventoryWeight);
                     setRealTimeWeight(Math.abs(dataCloud.inventoryWeight));
                 } else {
-                    console.log("Scale is off");
+                    console.log("Batch ID updated");
                 }
 
                 console.log("Successfully handled your UPDATE Time-Series Shadow...");

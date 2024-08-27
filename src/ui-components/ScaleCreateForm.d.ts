@@ -27,6 +27,7 @@ export declare type ScaleCreateFormInputValues = {
     restaurantName?: string;
     ingredient?: string;
     lastConnected?: string;
+    inventoryWeight?: number;
 };
 export declare type ScaleCreateFormValidationValues = {
     scaleName?: ValidationFunction<string>;
@@ -34,6 +35,7 @@ export declare type ScaleCreateFormValidationValues = {
     restaurantName?: ValidationFunction<string>;
     ingredient?: ValidationFunction<string>;
     lastConnected?: ValidationFunction<string>;
+    inventoryWeight?: ValidationFunction<number>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type ScaleCreateFormOverridesProps = {
@@ -43,6 +45,7 @@ export declare type ScaleCreateFormOverridesProps = {
     restaurantName?: PrimitiveOverrideProps<TextFieldProps>;
     ingredient?: PrimitiveOverrideProps<TextFieldProps>;
     lastConnected?: PrimitiveOverrideProps<TextFieldProps>;
+    inventoryWeight?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type ScaleCreateFormProps = React.PropsWithChildren<{
     overrides?: ScaleCreateFormOverridesProps | undefined | null;
