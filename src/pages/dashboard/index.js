@@ -146,7 +146,7 @@ const DashboardContainer = () => {
     const hourOfDay = tempDate.hour();
 
     const [isMobileDevice, setIsMobileDevice] = useState(false);
-    const [cardSummaryItems, setCardSummaryItems] = useState([]);
+    const [cardSummaryItems, setCardSummaryItems] = useState(["0", "NA", "0", "NA", [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]);
     const [realTimePrecisionGraph, setRealTimePrecisionGraph] = useState([]);
     const [realTimeAccuracyGraph, setRealTimeAccuracyGraph] = useState([]);
     const [realTimeInventoryGraph, setRealTimeInventoryGraph] = useState([]);
@@ -328,7 +328,28 @@ const DashboardContainer = () => {
                     let precision = Math.abs(day.getDay.dailySummary.precision.toFixed(0)) + "%";
                     let inventoryWeight = day.getDay.dailySummary.inventoryConsumed + "g";
                     let timeSaved = day.getDay.dailySummary.averageTime.toFixed(1) + "s";
-                    setCardSummaryItems([day.getDay.dailySummary.portionsCompleted, precision, inventoryWeight, timeSaved]);
+                    let precisionP1 = Math.abs(day.getDay.portionSize1.precision.toFixed(0)) + "%";
+                    let inventoryConsumedP1 = day.getDay.portionSize1.inventoryConsumed + "g";
+                    let portionsCompletedP1 = day.getDay.portionSize1.portionsCompleted;
+                    let timeSavedP1 = day.getDay.portionSize1.averageTime.toFixed(1) + "s";
+                    let precisionP2 = Math.abs(day.getDay.portionSize2.precision.toFixed(0)) + "%";
+                    let inventoryConsumedP2 = day.getDay.portionSize2.inventoryConsumed + "g";
+                    let portionsCompletedP2 = day.getDay.portionSize2.portionsCompleted;
+                    let timeSavedP2 = day.getDay.portionSize2.averageTime.toFixed(1) + "s";
+                    let precisionP3 = Math.abs(day.getDay.portionSize3.precision.toFixed(0)) + "%";
+                    let inventoryConsumedP3 = day.getDay.portionSize3.inventoryConsumed + "g";
+                    let portionsCompletedP3 = day.getDay.portionSize3.portionsCompleted;
+                    let timeSavedP3 = day.getDay.portionSize3.averageTime.toFixed(1) + "s";
+                    setCardSummaryItems([
+                        day.getDay.dailySummary.portionsCompleted,
+                        precision,
+                        inventoryWeight,
+                        timeSaved,
+                        [portionsCompletedP1, portionsCompletedP2, portionsCompletedP3],
+                        [precisionP1, precisionP2, precisionP3],
+                        [inventoryConsumedP1, inventoryConsumedP2, inventoryConsumedP3],
+                        [timeSavedP1, timeSavedP2, timeSavedP3],
+                    ]);
                     // Add Percentages
                     let underPercent = Math.round((day.getDay.dailySummary.underServed / day.getDay.dailySummary.portionsCompleted) * 100);
                     let perfectPercent = Math.round((day.getDay.dailySummary.perfect / day.getDay.dailySummary.portionsCompleted) * 100);
@@ -357,7 +378,6 @@ const DashboardContainer = () => {
                 }
             } else {
                 // There is no hourly response so add placeholders
-                setCardSummaryItems(["0", "NA", "0", "NA"]);
                 setRealTimePrecisionGraph([]);
                 setRealTimeAccuracyGraph([]);
                 setRealTimeInventoryGraph([]);
@@ -510,7 +530,20 @@ const DashboardContainer = () => {
                         <Grid container spacing={1} display="flex" justifyContent="center">
                             <Tooltip title="Portions Completed for Today" placement="bottom">
                                 <Grid item xs={12} md={6} lg={3}>
-                                    <ComplexStatisticsCard color="dark" title={dashboardTitles.portionsComplete} icon={<PanToolIcon />} count={cardSummaryItems[0]} />
+                                    <ComplexStatisticsCard
+                                        color="dark"
+                                        title={dashboardTitles.portionsComplete}
+                                        icon={<PanToolIcon />}
+                                        count={cardSummaryItems[0]}
+                                        percentage={{
+                                            color: "success",
+                                            portionSize1: cardSummaryItems[4][0],
+                                            portionSize2: cardSummaryItems[4][1],
+                                            portionSize3: cardSummaryItems[4][2],
+                                            food1: "Add-on: ",
+                                            food2: "Nachos:",
+                                        }}
+                                    />
                                 </Grid>
                             </Tooltip>
                         </Grid>
@@ -526,9 +559,12 @@ const DashboardContainer = () => {
                                             title={dashboardTitles.portionsPrecision}
                                             count={cardSummaryItems[1]}
                                             percentage={{
-                                                color: differencePrecision >= 0 ? "success" : "error",
-                                                amount: differencePrecision >= 0 ? "+" + differencePrecision.toFixed(0) + "%" : differencePrecision.toFixed(0) + "%",
-                                                label: "than last week at this time",
+                                                color: "success",
+                                                portionSize1: cardSummaryItems[5][0],
+                                                portionSize2: cardSummaryItems[5][1],
+                                                portionSize3: cardSummaryItems[5][2],
+                                                food1: "Add-on: ",
+                                                food2: "Nachos:",
                                             }}
                                         />
                                     </MDBox>
@@ -543,9 +579,12 @@ const DashboardContainer = () => {
                                             title={dashboardTitles.inventoryConsumed}
                                             count={unitOfMass == "g" ? cardSummaryItems[2] : parseFloat(convertGsToOz(cardSummaryItems[2])) + "oz"}
                                             percentage={{
-                                                color: differenceInventory >= 0 ? "success" : "error",
-                                                amount: differenceInventory >= 0 ? "+" + differenceInventory : differenceInventory,
-                                                label: unitOfMass == "g" ? "g than last week at this time" : "oz than last week at this time",
+                                                color: "success",
+                                                portionSize1: unitOfMass == "g" ? cardSummaryItems[6][0] : parseFloat(convertGsToOz(cardSummaryItems[6][0])) + "oz",
+                                                portionSize2: unitOfMass == "g" ? cardSummaryItems[6][1] : parseFloat(convertGsToOz(cardSummaryItems[6][1])) + "oz",
+                                                portionSize3: unitOfMass == "g" ? cardSummaryItems[6][2] : parseFloat(convertGsToOz(cardSummaryItems[6][2])) + "oz",
+                                                food1: "Add-on: ",
+                                                food2: "Nachos:",
                                             }}
                                         />
                                     </MDBox>
@@ -560,9 +599,12 @@ const DashboardContainer = () => {
                                             title={dashboardTitles.portionsTime}
                                             count={cardSummaryItems[3]}
                                             percentage={{
-                                                color: differenceCompletionTime < 0 ? "success" : "error",
-                                                amount: differenceCompletionTime >= 0 ? "+" + differenceCompletionTime.toFixed(1) + "s" : differenceCompletionTime.toFixed(1) + "s",
-                                                label: "than last week at this time",
+                                                color: "success",
+                                                portionSize1: cardSummaryItems[7][0],
+                                                portionSize2: cardSummaryItems[7][1],
+                                                portionSize3: cardSummaryItems[7][2],
+                                                food1: "Add-on: ",
+                                                food2: "Nachos:",
                                             }}
                                         />
                                     </MDBox>

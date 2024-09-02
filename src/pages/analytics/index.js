@@ -456,9 +456,9 @@ const AnalyticsContainer = () => {
                     inventoryConsumed,
                     timeSaved,
                     [portionsCompletedP1, portionsCompletedP2, portionsCompletedP3],
-                    [precisionP1.toFixed(0), precisionP2.toFixed(0), precisionP3.toFixed(0)],
-                    [inventoryConsumedP1.toFixed(0), inventoryConsumedP2.toFixed(0), inventoryConsumedP3.toFixed(0)],
-                    [timeSavedP1.toFixed(1), timeSavedP2.toFixed(1), timeSavedP3.toFixed(1)],
+                    [precisionP1?.toFixed(0), precisionP2?.toFixed(0), precisionP3?.toFixed(0)],
+                    [inventoryConsumedP1?.toFixed(0), inventoryConsumedP2?.toFixed(0), inventoryConsumedP3?.toFixed(0)],
+                    [timeSavedP1?.toFixed(1), timeSavedP2?.toFixed(1), timeSavedP3?.toFixed(1)],
                 ]);
 
                 // Add Percentages
