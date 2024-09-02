@@ -40,11 +40,48 @@ function ComplexStatisticsCard({ color, title, count, percentage, icon }) {
             </MDBox>
             {/* <Divider /> */}
             <MDBox pb={2} px={2}>
-                <MDTypography component="p" variant="button" color="text" display="flex">
-                    <MDTypography component="span" variant="button" fontWeight="bold" color={percentage.color}>
-                        {percentage.amount}
+                <MDTypography
+                    component="p"
+                    variant="button"
+                    color="text"
+                    display="flex"
+                    justifyContent="space-between" // Spreads items between left, center, and right
+                    alignItems="center" // Vertically centers the items
+                    width="100%" // Optional: Ensures the box takes full width
+                >
+                    {/* Left Typography */}
+                    <MDTypography
+                        component="span"
+                        variant="button"
+                        fontWeight="bold"
+                        color={percentage.color}
+                        style={{ flex: 1, textAlign: "left" }} // Aligns text to the left
+                    >
+                        {percentage.food1} {percentage.portionSize1}&nbsp;
                     </MDTypography>
-                    &nbsp;{percentage.label}
+
+                    {/* Center Typography */}
+                    <MDTypography
+                        component="span"
+                        variant="button"
+                        fontWeight="bold"
+                        color={percentage.color}
+                        style={{ flex: 1, textAlign: "center" }} // Aligns text to the center
+                    >
+                        {percentage.food2}&nbsp; {percentage.portionSize2}&nbsp;
+                    </MDTypography>
+
+                    {/* Right Typography */}
+                    <MDTypography
+                        component="span"
+                        variant="button"
+                        fontWeight="bold"
+                        color={percentage.color}
+                        style={{ flex: 1, textAlign: "right" }} // Aligns text to the right
+                    >
+                        {percentage.label}&nbsp;
+                        {percentage.portionSize3 > 0 ? percentage.portionSize3 : ""}&nbsp;
+                    </MDTypography>
                 </MDTypography>
             </MDBox>
         </Card>
@@ -68,7 +105,9 @@ ComplexStatisticsCard.propTypes = {
     count: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     percentage: PropTypes.shape({
         color: PropTypes.oneOf(["primary", "secondary", "info", "success", "warning", "error", "dark", "white", "red"]),
-        amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        portionSize1: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        portionSize2: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        portionSize3: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         label: PropTypes.string,
     }),
     icon: PropTypes.node.isRequired,

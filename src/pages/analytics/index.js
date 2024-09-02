@@ -124,7 +124,7 @@ const AnalyticsContainer = () => {
     const inventoryConsumedTitle = "Inventory Consumed";
 
     const [date, setDate] = useState(dayjs(""));
-    const [cardSummaryItems, setCardSummaryItems] = useState([]);
+    const [cardSummaryItems, setCardSummaryItems] = useState(["0", "NA", "0", "NA", [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]);
     const [isMobileDevice, setIsMobileDevice] = useState(false);
     const [realTimeAccuracyGraph, setRealTimeAccuracyGraph] = useState([]);
     const [realTimePrecisionGraph, setRealTimePrecisionGraph] = useState([]);
@@ -315,6 +315,27 @@ const AnalyticsContainer = () => {
             underPercent = 0,
             overPercent = 0,
             perfectPercent = 0,
+            precisionP1 = 0,
+            inventoryConsumedP1 = 0,
+            timeSavedP1 = 0,
+            portionsCompletedP1 = 0,
+            underPercentP1 = 0,
+            overPercentP1 = 0,
+            perfectPercentP1 = 0,
+            precisionP2 = 0,
+            inventoryConsumedP2 = 0,
+            timeSavedP2 = 0,
+            portionsCompletedP2 = 0,
+            underPercentP2 = 0,
+            overPercentP2 = 0,
+            perfectPercentP2 = 0,
+            precisionP3 = 0,
+            inventoryConsumedP3 = 0,
+            timeSavedP3 = 0,
+            portionsCompletedP3 = 0,
+            underPercentP3 = 0,
+            overPercentP3 = 0,
+            perfectPercentP3 = 0,
             dashboardGraph = {},
             scaleActions = {},
             portionSizes = [],
@@ -348,6 +369,29 @@ const AnalyticsContainer = () => {
                 perfectPercent = Math.round((data.dailySummary.perfect / portionsCompleted) * 100);
                 overPercent = Math.round((data.dailySummary.overServed / portionsCompleted) * 100);
                 const totalPercent = underPercent + overPercent + perfectPercent;
+                precisionP1 = Math.abs(data.portionSize1?.precision);
+                inventoryConsumedP1 = data.portionSize1?.inventoryConsumed;
+                timeSavedP1 = data.portionSize1?.averageTime;
+                portionsCompletedP1 = data.portionSize1?.portionsCompleted;
+                underPercentP1 = Math.round((data.portionSize1?.underServed / portionsCompleted) * 100);
+                perfectPercentP1 = Math.round((data.portionSize1?.perfect / portionsCompleted) * 100);
+                overPercentP1 = Math.round((data.portionSize1?.overServed / portionsCompleted) * 100);
+                precisionP2 = Math.abs(data.portionSize2?.precision);
+                inventoryConsumedP2 = data.portionSize2?.inventoryConsumed;
+                timeSavedP2 = data.portionSize2?.averageTime;
+                portionsCompletedP2 = data.portionSize2?.portionsCompleted;
+                underPercentP2 = Math.round((data.portionSize2?.underServed / portionsCompleted) * 100);
+                perfectPercentP2 = Math.round((data.portionSize2?.perfect / portionsCompleted) * 100);
+                overPercentP2 = Math.round((data.portionSize2?.overServed / portionsCompleted) * 100);
+                const totalPercentP2 = underPercent + overPercent + perfectPercent;
+                precisionP3 = Math.abs(data.portionSize3?.precision);
+                inventoryConsumedP3 = data.portionSize3?.inventoryConsumed;
+                timeSavedP3 = data.portionSize3?.averageTime;
+                portionsCompletedP3 = data.portionSize3?.portionsCompleted;
+                underPercentP3 = Math.round((data.portionSize3?.underServed / portionsCompleted) * 100);
+                perfectPercentP3 = Math.round((data.portionSize3?.perfect / portionsCompleted) * 100);
+                overPercentP3 = Math.round((data.portionSize3?.overServed / portionsCompleted) * 100);
+                const totalPercentP3 = underPercent + overPercent + perfectPercent;
                 hours = data.hour.items;
 
                 if (totalPercent != 100) {
@@ -406,7 +450,16 @@ const AnalyticsContainer = () => {
                 precision = precision == undefined ? "NA" : precision.toFixed(0) + "%";
                 inventoryConsumed = inventoryConsumed + "g";
                 timeSaved = timeSaved.toFixed(1) + "s";
-                setCardSummaryItems([portionsCompleted, precision, inventoryConsumed, timeSaved]);
+                setCardSummaryItems([
+                    portionsCompleted,
+                    precision,
+                    inventoryConsumed,
+                    timeSaved,
+                    [portionsCompletedP1, portionsCompletedP2, portionsCompletedP3],
+                    [precisionP1.toFixed(0), precisionP2.toFixed(0), precisionP3.toFixed(0)],
+                    [inventoryConsumedP1.toFixed(0), inventoryConsumedP2.toFixed(0), inventoryConsumedP3.toFixed(0)],
+                    [timeSavedP1.toFixed(1), timeSavedP2.toFixed(1), timeSavedP3.toFixed(1)],
+                ]);
 
                 // Add Percentages
                 underPercent = parseInt(underPercent);
@@ -415,7 +468,6 @@ const AnalyticsContainer = () => {
                 generateLowerRealTimeGraphs(dashboardGraph, [underPercent, perfectPercent, overPercent]);
             } else {
                 // There is no hourly response so add placeholders
-                setCardSummaryItems(["0", "NA", "0", "NA"]);
                 setRealTimePrecisionGraph([]);
                 setRealTimeAccuracyGraph([]);
                 setRealTimeInventoryGraph([]);
@@ -501,6 +553,11 @@ const AnalyticsContainer = () => {
                                     count={cardSummaryItems[0]}
                                     percentage={{
                                         color: "success",
+                                        portionSize1: cardSummaryItems[4][0],
+                                        portionSize2: cardSummaryItems[4][1],
+                                        portionSize3: cardSummaryItems[4][2],
+                                        food1: "Add-on: ",
+                                        food2: "Nachos:",
                                     }}
                                 />
                             </Grid>
@@ -519,6 +576,11 @@ const AnalyticsContainer = () => {
                                         count={cardSummaryItems[1]}
                                         percentage={{
                                             color: "success",
+                                            portionSize1: cardSummaryItems[5][0] + "%",
+                                            portionSize2: cardSummaryItems[5][1] + "%",
+                                            portionSize3: cardSummaryItems[5][2] + "%",
+                                            food1: "Add-on: ",
+                                            food2: "Nachos:",
                                             // amount: "+3%",
                                             // label: "than yesterdays",
                                         }}
@@ -536,6 +598,11 @@ const AnalyticsContainer = () => {
                                         count={unitOfMass == "g" ? cardSummaryItems[2] : (parseInt(cardSummaryItems[2]) / 28.35).toFixed(2).toString() + "oz"}
                                         percentage={{
                                             color: "success",
+                                            portionSize1: unitOfMass == "g" ? cardSummaryItems[6][0] : (parseInt(cardSummaryItems[6][0]) / 28.35).toFixed(2).toString() + "oz",
+                                            portionSize2: unitOfMass == "g" ? cardSummaryItems[6][1] : (parseInt(cardSummaryItems[6][1]) / 28.35).toFixed(2).toString() + "oz",
+                                            portionSize3: unitOfMass == "g" ? cardSummaryItems[6][2] : (parseInt(cardSummaryItems[6][2]) / 28.35).toFixed(2).toString() + "oz",
+                                            food1: "Add-on: ",
+                                            food2: "Nachos:",
                                         }}
                                     />
                                 </MDBox>
@@ -551,6 +618,11 @@ const AnalyticsContainer = () => {
                                         count={cardSummaryItems[3]}
                                         percentage={{
                                             color: "success",
+                                            portionSize1: cardSummaryItems[7][0] + "s",
+                                            portionSize2: cardSummaryItems[7][1] + "s",
+                                            portionSize3: cardSummaryItems[7][2] + "s",
+                                            food1: "Add-on: ",
+                                            food2: "Nachos:",
                                         }}
                                     />
                                 </MDBox>
