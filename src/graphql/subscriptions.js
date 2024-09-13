@@ -17,6 +17,7 @@ export const onNewPortionEvent = /* GraphQL */ `
         underServed
         perfect
         precision
+        mistake
         __typename
       }
       portionSize1 {
@@ -28,6 +29,7 @@ export const onNewPortionEvent = /* GraphQL */ `
         underServed
         perfect
         precision
+        mistake
         __typename
       }
       portionSize2 {
@@ -39,6 +41,7 @@ export const onNewPortionEvent = /* GraphQL */ `
         underServed
         perfect
         precision
+        mistake
         __typename
       }
       portionSize3 {
@@ -50,6 +53,7 @@ export const onNewPortionEvent = /* GraphQL */ `
         underServed
         perfect
         precision
+        mistake
         __typename
       }
       dashboardGraph
@@ -252,6 +256,7 @@ export const onCreateDay = /* GraphQL */ `
         underServed
         perfect
         precision
+        mistake
         __typename
       }
       portionSize1 {
@@ -263,6 +268,7 @@ export const onCreateDay = /* GraphQL */ `
         underServed
         perfect
         precision
+        mistake
         __typename
       }
       portionSize2 {
@@ -274,6 +280,7 @@ export const onCreateDay = /* GraphQL */ `
         underServed
         perfect
         precision
+        mistake
         __typename
       }
       portionSize3 {
@@ -285,6 +292,7 @@ export const onCreateDay = /* GraphQL */ `
         underServed
         perfect
         precision
+        mistake
         __typename
       }
       dashboardGraph
@@ -316,6 +324,7 @@ export const onUpdateDay = /* GraphQL */ `
         underServed
         perfect
         precision
+        mistake
         __typename
       }
       portionSize1 {
@@ -327,6 +336,7 @@ export const onUpdateDay = /* GraphQL */ `
         underServed
         perfect
         precision
+        mistake
         __typename
       }
       portionSize2 {
@@ -338,6 +348,7 @@ export const onUpdateDay = /* GraphQL */ `
         underServed
         perfect
         precision
+        mistake
         __typename
       }
       portionSize3 {
@@ -349,6 +360,7 @@ export const onUpdateDay = /* GraphQL */ `
         underServed
         perfect
         precision
+        mistake
         __typename
       }
       dashboardGraph
@@ -380,6 +392,7 @@ export const onDeleteDay = /* GraphQL */ `
         underServed
         perfect
         precision
+        mistake
         __typename
       }
       portionSize1 {
@@ -391,6 +404,7 @@ export const onDeleteDay = /* GraphQL */ `
         underServed
         perfect
         precision
+        mistake
         __typename
       }
       portionSize2 {
@@ -402,6 +416,7 @@ export const onDeleteDay = /* GraphQL */ `
         underServed
         perfect
         precision
+        mistake
         __typename
       }
       portionSize3 {
@@ -413,6 +428,7 @@ export const onDeleteDay = /* GraphQL */ `
         underServed
         perfect
         precision
+        mistake
         __typename
       }
       dashboardGraph

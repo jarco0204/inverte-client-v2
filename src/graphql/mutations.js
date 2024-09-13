@@ -212,6 +212,7 @@ export const createDay = /* GraphQL */ `
         underServed
         perfect
         precision
+        mistake
         __typename
       }
       portionSize1 {
@@ -223,6 +224,7 @@ export const createDay = /* GraphQL */ `
         underServed
         perfect
         precision
+        mistake
         __typename
       }
       portionSize2 {
@@ -234,6 +236,7 @@ export const createDay = /* GraphQL */ `
         underServed
         perfect
         precision
+        mistake
         __typename
       }
       portionSize3 {
@@ -245,6 +248,7 @@ export const createDay = /* GraphQL */ `
         underServed
         perfect
         precision
+        mistake
         __typename
       }
       dashboardGraph
@@ -279,6 +283,7 @@ export const updateDay = /* GraphQL */ `
         underServed
         perfect
         precision
+        mistake
         __typename
       }
       portionSize1 {
@@ -290,6 +295,7 @@ export const updateDay = /* GraphQL */ `
         underServed
         perfect
         precision
+        mistake
         __typename
       }
       portionSize2 {
@@ -301,6 +307,7 @@ export const updateDay = /* GraphQL */ `
         underServed
         perfect
         precision
+        mistake
         __typename
       }
       portionSize3 {
@@ -312,6 +319,7 @@ export const updateDay = /* GraphQL */ `
         underServed
         perfect
         precision
+        mistake
         __typename
       }
       dashboardGraph
@@ -346,6 +354,7 @@ export const deleteDay = /* GraphQL */ `
         underServed
         perfect
         precision
+        mistake
         __typename
       }
       portionSize1 {
@@ -357,6 +366,7 @@ export const deleteDay = /* GraphQL */ `
         underServed
         perfect
         precision
+        mistake
         __typename
       }
       portionSize2 {
@@ -368,6 +378,7 @@ export const deleteDay = /* GraphQL */ `
         underServed
         perfect
         precision
+        mistake
         __typename
       }
       portionSize3 {
@@ -379,6 +390,7 @@ export const deleteDay = /* GraphQL */ `
         underServed
         perfect
         precision
+        mistake
         __typename
       }
       dashboardGraph

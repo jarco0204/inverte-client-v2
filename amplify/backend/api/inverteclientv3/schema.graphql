@@ -78,6 +78,7 @@ input DailySummaryInput {
     underServed: Int
     perfect: Int
     precision: Float
+    mistake: Int
 }
 type HourlySummary {
     averageTime: Float!
@@ -101,4 +102,5 @@ type DailySummary {
     perfect: Int
     day: Day
     precision: Float
+    mistake: Int
 }

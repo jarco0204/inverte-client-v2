@@ -89,8 +89,8 @@ export const getScale = /* GraphQL */ `
         getScale(scaleName: $scaleName) {
             scaleName
             restaurant_id
-            ingredient
             restaurantName
+            ingredient
             lastConnected
             inventoryWeight
             createdAt
@@ -106,9 +106,10 @@ export const listScales = /* GraphQL */ `
             items {
                 scaleName
                 restaurant_id
+                restaurantName
                 ingredient
                 lastConnected
-                restaurantName
+                inventoryWeight
                 createdAt
                 updatedAt
                 restaurantScaleRestaurant_id
@@ -135,6 +136,7 @@ export const getDay = /* GraphQL */ `
                 underServed
                 perfect
                 precision
+                mistake
                 __typename
             }
             portionSize1 {
@@ -146,6 +148,7 @@ export const getDay = /* GraphQL */ `
                 underServed
                 perfect
                 precision
+                mistake
                 __typename
             }
             portionSize2 {
@@ -157,6 +160,7 @@ export const getDay = /* GraphQL */ `
                 underServed
                 perfect
                 precision
+                mistake
                 __typename
             }
             portionSize3 {
@@ -168,6 +172,7 @@ export const getDay = /* GraphQL */ `
                 underServed
                 perfect
                 precision
+                mistake
                 __typename
             }
             dashboardGraph
@@ -175,20 +180,6 @@ export const getDay = /* GraphQL */ `
             allPortionEvents
             createdAt
             hour {
-                items {
-                    year_dayOfYear_hourOfDay_iotNameThing_ingredientName
-                    year_dayOfYear_iotNameThing_ingredientName
-                    hourlySummary {
-                        averageTime
-                        portionsCompleted
-                        accuracy
-                        inventoryConsumed
-                        overServed
-                        underServed
-                        perfect
-                        precision
-                    }
-                }
                 nextToken
                 __typename
             }
@@ -323,8 +314,10 @@ export const scalesByRestaurant_id = /* GraphQL */ `
             items {
                 scaleName
                 restaurant_id
+                restaurantName
                 ingredient
                 lastConnected
+                inventoryWeight
                 createdAt
                 updatedAt
                 restaurantScaleRestaurant_id
