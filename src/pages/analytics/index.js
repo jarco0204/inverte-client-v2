@@ -30,7 +30,7 @@ import ComplexStatisticsCard from "../../components/Cards/StatisticsCards/Comple
 
 // AWS Imports
 import { API, graphqlOperation } from "aws-amplify";
-import { getDay } from "../../graphql/queries";
+import { getDailySummary, getDay } from "../../graphql/queries";
 
 // User Components
 import PortionTimeLineChart from "./components/PortionTimeLineChart";
@@ -122,9 +122,10 @@ const AnalyticsContainer = () => {
     const portionCompleteTitle = "Portions Completed";
     const portionTimeTitle = "Average Completion Time";
     const inventoryConsumedTitle = "Inventory Consumed";
+    const mistakesTitle = "Mistakes";
 
     const [date, setDate] = useState(dayjs(""));
-    const [cardSummaryItems, setCardSummaryItems] = useState(["0", "NA", "0", "NA", [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]);
+    const [cardSummaryItems, setCardSummaryItems] = useState(["0", "NA", "0", "NA", [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], "0", [0, 0, 0]]);
     const [isMobileDevice, setIsMobileDevice] = useState(false);
     const [realTimeAccuracyGraph, setRealTimeAccuracyGraph] = useState([]);
     const [realTimePrecisionGraph, setRealTimePrecisionGraph] = useState([]);
@@ -315,6 +316,7 @@ const AnalyticsContainer = () => {
             underPercent = 0,
             overPercent = 0,
             perfectPercent = 0,
+            mistakes = 0,
             precisionP1 = 0,
             inventoryConsumedP1 = 0,
             timeSavedP1 = 0,
@@ -322,6 +324,7 @@ const AnalyticsContainer = () => {
             underPercentP1 = 0,
             overPercentP1 = 0,
             perfectPercentP1 = 0,
+            mistakesP1 = 0,
             precisionP2 = 0,
             inventoryConsumedP2 = 0,
             timeSavedP2 = 0,
@@ -329,6 +332,7 @@ const AnalyticsContainer = () => {
             underPercentP2 = 0,
             overPercentP2 = 0,
             perfectPercentP2 = 0,
+            mistakesP2 = 0,
             precisionP3 = 0,
             inventoryConsumedP3 = 0,
             timeSavedP3 = 0,
@@ -336,6 +340,7 @@ const AnalyticsContainer = () => {
             underPercentP3 = 0,
             overPercentP3 = 0,
             perfectPercentP3 = 0,
+            mistakesP3 = 0,
             dashboardGraph = {},
             scaleActions = {},
             portionSizes = [],
@@ -346,6 +351,7 @@ const AnalyticsContainer = () => {
             labels = [],
             hours,
             response,
+            response1,
             data;
         try {
             // Query GQL to pull hourly data
@@ -364,12 +370,14 @@ const AnalyticsContainer = () => {
                 precision = Math.abs(data.dailySummary.precision);
                 inventoryConsumed = data.dailySummary.inventoryConsumed;
                 timeSaved = data.dailySummary.averageTime;
+                mistakes = data.dailySummary.mistake;
                 portionsCompleted = data.dailySummary.portionsCompleted;
                 underPercent = Math.round((data.dailySummary.underServed / portionsCompleted) * 100);
                 perfectPercent = Math.round((data.dailySummary.perfect / portionsCompleted) * 100);
                 overPercent = Math.round((data.dailySummary.overServed / portionsCompleted) * 100);
                 const totalPercent = underPercent + overPercent + perfectPercent;
                 precisionP1 = Math.abs(data.portionSize1?.precision);
+                mistakesP1 = data.portionSize1?.mistake;
                 inventoryConsumedP1 = data.portionSize1?.inventoryConsumed;
                 timeSavedP1 = data.portionSize1?.averageTime;
                 portionsCompletedP1 = data.portionSize1?.portionsCompleted;
@@ -379,11 +387,13 @@ const AnalyticsContainer = () => {
                 precisionP2 = Math.abs(data.portionSize2?.precision);
                 inventoryConsumedP2 = data.portionSize2?.inventoryConsumed;
                 timeSavedP2 = data.portionSize2?.averageTime;
+                mistakesP2 = data.portionSize2?.mistake;
                 portionsCompletedP2 = data.portionSize2?.portionsCompleted;
                 underPercentP2 = Math.round((data.portionSize2?.underServed / portionsCompleted) * 100);
                 perfectPercentP2 = Math.round((data.portionSize2?.perfect / portionsCompleted) * 100);
                 overPercentP2 = Math.round((data.portionSize2?.overServed / portionsCompleted) * 100);
                 const totalPercentP2 = underPercent + overPercent + perfectPercent;
+                mistakesP3 = data.portionSize3?.mistake;
                 precisionP3 = Math.abs(data.portionSize3?.precision);
                 inventoryConsumedP3 = data.portionSize3?.inventoryConsumed;
                 timeSavedP3 = data.portionSize3?.averageTime;
@@ -459,7 +469,10 @@ const AnalyticsContainer = () => {
                     [precisionP1?.toFixed(0), precisionP2?.toFixed(0), precisionP3?.toFixed(0)],
                     [inventoryConsumedP1?.toFixed(0), inventoryConsumedP2?.toFixed(0), inventoryConsumedP3?.toFixed(0)],
                     [timeSavedP1?.toFixed(1), timeSavedP2?.toFixed(1), timeSavedP3?.toFixed(1)],
+                    mistakes,
+                    [mistakesP1, mistakesP2, mistakesP3],
                 ]);
+                console.log("The card summary is", cardSummaryItems);
 
                 // Add Percentages
                 underPercent = parseInt(underPercent);
@@ -556,6 +569,24 @@ const AnalyticsContainer = () => {
                                         portionSize1: cardSummaryItems[4][0],
                                         portionSize2: cardSummaryItems[4][1],
                                         portionSize3: cardSummaryItems[4][2],
+                                        food1: "Add-on: ",
+                                        food2: "Nachos:",
+                                    }}
+                                />
+                            </Grid>
+                        </Tooltip>
+                        <Tooltip title="Mistakes for the day" placement="bottom">
+                            <Grid item xs={12} md={6} lg={3}>
+                                <ComplexStatisticsCard
+                                    color="dark"
+                                    title={mistakesTitle}
+                                    icon={<PanToolIcon />}
+                                    count={cardSummaryItems[8]}
+                                    percentage={{
+                                        color: "success",
+                                        portionSize1: cardSummaryItems[9][0],
+                                        portionSize2: cardSummaryItems[9][1],
+                                        portionSize3: cardSummaryItems[9][2],
                                         food1: "Add-on: ",
                                         food2: "Nachos:",
                                     }}
