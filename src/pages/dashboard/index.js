@@ -146,7 +146,7 @@ const DashboardContainer = () => {
     const hourOfDay = tempDate.hour();
 
     const [isMobileDevice, setIsMobileDevice] = useState(false);
-    const [cardSummaryItems, setCardSummaryItems] = useState(["0", "NA", "0", "NA", [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]);
+    const [cardSummaryItems, setCardSummaryItems] = useState(["0", "NA", "0", "NA", [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], "0", [0, 0, 0]]);
     const [realTimePrecisionGraph, setRealTimePrecisionGraph] = useState([]);
     const [realTimeAccuracyGraph, setRealTimeAccuracyGraph] = useState([]);
     const [realTimeInventoryGraph, setRealTimeInventoryGraph] = useState([]);
@@ -323,22 +323,27 @@ const DashboardContainer = () => {
 
             const day = response.data;
             if (day.getDay) {
+                console.log("The daily data is ", day.getDay);
                 if (day.getDay.dailySummary.portionsCompleted != 0) {
                     // Set the Upper Summary Card Components
                     let precision = Math.abs(day.getDay.dailySummary.precision.toFixed(0)) + "%";
                     let inventoryWeight = day.getDay.dailySummary.inventoryConsumed + "g";
                     let timeSaved = day.getDay.dailySummary.averageTime.toFixed(1) + "s";
+                    let mistakes = day.getDay.dailySummary.mistake;
                     let precisionP1 = Math.abs(day.getDay.portionSize1.precision.toFixed(0)) + "%";
                     let inventoryConsumedP1 = day.getDay.portionSize1.inventoryConsumed + "g";
                     let portionsCompletedP1 = day.getDay.portionSize1.portionsCompleted;
                     let timeSavedP1 = day.getDay.portionSize1.averageTime.toFixed(1) + "s";
+                    let mistakesP1 = day.getDay.portionSize1.mistake;
                     let precisionP2 = Math.abs(day.getDay.portionSize2.precision.toFixed(0)) + "%";
+                    let mistakesP2 = day.getDay.portionSize2.mistake;
                     let inventoryConsumedP2 = day.getDay.portionSize2.inventoryConsumed + "g";
                     let portionsCompletedP2 = day.getDay.portionSize2.portionsCompleted;
                     let timeSavedP2 = day.getDay.portionSize2.averageTime.toFixed(1) + "s";
                     let precisionP3 = Math.abs(day.getDay.portionSize3.precision.toFixed(0)) + "%";
                     let inventoryConsumedP3 = day.getDay.portionSize3.inventoryConsumed + "g";
                     let portionsCompletedP3 = day.getDay.portionSize3.portionsCompleted;
+                    let mistakesP3 = day.getDay.portionSize3.mistake;
                     let timeSavedP3 = day.getDay.portionSize3.averageTime.toFixed(1) + "s";
                     setCardSummaryItems([
                         day.getDay.dailySummary.portionsCompleted,
@@ -349,6 +354,8 @@ const DashboardContainer = () => {
                         [precisionP1, precisionP2, precisionP3],
                         [inventoryConsumedP1, inventoryConsumedP2, inventoryConsumedP3],
                         [timeSavedP1, timeSavedP2, timeSavedP3],
+                        mistakes,
+                        [mistakesP1, mistakesP2, mistakesP3],
                     ]);
                     // Add Percentages
                     let underPercent = Math.round((day.getDay.dailySummary.underServed / day.getDay.dailySummary.portionsCompleted) * 100);
@@ -503,6 +510,7 @@ const DashboardContainer = () => {
         portionsPrecision: "Precision Levels",
         portionsTime: "Average Completion Time",
         inventoryConsumed: "Inventory Consumed",
+        mistakesTitle: "Mistakes",
     };
     const dataForMObileView = {
         cardSummaryItems: cardSummaryItems,
@@ -540,6 +548,24 @@ const DashboardContainer = () => {
                                             portionSize1: cardSummaryItems[4][0],
                                             portionSize2: cardSummaryItems[4][1],
                                             portionSize3: cardSummaryItems[4][2],
+                                            food1: "Add-on: ",
+                                            food2: "Nachos:",
+                                        }}
+                                    />
+                                </Grid>
+                            </Tooltip>
+                            <Tooltip title="Mistakes for the day" placement="bottom">
+                                <Grid item xs={12} md={6} lg={3}>
+                                    <ComplexStatisticsCard
+                                        color="dark"
+                                        title={dashboardTitles.mistakesTitle}
+                                        icon={<PanToolIcon />}
+                                        count={cardSummaryItems[8]}
+                                        percentage={{
+                                            color: "success",
+                                            portionSize1: cardSummaryItems[9][0],
+                                            portionSize2: cardSummaryItems[9][1],
+                                            portionSize3: cardSummaryItems[9][2],
                                             food1: "Add-on: ",
                                             food2: "Nachos:",
                                         }}
